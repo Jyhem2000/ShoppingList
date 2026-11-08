@@ -31,7 +31,7 @@
 | Lint / format                  | **ESLint** (typescript-eslint strict, hooks React) + **Prettier** (réglages par défaut, tri des classes Tailwind) | MIT              | Les standards des projets React + Vite ; ESLint analyse le code avec les types                      |     |
 | Déploiement                    | **Cloudflare Pages** connecté au dépôt GitHub                                                                     | gratuit          | Voir § 9                                                                                            |
 
-Versions des bibliothèques : dernières stables au moment de l'initialisation (novembre 2026 : Vite 8, React 19, TypeScript 6.0 (la 7, compilateur natif, n'est pas encore prise en charge par typescript-eslint), React Router 8, Tailwind CSS 4, Vitest 5, Playwright 1.65, ESLint 10, Prettier 3). Node 24 LTS.
+Versions des bibliothèques : dernières stables au moment de l'initialisation (novembre 2026 : Vite 8, React 19, TypeScript 6.0 (la 7, compilateur natif, n'est pas encore prise en charge par typescript-eslint), React Router 8, Tailwind CSS 4, Vitest 5, Playwright 1.65, ESLint 10, Prettier 3). Node 26 LTS (Node 24 est en fin de support).
 
 ## 3. Fonctionnalités du navigateur
 

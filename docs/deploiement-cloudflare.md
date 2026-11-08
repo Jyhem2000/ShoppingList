@@ -41,7 +41,7 @@ _Facultatif_ : **Settings** → **Rules** → **Rulesets** → **New branch rule
    | Build command          | **`npm run build:checked`**                                |
    | Build output directory | **`dist`**                                                 |
 
-5. **Environment variables (advanced)** → ajouter `NODE_VERSION` = `24`.
+5. **Environment variables (advanced)** → ajouter `NODE_VERSION` = `26`.
 6. **Save and Deploy**. Le premier déploiement construit `main`, qui ne contient encore que la doc : il peut échouer, c'est normal tant qu'aucune version n'est publiée.
 
 ## 4. Cloudflare : aperçus de toutes les branches
@@ -50,9 +50,10 @@ Projet → **Settings** → **Builds** (ou **Builds & deployments**) → **Branc
 
 ## 5. Vérifier
 
-1. Projet → **Deployments** : un déploiement par branche poussée. Une branche poussée avant la connexion n'apparaît qu'au push suivant (ou via **Create deployment** / **Retry deployment**).
-2. Ouvrir `https://phase-1-socle.<projet>.pages.dev` sur les téléphones, installer l'app et suivre la checklist de [08 § 5](08-tests-et-qualite.md#5-checklist-manuelle-sur-téléphone-fin-de-chaque-phase).
-3. Si un build échoue, son journal indique quel contrôle (format, lint, types, tests) a échoué ; rien n'est mis en ligne dans ce cas.
+1. Projet → **Deployments** : un déploiement par branche poussée. Une branche poussée avant la connexion n'apparaît qu'au push suivant, ou via **Create deployment** en choisissant la branche. Attention : **Retry deployment** reconstruit le _même_ commit qu'à l'origine, pas le dernier.
+2. Si un push ne déclenche rien : projet → **Settings** → **Builds** → vérifier que les déploiements automatiques sont activés (production et aperçus) ; côté GitHub, **Settings** (du compte) → **Applications** → **Cloudflare Workers and Pages** → **Configure** → vérifier que `ShoppingList` est bien autorisé.
+3. Ouvrir `https://phase-1-socle.<projet>.pages.dev` sur les téléphones, installer l'app et suivre la checklist de [08 § 5](08-tests-et-qualite.md#5-checklist-manuelle-sur-téléphone-fin-de-chaque-phase).
+4. Si un build échoue, son journal indique quel contrôle (format, lint, types, tests) a échoué ; rien n'est mis en ligne dans ce cas.
 
 ## Sécurité
 
