@@ -46,4 +46,5 @@ Détail des fonctionnalités du navigateur et de leur support : [07 § 3](07-arc
 - Comptes utilisateurs, synchronisation temps réel, serveur.
 - Photos d'articles.
 - Gestion de stock du frigo / placards.
-- Thème clair, multilingue (l'app est en français ; les textes sont toutefois centralisés).
+- Thème clair.
+- Multilingue : l'app est en français. Les textes et le catalogue sont toutefois organisés pour qu'une version anglaise reste possible sans migration (idée I3).

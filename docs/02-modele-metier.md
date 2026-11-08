@@ -31,9 +31,9 @@ L'identifiant **n'est pas** le slug : renommer « Tomates » en « Tomates ceris
 
 ### Règles de `slugify`
 1. Minuscules.
-2. Suppression des accents (`é` → `e`, `ç` → `c`).
+2. Suppression des accents (`é` → `e`, `ç` → `c`) : seuls les signes diacritiques combinants (U+0300 à U+036F, après décomposition NFD) sont retirés.
 3. Ligatures : `œ` → `oe`, `æ` → `ae`.
-4. Tout caractère non alphanumérique (espaces, apostrophes, ponctuation) → `-`, tirets multiples fusionnés, tirets en début/fin supprimés.
+4. Tout caractère qui n'est **ni une lettre ni un chiffre au sens Unicode** (espaces, apostrophes, ponctuation, symboles) → `-`, tirets multiples fusionnés, tirets en début/fin supprimés. Les lettres de **tous les alphabets** sont conservées : un nom en cyrillique, en grec ou en chinois donne un slug valide, jamais un slug vide.
 
 | Libellé | Slug |
 |---|---|
@@ -41,12 +41,24 @@ L'identifiant **n'est pas** le slug : renommer « Tomates » en « Tomates ceris
 | `Crème fraîche épaisse` | `creme-fraiche-epaisse` |
 | `Sauce nuoc-mâm` | `sauce-nuoc-mam` |
 | `  Lait   1/2 écrémé ` | `lait-1-2-ecreme` |
+| `Peanut butter` | `peanut-butter` |
+| `Борщ` | `борщ` |
+| `花生酱` | `花生酱` |
 
-### Slug « en français ou en anglais » ?
-**Ni l'un ni l'autre : `slugify` ne traduit rien**, il normalise seulement les caractères du libellé tel qu'il est écrit. L'app étant en français, les libellés et donc les slugs sont en français. Conséquences :
-- aucune pour l'unicité et la recherche ;
-- le slug ne reconnaît pas les synonymes (« Coca » et « Coca-Cola » ont des slugs différents) → c'est le rôle des **alias** (§ 2) et du **catalogue de départ** (§ 10) ;
-- les clés du catalogue de départ sont des slugs français figés (`pommes`, `coca-cola`) : ce sont de simples identifiants techniques lisibles, qui ne changent jamais.
+### Langues : libellé, slug et clé
+**`slugify` ne traduit rien** : il normalise seulement les caractères du libellé tel qu'il est écrit, dans la langue où il a été écrit. Le slug ne sert donc qu'à repérer « la même écriture » (« tomates » = « Tomates »), jamais « le même produit dans une autre langue ».
+
+Trois niveaux à distinguer :
+
+| Niveau | Exemple | Langue | Voyage dans un partage ? |
+|---|---|---|---|
+| **Clé catalogue** | `beurre-de-cacahuete` | Aucune : identifiant technique figé, qui aurait pu être `a0042` | ✅ et c'est elle qui permet la correspondance |
+| **Libellé du catalogue** | fr : « Beurre de cacahuète » · en : « Peanut butter » | Une par langue disponible | Non : chacun affiche le libellé de **sa** langue |
+| **Libellé d'un article créé à la main** | « Peanut butter » | Celle dans laquelle il a été tapé | ✅ tel quel (aucune traduction possible) |
+
+Conséquence : **tant que les articles viennent du catalogue, le multilingue est automatique** (même clé, chacun lit sa langue). La seule difficulté concerne les articles créés à la main, traitée en § 9.
+
+L'app reste **en français uniquement** pour les versions prévues ; l'anglais (interface + catalogue) est une idée non planifiée ([03 I3](03-fonctionnalites.md#i3-multilingue)). Les données sont simplement organisées pour qu'elle reste possible sans migration (06 § 4).
 
 ### Règles d'unicité
 - Deux articles ne peuvent pas avoir le même slug. Créer « tomates » quand « Tomates » existe → l'app propose l'article existant.
@@ -282,25 +294,41 @@ Si une session est restée ouverte et que l'app est rouverte plusieurs heures ap
 Simple, sans serveur : on **envoie** une liste à quelqu'un (conjoint), qui l'**importe** dans son app. Pas de synchronisation.
 
 ### Contenu envoyé
-Le partage est **autonome** : chaque ligne embarque la description complète de son article (libellé, slug, alias, clé catalogue éventuelle, catégorie, unité, types, icône), en plus de la quantité, des types acceptés et de la note. **Aucun magasin n'est inclus** : le destinataire choisit le sien.
+Le partage est **autonome** : chaque ligne embarque la description complète de son article (libellé, slug, alias, clé catalogue éventuelle, icône, types), **sa catégorie et son unité avec leur clé catalogue éventuelle**, la quantité, les types acceptés et la note, ainsi que la **langue** de l'expéditeur. **Aucun magasin n'est inclus** : le destinataire choisit le sien.
 
 ### Import chez le destinataire
 1. Il choisit : créer une nouvelle liste, ou fusionner dans une liste existante.
-2. Pour chaque article reçu, l'app cherche une correspondance dans **son** catalogue, dans cet ordre :
-   1. même **clé catalogue** (article issu du catalogue de départ, même renommé de part et d'autre) ;
+2. Pour chaque article reçu, l'app cherche automatiquement une correspondance chez lui, dans cet ordre :
+   1. même **clé catalogue** (article issu du catalogue, même renommé, quelle que soit la langue de chacun) ;
    2. même **slug** ;
-   3. le slug reçu correspond à un **alias** du destinataire, ou un alias reçu correspond à un de ses articles (« Coca » ↔ *Coca-Cola*) ;
-   4. sinon un article ressemblant (recherche floue) → **proposé**, à confirmer ;
-   5. sinon → **« Nouvel article »** par défaut, avec la possibilité de choisir **« C'est le même que… »** (recherche dans son catalogue).
-3. Quand le destinataire associe manuellement un article reçu à un des siens, **le libellé reçu devient un alias** de son article : la prochaine fois, la correspondance est automatique.
-4. Même logique pour la catégorie et l'unité de chaque article créé (par slug ; créées si inconnues).
-5. Un **écran d'aperçu** résume avant validation : « 12 articles reconnus, 1 à confirmer, 2 nouveaux ».
+   3. **alias croisés** : le slug reçu correspond à un alias du destinataire, ou un alias reçu correspond à un de ses articles (« Coca » ↔ *Coca-Cola*) ;
+   4. **le catalogue comme dictionnaire** : le libellé reçu est cherché dans **tous** les libellés et alias du catalogue de départ, toutes langues confondues (le catalogue complet est embarqué dans l'app). S'il y est trouvé, on obtient une clé catalogue, et donc l'article correspondant du destinataire. Exemple : « Peanut butter » créé à la main → trouvé dans les libellés anglais du catalogue → clé `beurre-de-cacahuete` → *Beurre de cacahuète* du destinataire ;
+   5. sinon un article ressemblant (recherche floue) → **proposé**, à confirmer.
+3. Ce qui reste est **« non reconnu »** et passe par l'aide décrite ci-dessous.
+4. Catégories et unités : par clé catalogue, puis par slug ; créées si inconnues.
+5. Un **écran d'aperçu** résume avant validation : « 12 articles reconnus, 1 à confirmer, 2 non reconnus ».
 
-### Le cas « Coca » / « Coca-Cola » (ou noms très différents)
-Aucune méthode automatique (slug, n-grammes…) ne peut deviner que deux noms totalement différents désignent le même produit. La solution combine trois niveaux :
-1. **En amont, un grand catalogue de départ avec alias** (§ 10) : en tapant « coca », chacun trouve *Coca-Cola* du catalogue au lieu de créer un nouvel article. Les deux personnes ont alors la même clé catalogue → correspondance garantie.
-2. **À l'import, l'association manuelle** « C'est le même que… », mémorisée comme alias.
-3. **Après coup, la fusion** de deux articles si un doublon a quand même été créé.
+### Aider à trouver un article qu'on ne sait pas avoir
+On ne peut pas demander « C'est le même que… ? » à quelqu'un qui ne sait pas qu'il possède l'article. L'aperçu fait donc le travail de recherche à sa place. Pour chaque article non reconnu, il affiche :
+- l'article reçu : **icône**, libellé, **catégorie** (dans la langue du destinataire si la catégorie vient du catalogue), quantité ;
+- **« Peut-être chez toi : »** une courte liste de candidats, classés ainsi :
+  1. articles du destinataire ayant **la même icône et la même catégorie** (🥜 *Confitures & pâtes à tartiner* → *Beurre de cacahuète*) ;
+  2. articles ayant la même icône ;
+  3. articles de la même catégorie qu'il achète souvent ;
+- un bouton **« Voir tous mes articles de cette catégorie »** (quelques dizaines au plus, parcourus en un coup d'œil), et une recherche libre.
+
+Deux issues, toutes deux en un tap :
+- **« C'est celui-là »** → association : le libellé reçu devient un alias de l'article choisi ; la prochaine fois, la correspondance est automatique ;
+- **« Créer »** (par défaut) → nouvel article, avec un **libellé modifiable** au moment de la création (on peut taper « Beurre de cacahuète » à la place de « Peanut butter ») ; le libellé reçu est gardé en alias.
+
+Et si un doublon passe quand même, ce n'est pas grave : on **fusionne** les deux articles plus tard, et l'écran Articles signale les **doublons probables** (même icône et même catégorie, libellés proches ou alias en commun).
+
+### En résumé : pourquoi deux noms différents sont un problème, et comment on le traite
+Aucune méthode automatique (slug, n-grammes…) ne peut deviner que « Coca » et « Coca-Cola », ou « Peanut butter » et « Beurre de cacahuète », désignent le même produit. La solution combine :
+1. **En amont, un grand catalogue de départ avec alias** (§ 10) : on choisit l'article du catalogue au lieu d'en créer un → même clé des deux côtés → correspondance garantie, dans n'importe quelle langue.
+2. **À l'import, le catalogue sert de dictionnaire** pour les articles créés à la main.
+3. **Pour le reste, l'aperçu propose les candidats** (icône, catégorie) au lieu d'attendre que l'utilisateur s'en souvienne, et mémorise chaque association.
+4. **Après coup, la fusion**, aidée par la détection des doublons probables.
 
 ## 10. Catalogue de départ
 
@@ -308,4 +336,6 @@ Aucune méthode automatique (slug, n-grammes…) ne peut deviner que deux noms t
 - Au premier lancement, il est **copié** dans les données de l'utilisateur. Ensuite, ce sont ses données : il les modifie, supprime, complète librement.
 - Chaque article copié garde sa **clé catalogue**. Comme deux utilisateurs de l'app partent du même catalogue, la grande majorité des articles partagés sont reconnus à coup sûr, même renommés.
 - Plus le catalogue est complet, moins on crée d'articles soi-même, et moins il y a de doublons au partage.
+- Le catalogue est structuré **par langue** (un libellé et des alias par langue, une seule clé) ; la v1 ne contient que le français (06 § 4).
+- Le catalogue complet reste **embarqué dans l'app** même après la copie initiale : il sert de dictionnaire lors des imports (§ 9) et de source pour les nouveaux articles des mises à jour.
 - Lors d'une mise à jour de l'app qui enrichit le catalogue, seuls les **nouveaux** articles (et nouveaux alias) sont ajoutés ; les articles existants de l'utilisateur ne sont jamais écrasés.

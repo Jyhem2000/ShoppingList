@@ -48,7 +48,9 @@ Principe : **tester ce qui peut casser silencieusement et ce qui fait la valeur 
 | Clôture, apprentissage, réouverture | Logique statistique ; jamais de double comptage après réouverture |
 | `convert`, `changeUnit`, `simplify`, `mergeQuantity`, `scaleRecipe` | Calculs, conversions et arrondis (y compris rendements « 1 cake ») |
 | Suggestions anti-oubli | Logique statistique |
-| `resolveImport` | Partage entre deux catalogues différents |
+| `slugify` sur d'autres alphabets | Jamais de slug vide (cyrillique, chinois…) |
+| `resolveImport`, `suggestCandidates` | Partage entre deux catalogues différents : clé, alias, dictionnaire du catalogue, candidats par icône/catégorie |
+| `findLikelyDuplicates` | Détection des doublons sans faux positifs grossiers |
 | Migrations Dexie | Ne jamais perdre les données d'une version à l'autre |
 | Export puis import d'une sauvegarde | Aller-retour sans perte |
 

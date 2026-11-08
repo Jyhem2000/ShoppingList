@@ -111,6 +111,7 @@ interface Article extends Base {
   favorite: boolean;
   seasonMonths?: number[];   // plus tard (D3) : 1..12
   barcodes: string[];        // idée I1
+  notDuplicateOf: ID[];      // paires écartées de la détection de doublons
   catalogKey?: string;
 }
 
@@ -237,7 +238,7 @@ db.version(1).stores({
 ## 7. Algorithmes (dans `src/domain/`, fonctions pures)
 
 ### 7.1 `slugify(label)` et `searchKey(label)`
-Règles en [02 § 1](02-modele-metier.md#1-libellé-identifiant-et-slug). `searchKey` = `slugify` puis suppression d'un `s`/`x` final de chaque mot de plus de 3 lettres.
+Règles en [02 § 1](02-modele-metier.md#1-libellé-identifiant-et-slug). Implémentation : `toLowerCase('fr')` → `normalize('NFD')` → retrait de `̀-ͯ` → ligatures → remplacement de `[^\p{L}\p{N}]+` par `-` (expression régulière avec le drapeau `u`) → nettoyage des tirets. `searchKey` = `slugify` puis suppression d'un `s`/`x` final de chaque mot de plus de 3 lettres (règle propre au français, appliquée uniquement aux mots en alphabet latin).
 
 ### 7.2 `searchArticles(query, articles, stats)`
 - Normalise la requête avec `searchKey`, compare aux libellés **et aux alias**.
@@ -284,9 +285,19 @@ Calculées à la demande à partir des achats des sessions **clôturées**. Pour
 - Affichage : virgule décimale, zéros inutiles supprimés (`1,5 kg`, `× 3`, `2 boîtes`).
 
 ### 7.9 Partage (v1.3)
-- Format : `{ v: 1, kind: "list", name, items: [{ article: { key?, slug, name, aliases, category: { slug, name, color }, unit: { slug, singular, plural, abbr, dimension, factor, step }, types, icon }, quantity, unitSlug, acceptedTypes, note }] }`.
+- Format : `{ v: 1, kind: "list", lang: "fr", name, items: [{ article: { key?, slug, name, aliases, icon, types, category: { key?, slug, name, color }, unit: { key?, slug, singular, plural, abbr, dimension, factor, step } }, quantity, unitSlug, acceptedTypes, note }] }`.
 - Encodage : JSON → `lz-string` (`compressToEncodedURIComponent`) → `https://<adresse>/#/import?d=…`. Les données sont dans le fragment `#`, jamais envoyé au serveur d'hébergement.
-- Import : `resolveImport(payload, db)` → décisions par article (reconnu / à confirmer / nouveau) selon l'ordre de [02 § 9](02-modele-metier.md#import-chez-le-destinataire) : clé catalogue → slug → alias croisés → recherche floue (à confirmer) → nouveau. Application en une transaction ; les associations manuelles ajoutent le libellé reçu aux alias de l'article choisi.
+- Import : `resolveImport(payload, userData, catalog)` → décision par article, dans l'ordre de [02 § 9](02-modele-metier.md#import-chez-le-destinataire) :
+  1. clé catalogue ;
+  2. slug ;
+  3. alias croisés ;
+  4. **dictionnaire du catalogue** : index `slug → clé catalogue` construit sur tous les libellés et alias du catalogue embarqué, **toutes langues** ; si le libellé reçu y figure, on cherche l'article du destinataire portant cette clé ;
+  5. recherche floue → « à confirmer » ;
+  6. sinon « non reconnu » avec `suggestCandidates(article, userArticles, stats)` : même icône + même catégorie, puis même icône, puis même catégorie triée par fréquence d'achat (5 candidats max).
+- Application en une transaction ; une association manuelle ajoute le libellé reçu aux alias de l'article choisi ; une création utilise le libellé saisi par le destinataire et garde le libellé reçu en alias.
+
+### 7.12 Doublons probables (G1)
+`findLikelyDuplicates(articles)` : paires d'articles de même catégorie et même icône dont les clés de recherche sont proches (distance d'édition ≤ 2, ou l'une contient l'autre) ou qui partagent un alias ; paires présentes dans `notDuplicateOf` exclues.
 
 ### 7.10 Réglage des animations
 `<MotionConfig reducedMotion>` : *Automatique* → `"user"`, *Toujours* → `"never"`, *Jamais* → `"always"` + classe CSS globale désactivant transitions et animations CSS.

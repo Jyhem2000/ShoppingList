@@ -9,7 +9,7 @@ Chaque fonctionnalité a un identifiant (`A1`, `B2`…) réutilisé dans le plan
 | **v1.2** | Anti-oubli | D1-D2 |
 | **v1.3** | Partage | F1-F2 · A8 |
 | **Plus tard** | — | D3 · E3 |
-| **Idées non planifiées** | Peut-être jamais | I1 · I2 |
+| **Idées non planifiées** | Peut-être jamais | I1 · I2 · I3 |
 
 L'ordre des versions après la v1.0 pourra être réévalué après quelques semaines d'usage réel. Les règles métier citées sont détaillées dans [02](02-modele-metier.md).
 
@@ -177,7 +177,7 @@ Bouton « Partager » → feuille de partage du téléphone (Messages, WhatsApp,
 - un **lien d'import** contenant les données complètes de la liste (compressées dans l'URL, sans serveur).
 
 ### F2. Importer une liste — *v1.3*
-Trois manières, toutes aboutissant à l'écran d'aperçu décrit en [02 § 9](02-modele-metier.md#9-partage-dune-liste) (correspondances automatiques, « C'est le même que… » mémorisé en alias, nouveaux articles) :
+Trois manières, toutes aboutissant à l'écran d'aperçu décrit en [02 § 9](02-modele-metier.md#9-partage-dune-liste) : correspondances automatiques (clé catalogue, slug, alias, catalogue utilisé comme dictionnaire), puis pour les articles non reconnus des **candidats proposés** (même icône, même catégorie), « C'est celui-là » mémorisé en alias, ou « Créer » avec libellé modifiable :
 1. **« Coller une liste partagée »** dans l'app : lit le presse-papier, reconnaît le lien d'import ou, à défaut, analyse le texte ligne par ligne (A2). *Méthode principale sur iPhone* (voir encadré).
 2. Ouvrir le lien d'import. *Méthode principale sur Android.*
 3. Importer un fichier `.json` exporté.
@@ -191,7 +191,7 @@ Trois manières, toutes aboutissant à l'écran d'aperçu décrit en [02 § 9](0
 ## G. Tout est modifiable — *v1.0*
 
 ### G1. Articles
-Écran « Articles » : recherche, filtre par catégorie. Fiche article : libellé, catégorie, unité par défaut, types, alias, icône, favori. Créer, modifier, supprimer, **fusionner** deux articles.
+Écran « Articles » : recherche, filtre par catégorie. Fiche article : libellé, catégorie, unité par défaut, types, alias, icône, favori. Créer, modifier, supprimer, **fusionner** deux articles. Section **« Doublons probables »** : paires d'articles avec la même icône et la même catégorie et des libellés proches ou un alias en commun ; « Fusionner » ou « Ce ne sont pas des doublons » (mémorisé).
 
 ### G2. Catégories
 Créer, renommer, changer icône/couleur, supprimer (réaffectation des articles), fusionner.
@@ -257,3 +257,10 @@ Outil accessible partout (recette, ligne de liste, menu) pour convertir **entre 
 - équivalences propres à un article : « 1 oignon moyen ≈ 150 g ».
 
 Nécessite une table de densités / équivalences par article (catalogue) et des unités de cuisine (verre, tasse, cuillère).
+
+### I3. Multilingue
+Interface et catalogue de départ en anglais (puis éventuellement d'autres langues), langue choisie dans les réglages.
+- Interface : un fichier de textes par langue (`src/i18n/en.ts` à côté de `fr.ts`).
+- Catalogue : ajout des libellés, alias et types anglais aux entrées existantes (même clé), ainsi qu'aux catégories et unités.
+- Les articles du catalogue s'affichent alors dans la langue de chacun et se reconnaissent par leur clé lors d'un partage ; les articles créés à la main gardent le libellé tapé (voir [02 § 1](02-modele-metier.md#langues--libellé-slug-et-clé) et [§ 9](02-modele-metier.md#9-partage-dune-liste)).
+- Rien à migrer : les données sont déjà organisées pour (06 § 4).

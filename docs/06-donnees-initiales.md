@@ -148,22 +148,24 @@ Au premier lancement, un magasin **« Mon supermarché »** est créé à partir
 
 ## 4. Catalogue de départ
 
-- **~1 000 articles** courants en France, répartis dans toutes les catégories. Un grand catalogue limite les créations manuelles, donc les doublons au moment du partage ([02 § 9](02-modele-metier.md#le-cas--coca----coca-cola--ou-noms-très-différents)).
-- Format de chaque entrée :
+- **~1 000 articles** courants en France, répartis dans toutes les catégories. Un grand catalogue limite les créations manuelles, donc les doublons au moment du partage ([02 § 9](02-modele-metier.md#9-partage-dune-liste)).
+- Format de chaque entrée — les textes sont **par langue**, la v1 ne remplit que `fr` :
   ```json
   {
     "key": "pommes",
-    "name": "Pommes",
+    "name": { "fr": "Pommes" },
+    "aliases": { "fr": ["pomme"] },
+    "types": { "fr": ["Gala", "Golden", "Granny Smith", "Pink Lady", "Reine des reinettes"] },
     "category": "fruits",
     "unit": "kg",
-    "types": ["Gala", "Golden", "Granny Smith", "Pink Lady", "Reine des reinettes"],
-    "aliases": ["pomme"],
     "icon": "red-apple"
   }
   ```
-- `key` = clé catalogue : slug français du libellé d'origine, **figé pour toujours** (même si le libellé change dans une version future).
+  Ajouter l'anglais plus tard = ajouter `"en": …` dans ces champs (ou un fichier `catalog.en.json` fusionné au build), sans migration des données utilisateur.
+- `key` = clé catalogue : identifiant technique **sans langue**, écrit sous forme de slug français pour rester lisible, **figé pour toujours** (même si le libellé change dans une version future). Il n'est jamais affiché.
 - `types` uniquement quand c'est utile (pommes, pommes de terre, lait, farine…), sinon absent.
-- `aliases` : synonymes, abréviations (`pdt`), marques passées dans le langage courant (`sopalin`, `kleenex`, `coca`), variantes régionales (`chocolatine`), orthographes alternatives (`nuoc mam`). Pas d'alias anglais systématiques.
+- `aliases` : synonymes, abréviations (`pdt`), marques passées dans le langage courant (`sopalin`, `kleenex`, `coca`), variantes régionales (`chocolatine`), orthographes alternatives (`nuoc mam`).
+- **Même structure pour les catégories et les unités** : `key` sans langue + `name` (et pluriel, abréviation pour les unités) par langue.
 - *Plus tard (D3)* : `season` pour les fruits et légumes, liste des mois de saison (`[9, 10, 11, 12, 1, 2]`).
 - **Production** : généré par l'agent IA pendant le développement, puis **relu par catégorie** avant validation. C'est la donnée qui fait la qualité perçue de l'app.
 - Livraison progressive : ~150 articles dès la phase données, le catalogue complet avant la fin de la v1.0.

@@ -121,7 +121,19 @@ Sauvegarde
 Articles, catégories, unités : liste + recherche → fiche d'édition. Actions destructrices (supprimer, fusionner) en bas, en rouge, avec confirmation qui décrit les conséquences (« 3 listes et 1 recette utilisent cet article »).
 
 ### 2.10 Aperçu d'import *(v1.3)*
-Résumé (« 12 reconnus · 1 à confirmer · 2 nouveaux »), choix nouvelle liste / fusion dans une liste existante. Pour chaque article non reconnu : « Nouvel article » (par défaut) ou **« C'est le même que… »** (recherche) ; pour chaque proposition : confirmer ou refuser. Bouton « Importer ».
+Résumé (« 12 reconnus · 1 à confirmer · 2 non reconnus »), choix nouvelle liste / fusion dans une liste existante. Pour chaque proposition : confirmer ou refuser. Pour chaque article non reconnu :
+```
+┌──────────────────────────────────┐
+│ 🥜 Peanut butter        × 1 pot  │  ← article reçu
+│    Confitures & pâtes à tartiner │
+│ Peut-être chez toi :             │
+│  ( 🥜 Beurre de cacahuète )      │  ← même icône + même catégorie
+│  ( 🍫 Pâte à tartiner )          │
+│  Voir mes articles de la catégorie ▸ · 🔍 │
+│ [ Créer : Peanut butter ✎ ]      │  ← par défaut, libellé modifiable
+└──────────────────────────────────┘
+```
+Tap sur un candidat = « C'est celui-là ». Bouton « Importer ».
 
 ### 2.11 Premier lancement
 1. Si ouvert dans le navigateur (non installé) : écran **« Installe l'app »** :

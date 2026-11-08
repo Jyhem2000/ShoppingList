@@ -27,7 +27,7 @@ Statuts : 📝 À valider · 🔁 En révision · ✅ Validé
 | **v1.2 — Anti-oubli** | Suggestions d'articles habituels, revue rapide par catégorie |
 | **v1.3 — Partage** | Envoyer / importer une liste (iPhone ↔ Android), coller une liste en texte |
 | Plus tard | Saisonnalité des fruits et légumes, partage de recettes |
-| Idées non planifiées | Scan de code-barres, convertisseur d'unités (peut-être jamais) |
+| Idées non planifiées | Scan de code-barres, convertisseur d'unités, multilingue (peut-être jamais) |
 
 Détail : [03 § Versions](03-fonctionnalites.md) et [09](09-plan-de-developpement.md).
 
