@@ -352,10 +352,21 @@ ShoppingList/
 | **Préproduction** | chaque push sur `main` | `main.<projet>.pages.dev` | Dernier état intégré, pour tes essais quotidiens |
 | **Production** | push d'un tag `vX.Y.Z` | `<projet>.pages.dev` (ou domaine perso plus tard) | **L'app installée au quotidien**, figée sur une version |
 
-Le nom exact du projet Cloudflare (`shoppinglist` ou proche) est fixé à la création. Avant la v1.0, seuls l'aperçu et la préproduction existent.
+Le nom exact du projet Cloudflare (`shoppinglist` ou proche) est fixé à la création. Avant la v0.9.0, seuls l'aperçu et la préproduction existent.
 
 ### Numéro de version
 - Format **SemVer** `MAJEUR.MINEUR.CORRECTIF` : `1.0.0`, `1.1.0` (recettes), `1.0.1` (correctif).
+
+### Cycle des versions
+| Moment | Version | Tag | Où |
+|---|---|---|---|
+| Fin de chaque phase de la v1.0 (phases 1 à 7) | `0.1.0` … `0.7.0` | Non (`npm version minor --no-git-tag-version`) | Préproduction |
+| Fin de la phase 7 | **`0.9.0`** — candidate à la v1.0 | `v0.9.0` | **Premier déploiement en production** : installation définitive sur les téléphones |
+| Usage réel (2-3 semaines) | `0.9.1`, `0.9.2`… correctifs | Oui | Production |
+| Validation de la 0.9 | **`1.0.0`** — même code, seuls `package.json` et `CHANGELOG.md` changent | `v1.0.0` | Production (les données restent en place) |
+| Versions suivantes | Développement sur préproduction, testé avec une **copie des vraies données** (export de sauvegarde de la production → import en préproduction), puis `1.1.0`, correctifs `1.1.x` | Oui | Production |
+
+Pourquoi une 0.9 en production plutôt qu'en préproduction : la validation en usage réel demande une version **figée** dont on **garde les données** ; la préproduction change à chaque push sur `main` et a ses propres données (§ 4).
 - **Source unique : `version` dans `package.json`.** Pas de fichier de version maintenu à la main.
 - Au build, Vite injecte des constantes (`define`) lues par `src/version.ts` : version, empreinte du commit, date, canal (`production` / `main` / `preview`). Hors production, l'app affiche par exemple `1.1.0-dev · a1b2c3d · main`.
 - `CHANGELOG.md` : une section par version, rédigée au fil de l'eau ; la section de la version courante alimente l'écran « Quoi de neuf ».

@@ -2,8 +2,8 @@
 
 PWA de liste de courses, local-first (aucun serveur, aucun compte), triée par rayon selon le magasin. Optimisée pour Chrome : iPhone (dernière version d'iOS, cible principale) et Android récent (cible secondaire).
 
-## ⚠️ Phase actuelle : conception
-**N'écris aucun code applicatif tant que tous les documents de `docs/` ne sont pas au statut « ✅ Validé »** (tableau dans `docs/README.md`). Seule la documentation peut être modifiée pendant cette phase.
+## Phase actuelle : développement de la v1.0 — phase 1 (socle)
+La documentation est **validée** (8 novembre 2026). Suivre le plan de `docs/09-plan-de-developpement.md` phase par phase : une phase = une branche = une pull request. Pour les phases 3 à 6 et 8, proposer un plan avant d'implémenter. Ne jamais commencer une phase suivante sans validation de la précédente.
 
 ## Documentation de référence
 `docs/` fait foi : vision (01), modèle métier (02), fonctionnalités et versions (03), écrans (04), identité visuelle (05), données initiales (06), architecture (07), tests (08), plan (09). En cas de doute, la relire plutôt que supposer. Toute décision qui s'en écarte → mettre à jour `docs/` dans le même commit.
@@ -37,4 +37,5 @@ Vite · React 19 · TypeScript strict · Tailwind v4 · shadcn/ui · React Route
 - Auteur des commits : **Jyhem2000** avec l'adresse masquée `32844022+Jyhem2000@users.noreply.github.com` (déjà dans la config git locale ; ne pas utiliser l'identité git globale). **Ne jamais ajouter de ligne `Co-Authored-By`** ni de mention de génération par IA dans les commits ou pull requests.
 - Messages en français, format Conventional Commits (`feat:`, `fix:`, `docs:`, `test:`, `chore:`).
 - Une branche par phase, pull request vers `main`.
-- Publication d'une version : `CHANGELOG.md` + `npm version <minor|patch>` + `git push --follow-tags` (docs/07 § 9). Ne jamais publier de version sans demande explicite.
+- Fin de phase de la v1.0 : `npm version minor --no-git-tag-version` (0.1.0 … 0.7.0, sans tag). Puis tag `v0.9.0` (premier déploiement en production), correctifs `0.9.x`, et `v1.0.0` après validation (docs/07 § 9 — Cycle des versions).
+- Publication d'une version taguée : `CHANGELOG.md` + `npm version <minor|patch>` + `git push --follow-tags`. Ne jamais publier de version sans demande explicite.

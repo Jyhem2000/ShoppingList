@@ -30,7 +30,7 @@ Optimisée pour **Chrome** sur iPhone et Android. Adresse : *disponible à la pr
 2. Appuyer sur **Installer** (bouton proposé par l'app, ou menu ⋮ → *Installer l'application*).
 
 ## État du projet
-🚧 **Conception en cours.** La spécification est dans [`docs/`](docs/README.md) ; le développement démarrera une fois la documentation validée.
+🚧 **Développement de la v1.0 en cours.** Spécification validée dans [`docs/`](docs/README.md). Une version 0.9 sera d'abord utilisée en conditions réelles avant de devenir la 1.0.
 
 ## Pour les développeurs
 Toute la documentation technique (fonctionnalités, architecture, tests, plan) est dans [`docs/`](docs/README.md).

@@ -4,15 +4,16 @@ Développement confié à un agent IA, par **phases courtes et vérifiables**. C
 
 | Version | Phases |
 |---|---|
-| — | 0. Validation de la doc |
-| **v1.0 — Cœur** | 1. Socle · 2. Maquette visuelle · 3. Données et logique · 4. Liste · 5. Mode courses · 6. Tout modifiable · 7. Réglages et finitions |
+| — | 0. Validation de la doc ✅ |
+| **v1.0 — Cœur** (via 0.1 → 0.7, puis 0.9 en usage réel) | 1. Socle · 2. Maquette visuelle · 3. Données et logique · 4. Liste · 5. Mode courses · 6. Tout modifiable · 7. Réglages et finitions |
 | **v1.1 — Recettes** | 8. Recettes |
 | **v1.2 — Anti-oubli** | 9. Anti-oubli |
 | **v1.3 — Partage** | 10. Partage |
 
-## Phase 0 — Validation de la documentation (en cours)
-- Relire et valider chaque document de `docs/` (statuts dans [README](README.md)).
-- ✅ *Tous les documents au statut « Validé ». Aucune ligne de code avant.*
+Numérotation et déploiements : [07 § 9 — Cycle des versions](07-architecture-technique.md#cycle-des-versions).
+
+## Phase 0 — Validation de la documentation ✅
+- Tous les documents de `docs/` sont au statut « Validé » (le 8 novembre 2026).
 
 ## v1.0 — Cœur
 
@@ -21,34 +22,39 @@ Développement confié à un agent IA, par **phases courtes et vérifiables**. C
 - Structure de dossiers (07 § 8), coquille de l'app : onglets, zones de sécurité, écran de premier lancement (installation iPhone et Android), bandeau de mise à jour, écran « À propos » avec version, `CHANGELOG.md`.
 - GitHub Actions (lint, types, tests, build, E2E) + déploiements Cloudflare Pages (aperçu, préproduction ; production prête pour les tags) — voir 07 § 9.
 - Écran de test technique sur les deux téléphones : installation, plein écran, hors ligne, **Wake Lock dans l'app installée**, sons, vibrations (Android), astuce haptique iPhone (05 § 7), mise à jour après un nouveau déploiement.
-- ✅ *L'app vide s'installe, s'ouvre hors ligne et se met à jour sur les deux téléphones.*
+- ✅ *L'app vide s'installe, s'ouvre hors ligne et se met à jour sur les deux téléphones.* → version `0.1.0`.
+- **Prérequis de ton côté** : compte Cloudflare (gratuit), projet Pages, jeton d'API enregistré dans les secrets GitHub du dépôt (`CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`) — procédure guidée au démarrage de la phase.
 
 ### Phase 2 — Maquette visuelle
 - Page interne `#/dev/ui` présentant tous les composants clés (05 § 5) avec de fausses données : lignes, en-têtes de rayon, barre d'ajout, cartes du catalogue, panneaux, boutons, monogrammes, sons.
 - Script `build-icon-pack` et premier pack d'icônes.
-- ✅ *Tu valides le rendu sur iPhone (couleurs, tailles, icônes, sons) avant de construire les fonctionnalités.*
+- ✅ *Tu valides le rendu sur iPhone (couleurs, tailles, icônes, sons) avant de construire les fonctionnalités.* → `0.2.0`.
 
 ### Phase 3 — Données et logique métier
 - Schéma Dexie, données initiales (06) avec un premier catalogue de ~150 articles, initialisation au premier lancement.
 - `src/domain/` : slugify, recherche (avec alias), parseEntry, rayon effectif (principal/secondaire), groupement, quantités (conversion, simplification) + tests unitaires.
-- ✅ *Tests unitaires verts sur tous les cas de 03 § A2, la simplification et le tri par rayon.*
+- ✅ *Tests unitaires verts sur tous les cas de 03 § A2, la simplification et le tri par rayon.* → `0.3.0`.
 
 ### Phase 4 — Remplir et afficher la liste
 A1 à A7, B1 à B6, H8. Résolution d'icône en cascade et monogramme, sons d'ajout.
-- ✅ *Scénarios E2E 1, 2, 3 et 6 verts.*
+- ✅ *Scénarios E2E 1, 2, 3 et 6 verts.* → `0.4.0`.
 
 ### Phase 5 — Mode courses, clôture et apprentissage
 C1 à C8.
-- ✅ *Scénario E2E 4 vert ; tests unitaires clôture/apprentissage/réouverture verts ; essai réel en magasin.*
+- ✅ *Scénario E2E 4 vert ; tests unitaires clôture/apprentissage/réouverture verts ; essai réel en magasin (préproduction).* → `0.5.0`.
 
 ### Phase 6 — Tout est modifiable
 G1 à G5 (articles et alias, catégories, magasins et rayons avec glisser-déposer et rayons principaux/secondaires, unités, sélecteur d'icône).
-- ✅ *Scénario E2E 5 vert.*
+- ✅ *Scénario E2E 5 vert.* → `0.6.0`.
 
 ### Phase 7 — Réglages, sauvegarde, finitions
 H1 à H7, catalogue complet (~1 000 articles avec alias) **relu par toi catégorie par catégorie**, passe d'animations et de sons, accessibilité, états vides.
-- ✅ *Essai réel en magasin sur les deux téléphones.*
-- 🎉 ***Publication v1.0.0. Utilisation réelle pendant 2-3 semaines avant la suite.***
+- ✅ *Essai réel en magasin sur les deux téléphones (préproduction).* → `0.7.0`.
+
+### Publication 0.9 puis 1.0
+- 🚀 **Tag `v0.9.0`** : premier déploiement en production, installation définitive sur les deux téléphones.
+- 2-3 semaines d'usage réel ; correctifs publiés en `0.9.1`, `0.9.2`…
+- 🎉 ***Validation → tag `v1.0.0`** (même code, `package.json` et `CHANGELOG.md` mis à jour). Les données restent en place.*
 
 ## v1.1 — Recettes
 ### Phase 8 — Recettes
