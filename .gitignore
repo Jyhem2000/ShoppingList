@@ -1,0 +1,23 @@
+# Dépendances
+node_modules/
+
+# Build
+dist/
+dev-dist/
+
+# Tests
+coverage/
+playwright-report/
+test-results/
+blob-report/
+
+# Environnement
+.env
+.env.*
+!.env.example
+
+# Éditeurs / OS
+.DS_Store
+Thumbs.db
+.idea/
+*.log
