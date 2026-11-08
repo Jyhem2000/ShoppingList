@@ -81,7 +81,7 @@ Chaque scénario tourne sur deux configurations : **WebKit + iPhone émulé** (c
 
 ## 5. Checklist manuelle sur téléphone (fin de chaque phase)
 
-Sur l'adresse d'aperçu ou de préproduction, app installée sur l'écran d'accueil de l'iPhone (via Chrome). À refaire sur le téléphone Android au moins à la fin de la phase 1, avant chaque version publiée, et pour la v1.3 (partage dans les deux sens).
+Sur la préproduction (`dev`), app installée sur l'écran d'accueil de l'iPhone (via Chrome). À refaire sur le téléphone Android au moins à la fin de la phase 1, avant chaque version publiée, et pour la v1.3 (partage dans les deux sens).
 
 - [ ] L'app s'ouvre en plein écran, sans barre de navigateur, et hors ligne (mode avion).
 - [ ] Rien n'est masqué par l'encoche ou la barre d'accueil.

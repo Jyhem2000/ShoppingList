@@ -1,4 +1,4 @@
-import { Info, Smartphone, Sun, Volume2 } from "lucide-react";
+import { Info, Play, Smartphone, Sun, Volume2 } from "lucide-react";
 import {
   soundEvents,
   updatePreferences,
@@ -8,6 +8,7 @@ import { routes } from "@/app/routes";
 import { hapticsKind, isAudioSupported, patterns, vibrate } from "@/feedback";
 import { fr } from "@/i18n/fr";
 import { isWakeLockSupported } from "@/platform/wakeLock";
+import { Button } from "@/ui/button";
 import { LinkRow, PageHeader, Row, Section } from "@/ui/Page";
 import { Switch } from "@/ui/switch";
 
@@ -64,6 +65,15 @@ export function SettingsPage() {
           }
           disabled={haptics === "none"}
         >
+          <Button
+            variant="ghost"
+            size="icon"
+            disabled={haptics === "none" || !preferences.haptics}
+            aria-label={t.haptics.test}
+            onClick={() => vibrate(patterns.done)}
+          >
+            <Play className="size-5" />
+          </Button>
           <Switch
             checked={haptics !== "none" && preferences.haptics}
             disabled={haptics === "none"}

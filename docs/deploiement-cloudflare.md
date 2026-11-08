@@ -4,11 +4,11 @@
 
 Rappel ([07 § 9](07-architecture-technique.md#9-hébergement-versions-et-déploiement)) :
 
-| Branche                    | Environnement | Adresse                        |
-| -------------------------- | ------------- | ------------------------------ |
-| `phase-…`, `fix-…`         | Aperçu        | `<branche>.<projet>.pages.dev` |
-| `dev` (branche par défaut) | Préproduction | `dev.<projet>.pages.dev`       |
-| `main`                     | Production    | `<projet>.pages.dev`           |
+| Branche                    | Environnement      | Adresse                  |
+| -------------------------- | ------------------ | ------------------------ |
+| `phase-…`, `fix-…`         | — (pas construite) | —                        |
+| `dev` (branche par défaut) | Préproduction      | `dev.<projet>.pages.dev` |
+| `main`                     | Production         | `<projet>.pages.dev`     |
 
 > Les intitulés exacts des tableaux de bord Cloudflare et GitHub peuvent légèrement varier selon les mises à jour de leur interface.
 
@@ -44,15 +44,22 @@ _Facultatif_ : **Settings** → **Rules** → **Rulesets** → **New branch rule
 5. **Environment variables (advanced)** → ajouter `NODE_VERSION` = `26`.
 6. **Save and Deploy**. Le premier déploiement construit `main`, qui ne contient encore que la doc : il peut échouer, c'est normal tant qu'aucune version n'est publiée.
 
-## 4. Cloudflare : aperçus de toutes les branches
+## 4. Cloudflare : construire seulement `dev` en plus de `main`
 
-Projet → **Settings** → **Builds** (ou **Builds & deployments**) → **Branch control** → **Preview branch** : **All non-production branches**. Ainsi `dev` (préproduction) et chaque branche de phase ont leur adresse.
+Projet → **Settings** → **Build** → **Branch control** → crayon :
+
+1. **Preview branch** : **Custom branches**.
+2. **Include Preview branches** : taper `dev` puis **appuyer sur Entrée**, pour que `dev` devienne une étiquette. Sans Entrée, le champ reste vide pour Cloudflare (« Please specify custom branches… ») et rien n'est enregistré.
+3. **Exclude Preview branches** : laisser vide.
+4. **Save**.
+
+Ainsi seules `main` (production) et `dev` (préproduction) sont construites ; les branches de travail ne consomment aucun build.
 
 ## 5. Vérifier
 
 1. Projet → **Deployments** : un déploiement par branche poussée. Un projet relié à Git n'a **pas de bouton pour lancer un déploiement** : seul un push (ou un _Deploy Hook_, ci-dessous) déclenche un build. **Retry deployment** reconstruit le _même_ commit qu'à l'origine, pas le dernier.
 2. Si un push ne déclenche rien, ou si Cloudflare affiche « This project is disconnected from your Git account » : GitHub → **Settings** (du compte) → **Applications** → **Installed GitHub Apps** → **Cloudflare Workers and Pages** → **Configure** → vérifier que `ShoppingList` est autorisé → **Save**. Cela arrive notamment après un changement de visibilité du dépôt.
-3. Ouvrir l'adresse d'aperçu ou de préproduction sur les téléphones, installer l'app et suivre la checklist de [08 § 5](08-tests-et-qualite.md#5-checklist-manuelle-sur-téléphone-fin-de-chaque-phase).
+3. Ouvrir la préproduction (`https://dev.<projet>.pages.dev`) sur les téléphones, installer l'app et suivre la checklist de [08 § 5](08-tests-et-qualite.md#5-checklist-manuelle-sur-téléphone-fin-de-chaque-phase).
 4. Si un build échoue, son journal indique quel contrôle (format, lint, types, tests) a échoué ; rien n'est mis en ligne dans ce cas.
 
 ## Relancer un build sans push (Deploy Hook)

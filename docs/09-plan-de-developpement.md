@@ -1,6 +1,6 @@
 # 09 — Plan de développement
 
-Développement confié à un agent IA, par **phases courtes et vérifiables**. Chaque phase se termine par : tests verts, app déployée en aperçu ou préproduction, checklist téléphone ([08 § 5](08-tests-et-qualite.md#5-checklist-manuelle-sur-téléphone-fin-de-chaque-phase)) validée par toi.
+Développement confié à un agent IA, par **phases courtes et vérifiables**. Chaque phase se termine par : tests verts, app déployée en préproduction, checklist téléphone ([08 § 5](08-tests-et-qualite.md#5-checklist-manuelle-sur-téléphone-fin-de-chaque-phase)) validée par toi.
 
 | Version                                                 | Phases                                                                                                                               |
 | ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
@@ -22,7 +22,7 @@ Numérotation et déploiements : [07 § 9 — Cycle des versions](07-architectur
 
 - Initialisation : Vite, React, TypeScript strict, Tailwind v4, shadcn/ui, ESLint + Prettier, Vitest, Playwright (WebKit/iPhone + Chromium/Android), vite-plugin-pwa, police Plus Jakarta Sans, tokens de couleurs (05 § 2).
 - Structure de dossiers (07 § 8), coquille de l'app : onglets, zones de sécurité, écran de premier lancement (installation iPhone et Android), bandeau de mise à jour, écran « À propos » (version, nouveautés, licences).
-- Déploiement Cloudflare Pages connecté au dépôt (aperçu par branche, préproduction sur `dev`, production sur `main`) et script de publication `npm run release` — voir 07 § 9.
+- Déploiement Cloudflare Pages connecté au dépôt (préproduction sur `dev`, production sur `main`) et script de publication `npm run release` — voir 07 § 9.
 - Réglages → **Fonctionnalités** : sons (général et un par un, avec écoute), vibrations (Android ; astuce haptique expérimentale sur iPhone, 05 § 7), écran allumé pendant les courses ; grisées si le téléphone ne les permet pas. Écran À propos avec « Rechercher une mise à jour ».
 - À vérifier sur les deux téléphones : installation, plein écran, hors ligne, sons et mode silencieux, vibrations, mise à jour après un nouveau déploiement. Le Wake Lock en situation réelle se vérifie en phase 5 (mode courses).
 - ✅ _L'app vide s'installe, s'ouvre hors ligne et se met à jour sur les deux téléphones._ → version `0.1.0`.
@@ -108,7 +108,7 @@ F1, F2, A8 : envoyer une liste, l'importer (lien sur Android, « Coller une list
 - Dépôt public : `https://github.com/Jyhem2000/ShoppingList`.
 - Auteur des commits : **Jyhem2000**, adresse masquée GitHub `32844022+Jyhem2000@users.noreply.github.com` (configurée localement dans le dépôt). **Pas de ligne `Co-Authored-By`** dans les messages de commit.
 - Messages de commit en français, format _Conventional Commits_ : `feat: barre d'ajout éclair`, `fix: arrondi des recettes`, `docs: …`, `test: …`, `chore: …`.
-- Branche par défaut : `dev`. Une branche par phase (`phase-4-liste`), pull request vers `dev` (avec son adresse d'aperçu), fusion quand les contrôles sont verts et la checklist validée.
+- Branche par défaut : `dev`. Une branche par phase (`phase-4-liste`), pull request vers `dev`, fusion quand les contrôles sont verts ; la checklist téléphone se fait ensuite en préproduction.
 - `main` = production : n'avance que par `npm run release`, jamais de travail ni de fusion directe.
 - Publication d'une version : `npm run release` depuis `dev`, sur demande explicite (07 § 9 : nouveautés, contrôles, version, tag, avance de `main`, déploiement automatique).
 - Toute décision qui s'écarte de `docs/` → mise à jour de `docs/` dans le même commit.
@@ -119,4 +119,4 @@ F1, F2, A8 : envoyer une liste, l'importer (lien sur Android, « Coller une list
 - Pour les phases 3 à 6 et 8 : demander d'abord un **plan**, le valider, puis lancer l'implémentation.
 - L'agent doit lancer lint, types, tests unitaires et E2E, et regarder l'app en taille téléphone avant de déclarer une tâche terminée.
 - Relire soi-même les fonctions de `src/domain/` et les données initiales : c'est là que se jouent la justesse et la qualité perçue.
-- Essais sur téléphone : sur l'adresse d'aperçu de la pull request ou la préproduction (le service worker et le Wake Lock exigent HTTPS).
+- Essais sur téléphone : sur la préproduction `dev` (le service worker et le Wake Lock exigent HTTPS).

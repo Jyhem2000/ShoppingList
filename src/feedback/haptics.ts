@@ -33,7 +33,16 @@ export function vibrate(pattern: VibratePattern): void {
       // Certains navigateurs refusent hors geste utilisateur : sans conséquence.
     }
   } else if (kind === "ios-tick") {
-    iosHapticTick();
+    // Pas de durée sur iPhone : un « tic » au début de chaque vibration du motif.
+    const segments = typeof pattern === "number" ? [pattern] : [...pattern];
+    let at = 0;
+    segments.forEach((duration, index) => {
+      if (index % 2 === 0) {
+        if (at === 0) iosHapticTick();
+        else setTimeout(iosHapticTick, at);
+      }
+      at += duration;
+    });
   }
 }
 
@@ -47,9 +56,10 @@ function iosHapticTick(): void {
     const input = document.createElement("input");
     input.type = "checkbox";
     input.setAttribute("switch", "");
+    label.ariaHidden = "true";
     label.appendChild(input);
     label.style.display = "none";
-    document.body.appendChild(label);
+    document.head.appendChild(label);
     label.click();
     label.remove();
   } catch {

@@ -14,14 +14,20 @@ export function isVersion(value: string): boolean {
   return VERSION.test(value);
 }
 
+/**
+ * Chaque ligne compte : une fusion « squash » de GitHub liste les commits
+ * d'origine sous forme de puces (`* feat: …`) sous un titre libre.
+ */
 export function detectBump(messages: readonly string[]): Bump {
-  const breaking = messages.some(
-    (message) =>
-      /^\w+(\([^)]*\))?!:/.test(message) || message.includes("BREAKING CHANGE"),
+  const lines = messages.flatMap((message) =>
+    message.split("\n").map((line) => line.replace(/^\s*[*-]\s+/, "").trim()),
+  );
+  const breaking = lines.some(
+    (line) =>
+      /^\w+(\([^)]*\))?!:/.test(line) || line.startsWith("BREAKING CHANGE"),
   );
   if (breaking) return "major";
-  if (messages.some((message) => /^feat(\([^)]*\))?:/.test(message)))
-    return "minor";
+  if (lines.some((line) => /^feat(\([^)]*\))?:/.test(line))) return "minor";
   return "patch";
 }
 

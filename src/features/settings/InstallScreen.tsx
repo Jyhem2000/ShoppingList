@@ -40,7 +40,11 @@ export function InstallScreen({
 
   return (
     <div className="mx-auto flex min-h-dvh max-w-xl flex-col px-6 pt-[calc(env(safe-area-inset-top)+2rem)] pb-[calc(env(safe-area-inset-bottom)+1.5rem)]">
-      <img src="/logo.svg" alt="" className="mb-6 size-20 rounded-3xl" />
+      <img
+        src="/logo.svg"
+        alt=""
+        className="mx-auto mb-6 size-20 rounded-3xl"
+      />
       <h1 className="mb-3 text-3xl font-extrabold text-primary">
         {fr.install.title}
       </h1>

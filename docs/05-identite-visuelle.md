@@ -152,7 +152,7 @@ Points d'attention :
 ### Vibrations (H7)
 
 - **Android (Chrome)** : vibrations courtes via l'API Vibration — cocher : 10 ms ; rayon terminé : 15-40-15 ms ; courses terminées : motif plus long ; action impossible : 2 × 30 ms.
-- **iPhone** : l'API Vibration n'existe pas dans WebKit (donc ni dans Chrome iPhone, ni dans l'app installée). À la place, **astuce non officielle, expérimentale** : la bascule d'un interrupteur natif masqué (`<input type="checkbox" switch>`) déclenche le léger retour haptique du système (un seul « tic » par action, pas de motif). Sans effet et sans erreur si elle ne marche pas ; à confirmer sur l'iPhone, retirée si elle n'est pas fiable.
+- **iPhone** : l'API Vibration n'existe pas dans WebKit (donc ni dans Chrome iPhone, ni dans l'app installée). À la place, **astuce non officielle, expérimentale** : la bascule d'un interrupteur natif masqué (`<input type="checkbox" switch>`) déclenche le léger retour haptique du système : un « tic » au début de chaque vibration du motif (pas de durée). Bouton de test ▶ dans Réglages → Vibrations. Sans effet et sans erreur si elle ne marche pas ; à confirmer sur l'iPhone, retirée si elle n'est pas fiable.
 - Ailleurs : rien ; le réglage Vibrations est **grisé** avec la mention « Non disponible sur ce téléphone ».
 
 ## 8. Icône de l'app et écran de démarrage

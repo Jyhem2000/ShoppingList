@@ -65,7 +65,7 @@ Rappel ([01](01-vision.md#plateformes-cibles)) : sur iPhone, **tous les navigate
 2. **Effacement automatique** : WebKit peut effacer les données d'un _site_ non visité depuis 7 jours ; une app installée n'est pas concernée de la même façon (son compteur dépend de son propre usage). → Installation fortement recommandée + rappel de sauvegarde (H4).
 3. **Liens** : un lien ouvert depuis Messages s'ouvre dans le navigateur, jamais dans l'app installée → mécanisme « Coller une liste partagée » (F2).
 
-**Partout** : chaque adresse (production, préproduction, aperçus — § 9) est une app distincte avec ses propres données. Installer la préproduction pour tester n'affecte pas l'app de production.
+**Partout** : chaque adresse (production, préproduction — § 9) est une app distincte avec ses propres données. Installer la préproduction pour tester n'affecte pas l'app de production.
 
 ## 5. Schéma de données
 
@@ -397,13 +397,13 @@ Commande de build côté Cloudflare : `npm run build:checked` (format, lint, typ
 
 ### Branches et environnements
 
-| Branche                    | Rôle                                                                                        | Environnement     | Adresse                                           |
-| -------------------------- | ------------------------------------------------------------------------------------------- | ----------------- | ------------------------------------------------- |
-| `phase-…`, `fix-…`         | Travail en cours, une branche par phase ou correctif, pull request vers `dev`               | **Aperçu**        | `<branche>.<projet>.pages.dev`                    |
-| `dev` (branche par défaut) | Intégration : tout ce qui est fusionné, pas encore publié                                   | **Préproduction** | `dev.<projet>.pages.dev`                          |
-| `main`                     | **Uniquement les versions publiées** : n'avance que par `npm run release`, jamais à la main | **Production**    | `<projet>.pages.dev` (ou domaine perso plus tard) |
+| Branche                    | Rôle                                                                                        | Environnement      | Adresse                                           |
+| -------------------------- | ------------------------------------------------------------------------------------------- | ------------------ | ------------------------------------------------- |
+| `phase-…`, `fix-…`         | Travail en cours, une branche par phase ou correctif, pull request vers `dev`               | — (non construite) | —                                                 |
+| `dev` (branche par défaut) | Intégration : tout ce qui est fusionné, pas encore publié                                   | **Préproduction**  | `dev.<projet>.pages.dev`                          |
+| `main`                     | **Uniquement les versions publiées** : n'avance que par `npm run release`, jamais à la main | **Production**     | `<projet>.pages.dev` (ou domaine perso plus tard) |
 
-On ne travaille jamais directement sur `main`. Le canal affiché dans l'app (§ 6) est déduit de la branche construite (`CF_PAGES_BRANCH`).
+Seules `dev` et `main` sont construites par Cloudflare (réglage « Custom branches ») : les essais sur téléphone se font en préproduction, après fusion dans `dev`. On ne travaille jamais directement sur `main`. Le canal affiché dans l'app (§ 6) est déduit de la branche construite (`CF_PAGES_BRANCH`).
 
 ### Numéro de version
 

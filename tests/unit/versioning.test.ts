@@ -13,6 +13,15 @@ describe("numéro de la prochaine version", () => {
     );
   });
 
+  it("lit les commits listés dans une fusion « squash » de GitHub", () => {
+    expect(detectBump(["Node 26 (#2)\n\n* chore: passer à Node 26"])).toBe(
+      "patch",
+    );
+    expect(detectBump(["Phase 2 (#3)\n\n* fix: a\n* feat: maquette"])).toBe(
+      "minor",
+    );
+  });
+
   it("calcule la version, sans majeure tant qu'on est en 0.x", () => {
     expect(nextVersion("0.1.0", ["fix: a"])).toBe("0.1.1");
     expect(nextVersion("0.1.3", ["feat: a"])).toBe("0.2.0");

@@ -34,6 +34,7 @@ export const fr = {
       title: "Vibrations",
       hint: "Léger retour quand tu coches un article ou termines un rayon.",
       hintIos: "Léger retour haptique (expérimental sur iPhone).",
+      test: "Tester les vibrations",
     },
     keepScreenOn: {
       title: "Écran allumé pendant les courses",

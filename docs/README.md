@@ -54,7 +54,7 @@ Détail : [03 § Versions](03-fonctionnalites.md) et [09](09-plan-de-developpeme
 - **Nom** : ShoppingList.
 - **Plateformes** : app web installée, **optimisée pour Chrome**, sur iPhone (dernière version d'iOS, cible principale) et Android récent (cible secondaire). Sur iPhone, tous les navigateurs utilisent le moteur WebKit : ses limites s'appliquent quel que soit le navigateur ([01](01-vision.md#plateformes-cibles)).
 - **Fonctionnalités du navigateur** : essentielles = marchent sur les deux téléphones ; confort (vibrations…) = au moins un, sans rien casser ailleurs.
-- **Hébergement** : **Cloudflare Pages** connecté au dépôt GitHub ; aperçu par branche, préproduction sur `dev`, production sur `main`, qui n'avance que par `npm run release` ([07 § 9](07-architecture-technique.md#9-hébergement-versions-et-déploiement)).
+- **Hébergement** : **Cloudflare Pages** connecté au dépôt GitHub ; préproduction sur `dev`, production sur `main`, qui n'avance que par `npm run release` ([07 § 9](07-architecture-technique.md#9-hébergement-versions-et-déploiement)).
 - **Versions** : v1.0 cœur, v1.1 recettes, v1.2 anti-oubli, v1.3 partage.
 
 ## Questions ouvertes
