@@ -8,7 +8,9 @@ const TIMEOUT_MS = 10_000;
 
 let registration: ServiceWorkerRegistration | undefined;
 
-export function setRegistration(value: ServiceWorkerRegistration | undefined): void {
+export function setRegistration(
+  value: ServiceWorkerRegistration | undefined,
+): void {
   registration = value;
 }
 
@@ -26,13 +28,14 @@ function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
       },
       (error: unknown) => {
         clearTimeout(timer);
-        reject(error);
+        reject(error instanceof Error ? error : new Error(String(error)));
       },
     );
   });
 }
 
-export type UpdateCheckResult = "available" | "upToDate" | "failed" | "unavailable";
+export type UpdateCheckResult =
+  "available" | "upToDate" | "failed" | "unavailable";
 
 /**
  * Demande au navigateur de vérifier s'il existe une nouvelle version.
@@ -45,7 +48,9 @@ export async function checkForUpdate(): Promise<UpdateCheckResult> {
   } catch {
     return "failed";
   }
-  return registration.waiting || registration.installing ? "available" : "upToDate";
+  return registration.waiting || registration.installing
+    ? "available"
+    : "upToDate";
 }
 
 /** Numéro de la version publiée sur le serveur (fichier `version.json`, jamais mis en cache). */

@@ -6,7 +6,9 @@
 type AudioContextCtor = typeof AudioContext;
 
 /** Audio Session API (WebKit, iOS 17+) : absente des types DOM standard. */
-type NavigatorWithAudioSession = Navigator & { audioSession?: { type: string } };
+type NavigatorWithAudioSession = Navigator & {
+  audioSession?: { type: string };
+};
 
 let context: AudioContext | null = null;
 
@@ -30,9 +32,12 @@ function audio(): AudioContext | null {
         // Sans effet si refusé.
       }
     }
+    // Les types DOM supposent AudioContext toujours présent : on vérifie quand même.
     const Ctor: AudioContextCtor | undefined =
-      window.AudioContext ??
-      (window as unknown as { webkitAudioContext?: AudioContextCtor }).webkitAudioContext;
+      "AudioContext" in window
+        ? window.AudioContext
+        : (window as { webkitAudioContext?: AudioContextCtor })
+            .webkitAudioContext;
     if (!Ctor) return null;
     context = new Ctor();
   }
@@ -42,7 +47,8 @@ function audio(): AudioContext | null {
 
 export function isAudioSupported(): boolean {
   return (
-    typeof window !== "undefined" && ("AudioContext" in window || "webkitAudioContext" in window)
+    typeof window !== "undefined" &&
+    ("AudioContext" in window || "webkitAudioContext" in window)
   );
 }
 
@@ -67,7 +73,8 @@ function play(tones: Tone[]): void {
     const end = start + tone.duration;
     oscillator.type = tone.type ?? "sine";
     oscillator.frequency.setValueAtTime(tone.frequency, start);
-    if (tone.slideTo) oscillator.frequency.exponentialRampToValueAtTime(tone.slideTo, end);
+    if (tone.slideTo)
+      oscillator.frequency.exponentialRampToValueAtTime(tone.slideTo, end);
     gain.gain.setValueAtTime(0.0001, start);
     gain.gain.exponentialRampToValueAtTime(tone.volume ?? 0.12, start + 0.012);
     gain.gain.exponentialRampToValueAtTime(0.0001, end);
@@ -79,29 +86,56 @@ function play(tones: Tone[]): void {
 
 export const sounds = {
   /** Ajout d'un article : « pop » léger. */
-  add: () => play([{ frequency: 520, slideTo: 880, duration: 0.09, volume: 0.1 }]),
+  add: () =>
+    play([{ frequency: 520, slideTo: 880, duration: 0.09, volume: 0.1 }]),
   /** Cocher : « tic » court. */
-  check: () => play([{ frequency: 1250, duration: 0.05, type: "triangle", volume: 0.08 }]),
+  check: () =>
+    play([{ frequency: 1250, duration: 0.05, type: "triangle", volume: 0.08 }]),
   /** Rayon terminé : petit carillon de deux notes. */
   aisleDone: () =>
     play([
       { frequency: 784, duration: 0.18, type: "triangle", volume: 0.1 },
-      { frequency: 1175, start: 0.1, duration: 0.28, type: "triangle", volume: 0.1 },
+      {
+        frequency: 1175,
+        start: 0.1,
+        duration: 0.28,
+        type: "triangle",
+        volume: 0.1,
+      },
     ]),
   /** Courses terminées : carillon montant. */
   done: () =>
     play([
       { frequency: 659, duration: 0.2, type: "triangle", volume: 0.1 },
-      { frequency: 880, start: 0.12, duration: 0.2, type: "triangle", volume: 0.1 },
-      { frequency: 1319, start: 0.24, duration: 0.4, type: "triangle", volume: 0.11 },
+      {
+        frequency: 880,
+        start: 0.12,
+        duration: 0.2,
+        type: "triangle",
+        volume: 0.1,
+      },
+      {
+        frequency: 1319,
+        start: 0.24,
+        duration: 0.4,
+        type: "triangle",
+        volume: 0.11,
+      },
     ]),
   /** Suppression : glissement descendant discret. */
-  remove: () => play([{ frequency: 700, slideTo: 220, duration: 0.16, volume: 0.07 }]),
+  remove: () =>
+    play([{ frequency: 700, slideTo: 220, duration: 0.16, volume: 0.07 }]),
   /** Action impossible : son sourd bref. */
   error: () =>
     play([
       { frequency: 180, duration: 0.09, type: "square", volume: 0.05 },
-      { frequency: 150, start: 0.1, duration: 0.12, type: "square", volume: 0.05 },
+      {
+        frequency: 150,
+        start: 0.1,
+        duration: 0.12,
+        type: "square",
+        volume: 0.05,
+      },
     ]),
 };
 

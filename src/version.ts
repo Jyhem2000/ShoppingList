@@ -24,7 +24,9 @@ export const buildInfo: BuildInfo = {
  * Libellé affiché : « 1.2.0 » en production,
  * « 1.2.0 · préproduction · a1b2c3d » ailleurs (canal et commit pour s'y retrouver).
  */
-export function formatVersion(info: Pick<BuildInfo, "version" | "commit" | "channel">): string {
+export function formatVersion(
+  info: Pick<BuildInfo, "version" | "commit" | "channel">,
+): string {
   if (info.channel === "production") return info.version;
   const channel = fr.about.channels[info.channel] ?? info.channel;
   return `${info.version} · ${channel} · ${info.commit}`;

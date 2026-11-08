@@ -7,7 +7,10 @@ export function CatalogPage() {
   return (
     <>
       <PageHeader title={fr.catalog.title} />
-      <EmptyState icon={<LayoutGrid className="size-10" />} title={fr.catalog.emptyTitle}>
+      <EmptyState
+        icon={<LayoutGrid className="size-10" />}
+        title={fr.catalog.emptyTitle}
+      >
         {fr.catalog.emptyText}
       </EmptyState>
     </>

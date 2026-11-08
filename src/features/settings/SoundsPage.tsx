@@ -1,5 +1,9 @@
 import { Play } from "lucide-react";
-import { soundEvents, updatePreferences, usePreferences } from "@/app/preferences";
+import {
+  soundEvents,
+  updatePreferences,
+  usePreferences,
+} from "@/app/preferences";
 import { routes } from "@/app/routes";
 import { canFollowSilentMode, isAudioSupported, sounds } from "@/feedback";
 import { fr } from "@/i18n/fr";
@@ -23,7 +27,11 @@ export function SoundsPage() {
         <Row
           label={t.master}
           hint={
-            !audio ? fr.settings.unavailable : canFollowSilentMode() ? t.silentIos : t.silentOther
+            !audio
+              ? fr.settings.unavailable
+              : canFollowSilentMode()
+                ? t.silentIos
+                : t.silentOther
           }
           disabled={!audio}
         >
@@ -47,7 +55,6 @@ export function SoundsPage() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="text-primary"
                 disabled={!masterOn}
                 aria-label={t.listen(label)}
                 onClick={() => sounds[name]()}

@@ -9,10 +9,15 @@ const PORT = 4173;
  */
 export default defineConfig({
   testDir: "tests/e2e",
+  // Résultats rangés avec les tests (ignorés par git).
+  outputDir: "tests/e2e/.results",
   fullyParallel: true,
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 1 : 0,
-  reporter: process.env.CI ? [["github"], ["html", { open: "never" }]] : "list",
+  reporter: [
+    ["list"],
+    ["html", { open: "never", outputFolder: "tests/e2e/.report" }],
+  ],
   use: {
     baseURL: `http://localhost:${PORT}`,
     locale: "fr-FR",

@@ -1,5 +1,9 @@
 import { Info, Smartphone, Sun, Volume2 } from "lucide-react";
-import { soundEvents, updatePreferences, usePreferences } from "@/app/preferences";
+import {
+  soundEvents,
+  updatePreferences,
+  usePreferences,
+} from "@/app/preferences";
 import { routes } from "@/app/routes";
 import { hapticsKind, isAudioSupported, patterns, vibrate } from "@/feedback";
 import { fr } from "@/i18n/fr";
@@ -19,7 +23,9 @@ export function SettingsPage() {
   const wakeLock = isWakeLockSupported();
   const audio = isAudioSupported();
 
-  const soundsOn = soundEvents.filter((name) => preferences.soundEvents[name]).length;
+  const soundsOn = soundEvents.filter(
+    (name) => preferences.soundEvents[name],
+  ).length;
   const soundsState = !audio
     ? t.unavailable
     : !preferences.sounds || soundsOn === 0
@@ -40,7 +46,9 @@ export function SettingsPage() {
           hint={
             <>
               {t.sounds.hint}
-              <span className="block font-semibold text-primary">{soundsState}</span>
+              <span className="block font-semibold text-text">
+                {soundsState}
+              </span>
             </>
           }
         />
@@ -76,7 +84,9 @@ export function SettingsPage() {
             checked={wakeLock && preferences.keepScreenOn}
             disabled={!wakeLock}
             aria-label={t.keepScreenOn.title}
-            onCheckedChange={(on) => updatePreferences((p) => ({ ...p, keepScreenOn: on }))}
+            onCheckedChange={(on) =>
+              updatePreferences((p) => ({ ...p, keepScreenOn: on }))
+            }
           />
         </Row>
       </Section>

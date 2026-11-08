@@ -21,7 +21,7 @@ export function isAppleMobile(
 ): boolean {
   return (
     /iPhone|iPad|iPod/.test(env.userAgent) ||
-    (/Macintosh/.test(env.userAgent) && env.maxTouchPoints > 1)
+    (env.userAgent.includes("Macintosh") && env.maxTouchPoints > 1)
   );
 }
 
@@ -29,11 +29,11 @@ export function detectInstallContext(env: InstallEnvironment): InstallContext {
   if (env.standalone) return { kind: "installed" };
   const ua = env.userAgent;
   if (isAppleMobile(env)) {
-    if (/CriOS/.test(ua)) return { kind: "ios", browser: "chrome" };
+    if (ua.includes("CriOS")) return { kind: "ios", browser: "chrome" };
     if (/FxiOS|EdgiOS|OPiOS/.test(ua)) return { kind: "ios", browser: "other" };
     return { kind: "ios", browser: "safari" };
   }
-  if (/Android/.test(ua)) return { kind: "android" };
+  if (ua.includes("Android")) return { kind: "android" };
   return { kind: "other" };
 }
 
@@ -42,8 +42,10 @@ export function currentInstallEnvironment(): InstallEnvironment {
   const nav = navigator as Navigator & { standalone?: boolean };
   return {
     userAgent: nav.userAgent,
-    maxTouchPoints: nav.maxTouchPoints ?? 0,
-    standalone: window.matchMedia("(display-mode: standalone)").matches || nav.standalone === true,
+    maxTouchPoints: nav.maxTouchPoints,
+    standalone:
+      window.matchMedia("(display-mode: standalone)").matches ||
+      nav.standalone === true,
   };
 }
 

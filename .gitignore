@@ -5,11 +5,10 @@ node_modules/
 dist/
 dev-dist/
 
-# Tests
+# Résultats de tests
+tests/e2e/.results/
+tests/e2e/.report/
 coverage/
-playwright-report/
-test-results/
-blob-report/
 
 # Environnement
 .env
@@ -22,6 +21,6 @@ Thumbs.db
 .idea/
 *.log
 
-# Outils locaux
-.claude/settings.local.json
+# Outils locaux (config de l'agent IA, propre à chaque poste)
+.claude/
 *.tsbuildinfo

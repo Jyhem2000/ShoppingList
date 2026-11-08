@@ -1,9 +1,13 @@
+import { Code, ExternalLink, Scale, Sparkles } from "lucide-react";
 import { useState } from "react";
-import { checkForUpdate, type UpdateCheckResult } from "@/app/pwa/serviceWorker";
+import {
+  checkForUpdate,
+  type UpdateCheckResult,
+} from "@/app/pwa/serviceWorker";
 import { routes } from "@/app/routes";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
-import { PageHeader, Row, Section } from "@/ui/Page";
+import { LinkRow, PageHeader, Row, Section } from "@/ui/Page";
 import { buildInfo, formatVersion } from "@/version";
 
 const REPOSITORY = "https://github.com/Jyhem2000/ShoppingList";
@@ -34,7 +38,7 @@ export function AboutPage() {
         <Row label={t.version}>
           <span
             data-testid="app-version"
-            className="text-right font-semibold text-gold tabular-nums"
+            className="text-right font-semibold text-secondary tabular-nums"
           >
             {formatVersion(buildInfo)}
           </span>
@@ -44,35 +48,44 @@ export function AboutPage() {
         </Row>
         <div className="flex flex-col gap-2 px-4 py-3">
           <Button
-            variant="secondary"
             disabled={update === "checking"}
             onClick={() => void runUpdateCheck()}
           >
             {update === "checking" ? t.updates.checking : t.updates.check}
           </Button>
           {update && update !== "checking" && (
-            <p role="status" className="text-center text-sm text-muted-foreground">
+            <p
+              role="status"
+              className="text-center text-sm text-muted-foreground"
+            >
               {t.updates[update]}
             </p>
           )}
         </div>
       </Section>
       <Section className="pb-6">
-        <Row label={t.source}>
-          <a href={REPOSITORY} target="_blank" rel="noreferrer" className="text-primary underline">
-            GitHub
-          </a>
-        </Row>
-        <Row label={t.licences}>
-          <a
-            href="/licences.txt"
-            target="_blank"
-            rel="noreferrer"
-            className="text-primary underline"
-          >
-            {t.licencesLink}
-          </a>
-        </Row>
+        <LinkRow
+          to={routes.releaseNotes}
+          icon={<Sparkles />}
+          label={t.releaseNotes}
+          hint={t.releaseNotesHint}
+        />
+        <LinkRow
+          to={routes.licences}
+          icon={<Scale />}
+          label={t.licences}
+          hint={t.licencesHint}
+        />
+        <a
+          href={REPOSITORY}
+          target="_blank"
+          rel="noreferrer"
+          className="flex min-h-14 items-center gap-3 px-4 py-3 active:bg-raised"
+        >
+          <Code className="size-5 shrink-0 text-secondary" aria-hidden />
+          <span className="flex-1 font-semibold">{t.source}</span>
+          <ExternalLink className="size-5 text-muted-foreground" aria-hidden />
+        </a>
       </Section>
     </>
   );

@@ -3,12 +3,15 @@
 PWA de liste de courses, local-first (aucun serveur, aucun compte), triée par rayon selon le magasin. Optimisée pour Chrome : iPhone (dernière version d'iOS, cible principale) et Android récent (cible secondaire).
 
 ## Phase actuelle : développement de la v1.0 — phase 1 (socle)
+
 La documentation est **validée** (8 novembre 2026). Suivre le plan de `docs/09-plan-de-developpement.md` phase par phase : une phase = une branche = une pull request. Pour les phases 3 à 6 et 8, proposer un plan avant d'implémenter. Ne jamais commencer une phase suivante sans validation de la précédente.
 
 ## Documentation de référence
+
 `docs/` fait foi : vision (01), modèle métier (02), fonctionnalités et versions (03), écrans (04), identité visuelle (05), données initiales (06), architecture (07), tests (08), plan (09). En cas de doute, la relire plutôt que supposer. Toute décision qui s'en écarte → mettre à jour `docs/` dans le même commit.
 
 ## Contraintes produit non négociables
+
 - Sur iPhone, tout tourne dans **WebKit** (Chrome iPhone comme app installée). Fonctionnalités **essentielles** : doivent marcher sur iPhone ET Android. Fonctionnalités **de confort** (vibrations…) : au moins un des deux, avec détection préalable et **aucune erreur** là où elles manquent. Rien qui ne marche nulle part.
 - **100 % gratuit** : aucune API payante, aucune clé d'API payante, aucun service tiers payant.
 - **Thème sombre unique** (pas de thème clair ni de sélecteur de thème).
@@ -16,9 +19,11 @@ La documentation est **validée** (8 novembre 2026). Suivre le plan de `docs/09-
 - Tout est modifiable par l'utilisateur (articles, catégories, rayons, magasins, unités, listes, recettes).
 
 ## Stack (une fois le code démarré)
-Vite · React 19 · TypeScript strict · Tailwind v4 · shadcn/ui · React Router 8 (hash) · Dexie · Motion · dnd-kit · lucide-react · Fluent Emoji Flat (Iconify) · Web Audio · lz-string · vite-plugin-pwa · Biome · Vitest · Playwright (WebKit/iPhone + Chromium/Android) · Cloudflare Pages via GitHub Actions.
+
+Vite · React 19 · TypeScript strict · Tailwind v4 · shadcn/ui · React Router 8 (hash) · Dexie · Motion · dnd-kit · lucide-react · Fluent Emoji Flat (Iconify) · Web Audio · lz-string · vite-plugin-pwa · ESLint + Prettier · Vitest · Playwright (WebKit/iPhone + Chromium/Android) · Cloudflare Pages connecté au dépôt (pas de GitHub Actions).
 
 ## Règles de code
+
 - Logique métier dans `src/domain/` : fonctions pures, sans React ni Dexie.
 - IDs : `crypto.randomUUID()`. Libellé ≠ identifiant ≠ slug ; slugs via `slugify` (docs/02 § 1).
 - Ne jamais stocker de donnée dérivée ; ne jamais recopier le libellé d'un article dans une ligne, un ingrédient ou l'historique.
@@ -27,15 +32,26 @@ Vite · React 19 · TypeScript strict · Tailwind v4 · shadcn/ui · React Route
 - Animations via Motion, en respectant le réglage « Animations » de l'app (auto / toujours / jamais).
 - Sons et vibrations uniquement via le module `src/feedback/`.
 - Version de l'app : source unique `package.json`, injectée au build ; jamais de numéro de version écrit en dur.
+- Couleurs : uniquement les tokens du design system (docs/05 § 2, `src/styles/index.css`). Violet = ce qui s'actionne et titres d'écran ; or = icônes et repères ; une icône dans un bouton prend la couleur du texte.
+- Formatage Prettier (réglages par défaut) sur tout le dépôt, doc comprise ; ESLint strict. Exclure un fichier = le dire et le justifier, jamais contourner.
 
 ## Tests
+
 - Uniquement dans `tests/unit` (Vitest) et `tests/e2e` (Playwright). **Aucun test dans `src/`.**
 - Seulement les tests utiles listés dans docs/08 § 3 ; pas de course au taux de couverture.
-- Avant de déclarer une tâche terminée : lint, types, tests unitaires et E2E verts, et vérification visuelle en taille téléphone.
+- Avant de déclarer une tâche terminée : `npm run check` (format, lint, types, tests unitaires) et `npm run e2e` verts, et vérification visuelle en taille téléphone.
+- Résultats des tests E2E dans `tests/e2e/.results` et `tests/e2e/.report` (ignorés par git).
 
 ## Git et publication
+
 - Auteur des commits : **Jyhem2000** avec l'adresse masquée `32844022+Jyhem2000@users.noreply.github.com` (déjà dans la config git locale ; ne pas utiliser l'identité git globale). **Ne jamais ajouter de ligne `Co-Authored-By`** ni de mention de génération par IA dans les commits ou pull requests.
 - Messages en français, format Conventional Commits (`feat:`, `fix:`, `docs:`, `test:`, `chore:`).
-- Une branche par phase, pull request vers `main`.
-- Fin de phase de la v1.0 : `npm version minor --no-git-tag-version` (0.1.0 … 0.7.0, sans tag). Puis tag `v0.9.0` (premier déploiement en production), correctifs `0.9.x`, et `v1.0.0` après validation (docs/07 § 9 — Cycle des versions).
-- Publication d'une version taguée : `CHANGELOG.md` + `npm version <minor|patch>` + `git push --follow-tags`. Ne jamais publier de version sans demande explicite.
+- Branche par défaut `dev`. Une branche par phase (`phase-2-maquette`…), pull request vers `dev`. **Jamais de travail ni de fusion directe sur `main`** : elle n'avance que par `npm run release`.
+- Publication d'une version : `npm run release` depuis `dev` (calcule la version depuis les commits, vérifie que ses nouveautés sont écrites dans `src/i18n/fr.ts` → `releaseNotes`, lance tous les contrôles, tague, avance `main` ; Cloudflare déploie). Fin de chaque phase de la v1.0 → 0.1.0 … 0.7.0 ; puis `0.9.0` (installation définitive), correctifs `0.9.x`, `1.0.0` après validation (docs/07 § 9). **Ne jamais publier sans demande explicite.**
+
+## Outils locaux de l'agent (non versionnés)
+
+`.claude/` est ignoré par git. Pour l'aperçu dans l'app Claude, `.claude/launch.json` déclare deux serveurs :
+
+- `shoppinglist` : `npm run dev -- --port 5173 --strictPort` (port 5173) ;
+- `shoppinglist-preview` : `npm run preview -- --port 4173 --strictPort` (port 4173, après `npm run build`).

@@ -7,7 +7,10 @@ export function ListPage() {
   return (
     <>
       <PageHeader title={fr.list.title} />
-      <EmptyState icon={<ShoppingCart className="size-10" />} title={fr.list.emptyTitle}>
+      <EmptyState
+        icon={<ShoppingCart className="size-10" />}
+        title={fr.list.emptyTitle}
+      >
         {fr.list.emptyText}
       </EmptyState>
     </>

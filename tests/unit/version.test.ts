@@ -11,17 +11,25 @@ const { formatVersion } = await import("@/version");
 
 describe("formatVersion", () => {
   it("affiche le numéro seul en production", () => {
-    expect(formatVersion({ version: "1.2.0", commit: "a1b2c3d", channel: "production" })).toBe(
-      "1.2.0",
-    );
+    expect(
+      formatVersion({
+        version: "1.2.0",
+        commit: "a1b2c3d",
+        channel: "production",
+      }),
+    ).toBe("1.2.0");
   });
 
   it("affiche commit et canal hors production", () => {
-    expect(formatVersion({ version: "1.2.0", commit: "a1b2c3d", channel: "preprod" })).toBe(
-      "1.2.0 · préproduction · a1b2c3d",
-    );
-    expect(formatVersion({ version: "0.1.0", commit: "ffee001", channel: "dev" })).toBe(
-      "0.1.0 · développement · ffee001",
-    );
+    expect(
+      formatVersion({
+        version: "1.2.0",
+        commit: "a1b2c3d",
+        channel: "preprod",
+      }),
+    ).toBe("1.2.0 · préproduction · a1b2c3d");
+    expect(
+      formatVersion({ version: "0.1.0", commit: "ffee001", channel: "dev" }),
+    ).toBe("0.1.0 · développement · ffee001");
   });
 });

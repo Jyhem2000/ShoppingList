@@ -8,14 +8,20 @@ import { defineConfig, type Plugin } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
 
 /** Informations de version injectées dans l'app (docs/07 § 9). */
-const pkg = JSON.parse(readFileSync(new URL("./package.json", import.meta.url), "utf8")) as {
+const pkg = JSON.parse(
+  readFileSync(new URL("./package.json", import.meta.url), "utf8"),
+) as {
   version: string;
 };
 
 function gitCommit(): string {
-  if (process.env.GITHUB_SHA) return process.env.GITHUB_SHA.slice(0, 7);
+  // Cloudflare Pages fournit le commit construit ; en local, on le lit dans git.
+  const sha = process.env.CF_PAGES_COMMIT_SHA;
+  if (sha) return sha.slice(0, 7);
   try {
-    return execSync("git rev-parse --short HEAD", { stdio: ["ignore", "pipe", "ignore"] })
+    return execSync("git rev-parse --short HEAD", {
+      stdio: ["ignore", "pipe", "ignore"],
+    })
       .toString()
       .trim();
   } catch {
@@ -23,10 +29,23 @@ function gitCommit(): string {
   }
 }
 
+/**
+ * Canal de déploiement (docs/07 § 9), déduit de la branche construite par Cloudflare :
+ * `main` → production, `dev` → préproduction, autre branche → aperçu ; en local → dev.
+ */
+function channel(): string {
+  if (process.env.APP_CHANNEL) return process.env.APP_CHANNEL;
+  const branch = process.env.CF_PAGES_BRANCH;
+  if (!branch) return "dev";
+  if (branch === "main") return "production";
+  if (branch === "dev") return "preprod";
+  return "preview";
+}
+
 const buildInfo = {
   version: pkg.version,
   commit: gitCommit(),
-  channel: process.env.APP_CHANNEL ?? "dev",
+  channel: channel(),
   buildDate: new Date().toISOString(),
 };
 
@@ -45,20 +64,24 @@ function versionFile(): Plugin {
 }
 
 /**
- * Publie `licences.txt` : nom, version, licence et texte de licence de chaque
+ * Publie `licences.json` (écran Réglages → À propos → Licences) : nom, version, licence et texte de chaque
  * bibliothèque réellement incluse dans l'app (exigence des licences MIT, ISC, OFL…).
  * Généré à chaque build : aucune liste à tenir à jour à la main.
  */
 function licencesFile(): Plugin {
   /** Inclus via le CSS ou le service worker, donc absents des modules JavaScript. */
-  const extraPackages = ["@fontsource-variable/nunito", "workbox-window"];
+  const extraPackages = [
+    "@fontsource-variable/plus-jakarta-sans",
+    "workbox-window",
+  ];
 
   const packageRoot = (id: string): string | null => {
     const file = id.replaceAll("\\", "/");
     const index = file.lastIndexOf("/node_modules/");
     if (index === -1) return null;
     const rest = file.slice(index + "/node_modules/".length).split("/");
-    const name = rest[0]?.startsWith("@") ? `${rest[0]}/${rest[1]}` : rest[0];
+    const [scope, pkg] = rest;
+    const name = scope?.startsWith("@") && pkg ? `${scope}/${pkg}` : scope;
     return name ? join(file.slice(0, index), "node_modules", name) : null;
   };
 
@@ -74,18 +97,25 @@ function licencesFile(): Plugin {
           if (root) roots.add(root);
         }
       }
-      for (const name of extraPackages) roots.add(join(process.cwd(), "node_modules", name));
+      for (const name of extraPackages)
+        roots.add(join(process.cwd(), "node_modules", name));
 
       const entries = [...roots]
         .filter((root) => existsSync(join(root, "package.json")))
         .map((root) => {
-          const meta = JSON.parse(readFileSync(join(root, "package.json"), "utf8")) as {
+          const meta = JSON.parse(
+            readFileSync(join(root, "package.json"), "utf8"),
+          ) as {
             name: string;
             version: string;
             license?: string;
           };
-          const licenceFile = readdirSync(root).find((file) => /^(licen[cs]e|copying)/i.test(file));
-          const text = licenceFile ? readFileSync(join(root, licenceFile), "utf8").trim() : "";
+          const licenceFile = readdirSync(root).find((file) =>
+            /^(licen[cs]e|copying)/i.test(file),
+          );
+          const text = licenceFile
+            ? readFileSync(join(root, licenceFile), "utf8").trim()
+            : "";
           return { ...meta, text };
         })
         .sort((a, b) => a.name.localeCompare(b.name));
@@ -93,19 +123,11 @@ function licencesFile(): Plugin {
       const unique = entries.filter(
         (entry, i) => entries.findIndex((e) => e.name === entry.name) === i,
       );
-      const rule = "=".repeat(72);
-      const source = [
-        "ShoppingList — bibliothèques incluses et leurs licences",
-        "",
-        ...unique.flatMap((entry) => [
-          rule,
-          `${entry.name} ${entry.version} — ${entry.license ?? "?"}`,
-          rule,
-          entry.text,
-          "",
-        ]),
-      ].join("\n");
-      this.emitFile({ type: "asset", fileName: "licences.txt", source });
+      this.emitFile({
+        type: "asset",
+        fileName: "licences.json",
+        source: JSON.stringify(unique),
+      });
     },
   };
 }
@@ -133,7 +155,8 @@ export default defineConfig({
         id: "/",
         name: "ShoppingList",
         short_name: "ShoppingList",
-        description: "Liste de courses triée par rayon, dans l'ordre de ton magasin.",
+        description:
+          "Liste de courses triée par rayon, dans l'ordre de ton magasin.",
         lang: "fr",
         start_url: "/",
         scope: "/",
@@ -154,7 +177,11 @@ export default defineConfig({
         ],
       },
       workbox: {
-        globPatterns: ["**/*.{js,css,html,svg,png,ico,woff2,mp3,m4a,txt}"],
+        // version.json reste hors du cache : il sert à détecter les nouvelles versions.
+        globPatterns: [
+          "**/*.{js,css,html,svg,png,ico,woff2,mp3,m4a,wav}",
+          "licences.json",
+        ],
         navigateFallback: "index.html",
         cleanupOutdatedCaches: true,
       },

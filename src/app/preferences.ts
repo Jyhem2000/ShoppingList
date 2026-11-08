@@ -5,7 +5,14 @@ import { useSyncExternalStore } from "react";
  * Stockées dans `localStorage`, hors de la base et des sauvegardes : chaque téléphone
  * garde les siennes, même après l'import des données d'un autre.
  */
-export const soundEvents = ["add", "check", "aisleDone", "done", "remove", "error"] as const;
+export const soundEvents = [
+  "add",
+  "check",
+  "aisleDone",
+  "done",
+  "remove",
+  "error",
+] as const;
 export type SoundEvent = (typeof soundEvents)[number];
 
 export interface DevicePreferences {
@@ -20,7 +27,14 @@ export interface DevicePreferences {
 
 export const defaultPreferences: DevicePreferences = {
   sounds: true,
-  soundEvents: { add: true, check: true, aisleDone: true, done: true, remove: true, error: true },
+  soundEvents: {
+    add: true,
+    check: true,
+    aisleDone: true,
+    done: true,
+    remove: true,
+    error: true,
+  },
   haptics: true,
   keepScreenOn: true,
 };

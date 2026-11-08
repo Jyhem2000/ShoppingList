@@ -15,7 +15,7 @@ export function TabBar() {
   return (
     <nav
       aria-label="Navigation principale"
-      className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-bg/95 pb-[env(safe-area-inset-bottom)] backdrop-blur"
+      className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-surface/95 pb-[env(safe-area-inset-bottom)] backdrop-blur"
     >
       <ul className="mx-auto flex max-w-xl">
         {tabs.map(({ to, label, icon: Icon, end }) => (
@@ -25,14 +25,14 @@ export function TabBar() {
               end={end}
               className={({ isActive }) =>
                 cn(
-                  "group flex h-16 flex-col items-center justify-center gap-1 text-xs font-bold transition-colors",
-                  isActive ? "text-gold" : "text-muted-foreground",
+                  "-mt-px flex h-16 flex-col items-center justify-center gap-1 border-t-2 text-xs font-bold transition-colors",
+                  isActive
+                    ? "border-secondary text-secondary"
+                    : "border-transparent text-muted-foreground",
                 )
               }
             >
-              <span className="flex h-7 w-14 items-center justify-center rounded-full transition-colors group-aria-[current=page]:bg-gold/15">
-                <Icon className="size-6" aria-hidden />
-              </span>
+              <Icon className="size-6" aria-hidden />
               {label}
             </NavLink>
           </li>

@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { RouterProvider } from "react-router";
 import { InstallScreen } from "@/features/settings/InstallScreen";
-import { currentInstallEnvironment, detectInstallContext } from "@/platform/install";
+import {
+  currentInstallEnvironment,
+  detectInstallContext,
+} from "@/platform/install";
 import { UpdateBanner } from "./pwa/UpdateBanner";
 import { router } from "./router";
 
@@ -20,7 +23,9 @@ function readSkip(): boolean {
  * navigateur (docs/04 § 2.11), puis affiche l'app.
  */
 export function App() {
-  const [context] = useState(() => detectInstallContext(currentInstallEnvironment()));
+  const [context] = useState(() =>
+    detectInstallContext(currentInstallEnvironment()),
+  );
   const [skipped, setSkipped] = useState(readSkip);
 
   const showInstall = context.kind !== "installed" && !skipped;

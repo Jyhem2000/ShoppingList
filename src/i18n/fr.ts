@@ -64,7 +64,9 @@ export const fr = {
     build: "Compilée le",
     source: "Code source",
     licences: "Licences",
-    licencesLink: "Bibliothèques utilisées",
+    licencesHint: "Bibliothèques utilisées par l'app",
+    releaseNotes: "Nouveautés",
+    releaseNotesHint: "Ce qui a changé à chaque version",
     channels: {
       production: "",
       preprod: "préproduction",
@@ -75,10 +77,40 @@ export const fr = {
       check: "Rechercher une mise à jour",
       checking: "Recherche…",
       upToDate: "L'app est à jour.",
-      available: "Une nouvelle version est prête : touche « Mettre à jour » en haut de l'écran.",
+      available:
+        "Une nouvelle version est prête : touche « Mettre à jour » en haut de l'écran.",
       failed: "Pas de réponse du serveur. Vérifie ta connexion et réessaie.",
-      unavailable: "Mises à jour indisponibles dans cette version de développement.",
+      unavailable:
+        "Mises à jour indisponibles dans cette version de développement.",
     },
+  },
+  licences: {
+    title: "Licences",
+    intro:
+      "ShoppingList est construite avec ces bibliothèques libres. Touche une ligne pour lire sa licence.",
+    unknown: "licence non précisée",
+    noText: "Texte de licence non fourni par la bibliothèque.",
+    unavailable: "Liste disponible dans la version installée de l'app.",
+  },
+  /**
+   * Nouveautés de chaque version, écrites pour l'utilisateur (pas les messages de commit).
+   * La plus récente en premier ; `npm run release` refuse de publier une version absente d'ici.
+   */
+  releaseNotes: {
+    title: "Nouveautés",
+    version: (version: string) => `Version ${version}`,
+    versions: [
+      {
+        version: "0.1.0",
+        date: "2026-11-08",
+        items: [
+          "L'app s'installe sur l'écran d'accueil de l'iPhone et d'Android, en plein écran, et fonctionne hors ligne.",
+          "Au premier lancement, un écran explique comment l'installer selon ton téléphone.",
+          "Réglages → Fonctionnalités : sons (tous ou un par un), vibrations et écran allumé pendant les courses.",
+          "Un bandeau propose la nouvelle version quand elle est disponible.",
+        ],
+      },
+    ],
   },
   install: {
     title: "Installe l'app",
@@ -97,8 +129,10 @@ export const fr = {
       "Touche « Ajouter », puis ouvre l'app depuis son icône.",
     ],
     androidButton: "Installer l'application",
-    androidManual: "Si le bouton reste grisé : menu ⋮ de Chrome → « Installer l'application ».",
-    otherText: "Utilise le menu de ton navigateur pour installer l'application, si elle le permet.",
+    androidManual:
+      "Si le bouton reste grisé : menu ⋮ de Chrome → « Installer l'application ».",
+    otherText:
+      "Utilise le menu de ton navigateur pour installer l'application, si elle le permet.",
     continue: "Continuer dans le navigateur",
   },
   update: {

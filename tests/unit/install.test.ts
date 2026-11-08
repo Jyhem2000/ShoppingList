@@ -19,40 +19,72 @@ const UA = {
 describe("detectInstallContext", () => {
   it("considère l'app comme installée en mode plein écran, quel que soit l'appareil", () => {
     expect(
-      detectInstallContext({ userAgent: UA.iphoneChrome, maxTouchPoints: 5, standalone: true }),
+      detectInstallContext({
+        userAgent: UA.iphoneChrome,
+        maxTouchPoints: 5,
+        standalone: true,
+      }),
     ).toEqual({ kind: "installed" });
   });
 
   it("reconnaît Chrome sur iPhone (installation manuelle via le bouton Partager de Chrome)", () => {
     expect(
-      detectInstallContext({ userAgent: UA.iphoneChrome, maxTouchPoints: 5, standalone: false }),
+      detectInstallContext({
+        userAgent: UA.iphoneChrome,
+        maxTouchPoints: 5,
+        standalone: false,
+      }),
     ).toEqual({ kind: "ios", browser: "chrome" });
   });
 
   it("reconnaît Safari et les autres navigateurs iPhone", () => {
     expect(
-      detectInstallContext({ userAgent: UA.iphoneSafari, maxTouchPoints: 5, standalone: false }),
+      detectInstallContext({
+        userAgent: UA.iphoneSafari,
+        maxTouchPoints: 5,
+        standalone: false,
+      }),
     ).toEqual({ kind: "ios", browser: "safari" });
     expect(
-      detectInstallContext({ userAgent: UA.iphoneFirefox, maxTouchPoints: 5, standalone: false }),
+      detectInstallContext({
+        userAgent: UA.iphoneFirefox,
+        maxTouchPoints: 5,
+        standalone: false,
+      }),
     ).toEqual({ kind: "ios", browser: "other" });
   });
 
   it("reconnaît un iPad qui se présente comme un Mac grâce à l'écran tactile", () => {
     expect(
-      detectInstallContext({ userAgent: UA.ipadOs, maxTouchPoints: 5, standalone: false }),
+      detectInstallContext({
+        userAgent: UA.ipadOs,
+        maxTouchPoints: 5,
+        standalone: false,
+      }),
     ).toEqual({ kind: "ios", browser: "safari" });
     expect(
-      detectInstallContext({ userAgent: UA.ipadOs, maxTouchPoints: 0, standalone: false }),
+      detectInstallContext({
+        userAgent: UA.ipadOs,
+        maxTouchPoints: 0,
+        standalone: false,
+      }),
     ).toEqual({ kind: "other" });
   });
 
   it("reconnaît Android et les ordinateurs", () => {
     expect(
-      detectInstallContext({ userAgent: UA.androidChrome, maxTouchPoints: 5, standalone: false }),
+      detectInstallContext({
+        userAgent: UA.androidChrome,
+        maxTouchPoints: 5,
+        standalone: false,
+      }),
     ).toEqual({ kind: "android" });
     expect(
-      detectInstallContext({ userAgent: UA.desktopChrome, maxTouchPoints: 0, standalone: false }),
+      detectInstallContext({
+        userAgent: UA.desktopChrome,
+        maxTouchPoints: 0,
+        standalone: false,
+      }),
     ).toEqual({ kind: "other" });
   });
 });

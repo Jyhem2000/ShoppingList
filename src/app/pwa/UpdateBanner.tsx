@@ -3,7 +3,11 @@ import { RefreshCw } from "lucide-react";
 import { useEffect, useState } from "react";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
-import { checkForUpdate, fetchPublishedVersion, setRegistration } from "./serviceWorker";
+import {
+  checkForUpdate,
+  fetchPublishedVersion,
+  setRegistration,
+} from "./serviceWorker";
 
 const HOURLY = 60 * 60 * 1000;
 
@@ -46,12 +50,18 @@ export function UpdateBanner() {
       role="status"
       className="fixed inset-x-0 top-0 z-50 px-4 pt-[calc(env(safe-area-inset-top)+0.5rem)]"
     >
-      <div className="mx-auto flex max-w-xl items-center gap-3 rounded-2xl border border-border bg-surface-2 p-3 shadow-lg">
-        <RefreshCw className="size-5 shrink-0 text-primary" aria-hidden />
+      <div className="mx-auto flex max-w-xl items-center gap-3 rounded-2xl border border-border bg-raised p-3 shadow-lg">
+        <RefreshCw className="size-5 shrink-0 text-secondary" aria-hidden />
         <p className="flex-1 text-sm font-semibold">
-          {newVersion ? fr.update.availableVersion(newVersion) : fr.update.available}
+          {newVersion
+            ? fr.update.availableVersion(newVersion)
+            : fr.update.available}
         </p>
-        <Button size="sm" variant="gold" onClick={() => void updateServiceWorker(true)}>
+        <Button
+          size="sm"
+          variant="default"
+          onClick={() => void updateServiceWorker(true)}
+        >
           {fr.update.action}
         </Button>
       </div>

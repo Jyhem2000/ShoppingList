@@ -14,7 +14,7 @@ function Steps({ steps }: { steps: readonly string[] }) {
     <ol className="space-y-3">
       {steps.map((step, index) => (
         <li key={step} className="flex items-start gap-3">
-          <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary/15 font-bold text-primary">
+          <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-secondary/15 font-bold text-secondary">
             {index + 1}
           </span>
           <span className="pt-1">{step}</span>
@@ -32,19 +32,25 @@ export function InstallScreen({
   context: Exclude<InstallContext, { kind: "installed" }>;
   onContinue: () => void;
 }) {
-  const canPrompt = useSyncExternalStore(subscribeInstallPrompt, canPromptInstall, () => false);
+  const canPrompt = useSyncExternalStore(
+    subscribeInstallPrompt,
+    canPromptInstall,
+    () => false,
+  );
 
   return (
     <div className="mx-auto flex min-h-dvh max-w-xl flex-col px-6 pt-[calc(env(safe-area-inset-top)+2rem)] pb-[calc(env(safe-area-inset-bottom)+1.5rem)]">
       <img src="/logo.svg" alt="" className="mb-6 size-20 rounded-3xl" />
-      <h1 className="mb-3 text-3xl font-extrabold">{fr.install.title}</h1>
+      <h1 className="mb-3 text-3xl font-extrabold text-primary">
+        {fr.install.title}
+      </h1>
       <p className="mb-6 text-muted-foreground">{fr.install.intro}</p>
 
       <div className="flex-1 space-y-6">
         {context.kind === "ios" && (
           <>
             <div className="rounded-2xl bg-surface p-4">
-              <div className="mb-4 flex items-center gap-2 font-bold text-primary">
+              <div className="mb-4 flex items-center gap-2 font-bold text-secondary">
                 <Share className="size-5" aria-hidden />
                 iPhone
               </div>
@@ -66,7 +72,7 @@ export function InstallScreen({
         {context.kind === "android" && (
           <div className="space-y-3 rounded-2xl bg-surface p-4">
             <Button
-              variant="gold"
+              variant="default"
               size="lg"
               className="w-full"
               disabled={!canPrompt}
@@ -75,7 +81,9 @@ export function InstallScreen({
               <Download aria-hidden />
               {fr.install.androidButton}
             </Button>
-            <p className="text-sm text-muted-foreground">{fr.install.androidManual}</p>
+            <p className="text-sm text-muted-foreground">
+              {fr.install.androidManual}
+            </p>
           </div>
         )}
 
@@ -84,7 +92,7 @@ export function InstallScreen({
         )}
       </div>
 
-      <Button variant="ghost" className="mt-8 text-muted-foreground" onClick={onContinue}>
+      <Button variant="ghost" className="mt-8" onClick={onContinue}>
         {fr.install.continue}
       </Button>
     </div>

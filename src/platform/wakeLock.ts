@@ -17,7 +17,7 @@ export async function keepScreenOn(
 ): Promise<WakeLockHandle> {
   if (!isWakeLockSupported()) {
     onChange("unsupported");
-    return { release: async () => {} };
+    return { release: () => Promise.resolve() };
   }
 
   let sentinel: WakeLockSentinel | null = null;

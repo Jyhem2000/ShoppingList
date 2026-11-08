@@ -1,26 +1,38 @@
 @import "tailwindcss";
-@import "@fontsource-variable/nunito";
+@import "@fontsource-variable/plus-jakarta-sans";
 
 /*
- * Thème sombre unique — tokens de docs/05 § 2.
- * Fond quasi noir neutre ; deux couleurs d'accent : violet (icônes, titres de section,
- * interrupteurs, liens) et or (onglet actif, action principale, quantités).
+ * Design system — thème sombre unique (docs/05 § 2).
+ * Fonds neutres quasi noirs ; deux couleurs :
+ * - principale, violet : tout ce qui s'actionne (boutons, interrupteurs, liens) et les titres d'écran ;
+ * - secondaire, or : les repères (icônes, onglet actif, quantités, progression).
+ * Une icône placée dans un bouton prend la couleur du texte du bouton.
  */
 :root {
   color-scheme: dark;
 
-  --bg: #0f0f12;
-  --surface: #18181d;
-  --surface-2: #232329;
+  /* Fonds, du plus profond au plus haut */
+  --bg: #0f0f12; /* fond 1 : l'app */
+  --surface: #18181d; /* fond 2 : cartes, lignes, panneaux */
+  --raised: #232329; /* fond 3 : éléments surélevés, champs, boutons neutres */
   --border: #2e2e36;
-  --text: #ededf0;
-  --text-muted: #a3a3ad;
-  --primary: #cdb4f5;
-  --primary-strong: #a98be0;
-  --gold: #f5c451;
-  --gold-strong: #e0a92e;
-  --on-gold: #1d1606;
-  --done: #7fd4a8;
+
+  /* Textes */
+  --text: #ededf0; /* texte principal */
+  --text-muted: #a3a3ad; /* texte secondaire */
+
+  /* Couleur principale : violet */
+  --primary: #b794f6;
+  --primary-strong: #9b72ea;
+  --on-primary: #140d22; /* texte sur fond violet */
+
+  /* Couleur secondaire : or */
+  --secondary: #f5c451;
+  --secondary-strong: #e0a92e;
+  --on-secondary: #1d1606; /* texte sur fond or */
+
+  /* États */
+  --success: #7fd4a8;
   --warning: #ffa463;
   --danger: #ff7a85;
 
@@ -28,18 +40,22 @@
 }
 
 @theme inline {
-  --font-sans: "Nunito Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-sans:
+    "Plus Jakarta Sans Variable", ui-sans-serif, system-ui, sans-serif;
 
   --color-bg: var(--bg);
   --color-surface: var(--surface);
-  --color-surface-2: var(--surface-2);
+  --color-raised: var(--raised);
+  --color-border: var(--border);
   --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
   --color-primary: var(--primary);
   --color-primary-strong: var(--primary-strong);
-  --color-gold: var(--gold);
-  --color-gold-strong: var(--gold-strong);
-  --color-on-gold: var(--on-gold);
-  --color-done: var(--done);
+  --color-on-primary: var(--on-primary);
+  --color-secondary: var(--secondary);
+  --color-secondary-strong: var(--secondary-strong);
+  --color-on-secondary: var(--on-secondary);
+  --color-success: var(--success);
   --color-warning: var(--warning);
   --color-danger: var(--danger);
 
@@ -50,15 +66,13 @@
   --color-card-foreground: var(--text);
   --color-popover: var(--surface);
   --color-popover-foreground: var(--text);
-  --color-primary-foreground: var(--bg);
-  --color-secondary: var(--surface-2);
-  --color-secondary-foreground: var(--text);
-  --color-muted: var(--surface-2);
+  --color-primary-foreground: var(--on-primary);
+  --color-secondary-foreground: var(--on-secondary);
+  --color-muted: var(--raised);
   --color-muted-foreground: var(--text-muted);
-  --color-accent: var(--surface-2);
+  --color-accent: var(--raised);
   --color-accent-foreground: var(--text);
   --color-destructive: var(--danger);
-  --color-border: var(--border);
   --color-input: var(--border);
   --color-ring: var(--primary);
 

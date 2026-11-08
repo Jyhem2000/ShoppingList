@@ -1,61 +1,60 @@
-# Guide — Configurer le déploiement Cloudflare Pages
+# Guide — Configurer Cloudflare Pages et GitHub
 
-À faire **une seule fois**. Tant que ce n'est pas fait, la CI GitHub vérifie tout mais n'envoie rien en ligne (message « Cloudflare n'est pas encore configuré »). Tout est gratuit.
+À faire **une seule fois**. Tout est gratuit. Ensuite, chaque push sur GitHub est construit et mis en ligne par Cloudflare, sans rien d'autre à faire.
 
-Rappel des environnements ([07 § 9](07-architecture-technique.md#9-hébergement-versions-et-déploiement)) :
+Rappel ([07 § 9](07-architecture-technique.md#9-hébergement-versions-et-déploiement)) :
 
-| Environnement | Déclencheur | Adresse |
-|---|---|---|
-| Aperçu | pull request | `<branche>.<projet>.pages.dev` |
-| Préproduction | push sur `main` | `main.<projet>.pages.dev` |
-| Production | tag `vX.Y.Z` | `<projet>.pages.dev` |
+| Branche                    | Environnement | Adresse                        |
+| -------------------------- | ------------- | ------------------------------ |
+| `phase-…`, `fix-…`         | Aperçu        | `<branche>.<projet>.pages.dev` |
+| `dev` (branche par défaut) | Préproduction | `dev.<projet>.pages.dev`       |
+| `main`                     | Production    | `<projet>.pages.dev`           |
 
-> Les intitulés exacts du tableau de bord Cloudflare peuvent légèrement varier selon les mises à jour de leur interface.
+> Les intitulés exacts des tableaux de bord Cloudflare et GitHub peuvent légèrement varier selon les mises à jour de leur interface.
 
-## 1. Créer le compte
+## 1. GitHub : branche par défaut `dev`
+
+La branche `dev` est déjà créée et poussée.
+
+1. Dépôt `Jyhem2000/ShoppingList` → **Settings** → **General** → **Default branch** → icône ⇄ → choisir **`dev`** → **Update**.
+2. Ainsi, les pull requests visent `dev` par défaut. `main` ne reçoit que les versions publiées (`npm run release`).
+
+_Facultatif_ : **Settings** → **Rules** → **Rulesets** → **New branch ruleset** sur `main`, en interdisant la suppression et le _force push_.
+
+## 2. Cloudflare : créer le compte
+
 1. Aller sur `https://dash.cloudflare.com/sign-up` et créer un compte (formule gratuite).
 2. Confirmer l'adresse e-mail.
 
-## 2. Relever l'identifiant du compte (Account ID)
-Dans le tableau de bord : page d'accueil du compte ou **Workers & Pages** → colonne de droite **Account ID** → copier la valeur (32 caractères hexadécimaux).
+## 3. Cloudflare : connecter le dépôt
 
-## 3. Créer le projet Pages
-Le plus simple, depuis le dossier du projet sur le PC :
+1. Tableau de bord → **Workers & Pages** → **Create** → onglet **Pages** → **Connect to Git**.
+2. **Connect GitHub** : GitHub demande d'installer l'application Cloudflare. Choisir **Only select repositories** → `ShoppingList` → **Install & Authorize**. Le dépôt peut rester privé : seul le site publié est public.
+3. Choisir le dépôt `ShoppingList` → **Begin setup**.
+4. Réglages du projet :
 
-```bash
-npx wrangler login
-```
+   | Champ                  | Valeur                                                     |
+   | ---------------------- | ---------------------------------------------------------- |
+   | Project name           | `shoppinglist` (ou un autre nom libre, il forme l'adresse) |
+   | Production branch      | **`main`**                                                 |
+   | Framework preset       | `None`                                                     |
+   | Build command          | **`npm run build:checked`**                                |
+   | Build output directory | **`dist`**                                                 |
 
-```bash
-npx wrangler pages project create shoppinglist --production-branch=production
-```
+5. **Environment variables (advanced)** → ajouter `NODE_VERSION` = `24`.
+6. **Save and Deploy**. Le premier déploiement construit `main`, qui ne contient encore que la doc : il peut échouer, c'est normal tant qu'aucune version n'est publiée.
 
-- `wrangler login` ouvre le navigateur pour autoriser l'accès à ton compte.
-- **`--production-branch=production` est important** : ainsi, seuls les déploiements marqués `production` (les tags de version) vont en production ; `main` devient la préproduction.
-- Si le nom `shoppinglist` est déjà pris sur Cloudflare, en choisir un autre (ex. `shoppinglist-jyhem`) et le réutiliser à l'étape 5.
+## 4. Cloudflare : aperçus de toutes les branches
 
-## 4. Créer un jeton d'API
-1. Tableau de bord → icône de profil → **My Profile** → **API Tokens** → **Create Token**.
-2. **Create Custom Token** :
-   - nom : `GitHub Actions ShoppingList` ;
-   - permissions : **Account** · **Cloudflare Pages** · **Edit** ;
-   - ressources du compte : ton compte uniquement.
-3. **Continue to summary** → **Create Token** → copier le jeton (il n'est affiché qu'une fois).
+Projet → **Settings** → **Builds** (ou **Builds & deployments**) → **Branch control** → **Preview branch** : **All non-production branches**. Ainsi `dev` (préproduction) et chaque branche de phase ont leur adresse.
 
-## 5. Enregistrer les informations dans GitHub
-Dépôt `Jyhem2000/ShoppingList` → **Settings** → **Secrets and variables** → **Actions** :
+## 5. Vérifier
 
-| Onglet | Nom | Valeur |
-|---|---|---|
-| **Secrets** | `CLOUDFLARE_API_TOKEN` | le jeton de l'étape 4 |
-| **Secrets** | `CLOUDFLARE_ACCOUNT_ID` | l'identifiant de l'étape 2 |
-| **Variables** | `CF_PAGES_PROJECT` | le nom du projet de l'étape 3 (ex. `shoppinglist`) |
-
-## 6. Vérifier
-- Onglet **Actions** du dépôt → relancer le dernier workflow **CI** de la pull request (**Re-run all jobs**).
-- Le job « Déploiement Cloudflare » affiche l'adresse d'aperçu (`https://phase-1-socle.<projet>.pages.dev`).
-- L'ouvrir sur les téléphones et suivre la checklist de [08 § 5](08-tests-et-qualite.md#5-checklist-manuelle-sur-téléphone-fin-de-chaque-phase).
+1. Projet → **Deployments** : un déploiement par branche poussée. Une branche poussée avant la connexion n'apparaît qu'au push suivant (ou via **Create deployment** / **Retry deployment**).
+2. Ouvrir `https://phase-1-socle.<projet>.pages.dev` sur les téléphones, installer l'app et suivre la checklist de [08 § 5](08-tests-et-qualite.md#5-checklist-manuelle-sur-téléphone-fin-de-chaque-phase).
+3. Si un build échoue, son journal indique quel contrôle (format, lint, types, tests) a échoué ; rien n'est mis en ligne dans ce cas.
 
 ## Sécurité
-- Le jeton ne donne accès qu'à Cloudflare Pages. En cas de doute, le révoquer dans **API Tokens** et en recréer un.
-- Ne jamais écrire le jeton dans un fichier du dépôt (public) : uniquement dans les secrets GitHub.
+
+- L'application Cloudflare n'a accès qu'au dépôt choisi ; révocable dans GitHub → **Settings** (du compte) → **Applications**.
+- Aucun jeton ni secret à stocker dans le dépôt.
