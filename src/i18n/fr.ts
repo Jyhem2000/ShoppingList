@@ -1,0 +1,131 @@
+/** Tous les textes de l'interface (docs : interface en français, textes centralisés). */
+export const fr = {
+  appName: "ShoppingList",
+  tabs: {
+    list: "Liste",
+    catalog: "Catalogue",
+    settings: "Réglages",
+  },
+  list: {
+    title: "Courses",
+    emptyTitle: "Ta liste arrive bientôt",
+    emptyText:
+      "L'ajout d'articles et le tri par rayon seront disponibles dans une prochaine version.",
+  },
+  catalog: {
+    title: "Catalogue",
+    emptyTitle: "Le catalogue arrive bientôt",
+    emptyText: "Tu pourras bientôt parcourir les articles par catégorie.",
+  },
+  settings: {
+    title: "Réglages",
+    sectionApp: "Application",
+    about: "À propos",
+    sectionDev: "Outils",
+    diagnostic: "Diagnostic technique",
+    diagnosticHint: "Installation, écran allumé, sons, vibrations",
+  },
+  about: {
+    title: "À propos",
+    tagline:
+      "Une liste de courses qui se range toute seule dans l'ordre de ton parcours en magasin.",
+    version: "Version",
+    build: "Compilée le",
+    channel: "Canal",
+    source: "Code source",
+    licences: "Licences",
+    licencesText:
+      "React, Vite, Tailwind CSS, Radix UI, shadcn/ui (MIT) · Lucide (ISC) · police Nunito (SIL OFL).",
+  },
+  install: {
+    title: "Installe l'app",
+    intro:
+      "ShoppingList s'utilise comme une application installée sur ton écran d'accueil : plein écran, hors ligne, et tes données restent sur ton téléphone.",
+    iosWarning:
+      "Sur iPhone, l'app installée et le navigateur ne partagent pas leurs données : installe-la avant de commencer.",
+    iosChromeSteps: [
+      "Touche le bouton Partager dans la barre d'adresse de Chrome.",
+      "Choisis « Ajouter à l'écran d'accueil ».",
+      "Touche « Ajouter », puis ouvre l'app depuis son icône.",
+    ],
+    iosSafariSteps: [
+      "Touche le bouton Partager en bas de l'écran.",
+      "Choisis « Sur l'écran d'accueil ».",
+      "Touche « Ajouter », puis ouvre l'app depuis son icône.",
+    ],
+    androidButton: "Installer l'application",
+    androidManual: "Si le bouton reste grisé : menu ⋮ de Chrome → « Installer l'application ».",
+    otherText: "Utilise le menu de ton navigateur pour installer l'application, si elle le permet.",
+    continue: "Continuer dans le navigateur",
+  },
+  update: {
+    available: "Nouvelle version disponible",
+    availableVersion: (version: string) => `Version ${version} disponible`,
+    action: "Mettre à jour",
+  },
+  diagnostic: {
+    title: "Diagnostic technique",
+    intro:
+      "Écran de vérification de la phase 1, à tester sur chaque téléphone avec l'app installée.",
+    yes: "Oui",
+    no: "Non",
+    supported: "Disponible",
+    unsupported: "Indisponible",
+    install: {
+      title: "Installation",
+      standalone: "App installée (plein écran)",
+      serviceWorker: "Service worker actif",
+      online: "En ligne",
+      persisted: "Stockage persistant",
+      requestPersist: "Demander",
+      version: "Version",
+    },
+    wakeLock: {
+      title: "Écran allumé",
+      label: "Garder l'écran allumé",
+      active: "Actif : l'écran ne doit pas s'éteindre",
+      released: "Inactif",
+      unsupported: "Non disponible sur cet appareil",
+      error: (message: string) => `Erreur : ${message}`,
+    },
+    sounds: {
+      title: "Sons",
+      add: "Ajout",
+      check: "Cocher",
+      aisleDone: "Rayon terminé",
+      done: "Courses terminées",
+      remove: "Suppression",
+      error: "Impossible",
+    },
+    haptics: {
+      title: "Vibrations",
+      support: "API Vibration",
+      short: "Courte",
+      aisle: "Rayon terminé",
+      long: "Longue",
+      iosTitle: "Retour haptique iPhone (expérimental)",
+      iosHint: "Astuce non officielle : doit produire un léger « tic » sur iPhone récent.",
+      iosTry: "Essayer",
+    },
+    features: {
+      title: "Fonctionnalités détectées",
+      vibrate: "Vibration",
+      wakeLock: "Écran allumé (Wake Lock)",
+      share: "Partage",
+      shareFiles: "Partage de fichiers",
+      clipboard: "Presse-papier",
+      persist: "Stockage persistant",
+      installPrompt: "Invite d'installation",
+      barcode: "Lecteur de codes-barres natif",
+      audio: "Web Audio",
+    },
+    updates: {
+      title: "Mises à jour",
+      check: "Vérifier maintenant",
+      checking: "Vérification…",
+      upToDate: "Aucune nouvelle version détectée",
+      available: "Une nouvelle version est prête (bandeau en haut)",
+      unavailable: "Service worker non enregistré (normal en développement)",
+    },
+  },
+} as const;

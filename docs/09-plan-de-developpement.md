@@ -23,7 +23,7 @@ Numérotation et déploiements : [07 § 9 — Cycle des versions](07-architectur
 - GitHub Actions (lint, types, tests, build, E2E) + déploiements Cloudflare Pages (aperçu, préproduction ; production prête pour les tags) — voir 07 § 9.
 - Écran de test technique sur les deux téléphones : installation, plein écran, hors ligne, **Wake Lock dans l'app installée**, sons, vibrations (Android), astuce haptique iPhone (05 § 7), mise à jour après un nouveau déploiement.
 - ✅ *L'app vide s'installe, s'ouvre hors ligne et se met à jour sur les deux téléphones.* → version `0.1.0`.
-- **Prérequis de ton côté** : compte Cloudflare (gratuit), projet Pages, jeton d'API enregistré dans les secrets GitHub du dépôt (`CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`) — procédure guidée au démarrage de la phase.
+- **Prérequis de ton côté** : compte Cloudflare (gratuit), projet Pages, jeton d'API enregistré dans les secrets GitHub du dépôt (`CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`) et nom du projet dans les variables GitHub (`CF_PAGES_PROJECT`) — procédure dans `docs/deploiement-cloudflare.md`.
 
 ### Phase 2 — Maquette visuelle
 - Page interne `#/dev/ui` présentant tous les composants clés (05 § 5) avec de fausses données : lignes, en-têtes de rayon, barre d'ajout, cartes du catalogue, panneaux, boutons, monogrammes, sons.

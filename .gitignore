@@ -21,3 +21,7 @@ blob-report/
 Thumbs.db
 .idea/
 *.log
+
+# Outils locaux
+.claude/settings.local.json
+*.tsbuildinfo

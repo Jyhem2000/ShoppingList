@@ -14,7 +14,7 @@
 | Interface | **React 19 + TypeScript** (strict) | MIT | Écosystème le plus large, très bien maîtrisé par les agents IA |
 | Styles | **Tailwind CSS v4** | MIT | Tokens de couleurs (05 § 2) en variables CSS, itération rapide |
 | Composants | **shadcn/ui** (Radix UI, Vaul pour les panneaux glissants) | MIT | Composants accessibles copiés dans le projet, entièrement stylables |
-| Routage | **React Router 7**, historique par hash (`#/…`) | MIT | Simple ; aucune configuration serveur sur un hébergement statique |
+| Routage | **React Router 8** (`createHashRouter`), historique par hash (`#/…`) | MIT | Simple ; aucune configuration serveur sur un hébergement statique |
 | Stockage | **Dexie.js** + `dexie-react-hooks` | Apache 2.0 | IndexedDB avec requêtes réactives (`useLiveQuery`), index, transactions, migrations |
 | État d'interface | État React local + contexte. **Zustand** seulement si le besoin apparaît | MIT | Les données métier vivent dans Dexie, pas dans un store global |
 | Recherche | Implémentation maison dans `domain/` | — | ~1 000 articles : pas besoin de bibliothèque ; contrôle total des règles (accents, pluriels, alias) |
@@ -30,7 +30,7 @@
 | Lint / format | **Biome** | MIT | Un seul outil rapide pour lint + format |
 | Déploiement | **Cloudflare Pages** + **Wrangler** depuis GitHub Actions | gratuit | Voir § 9 |
 
-Versions des bibliothèques : dernières stables au moment de l'initialisation. Node LTS.
+Versions des bibliothèques : dernières stables au moment de l'initialisation (novembre 2026 : Vite 8, React 19, TypeScript 7, React Router 8, Tailwind CSS 4, Vitest 5, Playwright 1.65, Biome 2). Node 24 LTS.
 
 ## 3. Fonctionnalités du navigateur
 
@@ -326,13 +326,15 @@ ShoppingList/
 │  │  ├─ suggestions/         # anti-oubli (v1.2)
 │  │  ├─ share/               # partage, import, aperçu (v1.3)
 │  │  ├─ manage/              # articles, catégories, magasins/rayons, unités
-│  │  └─ settings/            # réglages, sauvegarde, premier lancement, à propos
+│  │  ├─ settings/            # réglages, sauvegarde, premier lancement, à propos
+│  │  └─ diagnostic/          # écran de vérification technique (phase 1)
 │  ├─ domain/                 # fonctions pures (§ 7) — aucun import React ni Dexie
 │  ├─ db/                     # schéma Dexie, migrations, accès aux données, initialisation
 │  ├─ data/                   # données initiales (06)
 │  ├─ ui/                     # composants partagés (shadcn + ProductIcon, AisleHeader…)
 │  ├─ icons/                  # pack d'icônes, résolution en cascade, monogramme
 │  ├─ feedback/               # sons et vibrations
+│  ├─ platform/               # installation, écran allumé (fonctionnalités du navigateur)
 │  ├─ i18n/fr.ts              # tous les textes de l'interface
 │  └─ version.ts              # expose version, commit, canal (injectés au build)
 └─ tests/

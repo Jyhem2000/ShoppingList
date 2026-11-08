@@ -16,7 +16,7 @@ La documentation est **validée** (8 novembre 2026). Suivre le plan de `docs/09-
 - Tout est modifiable par l'utilisateur (articles, catégories, rayons, magasins, unités, listes, recettes).
 
 ## Stack (une fois le code démarré)
-Vite · React 19 · TypeScript strict · Tailwind v4 · shadcn/ui · React Router 7 (hash) · Dexie · Motion · dnd-kit · lucide-react · Fluent Emoji Flat (Iconify) · Web Audio · lz-string · vite-plugin-pwa · Biome · Vitest · Playwright (WebKit/iPhone + Chromium/Android) · Cloudflare Pages via GitHub Actions.
+Vite · React 19 · TypeScript strict · Tailwind v4 · shadcn/ui · React Router 8 (hash) · Dexie · Motion · dnd-kit · lucide-react · Fluent Emoji Flat (Iconify) · Web Audio · lz-string · vite-plugin-pwa · Biome · Vitest · Playwright (WebKit/iPhone + Chromium/Android) · Cloudflare Pages via GitHub Actions.
 
 ## Règles de code
 - Logique métier dans `src/domain/` : fonctions pures, sans React ni Dexie.

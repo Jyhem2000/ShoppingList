@@ -1,0 +1,112 @@
+@import "tailwindcss";
+@import "@fontsource-variable/nunito";
+
+/*
+ * Thème sombre unique — tokens de docs/05 § 2.
+ * Violet pâle = navigation et sélection ; or = action principale et quantités.
+ */
+:root {
+  color-scheme: dark;
+
+  --bg: #131019;
+  --surface: #1c1824;
+  --surface-2: #262131;
+  --border: #352e44;
+  --text: #eeeaf5;
+  --text-muted: #a69db8;
+  --primary: #cdb4f5;
+  --primary-strong: #a98be0;
+  --gold: #f5c451;
+  --gold-strong: #e0a92e;
+  --on-gold: #1d1606;
+  --done: #7fd4a8;
+  --warning: #ffa463;
+  --danger: #ff7a85;
+
+  --radius: 1rem;
+}
+
+@theme inline {
+  --font-sans: "Nunito Variable", ui-sans-serif, system-ui, sans-serif;
+
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-text: var(--text);
+  --color-primary: var(--primary);
+  --color-primary-strong: var(--primary-strong);
+  --color-gold: var(--gold);
+  --color-gold-strong: var(--gold-strong);
+  --color-on-gold: var(--on-gold);
+  --color-done: var(--done);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+
+  /* Alias attendus par les composants shadcn/ui */
+  --color-background: var(--bg);
+  --color-foreground: var(--text);
+  --color-card: var(--surface);
+  --color-card-foreground: var(--text);
+  --color-popover: var(--surface);
+  --color-popover-foreground: var(--text);
+  --color-primary-foreground: var(--bg);
+  --color-secondary: var(--surface-2);
+  --color-secondary-foreground: var(--text);
+  --color-muted: var(--surface-2);
+  --color-muted-foreground: var(--text-muted);
+  --color-accent: var(--surface-2);
+  --color-accent-foreground: var(--text);
+  --color-destructive: var(--danger);
+  --color-border: var(--border);
+  --color-input: var(--border);
+  --color-ring: var(--primary);
+
+  --radius-sm: calc(var(--radius) - 6px);
+  --radius-md: calc(var(--radius) - 4px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  /* Palette des rayons et catégories (docs/05 § 2) */
+  --color-sauge: #8fcf9c;
+  --color-ble: #e6c27a;
+  --color-corail: #f29b85;
+  --color-canard: #6fc3d0;
+  --color-rose: #f2a7c3;
+  --color-creme: #f3e3a1;
+  --color-ambre: #f0b35e;
+  --color-terre: #c9a27e;
+  --color-prune: #d38fc4;
+  --color-ciel: #8fb2f2;
+  --color-glacier: #a5e1f0;
+  --color-lilas: #b9a4f0;
+  --color-ardoise: #9aa7bd;
+  --color-gris: #7d7590;
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    background: var(--bg);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100dvh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior-y: none;
+  }
+
+  button,
+  a {
+    touch-action: manipulation;
+  }
+}

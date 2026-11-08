@@ -18,6 +18,9 @@ Spécification complète de l'application. **Validée le 8 novembre 2026** : ell
 
 Statuts : 📝 À valider · 🔁 En révision · ✅ Validé
 
+### Guides pratiques
+- [Configurer le déploiement Cloudflare Pages](deploiement-cloudflare.md) — à faire une fois (phase 1).
+
 ## Versions prévues
 
 | Version | Contenu |
