@@ -1,7 +1,7 @@
 # 05 — Identité visuelle
 
 ## 1. Ambiance
-Un **thème sombre unique**, chaleureux plutôt que technique : fond violet très profond, accents **violet pâle** et **or**, des touches de couleurs douces par rayon pour la variété, des icônes colorées, des coins arrondis généreux et des animations souples.
+Un **thème sombre unique**, chaleureux plutôt que technique : fond violet très profond, accents **violet pâle** et **or**, des touches de couleurs douces par rayon pour la variété, des icônes colorées, des coins arrondis généreux, des animations souples, de petits sons et des vibrations là où c'est possible.
 
 Pas de thème clair, pas de sélecteur de thème.
 
@@ -104,5 +104,32 @@ Bibliothèque **Motion**.
 - Panneaux : glissement depuis le bas avec ressort.
 - Réglage **Animations** (H1) : *Automatique* (suit `prefers-reduced-motion` du système) · *Toujours* (ignore le réglage système) · *Jamais*.
 
-## 7. Icône de l'app et écran de démarrage
-Icône d'écran d'accueil : un caddie ou un panier stylisé, or sur fond violet profond. Écran de démarrage iOS aux couleurs `--bg`. À dessiner pendant la phase design (SVG, puis export PNG aux tailles iOS).
+## 7. Sons et vibrations
+
+### Sons (H6)
+Petits sons courts, doux et discrets, cohérents entre eux (même « famille »). **Gratuits** :
+- source : packs de sons d'interface sous licence **CC0** (domaine public, aucune attribution obligatoire), par exemple ceux de *Kenney* ; ou sons synthétisés directement dans le code (aucun fichier) ;
+- format `.mp3` ou `.m4a` (lus partout, y compris sur iPhone), quelques Ko chacun, mis en cache pour le hors-ligne ;
+- lecture via la **Web Audio API** (disponible partout, faible latence, sons préchargés).
+
+| Action | Son |
+|---|---|
+| Ajout d'un article | « pop » léger |
+| Cocher | « tic » court |
+| Rayon terminé | petit carillon (2 notes) |
+| Courses terminées | carillon montant |
+| Suppression | « swoosh » discret |
+| Action impossible | son sourd bref |
+
+Points d'attention :
+- sur iPhone, le son ne peut démarrer qu'après un premier geste de l'utilisateur (le premier tap suffit) ;
+- respecter le mode silencieux du téléphone quand le navigateur le permet (à vérifier sur iPhone en phase 1) ;
+- volume modéré par défaut ; réglage Sons activés / désactivés.
+
+### Vibrations (H7)
+- **Android (Chrome)** : vibrations courtes via l'API Vibration — cocher : 10 ms ; rayon terminé : 15-40-15 ms ; courses terminées : motif plus long ; action impossible : 2 × 30 ms.
+- **iPhone** : l'API Vibration n'existe pas dans WebKit (donc ni dans Chrome iPhone, ni dans l'app installée). L'app vérifie sa présence et **ne fait rien** si elle est absente ; le réglage est masqué.
+- *Piste à évaluer en phase 1* : une astuce non officielle permet de déclencher le retour haptique système sur iPhone récent (bascule d'un interrupteur natif masqué). Utilisée seulement si elle fonctionne de façon fiable, sans risque de casser l'interface.
+
+## 8. Icône de l'app et écran de démarrage
+Icône d'écran d'accueil : un caddie ou un panier stylisé, or sur fond violet profond (versions iPhone et Android, dont l'icône « adaptative » Android). Écran de démarrage aux couleurs `--bg`. À dessiner pendant la phase design (SVG, puis export PNG aux tailles iOS).

@@ -6,44 +6,50 @@ Spécification complète de l'application. **Le code ne démarre que lorsque tou
 
 | # | Document | Contenu | Statut |
 |---|---|---|---|
-| 01 | [Vision](01-vision.md) | Problème, promesse, principes, périmètre | 📝 À valider |
-| 02 | [Modèle métier](02-modele-metier.md) | Les notions de l'app et leurs règles (article, catégorie, rayon, magasin, unité, liste, recette, partage) | 📝 À valider |
-| 03 | [Fonctionnalités](03-fonctionnalites.md) | Toutes les fonctionnalités avec critères d'acceptation, priorisées | 📝 À valider |
+| 01 | [Vision](01-vision.md) | Problème, promesse, principes, plateformes, périmètre | 📝 À valider |
+| 02 | [Modèle métier](02-modele-metier.md) | Les notions de l'app et leurs règles (article, alias, catégorie, rayon, magasin, unité, liste, recette, courses, partage) | 📝 À valider |
+| 03 | [Fonctionnalités](03-fonctionnalites.md) | Toutes les fonctionnalités avec critères d'acceptation et version cible | 📝 À valider |
 | 04 | [Écrans et navigation](04-ecrans-et-navigation.md) | Structure de l'app, écrans, parcours | 📝 À valider |
-| 05 | [Identité visuelle](05-identite-visuelle.md) | Couleurs, typographie, icônes, animations | 📝 À valider |
-| 06 | [Données initiales](06-donnees-initiales.md) | Catégories, rayons, unités, catalogue de départ, dictionnaire d'icônes | 📝 À valider |
-| 07 | [Architecture technique](07-architecture-technique.md) | Stack, API navigateur sur iOS, schéma de données, algorithmes | 📝 À valider |
+| 05 | [Identité visuelle](05-identite-visuelle.md) | Couleurs, typographie, icônes, animations, sons, vibrations | 📝 À valider |
+| 06 | [Données initiales](06-donnees-initiales.md) | Unités, catégories, modèles de magasins, catalogue de départ, dictionnaire d'icônes | 📝 À valider |
+| 07 | [Architecture technique](07-architecture-technique.md) | Stack, fonctionnalités du navigateur, schéma de données, mises à jour, algorithmes, versions et déploiement | 📝 À valider |
 | 08 | [Tests et qualité](08-tests-et-qualite.md) | Stratégie de test, Vitest vs Playwright, conventions | 📝 À valider |
 | 09 | [Plan de développement](09-plan-de-developpement.md) | Phases, critères de fin de phase, conventions git | 📝 À valider |
 
 Statuts : 📝 À valider · 🔁 En révision · ✅ Validé
 
+## Versions prévues
+
+| Version | Contenu |
+|---|---|
+| **v1.0 — Cœur** | Ajout éclair, catalogue, liste triée par rayon, mode courses avec clôture/réouverture et apprentissage, tout modifiable, réglages, sons, vibrations, sauvegarde |
+| **v1.1 — Recettes** | Recettes avec rendement (personnes ou « 1 cake »), ajout à une liste avec recalcul des quantités |
+| **v1.2 — Anti-oubli** | Suggestions d'articles habituels, revue rapide par catégorie |
+| **v1.3 — Partage** | Envoyer / importer une liste (iPhone ↔ Android), coller une liste en texte |
+| Plus tard | Saisonnalité des fruits et légumes, partage de recettes |
+| Idées non planifiées | Scan de code-barres, convertisseur d'unités (peut-être jamais) |
+
+Détail : [03 § Versions](03-fonctionnalites.md) et [09](09-plan-de-developpement.md).
+
 ## Glossaire express
 - **Article** : un produit que l'on achète (« Pommes », « Lessive »). Fait partie du *catalogue personnel*.
+- **Alias** : autre nom d'un article (« coca » pour *Coca-Cola*, « chocolatine » pour *Pain au chocolat*).
 - **Catégorie** : le type d'un article, indépendant de tout magasin (« Charcuterie », « Conserves »).
-- **Rayon** : une zone d'un magasin donné, qui regroupe une ou plusieurs catégories (« Frais » = Charcuterie + Fromages + Yaourts).
+- **Rayon** : une zone d'un magasin donné, qui regroupe des catégories ; une catégorie peut être dans plusieurs rayons, dont un **principal**.
 - **Magasin** : un lieu de courses, avec ses rayons dans l'ordre du parcours.
 - **Unité** : la façon de compter un article (pièce, g, kg, pack…).
 - **Liste** : une liste de courses, indépendante du magasin.
 - **Ligne** : un article dans une liste, avec sa quantité, son unité et ses types acceptés.
 - **Types** : les variétés possibles d'un article (Gala, Golden…). Une ligne peut en exiger certaines ou aucune.
-- **Recette** : des ingrédients pour N personnes, que l'on peut ajouter à une liste.
-
-## Versions prévues
-Détail dans [03 § Versions](03-fonctionnalites.md#versions) et [09](09-plan-de-developpement.md).
-
-| Version | Contenu |
-|---|---|
-| **v1.0** | Ajout éclair, liste triée par rayon, mode courses avec apprentissage, tout modifiable, réglages et sauvegarde, puis **recettes** (étape dédiée) |
-| **v1.1** | Partage et import de listes (iPhone ↔ Android), coller une liste |
-| **v1.2** | Anti-oubli : suggestions et revue rapide par rayon |
-| Plus tard | Saisonnalité, partage de recettes, scan de code-barres |
+- **Session de courses** : un passage en magasin, du lancement du mode courses à sa **clôture** (réouverture possible).
+- **Recette** : des ingrédients pour un **rendement** donné (4 personnes, 1 cake…), que l'on peut ajouter à une liste.
 
 ## Décisions prises
 - **Nom** : ShoppingList.
-- **Plateformes** : iPhone (dernière version d'iOS) en cible principale ; **Android récent (Chrome)** en cible secondaire, pour le conjoint qui reçoit et utilise les listes partagées.
-- **Hébergement** : dépôt public → GitHub Pages (`https://jyhem2000.github.io/ShoppingList/`).
-- **Recettes** : dans la v1.0, comme étape à part après le cœur de l'app.
+- **Plateformes** : app web installée, **optimisée pour Chrome**, sur iPhone (dernière version d'iOS, cible principale) et Android récent (cible secondaire). Sur iPhone, tous les navigateurs utilisent le moteur WebKit : ses limites s'appliquent quel que soit le navigateur ([01](01-vision.md#plateformes-cibles)).
+- **Fonctionnalités du navigateur** : essentielles = marchent sur les deux téléphones ; confort (vibrations…) = au moins un, sans rien casser ailleurs.
+- **Hébergement** : dépôt public, **Cloudflare Pages**, déploiement par GitHub Actions ; aperçu par pull request, préproduction sur `main`, production sur tag de version ([07 § 9](07-architecture-technique.md#9-hébergement-versions-et-déploiement)).
+- **Versions** : v1.0 cœur, v1.1 recettes, v1.2 anti-oubli, v1.3 partage.
 
 ## Questions ouvertes
-- **Scan de code-barres** (03 F3) : classé « plus tard ». À remonter ?
+Aucune pour l'instant.
