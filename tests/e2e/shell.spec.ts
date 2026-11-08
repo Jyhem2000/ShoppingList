@@ -38,10 +38,42 @@ test("navigation entre les onglets et écran À propos avec la version", async (
   await page.getByRole("link", { name: "Réglages" }).click();
   await page.getByRole("link", { name: /À propos/ }).click();
   await expect(page.getByTestId("app-version")).toContainText(/\d+\.\d+\.\d+/);
+});
+
+test("réglage des sons : tous d'un coup ou un par un, mémorisé", async ({ page }) => {
+  await enterApp(page);
+  await page.getByRole("link", { name: "Réglages" }).click();
+  await expect(page.getByRole("heading", { name: "Fonctionnalités" })).toBeVisible();
+
+  await page.getByRole("link", { name: /Sons/ }).click();
+  const master = page.getByRole("switch", { name: "Sons", exact: true });
+  const check = page.getByRole("switch", { name: "Article coché" });
+
+  // Sans Web Audio (WebKit de Playwright sous Windows), les sons sont grisés, sans erreur.
+  const audio = await page.evaluate(
+    () => "AudioContext" in window || "webkitAudioContext" in window,
+  );
+  if (!audio) {
+    await expect(master).toBeDisabled();
+    await expect(page.getByText("Non disponible sur ce téléphone")).toBeVisible();
+    return;
+  }
+
+  await expect(master).toBeChecked();
+
+  await check.click();
+  await expect(check).not.toBeChecked();
+  await master.click();
+  await expect(check).toBeDisabled();
+
+  await page.reload();
+  await expect(master).not.toBeChecked();
+  await master.click();
+  await expect(check).not.toBeChecked();
+  await expect(page.getByRole("switch", { name: "Ajout d'un article" })).toBeChecked();
 
   await page.getByRole("link", { name: "Retour" }).click();
-  await page.getByRole("link", { name: /Diagnostic technique/ }).click();
-  await expect(page.getByRole("heading", { name: "Diagnostic technique" })).toBeVisible();
+  await expect(page.getByText("5 sons sur 6")).toBeVisible();
 });
 
 test("l'app s'ouvre hors ligne une fois chargée", async ({ page, context, browserName }) => {

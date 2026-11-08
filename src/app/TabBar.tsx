@@ -25,12 +25,14 @@ export function TabBar() {
               end={end}
               className={({ isActive }) =>
                 cn(
-                  "flex h-16 flex-col items-center justify-center gap-1 text-xs font-bold transition-colors",
-                  isActive ? "text-primary" : "text-muted-foreground",
+                  "group flex h-16 flex-col items-center justify-center gap-1 text-xs font-bold transition-colors",
+                  isActive ? "text-gold" : "text-muted-foreground",
                 )
               }
             >
-              <Icon className="size-6" aria-hidden />
+              <span className="flex h-7 w-14 items-center justify-center rounded-full transition-colors group-aria-[current=page]:bg-gold/15">
+                <Icon className="size-6" aria-hidden />
+              </span>
               {label}
             </NavLink>
           </li>

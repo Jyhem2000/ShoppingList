@@ -4,5 +4,5 @@ export const routes = {
   catalog: "/catalogue",
   settings: "/reglages",
   about: "/reglages/a-propos",
-  diagnostic: "/reglages/diagnostic",
+  sounds: "/reglages/sons",
 } as const;

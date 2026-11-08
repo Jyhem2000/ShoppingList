@@ -1,4 +1,4 @@
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { ReactNode } from "react";
 import { Link } from "react-router";
 import { cn } from "@/ui/utils";
@@ -55,7 +55,7 @@ export function Section({
   return (
     <section className={cn("px-4 pt-4", className)}>
       {title && (
-        <h2 className="px-1 pb-2 text-sm font-bold uppercase tracking-wide text-muted-foreground">
+        <h2 className="px-1 pb-2 text-xs font-extrabold uppercase tracking-widest text-primary">
           {title}
         </h2>
       )}
@@ -66,23 +66,55 @@ export function Section({
   );
 }
 
-/** Ligne d'information ou d'action dans une section. */
+/** Ligne d'information ou d'action dans une section, grisée si indisponible. */
 export function Row({
   label,
   hint,
+  icon,
+  disabled,
   children,
 }: {
   label: ReactNode;
   hint?: ReactNode;
+  icon?: ReactNode;
+  disabled?: boolean;
   children?: ReactNode;
 }) {
   return (
-    <div className="flex min-h-14 items-center gap-3 px-4 py-2">
+    <div
+      aria-disabled={disabled || undefined}
+      className={cn("flex min-h-14 items-center gap-3 px-4 py-3", disabled && "opacity-45")}
+    >
+      {icon && <span className="shrink-0 text-primary [&_svg]:size-5">{icon}</span>}
       <div className="min-w-0 flex-1">
         <div className="font-semibold">{label}</div>
         {hint && <div className="text-sm text-muted-foreground">{hint}</div>}
       </div>
       {children}
     </div>
+  );
+}
+
+/** Ligne qui mène à un autre écran. */
+export function LinkRow({
+  to,
+  icon,
+  label,
+  hint,
+}: {
+  to: string;
+  icon?: ReactNode;
+  label: ReactNode;
+  hint?: ReactNode;
+}) {
+  return (
+    <Link to={to} className="flex min-h-14 items-center gap-3 px-4 py-3 active:bg-surface-2">
+      {icon && <span className="shrink-0 text-primary [&_svg]:size-5">{icon}</span>}
+      <span className="min-w-0 flex-1">
+        <span className="block font-semibold">{label}</span>
+        {hint && <span className="block text-sm text-muted-foreground">{hint}</span>}
+      </span>
+      <ChevronRight className="size-5 text-muted-foreground" aria-hidden />
+    </Link>
   );
 }

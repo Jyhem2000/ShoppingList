@@ -1,6 +1,11 @@
+import { currentInstallEnvironment, isAppleMobile } from "@/platform/install";
+
 /**
- * Vibrations (docs/05 § 7). L'API Vibration existe sur Android (Chrome) mais pas
- * dans WebKit (iPhone) : on vérifie sa présence et on ne fait rien sinon.
+ * Vibrations (docs/05 § 7).
+ * - Android (Chrome) : API Vibration, avec des motifs.
+ * - iPhone : pas d'API Vibration dans WebKit ; astuce non officielle (expérimentale)
+ *   qui déclenche le léger retour haptique du système, un seul « tic » par action.
+ * - Ailleurs : rien, sans erreur.
  */
 export const patterns = {
   check: 10,
@@ -9,26 +14,34 @@ export const patterns = {
   error: [30, 50, 30],
 } satisfies Record<string, VibratePattern>;
 
-export function isVibrationSupported(): boolean {
-  return typeof navigator !== "undefined" && typeof navigator.vibrate === "function";
+export type HapticsKind = "vibrate" | "ios-tick" | "none";
+
+export function hapticsKind(): HapticsKind {
+  if (typeof navigator === "undefined") return "none";
+  if (typeof navigator.vibrate === "function") return "vibrate";
+  if (isAppleMobile(currentInstallEnvironment())) return "ios-tick";
+  return "none";
 }
 
+/** Joue le retour haptique disponible. Doit être appelé pendant un geste de l'utilisateur. */
 export function vibrate(pattern: VibratePattern): void {
-  if (!isVibrationSupported()) return;
-  try {
-    navigator.vibrate(pattern);
-  } catch {
-    // Certains navigateurs refusent hors geste utilisateur : sans conséquence.
+  const kind = hapticsKind();
+  if (kind === "vibrate") {
+    try {
+      navigator.vibrate(pattern);
+    } catch {
+      // Certains navigateurs refusent hors geste utilisateur : sans conséquence.
+    }
+  } else if (kind === "ios-tick") {
+    iosHapticTick();
   }
 }
 
 /**
- * Astuce non officielle pour iPhone récent : basculer un interrupteur natif
+ * Astuce pour iPhone récent : basculer un interrupteur natif
  * (`<input type="checkbox" switch>`) déclenche le retour haptique du système.
- * Expérimental (docs/05 § 7) : à n'utiliser qu'après validation sur appareil réel.
- * Doit être appelé pendant un geste de l'utilisateur.
  */
-export function iosHapticTick(): void {
+function iosHapticTick(): void {
   try {
     const label = document.createElement("label");
     const input = document.createElement("input");

@@ -21,7 +21,8 @@ Numérotation et déploiements : [07 § 9 — Cycle des versions](07-architectur
 - Initialisation : Vite, React, TypeScript strict, Tailwind v4, shadcn/ui, Biome, Vitest, Playwright (WebKit/iPhone + Chromium/Android), vite-plugin-pwa, police Nunito, tokens de couleurs (05 § 2).
 - Structure de dossiers (07 § 8), coquille de l'app : onglets, zones de sécurité, écran de premier lancement (installation iPhone et Android), bandeau de mise à jour, écran « À propos » avec version, `CHANGELOG.md`.
 - GitHub Actions (lint, types, tests, build, E2E) + déploiements Cloudflare Pages (aperçu, préproduction ; production prête pour les tags) — voir 07 § 9.
-- Écran de test technique sur les deux téléphones : installation, plein écran, hors ligne, **Wake Lock dans l'app installée**, sons, vibrations (Android), astuce haptique iPhone (05 § 7), mise à jour après un nouveau déploiement.
+- Réglages → **Fonctionnalités** : sons (général et un par un, avec écoute), vibrations (Android ; astuce haptique expérimentale sur iPhone, 05 § 7), écran allumé pendant les courses ; grisées si le téléphone ne les permet pas. Écran À propos avec « Rechercher une mise à jour ».
+- À vérifier sur les deux téléphones : installation, plein écran, hors ligne, sons et mode silencieux, vibrations, mise à jour après un nouveau déploiement. Le Wake Lock en situation réelle se vérifie en phase 5 (mode courses).
 - ✅ *L'app vide s'installe, s'ouvre hors ligne et se met à jour sur les deux téléphones.* → version `0.1.0`.
 - **Prérequis de ton côté** : compte Cloudflare (gratuit), projet Pages, jeton d'API enregistré dans les secrets GitHub du dépôt (`CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`) et nom du projet dans les variables GitHub (`CF_PAGES_PROJECT`) — procédure dans `docs/deploiement-cloudflare.md`.
 
@@ -48,7 +49,7 @@ G1 à G5 (articles et alias, catégories, magasins et rayons avec glisser-dépos
 - ✅ *Scénario E2E 5 vert.* → `0.6.0`.
 
 ### Phase 7 — Réglages, sauvegarde, finitions
-H1 à H7, catalogue complet (~1 000 articles avec alias) **relu par toi catégorie par catégorie**, passe d'animations et de sons, accessibilité, états vides.
+H1 à H7 et H9, catalogue complet (~1 000 articles avec alias) **relu par toi catégorie par catégorie**, passe d'animations et de sons, accessibilité, états vides.
 - ✅ *Essai réel en magasin sur les deux téléphones (préproduction).* → `0.7.0`.
 
 ### Publication 0.9 puis 1.0

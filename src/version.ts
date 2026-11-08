@@ -1,8 +1,10 @@
+import { fr } from "@/i18n/fr";
+
 /**
  * Version de l'app. Source unique : `version` de package.json, injectée au build
  * avec l'empreinte du commit, la date et le canal de déploiement (docs/07 § 9).
  */
-export type Channel = "production" | "main" | "preview" | "dev";
+export type Channel = "production" | "preprod" | "preview" | "dev";
 
 export interface BuildInfo {
   version: string;
@@ -19,9 +21,11 @@ export const buildInfo: BuildInfo = {
 };
 
 /**
- * Libellé affiché : « 1.2.0 » en production, « 1.2.0-dev · a1b2c3d · main » ailleurs.
+ * Libellé affiché : « 1.2.0 » en production,
+ * « 1.2.0 · préproduction · a1b2c3d » ailleurs (canal et commit pour s'y retrouver).
  */
 export function formatVersion(info: Pick<BuildInfo, "version" | "commit" | "channel">): string {
   if (info.channel === "production") return info.version;
-  return `${info.version}-dev · ${info.commit} · ${info.channel}`;
+  const channel = fr.about.channels[info.channel] ?? info.channel;
+  return `${info.version} · ${channel} · ${info.commit}`;
 }

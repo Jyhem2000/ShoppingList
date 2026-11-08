@@ -5,10 +5,31 @@
  */
 type AudioContextCtor = typeof AudioContext;
 
+/** Audio Session API (WebKit, iOS 17+) : absente des types DOM standard. */
+type NavigatorWithAudioSession = Navigator & { audioSession?: { type: string } };
+
 let context: AudioContext | null = null;
+
+/**
+ * Vrai si le navigateur permet de suivre le mode silencieux du téléphone.
+ * Sur iPhone, la session audio « ambient » coupe les sons quand le bouton
+ * silencieux est activé et ne coupe pas la musique en cours. Rien d'équivalent
+ * sur Android : les sons suivent le volume multimédia.
+ */
+export function canFollowSilentMode(): boolean {
+  return typeof navigator !== "undefined" && "audioSession" in navigator;
+}
 
 function audio(): AudioContext | null {
   if (!context) {
+    const session = (navigator as NavigatorWithAudioSession).audioSession;
+    if (session) {
+      try {
+        session.type = "ambient";
+      } catch {
+        // Sans effet si refusé.
+      }
+    }
     const Ctor: AudioContextCtor | undefined =
       window.AudioContext ??
       (window as unknown as { webkitAudioContext?: AudioContextCtor }).webkitAudioContext;

@@ -17,11 +17,11 @@ describe("formatVersion", () => {
   });
 
   it("affiche commit et canal hors production", () => {
-    expect(formatVersion({ version: "1.2.0", commit: "a1b2c3d", channel: "main" })).toBe(
-      "1.2.0-dev · a1b2c3d · main",
+    expect(formatVersion({ version: "1.2.0", commit: "a1b2c3d", channel: "preprod" })).toBe(
+      "1.2.0 · préproduction · a1b2c3d",
     );
-    expect(formatVersion({ version: "0.1.0", commit: "ffee001", channel: "preview" })).toBe(
-      "0.1.0-dev · ffee001 · preview",
+    expect(formatVersion({ version: "0.1.0", commit: "ffee001", channel: "dev" })).toBe(
+      "0.1.0 · développement · ffee001",
     );
   });
 });

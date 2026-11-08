@@ -92,10 +92,12 @@ Articles achetés, introuvables (restés dans la liste), durée, éventuellement
 
 ### 2.7 Réglages
 ```
+Fonctionnalités   (icône, libellé, description ; grisée « Non disponible sur ce téléphone » si besoin)
+  Sons .................. Activés ▸  (écran Sons : interrupteur général + un par son, avec écoute)
+  Vibrations ............ ●
+  Écran allumé pendant les courses ●
 Ressenti
   Animations ............ Automatique ▸
-  Sons .................. ●
-  Vibrations ............ ●          (masqué si le téléphone ne les gère pas)
 Affichage
   Affichage compact ..... ◯
   Simplifier les quantités ●   (1200 g → 1,2 kg)

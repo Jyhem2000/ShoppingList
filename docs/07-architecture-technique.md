@@ -44,10 +44,11 @@ Rappel ([01](01-vision.md#plateformes-cibles)) : sur iPhone, **tous les navigate
 | Service Worker + Cache | Hors ligne, mises à jour | ✅ | ✅ | Essentiel | Utilisée |
 | Screen Wake Lock | Écran allumé en mode courses (C1) | ✅ (app installée : iOS 18.4+) | ✅ | Essentiel | Utilisée ; message de repli si indisponible |
 | Web Audio | Sons (H6) | ✅ (après un premier geste) | ✅ | Confort | Utilisée |
+| Audio Session API | Suivre le mode silencieux (H6) | ✅ (iOS 17+) | ❌ | Confort | Utilisée sur iPhone (`type = "ambient"`) |
 | Web Share | Export de sauvegarde (H4), partage (F1) | ✅ texte, lien, fichiers | ✅ | Essentiel | Utilisée |
 | Clipboard | « Coller une liste partagée » (F2) | ✅ sur geste de l'utilisateur | ✅ | Essentiel (v1.3) | Utilisée |
-| `navigator.storage.persist()` | Limiter l'effacement des données | ✅ | ✅ | Confort | Utilisée |
-| **Vibration** | Retour haptique (H7) | ❌ | ✅ | Confort | **Utilisée sur Android**, absente sans erreur sur iPhone |
+| `navigator.storage.persist()` | Limiter l'effacement des données | ✅ | ✅ | Confort | Demandée automatiquement au démarrage de l'app installée, sans rien afficher |
+| **Vibration** | Retour haptique (H7) | ❌ (astuce `<input switch>` expérimentale à la place) | ✅ | Confort | **Utilisée sur Android** ; astuce sur iPhone, sans erreur si elle échoue |
 | `beforeinstallprompt` | Bouton « Installer » (H5) | ❌ (installation manuelle expliquée) | ✅ | Confort | Utilisée sur Android |
 | Caméra (`getUserMedia`) | Scan code-barres (I1) | ✅ | ✅ | Idée | Plus tard |
 | `BarcodeDetector` | Scan code-barres (I1) | ❌ | ✅ | Idée | Native si présente, sinon ZXing |
@@ -182,8 +183,6 @@ interface Purchase {          // une ligne cochée lors d'une session
 
 interface Settings {
   animations: "auto" | "always" | "never";
-  sounds: boolean;
-  haptics: boolean;
   compact: boolean;
   simplifyQuantities: boolean;
   checkedBehavior: "sink" | "hide";
@@ -212,6 +211,7 @@ db.version(1).stores({
   meta:       "key",         // settings, version du catalogue…
 });
 ```
+- **Préférences de l'appareil** (sons, son par son, vibrations, écran allumé) : hors de `Settings`, dans `localStorage` (`src/app/preferences.ts`). Elles dépendent du téléphone, ne sont pas exportées et ne sont pas écrasées par l'import d'une sauvegarde venant d'un autre appareil.
 - Unicité « un article par liste » vérifiée par la couche d'accès aux données (les lignes archivées `closedInSessionId` sont exclues).
 - **La version du schéma de données est indépendante de la version de l'app** : elle n'augmente que si la structure change. Toute évolution = nouvelle `version(n)` + fonction `upgrade` + test de migration. Les migrations s'exécutent automatiquement au premier lancement de la nouvelle version.
 
@@ -229,9 +229,10 @@ db.version(1).stores({
 3. L'app affiche « Version 1.2.0 disponible — Mettre à jour » (mode `prompt` de vite-plugin-pwa). Jamais en mode courses, jamais de rechargement forcé.
 4. Au tap : activation de la nouvelle version, rechargement, migrations de données éventuelles, puis « Quoi de neuf » (comparaison avec `lastSeenVersion`).
 5. Hors ligne : l'app continue avec la version déjà installée ; la mise à jour attendra le retour du réseau.
+6. Chaque vérification (automatique ou bouton « Rechercher une mise à jour » de l'écran À propos) a un **délai maximal de 10 s** : sur un réseau de magasin très lent, elle échoue proprement au lieu de rester en suspens.
 
 ### Manifest et iOS
-- Manifest : nom, icônes (dont `apple-touch-icon` 180×180 et icône adaptative Android), `display: standalone`, couleurs `#131019`.
+- Manifest : nom, icônes (dont `apple-touch-icon` 180×180 et icône adaptative Android), `display: standalone`, couleurs `#0f0f12`.
 - `<meta name="viewport" content="…, viewport-fit=cover">` + gestion des `safe-area-inset-*`.
 - Précache de toute l'app : JS, CSS, police, pack d'icônes, sons.
 
@@ -317,7 +318,7 @@ ShoppingList/
 ├─ scripts/
 │  └─ build-icon-pack.ts      # extrait le pack d'icônes + mots-clés FR
 ├─ src/
-│  ├─ app/                    # point d'entrée, routes, layout, onglets, mise à jour
+│  ├─ app/                    # point d'entrée, routes, layout, onglets, mise à jour, préférences de l'appareil
 │  ├─ features/
 │  │  ├─ list/                # liste, lignes, barre d'ajout, fiche ligne
 │  │  ├─ shopping/            # mode courses, wake lock, clôture, réouverture
@@ -326,8 +327,7 @@ ShoppingList/
 │  │  ├─ suggestions/         # anti-oubli (v1.2)
 │  │  ├─ share/               # partage, import, aperçu (v1.3)
 │  │  ├─ manage/              # articles, catégories, magasins/rayons, unités
-│  │  ├─ settings/            # réglages, sauvegarde, premier lancement, à propos
-│  │  └─ diagnostic/          # écran de vérification technique (phase 1)
+│  │  └─ settings/            # réglages, fonctionnalités, sons, sauvegarde, premier lancement, à propos
 │  ├─ domain/                 # fonctions pures (§ 7) — aucun import React ni Dexie
 │  ├─ db/                     # schéma Dexie, migrations, accès aux données, initialisation
 │  ├─ data/                   # données initiales (06)
@@ -370,7 +370,7 @@ Le nom exact du projet Cloudflare (`shoppinglist` ou proche) est fixé à la cr�
 
 Pourquoi une 0.9 en production plutôt qu'en préproduction : la validation en usage réel demande une version **figée** dont on **garde les données** ; la préproduction change à chaque push sur `main` et a ses propres données (§ 4).
 - **Source unique : `version` dans `package.json`.** Pas de fichier de version maintenu à la main.
-- Au build, Vite injecte des constantes (`define`) lues par `src/version.ts` : version, empreinte du commit, date, canal (`production` / `main` / `preview`). Hors production, l'app affiche par exemple `1.1.0-dev · a1b2c3d · main`.
+- Au build, Vite injecte des constantes (`define`) lues par `src/version.ts` : version, empreinte du commit, date, canal (`production` / `preprod` / `preview` / `dev`). Hors production, l'app affiche par exemple `1.1.0 · préproduction · a1b2c3d`. Le fichier `licences.txt` (bibliothèques incluses et texte de leurs licences) est aussi généré à chaque build.
 - `CHANGELOG.md` : une section par version, rédigée au fil de l'eau ; la section de la version courante alimente l'écran « Quoi de neuf ».
 
 ### Publier une version (figer)

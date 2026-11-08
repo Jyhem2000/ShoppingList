@@ -1,7 +1,7 @@
 # 05 — Identité visuelle
 
 ## 1. Ambiance
-Un **thème sombre unique**, chaleureux plutôt que technique : fond violet très profond, accents **violet pâle** et **or**, des touches de couleurs douces par rayon pour la variété, des icônes colorées, des coins arrondis généreux, des animations souples, de petits sons et des vibrations là où c'est possible.
+Un **thème sombre unique, franchement « dark mode »** : fond quasi noir et neutre (gris très foncé), et **deux couleurs principales**, le **violet pâle** et l'**or**, réservées aux éléments d'interface ; des touches de couleurs douces par rayon pour la variété, des icônes colorées, des coins arrondis généreux, des animations souples, de petits sons et des vibrations là où c'est possible.
 
 Pas de thème clair, pas de sélecteur de thème.
 
@@ -10,23 +10,23 @@ Pas de thème clair, pas de sélecteur de thème.
 ### Couleurs de base (tokens CSS)
 | Token | Valeur | Usage |
 |---|---|---|
-| `--bg` | `#131019` | Fond de l'app |
-| `--surface` | `#1c1824` | Cartes, lignes, panneaux |
-| `--surface-2` | `#262131` | Éléments surélevés, champs de saisie |
-| `--border` | `#352e44` | Séparateurs |
-| `--text` | `#eeeaf5` | Texte principal |
-| `--text-muted` | `#a69db8` | Texte secondaire (notes, catégories) |
-| `--primary` | `#cdb4f5` | **Violet pâle** : éléments actifs, onglet sélectionné, liens, focus |
+| `--bg` | `#0f0f12` | Fond de l'app (gris quasi noir, neutre) |
+| `--surface` | `#18181d` | Cartes, lignes, panneaux |
+| `--surface-2` | `#232329` | Éléments surélevés, champs de saisie |
+| `--border` | `#2e2e36` | Séparateurs |
+| `--text` | `#ededf0` | Texte principal |
+| `--text-muted` | `#a3a3ad` | Texte secondaire (notes, catégories) |
+| `--primary` | `#cdb4f5` | **Violet pâle** : icônes de réglages, titres de section, interrupteurs activés, liens, focus |
 | `--primary-strong` | `#a98be0` | Variante appuyée |
 | `--primary-soft` | `#cdb4f5` à 12 % | Fond des éléments sélectionnés |
-| `--gold` | `#f5c451` | **Or** : action principale (« C'est parti », « Ajouter »), quantités, progression |
+| `--gold` | `#f5c451` | **Or** : onglet actif, action principale (« C'est parti », « Ajouter »), quantités, progression, numéro de version |
 | `--gold-strong` | `#e0a92e` | Variante appuyée |
 | `--on-gold` | `#1d1606` | Texte sur fond or |
 | `--done` | `#7fd4a8` | Vert menthe : coche, rayon terminé |
 | `--warning` | `#ffa463` | Orange : « À récupérer », catégories non rattachées |
 | `--danger` | `#ff7a85` | Suppression |
 
-Répartition : **violet pâle = navigation et sélection**, **or = action et quantités**. L'or reste rare pour garder son impact (un bouton principal par écran).
+Répartition : les fonds restent **neutres** (aucune teinte violette) ; **violet pâle = structure et sélection** (icônes, titres de section, interrupteurs, liens), **or = repère et action** (onglet actif, bouton principal, quantités, progression). Un seul bouton or par écran pour garder son impact.
 
 ### Palette des rayons et catégories
 Couleurs douces, utilisées en pastille, en liseré d'en-tête de rayon et en fond très atténué (≈ 15 %) des monogrammes.
@@ -123,13 +123,13 @@ Petits sons courts, doux et discrets, cohérents entre eux (même « famille »)
 
 Points d'attention :
 - sur iPhone, le son ne peut démarrer qu'après un premier geste de l'utilisateur (le premier tap suffit) ;
-- respecter le mode silencieux du téléphone quand le navigateur le permet (à vérifier sur iPhone en phase 1) ;
-- volume modéré par défaut ; réglage Sons activés / désactivés.
+- **mode silencieux** : sur iPhone, la session audio est déclarée « ambient » (Audio Session API, iOS 17+) : les sons sont coupés quand le bouton silencieux est activé et n'interrompent pas la musique en cours. Android ne permet pas de connaître le mode silencieux depuis le web : les sons suivent le volume multimédia ;
+- volume modéré par défaut ; réglage **Sons** général et **un interrupteur par son**, chacun pouvant être écouté (Réglages → Fonctionnalités → Sons).
 
 ### Vibrations (H7)
 - **Android (Chrome)** : vibrations courtes via l'API Vibration — cocher : 10 ms ; rayon terminé : 15-40-15 ms ; courses terminées : motif plus long ; action impossible : 2 × 30 ms.
-- **iPhone** : l'API Vibration n'existe pas dans WebKit (donc ni dans Chrome iPhone, ni dans l'app installée). L'app vérifie sa présence et **ne fait rien** si elle est absente ; le réglage est masqué.
-- *Piste à évaluer en phase 1* : une astuce non officielle permet de déclencher le retour haptique système sur iPhone récent (bascule d'un interrupteur natif masqué). Utilisée seulement si elle fonctionne de façon fiable, sans risque de casser l'interface.
+- **iPhone** : l'API Vibration n'existe pas dans WebKit (donc ni dans Chrome iPhone, ni dans l'app installée). À la place, **astuce non officielle, expérimentale** : la bascule d'un interrupteur natif masqué (`<input type="checkbox" switch>`) déclenche le léger retour haptique du système (un seul « tic » par action, pas de motif). Sans effet et sans erreur si elle ne marche pas ; à confirmer sur l'iPhone, retirée si elle n'est pas fiable.
+- Ailleurs : rien ; le réglage Vibrations est **grisé** avec la mention « Non disponible sur ce téléphone ».
 
 ## 8. Icône de l'app et écran de démarrage
-Icône d'écran d'accueil : un caddie ou un panier stylisé, or sur fond violet profond (versions iPhone et Android, dont l'icône « adaptative » Android). Écran de démarrage aux couleurs `--bg`. À dessiner pendant la phase design (SVG, puis export PNG aux tailles iOS).
+Icône d'écran d'accueil : **provisoire** (caddie or sur fond gris quasi noir), en attendant une vraie icône fournie plus tard (versions iPhone et Android, dont l'icône « adaptative » Android). Écran de démarrage aux couleurs `--bg`. À dessiner pendant la phase design (SVG, puis export PNG aux tailles iOS).

@@ -3,17 +3,18 @@
 
 /*
  * Thème sombre unique — tokens de docs/05 § 2.
- * Violet pâle = navigation et sélection ; or = action principale et quantités.
+ * Fond quasi noir neutre ; deux couleurs d'accent : violet (icônes, titres de section,
+ * interrupteurs, liens) et or (onglet actif, action principale, quantités).
  */
 :root {
   color-scheme: dark;
 
-  --bg: #131019;
-  --surface: #1c1824;
-  --surface-2: #262131;
-  --border: #352e44;
-  --text: #eeeaf5;
-  --text-muted: #a69db8;
+  --bg: #0f0f12;
+  --surface: #18181d;
+  --surface-2: #232329;
+  --border: #2e2e36;
+  --text: #ededf0;
+  --text-muted: #a3a3ad;
   --primary: #cdb4f5;
   --primary-strong: #a98be0;
   --gold: #f5c451;
@@ -80,7 +81,7 @@
   --color-glacier: #a5e1f0;
   --color-lilas: #b9a4f0;
   --color-ardoise: #9aa7bd;
-  --color-gris: #7d7590;
+  --color-gris: #85858f;
 }
 
 @layer base {

@@ -4,7 +4,7 @@ Chaque fonctionnalité a un identifiant (`A1`, `B2`…) réutilisé dans le plan
 
 | Version | Thème | Fonctionnalités |
 |---|---|---|
-| **v1.0** | Cœur | A1-A7 · B1-B6 · C1-C8 · G1-G5 · H1-H8 |
+| **v1.0** | Cœur | A1-A7 · B1-B6 · C1-C8 · G1-G5 · H1-H9 |
 | **v1.1** | Recettes | E1-E2 |
 | **v1.2** | Anti-oubli | D1-D2 |
 | **v1.3** | Partage | F1-F2 · A8 |
@@ -226,20 +226,23 @@ Export de toutes les données en fichier `.json` (feuille de partage → Fichier
 
 ### H5. Installation, stockage, mises à jour
 - Premier lancement dans le navigateur : écran expliquant comment **installer l'app** (indispensable sur iPhone, voir 07 § 4) ; sur Android, bouton **« Installer »**.
-- Demande de stockage persistant ; fonctionnement complet hors ligne.
+- Demande de stockage persistant, **automatique et silencieuse** au démarrage de l'app installée ; fonctionnement complet hors ligne.
 - Nouvelle version disponible : bandeau « Version 1.2.0 disponible — Mettre à jour » (jamais de mise à jour forcée en plein magasin), puis écran **« Quoi de neuf »** (voir 07 § 6).
-- Écran « À propos » : numéro de version, licences.
+- Écran « À propos » : numéro de version, bouton « Rechercher une mise à jour » (réponse en 10 s au plus, message clair si le serveur ne répond pas), lien vers la liste des bibliothèques et de leurs licences (générée au build).
 
 ### H6. Sons
-Petits sons discrets et gratuits sur les actions : ajout d'un article, cocher, rayon terminé, courses terminées, suppression. Réglage **Sons : activés / désactivés** (activés par défaut). Voir 05 § 7.
+Petits sons discrets et gratuits sur les actions : ajout d'un article, cocher, rayon terminé, courses terminées, suppression. Réglage **Sons** général, plus **un interrupteur par son** avec un bouton pour l'écouter (tous activés par défaut). Respecte le mode silencieux de l'iPhone. Voir 05 § 7.
 
 ### H7. Vibrations
-Retour haptique sur les mêmes actions, **là où le téléphone le permet** (Android). Réglage **Vibrations : activées / désactivées**. Sans effet et sans erreur ailleurs. Voir 05 § 7.
+Retour haptique sur les mêmes actions, **là où le téléphone le permet** : vibrations sur Android, léger retour haptique expérimental sur iPhone. Réglage **Vibrations : activées / désactivées**, grisé si le téléphone ne le permet pas. Voir 05 § 7.
 
 ### H8. Simplification des quantités
 Réglage **activé par défaut** : 1200 g → 1,2 kg, avec « Annuler » (voir [02 § 5](02-modele-metier.md#conversions)). *v1.0.*
 
 ---
+
+### H9. Écran allumé pendant les courses
+Réglage **activé par défaut** : en mode courses, l'écran ne se met pas en veille (Screen Wake Lock, C1). Grisé si le téléphone ne le permet pas.
 
 ## Idées non planifiées
 

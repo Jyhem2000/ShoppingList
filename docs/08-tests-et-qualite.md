@@ -80,5 +80,5 @@ Sur l'adresse d'aperçu ou de préproduction, app installée sur l'écran d'accu
 - [ ] Les fonctionnalités de la phase marchent au doigt.
 - [ ] (Mode courses) L'écran ne s'éteint pas.
 - [ ] Les données sont toujours là après avoir fermé l'app.
-- [ ] Sons audibles (et vibrations sur Android) ; rien ne casse quand ils sont désactivés.
+- [ ] Sons audibles, coupés par le mode silencieux sur iPhone ; vibrations sur Android (et léger retour haptique sur iPhone) ; rien ne casse quand ils sont désactivés.
 - [ ] Après un nouveau déploiement, le bandeau de mise à jour apparaît et la mise à jour conserve les données.

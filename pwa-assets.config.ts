@@ -1,7 +1,7 @@
 import { defineConfig, minimal2023Preset } from "@vite-pwa/assets-generator/config";
 
 /** Génère les icônes de l'app à partir de public/logo.svg (`npm run icons`). */
-const background = "#1c1630";
+const background = "#16161a";
 
 export default defineConfig({
   headLinkOptions: { preset: "2023" },

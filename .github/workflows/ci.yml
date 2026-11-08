@@ -19,7 +19,7 @@ jobs:
     name: Vérifications
     runs-on: ubuntu-latest
     env:
-      APP_CHANNEL: ${{ github.event_name == 'pull_request' && 'preview' || 'main' }}
+      APP_CHANNEL: ${{ github.event_name == 'pull_request' && 'preview' || 'preprod' }}
     steps:
       - uses: actions/checkout@v4
 

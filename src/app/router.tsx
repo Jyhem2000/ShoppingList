@@ -1,9 +1,9 @@
 import { createHashRouter } from "react-router";
 import { CatalogPage } from "@/features/catalog/CatalogPage";
-import { DiagnosticPage } from "@/features/diagnostic/DiagnosticPage";
 import { ListPage } from "@/features/list/ListPage";
 import { AboutPage } from "@/features/settings/AboutPage";
 import { SettingsPage } from "@/features/settings/SettingsPage";
+import { SoundsPage } from "@/features/settings/SoundsPage";
 import { Layout } from "./Layout";
 import { routes } from "./routes";
 
@@ -15,7 +15,7 @@ export const router = createHashRouter([
       { path: routes.catalog, element: <CatalogPage /> },
       { path: routes.settings, element: <SettingsPage /> },
       { path: routes.about, element: <AboutPage /> },
-      { path: routes.diagnostic, element: <DiagnosticPage /> },
+      { path: routes.sounds, element: <SoundsPage /> },
       { path: "*", element: <ListPage /> },
     ],
   },

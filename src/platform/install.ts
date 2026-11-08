@@ -15,11 +15,20 @@ export interface InstallEnvironment {
   standalone: boolean;
 }
 
+/** iPhone ou iPad (un iPad récent se présente comme un Mac tactile). */
+export function isAppleMobile(
+  env: Pick<InstallEnvironment, "userAgent" | "maxTouchPoints">,
+): boolean {
+  return (
+    /iPhone|iPad|iPod/.test(env.userAgent) ||
+    (/Macintosh/.test(env.userAgent) && env.maxTouchPoints > 1)
+  );
+}
+
 export function detectInstallContext(env: InstallEnvironment): InstallContext {
   if (env.standalone) return { kind: "installed" };
   const ua = env.userAgent;
-  const isIos = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && env.maxTouchPoints > 1);
-  if (isIos) {
+  if (isAppleMobile(env)) {
     if (/CriOS/.test(ua)) return { kind: "ios", browser: "chrome" };
     if (/FxiOS|EdgiOS|OPiOS/.test(ua)) return { kind: "ios", browser: "other" };
     return { kind: "ios", browser: "safari" };
