@@ -5,7 +5,7 @@
   "description": "Liste de courses triée par rayon, dans l'ordre de ton magasin.",
   "type": "module",
   "engines": {
-    "node": ">=24"
+    "node": ">=26"
   },
   "scripts": {
     "dev": "vite",
