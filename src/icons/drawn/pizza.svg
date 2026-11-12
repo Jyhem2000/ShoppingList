@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <clipPath id="r">
+  <path fill="#000" d="M16 16L23 28.12A14 14 0 1 1 30 16z"/>
+  </clipPath>
+  <g clip-path="url(#r)">
+  <circle cx="16" cy="16" r="13" fill="#d98a36"/>
+  <circle cx="16" cy="16" r="12" fill="#e8a040"/>
+  <circle cx="16" cy="16" r="10.8" fill="#c8281e"/>
+  <path fill="#ffd86a" d="M25.42 16.00L25.38 17.49L24.38 18.72L23.51 19.83L22.84 20.97L22.04 22.04L21.24 23.21L20.30 24.45L18.88 24.85L17.29 24.16L16.00 23.81L14.63 24.64L12.99 25.27L11.74 24.37L11.07 22.79L10.24 21.76L9.03 21.07L8.01 20.07L7.32 18.82L6.86 17.45L7.12 16.00L8.00 14.73L8.31 13.50L7.83 11.84L8.03 10.21L9.59 9.59L11.30 9.53L12.31 8.76L13.22 7.45L14.54 6.78L16.00 6.91L17.38 7.26L18.64 7.87L19.73 8.69L21.00 9.12L22.68 9.32L23.83 10.31L23.69 12.08L23.39 13.60L24.25 14.69L25.42 16.00Z"/>
+  <clipPath id="cha">
+  <path fill="#000" d="M25.42 16.00L25.38 17.49L24.38 18.72L23.51 19.83L22.84 20.97L22.04 22.04L21.24 23.21L20.30 24.45L18.88 24.85L17.29 24.16L16.00 23.81L14.63 24.64L12.99 25.27L11.74 24.37L11.07 22.79L10.24 21.76L9.03 21.07L8.01 20.07L7.32 18.82L6.86 17.45L7.12 16.00L8.00 14.73L8.31 13.50L7.83 11.84L8.03 10.21L9.59 9.59L11.30 9.53L12.31 8.76L13.22 7.45L14.54 6.78L16.00 6.91L17.38 7.26L18.64 7.87L19.73 8.69L21.00 9.12L22.68 9.32L23.83 10.31L23.69 12.08L23.39 13.60L24.25 14.69L25.42 16.00Z"/>
+  </clipPath>
+  <g clip-path="url(#cha)">
+  <ellipse cx="20" cy="20.12" rx="1.4" ry="0.8" fill="#fff0b0" transform="rotate(38.56944444444444 20 20.12)"/>
+  <ellipse cx="11.09" cy="12.75" rx="1.4" ry="0.8" fill="#fff0b0" transform="rotate(15.278935185185185 11.09 12.75)"/>
+  <ellipse cx="11.86" cy="12.34" rx="1.4" ry="0.8" fill="#fff0b0" transform="rotate(79.28009259259258 11.86 12.34)"/>
+  <ellipse cx="14.16" cy="10.74" rx="1.4" ry="0.8" fill="#fff0b0" transform="rotate(88.07291666666666 14.16 10.74)"/>
+  <ellipse cx="9.81" cy="13.77" rx="1.4" ry="0.8" fill="#fff0b0" transform="rotate(79.1574074074074 9.81 13.77)"/>
+  <ellipse cx="18.65" cy="13.27" rx="1.4" ry="0.8" fill="#fff0b0" transform="rotate(0.03356481481481482 18.65 13.27)"/>
+  <ellipse cx="18.52" cy="15.07" rx="1.4" ry="0.8" fill="#fff0b0" transform="rotate(68.20138888888889 18.52 15.07)"/>
+  <circle cx="15.24" cy="11" r="0.7" fill="#e8a83a"/>
+  <circle cx="16.96" cy="14.66" r="0.7" fill="#e8a83a"/>
+  <circle cx="20.91" cy="20.89" r="0.7" fill="#e8a83a"/>
+  <circle cx="22.59" cy="22.61" r="0.7" fill="#e8a83a"/>
+  <circle cx="9.23" cy="16.88" r="0.7" fill="#e8a83a"/>
+  </g>
+  <circle cx="11.4" cy="11.6" r="2" fill="#b0201e"/>
+  <circle cx="11.4" cy="11.6" r="1.6" fill="#d63a2c"/>
+  <circle cx="10.8" cy="11.2" r="0.35" fill="#ff8a6a"/>
+  <circle cx="11.9" cy="12" r="0.3" fill="#8a1414"/>
+  <circle cx="20.4" cy="10.4" r="1.9" fill="#b0201e"/>
+  <circle cx="20.4" cy="10.4" r="1.52" fill="#d63a2c"/>
+  <circle cx="19.8" cy="10" r="0.35" fill="#ff8a6a"/>
+  <circle cx="20.9" cy="10.8" r="0.3" fill="#8a1414"/>
+  <circle cx="21" cy="19.6" r="2" fill="#b0201e"/>
+  <circle cx="21" cy="19.6" r="1.6" fill="#d63a2c"/>
+  <circle cx="20.4" cy="19.2" r="0.35" fill="#ff8a6a"/>
+  <circle cx="21.5" cy="20" r="0.3" fill="#8a1414"/>
+  <circle cx="12.4" cy="20.6" r="1.9" fill="#b0201e"/>
+  <circle cx="12.4" cy="20.6" r="1.52" fill="#d63a2c"/>
+  <circle cx="11.8" cy="20.2" r="0.35" fill="#ff8a6a"/>
+  <circle cx="12.9" cy="21" r="0.3" fill="#8a1414"/>
+  <circle cx="16.4" cy="15.4" r="1.7" fill="#b0201e"/>
+  <circle cx="16.4" cy="15.4" r="1.36" fill="#d63a2c"/>
+  <circle cx="15.8" cy="15" r="0.35" fill="#ff8a6a"/>
+  <circle cx="16.9" cy="15.8" r="0.3" fill="#8a1414"/>
+  <circle cx="14.4" cy="8.8" r="1" fill="#2a2a30"/>
+  <circle cx="14.4" cy="8.8" r="0.45" fill="#c8281e"/>
+  <circle cx="9" cy="16.2" r="1" fill="#2a2a30"/>
+  <circle cx="9" cy="16.2" r="0.45" fill="#c8281e"/>
+  <circle cx="23.6" cy="14.4" r="1" fill="#2a2a30"/>
+  <circle cx="23.6" cy="14.4" r="0.45" fill="#c8281e"/>
+  <g transform="translate(13.6 9.4) rotate(20)">
+  <path fill="#2e9e3a" d="M0 0C0.95 -1.5 2.66 -1.5 3.8 0C2.66 1.5 0.95 1.5 0 0"/>
+  <path fill="none" stroke="#7bd38f" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.6" d="M0.46 0H2.96"/>
+  </g>
+  <g transform="translate(22.6 15) rotate(110)">
+  <path fill="#2e9e3a" d="M0 0C0.95 -1.5 2.66 -1.5 3.8 0C2.66 1.5 0.95 1.5 0 0"/>
+  <path fill="none" stroke="#7bd38f" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.6" d="M0.46 0H2.96"/>
+  </g>
+  </g>
+  <g transform="translate(1.8 1.4)">
+  <path fill="#18181d" stroke="#18181d" stroke-width="2.4" stroke-linejoin="round" d="M16 16L29 16A13 13 0 0 1 22.5 27.26z"/>
+  <clipPath id="s">
+  <path fill="#000" d="M16 16L30 16A14 14 0 0 1 23 28.12z"/>
+  </clipPath>
+  <g clip-path="url(#s)">
+  <circle cx="16" cy="16" r="13" fill="#d98a36"/>
+  <circle cx="16" cy="16" r="12" fill="#e8a040"/>
+  <circle cx="16" cy="16" r="10.8" fill="#c8281e"/>
+  <path fill="#ffd86a" d="M25.42 16.00L25.38 17.49L24.38 18.72L23.51 19.83L22.84 20.97L22.04 22.04L21.24 23.21L20.30 24.45L18.88 24.85L17.29 24.16L16.00 23.81L14.63 24.64L12.99 25.27L11.74 24.37L11.07 22.79L10.24 21.76L9.03 21.07L8.01 20.07L7.32 18.82L6.86 17.45L7.12 16.00L8.00 14.73L8.31 13.50L7.83 11.84L8.03 10.21L9.59 9.59L11.30 9.53L12.31 8.76L13.22 7.45L14.54 6.78L16.00 6.91L17.38 7.26L18.64 7.87L19.73 8.69L21.00 9.12L22.68 9.32L23.83 10.31L23.69 12.08L23.39 13.60L24.25 14.69L25.42 16.00Z"/>
+  <clipPath id="chb">
+  <path fill="#000" d="M25.42 16.00L25.38 17.49L24.38 18.72L23.51 19.83L22.84 20.97L22.04 22.04L21.24 23.21L20.30 24.45L18.88 24.85L17.29 24.16L16.00 23.81L14.63 24.64L12.99 25.27L11.74 24.37L11.07 22.79L10.24 21.76L9.03 21.07L8.01 20.07L7.32 18.82L6.86 17.45L7.12 16.00L8.00 14.73L8.31 13.50L7.83 11.84L8.03 10.21L9.59 9.59L11.30 9.53L12.31 8.76L13.22 7.45L14.54 6.78L16.00 6.91L17.38 7.26L18.64 7.87L19.73 8.69L21.00 9.12L22.68 9.32L23.83 10.31L23.69 12.08L23.39 13.60L24.25 14.69L25.42 16.00Z"/>
+  </clipPath>
+  <g clip-path="url(#chb)">
+  <ellipse cx="20" cy="20.12" rx="1.4" ry="0.8" fill="#fff0b0" transform="rotate(38.56944444444444 20 20.12)"/>
+  <ellipse cx="11.09" cy="12.75" rx="1.4" ry="0.8" fill="#fff0b0" transform="rotate(15.278935185185185 11.09 12.75)"/>
+  <ellipse cx="11.86" cy="12.34" rx="1.4" ry="0.8" fill="#fff0b0" transform="rotate(79.28009259259258 11.86 12.34)"/>
+  <ellipse cx="14.16" cy="10.74" rx="1.4" ry="0.8" fill="#fff0b0" transform="rotate(88.07291666666666 14.16 10.74)"/>
+  <ellipse cx="9.81" cy="13.77" rx="1.4" ry="0.8" fill="#fff0b0" transform="rotate(79.1574074074074 9.81 13.77)"/>
+  <ellipse cx="18.65" cy="13.27" rx="1.4" ry="0.8" fill="#fff0b0" transform="rotate(0.03356481481481482 18.65 13.27)"/>
+  <ellipse cx="18.52" cy="15.07" rx="1.4" ry="0.8" fill="#fff0b0" transform="rotate(68.20138888888889 18.52 15.07)"/>
+  <circle cx="15.24" cy="11" r="0.7" fill="#e8a83a"/>
+  <circle cx="16.96" cy="14.66" r="0.7" fill="#e8a83a"/>
+  <circle cx="20.91" cy="20.89" r="0.7" fill="#e8a83a"/>
+  <circle cx="22.59" cy="22.61" r="0.7" fill="#e8a83a"/>
+  <circle cx="9.23" cy="16.88" r="0.7" fill="#e8a83a"/>
+  </g>
+  <circle cx="11.4" cy="11.6" r="2" fill="#b0201e"/>
+  <circle cx="11.4" cy="11.6" r="1.6" fill="#d63a2c"/>
+  <circle cx="10.8" cy="11.2" r="0.35" fill="#ff8a6a"/>
+  <circle cx="11.9" cy="12" r="0.3" fill="#8a1414"/>
+  <circle cx="20.4" cy="10.4" r="1.9" fill="#b0201e"/>
+  <circle cx="20.4" cy="10.4" r="1.52" fill="#d63a2c"/>
+  <circle cx="19.8" cy="10" r="0.35" fill="#ff8a6a"/>
+  <circle cx="20.9" cy="10.8" r="0.3" fill="#8a1414"/>
+  <circle cx="21" cy="19.6" r="2" fill="#b0201e"/>
+  <circle cx="21" cy="19.6" r="1.6" fill="#d63a2c"/>
+  <circle cx="20.4" cy="19.2" r="0.35" fill="#ff8a6a"/>
+  <circle cx="21.5" cy="20" r="0.3" fill="#8a1414"/>
+  <circle cx="12.4" cy="20.6" r="1.9" fill="#b0201e"/>
+  <circle cx="12.4" cy="20.6" r="1.52" fill="#d63a2c"/>
+  <circle cx="11.8" cy="20.2" r="0.35" fill="#ff8a6a"/>
+  <circle cx="12.9" cy="21" r="0.3" fill="#8a1414"/>
+  <circle cx="16.4" cy="15.4" r="1.7" fill="#b0201e"/>
+  <circle cx="16.4" cy="15.4" r="1.36" fill="#d63a2c"/>
+  <circle cx="15.8" cy="15" r="0.35" fill="#ff8a6a"/>
+  <circle cx="16.9" cy="15.8" r="0.3" fill="#8a1414"/>
+  <circle cx="14.4" cy="8.8" r="1" fill="#2a2a30"/>
+  <circle cx="14.4" cy="8.8" r="0.45" fill="#c8281e"/>
+  <circle cx="9" cy="16.2" r="1" fill="#2a2a30"/>
+  <circle cx="9" cy="16.2" r="0.45" fill="#c8281e"/>
+  <circle cx="23.6" cy="14.4" r="1" fill="#2a2a30"/>
+  <circle cx="23.6" cy="14.4" r="0.45" fill="#c8281e"/>
+  <g transform="translate(13.6 9.4) rotate(20)">
+  <path fill="#2e9e3a" d="M0 0C0.95 -1.5 2.66 -1.5 3.8 0C2.66 1.5 0.95 1.5 0 0"/>
+  <path fill="none" stroke="#7bd38f" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.6" d="M0.46 0H2.96"/>
+  </g>
+  <g transform="translate(22.6 15) rotate(110)">
+  <path fill="#2e9e3a" d="M0 0C0.95 -1.5 2.66 -1.5 3.8 0C2.66 1.5 0.95 1.5 0 0"/>
+  <path fill="none" stroke="#7bd38f" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.6" d="M0.46 0H2.96"/>
+  </g>
+  </g>
+  </g>
+</svg>

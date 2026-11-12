@@ -1,0 +1,26 @@
+# Dépendances
+node_modules/
+
+# Build
+dist/
+dev-dist/
+
+# Résultats de tests
+tests/e2e/.results/
+tests/e2e/.report/
+coverage/
+
+# Environnement
+.env
+.env.*
+!.env.example
+
+# Éditeurs / OS
+.DS_Store
+Thumbs.db
+.idea/
+*.log
+
+# Outils locaux (config de l'agent IA, propre à chaque poste)
+.claude/
+*.tsbuildinfo

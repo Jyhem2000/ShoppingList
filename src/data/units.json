@@ -1,0 +1,286 @@
+[
+  {
+    "key": "piece",
+    "name": {
+      "fr": {
+        "singular": "pièce",
+        "plural": "pièces"
+      }
+    },
+    "dimension": "other",
+    "group": "count",
+    "step": 1,
+    "aliases": {
+      "fr": ["pc", "pcs", "unité", "unités"]
+    }
+  },
+  {
+    "key": "g",
+    "name": {
+      "fr": {
+        "singular": "gramme",
+        "plural": "grammes",
+        "abbr": "g"
+      }
+    },
+    "dimension": "mass",
+    "group": "mass",
+    "factor": 1,
+    "step": 50,
+    "aliases": {
+      "fr": ["gr", "grs"]
+    }
+  },
+  {
+    "key": "kg",
+    "name": {
+      "fr": {
+        "singular": "kilogramme",
+        "plural": "kilogrammes",
+        "abbr": "kg"
+      }
+    },
+    "dimension": "mass",
+    "group": "mass",
+    "factor": 1000,
+    "step": 0.5,
+    "aliases": {
+      "fr": ["kilo", "kilos", "kgs"]
+    }
+  },
+  {
+    "key": "ml",
+    "name": {
+      "fr": {
+        "singular": "millilitre",
+        "plural": "millilitres",
+        "abbr": "ml"
+      }
+    },
+    "dimension": "volume",
+    "group": "volume",
+    "factor": 1,
+    "step": 50
+  },
+  {
+    "key": "cl",
+    "name": {
+      "fr": {
+        "singular": "centilitre",
+        "plural": "centilitres",
+        "abbr": "cl"
+      }
+    },
+    "dimension": "volume",
+    "group": "volume",
+    "factor": 10,
+    "step": 5
+  },
+  {
+    "key": "l",
+    "name": {
+      "fr": {
+        "singular": "litre",
+        "plural": "litres",
+        "abbr": "L"
+      }
+    },
+    "dimension": "volume",
+    "group": "volume",
+    "factor": 1000,
+    "step": 0.5,
+    "aliases": {
+      "fr": ["lt"]
+    }
+  },
+  {
+    "key": "pack",
+    "name": {
+      "fr": {
+        "singular": "pack",
+        "plural": "packs",
+        "abbr": "pack"
+      }
+    },
+    "dimension": "other",
+    "group": "container",
+    "step": 1
+  },
+  {
+    "key": "boite",
+    "name": {
+      "fr": {
+        "singular": "boîte",
+        "plural": "boîtes",
+        "abbr": "boîte"
+      }
+    },
+    "dimension": "other",
+    "group": "container",
+    "step": 1,
+    "aliases": {
+      "fr": ["bte", "btes"]
+    }
+  },
+  {
+    "key": "bouteille",
+    "name": {
+      "fr": {
+        "singular": "bouteille",
+        "plural": "bouteilles",
+        "abbr": "bouteille"
+      }
+    },
+    "dimension": "other",
+    "group": "container",
+    "step": 1,
+    "aliases": {
+      "fr": ["bout.", "btl"]
+    }
+  },
+  {
+    "key": "sachet",
+    "name": {
+      "fr": {
+        "singular": "sachet",
+        "plural": "sachets",
+        "abbr": "sachet"
+      }
+    },
+    "dimension": "other",
+    "group": "container",
+    "step": 1
+  },
+  {
+    "key": "paquet",
+    "name": {
+      "fr": {
+        "singular": "paquet",
+        "plural": "paquets",
+        "abbr": "paquet"
+      }
+    },
+    "dimension": "other",
+    "group": "container",
+    "step": 1,
+    "aliases": {
+      "fr": ["pqt"]
+    }
+  },
+  {
+    "key": "pot",
+    "name": {
+      "fr": {
+        "singular": "pot",
+        "plural": "pots",
+        "abbr": "pot"
+      }
+    },
+    "dimension": "other",
+    "group": "container",
+    "step": 1
+  },
+  {
+    "key": "botte",
+    "name": {
+      "fr": {
+        "singular": "botte",
+        "plural": "bottes",
+        "abbr": "botte"
+      }
+    },
+    "dimension": "other",
+    "group": "count",
+    "step": 1
+  },
+  {
+    "key": "barquette",
+    "name": {
+      "fr": {
+        "singular": "barquette",
+        "plural": "barquettes",
+        "abbr": "barquette"
+      }
+    },
+    "dimension": "other",
+    "group": "container",
+    "step": 1,
+    "aliases": {
+      "fr": ["barq."]
+    }
+  },
+  {
+    "key": "tranche",
+    "name": {
+      "fr": {
+        "singular": "tranche",
+        "plural": "tranches",
+        "abbr": "tranche"
+      }
+    },
+    "dimension": "other",
+    "group": "count",
+    "step": 1,
+    "aliases": {
+      "fr": ["tr."]
+    }
+  },
+  {
+    "key": "rouleau",
+    "name": {
+      "fr": {
+        "singular": "rouleau",
+        "plural": "rouleaux",
+        "abbr": "rouleau"
+      }
+    },
+    "dimension": "other",
+    "group": "container",
+    "step": 1
+  },
+  {
+    "key": "c-a-s",
+    "name": {
+      "fr": {
+        "singular": "cuillère à soupe",
+        "plural": "cuillères à soupe",
+        "abbr": "c. à s."
+      }
+    },
+    "dimension": "other",
+    "group": "kitchen",
+    "step": 1,
+    "aliases": {
+      "fr": ["cas", "càs"]
+    }
+  },
+  {
+    "key": "c-a-c",
+    "name": {
+      "fr": {
+        "singular": "cuillère à café",
+        "plural": "cuillères à café",
+        "abbr": "c. à c."
+      }
+    },
+    "dimension": "other",
+    "group": "kitchen",
+    "step": 1,
+    "aliases": {
+      "fr": ["cac", "càc"]
+    }
+  },
+  {
+    "key": "pincee",
+    "name": {
+      "fr": {
+        "singular": "pincée",
+        "plural": "pincées",
+        "abbr": "pincée"
+      }
+    },
+    "dimension": "other",
+    "group": "kitchen",
+    "step": 1
+  }
+]

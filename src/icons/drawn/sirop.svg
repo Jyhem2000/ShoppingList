@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <path fill="#d81b60" d="M14.6 1.6h2.8v4c2.6.8 4.6 2.6 4.6 5.6v17c0 1.4-1.2 2.4-2.6 2.4h-6.8c-1.4 0-2.6-1-2.6-2.4v-17c0-3 2-4.8 4.6-5.6z"/>
+  <clipPath id="sp5">
+  <path fill="#000" d="M14.6 1.6h2.8v4c2.6.8 4.6 2.6 4.6 5.6v17c0 1.4-1.2 2.4-2.6 2.4h-6.8c-1.4 0-2.6-1-2.6-2.4v-17c0-3 2-4.8 4.6-5.6z"/>
+  </clipPath>
+  <g clip-path="url(#sp5)">
+  <rect width="10" height="32" x="18.6" y="0" fill="#a8124a" rx="0"/>
+  <rect width="1.4" height="32" x="11.2" y="0" fill="#ff9ec4" rx="0"/>
+  <rect width="32" height="9.4" x="0" y="15" fill="#ffffff" rx="0"/>
+  <rect width="32" height="0.9" x="0" y="15" fill="#c9cdd3" rx="0"/>
+  <rect width="32" height="0.9" x="0" y="23.5" fill="#c9cdd3" rx="0"/>
+  </g>
+  <circle cx="16" cy="19.7" r="2.2" fill="#a8102a"/>
+  <circle cx="15.85" cy="19.55" r="1.98" fill="#e8243f"/>
+  <ellipse cx="15.08" cy="18.78" rx="0.4" ry="0.66" fill="#ffb0c0" transform="rotate(40 15.08 18.78)"/>
+  <g transform="translate(16.4 17.4) rotate(-30)">
+  <path fill="#00d26a" d="M0 0C0.55 -0.8 1.54 -0.8 2.2 0C1.54 0.8 0.55 0.8 0 0"/>
+  </g>
+  <rect width="3.6" height="2.2" x="14.2" y="0.4" fill="#c9cdd3" rx="0.7"/>
+</svg>

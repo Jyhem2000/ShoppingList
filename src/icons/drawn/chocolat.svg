@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <path fill="#3b2014" d="M3 15l10-6l16 5v3l-10 6l-16-5z"/>
+  <path fill="#5a2e1a" d="M3 15l10-6l16 5l-10 6z"/>
+  <path fill="none" stroke="#3f1f10" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.7" d="M7.00 16.25L17.00 10.25"/>
+  <path fill="none" stroke="#3f1f10" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.7" d="M11.00 17.50L21.00 11.50"/>
+  <path fill="none" stroke="#3f1f10" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.7" d="M15.00 18.75L25.00 12.75"/>
+  <path fill="none" stroke="#3f1f10" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.7" d="M6.33 13.00L22.33 18.00"/>
+  <path fill="none" stroke="#3f1f10" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.7" d="M9.67 11.00L25.67 16.00"/>
+  <ellipse cx="10" cy="12.6" rx="2.4" ry="0.7" fill="#7a4a32" transform="rotate(-30 10 12.6)"/>
+  <g transform="translate(3.6 7.4)">
+  <path fill="#18181d" stroke="#18181d" stroke-width="1.2" stroke-linejoin="round" d="M18 14l4-2.4l6 1.8v2.4l-4 2.4l-6-1.8z"/>
+  <path fill="#18181d" stroke="#18181d" stroke-width="1.2" stroke-linejoin="round" d="M18 14l4-2.4l6 1.8l-4 2.4z"/>
+  </g>
+  <g transform="translate(3.6 7.4)">
+  <path fill="#3b2014" d="M18 14l4-2.4l6 1.8v2.4l-4 2.4l-6-1.8z"/>
+  <path fill="#5a2e1a" d="M18 14l4-2.4l6 1.8l-4 2.4z"/>
+  </g>
+</svg>

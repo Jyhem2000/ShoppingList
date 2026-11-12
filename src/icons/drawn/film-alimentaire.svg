@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <path fill="#d6ecfb" fill-opacity="0.82" d="M6.6 20.6L27.6 13Q30.8 14.4 30.2 23.2L30.20 23.20L29.01 24.01L27.82 23.71L26.63 24.52L25.44 24.22L24.26 25.03L23.07 24.73L21.88 25.54L20.69 25.24L19.50 26.05L18.31 25.76L17.12 26.56L15.93 26.27L14.74 27.07L13.56 26.78L12.37 27.58L11.18 27.29L9.99 28.09L8.80 27.80Z"/>
+  <clipPath id="sh2">
+  <path fill="#000" d="M6.6 20.6L27.6 13Q30.8 14.4 30.2 23.2L30.20 23.20L29.01 24.01L27.82 23.71L26.63 24.52L25.44 24.22L24.26 25.03L23.07 24.73L21.88 25.54L20.69 25.24L19.50 26.05L18.31 25.76L17.12 26.56L15.93 26.27L14.74 27.07L13.56 26.78L12.37 27.58L11.18 27.29L9.99 28.09L8.80 27.80Z"/>
+  </clipPath>
+  <g clip-path="url(#sh2)">
+  <path fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="M12 24.6l14-5M16 25.4l11-4"/>
+  </g>
+  <path fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.6" d="M27.6 13Q30.8 14.4 30.2 23.2"/>
+  <path fill="none" stroke="#ffffffb3" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.5" d="M11 23.4l12-4.2"/>
+  <path fill="#9ccbea" d="M4.3 14.9L24.6 7.5A1.6 3.1 -20 0 1 27.6 13L6.5 20.7Z"/>
+  <clipPath id="bd3">
+  <path fill="#000" d="M4.3 14.9L24.6 7.5A1.6 3.1 -20 0 1 27.6 13L6.5 20.7Z"/>
+  </clipPath>
+  <g clip-path="url(#bd3)">
+  <path fill="#76b0d8" d="M6.5 20.7L27.6 13l1 2.4L7.5 23z"/>
+  <path fill="#e6f5ff" d="M5 15.6L24.8 8.4l.2 1.4L5.6 17z"/>
+  </g>
+  <ellipse cx="5.4" cy="17.8" rx="1.7" ry="3.1" fill="#cbe6f8" transform="rotate(-20 5.4 17.8)"/>
+  <ellipse cx="5.4" cy="17.8" rx="1.15" ry="2.1" fill="#9ccbea" transform="rotate(-20 5.4 17.8)"/>
+  <ellipse cx="5.4" cy="17.8" rx="0.9" ry="1.6" fill="#c49a6a" transform="rotate(-20 5.4 17.8)"/>
+  <ellipse cx="5.4" cy="17.8" rx="0.5" ry="0.9" fill="#7a5a3a" transform="rotate(-20 5.4 17.8)"/>
+</svg>

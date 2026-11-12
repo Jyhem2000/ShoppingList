@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <g transform="translate(9.5 4) rotate(15)">
+  <path fill="#00d26a" d="M0 0C2 -3.2 5.6 -3.2 8 0C5.6 3.2 2 3.2 0 0"/>
+  <path fill="none" stroke="#44911b" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.6" d="M0.96 0H6.24"/>
+  </g>
+  <path fill="none" stroke="#44911b" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.1" d="M9 3.5c3 1.5 5 4.5 6 8.5s3 9 6 12.5"/>
+  <circle cx="12" cy="10" r="3" fill="#d81b4a"/>
+  <circle cx="11.79" cy="9.79" r="2.7" fill="#ff4a72"/>
+  <ellipse cx="10.74" cy="8.74" rx="0.54" ry="0.9" fill="#ffd0dc" transform="rotate(40 10.74 8.74)"/>
+  <circle cx="12.9" cy="11.2" r="0.35" fill="#8f0f30"/>
+  <circle cx="15.6" cy="13.6" r="3" fill="#d81b4a"/>
+  <circle cx="15.39" cy="13.39" r="2.7" fill="#ff4a72"/>
+  <ellipse cx="14.34" cy="12.34" rx="0.54" ry="0.9" fill="#ffd0dc" transform="rotate(40 14.34 12.34)"/>
+  <circle cx="16.5" cy="14.8" r="0.35" fill="#8f0f30"/>
+  <circle cx="12.4" cy="17" r="3" fill="#d81b4a"/>
+  <circle cx="12.19" cy="16.79" r="2.7" fill="#ff4a72"/>
+  <ellipse cx="11.14" cy="15.74" rx="0.54" ry="0.9" fill="#ffd0dc" transform="rotate(40 11.14 15.74)"/>
+  <circle cx="13.3" cy="18.2" r="0.35" fill="#8f0f30"/>
+  <circle cx="17.2" cy="18.8" r="3" fill="#d81b4a"/>
+  <circle cx="16.99" cy="18.59" r="2.7" fill="#ff4a72"/>
+  <ellipse cx="15.94" cy="17.54" rx="0.54" ry="0.9" fill="#ffd0dc" transform="rotate(40 15.94 17.54)"/>
+  <circle cx="18.1" cy="20" r="0.35" fill="#8f0f30"/>
+  <circle cx="14" cy="22" r="3" fill="#d81b4a"/>
+  <circle cx="13.79" cy="21.79" r="2.7" fill="#ff4a72"/>
+  <ellipse cx="12.74" cy="20.74" rx="0.54" ry="0.9" fill="#ffd0dc" transform="rotate(40 12.74 20.74)"/>
+  <circle cx="14.9" cy="23.2" r="0.35" fill="#8f0f30"/>
+  <circle cx="19.6" cy="23.6" r="3" fill="#d81b4a"/>
+  <circle cx="19.39" cy="23.39" r="2.7" fill="#ff4a72"/>
+  <ellipse cx="18.34" cy="22.34" rx="0.54" ry="0.9" fill="#ffd0dc" transform="rotate(40 18.34 22.34)"/>
+  <circle cx="20.5" cy="24.8" r="0.35" fill="#8f0f30"/>
+  <circle cx="16.2" cy="26.8" r="3" fill="#d81b4a"/>
+  <circle cx="15.99" cy="26.59" r="2.7" fill="#ff4a72"/>
+  <ellipse cx="14.94" cy="25.54" rx="0.54" ry="0.9" fill="#ffd0dc" transform="rotate(40 14.94 25.54)"/>
+  <circle cx="17.1" cy="28" r="0.35" fill="#8f0f30"/>
+</svg>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <linearGradient id="g" x1="7" x2="25" y1="9" y2="28" gradientUnits="userSpaceOnUse">
+  <stop offset="0" stop-color="#d81b3a"/>
+  <stop offset=".55" stop-color="#f2402e"/>
+  <stop offset="1" stop-color="#ff9a2e"/>
+  </linearGradient>
+  <path fill="url(#g)" d="M16 9.7C13.8 7.28 5.55 8.05 5 18.5C4.78 25.1 9.95 28.95 16 28.95C22.6 28.95 27.33 24.55 27 17.95C26.45 8.05 18.75 7.28 16 9.7Z"/>
+  <path fill="none" stroke="#a00d28" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M16 9.7c-1.6 3.6-1.8 7.6-.6 11.6"/>
+  <ellipse cx="10.4" cy="14.4" rx="1.6" ry="2.6" fill="#ff8a8a" transform="rotate(25 10.4 14.4)"/>
+  <path fill="none" stroke="#6d4534" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 9.4l.6-3"/>
+</svg>

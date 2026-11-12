@@ -1,0 +1,10 @@
+# En-têtes Cloudflare Pages : les fichiers qui annoncent une nouvelle version
+# ne doivent jamais être servis depuis un cache intermédiaire.
+/sw.js
+  Cache-Control: no-cache
+/version.json
+  Cache-Control: no-store
+/manifest.webmanifest
+  Cache-Control: no-cache
+/index.html
+  Cache-Control: no-cache

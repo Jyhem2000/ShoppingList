@@ -1,0 +1,261 @@
+[
+  {
+    "match": ["jus"],
+    "category": "jus-sodas",
+    "unit": "bouteille",
+    "icon": "jus-de-fruits"
+  },
+  {
+    "match": ["sirop", "soda", "limonade", "cola"],
+    "category": "jus-sodas",
+    "unit": "bouteille"
+  },
+  {
+    "match": [
+      "biere",
+      "vin",
+      "rhum",
+      "whisky",
+      "vodka",
+      "pastis",
+      "cidre",
+      "champagne"
+    ],
+    "category": "alcools",
+    "unit": "bouteille",
+    "icon": "vin"
+  },
+  {
+    "match": [
+      "lessive",
+      "nettoyant",
+      "detergent",
+      "javel",
+      "vaisselle",
+      "eponge"
+    ],
+    "category": "entretien",
+    "unit": "piece",
+    "icon": "eponges"
+  },
+  {
+    "match": ["eau"],
+    "category": "eaux",
+    "unit": "pack"
+  },
+  {
+    "match": ["surgele", "surgelee", "surgeles", "surgelees"],
+    "category": "surgeles",
+    "unit": "sachet",
+    "icon": "legumes-surgeles"
+  },
+  {
+    "match": ["glace", "sorbet", "esquimau"],
+    "category": "glaces",
+    "unit": "piece",
+    "icon": "glace"
+  },
+  {
+    "match": [
+      "sauce",
+      "ketchup",
+      "mayonnaise",
+      "moutarde",
+      "pesto",
+      "vinaigrette",
+      "epice",
+      "cumin",
+      "curry",
+      "paprika"
+    ],
+    "category": "sauces-condiments",
+    "unit": "pot",
+    "icon": "sauce-tomate"
+  },
+  {
+    "match": ["huile", "vinaigre"],
+    "category": "huiles-vinaigres",
+    "unit": "bouteille"
+  },
+  {
+    "match": [
+      "jambon",
+      "saucisson",
+      "chorizo",
+      "lardon",
+      "rillette",
+      "terrine",
+      "bacon"
+    ],
+    "category": "charcuterie",
+    "unit": "paquet",
+    "icon": "saucisson"
+  },
+  {
+    "match": ["poulet", "dinde", "canard", "pintade", "volaille"],
+    "category": "volaille",
+    "unit": "g",
+    "icon": "poulet"
+  },
+  {
+    "match": [
+      "boeuf",
+      "porc",
+      "veau",
+      "agneau",
+      "steak",
+      "roti",
+      "escalope",
+      "cote",
+      "saucisse"
+    ],
+    "category": "viande",
+    "unit": "g",
+    "icon": "viande"
+  },
+  {
+    "match": [
+      "saumon",
+      "thon",
+      "cabillaud",
+      "colin",
+      "poisson",
+      "crevette",
+      "moule",
+      "crabe",
+      "calamar"
+    ],
+    "category": "poisson-fruits-de-mer",
+    "unit": "g",
+    "icon": "poisson"
+  },
+  {
+    "match": [
+      "fromage",
+      "emmental",
+      "gruyere",
+      "comte",
+      "brie",
+      "camembert",
+      "roquefort",
+      "chevre",
+      "raclette"
+    ],
+    "category": "fromages",
+    "unit": "piece",
+    "icon": "fromage"
+  },
+  {
+    "match": ["yaourt", "flan", "mousse", "compote"],
+    "category": "yaourts-desserts",
+    "unit": "piece",
+    "icon": "yaourts"
+  },
+  {
+    "match": ["lait", "creme", "beurre", "margarine"],
+    "category": "lait-creme-beurre",
+    "unit": "piece",
+    "icon": "lait"
+  },
+  {
+    "match": ["pain", "baguette", "croissant", "brioche", "viennoiserie"],
+    "category": "pain-viennoiseries",
+    "unit": "piece",
+    "icon": "pain"
+  },
+  {
+    "match": ["biscuit", "gateau", "cookie", "madeleine", "galette"],
+    "category": "biscuits-gateaux",
+    "unit": "paquet",
+    "icon": "biscuits"
+  },
+  {
+    "match": ["chocolat", "bonbon", "confiserie", "caramel"],
+    "category": "chocolat-confiserie",
+    "unit": "piece",
+    "icon": "chocolat"
+  },
+  {
+    "match": ["confiture", "miel", "tartiner"],
+    "category": "confitures-tartiner",
+    "unit": "pot",
+    "icon": "confiture"
+  },
+  {
+    "match": ["cafe", "the", "infusion", "tisane"],
+    "category": "cafe-the",
+    "unit": "paquet",
+    "icon": "cafe"
+  },
+  {
+    "match": ["cereale", "muesli", "biscotte"],
+    "category": "petit-dejeuner",
+    "unit": "paquet",
+    "icon": "cereales"
+  },
+  {
+    "match": ["farine", "sucre", "levure", "vanille"],
+    "category": "farine-sucre-patisserie",
+    "unit": "paquet"
+  },
+  {
+    "match": ["pate", "riz", "semoule", "lentille", "quinoa", "boulgour"],
+    "category": "pates-riz-feculents",
+    "unit": "paquet"
+  },
+  {
+    "match": ["conserve", "boite"],
+    "category": "conserves-bocaux",
+    "unit": "boite",
+    "icon": "thon"
+  },
+  {
+    "match": ["chips", "cacahuete", "apero", "olive"],
+    "category": "aperitif",
+    "unit": "sachet"
+  },
+  {
+    "match": [
+      "salade",
+      "chou",
+      "courge",
+      "potiron",
+      "navet",
+      "betterave",
+      "celeri",
+      "legume"
+    ],
+    "category": "legumes",
+    "unit": "kg"
+  },
+  {
+    "match": ["pomme", "poire", "prune", "fruit", "melon", "orange"],
+    "category": "fruits",
+    "unit": "kg"
+  },
+  {
+    "match": [
+      "shampooing",
+      "savon",
+      "gel",
+      "deodorant",
+      "dentifrice",
+      "maquillage"
+    ],
+    "category": "hygiene-beaute",
+    "unit": "piece",
+    "icon": "gel-douche"
+  },
+  {
+    "match": ["bebe", "couche", "biberon"],
+    "category": "bebe",
+    "unit": "piece",
+    "icon": "lait-infantile"
+  },
+  {
+    "match": ["chat", "chien", "croquette", "litiere"],
+    "category": "animaux",
+    "unit": "piece",
+    "icon": "patee"
+  }
+]

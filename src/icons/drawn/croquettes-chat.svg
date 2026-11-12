@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <ellipse cx="16" cy="17" rx="12" ry="3.4" fill="#4a4f57"/>
+  <g transform="rotate(0 7.6 13.392)">
+  <ellipse cx="7.6" cy="13.39" rx="1.5" ry="0.9" fill="#b07a45"/>
+  <path fill="#b07a45" d="M8.799999999999999 13.392l1.2-.9v1.8z"/>
+  </g>
+  <g transform="rotate(53 10.899999999999999 13.788)">
+  <ellipse cx="10.9" cy="13.79" rx="1.5" ry="0.9" fill="#b07a45"/>
+  <path fill="#b07a45" d="M12.099999999999998 13.788l1.2-.9v1.8z"/>
+  </g>
+  <g transform="rotate(106 14.2 14.184000000000001)">
+  <ellipse cx="14.2" cy="14.18" rx="1.5" ry="0.9" fill="#b07a45"/>
+  <path fill="#b07a45" d="M15.399999999999999 14.184000000000001l1.2-.9v1.8z"/>
+  </g>
+  <g transform="rotate(159 17.5 14.22)">
+  <ellipse cx="17.5" cy="14.22" rx="1.5" ry="0.9" fill="#b07a45"/>
+  <path fill="#b07a45" d="M18.7 14.22l1.2-.9v1.8z"/>
+  </g>
+  <g transform="rotate(32 20.799999999999997 13.824000000000002)">
+  <ellipse cx="20.8" cy="13.82" rx="1.5" ry="0.9" fill="#b07a45"/>
+  <path fill="#b07a45" d="M21.999999999999996 13.824000000000002l1.2-.9v1.8z"/>
+  </g>
+  <g transform="rotate(85 24.1 13.428)">
+  <ellipse cx="24.1" cy="13.43" rx="1.5" ry="0.9" fill="#b07a45"/>
+  <path fill="#b07a45" d="M25.3 13.428l1.2-.9v1.8z"/>
+  </g>
+  <g transform="rotate(138 9.2 15.984)">
+  <ellipse cx="9.2" cy="15.98" rx="1.5" ry="0.9" fill="#b07a45"/>
+  <path fill="#b07a45" d="M10.399999999999999 15.984l1.2-.9v1.8z"/>
+  </g>
+  <g transform="rotate(11 12.499999999999998 16.38)">
+  <ellipse cx="12.5" cy="16.38" rx="1.5" ry="0.9" fill="#b07a45"/>
+  <path fill="#b07a45" d="M13.699999999999998 16.38l1.2-.9v1.8z"/>
+  </g>
+  <g transform="rotate(64 15.799999999999999 16.776)">
+  <ellipse cx="15.8" cy="16.78" rx="1.5" ry="0.9" fill="#b07a45"/>
+  <path fill="#b07a45" d="M17 16.776l1.2-.9v1.8z"/>
+  </g>
+  <g transform="rotate(117 19.1 16.428)">
+  <ellipse cx="19.1" cy="16.43" rx="1.5" ry="0.9" fill="#b07a45"/>
+  <path fill="#b07a45" d="M20.3 16.428l1.2-.9v1.8z"/>
+  </g>
+  <g transform="rotate(170 22.4 16.032)">
+  <ellipse cx="22.4" cy="16.03" rx="1.5" ry="0.9" fill="#b07a45"/>
+  <path fill="#b07a45" d="M23.599999999999998 16.032l1.2-.9v1.8z"/>
+  </g>
+  <path fill="#ff8db2" d="M4 17a12 3.4 0 0 0 24 0l-2 7.4c-.4 1.6-5 2.8-10 2.8s-9.6-1.2-10-2.8z"/>
+  <clipPath id="pb35">
+  <path fill="#000" d="M4 17a12 3.4 0 0 0 24 0l-2 7.4c-.4 1.6-5 2.8-10 2.8s-9.6-1.2-10-2.8z"/>
+  </clipPath>
+  <g clip-path="url(#pb35)">
+  <ellipse cx="26" cy="24" rx="7" ry="8" fill="#e06a94"/>
+  </g>
+  <path fill="none" stroke="#ffffff66" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.6" d="M4.2 17.4a12 3.4 0 0 0 23.6 0"/>
+</svg>

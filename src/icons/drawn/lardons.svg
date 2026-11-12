@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <path fill="#f6b3ae" d="M5 12L12.00 8.50L14.60 9.80L7.60 13.30z"/>
+  <path fill="#e0707a" d="M5 12L7.60 13.30v2.8L5 14.8z"/>
+  <path fill="#c9525e" d="M7.60 13.30L14.60 9.80v2.8L7.6 16.1z"/>
+  <path fill="none" stroke="#fbe6e0" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.7" d="M5 13.26L7.6 14.56L14.6 11.06"/>
+  <path fill="#18181d" stroke="#18181d" stroke-width="1.2" stroke-linejoin="round" d="M14 9.6L21.00 6.10L23.60 7.40L16.60 10.90z"/>
+  <path fill="#18181d" stroke="#18181d" stroke-width="1.2" stroke-linejoin="round" d="M14 9.6L16.60 10.90v2.8L14 12.399999999999999z"/>
+  <path fill="#18181d" stroke="#18181d" stroke-width="1.2" stroke-linejoin="round" d="M16.60 10.90L23.60 7.40v2.8L16.6 13.7z"/>
+  <path fill="none" stroke="#18181d" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" d="M14 10.86L16.6 12.16L23.6 8.66"/>
+  <path fill="#f6b3ae" d="M14 9.6L21.00 6.10L23.60 7.40L16.60 10.90z"/>
+  <path fill="#e0707a" d="M14 9.6L16.60 10.90v2.8L14 12.399999999999999z"/>
+  <path fill="#c9525e" d="M16.60 10.90L23.60 7.40v2.8L16.6 13.7z"/>
+  <path fill="none" stroke="#fbe6e0" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.7" d="M14 10.86L16.6 12.16L23.6 8.66"/>
+  <path fill="#18181d" stroke="#18181d" stroke-width="1.2" stroke-linejoin="round" d="M8 19.4L15.00 15.90L17.60 17.20L10.60 20.70z"/>
+  <path fill="#18181d" stroke="#18181d" stroke-width="1.2" stroke-linejoin="round" d="M8 19.4L10.60 20.70v2.8L8 22.2z"/>
+  <path fill="#18181d" stroke="#18181d" stroke-width="1.2" stroke-linejoin="round" d="M10.60 20.70L17.60 17.20v2.8L10.6 23.5z"/>
+  <path fill="none" stroke="#18181d" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" d="M8 20.66L10.6 21.96L17.6 18.46"/>
+  <path fill="#f6b3ae" d="M8 19.4L15.00 15.90L17.60 17.20L10.60 20.70z"/>
+  <path fill="#e0707a" d="M8 19.4L10.60 20.70v2.8L8 22.2z"/>
+  <path fill="#c9525e" d="M10.60 20.70L17.60 17.20v2.8L10.6 23.5z"/>
+  <path fill="none" stroke="#fbe6e0" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.7" d="M8 20.66L10.6 21.96L17.6 18.46"/>
+  <path fill="#18181d" stroke="#18181d" stroke-width="1.2" stroke-linejoin="round" d="M17 17.6L24.00 14.10L26.60 15.40L19.60 18.90z"/>
+  <path fill="#18181d" stroke="#18181d" stroke-width="1.2" stroke-linejoin="round" d="M17 17.6L19.60 18.90v2.8L17 20.400000000000002z"/>
+  <path fill="#18181d" stroke="#18181d" stroke-width="1.2" stroke-linejoin="round" d="M19.60 18.90L26.60 15.40v2.8L19.6 21.700000000000003z"/>
+  <path fill="none" stroke="#18181d" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" d="M17 18.860000000000003L19.6 20.160000000000004L26.6 16.660000000000004"/>
+  <path fill="#f6b3ae" d="M17 17.6L24.00 14.10L26.60 15.40L19.60 18.90z"/>
+  <path fill="#e0707a" d="M17 17.6L19.60 18.90v2.8L17 20.400000000000002z"/>
+  <path fill="#c9525e" d="M19.60 18.90L26.60 15.40v2.8L19.6 21.700000000000003z"/>
+  <path fill="none" stroke="#fbe6e0" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.7" d="M17 18.860000000000003L19.6 20.160000000000004L26.6 16.660000000000004"/>
+  <path fill="#18181d" stroke="#18181d" stroke-width="1.2" stroke-linejoin="round" d="M11 25.4L18.00 21.90L20.60 23.20L13.60 26.70z"/>
+  <path fill="#18181d" stroke="#18181d" stroke-width="1.2" stroke-linejoin="round" d="M11 25.4L13.60 26.70v2.8L11 28.2z"/>
+  <path fill="#18181d" stroke="#18181d" stroke-width="1.2" stroke-linejoin="round" d="M13.60 26.70L20.60 23.20v2.8L13.6 29.5z"/>
+  <path fill="none" stroke="#18181d" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" d="M11 26.66L13.6 27.96L20.6 24.46"/>
+  <path fill="#f6b3ae" d="M11 25.4L18.00 21.90L20.60 23.20L13.60 26.70z"/>
+  <path fill="#e0707a" d="M11 25.4L13.60 26.70v2.8L11 28.2z"/>
+  <path fill="#c9525e" d="M13.60 26.70L20.60 23.20v2.8L13.6 29.5z"/>
+  <path fill="none" stroke="#fbe6e0" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.7" d="M11 26.66L13.6 27.96L20.6 24.46"/>
+</svg>

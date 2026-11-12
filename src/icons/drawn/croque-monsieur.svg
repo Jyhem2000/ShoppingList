@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <path fill="#c98a3a" d="M4 15l12-6l12 6v6l-12 6l-12-6z"/>
+  <path fill="#f0c060" d="M4 15l12-6l12 6l-12 6z"/>
+  <clipPath id="cq0">
+  <path fill="#000" d="M4 15l12-6l12 6l-12 6z"/>
+  </clipPath>
+  <g clip-path="url(#cq0)">
+  <ellipse cx="15.59" cy="12.21" rx="1.4" ry="0.7" fill="#c97a2a" transform="rotate(44.78780864197531 15.59 12.21)"/>
+  <ellipse cx="8.23" cy="17.67" rx="1.4" ry="0.7" fill="#c97a2a" transform="rotate(5.597479423868313 8.23 17.67)"/>
+  <ellipse cx="23.45" cy="15.89" rx="1.4" ry="0.7" fill="#c97a2a" transform="rotate(19.493569958847736 23.45 15.89)"/>
+  <ellipse cx="7.71" cy="12.09" rx="1.4" ry="0.7" fill="#e0a040" transform="rotate(41.2908950617284 7.71 12.09)"/>
+  <ellipse cx="24.79" cy="17.45" rx="1.4" ry="0.7" fill="#c97a2a" transform="rotate(36.91538065843622 24.79 17.45)"/>
+  <ellipse cx="19.79" cy="13.49" rx="1.4" ry="0.7" fill="#e0a040" transform="rotate(36.73739711934156 19.79 13.49)"/>
+  <ellipse cx="9.16" cy="17.9" rx="1.4" ry="0.7" fill="#c97a2a" transform="rotate(48.90509259259259 9.16 17.9)"/>
+  <ellipse cx="12.68" cy="11.6" rx="1.4" ry="0.7" fill="#c97a2a" transform="rotate(12.67772633744856 12.68 11.6)"/>
+  <ellipse cx="15.46" cy="15.25" rx="1.4" ry="0.7" fill="#c97a2a" transform="rotate(31.759002057613166 15.46 15.25)"/>
+  </g>
+  <clipPath id="cl1">
+  <path fill="#000" d="M4 15v6l12 6v-6z"/>
+  </clipPath>
+  <g clip-path="url(#cl1)">
+  <rect width="32" height="32" x="0" y="0" fill="#f6e9c8" rx="0"/>
+  <path fill="#f39aa6" d="M4 17.4l12 6v1.4l-12-6z"/>
+  <path fill="#ffd53d" d="M4 18.8l12 6v1l-12-6z"/>
+  <path fill="#d9a24a" d="M4 15v1l12 6v-1z"/>
+  </g>
+  <clipPath id="cr2">
+  <path fill="#000" d="M16 21v6l12-6v-6z"/>
+  </clipPath>
+  <g clip-path="url(#cr2)">
+  <rect width="32" height="32" x="0" y="0" fill="#ecdcb4" rx="0"/>
+  <path fill="#e8838e" d="M16 23.4l12-6v1.4l-12 6z"/>
+  <path fill="#f2c21a" d="M16 24.8l12-6v1l-12 6z"/>
+  <path fill="#c9923a" d="M16 21v1l12-6v-1z"/>
+  </g>
+</svg>

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <path fill="#b07a45" d="M3 19.5h22.5a2.5 2.5 0 0 1 2.5 2.5v4a2.5 2.5 0 0 1-2.5 2.5H3z"/>
+  <rect width="25" height="2" x="3" y="19.5" fill="#c98f55" rx="1"/>
+  <rect width="3" height="2.6" x="27.5" y="22.4" fill="#b07a45" rx="1.3"/>
+  <circle cx="24.5" cy="25" r="0.9" fill="#7a5230"/>
+  <path fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round" d="M5 19.5V13l14-6.5c.6-.3 1.2 0 1.6.4l4.4 6.1v6.5z"/>
+  <path fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round" d="M5 13l14-6.5c.6-.3 1.2 0 1.6.4L25 13z"/>
+  <clipPath id="f">
+  <path fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round" d="M5 19.5V13h20v6.5z"/>
+  </clipPath>
+  <g clip-path="url(#f)">
+  <circle cx="10" cy="16" r="1.8" fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round"/>
+  <circle cx="17" cy="17.4" r="1.4" fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round"/>
+  <circle cx="22" cy="15.4" r="1.6" fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round"/>
+  </g>
+  <ellipse cx="16" cy="10" rx="1.6" ry="0.7" fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round"/>
+  <path fill="#ffb02e" d="M5 19.5V13l14-6.5c.6-.3 1.2 0 1.6.4l4.4 6.1v6.5z"/>
+  <path fill="#ffd53d" d="M5 13l14-6.5c.6-.3 1.2 0 1.6.4L25 13z"/>
+  <clipPath id="f">
+  <path fill="#000" d="M5 19.5V13h20v6.5z"/>
+  </clipPath>
+  <g clip-path="url(#f)">
+  <circle cx="10" cy="16" r="1.8" fill="#e19747"/>
+  <circle cx="17" cy="17.4" r="1.4" fill="#e19747"/>
+  <circle cx="22" cy="15.4" r="1.6" fill="#e19747"/>
+  </g>
+  <ellipse cx="16" cy="10" rx="1.6" ry="0.7" fill="#ffb02e"/>
+</svg>

@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <path fill="none" stroke="#e8e2d2" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.7" d="M16 7.6V4.2c0-1 .8-1.6 1.8-1.6h3.4"/>
+  <rect width="7" height="4.6" x="20.6" y="1" fill="#2e9e3a" rx="0.8"/>
+  <path fill="#f2e6c8" d="M9 10.4l2.4-2.8h9.2L23 10.4V27c0 1.2-1 2-2.2 2H11.2C10 29 9 28.2 9 27z"/>
+  <clipPath id="th">
+  <path fill="#000" d="M9 10.4l2.4-2.8h9.2L23 10.4V27c0 1.2-1 2-2.2 2H11.2C10 29 9 28.2 9 27z"/>
+  </clipPath>
+  <g clip-path="url(#th)">
+  <rect width="10" height="32" x="19" y="0" fill="#e3d4ae" rx="0"/>
+  <ellipse cx="10.56" cy="21.27" rx="0.7" ry="0.4" fill="#5a4a2a" transform="rotate(126.74382716049382 10.56 21.27)"/>
+  <ellipse cx="14.16" cy="16.39" rx="0.7" ry="0.4" fill="#4a5a2a" transform="rotate(130.09876543209876 14.16 16.39)"/>
+  <ellipse cx="18.44" cy="24.42" rx="0.7" ry="0.4" fill="#4a5a2a" transform="rotate(117.1574074074074 18.44 24.42)"/>
+  <ellipse cx="21.94" cy="26.27" rx="0.7" ry="0.4" fill="#4a5a2a" transform="rotate(45.69753086419753 21.94 26.27)"/>
+  <ellipse cx="16.05" cy="22.33" rx="0.7" ry="0.4" fill="#5a4a2a" transform="rotate(66.83024691358025 16.05 22.33)"/>
+  <ellipse cx="15.74" cy="20.72" rx="0.7" ry="0.4" fill="#5a4a2a" transform="rotate(85 15.74 20.72)"/>
+  <ellipse cx="14.2" cy="20.72" rx="0.7" ry="0.4" fill="#4a5a2a" transform="rotate(157.98456790123458 14.2 20.72)"/>
+  <ellipse cx="17.5" cy="21.04" rx="0.7" ry="0.4" fill="#5a4a2a" transform="rotate(116.89506172839508 17.5 21.04)"/>
+  <ellipse cx="15.27" cy="23.14" rx="0.7" ry="0.4" fill="#4a5a2a" transform="rotate(26.175925925925927 15.27 23.14)"/>
+  <ellipse cx="19.35" cy="14.62" rx="0.7" ry="0.4" fill="#4a5a2a" transform="rotate(43.60493827160494 19.35 14.62)"/>
+  <ellipse cx="14.5" cy="22.52" rx="0.7" ry="0.4" fill="#4a5a2a" transform="rotate(40.29320987654321 14.5 22.52)"/>
+  <ellipse cx="13.01" cy="26.66" rx="0.7" ry="0.4" fill="#4a5a2a" transform="rotate(60.68518518518518 13.01 26.66)"/>
+  <ellipse cx="21.4" cy="17.96" rx="0.7" ry="0.4" fill="#4a5a2a" transform="rotate(2.558641975308642 21.4 17.96)"/>
+  <ellipse cx="15.06" cy="21.79" rx="0.7" ry="0.4" fill="#5a4a2a" transform="rotate(137.0246913580247 15.06 21.79)"/>
+  <ellipse cx="16.98" cy="26.29" rx="0.7" ry="0.4" fill="#5a4a2a" transform="rotate(128.52777777777777 16.98 26.29)"/>
+  <ellipse cx="16.33" cy="25.74" rx="0.7" ry="0.4" fill="#4a5a2a" transform="rotate(154.84567901234567 16.33 25.74)"/>
+  <ellipse cx="15.18" cy="13.83" rx="0.7" ry="0.4" fill="#4a5a2a" transform="rotate(167.08950617283952 15.18 13.83)"/>
+  <ellipse cx="11.17" cy="17.04" rx="0.7" ry="0.4" fill="#5a4a2a" transform="rotate(169.7037037037037 11.17 17.04)"/>
+  <ellipse cx="12.15" cy="17.97" rx="0.7" ry="0.4" fill="#4a5a2a" transform="rotate(80.46604938271605 12.15 17.97)"/>
+  <ellipse cx="10.85" cy="23.65" rx="0.7" ry="0.4" fill="#4a5a2a" transform="rotate(70.48765432098766 10.85 23.65)"/>
+  <ellipse cx="15.58" cy="23.9" rx="0.7" ry="0.4" fill="#5a4a2a" transform="rotate(124.21296296296296 15.58 23.9)"/>
+  <ellipse cx="16.85" cy="19.64" rx="0.7" ry="0.4" fill="#5a4a2a" transform="rotate(79.41975308641975 16.85 19.64)"/>
+  <ellipse cx="10.08" cy="16.25" rx="0.7" ry="0.4" fill="#5a4a2a" transform="rotate(147.21913580246914 10.08 16.25)"/>
+  <ellipse cx="14.21" cy="26.87" rx="0.7" ry="0.4" fill="#4a5a2a" transform="rotate(112.05555555555556 14.21 26.87)"/>
+  <ellipse cx="14.45" cy="25.76" rx="0.7" ry="0.4" fill="#4a5a2a" transform="rotate(91.70679012345678 14.45 25.76)"/>
+  <ellipse cx="20.86" cy="16.62" rx="0.7" ry="0.4" fill="#5a4a2a" transform="rotate(157.28395061728395 20.86 16.62)"/>
+  </g>
+  <path fill="none" stroke="#e3d4ae" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="M9 10.4h14"/>
+</svg>

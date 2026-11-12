@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <path fill="#e8d9b8" d="M8.6 9.6c-2-.6-3.2-2.4-3.4-4.6c1.8.4 3.4 1.4 4.6 2.8z"/>
+  <path fill="#e8d9b8" d="M23.4 9.6c2-.6 3.2-2.4 3.4-4.6c-1.8.4-3.4 1.4-4.6 2.8z"/>
+  <ellipse cx="5.6" cy="12.4" rx="3.4" ry="1.8" fill="#3a3a40" transform="rotate(-20 5.6 12.4)"/>
+  <ellipse cx="26.4" cy="12.4" rx="3.4" ry="1.8" fill="#3a3a40" transform="rotate(20 26.4 12.4)"/>
+  <ellipse cx="5.8" cy="12.4" rx="2" ry="0.9" fill="#f48fa0" transform="rotate(-20 5.8 12.4)"/>
+  <ellipse cx="26.2" cy="12.4" rx="2" ry="0.9" fill="#f48fa0" transform="rotate(20 26.2 12.4)"/>
+  <path fill="#f4f4f4" d="M8 12c0-4.4 3.6-7 8-7s8 2.6 8 7v6c0 2-1 3.4-2.4 4.4H10.4C9 21.4 8 20 8 18z"/>
+  <clipPath id="cw7">
+  <path fill="#000" d="M8 12c0-4.4 3.6-7 8-7s8 2.6 8 7v6c0 2-1 3.4-2.4 4.4H10.4C9 21.4 8 20 8 18z"/>
+  </clipPath>
+  <g clip-path="url(#cw7)">
+  <path fill="#2a2a30" d="M7 6c3 0 5 1.6 5.4 4.4c.4 2.4-1 3.6-2.6 4.4c-1.4.8-2 2-3 2.6z"/>
+  <ellipse cx="21.6" cy="8.4" rx="2.8" ry="2.2" fill="#2a2a30" transform="rotate(20 21.6 8.4)"/>
+  <rect width="10" height="32" x="19.4" y="0" fill="#00000014" rx="0"/>
+  </g>
+  <circle cx="12.4" cy="14" r="1.3" fill="#1d1d22"/>
+  <circle cx="19.6" cy="14" r="1.3" fill="#1d1d22"/>
+  <circle cx="12" cy="13.6" r="0.4" fill="#ffffff"/>
+  <circle cx="19.2" cy="13.6" r="0.4" fill="#ffffff"/>
+  <ellipse cx="16" cy="22.4" rx="7.4" ry="4.6" fill="#e86f88"/>
+  <ellipse cx="16" cy="22" rx="6.8" ry="4" fill="#f6a0b0"/>
+  <ellipse cx="13.4" cy="22.4" rx="1" ry="1.4" fill="#a83a52"/>
+  <ellipse cx="18.6" cy="22.4" rx="1" ry="1.4" fill="#a83a52"/>
+</svg>

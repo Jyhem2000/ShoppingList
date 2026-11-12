@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <path fill="none" stroke="#b98543" stroke-linecap="round" stroke-linejoin="round" stroke-width="7" d="M5 20c4-1 8-1.4 12-.6s7 .4 10-1.6"/>
+  <path fill="none" stroke="#d9a35f" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" d="M5 20c4-1 8-1.4 12-.6s7 .4 10-1.6"/>
+  <path fill="none" stroke="#f0c88a" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7999999999999998" d="M5 20c4-1 8-1.4 12-.6s7 .4 10-1.6"/>
+  <path fill="none" stroke="#b98543" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.4" d="M12 19.4c-.4-3.6.6-7 3-9.4"/>
+  <path fill="none" stroke="#d9a35f" stroke-linecap="round" stroke-linejoin="round" stroke-width="4.4" d="M12 19.4c-.4-3.6.6-7 3-9.4"/>
+  <path fill="none" stroke="#f0c88a" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.32" d="M12 19.4c-.4-3.6.6-7 3-9.4"/>
+  <path fill="none" stroke="#b98543" stroke-linecap="round" stroke-linejoin="round" stroke-width="5" d="M20 19.2c1-2.8 3-4.6 5.6-5.4"/>
+  <path fill="none" stroke="#d9a35f" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M20 19.2c1-2.8 3-4.6 5.6-5.4"/>
+  <path fill="none" stroke="#f0c88a" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M20 19.2c1-2.8 3-4.6 5.6-5.4"/>
+  <path fill="none" stroke="#b98543" stroke-linecap="round" stroke-linejoin="round" stroke-width="4.6" d="M15.6 20c1 2.6 1 5-.6 7"/>
+  <path fill="none" stroke="#d9a35f" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.6" d="M15.6 20c1 2.6 1 5-.6 7"/>
+  <path fill="none" stroke="#f0c88a" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.08" d="M15.6 20c1 2.6 1 5-.6 7"/>
+  <path fill="none" stroke="#b98543" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.6" d="M8.4 17.4v5M12.6 16.8v5.4M18 17.2v5M22.6 16.4v4.6M12.6 13.6l3 .8M21.6 15.4l1.8 1.8"/>
+  <ellipse cx="27.4" cy="18.4" rx="2" ry="2.4" fill="#f6d98a" transform="rotate(20 27.4 18.4)"/>
+  <ellipse cx="27.4" cy="18.4" rx="1.2" ry="1.4" fill="#fbe8a8" transform="rotate(20 27.4 18.4)"/>
+</svg>

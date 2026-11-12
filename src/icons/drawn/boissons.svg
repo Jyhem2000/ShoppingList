@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="4" height="8" x="8" y="4" fill="#2e9e3a" rx="1.4"/>
+  <rect width="2.4" height="3" x="8.8" y="2" fill="#2e9e3a" rx="0.8"/>
+  <rect width="2.8" height="1.4" x="8.6" y="1.4" fill="#d4a03a" rx="0.6"/>
+  <rect width="0.8" height="6" x="8.8" y="5" fill="#4ec05a" rx="0.4"/>
+  <rect width="4" height="8" x="14" y="4" fill="#8a4a1a" rx="1.4"/>
+  <rect width="2.4" height="3" x="14.8" y="2" fill="#8a4a1a" rx="0.8"/>
+  <rect width="2.8" height="1.4" x="14.6" y="1.4" fill="#d4a03a" rx="0.6"/>
+  <rect width="0.8" height="6" x="14.8" y="5" fill="#b06a30" rx="0.4"/>
+  <rect width="4" height="8" x="20" y="4" fill="#dfeaf2" rx="1.4"/>
+  <rect width="2.4" height="3" x="20.8" y="2" fill="#dfeaf2" rx="0.8"/>
+  <rect width="2.8" height="1.4" x="20.6" y="1.4" fill="#d4a03a" rx="0.6"/>
+  <rect width="0.8" height="6" x="20.8" y="5" fill="#ffffff" rx="0.4"/>
+  <path fill="#d6342b" d="M3 11h26l-1.4 16.4c-.1 1.4-1.2 2.4-2.6 2.4H7c-1.4 0-2.5-1-2.6-2.4z"/>
+  <clipPath id="cr1">
+  <path fill="#000" d="M3 11h26l-1.4 16.4c-.1 1.4-1.2 2.4-2.6 2.4H7c-1.4 0-2.5-1-2.6-2.4z"/>
+  </clipPath>
+  <g clip-path="url(#cr1)">
+  <rect width="10" height="32" x="21" y="0" fill="#a8252a" rx="0"/>
+  </g>
+  <rect width="12" height="3.4" x="10" y="15" fill="#8a1f22" rx="1.7"/>
+  <rect width="27.2" height="2.4" x="2.4" y="10" fill="#e85a50" rx="1.2"/>
+</svg>

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <path fill="#2f6fc8" d="M4 9.6l12-4.6l12 4.6v13.2l-12 4.6l-12-4.6z"/>
+  <path fill="#5a92e0" d="M4 9.6l12-4.6l12 4.6l-12 4.6z"/>
+  <path fill="#24569c" d="M16 14.2v13.2l12-4.6V9.6z"/>
+  <clipPath id="pz14">
+  <path fill="#000" d="M4 9.6l12-4.6l12 4.6l-12 4.6z"/>
+  </clipPath>
+  <g clip-path="url(#pz14)">
+  <ellipse cx="16" cy="9.6" rx="8" ry="3" fill="#e8a040"/>
+  <ellipse cx="16" cy="9.6" rx="6.6" ry="2.4" fill="#d6342b"/>
+  <ellipse cx="16" cy="9.6" rx="6" ry="2.1" fill="#ffd25a"/>
+  <circle cx="13.6" cy="9.2" r="0.8" fill="#c0282e"/>
+  <circle cx="18" cy="10.2" r="0.8" fill="#c0282e"/>
+  <circle cx="16.4" cy="8.4" r="0.7" fill="#c0282e"/>
+  </g>
+  <path fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.7" d="M7.40 19.00L12.60 19.00M8.70 16.75L11.30 21.25M11.30 16.75L8.70 21.25"/>
+</svg>

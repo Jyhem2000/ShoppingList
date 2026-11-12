@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <path fill="#d9b060" d="M4 13l12-5l12 5v9l-12 5l-12-5z"/>
+  <path fill="#f2d48a" d="M4 13l12-5l12 5l-12 5z"/>
+  <clipPath id="no">
+  <path fill="#000" d="M4 13l12-5l12 5l-12 5z"/>
+  </clipPath>
+  <g clip-path="url(#no)">
+  <path fill="none" stroke="#d9b060" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.6" d="M2 7q2 -1 4 0t4 0t4 0t4 0t4 0t4 0t4 0t4 0"/>
+  <path fill="none" stroke="#d9b060" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.6" d="M2 8.6q2 -1 4 0t4 0t4 0t4 0t4 0t4 0t4 0t4 0"/>
+  <path fill="none" stroke="#d9b060" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.6" d="M2 10.2q2 -1 4 0t4 0t4 0t4 0t4 0t4 0t4 0t4 0"/>
+  <path fill="none" stroke="#d9b060" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.6" d="M2 11.8q2 -1 4 0t4 0t4 0t4 0t4 0t4 0t4 0t4 0"/>
+  <path fill="none" stroke="#d9b060" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.6" d="M2 13.4q2 -1 4 0t4 0t4 0t4 0t4 0t4 0t4 0t4 0"/>
+  <path fill="none" stroke="#d9b060" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.6" d="M2 15q2 -1 4 0t4 0t4 0t4 0t4 0t4 0t4 0t4 0"/>
+  <path fill="none" stroke="#d9b060" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.6" d="M2 16.6q2 -1 4 0t4 0t4 0t4 0t4 0t4 0t4 0t4 0"/>
+  <path fill="none" stroke="#d9b060" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.6" d="M2 18.200000000000003q2 -1 4 0t4 0t4 0t4 0t4 0t4 0t4 0t4 0"/>
+  <path fill="none" stroke="#d9b060" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.6" d="M2 19.8q2 -1 4 0t4 0t4 0t4 0t4 0t4 0t4 0t4 0"/>
+  </g>
+  <clipPath id="n2">
+  <path fill="#000" d="M4 13l12 5v9l-12-5z"/>
+  </clipPath>
+  <g clip-path="url(#n2)">
+  <path fill="none" stroke="#c09040" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.6" d="M2 14q2 -1 4 0t4 0t4 0t4 0"/>
+  <path fill="none" stroke="#c09040" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.6" d="M2 15.8q2 -1 4 0t4 0t4 0t4 0"/>
+  <path fill="none" stroke="#c09040" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.6" d="M2 17.6q2 -1 4 0t4 0t4 0t4 0"/>
+  <path fill="none" stroke="#c09040" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.6" d="M2 19.4q2 -1 4 0t4 0t4 0t4 0"/>
+  <path fill="none" stroke="#c09040" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.6" d="M2 21.2q2 -1 4 0t4 0t4 0t4 0"/>
+  <path fill="none" stroke="#c09040" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.6" d="M2 23q2 -1 4 0t4 0t4 0t4 0"/>
+  <path fill="none" stroke="#c09040" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.6" d="M2 24.8q2 -1 4 0t4 0t4 0t4 0"/>
+  </g>
+  <clipPath id="n3">
+  <path fill="#000" d="M16 18l12-5v9l-12 5z"/>
+  </clipPath>
+  <g clip-path="url(#n3)">
+  <rect width="32" height="32" x="0" y="0" fill="#c9a050" rx="0"/>
+  <path fill="none" stroke="#a8803a" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.6" d="M14 16q2 -1 4 0t4 0t4 0t4 0"/>
+  <path fill="none" stroke="#a8803a" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.6" d="M14 17.8q2 -1 4 0t4 0t4 0t4 0"/>
+  <path fill="none" stroke="#a8803a" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.6" d="M14 19.6q2 -1 4 0t4 0t4 0t4 0"/>
+  <path fill="none" stroke="#a8803a" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.6" d="M14 21.4q2 -1 4 0t4 0t4 0t4 0"/>
+  <path fill="none" stroke="#a8803a" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.6" d="M14 23.2q2 -1 4 0t4 0t4 0t4 0"/>
+  <path fill="none" stroke="#a8803a" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.6" d="M14 25q2 -1 4 0t4 0t4 0t4 0"/>
+  <path fill="none" stroke="#a8803a" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.6" d="M14 26.8q2 -1 4 0t4 0t4 0t4 0"/>
+  </g>
+</svg>

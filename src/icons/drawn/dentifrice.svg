@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <g transform="translate(2.4 -2.4) rotate(-28 16 16)">
+  <path fill="#d3d3d3" d="M25 11.6h4v8.2h-4z"/>
+  <path fill="none" stroke="#b0b4ba" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.4" d="M26 12v7.4"/>
+  <path fill="none" stroke="#b0b4ba" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.4" d="M27.05 12v7.4"/>
+  <path fill="none" stroke="#b0b4ba" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.4" d="M28.1 12v7.4"/>
+  <path fill="#f4f4f4" d="M7.4 12.8c.8-.5 1.8-.8 2.8-.8h15v7.4h-15c-1 0-2-.3-2.8-.8z"/>
+  <clipPath id="tb0">
+  <path fill="#000" d="M7.4 12.8c.8-.5 1.8-.8 2.8-.8h15v7.4h-15c-1 0-2-.3-2.8-.8z"/>
+  </clipPath>
+  <g clip-path="url(#tb0)">
+  <path fill="#d8d8d8" d="M0 17.4h32V32H0z"/>
+  <path fill="#2f7de1" d="M14 0h3v32H14z"/>
+  <path fill="#2f7de1" d="M18.4 0h1.2v32h-1.2z"/>
+  <rect width="14.6" height="0.8" x="9.6" y="13" fill="#ffffff" rx="0.4"/>
+  </g>
+  <path fill="#e3e3e3" d="M7.6 12.9l-2.2 1.6v2.6l2.2 1.6z"/>
+  <rect width="2.4" height="2.8" x="3.2" y="14.4" fill="#e3e3e3" rx="0.6"/>
+  </g>
+  <path fill="none" stroke="#18181d" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.6" d="M7.4 19.4c-1.2 1-2.4 1.6-3.6 1.6c-1.2 0-2 .8-2.2 2"/>
+  <path fill="none" stroke="#18181d" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" d="M7.4 19.4c-1.2 1-2.4 1.6-3.6 1.6c-1.2 0-2 .8-2.2 2"/>
+  <path fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4" d="M7.4 19.4c-1.2 1-2.4 1.6-3.6 1.6c-1.2 0-2 .8-2.2 2"/>
+  <path fill="none" stroke="#e8243f" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.7" d="M7.4 19.4c-1.2 1-2.4 1.6-3.6 1.6c-1.2 0-2 .8-2.2 2"/>
+</svg>

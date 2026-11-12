@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <g transform="rotate(-24 16 16)">
+  <circle cx="6.6" cy="13.6" r="1.2" fill="#c98a3a"/>
+  <circle cx="7.32" cy="9.85" r="1.2" fill="#c98a3a"/>
+  <circle cx="9.35" cy="6.68" r="1.2" fill="#c98a3a"/>
+  <circle cx="12.4" cy="4.55" r="1.2" fill="#c98a3a"/>
+  <circle cx="16" cy="3.81" r="1.2" fill="#c98a3a"/>
+  <circle cx="19.6" cy="4.55" r="1.2" fill="#c98a3a"/>
+  <circle cx="22.65" cy="6.68" r="1.2" fill="#c98a3a"/>
+  <circle cx="24.68" cy="9.85" r="1.2" fill="#c98a3a"/>
+  <circle cx="25.4" cy="13.6" r="1.2" fill="#c98a3a"/>
+  <path fill="#c98a3a" d="M16 3.6c-5.8 0-10 4.4-10 10.2c0 6 4.2 11.4 8.6 13.4c.9.4 1.9.4 2.8 0c4.4-2 8.6-7.4 8.6-13.4c0-5.8-4.2-10.2-10-10.2"/>
+  <path fill="#f0b54a" d="M16 5c-5 0-8.6 3.8-8.6 8.8c0 5.4 3.6 10.2 7.6 12c.6.3 1.4.3 2 0c4-1.8 7.6-6.6 7.6-12c0-5-3.6-8.8-8.6-8.8"/>
+  <clipPath id="md">
+  <path fill="#000" d="M16 5c-5 0-8.6 3.8-8.6 8.8c0 5.4 3.6 10.2 7.6 12c.6.3 1.4.3 2 0c4-1.8 7.6-6.6 7.6-12c0-5-3.6-8.8-8.6-8.8"/>
+  </clipPath>
+  <g clip-path="url(#md)">
+  <path fill="none" stroke="#d99a3a" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="M16 27C12 20 8.6 12 7 4"/>
+  <path fill="none" stroke="#d99a3a" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="M16 27C13 20 10.45 12 9.25 4"/>
+  <path fill="none" stroke="#d99a3a" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="M16 27C14 20 12.3 12 11.5 4"/>
+  <path fill="none" stroke="#d99a3a" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="M16 27C15 20 14.15 12 13.75 4"/>
+  <path fill="none" stroke="#d99a3a" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="M16 27C16 20 16 12 16 4"/>
+  <path fill="none" stroke="#d99a3a" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="M16 27C17 20 17.85 12 18.25 4"/>
+  <path fill="none" stroke="#d99a3a" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="M16 27C18 20 19.700000000000003 12 20.5 4"/>
+  <path fill="none" stroke="#d99a3a" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="M16 27C19 20 21.55 12 22.75 4"/>
+  <path fill="none" stroke="#d99a3a" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="M16 27C20 20 23.4 12 25 4"/>
+  <ellipse cx="22" cy="18" rx="5" ry="11" fill="#e0a03a"/>
+  </g>
+  <ellipse cx="12.4" cy="9.4" rx="2.4" ry="1.2" fill="#ffd88a" transform="rotate(-30 12.4 9.4)"/>
+  </g>
+</svg>

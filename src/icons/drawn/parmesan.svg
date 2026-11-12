@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <path fill="#efd48a" d="M3.5 22.5V15L23 7.6l5.5 6.8v8.1z"/>
+  <path fill="#f8e4a6" d="M3.5 15L23 7.6l5.5 6.8z"/>
+  <clipPath id="p">
+  <path fill="#000" d="M3.5 22.5V15h25v7.5z"/>
+  </clipPath>
+  <g clip-path="url(#p)">
+  <circle cx="13.11" cy="21.57" r="0.35" fill="#d9b862"/>
+  <circle cx="21.98" cy="20.27" r="0.35" fill="#d9b862"/>
+  <circle cx="14.23" cy="19.71" r="0.35" fill="#d9b862"/>
+  <circle cx="27.49" cy="20.19" r="0.35" fill="#d9b862"/>
+  <circle cx="21.17" cy="19.61" r="0.35" fill="#d9b862"/>
+  <circle cx="7.12" cy="18.54" r="0.35" fill="#d9b862"/>
+  <circle cx="4.31" cy="16.56" r="0.35" fill="#d9b862"/>
+  <circle cx="9.47" cy="19.62" r="0.35" fill="#d9b862"/>
+  <circle cx="7.79" cy="18.77" r="0.35" fill="#d9b862"/>
+  <circle cx="23.57" cy="19.46" r="0.35" fill="#d9b862"/>
+  <circle cx="18.88" cy="15.91" r="0.35" fill="#d9b862"/>
+  <circle cx="24.24" cy="16.01" r="0.35" fill="#d9b862"/>
+  <circle cx="21.28" cy="17.9" r="0.35" fill="#d9b862"/>
+  <circle cx="9.4" cy="17.26" r="0.35" fill="#d9b862"/>
+  <circle cx="16.47" cy="19.06" r="0.35" fill="#d9b862"/>
+  <circle cx="5.43" cy="20.69" r="0.35" fill="#d9b862"/>
+  <circle cx="13.04" cy="19.29" r="0.35" fill="#d9b862"/>
+  <circle cx="16.47" cy="16.91" r="0.35" fill="#d9b862"/>
+  <circle cx="8.03" cy="16.81" r="0.35" fill="#d9b862"/>
+  <circle cx="13.78" cy="17.59" r="0.35" fill="#d9b862"/>
+  <circle cx="8.25" cy="18.37" r="0.35" fill="#d9b862"/>
+  <circle cx="13.07" cy="21.67" r="0.35" fill="#d9b862"/>
+  <circle cx="19.64" cy="20.96" r="0.35" fill="#d9b862"/>
+  <circle cx="23.81" cy="19.03" r="0.35" fill="#d9b862"/>
+  <circle cx="4.56" cy="17.67" r="0.35" fill="#d9b862"/>
+  <circle cx="14.61" cy="18.41" r="0.35" fill="#d9b862"/>
+  <circle cx="23.15" cy="21.1" r="0.35" fill="#d9b862"/>
+  <circle cx="14.49" cy="20.2" r="0.35" fill="#d9b862"/>
+  <circle cx="6.68" cy="18.73" r="0.35" fill="#d9b862"/>
+  <circle cx="14.27" cy="20.18" r="0.35" fill="#d9b862"/>
+  </g>
+  <clipPath id="pt">
+  <path fill="#000" d="M3.5 15L23 7.6l5.5 6.8z"/>
+  </clipPath>
+  <g clip-path="url(#pt)">
+  <circle cx="25.05" cy="11.44" r="0.3" fill="#e6c878"/>
+  <circle cx="25.89" cy="10.74" r="0.3" fill="#e6c878"/>
+  <circle cx="6.97" cy="11.6" r="0.3" fill="#e6c878"/>
+  <circle cx="24.07" cy="13.63" r="0.3" fill="#e6c878"/>
+  <circle cx="14.48" cy="10.25" r="0.3" fill="#e6c878"/>
+  <circle cx="25.86" cy="11.31" r="0.3" fill="#e6c878"/>
+  <circle cx="18.45" cy="9.77" r="0.3" fill="#e6c878"/>
+  <circle cx="20.66" cy="12.37" r="0.3" fill="#e6c878"/>
+  <circle cx="17.9" cy="14.3" r="0.3" fill="#e6c878"/>
+  <circle cx="14.88" cy="13.85" r="0.3" fill="#e6c878"/>
+  <circle cx="11.09" cy="13.11" r="0.3" fill="#e6c878"/>
+  <circle cx="9.75" cy="10.57" r="0.3" fill="#e6c878"/>
+  <circle cx="20" cy="9.88" r="0.3" fill="#e6c878"/>
+  <circle cx="12.45" cy="14.45" r="0.3" fill="#e6c878"/>
+  </g>
+  <path fill="none" stroke="#ffffff55" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.4" d="M3.5 15l25-.6"/>
+</svg>

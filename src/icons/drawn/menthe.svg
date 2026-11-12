@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <path fill="none" stroke="#6d9a3a" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.4" d="M16 30V6"/>
+  <g transform="translate(16 24) rotate(-160)">
+  <path fill="#2fb47a" d="M0 0C1.63 -3.4 4.55 -3.4 6.5 0C4.55 3.4 1.63 3.4 0 0"/>
+  <path fill="none" stroke="#a6f2cd" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.6" d="M0.78 0H5.07"/>
+  </g>
+  <g transform="translate(16 24) rotate(-20)">
+  <path fill="#2fb47a" d="M0 0C1.63 -3.4 4.55 -3.4 6.5 0C4.55 3.4 1.63 3.4 0 0"/>
+  <path fill="none" stroke="#a6f2cd" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.6" d="M0.78 0H5.07"/>
+  </g>
+  <circle cx="14.05" cy="21.15" r="0.35" fill="#2fb47a"/>
+  <circle cx="12.75" cy="21.15" r="0.35" fill="#2fb47a"/>
+  <circle cx="11.45" cy="21.15" r="0.35" fill="#2fb47a"/>
+  <circle cx="17.95" cy="21.15" r="0.35" fill="#2fb47a"/>
+  <circle cx="19.25" cy="21.15" r="0.35" fill="#2fb47a"/>
+  <circle cx="20.55" cy="21.15" r="0.35" fill="#2fb47a"/>
+  <g transform="translate(16 17.5) rotate(-150)">
+  <path fill="#3ccf8e" d="M0 0C1.8 -3.6 5.04 -3.6 7.2 0C5.04 3.6 1.8 3.6 0 0"/>
+  <path fill="none" stroke="#a6f2cd" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.6" d="M0.86 0H5.62"/>
+  </g>
+  <g transform="translate(16 17.5) rotate(-30)">
+  <path fill="#3ccf8e" d="M0 0C1.8 -3.6 5.04 -3.6 7.2 0C5.04 3.6 1.8 3.6 0 0"/>
+  <path fill="none" stroke="#a6f2cd" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.6" d="M0.86 0H5.62"/>
+  </g>
+  <circle cx="13.84" cy="14.5" r="0.35" fill="#3ccf8e"/>
+  <circle cx="12.4" cy="14.5" r="0.35" fill="#3ccf8e"/>
+  <circle cx="10.96" cy="14.5" r="0.35" fill="#3ccf8e"/>
+  <circle cx="18.16" cy="14.5" r="0.35" fill="#3ccf8e"/>
+  <circle cx="19.6" cy="14.5" r="0.35" fill="#3ccf8e"/>
+  <circle cx="21.04" cy="14.5" r="0.35" fill="#3ccf8e"/>
+  <g transform="translate(16 11.5) rotate(-140)">
+  <path fill="#5ee0a5" d="M0 0C1.9 -3.2 5.32 -3.2 7.6 0C5.32 3.2 1.9 3.2 0 0"/>
+  <path fill="none" stroke="#a6f2cd" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.6" d="M0.91 0H5.93"/>
+  </g>
+  <g transform="translate(16 11.5) rotate(-40)">
+  <path fill="#5ee0a5" d="M0 0C1.9 -3.2 5.32 -3.2 7.6 0C5.32 3.2 1.9 3.2 0 0"/>
+  <path fill="none" stroke="#a6f2cd" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.6" d="M0.91 0H5.93"/>
+  </g>
+  <circle cx="13.72" cy="8.8" r="0.35" fill="#5ee0a5"/>
+  <circle cx="12.2" cy="8.8" r="0.35" fill="#5ee0a5"/>
+  <circle cx="10.68" cy="8.8" r="0.35" fill="#5ee0a5"/>
+  <circle cx="18.28" cy="8.8" r="0.35" fill="#5ee0a5"/>
+  <circle cx="19.8" cy="8.8" r="0.35" fill="#5ee0a5"/>
+  <circle cx="21.32" cy="8.8" r="0.35" fill="#5ee0a5"/>
+  <g transform="translate(16 7) rotate(-90)">
+  <path fill="#7ae8b6" d="M0 0C1.15 -2.2 3.22 -2.2 4.6 0C3.22 2.2 1.15 2.2 0 0"/>
+  <path fill="none" stroke="#c5f8df" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.6" d="M0.55 0H3.59"/>
+  </g>
+</svg>

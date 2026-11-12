@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <circle cx="16" cy="11.5" r="5.2" fill="#3f4aa8"/>
+  <circle cx="15.64" cy="11.14" r="4.68" fill="#5562d6"/>
+  <ellipse cx="13.82" cy="9.32" rx="0.94" ry="1.56" fill="#a9b4ff" transform="rotate(40 13.82 9.32)"/>
+  <circle cx="17.3" cy="10.72" r="1.25" fill="#2c2f6e"/>
+  <circle cx="17.3" cy="10.72" r="0.52" fill="#5562d6"/>
+  <circle cx="24" cy="13" r="3.6" fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round"/>
+  <circle cx="23.75" cy="12.75" r="3.24" fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round"/>
+  <ellipse cx="22.49" cy="11.49" rx="0.65" ry="1.08" fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round" transform="rotate(40 22.49 11.49)"/>
+  <circle cx="24.9" cy="12.46" r="0.86" fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round"/>
+  <circle cx="24.9" cy="12.46" r="0.36" fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round"/>
+  <circle cx="24" cy="13" r="3.6" fill="#3f4aa8"/>
+  <circle cx="23.75" cy="12.75" r="3.24" fill="#5562d6"/>
+  <ellipse cx="22.49" cy="11.49" rx="0.65" ry="1.08" fill="#a9b4ff" transform="rotate(40 22.49 11.49)"/>
+  <circle cx="24.9" cy="12.46" r="0.86" fill="#2c2f6e"/>
+  <circle cx="24.9" cy="12.46" r="0.36" fill="#5562d6"/>
+  <circle cx="10.5" cy="20" r="6" fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round"/>
+  <circle cx="10.08" cy="19.58" r="5.4" fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round"/>
+  <ellipse cx="7.98" cy="17.48" rx="1.08" ry="1.8" fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round" transform="rotate(40 7.98 17.48)"/>
+  <circle cx="12" cy="19.1" r="1.44" fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round"/>
+  <circle cx="12" cy="19.1" r="0.6" fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round"/>
+  <circle cx="10.5" cy="20" r="6" fill="#3f4aa8"/>
+  <circle cx="10.08" cy="19.58" r="5.4" fill="#5562d6"/>
+  <ellipse cx="7.98" cy="17.48" rx="1.08" ry="1.8" fill="#a9b4ff" transform="rotate(40 7.98 17.48)"/>
+  <circle cx="12" cy="19.1" r="1.44" fill="#2c2f6e"/>
+  <circle cx="12" cy="19.1" r="0.6" fill="#5562d6"/>
+  <circle cx="21" cy="21.5" r="6.2" fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round"/>
+  <circle cx="20.57" cy="21.07" r="5.58" fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round"/>
+  <ellipse cx="18.4" cy="18.9" rx="1.12" ry="1.86" fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round" transform="rotate(40 18.4 18.9)"/>
+  <circle cx="22.55" cy="20.57" r="1.49" fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round"/>
+  <circle cx="22.55" cy="20.57" r="0.62" fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round"/>
+  <circle cx="21" cy="21.5" r="6.2" fill="#3f4aa8"/>
+  <circle cx="20.57" cy="21.07" r="5.58" fill="#5562d6"/>
+  <ellipse cx="18.4" cy="18.9" rx="1.12" ry="1.86" fill="#a9b4ff" transform="rotate(40 18.4 18.9)"/>
+  <circle cx="22.55" cy="20.57" r="1.49" fill="#2c2f6e"/>
+  <circle cx="22.55" cy="20.57" r="0.62" fill="#5562d6"/>
+</svg>

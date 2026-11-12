@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <ellipse cx="16" cy="13.6" rx="10.5" ry="2.8" fill="#8a4a28"/>
+  <path fill="#ecd4a6" d="M5.5 13.6a10.5 2.8 0 0 0 21 0c-1.2-3.2199999999999998-4.8-4.6-10.5-4.6S6.7 10.379999999999999 5.5 13.6z"/>
+  <path fill="none" stroke="#d4b47c" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="M9 12.4c2.2-1.8 4.8-2.4 7-2c3 .4 5.6 1.4 7 2.8"/>
+  <ellipse cx="16" cy="11.4" rx="3" ry="1" fill="#c9b03a"/>
+  <ellipse cx="15.4" cy="11.2" rx="1.6" ry="0.45" fill="#e8d468"/>
+  <circle cx="11" cy="12.2" r="0.4" fill="#d6342b"/>
+  <circle cx="21" cy="12.6" r="0.4" fill="#d6342b"/>
+  <circle cx="13.4" cy="14" r="0.4" fill="#d6342b"/>
+  <circle cx="19.4" cy="10.8" r="0.4" fill="#d6342b"/>
+  <path fill="#c97a4a" d="M5.5 13.6a10.5 2.8 0 0 0 21 0c0 6.4-4.7 11-10.5 11S5.5 20 5.5 13.6z"/>
+  <clipPath id="b2">
+  <path fill="#000" d="M5.5 13.6a10.5 2.8 0 0 0 21 0c0 6.4-4.7 11-10.5 11S5.5 20 5.5 13.6z"/>
+  </clipPath>
+  <g clip-path="url(#b2)">
+  <ellipse cx="24.5" cy="21" rx="7" ry="10" fill="#a85e34"/>
+  </g>
+  <path fill="none" stroke="#ffffff70" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.7" d="M5.5 13.6a10.5 2.8 0 0 0 21 0"/>
+</svg>
