@@ -2,9 +2,9 @@
 
 PWA de liste de courses, local-first (aucun serveur, aucun compte), triée par rayon selon le magasin. Optimisée pour Chrome : iPhone (dernière version d'iOS, cible principale) et Android récent (cible secondaire).
 
-## Phase actuelle : développement de la v1.0 — phase 6 (tout modifiable) réalisée, à valider
+## Phase actuelle : développement de la v1.0 — phase 6 (tout modifiable) publiée, à valider
 
-Version publiée : `0.5.0` (mode courses publié avant l'essai en magasin, à la demande de l'utilisateur ; correctifs en `0.5.x` ou dans la `0.6.0`). La phase 6 (G1 à G5) est sur `dev`, ses nouveautés écrites : elle donnera la `0.6.0`.
+Version `0.6.0` publiée (phase 6) pour un essai réel ; correctifs en `0.6.x`. Ensuite : phase 7 (réglages, sauvegarde, aide, finitions).
 
 La documentation est **validée** (8 novembre 2026). Suivre le plan de `docs/09-plan-de-developpement.md` phase par phase, en travaillant directement sur `dev` (pas de branche de travail ni de pull request). Pour les phases 3 à 6 et 8, proposer un plan avant d'implémenter. Ne jamais commencer une phase suivante sans validation de la précédente.
 
