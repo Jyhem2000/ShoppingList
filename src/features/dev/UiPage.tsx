@@ -58,6 +58,7 @@ function Aisle({ aisle, large }: { aisle: MockAisle; large?: boolean }) {
       count={large ? remaining : aisle.items.length}
       expanded={expanded}
       done={large && remaining === 0}
+      outlined={!large}
       onToggle={() => setExpanded((value) => !value)}
     >
       {items.map((item) => (

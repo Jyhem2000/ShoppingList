@@ -22,8 +22,9 @@ export function Field({
   );
 }
 
+// En thème clair, champ blanc bordé : l'or clair (--raised) reste aux éléments mis en avant.
 const control =
-  "h-12 w-full rounded-xl border border-border bg-raised px-3 text-base outline-none focus:border-primary";
+  "h-12 w-full rounded-xl border border-border bg-raised px-3 text-base outline-none focus:border-primary light:bg-bg";
 
 export function TextInput({ className, ...props }: ComponentProps<"input">) {
   return <input {...props} className={cn(control, className)} />;

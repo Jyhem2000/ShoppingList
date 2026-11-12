@@ -21,12 +21,13 @@ const tones: Record<ToastTone, { icon: LucideIcon; className: string }> = {
 /**
  * Affiche le message en cours (voir toast.ts) en haut de l'écran, au-dessus de tout
  * (panneaux compris) et jamais caché par le clavier : il descend, puis remonte tout seul.
+ * Posé sous le flou qu'iOS 26 met sous la barre d'état (même marge que les titres d'écran).
  * Bordure épaisse et icône de la couleur du ton, sur un fond plus clair que l'interface.
  */
 export function Toaster() {
   const toast = useToast();
   return (
-    <div className="pointer-events-none fixed inset-x-3 top-[calc(env(safe-area-inset-top)+0.75rem)] z-[60] mx-auto max-w-xl">
+    <div className="pointer-events-none fixed inset-x-3 top-[calc(env(safe-area-inset-top)+2rem)] z-[60] mx-auto max-w-xl">
       <AnimatePresence>
         {toast && (
           <motion.div

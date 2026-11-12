@@ -74,7 +74,7 @@
   --bg: #ffffff;
   --surface: #f7f7fa;
   --raised: #fef3c7;
-  --border: #dcdce4;
+  --border: #d6d6df;
   --field-border: #fbbf24;
 
   --text: #16161b;
@@ -98,17 +98,17 @@
   --danger: #dc2626;
 
   /* Palette : mêmes teintes, plus soutenues pour rester lisibles sur blanc */
-  --pal-sauge: #2f8a47;
-  --pal-ble: #a87a12;
+  --pal-sauge: #2a7d40;
+  --pal-ble: #8f680f;
   --pal-corail: #c9472a;
   --pal-canard: #127f8f;
   --pal-rose: #c23d78;
-  --pal-creme: #8f7a1a;
-  --pal-ambre: #b8650c;
+  --pal-creme: #776513;
+  --pal-ambre: #a1580a;
   --pal-terre: #8a5a34;
   --pal-prune: #9a3d88;
   --pal-ciel: #2f63c9;
-  --pal-glacier: #1f8aa6;
+  --pal-glacier: #187891;
   --pal-lilas: #6b4fc9;
   --pal-ardoise: #4f5d78;
   --pal-gris: #6b6b76;
