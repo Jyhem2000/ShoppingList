@@ -1,0 +1,172 @@
+@import "tailwindcss";
+@import "@fontsource-variable/plus-jakarta-sans";
+
+/*
+ * Design system — thème sombre unique (docs/05 § 2).
+ * Fonds neutres quasi noirs ; deux couleurs :
+ * - principale, violet : tout ce qui s'actionne (boutons, interrupteurs, liens) et les titres d'écran ;
+ * - secondaire, or : les repères (icônes, onglet actif, quantités, progression).
+ * Une icône placée dans un bouton prend la couleur du texte du bouton.
+ */
+:root {
+  color-scheme: dark;
+
+  /* Fonds, du plus profond au plus haut */
+  --bg: #0f0f12; /* fond 1 : l'app */
+  --surface: #18181d; /* fond 2 : cartes, lignes, panneaux */
+  --raised: #232329; /* fond 3 : éléments surélevés, champs, boutons neutres */
+  --border: #2e2e36;
+
+  /* Textes */
+  --text: #ededf0; /* texte principal */
+  --text-muted: #a3a3ad; /* texte secondaire */
+
+  /* Couleur principale : violet */
+  --primary: #a37ef2;
+  --primary-strong: #8a62e2;
+  --on-primary: #140d22; /* texte sur fond violet */
+
+  /* Couleur secondaire : or */
+  --secondary: #f5c451;
+  --secondary-strong: #e0a92e;
+  --on-secondary: #1d1606; /* texte sur fond or */
+
+  /* États : couleurs franches, ce sont des messages importants */
+  --success: #2ec27e;
+  --info: #3d9bff;
+  --warning: #ff7b3a;
+  --danger: #f2484f;
+
+  --radius: 1rem;
+}
+
+@theme inline {
+  --font-sans:
+    "Plus Jakarta Sans Variable", ui-sans-serif, system-ui, sans-serif;
+
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-raised: var(--raised);
+  --color-border: var(--border);
+  --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
+  --color-primary: var(--primary);
+  --color-primary-strong: var(--primary-strong);
+  --color-on-primary: var(--on-primary);
+  --color-secondary: var(--secondary);
+  --color-secondary-strong: var(--secondary-strong);
+  --color-on-secondary: var(--on-secondary);
+  --color-success: var(--success);
+  --color-info: var(--info);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+
+  /* Alias attendus par les composants shadcn/ui */
+  --color-background: var(--bg);
+  --color-foreground: var(--text);
+  --color-card: var(--surface);
+  --color-card-foreground: var(--text);
+  --color-popover: var(--surface);
+  --color-popover-foreground: var(--text);
+  --color-primary-foreground: var(--on-primary);
+  --color-secondary-foreground: var(--on-secondary);
+  --color-muted: var(--raised);
+  --color-muted-foreground: var(--text-muted);
+  --color-accent: var(--raised);
+  --color-accent-foreground: var(--text);
+  --color-destructive: var(--danger);
+  --color-input: var(--border);
+  --color-ring: var(--primary);
+
+  --radius-sm: calc(var(--radius) - 6px);
+  --radius-md: calc(var(--radius) - 4px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  /* Palette des rayons et catégories (docs/05 § 2) */
+  --color-sauge: #8fcf9c;
+  --color-ble: #e6c27a;
+  --color-corail: #f29b85;
+  --color-canard: #6fc3d0;
+  --color-rose: #f2a7c3;
+  --color-creme: #f3e3a1;
+  --color-ambre: #f0b35e;
+  --color-terre: #c9a27e;
+  --color-prune: #d38fc4;
+  --color-ciel: #8fb2f2;
+  --color-glacier: #a5e1f0;
+  --color-lilas: #b9a4f0;
+  --color-ardoise: #9aa7bd;
+  --color-gris: #85858f;
+}
+
+/* Zone qui défile sans barre de défilement visible (docs/07 § 4). */
+@utility scrollbar-none {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  /*
+   * Le fond de la page prend la couleur de la barre d'onglets : si l'iPhone affiche
+   * au lancement une bande sous la coquille de l'app (bug connu des apps installées),
+   * elle se confond avec la barre. Les écrans posent eux-mêmes le fond --bg.
+   */
+  /*
+   * Pas de rebond de la page (seul le contenu défile) : sur iPhone, après un rebond,
+   * le premier appui sur la barre d'onglets était ignoré. À poser sur html, l'élément
+   * qui défile ; sur body, iOS l'ignore.
+   */
+  html {
+    background: var(--surface);
+    -webkit-text-size-adjust: 100%;
+    overscroll-behavior: none;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100dvh;
+    background: var(--surface);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior-y: none;
+  }
+
+  button,
+  a {
+    touch-action: manipulation;
+  }
+}
+
+/*
+ * App installée sur iPhone : au lancement, iOS coupe les éléments fixes au bas
+ * d'une zone d'affichage trop courte. Le cadre est alors posé dans la page, à la
+ * hauteur de l'écran (src/platform/viewport.ts, docs/07 § 4). Hors couche, pour
+ * l'emporter sur la classe `fixed` du cadre.
+ */
+html[data-frame-mode="page"] [data-app-frame] {
+  position: absolute;
+}
+
+/* Animations des panneaux (docs/05 § 6) */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes sheet-in {
+  from {
+    transform: translateY(100%);
+  }
+}

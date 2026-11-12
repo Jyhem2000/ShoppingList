@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="5" height="8" x="19" y="15" fill="#f4eadb" rx="1.6"/>
+  <path fill="#d9c19a" d="M14 15.5c0-4.5 3.4-7.5 7.5-7.5S29 11 29 15.5c0 1-.6 1.5-1.5 1.5h-12c-.9 0-1.5-.5-1.5-1.5"/>
+  <path fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round" d="M8.5 19h6l.8 8.5a1.5 1.5 0 0 1-1.5 1.6h-4.6a1.5 1.5 0 0 1-1.5-1.6z"/>
+  <rect width="14" height="1.8" x="4.5" y="20" fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round" rx="0.9"/>
+  <path fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round" d="M3 19.5c0-5.2 4-8.5 8.5-8.5S20 14.3 20 19.5c0 1-.7 1.7-1.7 1.7H4.7C3.7 21.2 3 20.5 3 19.5"/>
+  <ellipse cx="8" cy="15" rx="2.4" ry="1.2" fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round" transform="rotate(-25 8 15)"/>
+  <path fill="#f6eee2" d="M8.5 19h6l.8 8.5a1.5 1.5 0 0 1-1.5 1.6h-4.6a1.5 1.5 0 0 1-1.5-1.6z"/>
+  <rect width="14" height="1.8" x="4.5" y="20" fill="#b89a74" rx="0.9"/>
+  <path fill="#efe1c8" d="M3 19.5c0-5.2 4-8.5 8.5-8.5S20 14.3 20 19.5c0 1-.7 1.7-1.7 1.7H4.7C3.7 21.2 3 20.5 3 19.5"/>
+  <ellipse cx="8" cy="15" rx="2.4" ry="1.2" fill="#fbf4e8" transform="rotate(-25 8 15)"/>
+</svg>

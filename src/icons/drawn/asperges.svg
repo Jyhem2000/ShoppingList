@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <linearGradient id="g" x1="0" x2="0" y1="29.5" y2="9" gradientUnits="userSpaceOnUse">
+  <stop offset="0" stop-color="#e8f2c8"/>
+  <stop offset=".45" stop-color="#a5d16a"/>
+  <stop offset="1" stop-color="#6fa83a"/>
+  </linearGradient>
+  <path fill="none" stroke="url(#g)" stroke-linecap="round" stroke-width="2.6" d="M12 29.5L9 5.5"/>
+  <ellipse cx="9" cy="5.6" rx="1.6" ry="2.6" fill="#4f7d2a" transform="rotate(7.125016348901798 9 5.6)"/>
+  <circle cx="10.14" cy="14.6" r="0.5" fill="#4f7d2a"/>
+  <circle cx="10.74" cy="19.6" r="0.45" fill="#6f9a40"/>
+  <path fill="none" stroke="url(#g)" stroke-linecap="round" stroke-width="2.6" d="M14 29.5L12.5 5.5"/>
+  <ellipse cx="12.5" cy="5.6" rx="1.6" ry="2.6" fill="#4f7d2a" transform="rotate(3.5763343749973515 12.5 5.6)"/>
+  <circle cx="13.07" cy="14.6" r="0.5" fill="#4f7d2a"/>
+  <circle cx="13.37" cy="19.6" r="0.45" fill="#6f9a40"/>
+  <path fill="none" stroke="url(#g)" stroke-linecap="round" stroke-width="2.6" d="M16 29.5L16 5.5"/>
+  <ellipse cx="16" cy="5.6" rx="1.6" ry="2.6" fill="#4f7d2a"/>
+  <circle cx="16" cy="14.6" r="0.5" fill="#4f7d2a"/>
+  <circle cx="16" cy="19.6" r="0.45" fill="#6f9a40"/>
+  <path fill="none" stroke="url(#g)" stroke-linecap="round" stroke-width="2.6" d="M18 29.5L19.5 5.5"/>
+  <ellipse cx="19.5" cy="5.6" rx="1.6" ry="2.6" fill="#4f7d2a" transform="rotate(-3.5763343749973515 19.5 5.6)"/>
+  <circle cx="18.93" cy="14.6" r="0.5" fill="#4f7d2a"/>
+  <circle cx="18.63" cy="19.6" r="0.45" fill="#6f9a40"/>
+  <path fill="none" stroke="url(#g)" stroke-linecap="round" stroke-width="2.6" d="M20 29.5L23 5.5"/>
+  <ellipse cx="23" cy="5.6" rx="1.6" ry="2.6" fill="#4f7d2a" transform="rotate(-7.125016348901798 23 5.6)"/>
+  <circle cx="21.86" cy="14.6" r="0.5" fill="#4f7d2a"/>
+  <circle cx="21.26" cy="19.6" r="0.45" fill="#6f9a40"/>
+  <rect width="12.8" height="2.8" x="9.6" y="21.4" fill="#f8312f" rx="1.2"/>
+  <rect width="12.8" height="1" x="9.6" y="21.4" fill="#ff6d6d" rx="0.5"/>
+</svg>

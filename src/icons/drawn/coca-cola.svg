@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <path fill="#4a2414" d="M17.60 3.2L17.60 7L18.60 9L20.40 12L20.80 15L19.60 18L19.60 20L20.80 23L20.80 27L20.40 28.6L19.80 29.4L12.20 29.4L11.60 28.6L11.20 27L11.20 23L12.40 20L12.40 18L11.20 15L11.60 12L13.40 9L14.40 7L14.40 3.2Z"/>
+  <clipPath id="gb4">
+  <path fill="#000" d="M17.60 3.2L17.60 7L18.60 9L20.40 12L20.80 15L19.60 18L19.60 20L20.80 23L20.80 27L20.40 28.6L19.80 29.4L12.20 29.4L11.60 28.6L11.20 27L11.20 23L12.40 20L12.40 18L11.20 15L11.60 12L13.40 9L14.40 7L14.40 3.2Z"/>
+  </clipPath>
+  <g clip-path="url(#gb4)">
+  <path fill="none" stroke="#6a3a22" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.6" d="M13.4 13.6v4M16 13v4.6M18.6 13.6v4M13.4 22.4v4.4M16 22.4v4.8M18.6 22.4v4.4"/>
+  <rect width="32" height="3.2" x="0" y="18.4" fill="#d6342b" rx="0"/>
+  <path fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.7" d="M11 20c2-.8 3.6-.8 5 0s3.2.8 5 0"/>
+  <rect width="10" height="32" x="18.6" y="0" fill="#2e160b" rx="0"/>
+  </g>
+  <rect width="1.1" height="15" x="12.6" y="12" fill="#ffffff40" rx="0.55"/>
+  <rect width="3.6" height="2.2" x="14.2" y="1.8" fill="#d6342b" rx="0.6"/>
+</svg>

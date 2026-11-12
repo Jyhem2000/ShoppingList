@@ -1,0 +1,2749 @@
+[
+  {
+    "key": "fruits",
+    "name": {
+      "fr": "Fruits au choix"
+    },
+    "category": "fruits",
+    "unit": "piece",
+    "icon": "fruits",
+    "generic": true
+  },
+  {
+    "key": "pommes",
+    "name": {
+      "fr": "Pommes"
+    },
+    "types": {
+      "fr": [
+        "Gala",
+        "Golden",
+        "Granny Smith",
+        "Pink Lady",
+        "Reine des reinettes"
+      ]
+    },
+    "category": "fruits",
+    "unit": "kg",
+    "icon": "pommes"
+  },
+  {
+    "key": "poires",
+    "name": {
+      "fr": "Poires"
+    },
+    "types": {
+      "fr": ["Conférence", "Williams", "Comice"]
+    },
+    "category": "fruits",
+    "unit": "kg",
+    "icon": "poires"
+  },
+  {
+    "key": "bananes",
+    "name": {
+      "fr": "Bananes"
+    },
+    "category": "fruits",
+    "unit": "piece",
+    "quantity": 6,
+    "icon": "bananes"
+  },
+  {
+    "key": "oranges",
+    "name": {
+      "fr": "Oranges"
+    },
+    "types": {
+      "fr": ["à jus", "à dessert", "sanguines"]
+    },
+    "category": "fruits",
+    "unit": "kg",
+    "icon": "oranges"
+  },
+  {
+    "key": "clementines",
+    "name": {
+      "fr": "Clémentines"
+    },
+    "aliases": {
+      "fr": ["mandarines"]
+    },
+    "category": "fruits",
+    "unit": "kg",
+    "icon": "clementines"
+  },
+  {
+    "key": "citrons",
+    "name": {
+      "fr": "Citrons"
+    },
+    "aliases": {
+      "fr": ["limes"]
+    },
+    "types": {
+      "fr": ["jaunes", "verts"]
+    },
+    "category": "fruits",
+    "unit": "piece",
+    "quantity": 3,
+    "icon": "citrons"
+  },
+  {
+    "key": "pamplemousses",
+    "name": {
+      "fr": "Pamplemousses"
+    },
+    "aliases": {
+      "fr": ["pomelos"]
+    },
+    "types": {
+      "fr": ["roses", "jaunes"]
+    },
+    "category": "fruits",
+    "unit": "piece",
+    "quantity": 2,
+    "icon": "pamplemousses"
+  },
+  {
+    "key": "fraises",
+    "name": {
+      "fr": "Fraises"
+    },
+    "types": {
+      "fr": ["gariguettes", "maras des bois"]
+    },
+    "category": "fruits",
+    "unit": "barquette",
+    "icon": "fraises"
+  },
+  {
+    "key": "framboises",
+    "name": {
+      "fr": "Framboises"
+    },
+    "category": "fruits",
+    "unit": "barquette",
+    "icon": "framboises"
+  },
+  {
+    "key": "myrtilles",
+    "name": {
+      "fr": "Myrtilles"
+    },
+    "category": "fruits",
+    "unit": "barquette",
+    "icon": "myrtilles"
+  },
+  {
+    "key": "mures",
+    "name": {
+      "fr": "Mûres"
+    },
+    "category": "fruits",
+    "unit": "barquette",
+    "icon": "mures"
+  },
+  {
+    "key": "groseilles",
+    "name": {
+      "fr": "Groseilles"
+    },
+    "category": "fruits",
+    "unit": "barquette",
+    "icon": "groseilles"
+  },
+  {
+    "key": "raisin",
+    "name": {
+      "fr": "Raisin"
+    },
+    "types": {
+      "fr": ["blanc", "noir", "sans pépins"]
+    },
+    "category": "fruits",
+    "unit": "g",
+    "quantity": 500,
+    "icon": "raisin"
+  },
+  {
+    "key": "kiwis",
+    "name": {
+      "fr": "Kiwis"
+    },
+    "category": "fruits",
+    "unit": "piece",
+    "quantity": 6,
+    "icon": "kiwis"
+  },
+  {
+    "key": "avocats",
+    "name": {
+      "fr": "Avocats"
+    },
+    "category": "fruits",
+    "unit": "piece",
+    "quantity": 2,
+    "icon": "avocats"
+  },
+  {
+    "key": "peches",
+    "name": {
+      "fr": "Pêches"
+    },
+    "aliases": {
+      "fr": ["brugnons"]
+    },
+    "types": {
+      "fr": ["jaunes", "blanches", "plates"]
+    },
+    "category": "fruits",
+    "unit": "kg",
+    "icon": "peches"
+  },
+  {
+    "key": "nectarines",
+    "name": {
+      "fr": "Nectarines"
+    },
+    "category": "fruits",
+    "unit": "kg",
+    "icon": "nectarines"
+  },
+  {
+    "key": "abricots",
+    "name": {
+      "fr": "Abricots"
+    },
+    "category": "fruits",
+    "unit": "g",
+    "quantity": 500,
+    "icon": "abricots"
+  },
+  {
+    "key": "cerises",
+    "name": {
+      "fr": "Cerises"
+    },
+    "category": "fruits",
+    "unit": "g",
+    "quantity": 500,
+    "icon": "cerises"
+  },
+  {
+    "key": "prunes",
+    "name": {
+      "fr": "Prunes"
+    },
+    "aliases": {
+      "fr": ["mirabelles", "reines-claudes", "quetsches"]
+    },
+    "types": {
+      "fr": ["mirabelles", "reines-claudes", "quetsches"]
+    },
+    "category": "fruits",
+    "unit": "g",
+    "quantity": 500,
+    "icon": "prunes"
+  },
+  {
+    "key": "figues",
+    "name": {
+      "fr": "Figues"
+    },
+    "category": "fruits",
+    "unit": "barquette",
+    "icon": "figues"
+  },
+  {
+    "key": "litchis",
+    "name": {
+      "fr": "Litchis"
+    },
+    "aliases": {
+      "fr": ["lychees", "letchis"]
+    },
+    "category": "fruits",
+    "unit": "g",
+    "quantity": 500,
+    "icon": "litchis"
+  },
+  {
+    "key": "melon",
+    "name": {
+      "fr": "Melon"
+    },
+    "category": "fruits",
+    "unit": "piece",
+    "icon": "melon"
+  },
+  {
+    "key": "pasteque",
+    "name": {
+      "fr": "Pastèque"
+    },
+    "category": "fruits",
+    "unit": "piece",
+    "icon": "pasteque"
+  },
+  {
+    "key": "ananas",
+    "name": {
+      "fr": "Ananas"
+    },
+    "category": "fruits",
+    "unit": "piece",
+    "icon": "ananas"
+  },
+  {
+    "key": "mangues",
+    "name": {
+      "fr": "Mangues"
+    },
+    "category": "fruits",
+    "unit": "piece",
+    "quantity": 2,
+    "icon": "mangues"
+  },
+  {
+    "key": "grenade",
+    "name": {
+      "fr": "Grenade"
+    },
+    "category": "fruits",
+    "unit": "piece",
+    "icon": "grenade"
+  },
+  {
+    "key": "fruits-de-la-passion",
+    "name": {
+      "fr": "Fruits de la passion"
+    },
+    "aliases": {
+      "fr": ["maracuja"]
+    },
+    "category": "fruits",
+    "unit": "piece",
+    "quantity": 4,
+    "icon": "fruits-de-la-passion"
+  },
+  {
+    "key": "noix-de-coco",
+    "name": {
+      "fr": "Noix de coco"
+    },
+    "category": "fruits",
+    "unit": "piece",
+    "icon": "noix-de-coco"
+  },
+  {
+    "key": "kakis",
+    "name": {
+      "fr": "Kakis"
+    },
+    "category": "fruits",
+    "unit": "piece",
+    "quantity": 2,
+    "icon": "kakis"
+  },
+  {
+    "key": "rhubarbe",
+    "name": {
+      "fr": "Rhubarbe"
+    },
+    "category": "fruits",
+    "unit": "botte",
+    "icon": "rhubarbe"
+  },
+  {
+    "key": "legumes",
+    "name": {
+      "fr": "Légumes au choix"
+    },
+    "category": "legumes",
+    "unit": "piece",
+    "icon": "legumes",
+    "generic": true
+  },
+  {
+    "key": "legumes-verts",
+    "name": {
+      "fr": "Légumes verts au choix"
+    },
+    "category": "legumes",
+    "unit": "piece",
+    "icon": "legumes-verts",
+    "generic": true
+  },
+  {
+    "key": "tomates",
+    "name": {
+      "fr": "Tomates"
+    },
+    "types": {
+      "fr": ["cerises", "grappe", "cœur de bœuf", "allongées"]
+    },
+    "category": "legumes",
+    "unit": "kg",
+    "icon": "tomates"
+  },
+  {
+    "key": "pommes-de-terre",
+    "name": {
+      "fr": "Pommes de terre"
+    },
+    "aliases": {
+      "fr": ["pdt", "patates"]
+    },
+    "types": {
+      "fr": ["à frites", "à purée", "à chair ferme", "grenailles"]
+    },
+    "category": "legumes",
+    "unit": "kg",
+    "quantity": 2.5,
+    "icon": "pommes-de-terre"
+  },
+  {
+    "key": "carottes",
+    "name": {
+      "fr": "Carottes"
+    },
+    "category": "legumes",
+    "unit": "kg",
+    "icon": "carottes"
+  },
+  {
+    "key": "oignons",
+    "name": {
+      "fr": "Oignons"
+    },
+    "types": {
+      "fr": ["jaunes", "rouges", "blancs"]
+    },
+    "category": "legumes",
+    "unit": "kg",
+    "icon": "oignons"
+  },
+  {
+    "key": "echalotes",
+    "name": {
+      "fr": "Échalotes"
+    },
+    "category": "legumes",
+    "unit": "g",
+    "quantity": 500,
+    "icon": "echalotes"
+  },
+  {
+    "key": "ail",
+    "name": {
+      "fr": "Ail"
+    },
+    "aliases": {
+      "fr": ["tête d'ail", "gousses d'ail"]
+    },
+    "category": "legumes",
+    "unit": "piece",
+    "icon": "ail"
+  },
+  {
+    "key": "salade",
+    "name": {
+      "fr": "Salade"
+    },
+    "aliases": {
+      "fr": ["laitue", "batavia", "scarole"]
+    },
+    "types": {
+      "fr": [
+        "laitue",
+        "batavia",
+        "feuille de chêne",
+        "iceberg",
+        "mâche",
+        "roquette"
+      ]
+    },
+    "category": "legumes",
+    "unit": "piece",
+    "icon": "salade"
+  },
+  {
+    "key": "courgettes",
+    "name": {
+      "fr": "Courgettes"
+    },
+    "category": "legumes",
+    "unit": "kg",
+    "icon": "courgettes"
+  },
+  {
+    "key": "concombre",
+    "name": {
+      "fr": "Concombre"
+    },
+    "category": "legumes",
+    "unit": "piece",
+    "icon": "concombre"
+  },
+  {
+    "key": "poivrons",
+    "name": {
+      "fr": "Poivrons"
+    },
+    "types": {
+      "fr": ["rouges", "verts", "jaunes"]
+    },
+    "category": "legumes",
+    "unit": "piece",
+    "quantity": 2,
+    "icon": "poivrons"
+  },
+  {
+    "key": "aubergines",
+    "name": {
+      "fr": "Aubergines"
+    },
+    "category": "legumes",
+    "unit": "piece",
+    "quantity": 2,
+    "icon": "aubergines"
+  },
+  {
+    "key": "brocoli",
+    "name": {
+      "fr": "Brocoli"
+    },
+    "category": "legumes",
+    "unit": "piece",
+    "icon": "brocoli"
+  },
+  {
+    "key": "chou-fleur",
+    "name": {
+      "fr": "Chou-fleur"
+    },
+    "category": "legumes",
+    "unit": "piece",
+    "icon": "chou-fleur"
+  },
+  {
+    "key": "chou",
+    "name": {
+      "fr": "Chou"
+    },
+    "types": {
+      "fr": ["vert", "rouge", "blanc", "frisé"]
+    },
+    "category": "legumes",
+    "unit": "piece",
+    "icon": "chou"
+  },
+  {
+    "key": "choux-de-bruxelles",
+    "name": {
+      "fr": "Choux de Bruxelles"
+    },
+    "category": "legumes",
+    "unit": "g",
+    "quantity": 500,
+    "icon": "choux-de-bruxelles"
+  },
+  {
+    "key": "champignons",
+    "name": {
+      "fr": "Champignons"
+    },
+    "types": {
+      "fr": ["de Paris", "shiitakés", "pleurotes", "girolles", "cèpes"]
+    },
+    "category": "legumes",
+    "unit": "barquette",
+    "icon": "champignons"
+  },
+  {
+    "key": "haricots-verts",
+    "name": {
+      "fr": "Haricots verts"
+    },
+    "category": "legumes",
+    "unit": "g",
+    "quantity": 500,
+    "icon": "haricots-verts"
+  },
+  {
+    "key": "petits-pois",
+    "name": {
+      "fr": "Petits pois"
+    },
+    "category": "legumes",
+    "unit": "g",
+    "quantity": 500,
+    "icon": "petits-pois"
+  },
+  {
+    "key": "poireaux",
+    "name": {
+      "fr": "Poireaux"
+    },
+    "category": "legumes",
+    "unit": "kg",
+    "icon": "poireaux"
+  },
+  {
+    "key": "epinards",
+    "name": {
+      "fr": "Épinards"
+    },
+    "aliases": {
+      "fr": ["pousses d'épinards"]
+    },
+    "category": "legumes",
+    "unit": "sachet",
+    "icon": "epinards"
+  },
+  {
+    "key": "patates-douces",
+    "name": {
+      "fr": "Patates douces"
+    },
+    "category": "legumes",
+    "unit": "kg",
+    "icon": "patates-douces"
+  },
+  {
+    "key": "radis",
+    "name": {
+      "fr": "Radis"
+    },
+    "category": "legumes",
+    "unit": "botte",
+    "icon": "radis"
+  },
+  {
+    "key": "navets",
+    "name": {
+      "fr": "Navets"
+    },
+    "category": "legumes",
+    "unit": "kg",
+    "icon": "navets"
+  },
+  {
+    "key": "betteraves",
+    "name": {
+      "fr": "Betteraves"
+    },
+    "types": {
+      "fr": ["cuites", "crues"]
+    },
+    "category": "legumes",
+    "unit": "g",
+    "quantity": 500,
+    "icon": "betteraves"
+  },
+  {
+    "key": "celeri",
+    "name": {
+      "fr": "Céleri"
+    },
+    "aliases": {
+      "fr": ["céleri-rave"]
+    },
+    "types": {
+      "fr": ["branche", "rave"]
+    },
+    "category": "legumes",
+    "unit": "piece",
+    "icon": "celeri"
+  },
+  {
+    "key": "courge",
+    "name": {
+      "fr": "Courge"
+    },
+    "aliases": {
+      "fr": ["potiron", "butternut", "potimarron"]
+    },
+    "types": {
+      "fr": ["butternut", "potiron", "potimarron"]
+    },
+    "category": "legumes",
+    "unit": "piece",
+    "icon": "courge"
+  },
+  {
+    "key": "fenouil",
+    "name": {
+      "fr": "Fenouil"
+    },
+    "category": "legumes",
+    "unit": "piece",
+    "icon": "fenouil"
+  },
+  {
+    "key": "endives",
+    "name": {
+      "fr": "Endives"
+    },
+    "aliases": {
+      "fr": ["chicons"]
+    },
+    "category": "legumes",
+    "unit": "kg",
+    "icon": "endives"
+  },
+  {
+    "key": "artichauts",
+    "name": {
+      "fr": "Artichauts"
+    },
+    "category": "legumes",
+    "unit": "piece",
+    "quantity": 2,
+    "icon": "artichauts"
+  },
+  {
+    "key": "asperges",
+    "name": {
+      "fr": "Asperges"
+    },
+    "types": {
+      "fr": ["vertes", "blanches"]
+    },
+    "category": "legumes",
+    "unit": "botte",
+    "icon": "asperges"
+  },
+  {
+    "key": "panais",
+    "name": {
+      "fr": "Panais"
+    },
+    "category": "legumes",
+    "unit": "g",
+    "quantity": 500,
+    "icon": "panais"
+  },
+  {
+    "key": "gingembre",
+    "name": {
+      "fr": "Gingembre"
+    },
+    "category": "legumes",
+    "unit": "piece",
+    "icon": "gingembre"
+  },
+  {
+    "key": "persil",
+    "name": {
+      "fr": "Persil"
+    },
+    "types": {
+      "fr": ["plat", "frisé"]
+    },
+    "category": "herbes-aromatiques",
+    "unit": "botte",
+    "icon": "persil"
+  },
+  {
+    "key": "coriandre",
+    "name": {
+      "fr": "Coriandre"
+    },
+    "category": "herbes-aromatiques",
+    "unit": "botte",
+    "icon": "coriandre"
+  },
+  {
+    "key": "basilic",
+    "name": {
+      "fr": "Basilic"
+    },
+    "category": "herbes-aromatiques",
+    "unit": "botte",
+    "icon": "basilic"
+  },
+  {
+    "key": "menthe",
+    "name": {
+      "fr": "Menthe"
+    },
+    "category": "herbes-aromatiques",
+    "unit": "botte",
+    "icon": "menthe"
+  },
+  {
+    "key": "ciboulette",
+    "name": {
+      "fr": "Ciboulette"
+    },
+    "category": "herbes-aromatiques",
+    "unit": "botte",
+    "icon": "ciboulette"
+  },
+  {
+    "key": "thym",
+    "name": {
+      "fr": "Thym"
+    },
+    "category": "herbes-aromatiques",
+    "unit": "botte",
+    "icon": "thym"
+  },
+  {
+    "key": "laurier",
+    "name": {
+      "fr": "Laurier"
+    },
+    "category": "herbes-aromatiques",
+    "unit": "botte",
+    "icon": "laurier"
+  },
+  {
+    "key": "romarin",
+    "name": {
+      "fr": "Romarin"
+    },
+    "category": "herbes-aromatiques",
+    "unit": "botte",
+    "icon": "romarin"
+  },
+  {
+    "key": "aneth",
+    "name": {
+      "fr": "Aneth"
+    },
+    "category": "herbes-aromatiques",
+    "unit": "botte",
+    "icon": "aneth"
+  },
+  {
+    "key": "estragon",
+    "name": {
+      "fr": "Estragon"
+    },
+    "category": "herbes-aromatiques",
+    "unit": "botte",
+    "icon": "estragon"
+  },
+  {
+    "key": "bouquet-garni",
+    "name": {
+      "fr": "Bouquet garni"
+    },
+    "aliases": {
+      "fr": ["bouquet aromatique"]
+    },
+    "category": "herbes-aromatiques",
+    "unit": "piece",
+    "icon": "bouquet-garni"
+  },
+  {
+    "key": "baguette",
+    "name": {
+      "fr": "Baguette"
+    },
+    "types": {
+      "fr": ["tradition", "classique"]
+    },
+    "category": "pain-viennoiseries",
+    "unit": "piece",
+    "icon": "baguette"
+  },
+  {
+    "key": "pain",
+    "name": {
+      "fr": "Pain"
+    },
+    "aliases": {
+      "fr": ["miche"]
+    },
+    "types": {
+      "fr": ["complet", "de campagne", "aux céréales", "au levain"]
+    },
+    "category": "pain-viennoiseries",
+    "unit": "piece",
+    "icon": "pain"
+  },
+  {
+    "key": "pain-de-mie",
+    "name": {
+      "fr": "Pain de mie"
+    },
+    "types": {
+      "fr": ["nature", "complet", "sans croûte"]
+    },
+    "category": "pain-viennoiseries",
+    "unit": "paquet",
+    "icon": "pain-de-mie"
+  },
+  {
+    "key": "croissants",
+    "name": {
+      "fr": "Croissants"
+    },
+    "category": "pain-viennoiseries",
+    "unit": "piece",
+    "icon": "croissants"
+  },
+  {
+    "key": "pains-au-chocolat",
+    "name": {
+      "fr": "Pains au chocolat"
+    },
+    "aliases": {
+      "fr": ["chocolatines"]
+    },
+    "category": "pain-viennoiseries",
+    "unit": "piece",
+    "icon": "pains-au-chocolat"
+  },
+  {
+    "key": "pains-aux-raisins",
+    "name": {
+      "fr": "Pains aux raisins"
+    },
+    "category": "pain-viennoiseries",
+    "unit": "piece",
+    "icon": "pains-aux-raisins"
+  },
+  {
+    "key": "brioche",
+    "name": {
+      "fr": "Brioche"
+    },
+    "category": "pain-viennoiseries",
+    "unit": "piece",
+    "icon": "brioche"
+  },
+  {
+    "key": "viande",
+    "name": {
+      "fr": "Viande au choix"
+    },
+    "category": "viande",
+    "unit": "piece",
+    "icon": "viande",
+    "generic": true
+  },
+  {
+    "key": "boeuf",
+    "name": {
+      "fr": "Bœuf"
+    },
+    "aliases": {
+      "fr": ["viande de bœuf"]
+    },
+    "types": {
+      "fr": ["à bourguignon", "à griller", "rôti", "haché"]
+    },
+    "category": "viande",
+    "unit": "g",
+    "quantity": 500,
+    "icon": "boeuf"
+  },
+  {
+    "key": "steaks-haches",
+    "name": {
+      "fr": "Steaks hachés"
+    },
+    "aliases": {
+      "fr": ["steaks"]
+    },
+    "category": "viande",
+    "unit": "piece",
+    "quantity": 2,
+    "icon": "steaks-haches"
+  },
+  {
+    "key": "porc",
+    "name": {
+      "fr": "Porc"
+    },
+    "aliases": {
+      "fr": ["viande de porc"]
+    },
+    "types": {
+      "fr": ["côtes", "rôti", "filet mignon", "échine"]
+    },
+    "category": "viande",
+    "unit": "g",
+    "quantity": 500,
+    "icon": "porc"
+  },
+  {
+    "key": "veau",
+    "name": {
+      "fr": "Veau"
+    },
+    "types": {
+      "fr": ["escalopes", "blanquette", "rôti"]
+    },
+    "category": "viande",
+    "unit": "g",
+    "quantity": 500,
+    "icon": "veau"
+  },
+  {
+    "key": "agneau",
+    "name": {
+      "fr": "Agneau"
+    },
+    "aliases": {
+      "fr": ["gigot"]
+    },
+    "types": {
+      "fr": ["gigot", "côtelettes", "épaule"]
+    },
+    "category": "viande",
+    "unit": "g",
+    "quantity": 500,
+    "icon": "agneau"
+  },
+  {
+    "key": "saucisses",
+    "name": {
+      "fr": "Saucisses"
+    },
+    "aliases": {
+      "fr": ["chipolatas", "merguez"]
+    },
+    "types": {
+      "fr": ["chipolatas", "merguez", "de Toulouse", "de Strasbourg"]
+    },
+    "category": "viande",
+    "unit": "piece",
+    "quantity": 6,
+    "icon": "saucisses"
+  },
+  {
+    "key": "poulet",
+    "name": {
+      "fr": "Poulet"
+    },
+    "aliases": {
+      "fr": ["poulet entier"]
+    },
+    "types": {
+      "fr": ["fermier", "label rouge"]
+    },
+    "category": "volaille",
+    "unit": "piece",
+    "icon": "poulet"
+  },
+  {
+    "key": "blancs-de-poulet",
+    "name": {
+      "fr": "Blancs de poulet"
+    },
+    "aliases": {
+      "fr": ["filets de poulet", "escalopes de poulet"]
+    },
+    "category": "volaille",
+    "unit": "g",
+    "quantity": 500,
+    "icon": "blancs-de-poulet"
+  },
+  {
+    "key": "cuisses-de-poulet",
+    "name": {
+      "fr": "Cuisses de poulet"
+    },
+    "aliases": {
+      "fr": ["pilons"]
+    },
+    "category": "volaille",
+    "unit": "piece",
+    "quantity": 4,
+    "icon": "cuisses-de-poulet"
+  },
+  {
+    "key": "dinde",
+    "name": {
+      "fr": "Dinde"
+    },
+    "aliases": {
+      "fr": ["escalopes de dinde"]
+    },
+    "category": "volaille",
+    "unit": "g",
+    "quantity": 500,
+    "icon": "dinde"
+  },
+  {
+    "key": "cordons-bleus",
+    "name": {
+      "fr": "Cordons bleus"
+    },
+    "category": "volaille",
+    "unit": "piece",
+    "quantity": 2,
+    "icon": "cordons-bleus"
+  },
+  {
+    "key": "jambon-blanc",
+    "name": {
+      "fr": "Jambon blanc"
+    },
+    "aliases": {
+      "fr": ["jambon", "jambon de Paris"]
+    },
+    "category": "charcuterie",
+    "unit": "tranche",
+    "quantity": 4,
+    "icon": "jambon-blanc"
+  },
+  {
+    "key": "jambon-cru",
+    "name": {
+      "fr": "Jambon cru"
+    },
+    "aliases": {
+      "fr": ["jambon de pays", "jambon de Bayonne", "prosciutto"]
+    },
+    "category": "charcuterie",
+    "unit": "tranche",
+    "quantity": 6,
+    "icon": "jambon-cru"
+  },
+  {
+    "key": "lardons",
+    "name": {
+      "fr": "Lardons"
+    },
+    "types": {
+      "fr": ["fumés", "nature", "allumettes"]
+    },
+    "category": "charcuterie",
+    "unit": "paquet",
+    "icon": "lardons"
+  },
+  {
+    "key": "saucisson",
+    "name": {
+      "fr": "Saucisson"
+    },
+    "aliases": {
+      "fr": ["rosette"]
+    },
+    "category": "charcuterie",
+    "unit": "piece",
+    "icon": "saucisson"
+  },
+  {
+    "key": "chorizo",
+    "name": {
+      "fr": "Chorizo"
+    },
+    "category": "charcuterie",
+    "unit": "piece",
+    "icon": "chorizo"
+  },
+  {
+    "key": "rillettes",
+    "name": {
+      "fr": "Rillettes"
+    },
+    "category": "charcuterie",
+    "unit": "pot",
+    "icon": "rillettes"
+  },
+  {
+    "key": "pate-de-campagne",
+    "name": {
+      "fr": "Pâté"
+    },
+    "aliases": {
+      "fr": ["terrine"]
+    },
+    "types": {
+      "fr": ["de campagne", "de foie", "en croûte", "au poivre"]
+    },
+    "category": "charcuterie",
+    "unit": "pot",
+    "icon": "pate-de-campagne"
+  },
+  {
+    "key": "poisson",
+    "name": {
+      "fr": "Poisson au choix"
+    },
+    "category": "poisson-fruits-de-mer",
+    "unit": "piece",
+    "icon": "poisson",
+    "generic": true
+  },
+  {
+    "key": "saumon",
+    "name": {
+      "fr": "Saumon"
+    },
+    "aliases": {
+      "fr": ["pavés de saumon"]
+    },
+    "category": "poisson-fruits-de-mer",
+    "unit": "g",
+    "quantity": 500,
+    "icon": "saumon"
+  },
+  {
+    "key": "saumon-fume",
+    "name": {
+      "fr": "Saumon fumé"
+    },
+    "category": "poisson-fruits-de-mer",
+    "unit": "paquet",
+    "icon": "saumon-fume"
+  },
+  {
+    "key": "cabillaud",
+    "name": {
+      "fr": "Cabillaud"
+    },
+    "aliases": {
+      "fr": ["dos de cabillaud"]
+    },
+    "category": "poisson-fruits-de-mer",
+    "unit": "g",
+    "quantity": 500,
+    "icon": "cabillaud"
+  },
+  {
+    "key": "crevettes",
+    "name": {
+      "fr": "Crevettes"
+    },
+    "aliases": {
+      "fr": ["gambas"]
+    },
+    "category": "poisson-fruits-de-mer",
+    "unit": "g",
+    "quantity": 250,
+    "icon": "crevettes"
+  },
+  {
+    "key": "moules",
+    "name": {
+      "fr": "Moules"
+    },
+    "category": "poisson-fruits-de-mer",
+    "unit": "kg",
+    "icon": "moules"
+  },
+  {
+    "key": "surimi",
+    "name": {
+      "fr": "Surimi"
+    },
+    "aliases": {
+      "fr": ["bâtonnets de surimi"]
+    },
+    "category": "poisson-fruits-de-mer",
+    "unit": "paquet",
+    "icon": "surimi"
+  },
+  {
+    "key": "taboule",
+    "name": {
+      "fr": "Taboulé"
+    },
+    "category": "traiteur",
+    "unit": "barquette",
+    "icon": "taboule"
+  },
+  {
+    "key": "pizza",
+    "name": {
+      "fr": "Pizza"
+    },
+    "category": "traiteur",
+    "unit": "piece",
+    "icon": "pizza"
+  },
+  {
+    "key": "quiche",
+    "name": {
+      "fr": "Quiche"
+    },
+    "aliases": {
+      "fr": ["quiche lorraine"]
+    },
+    "category": "traiteur",
+    "unit": "piece",
+    "icon": "quiche"
+  },
+  {
+    "key": "pate-a-tarte",
+    "name": {
+      "fr": "Pâte à tarte"
+    },
+    "aliases": {
+      "fr": ["pâte feuilletée", "pâte brisée", "pâte sablée"]
+    },
+    "types": {
+      "fr": ["feuilletée", "brisée", "sablée"]
+    },
+    "category": "traiteur",
+    "unit": "piece",
+    "icon": "pate-a-tarte"
+  },
+  {
+    "key": "houmous",
+    "name": {
+      "fr": "Houmous"
+    },
+    "aliases": {
+      "fr": ["hummus"]
+    },
+    "category": "traiteur",
+    "unit": "pot",
+    "icon": "houmous"
+  },
+  {
+    "key": "tarama",
+    "name": {
+      "fr": "Tarama"
+    },
+    "category": "traiteur",
+    "unit": "pot",
+    "icon": "tarama"
+  },
+  {
+    "key": "croque-monsieur",
+    "name": {
+      "fr": "Croque-monsieur"
+    },
+    "aliases": {
+      "fr": ["croques"]
+    },
+    "category": "traiteur",
+    "unit": "piece",
+    "quantity": 2,
+    "icon": "croque-monsieur"
+  },
+  {
+    "key": "pates-fraiches",
+    "name": {
+      "fr": "Pâtes fraîches"
+    },
+    "aliases": {
+      "fr": ["raviolis", "tortellinis", "gnocchis"]
+    },
+    "types": {
+      "fr": ["raviolis", "tortellinis", "gnocchis", "tagliatelles"]
+    },
+    "category": "traiteur",
+    "unit": "paquet",
+    "icon": "pates-fraiches"
+  },
+  {
+    "key": "oeufs",
+    "name": {
+      "fr": "Œufs"
+    },
+    "types": {
+      "fr": ["plein air", "bio", "extra-frais"]
+    },
+    "category": "oeufs",
+    "unit": "piece",
+    "quantity": 6,
+    "icon": "oeufs"
+  },
+  {
+    "key": "lait",
+    "name": {
+      "fr": "Lait"
+    },
+    "types": {
+      "fr": ["entier", "demi-écrémé", "écrémé", "sans lactose"]
+    },
+    "category": "lait-creme-beurre",
+    "unit": "l",
+    "quantity": 6,
+    "icon": "lait"
+  },
+  {
+    "key": "beurre",
+    "name": {
+      "fr": "Beurre"
+    },
+    "types": {
+      "fr": ["doux", "demi-sel"]
+    },
+    "category": "lait-creme-beurre",
+    "unit": "g",
+    "quantity": 250,
+    "icon": "beurre"
+  },
+  {
+    "key": "creme-fraiche",
+    "name": {
+      "fr": "Crème fraîche"
+    },
+    "aliases": {
+      "fr": ["crème", "crème fleurette"]
+    },
+    "types": {
+      "fr": ["épaisse", "liquide", "entière", "allégée"]
+    },
+    "category": "lait-creme-beurre",
+    "unit": "piece",
+    "icon": "creme-fraiche"
+  },
+  {
+    "key": "dessert",
+    "name": {
+      "fr": "Dessert au choix"
+    },
+    "category": "yaourts-desserts",
+    "unit": "piece",
+    "icon": "dessert",
+    "generic": true
+  },
+  {
+    "key": "yaourts",
+    "name": {
+      "fr": "Yaourts"
+    },
+    "aliases": {
+      "fr": ["yogourts"]
+    },
+    "types": {
+      "fr": ["nature", "aux fruits", "à la grecque"]
+    },
+    "category": "yaourts-desserts",
+    "unit": "piece",
+    "quantity": 4,
+    "icon": "yaourts"
+  },
+  {
+    "key": "fromage-blanc",
+    "name": {
+      "fr": "Fromage blanc"
+    },
+    "aliases": {
+      "fr": ["faisselle"]
+    },
+    "category": "yaourts-desserts",
+    "unit": "pot",
+    "icon": "fromage-blanc"
+  },
+  {
+    "key": "cremes-dessert",
+    "name": {
+      "fr": "Crèmes dessert"
+    },
+    "aliases": {
+      "fr": ["danette"]
+    },
+    "types": {
+      "fr": ["chocolat", "vanille", "caramel"]
+    },
+    "category": "yaourts-desserts",
+    "unit": "piece",
+    "quantity": 4,
+    "icon": "cremes-dessert"
+  },
+  {
+    "key": "compotes",
+    "name": {
+      "fr": "Compotes"
+    },
+    "aliases": {
+      "fr": ["gourdes de compote"]
+    },
+    "types": {
+      "fr": [
+        "pomme",
+        "poire",
+        "abricot",
+        "pomme-banane",
+        "pomme-fraise",
+        "châtaigne"
+      ]
+    },
+    "category": "yaourts-desserts",
+    "unit": "piece",
+    "quantity": 4,
+    "icon": "compotes"
+  },
+  {
+    "key": "fromage",
+    "name": {
+      "fr": "Fromage au choix"
+    },
+    "category": "fromages",
+    "unit": "piece",
+    "icon": "fromage",
+    "generic": true
+  },
+  {
+    "key": "fromage-rape",
+    "name": {
+      "fr": "Fromage râpé"
+    },
+    "aliases": {
+      "fr": ["gruyère râpé", "emmental râpé", "râpé"]
+    },
+    "types": {
+      "fr": ["emmental", "comté", "mozzarella"]
+    },
+    "category": "fromages",
+    "unit": "sachet",
+    "icon": "fromage-rape"
+  },
+  {
+    "key": "comte",
+    "name": {
+      "fr": "Comté"
+    },
+    "category": "fromages",
+    "unit": "g",
+    "quantity": 250,
+    "icon": "comte"
+  },
+  {
+    "key": "emmental",
+    "name": {
+      "fr": "Emmental"
+    },
+    "aliases": {
+      "fr": ["gruyère"]
+    },
+    "category": "fromages",
+    "unit": "g",
+    "quantity": 250,
+    "icon": "emmental"
+  },
+  {
+    "key": "camembert",
+    "name": {
+      "fr": "Camembert"
+    },
+    "category": "fromages",
+    "unit": "piece",
+    "icon": "camembert"
+  },
+  {
+    "key": "mozzarella",
+    "name": {
+      "fr": "Mozzarella"
+    },
+    "aliases": {
+      "fr": ["mozza"]
+    },
+    "category": "fromages",
+    "unit": "piece",
+    "icon": "mozzarella"
+  },
+  {
+    "key": "chevre",
+    "name": {
+      "fr": "Fromage de chèvre"
+    },
+    "aliases": {
+      "fr": ["chèvre", "bûche de chèvre"]
+    },
+    "category": "fromages",
+    "unit": "piece",
+    "icon": "chevre"
+  },
+  {
+    "key": "parmesan",
+    "name": {
+      "fr": "Parmesan"
+    },
+    "types": {
+      "fr": ["râpé", "en copeaux", "en morceau"]
+    },
+    "category": "fromages",
+    "unit": "sachet",
+    "icon": "parmesan"
+  },
+  {
+    "key": "pates",
+    "name": {
+      "fr": "Pâtes"
+    },
+    "types": {
+      "fr": [
+        "spaghettis",
+        "penne",
+        "coquillettes",
+        "fusilli",
+        "tagliatelles",
+        "torsades"
+      ]
+    },
+    "category": "pates-riz-feculents",
+    "unit": "paquet",
+    "icon": "pates"
+  },
+  {
+    "key": "riz",
+    "name": {
+      "fr": "Riz"
+    },
+    "types": {
+      "fr": ["basmati", "thaï", "complet", "rond"]
+    },
+    "category": "pates-riz-feculents",
+    "unit": "paquet",
+    "icon": "riz"
+  },
+  {
+    "key": "semoule",
+    "name": {
+      "fr": "Semoule"
+    },
+    "aliases": {
+      "fr": ["couscous"]
+    },
+    "types": {
+      "fr": ["fine", "moyenne", "grosse"]
+    },
+    "category": "pates-riz-feculents",
+    "unit": "paquet",
+    "icon": "semoule"
+  },
+  {
+    "key": "lentilles",
+    "name": {
+      "fr": "Lentilles"
+    },
+    "types": {
+      "fr": ["vertes", "corail"]
+    },
+    "category": "pates-riz-feculents",
+    "unit": "paquet",
+    "icon": "lentilles"
+  },
+  {
+    "key": "quinoa",
+    "name": {
+      "fr": "Quinoa"
+    },
+    "category": "pates-riz-feculents",
+    "unit": "paquet",
+    "icon": "quinoa"
+  },
+  {
+    "key": "puree-en-flocons",
+    "name": {
+      "fr": "Purée en flocons"
+    },
+    "aliases": {
+      "fr": ["purée"]
+    },
+    "category": "pates-riz-feculents",
+    "unit": "paquet",
+    "icon": "puree-en-flocons"
+  },
+  {
+    "key": "thon",
+    "name": {
+      "fr": "Thon"
+    },
+    "types": {
+      "fr": ["au naturel", "à l'huile"]
+    },
+    "category": "conserves-bocaux",
+    "unit": "boite",
+    "icon": "thon"
+  },
+  {
+    "key": "mais",
+    "name": {
+      "fr": "Maïs"
+    },
+    "category": "conserves-bocaux",
+    "unit": "boite",
+    "icon": "mais"
+  },
+  {
+    "key": "tomates-concassees",
+    "name": {
+      "fr": "Tomates concassées"
+    },
+    "aliases": {
+      "fr": ["tomates pelées"]
+    },
+    "category": "conserves-bocaux",
+    "unit": "boite",
+    "icon": "tomates-concassees"
+  },
+  {
+    "key": "haricots-rouges",
+    "name": {
+      "fr": "Haricots rouges"
+    },
+    "category": "conserves-bocaux",
+    "unit": "boite",
+    "icon": "haricots-rouges"
+  },
+  {
+    "key": "pois-chiches",
+    "name": {
+      "fr": "Pois chiches"
+    },
+    "category": "conserves-bocaux",
+    "unit": "boite",
+    "icon": "pois-chiches"
+  },
+  {
+    "key": "sardines",
+    "name": {
+      "fr": "Sardines"
+    },
+    "category": "conserves-bocaux",
+    "unit": "boite",
+    "icon": "sardines"
+  },
+  {
+    "key": "moutarde",
+    "name": {
+      "fr": "Moutarde"
+    },
+    "types": {
+      "fr": ["forte", "à l'ancienne"]
+    },
+    "category": "sauces-condiments",
+    "unit": "pot",
+    "icon": "moutarde"
+  },
+  {
+    "key": "mayonnaise",
+    "name": {
+      "fr": "Mayonnaise"
+    },
+    "aliases": {
+      "fr": ["mayo"]
+    },
+    "category": "sauces-condiments",
+    "unit": "pot",
+    "icon": "mayonnaise"
+  },
+  {
+    "key": "ketchup",
+    "name": {
+      "fr": "Ketchup"
+    },
+    "category": "sauces-condiments",
+    "unit": "bouteille",
+    "icon": "ketchup"
+  },
+  {
+    "key": "sel",
+    "name": {
+      "fr": "Sel"
+    },
+    "types": {
+      "fr": ["fin", "gros", "fleur de sel"]
+    },
+    "category": "sauces-condiments",
+    "unit": "paquet",
+    "icon": "sel"
+  },
+  {
+    "key": "poivre",
+    "name": {
+      "fr": "Poivre"
+    },
+    "types": {
+      "fr": ["noir", "moulu", "en grains"]
+    },
+    "category": "sauces-condiments",
+    "unit": "paquet",
+    "icon": "poivre"
+  },
+  {
+    "key": "epices",
+    "name": {
+      "fr": "Épices"
+    },
+    "types": {
+      "fr": ["cumin", "curry", "paprika", "cannelle", "herbes de Provence"]
+    },
+    "category": "sauces-condiments",
+    "unit": "pot",
+    "icon": "epices"
+  },
+  {
+    "key": "sauce-tomate",
+    "name": {
+      "fr": "Sauce tomate"
+    },
+    "aliases": {
+      "fr": ["coulis de tomate", "passata"]
+    },
+    "category": "sauces-condiments",
+    "unit": "pot",
+    "icon": "sauce-tomate"
+  },
+  {
+    "key": "pesto",
+    "name": {
+      "fr": "Pesto"
+    },
+    "types": {
+      "fr": ["vert", "rouge"]
+    },
+    "category": "sauces-condiments",
+    "unit": "pot",
+    "icon": "pesto"
+  },
+  {
+    "key": "sauce-soja",
+    "name": {
+      "fr": "Sauce soja"
+    },
+    "types": {
+      "fr": ["salée", "sucrée"]
+    },
+    "category": "sauces-condiments",
+    "unit": "bouteille",
+    "icon": "sauce-soja"
+  },
+  {
+    "key": "lait-de-coco",
+    "name": {
+      "fr": "Lait de coco"
+    },
+    "category": "sauces-condiments",
+    "unit": "boite",
+    "icon": "lait-de-coco"
+  },
+  {
+    "key": "huile-d-olive",
+    "name": {
+      "fr": "Huile d'olive"
+    },
+    "category": "huiles-vinaigres",
+    "unit": "bouteille",
+    "icon": "huile-d-olive"
+  },
+  {
+    "key": "huile-de-tournesol",
+    "name": {
+      "fr": "Huile de tournesol"
+    },
+    "aliases": {
+      "fr": ["huile"]
+    },
+    "category": "huiles-vinaigres",
+    "unit": "bouteille",
+    "icon": "huile-de-tournesol"
+  },
+  {
+    "key": "vinaigre",
+    "name": {
+      "fr": "Vinaigre"
+    },
+    "types": {
+      "fr": ["balsamique", "de vin", "de cidre", "blanc"]
+    },
+    "category": "huiles-vinaigres",
+    "unit": "bouteille",
+    "icon": "vinaigre"
+  },
+  {
+    "key": "aperitif",
+    "name": {
+      "fr": "Apéritif au choix"
+    },
+    "aliases": {
+      "fr": ["apéro"]
+    },
+    "category": "aperitif",
+    "unit": "piece",
+    "icon": "aperitif",
+    "generic": true
+  },
+  {
+    "key": "chips",
+    "name": {
+      "fr": "Chips"
+    },
+    "types": {
+      "fr": ["nature", "à l'ancienne", "paprika"]
+    },
+    "category": "aperitif",
+    "unit": "sachet",
+    "icon": "chips"
+  },
+  {
+    "key": "cacahuetes",
+    "name": {
+      "fr": "Cacahuètes"
+    },
+    "aliases": {
+      "fr": ["arachides"]
+    },
+    "category": "aperitif",
+    "unit": "sachet",
+    "icon": "cacahuetes"
+  },
+  {
+    "key": "olives",
+    "name": {
+      "fr": "Olives"
+    },
+    "types": {
+      "fr": ["vertes", "noires"]
+    },
+    "category": "aperitif",
+    "unit": "pot",
+    "icon": "olives"
+  },
+  {
+    "key": "biscuits-aperitif",
+    "name": {
+      "fr": "Biscuits apéritif"
+    },
+    "aliases": {
+      "fr": ["crackers", "biscuits apéro"]
+    },
+    "category": "aperitif",
+    "unit": "sachet",
+    "icon": "biscuits-aperitif"
+  },
+  {
+    "key": "tortillas",
+    "name": {
+      "fr": "Tortillas"
+    },
+    "aliases": {
+      "fr": ["wraps", "galettes de blé"]
+    },
+    "category": "cuisine-du-monde",
+    "unit": "paquet",
+    "icon": "tortillas"
+  },
+  {
+    "key": "nouilles",
+    "name": {
+      "fr": "Nouilles"
+    },
+    "aliases": {
+      "fr": ["nouilles chinoises", "ramen"]
+    },
+    "category": "cuisine-du-monde",
+    "unit": "paquet",
+    "icon": "nouilles"
+  },
+  {
+    "key": "farine",
+    "name": {
+      "fr": "Farine"
+    },
+    "types": {
+      "fr": ["T45", "T55", "T65", "complète"]
+    },
+    "category": "farine-sucre-patisserie",
+    "unit": "paquet",
+    "icon": "farine"
+  },
+  {
+    "key": "sucre",
+    "name": {
+      "fr": "Sucre"
+    },
+    "types": {
+      "fr": ["en poudre", "en morceaux", "roux", "glace"]
+    },
+    "category": "farine-sucre-patisserie",
+    "unit": "paquet",
+    "icon": "sucre"
+  },
+  {
+    "key": "levure",
+    "name": {
+      "fr": "Levure"
+    },
+    "types": {
+      "fr": ["chimique", "de boulanger"]
+    },
+    "category": "farine-sucre-patisserie",
+    "unit": "sachet",
+    "icon": "levure"
+  },
+  {
+    "key": "sucre-vanille",
+    "name": {
+      "fr": "Sucre vanillé"
+    },
+    "category": "farine-sucre-patisserie",
+    "unit": "sachet",
+    "icon": "sucre-vanille"
+  },
+  {
+    "key": "cereales",
+    "name": {
+      "fr": "Céréales"
+    },
+    "category": "petit-dejeuner",
+    "unit": "paquet",
+    "icon": "cereales"
+  },
+  {
+    "key": "muesli",
+    "name": {
+      "fr": "Muesli"
+    },
+    "aliases": {
+      "fr": ["granola"]
+    },
+    "category": "petit-dejeuner",
+    "unit": "paquet",
+    "icon": "muesli"
+  },
+  {
+    "key": "biscottes",
+    "name": {
+      "fr": "Biscottes"
+    },
+    "category": "petit-dejeuner",
+    "unit": "paquet",
+    "icon": "biscottes"
+  },
+  {
+    "key": "biscuits",
+    "name": {
+      "fr": "Biscuits"
+    },
+    "aliases": {
+      "fr": ["gâteaux secs"]
+    },
+    "category": "biscuits-gateaux",
+    "unit": "paquet",
+    "icon": "biscuits"
+  },
+  {
+    "key": "madeleines",
+    "name": {
+      "fr": "Madeleines"
+    },
+    "category": "biscuits-gateaux",
+    "unit": "paquet",
+    "icon": "madeleines"
+  },
+  {
+    "key": "chocolat",
+    "name": {
+      "fr": "Chocolat"
+    },
+    "aliases": {
+      "fr": ["tablette de chocolat"]
+    },
+    "types": {
+      "fr": ["noir", "au lait", "blanc", "pâtissier"]
+    },
+    "category": "chocolat-confiserie",
+    "unit": "piece",
+    "icon": "chocolat"
+  },
+  {
+    "key": "bonbons",
+    "name": {
+      "fr": "Bonbons"
+    },
+    "category": "chocolat-confiserie",
+    "unit": "sachet",
+    "icon": "bonbons"
+  },
+  {
+    "key": "confiture",
+    "name": {
+      "fr": "Confiture"
+    },
+    "types": {
+      "fr": ["fraise", "abricot", "framboise", "orange"]
+    },
+    "category": "confitures-tartiner",
+    "unit": "pot",
+    "icon": "confiture"
+  },
+  {
+    "key": "pate-a-tartiner",
+    "name": {
+      "fr": "Pâte à tartiner"
+    },
+    "aliases": {
+      "fr": ["nutella"]
+    },
+    "category": "confitures-tartiner",
+    "unit": "pot",
+    "icon": "pate-a-tartiner"
+  },
+  {
+    "key": "beurre-de-cacahuete",
+    "name": {
+      "fr": "Beurre de cacahuète"
+    },
+    "aliases": {
+      "fr": ["beurre d'arachide", "peanut butter"]
+    },
+    "category": "confitures-tartiner",
+    "unit": "pot",
+    "icon": "beurre-de-cacahuete"
+  },
+  {
+    "key": "miel",
+    "name": {
+      "fr": "Miel"
+    },
+    "category": "confitures-tartiner",
+    "unit": "pot",
+    "icon": "miel"
+  },
+  {
+    "key": "cafe",
+    "name": {
+      "fr": "Café"
+    },
+    "types": {
+      "fr": ["moulu", "en grains", "capsules", "dosettes"]
+    },
+    "category": "cafe-the",
+    "unit": "paquet",
+    "icon": "cafe"
+  },
+  {
+    "key": "the",
+    "name": {
+      "fr": "Thé"
+    },
+    "aliases": {
+      "fr": ["sachets de thé"]
+    },
+    "types": {
+      "fr": ["vert", "noir"]
+    },
+    "category": "cafe-the",
+    "unit": "boite",
+    "icon": "the"
+  },
+  {
+    "key": "infusion",
+    "name": {
+      "fr": "Infusion"
+    },
+    "aliases": {
+      "fr": ["tisane"]
+    },
+    "category": "cafe-the",
+    "unit": "boite",
+    "icon": "infusion"
+  },
+  {
+    "key": "chocolat-en-poudre",
+    "name": {
+      "fr": "Chocolat en poudre"
+    },
+    "aliases": {
+      "fr": ["cacao", "chocolat chaud"]
+    },
+    "category": "cafe-the",
+    "unit": "paquet",
+    "icon": "chocolat-en-poudre"
+  },
+  {
+    "key": "eau",
+    "name": {
+      "fr": "Eau"
+    },
+    "aliases": {
+      "fr": ["eau minérale", "bouteilles d'eau"]
+    },
+    "types": {
+      "fr": ["plate", "gazeuse"]
+    },
+    "category": "eaux",
+    "unit": "pack",
+    "icon": "eau"
+  },
+  {
+    "key": "boissons",
+    "name": {
+      "fr": "Boissons au choix"
+    },
+    "category": "jus-sodas",
+    "unit": "piece",
+    "icon": "boissons",
+    "generic": true
+  },
+  {
+    "key": "jus-de-fruits",
+    "name": {
+      "fr": "Jus de fruits"
+    },
+    "aliases": {
+      "fr": ["jus"]
+    },
+    "types": {
+      "fr": [
+        "orange",
+        "pomme",
+        "raisin",
+        "ananas",
+        "pamplemousse",
+        "multifruits"
+      ]
+    },
+    "category": "jus-sodas",
+    "unit": "bouteille",
+    "icon": "jus-de-fruits"
+  },
+  {
+    "key": "coca-cola",
+    "name": {
+      "fr": "Coca-Cola"
+    },
+    "aliases": {
+      "fr": ["coca", "cola"]
+    },
+    "category": "jus-sodas",
+    "unit": "bouteille",
+    "icon": "coca-cola"
+  },
+  {
+    "key": "sirop",
+    "name": {
+      "fr": "Sirop"
+    },
+    "types": {
+      "fr": ["grenadine", "menthe", "citron"]
+    },
+    "category": "jus-sodas",
+    "unit": "bouteille",
+    "icon": "sirop"
+  },
+  {
+    "key": "limonade",
+    "name": {
+      "fr": "Limonade"
+    },
+    "category": "jus-sodas",
+    "unit": "bouteille",
+    "icon": "limonade"
+  },
+  {
+    "key": "biere",
+    "name": {
+      "fr": "Bière"
+    },
+    "types": {
+      "fr": ["blonde", "blanche", "ambrée"]
+    },
+    "category": "alcools",
+    "unit": "pack",
+    "icon": "biere"
+  },
+  {
+    "key": "vin",
+    "name": {
+      "fr": "Vin"
+    },
+    "types": {
+      "fr": ["rouge", "blanc", "rosé"]
+    },
+    "category": "alcools",
+    "unit": "bouteille",
+    "icon": "vin"
+  },
+  {
+    "key": "champagne",
+    "name": {
+      "fr": "Champagne"
+    },
+    "aliases": {
+      "fr": ["crémant", "mousseux"]
+    },
+    "category": "alcools",
+    "unit": "bouteille",
+    "icon": "champagne"
+  },
+  {
+    "key": "frites-surgelees",
+    "name": {
+      "fr": "Frites surgelées"
+    },
+    "aliases": {
+      "fr": ["frites"]
+    },
+    "category": "surgeles",
+    "unit": "sachet",
+    "icon": "frites-surgelees"
+  },
+  {
+    "key": "legumes-surgeles",
+    "name": {
+      "fr": "Légumes surgelés"
+    },
+    "types": {
+      "fr": [
+        "petits pois",
+        "haricots verts",
+        "épinards",
+        "brocolis",
+        "chou-fleur",
+        "carottes",
+        "pommes de terre",
+        "julienne",
+        "ratatouille",
+        "mélange de légumes"
+      ]
+    },
+    "category": "surgeles",
+    "unit": "sachet",
+    "icon": "legumes-surgeles"
+  },
+  {
+    "key": "poelees-surgelees",
+    "name": {
+      "fr": "Poêlées surgelées"
+    },
+    "aliases": {
+      "fr": ["poêlées"]
+    },
+    "types": {
+      "fr": ["légumes", "champignons", "pommes de terre"]
+    },
+    "category": "surgeles",
+    "unit": "sachet",
+    "icon": "poelees-surgelees"
+  },
+  {
+    "key": "steaks-haches-surgeles",
+    "name": {
+      "fr": "Steaks hachés surgelés"
+    },
+    "category": "surgeles",
+    "unit": "boite",
+    "icon": "steaks-haches-surgeles"
+  },
+  {
+    "key": "poisson-pane",
+    "name": {
+      "fr": "Poisson pané"
+    },
+    "aliases": {
+      "fr": ["bâtonnets de poisson"]
+    },
+    "category": "surgeles",
+    "unit": "boite",
+    "icon": "poisson-pane"
+  },
+  {
+    "key": "pizza-surgelee",
+    "name": {
+      "fr": "Pizza surgelée"
+    },
+    "category": "surgeles",
+    "unit": "piece",
+    "icon": "pizza-surgelee"
+  },
+  {
+    "key": "glace",
+    "name": {
+      "fr": "Glace"
+    },
+    "aliases": {
+      "fr": ["crème glacée"]
+    },
+    "types": {
+      "fr": ["vanille", "chocolat", "fraise"]
+    },
+    "category": "glaces",
+    "unit": "piece",
+    "icon": "glace"
+  },
+  {
+    "key": "cones-glaces",
+    "name": {
+      "fr": "Cônes glacés"
+    },
+    "aliases": {
+      "fr": ["cônes", "esquimaux"]
+    },
+    "category": "glaces",
+    "unit": "boite",
+    "icon": "cones-glaces"
+  },
+  {
+    "key": "dentifrice",
+    "name": {
+      "fr": "Dentifrice"
+    },
+    "category": "hygiene-beaute",
+    "unit": "piece",
+    "icon": "dentifrice"
+  },
+  {
+    "key": "brosses-a-dents",
+    "name": {
+      "fr": "Brosses à dents"
+    },
+    "category": "hygiene-beaute",
+    "unit": "piece",
+    "icon": "brosses-a-dents"
+  },
+  {
+    "key": "gel-douche",
+    "name": {
+      "fr": "Gel douche"
+    },
+    "aliases": {
+      "fr": ["savon douche"]
+    },
+    "category": "hygiene-beaute",
+    "unit": "piece",
+    "icon": "gel-douche"
+  },
+  {
+    "key": "shampooing",
+    "name": {
+      "fr": "Shampooing"
+    },
+    "aliases": {
+      "fr": ["shampoing"]
+    },
+    "category": "hygiene-beaute",
+    "unit": "piece",
+    "icon": "shampooing"
+  },
+  {
+    "key": "savon",
+    "name": {
+      "fr": "Savon"
+    },
+    "category": "hygiene-beaute",
+    "unit": "piece",
+    "icon": "savon"
+  },
+  {
+    "key": "deodorant",
+    "name": {
+      "fr": "Déodorant"
+    },
+    "aliases": {
+      "fr": ["déo"]
+    },
+    "category": "hygiene-beaute",
+    "unit": "piece",
+    "icon": "deodorant"
+  },
+  {
+    "key": "cotons",
+    "name": {
+      "fr": "Cotons"
+    },
+    "aliases": {
+      "fr": ["disques de coton"]
+    },
+    "category": "hygiene-beaute",
+    "unit": "piece",
+    "icon": "cotons"
+  },
+  {
+    "key": "cotons-tiges",
+    "name": {
+      "fr": "Cotons-tiges"
+    },
+    "category": "hygiene-beaute",
+    "unit": "piece",
+    "icon": "cotons-tiges"
+  },
+  {
+    "key": "rasoirs",
+    "name": {
+      "fr": "Rasoirs"
+    },
+    "aliases": {
+      "fr": ["lames de rasoir"]
+    },
+    "category": "hygiene-beaute",
+    "unit": "piece",
+    "icon": "rasoirs"
+  },
+  {
+    "key": "papier-toilette",
+    "name": {
+      "fr": "Papier toilette"
+    },
+    "aliases": {
+      "fr": ["pq", "papier wc", "papier hygiénique"]
+    },
+    "category": "papier-mouchoirs",
+    "unit": "rouleau",
+    "quantity": 12,
+    "icon": "papier-toilette"
+  },
+  {
+    "key": "essuie-tout",
+    "name": {
+      "fr": "Essuie-tout"
+    },
+    "aliases": {
+      "fr": ["sopalin"]
+    },
+    "category": "papier-mouchoirs",
+    "unit": "rouleau",
+    "quantity": 2,
+    "icon": "essuie-tout"
+  },
+  {
+    "key": "mouchoirs",
+    "name": {
+      "fr": "Mouchoirs"
+    },
+    "aliases": {
+      "fr": ["kleenex", "mouchoirs en papier"]
+    },
+    "category": "papier-mouchoirs",
+    "unit": "boite",
+    "icon": "mouchoirs"
+  },
+  {
+    "key": "lessive",
+    "name": {
+      "fr": "Lessive"
+    },
+    "types": {
+      "fr": ["liquide", "capsules", "poudre"]
+    },
+    "category": "entretien",
+    "unit": "bouteille",
+    "icon": "lessive"
+  },
+  {
+    "key": "liquide-vaisselle",
+    "name": {
+      "fr": "Liquide vaisselle"
+    },
+    "aliases": {
+      "fr": ["produit vaisselle"]
+    },
+    "category": "entretien",
+    "unit": "bouteille",
+    "icon": "liquide-vaisselle"
+  },
+  {
+    "key": "eponges",
+    "name": {
+      "fr": "Éponges"
+    },
+    "category": "entretien",
+    "unit": "piece",
+    "quantity": 2,
+    "icon": "eponges"
+  },
+  {
+    "key": "pastilles-lave-vaisselle",
+    "name": {
+      "fr": "Pastilles lave-vaisselle"
+    },
+    "aliases": {
+      "fr": ["tablettes lave-vaisselle"]
+    },
+    "category": "entretien",
+    "unit": "paquet",
+    "icon": "pastilles-lave-vaisselle"
+  },
+  {
+    "key": "nettoyant-menager",
+    "name": {
+      "fr": "Nettoyant ménager"
+    },
+    "aliases": {
+      "fr": ["nettoyant", "produit ménager"]
+    },
+    "category": "entretien",
+    "unit": "bouteille",
+    "icon": "nettoyant-menager"
+  },
+  {
+    "key": "javel",
+    "name": {
+      "fr": "Eau de Javel"
+    },
+    "aliases": {
+      "fr": ["javel"]
+    },
+    "category": "entretien",
+    "unit": "bouteille",
+    "icon": "javel"
+  },
+  {
+    "key": "adoucissant",
+    "name": {
+      "fr": "Adoucissant"
+    },
+    "category": "entretien",
+    "unit": "bouteille",
+    "icon": "adoucissant"
+  },
+  {
+    "key": "sacs-poubelle",
+    "name": {
+      "fr": "Sacs poubelle"
+    },
+    "types": {
+      "fr": ["30 L", "50 L", "100 L"]
+    },
+    "category": "cuisine-maison",
+    "unit": "rouleau",
+    "icon": "sacs-poubelle"
+  },
+  {
+    "key": "papier-aluminium",
+    "name": {
+      "fr": "Papier aluminium"
+    },
+    "aliases": {
+      "fr": ["alu", "papier alu"]
+    },
+    "category": "cuisine-maison",
+    "unit": "rouleau",
+    "icon": "papier-aluminium"
+  },
+  {
+    "key": "film-alimentaire",
+    "name": {
+      "fr": "Film alimentaire"
+    },
+    "aliases": {
+      "fr": ["film étirable"]
+    },
+    "category": "cuisine-maison",
+    "unit": "rouleau",
+    "icon": "film-alimentaire"
+  },
+  {
+    "key": "papier-cuisson",
+    "name": {
+      "fr": "Papier cuisson"
+    },
+    "aliases": {
+      "fr": ["papier sulfurisé"]
+    },
+    "category": "cuisine-maison",
+    "unit": "rouleau",
+    "icon": "papier-cuisson"
+  },
+  {
+    "key": "piles",
+    "name": {
+      "fr": "Piles"
+    },
+    "types": {
+      "fr": ["AA", "AAA", "9 V", "bouton"]
+    },
+    "category": "cuisine-maison",
+    "unit": "piece",
+    "quantity": 4,
+    "icon": "piles"
+  },
+  {
+    "key": "ampoules",
+    "name": {
+      "fr": "Ampoules"
+    },
+    "types": {
+      "fr": ["E27", "E14", "B22", "GU10", "standard", "flamme", "spot"]
+    },
+    "category": "cuisine-maison",
+    "unit": "piece",
+    "icon": "ampoules"
+  },
+  {
+    "key": "couches",
+    "name": {
+      "fr": "Couches"
+    },
+    "category": "bebe",
+    "unit": "paquet",
+    "icon": "couches"
+  },
+  {
+    "key": "lingettes",
+    "name": {
+      "fr": "Lingettes"
+    },
+    "aliases": {
+      "fr": ["lingettes bébé"]
+    },
+    "category": "bebe",
+    "unit": "paquet",
+    "icon": "lingettes"
+  },
+  {
+    "key": "petits-pots",
+    "name": {
+      "fr": "Petits pots"
+    },
+    "category": "bebe",
+    "unit": "piece",
+    "quantity": 4,
+    "icon": "petits-pots"
+  },
+  {
+    "key": "lait-infantile",
+    "name": {
+      "fr": "Lait infantile"
+    },
+    "aliases": {
+      "fr": ["lait bébé", "lait 2e âge"]
+    },
+    "category": "bebe",
+    "unit": "boite",
+    "icon": "lait-infantile"
+  },
+  {
+    "key": "croquettes-chat",
+    "name": {
+      "fr": "Croquettes pour chat"
+    },
+    "aliases": {
+      "fr": ["croquettes chat"]
+    },
+    "category": "animaux",
+    "unit": "sachet",
+    "icon": "croquettes-chat"
+  },
+  {
+    "key": "croquettes-chien",
+    "name": {
+      "fr": "Croquettes pour chien"
+    },
+    "aliases": {
+      "fr": ["croquettes chien"]
+    },
+    "category": "animaux",
+    "unit": "sachet",
+    "icon": "croquettes-chien"
+  },
+  {
+    "key": "patee",
+    "name": {
+      "fr": "Pâtée"
+    },
+    "aliases": {
+      "fr": ["sachets fraîcheur"]
+    },
+    "category": "animaux",
+    "unit": "piece",
+    "quantity": 4,
+    "icon": "patee"
+  },
+  {
+    "key": "litiere",
+    "name": {
+      "fr": "Litière"
+    },
+    "category": "animaux",
+    "unit": "sachet",
+    "icon": "litiere"
+  }
+]

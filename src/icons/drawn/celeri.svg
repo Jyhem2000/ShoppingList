@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <path fill="none" stroke="#93c858" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.2" d="M13.6 29.5L11 12.5"/>
+  <path fill="none" stroke="#93c858" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.2" d="M18.4 29.5L21 12.5"/>
+  <path fill="none" stroke="#b9e07a" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.4" d="M16 30V11.5"/>
+  <path fill="none" stroke="#d8f0b0" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.6" d="M15.4 28V13.5M12.6 27.5l-1.8-12M19.4 27.5l1.8-12"/>
+  <g transform="translate(11 12.5) rotate(-110)">
+  <path fill="#00d26a" d="M0 0C1.25 -2 3.5 -2 5 0C3.5 2 1.25 2 0 0"/>
+  </g>
+  <g transform="translate(11 12.5) rotate(-150)">
+  <path fill="#44911b" d="M0 0C1.25 -2 3.5 -2 5 0C3.5 2 1.25 2 0 0"/>
+  </g>
+  <g transform="translate(16 11.5) rotate(-90)">
+  <path fill="#00d26a" d="M0 0C1.38 -2 3.85 -2 5.5 0C3.85 2 1.38 2 0 0"/>
+  </g>
+  <g transform="translate(16 11.5) rotate(-55)">
+  <path fill="#44911b" d="M0 0C1.25 -2 3.5 -2 5 0C3.5 2 1.25 2 0 0"/>
+  </g>
+  <g transform="translate(21 12.5) rotate(-70)">
+  <path fill="#00d26a" d="M0 0C1.25 -2 3.5 -2 5 0C3.5 2 1.25 2 0 0"/>
+  </g>
+  <g transform="translate(21 12.5) rotate(-30)">
+  <path fill="#44911b" d="M0 0C1.25 -2 3.5 -2 5 0C3.5 2 1.25 2 0 0"/>
+  </g>
+</svg>

@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <g transform="rotate(-25 16 8.5)">
+  <rect width="22" height="5.6" x="4" y="5.7" fill="#f6f1ea" rx="2.8"/>
+  <clipPath id="s0">
+  <rect width="22" height="5.6" x="4" y="5.7" fill="#000" rx="2.8"/>
+  </clipPath>
+  <g clip-path="url(#s0)">
+  <rect width="24" height="3" x="3" y="5.3" fill="#f25c3a" rx="0"/>
+  <rect width="14" height="0.8" x="6" y="6.3" fill="#ff9a7a" rx="0.4"/>
+  </g>
+  <ellipse cx="26" cy="8.5" rx="1.5" ry="2.8" fill="#fffaf2"/>
+  <path fill="#f25c3a" d="M26 5.7a1.5 2.8 0 0 1 1.5 2.6h-.9a.6 2 0 0 0-.6-1.8z"/>
+  <path fill="none" stroke="#e8e0d4" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.6" d="M8 9.9h14"/>
+  </g>
+  <g transform="rotate(-25 16 16)">
+  <rect width="22" height="5.6" x="4" y="13.2" fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round" rx="2.8"/>
+  <clipPath id="s1">
+  <rect width="22" height="5.6" x="4" y="13.2" fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round" rx="2.8"/>
+  </clipPath>
+  <g clip-path="url(#s1)">
+  <rect width="24" height="3" x="3" y="12.8" fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round" rx="0"/>
+  <rect width="14" height="0.8" x="6" y="13.8" fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round" rx="0.4"/>
+  </g>
+  <ellipse cx="26" cy="16" rx="1.5" ry="2.8" fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round"/>
+  <path fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round" d="M26 13.2a1.5 2.8 0 0 1 1.5 2.6h-.9a.6 2 0 0 0-.6-1.8z"/>
+  <path fill="none" stroke="#18181d" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4" d="M8 17.4h14"/>
+  </g>
+  <g transform="rotate(-25 16 16)">
+  <rect width="22" height="5.6" x="4" y="13.2" fill="#f6f1ea" rx="2.8"/>
+  <clipPath id="s1">
+  <rect width="22" height="5.6" x="4" y="13.2" fill="#000" rx="2.8"/>
+  </clipPath>
+  <g clip-path="url(#s1)">
+  <rect width="24" height="3" x="3" y="12.8" fill="#f25c3a" rx="0"/>
+  <rect width="14" height="0.8" x="6" y="13.8" fill="#ff9a7a" rx="0.4"/>
+  </g>
+  <ellipse cx="26" cy="16" rx="1.5" ry="2.8" fill="#fffaf2"/>
+  <path fill="#f25c3a" d="M26 13.2a1.5 2.8 0 0 1 1.5 2.6h-.9a.6 2 0 0 0-.6-1.8z"/>
+  <path fill="none" stroke="#e8e0d4" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.6" d="M8 17.4h14"/>
+  </g>
+  <g transform="rotate(-25 16 23.5)">
+  <rect width="22" height="5.6" x="4" y="20.7" fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round" rx="2.8"/>
+  <clipPath id="s2">
+  <rect width="22" height="5.6" x="4" y="20.7" fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round" rx="2.8"/>
+  </clipPath>
+  <g clip-path="url(#s2)">
+  <rect width="24" height="3" x="3" y="20.3" fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round" rx="0"/>
+  <rect width="14" height="0.8" x="6" y="21.3" fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round" rx="0.4"/>
+  </g>
+  <ellipse cx="26" cy="23.5" rx="1.5" ry="2.8" fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round"/>
+  <path fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round" d="M26 20.7a1.5 2.8 0 0 1 1.5 2.6h-.9a.6 2 0 0 0-.6-1.8z"/>
+  <path fill="none" stroke="#18181d" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4" d="M8 24.9h14"/>
+  </g>
+  <g transform="rotate(-25 16 23.5)">
+  <rect width="22" height="5.6" x="4" y="20.7" fill="#f6f1ea" rx="2.8"/>
+  <clipPath id="s2">
+  <rect width="22" height="5.6" x="4" y="20.7" fill="#000" rx="2.8"/>
+  </clipPath>
+  <g clip-path="url(#s2)">
+  <rect width="24" height="3" x="3" y="20.3" fill="#f25c3a" rx="0"/>
+  <rect width="14" height="0.8" x="6" y="21.3" fill="#ff9a7a" rx="0.4"/>
+  </g>
+  <ellipse cx="26" cy="23.5" rx="1.5" ry="2.8" fill="#fffaf2"/>
+  <path fill="#f25c3a" d="M26 20.7a1.5 2.8 0 0 1 1.5 2.6h-.9a.6 2 0 0 0-.6-1.8z"/>
+  <path fill="none" stroke="#e8e0d4" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.6" d="M8 24.9h14"/>
+  </g>
+</svg>

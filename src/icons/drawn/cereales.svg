@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <ellipse cx="16" cy="13.6" rx="10.5" ry="2.8" fill="#24498a"/>
+  <path fill="#fbf6e8" d="M5.5 13.6a10.5 2.8 0 0 0 21 0c-1.2-2.8-4.8-4-10.5-4S6.7 10.8 5.5 13.6z"/>
+  <ellipse cx="7.6" cy="9.6" rx="1.9" ry="1.2" fill="#e09a2a"/>
+  <ellipse cx="10.8" cy="9.6" rx="1.9" ry="1.2" fill="#f2b84a" transform="rotate(47 10.8 9.6)"/>
+  <ellipse cx="14" cy="9.6" rx="1.9" ry="1.2" fill="#f2b84a" transform="rotate(94 14 9.6)"/>
+  <ellipse cx="17.2" cy="9.6" rx="1.9" ry="1.2" fill="#e09a2a" transform="rotate(141 17.2 9.6)"/>
+  <ellipse cx="20.4" cy="9.6" rx="1.9" ry="1.2" fill="#f2b84a" transform="rotate(8 20.4 9.6)"/>
+  <ellipse cx="23.6" cy="9.6" rx="1.9" ry="1.2" fill="#f2b84a" transform="rotate(55 23.6 9.6)"/>
+  <ellipse cx="9.2" cy="11.3" rx="1.9" ry="1.2" fill="#e09a2a" transform="rotate(102 9.2 11.3)"/>
+  <ellipse cx="12.4" cy="11.3" rx="1.9" ry="1.2" fill="#f2b84a" transform="rotate(149 12.4 11.3)"/>
+  <ellipse cx="15.6" cy="11.3" rx="1.9" ry="1.2" fill="#f2b84a" transform="rotate(16 15.6 11.3)"/>
+  <ellipse cx="18.8" cy="11.3" rx="1.9" ry="1.2" fill="#e09a2a" transform="rotate(63 18.8 11.3)"/>
+  <ellipse cx="22" cy="11.3" rx="1.9" ry="1.2" fill="#f2b84a" transform="rotate(110 22 11.3)"/>
+  <ellipse cx="25.2" cy="11.3" rx="1.9" ry="1.2" fill="#f2b84a" transform="rotate(157 25.2 11.3)"/>
+  <ellipse cx="7.6" cy="13" rx="1.9" ry="1.2" fill="#e09a2a" transform="rotate(24 7.6 13)"/>
+  <ellipse cx="10.8" cy="13" rx="1.9" ry="1.2" fill="#f2b84a" transform="rotate(71 10.8 13)"/>
+  <ellipse cx="14" cy="13" rx="1.9" ry="1.2" fill="#f2b84a" transform="rotate(118 14 13)"/>
+  <ellipse cx="17.2" cy="13" rx="1.9" ry="1.2" fill="#e09a2a" transform="rotate(165 17.2 13)"/>
+  <path fill="#3d7bd9" d="M5.5 13.6a10.5 2.8 0 0 0 21 0c0 6.4-4.7 11-10.5 11S5.5 20 5.5 13.6z"/>
+  <clipPath id="ce">
+  <path fill="#000" d="M5.5 13.6a10.5 2.8 0 0 0 21 0c0 6.4-4.7 11-10.5 11S5.5 20 5.5 13.6z"/>
+  </clipPath>
+  <g clip-path="url(#ce)">
+  <ellipse cx="24.5" cy="21" rx="7" ry="10" fill="#2c5fb0"/>
+  </g>
+  <path fill="none" stroke="#ffffff70" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.7" d="M5.5 13.6a10.5 2.8 0 0 0 21 0"/>
+</svg>

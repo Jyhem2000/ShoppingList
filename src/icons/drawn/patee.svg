@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <path fill="#c9cdd3" d="M5 13v9c0 2.4 4.9 4.4 11 4.4s11-2 11-4.4v-9z"/>
+  <path fill="#f6efe2" d="M5 15.4v5c0 2.4 4.9 4.4 11 4.4s11-2 11-4.4v-5c0 2.4-4.9 4.4-11 4.4S5 17.8 5 15.4"/>
+  <circle cx="16" cy="21.35" r="1.5" fill="#2a2a30"/>
+  <circle cx="14.13" cy="19.93" r="0.63" fill="#2a2a30"/>
+  <circle cx="15.32" cy="19.03" r="0.63" fill="#2a2a30"/>
+  <circle cx="16.68" cy="19.03" r="0.63" fill="#2a2a30"/>
+  <circle cx="17.88" cy="19.93" r="0.63" fill="#2a2a30"/>
+  <ellipse cx="16" cy="13" rx="11" ry="4.4" fill="#9aa1aa"/>
+  <ellipse cx="16" cy="13" rx="10" ry="3.8" fill="#7d858f"/>
+  <clipPath id="pa8">
+  <ellipse cx="16" cy="13.3" rx="9.6" ry="3.4" fill="#000"/>
+  </clipPath>
+  <g clip-path="url(#pa8)">
+  <rect width="32" height="32" x="0" y="0" fill="#8a5a3a" rx="0"/>
+  <ellipse cx="23.64" cy="13.43" rx="1.4" ry="0.8" fill="#a8724a" transform="rotate(7.498971193415638 23.64 13.43)"/>
+  <ellipse cx="19.18" cy="13.45" rx="1.4" ry="0.8" fill="#a8724a" transform="rotate(0.22222222222222224 19.18 13.45)"/>
+  <ellipse cx="18.87" cy="15.68" rx="1.4" ry="0.8" fill="#a8724a" transform="rotate(31.217078189300413 18.87 15.68)"/>
+  <ellipse cx="13.82" cy="14.67" rx="1.4" ry="0.8" fill="#6d4534" transform="rotate(44.187242798353914 13.82 14.67)"/>
+  <ellipse cx="24.47" cy="15.92" rx="1.4" ry="0.8" fill="#6d4534" transform="rotate(0.6141975308641975 24.47 15.92)"/>
+  <ellipse cx="14.6" cy="15.31" rx="1.4" ry="0.8" fill="#6d4534" transform="rotate(13.090534979423868 14.6 15.31)"/>
+  <ellipse cx="15.32" cy="11.83" rx="1.4" ry="0.8" fill="#a8724a" transform="rotate(38.65329218106996 15.32 11.83)"/>
+  <ellipse cx="9.08" cy="13.77" rx="1.4" ry="0.8" fill="#a8724a" transform="rotate(32.117283950617285 9.08 13.77)"/>
+  <ellipse cx="23.66" cy="13.09" rx="1.4" ry="0.8" fill="#a8724a" transform="rotate(19.40843621399177 23.66 13.09)"/>
+  <ellipse cx="22.16" cy="13.25" rx="1.4" ry="0.8" fill="#6d4534" transform="rotate(30.897119341563787 22.16 13.25)"/>
+  <ellipse cx="21.04" cy="15.31" rx="1.4" ry="0.8" fill="#a8724a" transform="rotate(14.731481481481481 21.04 15.31)"/>
+  <ellipse cx="22.06" cy="12.35" rx="1.4" ry="0.8" fill="#6d4534" transform="rotate(30.17078189300412 22.06 12.35)"/>
+  </g>
+</svg>

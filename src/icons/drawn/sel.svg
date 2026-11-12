@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <g transform="translate(3 -1) rotate(-140 16 13)">
+  <path fill="#dfeaf2" d="M11 9.6h10l-1.2 13a1.8 1.8 0 0 1-1.8 1.6h-4a1.8 1.8 0 0 1-1.8-1.6z"/>
+  <clipPath id="sl">
+  <path fill="#000" d="M11.6 10.2h8.8l-1.1 12.2a1.4 1.4 0 0 1-1.4 1.2h-3.8a1.4 1.4 0 0 1-1.4-1.2z"/>
+  </clipPath>
+  <g clip-path="url(#sl)">
+  <rect width="32" height="17.6" x="0" y="0" fill="#ffffff" rx="0"/>
+  <circle cx="16.16" cy="11.19" r="0.28" fill="#d6dde6"/>
+  <circle cx="16.61" cy="14.47" r="0.28" fill="#d6dde6"/>
+  <circle cx="14.87" cy="12.68" r="0.28" fill="#d6dde6"/>
+  <circle cx="14.3" cy="13.25" r="0.28" fill="#d6dde6"/>
+  <circle cx="17.09" cy="10.88" r="0.28" fill="#d6dde6"/>
+  <circle cx="17.1" cy="16.9" r="0.28" fill="#d6dde6"/>
+  <circle cx="14.14" cy="13.78" r="0.28" fill="#d6dde6"/>
+  <circle cx="17.5" cy="13.1" r="0.28" fill="#d6dde6"/>
+  <circle cx="14.82" cy="12.26" r="0.28" fill="#d6dde6"/>
+  <circle cx="18.35" cy="14.99" r="0.28" fill="#d6dde6"/>
+  <circle cx="12.5" cy="16.73" r="0.28" fill="#d6dde6"/>
+  <circle cx="18.68" cy="14.15" r="0.28" fill="#d6dde6"/>
+  <circle cx="13.6" cy="12.46" r="0.28" fill="#d6dde6"/>
+  <circle cx="12.76" cy="10.76" r="0.28" fill="#d6dde6"/>
+  </g>
+  <rect width="1.1" height="10.6" x="12.6" y="11.4" fill="#ffffffaa" rx="0.55"/>
+  <path fill="#c9cdd3" d="M10.4 9.8c0-3.4 2.5-5.6 5.6-5.6s5.6 2.2 5.6 5.6z"/>
+  <path fill="#a8aeb6" d="M16 4.2c3.1 0 5.6 2.2 5.6 5.6h-2c0-3-1.6-5-3.6-5.6"/>
+  <circle cx="14" cy="6.8" r="0.45" fill="#5d646d"/>
+  <circle cx="16" cy="6" r="0.45" fill="#5d646d"/>
+  <circle cx="18" cy="6.8" r="0.45" fill="#5d646d"/>
+  <circle cx="15" cy="8.4" r="0.45" fill="#5d646d"/>
+  <circle cx="17" cy="8.4" r="0.45" fill="#5d646d"/>
+  </g>
+  <g transform="rotate(13.446373456790123 11.272949245541838 19.4)">
+  <rect width="1" height="1" x="10.77" y="18.9" fill="#ffffff" rx="0.15"/>
+  </g>
+  <g transform="rotate(60.11844135802469 11.56090534979424 20.349999999999998)">
+  <rect width="1" height="1" x="11.06" y="19.85" fill="#ffffff" rx="0.15"/>
+  </g>
+  <g transform="rotate(0.03125 10.089190672153636 21.299999999999997)">
+  <rect width="1" height="1" x="9.59" y="20.8" fill="#ffffff" rx="0.15"/>
+  </g>
+  <g transform="rotate(37.629243827160494 10.25533607681756 22.25)">
+  <rect width="1" height="1" x="9.76" y="21.75" fill="#ffffff" rx="0.15"/>
+  </g>
+  <g transform="rotate(14.023533950617285 10.775390946502057 23.2)">
+  <rect width="1" height="1" x="10.28" y="22.7" fill="#ffffff" rx="0.15"/>
+  </g>
+  <g transform="rotate(16.99189814814815 9.595034293552812 24.15)">
+  <rect width="1" height="1" x="9.1" y="23.65" fill="#ffffff" rx="0.15"/>
+  </g>
+  <g transform="rotate(60.97878086419753 8.867352537722908 25.099999999999998)">
+  <rect width="1" height="1" x="8.37" y="24.6" fill="#ffffff" rx="0.15"/>
+  </g>
+  <g transform="rotate(7.095293209876543 8.197283950617285 26.049999999999997)">
+  <rect width="1" height="1" x="7.7" y="25.55" fill="#ffffff" rx="0.15"/>
+  </g>
+  <g transform="rotate(83.11921296296296 8.552729766803843 27)">
+  <rect width="1" height="1" x="8.05" y="26.5" fill="#ffffff" rx="0.15"/>
+  </g>
+  <path fill="#e3e8ef" d="M3.5 30c.9-2.8 3-4.4 5.6-4.4s4.7 1.6 5.6 4.4z"/>
+  <ellipse cx="7.6" cy="27.6" rx="1.8" ry="0.5" fill="#ffffff" transform="rotate(-15 7.6 27.6)"/>
+</svg>

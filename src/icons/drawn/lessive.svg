@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <path fill="#2f7de1" d="M18.60 6L19.00 8L22.00 10L23.40 12L23.40 28L22.60 29.4L9.40 29.4L8.60 28L8.60 12L10.00 10L13.00 8L13.40 6Z"/>
+  <clipPath id="bt24">
+  <path fill="#000" d="M18.60 6L19.00 8L22.00 10L23.40 12L23.40 28L22.60 29.4L9.40 29.4L8.60 28L8.60 12L10.00 10L13.00 8L13.40 6Z"/>
+  </clipPath>
+  <g clip-path="url(#bt24)">
+  <rect width="10" height="32" x="19.2" y="0" fill="#24569c" rx="0"/>
+  </g>
+  <rect width="12" height="8.4" x="10" y="15.6" fill="#ffffff" rx="1.6"/>
+  <circle cx="14" cy="19.8" r="2.2" fill="#26c9fc"/>
+  <circle cx="13.85" cy="19.65" r="1.98" fill="#9ae4ff"/>
+  <circle cx="18.4" cy="18.8" r="1.4" fill="#26c9fc"/>
+  <circle cx="18.3" cy="18.7" r="1.26" fill="#9ae4ff"/>
+  <rect width="1.1" height="14" x="12.4" y="12" fill="#ffffff55" rx="0.55"/>
+  <rect width="6.8" height="4.4" x="12.6" y="2.6" fill="#ff822d" rx="1.2"/>
+  <path fill="#24569c" d="M22.4 12c3.4.4 5 2.8 5 6s-1.6 5.6-5 6v-2.6c1.6-.4 2.4-1.6 2.4-3.4s-.8-3-2.4-3.4z"/>
+</svg>

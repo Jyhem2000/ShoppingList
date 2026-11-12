@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <path fill="none" stroke="#558b2f" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.1" d="M16 29.5Q16 20.25 9 11"/>
+  <path fill="none" stroke="#558b2f" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.1" d="M16 29.5Q16 18.25 16 7"/>
+  <path fill="none" stroke="#558b2f" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.1" d="M16 29.5Q16 20.25 23 11"/>
+  <path fill="none" stroke="#558b2f" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.1" d="M16 29.5Q16 21.75 12.5 14"/>
+  <path fill="none" stroke="#558b2f" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.1" d="M16 29.5Q16 21.75 19.5 14"/>
+  <g transform="translate(9 11) rotate(-150)">
+  <path fill="#2e7d32" d="M0 0C1.25 -2 3.5 -2 5 0C3.5 2 1.25 2 0 0"/>
+  </g>
+  <g transform="translate(9 11) rotate(-90)">
+  <path fill="#43a047" d="M0 0C1.25 -2 3.5 -2 5 0C3.5 2 1.25 2 0 0"/>
+  </g>
+  <g transform="translate(9 11) rotate(-30)">
+  <path fill="#2e7d32" d="M0 0C1.25 -2 3.5 -2 5 0C3.5 2 1.25 2 0 0"/>
+  </g>
+  <g transform="translate(9 11) rotate(-120)">
+  <path fill="#66bb6a" d="M0 0C1 -1.7 2.8 -1.7 4 0C2.8 1.7 1 1.7 0 0"/>
+  </g>
+  <g transform="translate(9 11) rotate(-60)">
+  <path fill="#66bb6a" d="M0 0C1 -1.7 2.8 -1.7 4 0C2.8 1.7 1 1.7 0 0"/>
+  </g>
+  <g transform="translate(16 7) rotate(-150)">
+  <path fill="#2e7d32" d="M0 0C1.25 -2 3.5 -2 5 0C3.5 2 1.25 2 0 0"/>
+  </g>
+  <g transform="translate(16 7) rotate(-90)">
+  <path fill="#43a047" d="M0 0C1.25 -2 3.5 -2 5 0C3.5 2 1.25 2 0 0"/>
+  </g>
+  <g transform="translate(16 7) rotate(-30)">
+  <path fill="#2e7d32" d="M0 0C1.25 -2 3.5 -2 5 0C3.5 2 1.25 2 0 0"/>
+  </g>
+  <g transform="translate(16 7) rotate(-120)">
+  <path fill="#66bb6a" d="M0 0C1 -1.7 2.8 -1.7 4 0C2.8 1.7 1 1.7 0 0"/>
+  </g>
+  <g transform="translate(16 7) rotate(-60)">
+  <path fill="#66bb6a" d="M0 0C1 -1.7 2.8 -1.7 4 0C2.8 1.7 1 1.7 0 0"/>
+  </g>
+  <g transform="translate(23 11) rotate(-150)">
+  <path fill="#2e7d32" d="M0 0C1.25 -2 3.5 -2 5 0C3.5 2 1.25 2 0 0"/>
+  </g>
+  <g transform="translate(23 11) rotate(-90)">
+  <path fill="#43a047" d="M0 0C1.25 -2 3.5 -2 5 0C3.5 2 1.25 2 0 0"/>
+  </g>
+  <g transform="translate(23 11) rotate(-30)">
+  <path fill="#2e7d32" d="M0 0C1.25 -2 3.5 -2 5 0C3.5 2 1.25 2 0 0"/>
+  </g>
+  <g transform="translate(23 11) rotate(-120)">
+  <path fill="#66bb6a" d="M0 0C1 -1.7 2.8 -1.7 4 0C2.8 1.7 1 1.7 0 0"/>
+  </g>
+  <g transform="translate(23 11) rotate(-60)">
+  <path fill="#66bb6a" d="M0 0C1 -1.7 2.8 -1.7 4 0C2.8 1.7 1 1.7 0 0"/>
+  </g>
+  <g transform="translate(12.5 14) rotate(-140)">
+  <path fill="#43a047" d="M0 0C1 -1.6 2.8 -1.6 4 0C2.8 1.6 1 1.6 0 0"/>
+  </g>
+  <g transform="translate(12.5 14) rotate(-40)">
+  <path fill="#43a047" d="M0 0C1 -1.6 2.8 -1.6 4 0C2.8 1.6 1 1.6 0 0"/>
+  </g>
+  <g transform="translate(12.5 14) rotate(-90)">
+  <path fill="#2e7d32" d="M0 0C0.85 -1.4 2.38 -1.4 3.4 0C2.38 1.4 0.85 1.4 0 0"/>
+  </g>
+  <g transform="translate(19.5 14) rotate(-140)">
+  <path fill="#43a047" d="M0 0C1 -1.6 2.8 -1.6 4 0C2.8 1.6 1 1.6 0 0"/>
+  </g>
+  <g transform="translate(19.5 14) rotate(-40)">
+  <path fill="#43a047" d="M0 0C1 -1.6 2.8 -1.6 4 0C2.8 1.6 1 1.6 0 0"/>
+  </g>
+  <g transform="translate(19.5 14) rotate(-90)">
+  <path fill="#2e7d32" d="M0 0C0.85 -1.4 2.38 -1.4 3.4 0C2.38 1.4 0.85 1.4 0 0"/>
+  </g>
+</svg>

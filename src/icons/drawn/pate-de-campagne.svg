@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <path fill="#e09a6a" d="M3 14l7-5h19l-7 5z"/>
+  <path fill="#a0583a" d="M22 14l7-5v12l-7 5z"/>
+  <rect width="19" height="12" x="3" y="14" fill="#c97a5a" rx="0"/>
+  <circle cx="5" cy="17" r="0.7" fill="#f2c4a8"/>
+  <circle cx="8.2" cy="18" r="0.7" fill="#9a4a32"/>
+  <circle cx="11.4" cy="17" r="0.7" fill="#9a4a32"/>
+  <circle cx="14.6" cy="18" r="0.7" fill="#f2c4a8"/>
+  <circle cx="17.8" cy="17" r="0.7" fill="#9a4a32"/>
+  <circle cx="21" cy="18" r="0.7" fill="#9a4a32"/>
+  <circle cx="5" cy="21.6" r="0.7" fill="#f2c4a8"/>
+  <circle cx="8.2" cy="22.6" r="0.7" fill="#9a4a32"/>
+  <circle cx="11.4" cy="21.6" r="0.7" fill="#9a4a32"/>
+  <circle cx="14.6" cy="22.6" r="0.7" fill="#f2c4a8"/>
+  <circle cx="17.8" cy="21.6" r="0.7" fill="#9a4a32"/>
+  <circle cx="21" cy="22.6" r="0.7" fill="#9a4a32"/>
+  <rect width="19" height="1.4" x="3" y="14" fill="#f4e2c8" rx="0"/>
+  <g transform="translate(10 11.4) rotate(-8)">
+  <path fill="#4f7d32" d="M0 0C2.25 -2.4 6.3 -2.4 9 0C6.3 2.4 2.25 2.4 0 0"/>
+  <path fill="none" stroke="#8fb56a" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.6" d="M1.08 0H7.02"/>
+  </g>
+  <path fill="none" stroke="#7a3a22" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.5" d="M26 11.5l-1.6 9"/>
+</svg>

@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <g transform="rotate(-30 17.5 9.5)">
+  <rect width="20" height="6.8" x="7.5" y="6.1" fill="#a85440" rx="3.4"/>
+  <rect width="18.8" height="5.4" x="8.1" y="6.5" fill="#c46a52" rx="2.7"/>
+  <rect width="13" height="1.1" x="10" y="7.7" fill="#e6a088" rx="0.55"/>
+  <circle cx="7.1" cy="9.5" r="1" fill="#7a3426"/>
+  <circle cx="27.9" cy="9.5" r="1" fill="#7a3426"/>
+  </g>
+  <g transform="rotate(-30 15.5 16.5)">
+  <rect width="20" height="6.8" x="5.5" y="13.1" fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round" rx="3.4"/>
+  <rect width="18.8" height="5.4" x="6.1" y="13.5" fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round" rx="2.7"/>
+  <rect width="13" height="1.1" x="8" y="14.7" fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round" rx="0.55"/>
+  <circle cx="5.1" cy="16.5" r="1" fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round"/>
+  <circle cx="25.9" cy="16.5" r="1" fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round"/>
+  </g>
+  <g transform="rotate(-30 15.5 16.5)">
+  <rect width="20" height="6.8" x="5.5" y="13.1" fill="#a85440" rx="3.4"/>
+  <rect width="18.8" height="5.4" x="6.1" y="13.5" fill="#c46a52" rx="2.7"/>
+  <rect width="13" height="1.1" x="8" y="14.7" fill="#e6a088" rx="0.55"/>
+  <circle cx="5.1" cy="16.5" r="1" fill="#7a3426"/>
+  <circle cx="25.9" cy="16.5" r="1" fill="#7a3426"/>
+  </g>
+  <g transform="rotate(-30 13.5 23.5)">
+  <rect width="20" height="6.8" x="3.5" y="20.1" fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round" rx="3.4"/>
+  <rect width="18.8" height="5.4" x="4.1" y="20.5" fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round" rx="2.7"/>
+  <rect width="13" height="1.1" x="6" y="21.7" fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round" rx="0.55"/>
+  <circle cx="3.1" cy="23.5" r="1" fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round"/>
+  <circle cx="23.9" cy="23.5" r="1" fill="#18181d" stroke="#18181d" stroke-width="1.8" stroke-linejoin="round"/>
+  </g>
+  <g transform="rotate(-30 13.5 23.5)">
+  <rect width="20" height="6.8" x="3.5" y="20.1" fill="#a85440" rx="3.4"/>
+  <rect width="18.8" height="5.4" x="4.1" y="20.5" fill="#c46a52" rx="2.7"/>
+  <rect width="13" height="1.1" x="6" y="21.7" fill="#e6a088" rx="0.55"/>
+  <circle cx="3.1" cy="23.5" r="1" fill="#7a3426"/>
+  <circle cx="23.9" cy="23.5" r="1" fill="#7a3426"/>
+  </g>
+</svg>

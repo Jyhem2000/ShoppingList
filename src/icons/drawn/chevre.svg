@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <clipPath id="k2">
+  <path fill-rule="evenodd" d="M0 0h32v32H0zM16 12.4L9.38 17.83L9.38 24.43L16 44.6L22.62 24.43L22.62 17.83z"/>
+  </clipPath>
+  <g clip-path="url(#k2)">
+  <path fill="#474c53" d="M3.5 12.4a12.5 6.4 0 0 0 25 0v6.6a12.5 6.4 0 0 1 -25 0z"/>
+  <ellipse cx="16" cy="12.4" rx="12.5" ry="6.4" fill="#5a6068"/>
+  <circle cx="26.23" cy="16.81" r="0.5" fill="#9aa0a6"/>
+  <circle cx="12.93" cy="7.19" r="0.5" fill="#7d838a"/>
+  <circle cx="22.63" cy="8.71" r="0.5" fill="#9aa0a6"/>
+  <circle cx="7.33" cy="11.19" r="0.5" fill="#7d838a"/>
+  <circle cx="14.88" cy="21.17" r="0.5" fill="#9aa0a6"/>
+  <circle cx="4.71" cy="15.11" r="0.5" fill="#cdd1d5"/>
+  <circle cx="23.78" cy="18.38" r="0.5" fill="#9aa0a6"/>
+  <circle cx="10.12" cy="20.27" r="0.5" fill="#7d838a"/>
+  <circle cx="23.58" cy="12.2" r="0.5" fill="#9aa0a6"/>
+  <circle cx="7.81" cy="10.01" r="0.5" fill="#cdd1d5"/>
+  <circle cx="23.23" cy="21.78" r="0.5" fill="#7d838a"/>
+  <circle cx="5.27" cy="16.8" r="0.5" fill="#cdd1d5"/>
+  <circle cx="14.33" cy="22.56" r="0.5" fill="#cdd1d5"/>
+  <circle cx="10.83" cy="8.34" r="0.5" fill="#9aa0a6"/>
+  <circle cx="5.19" cy="21.01" r="0.5" fill="#7d838a"/>
+  <circle cx="7.82" cy="10.46" r="0.5" fill="#7d838a"/>
+  <circle cx="19.55" cy="17.36" r="0.5" fill="#9aa0a6"/>
+  <circle cx="9.45" cy="14.18" r="0.5" fill="#7d838a"/>
+  <circle cx="9.71" cy="8.8" r="0.5" fill="#7d838a"/>
+  <circle cx="26.82" cy="21.5" r="0.5" fill="#cdd1d5"/>
+  <circle cx="22.69" cy="10.55" r="0.5" fill="#cdd1d5"/>
+  <circle cx="5.99" cy="18.42" r="0.5" fill="#7d838a"/>
+  <circle cx="12.16" cy="14.38" r="0.5" fill="#cdd1d5"/>
+  <circle cx="8" cy="10.84" r="0.5" fill="#7d838a"/>
+  <circle cx="8.46" cy="20.34" r="0.5" fill="#9aa0a6"/>
+  <circle cx="25.45" cy="21.03" r="0.5" fill="#cdd1d5"/>
+  <circle cx="12.52" cy="18.35" r="0.5" fill="#9aa0a6"/>
+  <circle cx="20.36" cy="21.54" r="0.5" fill="#9aa0a6"/>
+  <circle cx="9.4" cy="19.31" r="0.5" fill="#9aa0a6"/>
+  <circle cx="15.04" cy="19.72" r="0.5" fill="#cdd1d5"/>
+  <circle cx="22.71" cy="11.47" r="0.5" fill="#9aa0a6"/>
+  <circle cx="17.83" cy="22.03" r="0.5" fill="#9aa0a6"/>
+  <circle cx="10.8" cy="20.69" r="0.5" fill="#7d838a"/>
+  <circle cx="12.04" cy="15.54" r="0.5" fill="#9aa0a6"/>
+  <circle cx="6.98" cy="14.65" r="0.5" fill="#9aa0a6"/>
+  <circle cx="20.23" cy="18.49" r="0.5" fill="#7d838a"/>
+  <circle cx="15.01" cy="9.58" r="0.5" fill="#7d838a"/>
+  <circle cx="25.02" cy="8.71" r="0.5" fill="#7d838a"/>
+  <circle cx="10.66" cy="23.96" r="0.5" fill="#9aa0a6"/>
+  <circle cx="19.93" cy="11.48" r="0.5" fill="#7d838a"/>
+  <circle cx="17.92" cy="19.83" r="0.5" fill="#7d838a"/>
+  </g>
+  <path fill="#e8e6dc" d="M16 12.4L9.38 17.83v6.6L16 19z"/>
+  <path fill="#fbfaf6" d="M16 12.4L22.62 17.83v6.6L16 19z"/>
+</svg>

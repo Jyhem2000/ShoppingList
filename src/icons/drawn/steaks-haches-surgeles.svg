@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <path fill="#931d22" d="M5 11l14-4l8 3v14l-14 4l-8-3z"/>
+  <path fill="#e85a50" d="M5 11l14-4l8 3l-14 4z"/>
+  <path fill="#931d22" d="M13 14v14l14-4V10z"/>
+  <path fill="#c0282e" d="M5 11l8 3v14l-8-3z"/>
+  <g transform="matrix(1 -.29 0 1 0 5.6)">
+  <rect width="11" height="11" x="14.6" y="15.4" fill="#ffffff" rx="2"/>
+  <ellipse cx="20" cy="21" rx="4.4" ry="4.4" fill="#9e3640"/>
+  <ellipse cx="19.8" cy="20.6" rx="4" ry="4" fill="#c94a55"/>
+  <circle cx="18" cy="19" r="0.35" fill="#e27a82"/>
+  <circle cx="19.4" cy="19" r="0.35" fill="#e27a82"/>
+  <circle cx="20.8" cy="19" r="0.35" fill="#e27a82"/>
+  <circle cx="22.2" cy="19" r="0.35" fill="#e27a82"/>
+  <circle cx="18" cy="21" r="0.35" fill="#e27a82"/>
+  <circle cx="19.4" cy="21" r="0.35" fill="#e27a82"/>
+  <circle cx="20.8" cy="21" r="0.35" fill="#e27a82"/>
+  <circle cx="22.2" cy="21" r="0.35" fill="#e27a82"/>
+  </g>
+  <path fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.7" d="M7.00 17.60L11.00 17.60M8.00 15.87L10.00 19.33M10.00 15.87L8.00 19.33"/>
+</svg>

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <clipPath id="t">
+  <path fill="#000" d="M28.40 18.40L28.53 19.59L27.87 20.71L26.91 21.73L25.81 22.68L24.37 23.42L22.66 23.90L21.04 24.34L19.61 25.06L17.99 25.92L16.00 26.32L14.01 25.92L12.39 25.06L10.96 24.34L9.34 23.90L7.63 23.42L6.19 22.68L5.09 21.73L4.13 20.71L3.47 19.59L3.60 18.40L4.58 17.32L5.66 16.38L6.10 15.37L6.19 14.12L6.83 12.90L8.40 12.13L10.44 11.86L12.39 11.74L14.19 11.55L16.00 11.44L17.81 11.55L19.61 11.74L21.56 11.86L23.60 12.13L25.17 12.90L25.81 14.12L25.90 15.37L26.34 16.38L27.42 17.32L28.40 18.40Z"/>
+  </clipPath>
+  <g clip-path="url(#t)">
+  <path fill="none" stroke="#e0ae3a" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M23.3 14.9Q22.8 10.8 24.7 23.1"/>
+  <path fill="none" stroke="#f2c552" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15.1 15.1Q19.3 10.8 17.2 18.0"/>
+  <path fill="none" stroke="#f8d870" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17.9 16.4Q17.2 12.7 26.6 12.8"/>
+  <path fill="none" stroke="#e0ae3a" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M18.2 22.0Q21.8 17.2 16.2 23.4"/>
+  <path fill="none" stroke="#f2c552" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M22.8 15.3Q16.7 12.8 15.5 18.0"/>
+  <path fill="none" stroke="#f8d870" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M18.3 19.6Q20.9 16.3 9.6 12.4"/>
+  <path fill="none" stroke="#e0ae3a" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M11.5 18.3Q18.0 12.4 6.0 22.8"/>
+  <path fill="none" stroke="#f2c552" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M8.8 14.7Q5.2 9.7 11.9 17.0"/>
+  <path fill="none" stroke="#f8d870" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17.2 22.0Q21.9 18.8 12.8 23.1"/>
+  <path fill="none" stroke="#e0ae3a" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M23.0 13.8Q17.4 10.5 15.8 21.1"/>
+  <path fill="none" stroke="#f2c552" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M13.2 13.2Q11.0 9.3 6.5 15.0"/>
+  <path fill="none" stroke="#f8d870" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M14.3 13.6Q20.0 10.1 14.1 20.8"/>
+  <path fill="none" stroke="#e0ae3a" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M13.0 18.4Q7.9 13.3 23.9 18.4"/>
+  <path fill="none" stroke="#f2c552" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15.9 20.9Q13.9 17.8 21.3 12.0"/>
+  <path fill="none" stroke="#f8d870" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9.8 14.4Q15.3 10.2 13.6 17.5"/>
+  <path fill="none" stroke="#e0ae3a" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M21.2 22.2Q15.5 19.1 8.1 14.8"/>
+  </g>
+  <ellipse cx="12" cy="13.6" rx="2.4" ry="0.6" fill="#fff0b8" transform="rotate(-12 12 13.6)"/>
+</svg>

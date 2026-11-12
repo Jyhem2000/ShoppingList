@@ -1,0 +1,346 @@
+[
+  {
+    "key": "fruits",
+    "name": {
+      "fr": "Fruits"
+    },
+    "unit": "kg",
+    "color": "ambre",
+    "icon": "apple"
+  },
+  {
+    "key": "legumes",
+    "name": {
+      "fr": "Légumes"
+    },
+    "unit": "kg",
+    "color": "sauge",
+    "icon": "carrot"
+  },
+  {
+    "key": "herbes-aromatiques",
+    "name": {
+      "fr": "Herbes aromatiques"
+    },
+    "unit": "botte",
+    "color": "sauge",
+    "icon": "sprout"
+  },
+  {
+    "key": "pain-viennoiseries",
+    "name": {
+      "fr": "Pain & Viennoiseries"
+    },
+    "unit": "piece",
+    "color": "ble",
+    "icon": "croissant"
+  },
+  {
+    "key": "viande",
+    "name": {
+      "fr": "Viande"
+    },
+    "unit": "g",
+    "color": "corail",
+    "icon": "beef"
+  },
+  {
+    "key": "volaille",
+    "name": {
+      "fr": "Volaille"
+    },
+    "unit": "g",
+    "color": "terre",
+    "icon": "drumstick"
+  },
+  {
+    "key": "charcuterie",
+    "name": {
+      "fr": "Charcuterie"
+    },
+    "unit": "paquet",
+    "color": "rose",
+    "icon": "ham"
+  },
+  {
+    "key": "poisson-fruits-de-mer",
+    "name": {
+      "fr": "Poisson & Fruits de mer"
+    },
+    "unit": "g",
+    "color": "canard",
+    "icon": "fish"
+  },
+  {
+    "key": "traiteur",
+    "name": {
+      "fr": "Traiteur & Plats préparés"
+    },
+    "unit": "barquette",
+    "color": "prune",
+    "icon": "cooking-pot"
+  },
+  {
+    "key": "oeufs",
+    "name": {
+      "fr": "Œufs"
+    },
+    "unit": "piece",
+    "color": "creme",
+    "icon": "egg"
+  },
+  {
+    "key": "lait-creme-beurre",
+    "name": {
+      "fr": "Lait, Crème & Beurre"
+    },
+    "unit": "piece",
+    "color": "creme",
+    "icon": "milk"
+  },
+  {
+    "key": "yaourts-desserts",
+    "name": {
+      "fr": "Yaourts & Desserts frais"
+    },
+    "unit": "piece",
+    "color": "glacier",
+    "icon": "dessert"
+  },
+  {
+    "key": "fromages",
+    "name": {
+      "fr": "Fromages"
+    },
+    "unit": "piece",
+    "color": "ble",
+    "icon": "triangle"
+  },
+  {
+    "key": "pates-riz-feculents",
+    "name": {
+      "fr": "Pâtes, Riz & Féculents"
+    },
+    "unit": "paquet",
+    "color": "ble",
+    "icon": "wheat"
+  },
+  {
+    "key": "conserves-bocaux",
+    "name": {
+      "fr": "Conserves & Bocaux"
+    },
+    "unit": "boite",
+    "color": "ardoise",
+    "icon": "can"
+  },
+  {
+    "key": "sauces-condiments",
+    "name": {
+      "fr": "Sauces, Condiments & Épices"
+    },
+    "unit": "pot",
+    "color": "ambre",
+    "icon": "amphora"
+  },
+  {
+    "key": "huiles-vinaigres",
+    "name": {
+      "fr": "Huiles & Vinaigres"
+    },
+    "unit": "bouteille",
+    "color": "sauge",
+    "icon": "droplet"
+  },
+  {
+    "key": "aperitif",
+    "name": {
+      "fr": "Apéritif"
+    },
+    "unit": "sachet",
+    "color": "corail",
+    "icon": "popcorn"
+  },
+  {
+    "key": "cuisine-du-monde",
+    "name": {
+      "fr": "Cuisine du monde"
+    },
+    "unit": "piece",
+    "color": "prune",
+    "icon": "globe"
+  },
+  {
+    "key": "farine-sucre-patisserie",
+    "name": {
+      "fr": "Farine, Sucre & Pâtisserie"
+    },
+    "unit": "paquet",
+    "color": "creme",
+    "icon": "cupcake"
+  },
+  {
+    "key": "petit-dejeuner",
+    "name": {
+      "fr": "Céréales & Petit-déjeuner"
+    },
+    "unit": "paquet",
+    "color": "ble",
+    "icon": "sunrise"
+  },
+  {
+    "key": "biscuits-gateaux",
+    "name": {
+      "fr": "Biscuits & Gâteaux"
+    },
+    "unit": "paquet",
+    "color": "ambre",
+    "icon": "cookie"
+  },
+  {
+    "key": "chocolat-confiserie",
+    "name": {
+      "fr": "Chocolat & Confiserie"
+    },
+    "unit": "piece",
+    "color": "terre",
+    "icon": "candy"
+  },
+  {
+    "key": "confitures-tartiner",
+    "name": {
+      "fr": "Confitures & Pâtes à tartiner"
+    },
+    "unit": "pot",
+    "color": "corail",
+    "icon": "cherry"
+  },
+  {
+    "key": "cafe-the",
+    "name": {
+      "fr": "Café & Thé"
+    },
+    "unit": "paquet",
+    "color": "terre",
+    "icon": "coffee"
+  },
+  {
+    "key": "eaux",
+    "name": {
+      "fr": "Eaux"
+    },
+    "unit": "pack",
+    "color": "ciel",
+    "icon": "glass-water"
+  },
+  {
+    "key": "jus-sodas",
+    "name": {
+      "fr": "Jus & Sodas"
+    },
+    "unit": "bouteille",
+    "color": "lilas",
+    "icon": "cup-soda"
+  },
+  {
+    "key": "alcools",
+    "name": {
+      "fr": "Bières, Vins & Alcools"
+    },
+    "unit": "bouteille",
+    "color": "prune",
+    "icon": "wine"
+  },
+  {
+    "key": "surgeles",
+    "name": {
+      "fr": "Surgelés"
+    },
+    "unit": "sachet",
+    "color": "glacier",
+    "icon": "snowflake"
+  },
+  {
+    "key": "glaces",
+    "name": {
+      "fr": "Glaces"
+    },
+    "unit": "piece",
+    "color": "rose",
+    "icon": "ice-cream-cone"
+  },
+  {
+    "key": "hygiene-beaute",
+    "name": {
+      "fr": "Hygiène & Beauté"
+    },
+    "unit": "piece",
+    "color": "lilas",
+    "icon": "soap-dispenser-droplet"
+  },
+  {
+    "key": "papier-mouchoirs",
+    "name": {
+      "fr": "Papier toilette & Mouchoirs"
+    },
+    "unit": "rouleau",
+    "color": "ciel",
+    "icon": "toilet"
+  },
+  {
+    "key": "entretien",
+    "name": {
+      "fr": "Entretien & Lessive"
+    },
+    "unit": "piece",
+    "color": "canard",
+    "icon": "spray-can"
+  },
+  {
+    "key": "cuisine-maison",
+    "name": {
+      "fr": "Cuisine & Maison (sacs, alu, piles…)"
+    },
+    "unit": "piece",
+    "color": "ardoise",
+    "icon": "house"
+  },
+  {
+    "key": "bebe",
+    "name": {
+      "fr": "Bébé"
+    },
+    "unit": "piece",
+    "color": "rose",
+    "icon": "baby"
+  },
+  {
+    "key": "animaux",
+    "name": {
+      "fr": "Animaux"
+    },
+    "unit": "piece",
+    "color": "terre",
+    "icon": "paw-print"
+  },
+  {
+    "key": "autres",
+    "name": {
+      "fr": "Autres"
+    },
+    "unit": "piece",
+    "color": "gris",
+    "icon": "shopping-basket",
+    "system": true
+  },
+  {
+    "key": "achats-ponctuels",
+    "name": {
+      "fr": "Achats ponctuels"
+    },
+    "unit": "piece",
+    "color": "lilas",
+    "icon": "tag",
+    "system": true
+  }
+]
