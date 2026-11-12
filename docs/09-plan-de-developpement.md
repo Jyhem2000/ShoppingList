@@ -2,15 +2,23 @@
 
 Développement confié à un agent IA, par **phases courtes et vérifiables**. Chaque phase se termine par : tests verts, app déployée en préproduction, checklist téléphone ([08 § 5](08-tests-et-qualite.md#5-checklist-manuelle-sur-téléphone-fin-de-chaque-phase)) validée par toi.
 
-| Version                                                 | Phases                                                                                                                               |
-| ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| —                                                       | 0. Validation de la doc ✅                                                                                                           |
-| **v1.0 — Cœur** (via 0.1 → 0.7, puis 0.9 en usage réel) | 1. Socle · 2. Maquette visuelle · 3. Données et logique · 4. Liste · 5. Mode courses · 6. Tout modifiable · 7. Réglages et finitions |
-| **v1.1 — Recettes**                                     | 8. Recettes                                                                                                                          |
-| **v1.2 — Anti-oubli**                                   | 9. Anti-oubli                                                                                                                        |
-| **v1.3 — Partage**                                      | 10. Partage                                                                                                                          |
+| Version                                                                  | Phases                                                                                                                               |
+| ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
+| —                                                                        | 0. Validation de la doc ✅                                                                                                           |
+| **v1.0 — Cœur** (0.N.0 à chaque phase N validée, puis 0.9 en usage réel) | 1. Socle · 2. Maquette visuelle · 3. Données et logique · 4. Liste · 5. Mode courses · 6. Tout modifiable · 7. Réglages et finitions |
+| **v1.1 — Recettes**                                                      | 8. Recettes                                                                                                                          |
+| **v1.2 — Anti-oubli**                                                    | 9. Anti-oubli                                                                                                                        |
+| **v1.3 — Partage**                                                       | 10. Partage                                                                                                                          |
 
-Numérotation et déploiements : [07 § 9 — Cycle des versions](07-architecture-technique.md#cycle-des-versions).
+Numérotation : la version **`0.N.0` sort quand la phase N est validée** ; elle peut contenir en avant-première le travail de la phase suivante. Correctifs entre deux : `0.N.1`, `0.N.2`… Détails et déploiements : [07 § 9 — Cycle des versions](07-architecture-technique.md#cycle-des-versions).
+
+### Versions publiées
+
+| Version | Date             | Contenu                                                                                              |
+| ------- | ---------------- | ---------------------------------------------------------------------------------------------------- |
+| `0.4.0` | 12 novembre 2026 | Phases 1 à 4 validées ; mode courses (phase 5) en avant-première, à valider par un essai en magasin. |
+
+Les `0.1.0` et `0.3.0` publiées les 8 et 9 novembre 2026 ont disparu avec la reprise à zéro de l'historique git (12 novembre 2026).
 
 ## Phase 0 — Validation de la documentation ✅
 

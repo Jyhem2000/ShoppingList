@@ -24,14 +24,14 @@ Statuts : 📝 À valider · 🔁 En révision · ✅ Validé
 
 ## Versions prévues
 
-| Version                                                 | Contenu                                                                                                                                             |
-| ------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **v1.0 — Cœur** (via 0.1 → 0.7, puis 0.9 en usage réel) | Ajout éclair, catalogue, liste triée par rayon, mode courses avec clôture/réouverture et apprentissage, tout modifiable, réglages, sons, sauvegarde |
-| **v1.1 — Recettes**                                     | Recettes avec rendement (personnes ou « 1 cake »), ajout à une liste avec recalcul des quantités                                                    |
-| **v1.2 — Anti-oubli**                                   | Suggestions d'articles habituels, revue rapide par catégorie                                                                                        |
-| **v1.3 — Partage**                                      | Envoyer / importer une liste (iPhone ↔ Android), coller une liste en texte                                                                          |
-| Plus tard                                               | Saisonnalité des fruits et légumes, partage de recettes                                                                                             |
-| Idées non planifiées                                    | Scan de code-barres, convertisseur d'unités, multilingue (peut-être jamais)                                                                         |
+| Version                                                                  | Contenu                                                                                                                                             |
+| ------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **v1.0 — Cœur** (0.N.0 à chaque phase N validée, puis 0.9 en usage réel) | Ajout éclair, catalogue, liste triée par rayon, mode courses avec clôture/réouverture et apprentissage, tout modifiable, réglages, sons, sauvegarde |
+| **v1.1 — Recettes**                                                      | Recettes avec rendement (personnes ou « 1 cake »), ajout à une liste avec recalcul des quantités                                                    |
+| **v1.2 — Anti-oubli**                                                    | Suggestions d'articles habituels, revue rapide par catégorie                                                                                        |
+| **v1.3 — Partage**                                                       | Envoyer / importer une liste (iPhone ↔ Android), coller une liste en texte                                                                          |
+| Plus tard                                                                | Saisonnalité des fruits et légumes, partage de recettes                                                                                             |
+| Idées non planifiées                                                     | Scan de code-barres, convertisseur d'unités, multilingue (peut-être jamais)                                                                         |
 
 Détail : [03 § Versions](03-fonctionnalites.md) et [09](09-plan-de-developpement.md).
 

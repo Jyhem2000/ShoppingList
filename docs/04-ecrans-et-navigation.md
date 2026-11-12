@@ -95,7 +95,7 @@ Articles achetés, introuvables (restés dans la liste), durée, éventuellement
 
 ### 2.5 Catalogue
 
-- Haut : recherche, puis **Habituels** (défilement horizontal) et **Favoris**.
+- Haut : recherche avec suggestions sous le champ (A5), puis **Habituels** (défilement horizontal) et **Favoris**.
 - Grille de catégories (icône, libellé, couleur) → grille d'articles (grande icône, libellé, pastille de quantité si déjà dans la liste courante, pastille « de saison » _plus tard_).
 - Appui long sur un article → fiche article (G1).
 

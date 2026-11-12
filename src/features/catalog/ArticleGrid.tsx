@@ -1,11 +1,9 @@
-import { useState } from "react";
 import type { Article } from "@/domain/model";
 import { fr } from "@/i18n/fr";
 import { CatalogCard } from "@/ui/CatalogCard";
 import { lineQuantity, paletteColor } from "@/features/list/format";
-import { useAddToList } from "@/features/list/useAddToList";
 import type { ListData } from "@/features/list/useListData";
-import { QuantitySheet } from "./QuantitySheet";
+import { useCatalogPick } from "./useCatalogPick";
 
 /**
  * Grille d'articles du catalogue (docs/03 A5) : un tap ajoute l'article absent
@@ -19,12 +17,8 @@ export function ArticleGrid({
   articles: Article[];
   data: ListData;
 }) {
-  const adding = useAddToList(data);
-  const [open, setOpen] = useState<string | null>(null);
+  const { pick, sheet } = useCatalogPick(data);
   const inList = new Map(data.items.map((item) => [item.articleId, item]));
-  const openItem = open
-    ? data.items.find((item) => item.id === open)
-    : undefined;
 
   if (articles.length === 0)
     return (
@@ -47,23 +41,13 @@ export function ArticleGrid({
               color={paletteColor(category?.color)}
               quantity={item ? lineQuantity(item, data.unitById) : undefined}
               onClick={() => {
-                if (item) setOpen(item.id);
-                else void adding.pick(article);
+                pick(article);
               }}
             />
           );
         })}
       </div>
-      {openItem && (
-        <QuantitySheet
-          key={openItem.id}
-          item={openItem}
-          data={data}
-          onClose={() => {
-            setOpen(null);
-          }}
-        />
-      )}
+      {sheet}
     </>
   );
 }

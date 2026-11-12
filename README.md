@@ -55,7 +55,7 @@ Optimisée pour **Chrome** sur iPhone et Android. Adresse : _disponible à la pr
 
 ## État du projet
 
-🚧 **Développement de la v1.0 en cours.** Spécification validée dans [`docs/`](docs/README.md). Une version 0.9 sera d'abord utilisée en conditions réelles avant de devenir la 1.0.
+🚧 **Développement de la v1.0 en cours.** Version publiée : **0.4.0** (liste et catalogue ; mode courses en essai). Chaque étape validée du plan donne une version : 0.5.0 (mode courses), 0.6.0 (tout modifiable), 0.7.0 (réglages, sauvegarde, aide), puis une 0.9 utilisée en conditions réelles avant de devenir la 1.0. Spécification dans [`docs/`](docs/README.md).
 
 ## Pour les développeurs
 

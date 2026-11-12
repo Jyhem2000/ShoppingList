@@ -67,7 +67,7 @@ Grille de catégories (icône + libellé) → grille d'articles (grande icône +
 
 - Tap sur un article absent de la liste = ajout avec la quantité par défaut.
 - Article déjà présent : pastille de quantité ; un tap ouvre le sélecteur de quantité (`−` / `+` / ✕) au lieu d'ajouter d'office.
-- Recherche en haut de la grille.
+- Recherche en haut du catalogue, avec **suggestions dès la première lettre** (nom, alias, sans tenir compte des accents ; la partie tapée en gras ; quantité si l'article est déjà dans la liste). Tap ou Entrée sur la première = même effet qu'un tap sur la carte ; au-delà de 8 suggestions, « Voir les N résultats » ouvre la grille complète.
 
 ### A6. Habituels et favoris — _v1.0_
 

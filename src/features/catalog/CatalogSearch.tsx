@@ -1,0 +1,195 @@
+import { Search, X } from "lucide-react";
+import { type ReactNode, useId, useMemo, useRef } from "react";
+import type { Article } from "@/domain/model";
+import { searchArticles } from "@/domain/search";
+import { lineQuantity, paletteColor } from "@/features/list/format";
+import type { ListData } from "@/features/list/useListData";
+import { fr } from "@/i18n/fr";
+import { ProductIcon } from "@/ui/ProductIcon";
+import { showToast } from "@/ui/toast";
+import { useCatalogPick } from "./useCatalogPick";
+
+const t = fr.catalog;
+const MAX_SUGGESTIONS = 8;
+
+/** Sans accents ni majuscules, lettre par lettre (même longueur que le texte d'origine). */
+function fold(text: string): string {
+  // Caractère par caractère (unités UTF-16, sans le drapeau u) : les positions
+  // restent celles du texte d'origine, pour mettre en gras la bonne partie.
+  return text.replace(
+    /[\s\S]/g,
+    (char) =>
+      char.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase().charAt(0) ||
+      char,
+  );
+}
+
+/** Le libellé avec la partie tapée en gras (« **pom**mes »), s'il la contient. */
+function highlight(label: string, query: string): ReactNode {
+  const index = fold(label).indexOf(fold(query.trim()));
+  if (index < 0 || !query.trim()) return label;
+  const end = index + query.trim().length;
+  return (
+    <>
+      {label.slice(0, index)}
+      <mark className="bg-transparent font-extrabold text-primary">
+        {label.slice(index, end)}
+      </mark>
+      {label.slice(end)}
+    </>
+  );
+}
+
+/**
+ * Recherche du catalogue avec suggestions (docs/03 A5) : dès la première lettre, les
+ * articles qui correspondent (nom, alias, sans tenir compte des accents) s'affichent
+ * sous le champ ; tap ou Entrée sur le premier = ajout à la liste (ou réglage de la
+ * quantité s'il y est déjà). « Voir les N résultats » ouvre la grille complète.
+ */
+export function CatalogSearch({
+  data,
+  query,
+  onQueryChange,
+  showAll,
+  onShowAll,
+}: {
+  data: ListData;
+  query: string;
+  onQueryChange: (query: string) => void;
+  showAll: boolean;
+  onShowAll: () => void;
+}) {
+  const listId = useId();
+  const input = useRef<HTMLInputElement>(null);
+  const { pick, sheet } = useCatalogPick(data);
+  const results = useMemo(
+    () =>
+      query.trim()
+        ? searchArticles(query, data.articles, data.purchaseCounts).map(
+            (r) => r.article,
+          )
+        : [],
+    [query, data],
+  );
+  const inList = new Map(data.items.map((item) => [item.articleId, item]));
+  const suggestions = results.slice(0, MAX_SUGGESTIONS);
+  const open = query.trim() !== "" && !showAll;
+
+  const choose = (article: Article) => {
+    if (pick(article) === "added") {
+      showToast(t.added(article.name), { tone: "success" });
+      onQueryChange("");
+      input.current?.focus();
+    }
+  };
+
+  return (
+    <div className="relative px-4 pb-2">
+      <label className="flex h-12 items-center gap-2 rounded-full border border-border bg-raised pr-1 pl-4 focus-within:border-primary">
+        <Search className="size-5 shrink-0 text-secondary" aria-hidden />
+        <input
+          ref={input}
+          type="search"
+          role="combobox"
+          aria-expanded={open}
+          aria-controls={listId}
+          aria-autocomplete="list"
+          value={query}
+          onChange={(event) => {
+            onQueryChange(event.target.value);
+          }}
+          onKeyDown={(event) => {
+            if (event.key === "Enter" && suggestions[0]) {
+              event.preventDefault();
+              choose(suggestions[0]);
+            }
+            if (event.key === "Escape") onQueryChange("");
+          }}
+          placeholder={t.search}
+          aria-label={t.search}
+          autoComplete="off"
+          autoCorrect="off"
+          enterKeyHint="done"
+          className="min-w-0 flex-1 bg-transparent text-base outline-none placeholder:text-muted-foreground [&::-webkit-search-cancel-button]:hidden"
+        />
+        {query && (
+          <button
+            type="button"
+            aria-label={t.clear}
+            onClick={() => {
+              onQueryChange("");
+              input.current?.focus();
+            }}
+            className="flex size-10 shrink-0 items-center justify-center rounded-full text-muted-foreground active:bg-surface"
+          >
+            <X className="size-5" aria-hidden />
+          </button>
+        )}
+      </label>
+
+      {open && (
+        <ul
+          id={listId}
+          role="listbox"
+          aria-label={t.suggestions}
+          // Garde le clavier ouvert : le tap ne retire pas le focus du champ.
+          onMouseDown={(event) => {
+            event.preventDefault();
+          }}
+          className="absolute inset-x-4 top-full z-30 -mt-1 max-h-[60dvh] overflow-y-auto rounded-2xl border border-border bg-surface shadow-lg shadow-black/40"
+        >
+          {suggestions.length === 0 && (
+            <li className="px-4 py-3 text-muted-foreground">{t.noResult}</li>
+          )}
+          {suggestions.map((article) => {
+            const category = data.categoryById.get(article.categoryId);
+            const item = inList.get(article.id);
+            return (
+              <li key={article.id} role="option" aria-selected={false}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    choose(article);
+                  }}
+                  className="flex min-h-12 w-full items-center gap-3 px-3 py-1.5 text-left active:bg-raised"
+                >
+                  <ProductIcon
+                    icon={article.icon}
+                    label={article.name}
+                    color={paletteColor(category?.color)}
+                    size={28}
+                  />
+                  <span className="min-w-0 flex-1">
+                    <span className="block truncate font-semibold">
+                      {highlight(article.name, query)}
+                    </span>
+                    <span className="block truncate text-sm text-muted-foreground">
+                      {category?.name}
+                    </span>
+                  </span>
+                  {item && (
+                    <span className="shrink-0 text-sm font-bold text-secondary tabular-nums">
+                      {lineQuantity(item, data.unitById)}
+                    </span>
+                  )}
+                </button>
+              </li>
+            );
+          })}
+          {results.length > suggestions.length && (
+            <li>
+              <button
+                type="button"
+                onClick={onShowAll}
+                className="flex min-h-12 w-full items-center justify-center px-3 font-semibold text-primary active:bg-raised"
+              >
+                {t.showAll(results.length)}
+              </button>
+            </li>
+          )}
+        </ul>
+      )}
+      {sheet}
+    </div>
+  );
+}

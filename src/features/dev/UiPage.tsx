@@ -28,7 +28,7 @@ const t = fr.devUi;
 /** Une partie de la maquette, séparée de la précédente par un filet et de l'air. */
 function Block({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <section className="mt-10 border-t border-border pt-6 first-of-type:mt-6 first-of-type:border-t-0">
+    <section className="mt-12 border-t-4 border-surface pt-8 first-of-type:mt-6 first-of-type:border-t-0 first-of-type:pt-2">
       <h2 className="px-5 pb-4 text-xs font-bold tracking-widest text-muted-foreground uppercase">
         {title}
       </h2>

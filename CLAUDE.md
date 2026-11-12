@@ -2,7 +2,9 @@
 
 PWA de liste de courses, local-first (aucun serveur, aucun compte), triée par rayon selon le magasin. Optimisée pour Chrome : iPhone (dernière version d'iOS, cible principale) et Android récent (cible secondaire).
 
-## Phase actuelle : développement de la v1.0 — phase 1 (socle)
+## Phase actuelle : développement de la v1.0 — phase 5 (mode courses) en essai
+
+Version publiée : `0.4.0` (phases 1 à 4 validées, mode courses en avant-première). La phase 5 attend l'essai en magasin ; elle donnera la `0.5.0`.
 
 La documentation est **validée** (8 novembre 2026). Suivre le plan de `docs/09-plan-de-developpement.md` phase par phase, en travaillant directement sur `dev` (pas de branche de travail ni de pull request). Pour les phases 3 à 6 et 8, proposer un plan avant d'implémenter. Ne jamais commencer une phase suivante sans validation de la précédente.
 
@@ -48,7 +50,7 @@ Vite · React 19 · TypeScript strict · Tailwind v4 · shadcn/ui · React Route
 - Messages en français, format Conventional Commits (`feat:`, `fix:`, `docs:`, `test:`, `chore:`).
 - On travaille **directement sur `dev`** : commits poussés sur `dev` (préproduction, déployée automatiquement), sans branche de travail ni pull request.
 - **Jamais de travail ni de push direct sur `main`** : elle n'avance que par `npm run release` (mise en production, manuelle).
-- Publication d'une version : `npm run release` depuis `dev` (calcule la version depuis les commits, vérifie que ses nouveautés sont écrites dans `src/i18n/fr.ts` → `releaseNotes`, lance tous les contrôles, tague, avance `main` ; Cloudflare déploie). Fin de chaque phase de la v1.0 → 0.1.0 … 0.7.0 ; puis `0.9.0` (installation définitive), correctifs `0.9.x`, `1.0.0` après validation (docs/07 § 9). **Ne jamais publier sans demande explicite.**
+- Publication d'une version : `npm run release` depuis `dev` (calcule la version depuis les commits, vérifie que ses nouveautés sont écrites dans `src/i18n/fr.ts` → `releaseNotes`, lance tous les contrôles, tague, avance `main` ; Cloudflare déploie). Numérotation : **`0.N.0` = phase N validée** (peut contenir en avant-première la phase suivante), correctifs `0.N.x` ; puis `0.9.0` (installation définitive), correctifs `0.9.x`, `1.0.0` après validation (docs/07 § 9, tableau des versions publiées dans docs/09). **Ne jamais publier sans demande explicite.**
 
 ## Outils locaux de l'agent (non versionnés)
 
