@@ -378,6 +378,18 @@ export const fr = {
     version: (version: string) => `Version ${version}`,
     versions: [
       {
+        version: "0.5.0",
+        date: "2026-11-12",
+        items: [
+          "Thème clair au choix : Réglages → Affichage → Thème (automatique, sombre ou clair).",
+          "Le catalogue propose les articles dès la première lettre tapée ; Entrée ajoute le premier.",
+          "Panneaux plus simples à fermer : bouton ✕ toujours visible, ou glisser vers le bas. Les messages s'affichent en haut, bien visibles.",
+          "Changer un article de rayon en magasin : le rayon où tu es est proposé en premier, chaque choix est expliqué, et on peut revenir en arrière.",
+          "Rayons qui se déplient en douceur, nouvelles lignes animées, fonds plus contrastés et barre d'ajout plus visible.",
+          "Nouveaux types courants (jambon, steaks hachés 5 %, fromage blanc, couches, croquettes…), l'article Gnocchis et la catégorie Sel, Poivre & Épices. Les unités proposées ne changent plus d'ordre.",
+        ],
+      },
+      {
         version: "0.4.0",
         date: "2026-11-12",
         items: [

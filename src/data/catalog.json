@@ -951,6 +951,9 @@
     "aliases": {
       "fr": ["steaks"]
     },
+    "types": {
+      "fr": ["5 %", "15 %", "20 %"]
+    },
     "category": "viande",
     "unit": "piece",
     "quantity": 2,
@@ -1089,6 +1092,9 @@
     "aliases": {
       "fr": ["jambon", "jambon de Paris"]
     },
+    "types": {
+      "fr": ["supérieur", "découenné", "au torchon"]
+    },
     "category": "charcuterie",
     "unit": "tranche",
     "quantity": 4,
@@ -1101,6 +1107,9 @@
     },
     "aliases": {
       "fr": ["jambon de pays", "jambon de Bayonne", "prosciutto"]
+    },
+    "types": {
+      "fr": ["de Bayonne", "Serrano", "de Parme"]
     },
     "category": "charcuterie",
     "unit": "tranche",
@@ -1216,6 +1225,9 @@
     },
     "aliases": {
       "fr": ["gambas"]
+    },
+    "types": {
+      "fr": ["cuites", "crues", "décortiquées"]
     },
     "category": "poisson-fruits-de-mer",
     "unit": "g",
@@ -1437,6 +1449,9 @@
     "aliases": {
       "fr": ["faisselle"]
     },
+    "types": {
+      "fr": ["0 %", "20 %", "40 %"]
+    },
     "category": "yaourts-desserts",
     "unit": "pot",
     "icon": "fromage-blanc"
@@ -1556,6 +1571,9 @@
     },
     "aliases": {
       "fr": ["chèvre", "bûche de chèvre"]
+    },
+    "types": {
+      "fr": ["bûche", "frais", "crottin"]
     },
     "category": "fromages",
     "unit": "piece",
@@ -1831,6 +1849,9 @@
     "name": {
       "fr": "Huile d'olive"
     },
+    "types": {
+      "fr": ["vierge extra"]
+    },
     "category": "huiles-vinaigres",
     "unit": "bouteille",
     "icon": "huile-d-olive"
@@ -2027,6 +2048,9 @@
     "aliases": {
       "fr": ["gâteaux secs"]
     },
+    "types": {
+      "fr": ["secs", "au chocolat", "petits-beurre"]
+    },
     "category": "biscuits-gateaux",
     "unit": "paquet",
     "icon": "biscuits"
@@ -2214,6 +2238,9 @@
     },
     "aliases": {
       "fr": ["coca", "cola"]
+    },
+    "types": {
+      "fr": ["classique", "zéro"]
     },
     "category": "jus-sodas",
     "unit": "bouteille",
@@ -2442,6 +2469,9 @@
     "aliases": {
       "fr": ["déo"]
     },
+    "types": {
+      "fr": ["spray", "bille", "stick"]
+    },
     "category": "hygiene-beaute",
     "unit": "piece",
     "icon": "deodorant"
@@ -2486,6 +2516,9 @@
     },
     "aliases": {
       "fr": ["pq", "papier wc", "papier hygiénique"]
+    },
+    "types": {
+      "fr": ["simple épaisseur", "double épaisseur", "triple épaisseur"]
     },
     "category": "papier-mouchoirs",
     "unit": "rouleau",
@@ -2674,6 +2707,16 @@
     "name": {
       "fr": "Couches"
     },
+    "types": {
+      "fr": [
+        "taille 1",
+        "taille 2",
+        "taille 3",
+        "taille 4",
+        "taille 5",
+        "taille 6"
+      ]
+    },
     "category": "bebe",
     "unit": "paquet",
     "icon": "couches"
@@ -2708,6 +2751,9 @@
     "aliases": {
       "fr": ["lait bébé", "lait 2e âge"]
     },
+    "types": {
+      "fr": ["1er âge", "2e âge", "croissance"]
+    },
     "category": "bebe",
     "unit": "boite",
     "icon": "lait-infantile"
@@ -2719,6 +2765,9 @@
     },
     "aliases": {
       "fr": ["croquettes chat"]
+    },
+    "types": {
+      "fr": ["chaton", "adulte", "stérilisé"]
     },
     "category": "animaux",
     "unit": "sachet",
@@ -2753,6 +2802,9 @@
     "key": "litiere",
     "name": {
       "fr": "Litière"
+    },
+    "types": {
+      "fr": ["agglomérante", "végétale", "silice"]
     },
     "category": "animaux",
     "unit": "sachet",

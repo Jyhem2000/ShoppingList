@@ -65,10 +65,11 @@
 :root[data-theme="light"] {
   color-scheme: light;
 
-  --bg: #eeeef3;
-  --surface: #ffffff;
-  --raised: #e4e4eb;
-  --border: #cfcfd9;
+  /* Fond de l'app blanc, cartes et panneaux gris, éléments surélevés violet clair */
+  --bg: #ffffff;
+  --surface: #f1f1f5;
+  --raised: #ebe4fa;
+  --border: #d6d6e0;
 
   --text: #16161b;
   --text-muted: #5b5b67;

@@ -12,7 +12,7 @@ import {
 export type Theme = "dark" | "light";
 
 /** Couleur du fond de l'app (--bg) pour la barre d'état, selon le thème. */
-const BAR_COLOR: Record<Theme, string> = { dark: "#0b0b0e", light: "#eeeef3" };
+const BAR_COLOR: Record<Theme, string> = { dark: "#0b0b0e", light: "#ffffff" };
 
 export function resolveTheme(
   preference: ThemePreference,

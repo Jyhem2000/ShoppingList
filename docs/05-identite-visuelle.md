@@ -36,14 +36,14 @@ Définis une seule fois dans `src/styles/index.css` ; les composants n'utilisent
 
 ### Thème clair
 
-Mêmes tokens, redéfinis sous `:root[data-theme="light"]` dans `src/styles/index.css`. Violet et or choisis le 12 novembre 2026 : **`#5B21B6`** (violet) et **`#FBBF24`** (or). Sur fond blanc, l'or vif est trop pâle pour un petit texte ou une icône au trait : il sert aux **aplats** (`--secondary-fill`), et un ambre foncé du même ton (`--secondary`) aux quantités, icônes et repères.
+Mêmes tokens, redéfinis sous `:root[data-theme="light"]` dans `src/styles/index.css`. Fond de l'app **blanc**, cartes, lignes et panneaux **gris clair**, éléments surélevés (champs, barre d'ajout, toasts) en **violet clair** : le violet principal éclairci (retour d'essai du 12 novembre 2026). Violet et or choisis le 12 novembre 2026 : **`#5B21B6`** (violet) et **`#FBBF24`** (or). Sur fond blanc, l'or vif est trop pâle pour un petit texte ou une icône au trait : il sert aux **aplats** (`--secondary-fill`), et un ambre foncé du même ton (`--secondary`) aux quantités, icônes et repères.
 
 | Rôle                   | Token              | Valeur    |
 | ---------------------- | ------------------ | --------- |
-| Fond 1                 | `--bg`             | `#eeeef3` |
-| Fond 2                 | `--surface`        | `#ffffff` |
-| Fond 3                 | `--raised`         | `#e4e4eb` |
-| Séparateur             | `--border`         | `#cfcfd9` |
+| Fond 1                 | `--bg`             | `#ffffff` |
+| Fond 2                 | `--surface`        | `#f1f1f5` |
+| Fond 3                 | `--raised`         | `#ebe4fa` |
+| Séparateur             | `--border`         | `#d6d6e0` |
 | Texte principal        | `--text`           | `#16161b` |
 | Texte secondaire       | `--text-muted`     | `#5b5b67` |
 | **Couleur principale** | `--primary`        | `#5b21b6` |

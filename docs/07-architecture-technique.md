@@ -426,7 +426,7 @@ Il n'y a pas d'autre branche : pas de branche de travail ni de pull request. Seu
 
 ### Nouveautés
 
-L'historique git sert aux développeurs ; ses messages sont trop techniques pour l'utilisateur. Les **nouveautés** de chaque version sont donc écrites pour l'utilisateur dans `src/i18n/fr.ts` (`releaseNotes`), affichées dans Réglages → À propos → Nouveautés, et reprises par l'écran « Quoi de neuf » après une mise à jour (H5). `npm run release` refuse de publier une version dont les nouveautés ne sont pas écrites.
+L'historique git sert aux développeurs ; ses messages sont trop techniques pour l'utilisateur. Les **nouveautés** de chaque version sont donc écrites pour l'utilisateur dans `src/i18n/fr.ts` (`releaseNotes`), affichées dans Réglages → À propos → Nouveautés, et reprises par l'écran « Quoi de neuf » après une mise à jour (H5). `npm run release` refuse de publier une version dont les nouveautés ne sont pas écrites. On peut les écrire à l'avance : l'écran n'affiche que les versions égales ou antérieures à celle de l'app.
 
 ### Cycle des versions
 
