@@ -351,6 +351,7 @@ function Shopping({
           data={data}
           article={moving}
           currentAisleId={panel.aisleId}
+          hereAisleId={view.here}
           sessionId={session.id}
           onClose={close}
         />

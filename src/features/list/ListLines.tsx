@@ -1,3 +1,4 @@
+import { AnimatePresence, motion } from "motion/react";
 import { useMemo, useState } from "react";
 import { groupListForStore } from "@/domain/aisles";
 import type { ID, ListItem } from "@/domain/model";
@@ -59,38 +60,49 @@ export function ListLines({
               });
             }}
           >
-            {items.map((item) => {
-              const article = data.articleById.get(item.articleId);
-              if (!article) return null;
-              const category = data.categoryById.get(article.categoryId);
-              return (
-                <SwipeToDelete
-                  key={item.id}
-                  label={`${article.name} — ${fr.list.swipeHint}`}
-                  onDelete={() => {
-                    onRemove(item);
-                  }}
-                >
-                  <ItemRow
-                    label={article.name}
-                    icon={article.icon}
-                    color={paletteColor(category?.color)}
-                    details={
-                      item.status === "unavailable"
-                        ? [fr.list.unavailableLastTime, lineDetails(item)]
-                            .filter(Boolean)
-                            .join(" · ")
-                        : lineDetails(item)
-                    }
-                    quantity={lineQuantity(item, data.unitById)}
-                    checked={item.status === "checked"}
-                    onClick={() => {
-                      onOpen(item);
-                    }}
-                  />
-                </SwipeToDelete>
-              );
-            })}
+            {/* Nouvelle ligne : apparition avec un léger rebond (docs/05 § 6). */}
+            <AnimatePresence initial={false}>
+              {items.map((item) => {
+                const article = data.articleById.get(item.articleId);
+                if (!article) return null;
+                const category = data.categoryById.get(article.categoryId);
+                return (
+                  <motion.div
+                    key={item.id}
+                    layout="position"
+                    initial={{ opacity: 0, scale: 0.96 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ type: "spring", stiffness: 500, damping: 32 }}
+                  >
+                    <SwipeToDelete
+                      label={`${article.name} — ${fr.list.swipeHint}`}
+                      onDelete={() => {
+                        onRemove(item);
+                      }}
+                    >
+                      <ItemRow
+                        label={article.name}
+                        icon={article.icon}
+                        color={paletteColor(category?.color)}
+                        details={
+                          item.status === "unavailable"
+                            ? [fr.list.unavailableLastTime, lineDetails(item)]
+                                .filter(Boolean)
+                                .join(" · ")
+                            : lineDetails(item)
+                        }
+                        quantity={lineQuantity(item, data.unitById)}
+                        checked={item.status === "checked"}
+                        onClick={() => {
+                          onOpen(item);
+                        }}
+                      />
+                    </SwipeToDelete>
+                  </motion.div>
+                );
+              })}
+            </AnimatePresence>
           </AisleSection>
         );
       })}

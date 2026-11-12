@@ -269,7 +269,7 @@ db.version(1).stores({
 
 ### Manifest et iOS
 
-- Manifest : nom, icônes (dont `apple-touch-icon` 180×180 et icône adaptative Android), `display: standalone`, couleurs `#0f0f12`.
+- Manifest : nom, icônes (dont `apple-touch-icon` 180×180 et icône adaptative Android), `display: standalone`, couleurs `#0b0b0e`.
 - `<meta name="viewport" content="…, viewport-fit=cover">` + gestion des `safe-area-inset-*`.
 - Précache de toute l'app : JS, CSS, police, pack d'icônes, sons.
 

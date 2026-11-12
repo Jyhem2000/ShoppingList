@@ -1328,14 +1328,26 @@
       "fr": "Pâtes fraîches"
     },
     "aliases": {
-      "fr": ["raviolis", "tortellinis", "gnocchis"]
+      "fr": ["raviolis", "tortellinis"]
     },
     "types": {
-      "fr": ["raviolis", "tortellinis", "gnocchis", "tagliatelles"]
+      "fr": ["raviolis", "tortellinis", "tagliatelles"]
     },
     "category": "traiteur",
     "unit": "paquet",
     "icon": "pates-fraiches"
+  },
+  {
+    "key": "gnocchis",
+    "name": {
+      "fr": "Gnocchis"
+    },
+    "aliases": {
+      "fr": ["gnocchi"]
+    },
+    "category": "traiteur",
+    "unit": "paquet",
+    "icon": "gnocchis"
   },
   {
     "key": "oeufs",
@@ -1741,7 +1753,7 @@
     "types": {
       "fr": ["fin", "gros", "fleur de sel"]
     },
-    "category": "sauces-condiments",
+    "category": "epices",
     "unit": "paquet",
     "icon": "sel"
   },
@@ -1753,7 +1765,7 @@
     "types": {
       "fr": ["noir", "moulu", "en grains"]
     },
-    "category": "sauces-condiments",
+    "category": "epices",
     "unit": "paquet",
     "icon": "poivre"
   },
@@ -1765,7 +1777,7 @@
     "types": {
       "fr": ["cumin", "curry", "paprika", "cannelle", "herbes de Provence"]
     },
-    "category": "sauces-condiments",
+    "category": "epices",
     "unit": "pot",
     "icon": "epices"
   },
@@ -1801,7 +1813,7 @@
     "types": {
       "fr": ["salée", "sucrée"]
     },
-    "category": "sauces-condiments",
+    "category": "cuisine-du-monde",
     "unit": "bouteille",
     "icon": "sauce-soja"
   },
@@ -1810,7 +1822,7 @@
     "name": {
       "fr": "Lait de coco"
     },
-    "category": "sauces-condiments",
+    "category": "cuisine-du-monde",
     "unit": "boite",
     "icon": "lait-de-coco"
   },

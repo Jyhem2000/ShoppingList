@@ -7,6 +7,7 @@ export const fr = {
     storeName: "Mon supermarché",
     unsortedAisle: "Non classé",
   },
+  sheet: { close: "Fermer", back: "Retour" },
   tabs: {
     list: "Liste",
     catalog: "Catalogue",
@@ -180,13 +181,20 @@ export const fr = {
     move: {
       title: (name: string) => `Déplacer ${name}`,
       text: "Vers quel rayon de ce magasin ?",
+      hereSection: "Le rayon où tu es",
       withCategory: "Où l'on trouve sa catégorie",
       others: "Autres rayons",
-      here: "rayon actuel",
-      scopeTitle: (aisle: string) => `Vers ${aisle}`,
-      scopeText: "Pour les prochaines courses dans ce magasin :",
+      all: "Rayons du magasin",
+      current: "son rayon actuel",
+      scopeTitle: (aisle: string) => `Ranger dans ${aisle}`,
+      scopeText: (aisle: string) =>
+        `L'app s'en souviendra pour tes prochaines courses dans ce magasin. Qu'est-ce qui se trouve dans ${aisle} ?`,
       onlyArticle: (name: string) => `Seulement ${name}`,
+      onlyArticleHint: (category: string) =>
+        `Les autres articles de ${category} restent où ils sont.`,
       wholeCategory: (category: string) => `Toute la catégorie ${category}`,
+      wholeCategoryHint: (aisle: string) =>
+        `Tous ses articles iront dans ${aisle}.`,
       done: (name: string, aisle: string) => `${name} → ${aisle}`,
     },
     when: { today: "aujourd'hui", yesterday: "hier" },

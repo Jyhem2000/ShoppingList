@@ -1,29 +1,31 @@
 import { useLiveQuery } from "dexie-react-hooks";
 import { categoriesData } from "@/data";
 import { db } from "@/db/database";
-import type { Article, Unit } from "@/domain/model";
+import type { Article, ID, Unit } from "@/domain/model";
 import type { ListData } from "./useListData";
 
 const MAX = 4;
 
 /**
- * Unités habituelles d'un article, proposées en puces dans la fiche d'une ligne :
- * son unité par défaut, puis celles déjà utilisées pour lui (les plus fréquentes
- * d'abord), puis « pièce » et l'unité suggérée de sa catégorie. Aucune donnée en plus :
- * tout vient des lignes déjà saisies.
+ * Unités habituelles d'un article, proposées en puces dans la fiche d'une ligne, dans un
+ * ordre fixe : son unité par défaut, l'unité habituelle de sa catégorie, « pièce », puis
+ * celles déjà utilisées pour lui sur d'autres lignes (les plus fréquentes d'abord).
+ * La ligne affichée (`itemId`) ne compte pas : choisir une puce ne la déplace jamais.
+ * Aucune donnée en plus : tout vient des lignes déjà saisies.
  */
 export function useUsualUnits(
   article: Article | undefined,
   data: ListData,
+  itemId?: ID,
 ): Unit[] {
   const used = useLiveQuery(
     async () =>
       article
-        ? (await db.items.where("articleId").equals(article.id).toArray()).map(
-            (item) => item.unitId,
-          )
+        ? (await db.items.where("articleId").equals(article.id).toArray())
+            .filter((item) => item.id !== itemId)
+            .map((item) => item.unitId)
         : [],
-    [article?.id],
+    [article?.id, itemId],
   );
   if (!article) return [];
 
@@ -41,9 +43,9 @@ export function useUsualUnits(
 
   const ids = [
     article.defaultUnitId,
-    ...byUse,
-    bySlug("piece"),
     bySlug(suggested),
+    bySlug("piece"),
+    ...byUse,
   ].filter((unitId): unitId is string => unitId !== undefined);
   return [...new Set(ids)]
     .map((unitId) => data.unitById.get(unitId))

@@ -137,11 +137,20 @@
   {
     "key": "sauces-condiments",
     "name": {
-      "fr": "Sauces, Condiments & Épices"
+      "fr": "Sauces & Condiments"
     },
     "unit": "pot",
     "color": "ambre",
     "icon": "amphora"
+  },
+  {
+    "key": "epices",
+    "name": {
+      "fr": "Sel, Poivre & Épices"
+    },
+    "unit": "pot",
+    "color": "terre",
+    "icon": "flame"
   },
   {
     "key": "huiles-vinaigres",

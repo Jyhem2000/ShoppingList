@@ -31,7 +31,7 @@ Affichage :
 
 - dans les listes, le **symbole** pour les poids et volumes (`1,2 kg`, `50 cl`) ; le litre s'écrit **`L`** majuscule (symbole admis par le système international) pour ne jamais confondre `1 l` et `11` ; les autres unités **en toutes lettres** (« 2 tranches », « 1 barquette ») : une abréviation comme « tr. » ou « barq. » n'est pas claire (elles restent reconnues à la saisie) ;
 - dans le sélecteur d'unité, les unités sont **rangées par groupe** (`group`) : _Poids_ (gramme (g), kilogramme (kg)), _Volume_ (millilitre (ml), centilitre (cl), litre (L)), _Contenants_ (pack, boîte, bouteille, sachet, paquet, pot, barquette, rouleau), _À l'unité_ (pièce, botte, tranche) ; les unités de _Cuisine_ ci-dessous ne servent qu'aux recettes ;
-- dans la fiche d'une ligne, des **puces « unités habituelles »** proposent en un tap l'unité par défaut de l'article, celles déjà utilisées pour lui, « pièce » et l'unité suggérée de sa catégorie (crevettes : en barquette, au poids ou à la pièce) — aucune donnée en plus ;
+- dans la fiche d'une ligne, des **puces « unités habituelles »** proposent en un tap, dans un **ordre fixe** (choisir une puce ne la déplace pas) : l'unité par défaut de l'article, l'unité habituelle de sa catégorie, « pièce », puis celles déjà utilisées pour lui sur d'autres lignes (crevettes : au poids, en barquette ou à la pièce) — 4 au plus, aucune donnée en plus ;
 - dans les phrases (panneaux, messages), l'unité **en toutes lettres** : « Déjà dans la liste : 6 litres », « Ajouter 1 litre ».
 
 Pour les recettes, de petites unités sont utiles : `c-a-s` (cuillère à soupe), `c-a-c` (cuillère à café), `pincee` — dimension « autre », non convertibles.

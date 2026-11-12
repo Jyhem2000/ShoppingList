@@ -12,10 +12,10 @@
   color-scheme: dark;
 
   /* Fonds, du plus profond au plus haut */
-  --bg: #0f0f12; /* fond 1 : l'app */
+  --bg: #0b0b0e; /* fond 1 : l'app */
   --surface: #18181d; /* fond 2 : cartes, lignes, panneaux */
-  --raised: #232329; /* fond 3 : éléments surélevés, champs, boutons neutres */
-  --border: #2e2e36;
+  --raised: #2a2a32; /* fond 3 : éléments surélevés, champs, boutons neutres */
+  --border: #3a3a45;
 
   /* Textes */
   --text: #ededf0; /* texte principal */

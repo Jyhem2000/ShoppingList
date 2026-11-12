@@ -1,4 +1,5 @@
 import { Check, ChevronDown } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
 import type { ReactNode } from "react";
 import { GroupIcon } from "@/ui/GroupIcon";
 import { palette, type PaletteColor } from "@/ui/palette";
@@ -78,12 +79,26 @@ export function AisleSection({
         <ChevronDown
           aria-hidden
           className={cn(
-            "size-5 shrink-0 text-muted-foreground transition-transform",
+            "size-5 shrink-0 text-muted-foreground transition-transform duration-200 motion-reduce:transition-none",
             !expanded && "-rotate-90",
           )}
         />
       </button>
-      {expanded && <div className="divide-y divide-border/50">{children}</div>}
+      {/* Dépliage animé (docs/05 § 6), selon le réglage « Animations ». */}
+      <AnimatePresence initial={false}>
+        {expanded && (
+          <motion.div
+            key="lines"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.22, ease: [0.2, 0.9, 0.3, 1] }}
+            className="overflow-hidden"
+          >
+            <div className="divide-y divide-border/50">{children}</div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

@@ -54,7 +54,7 @@ export function MergeListsSheet({
       }}
       title={t.title}
     >
-      <div className="flex max-h-[65dvh] flex-col gap-4 overflow-y-auto pb-1">
+      <div className="flex flex-col gap-4 pb-1">
         <fieldset>
           <legend className="mb-1.5 text-sm font-semibold text-muted-foreground">
             {t.sources}

@@ -25,6 +25,8 @@ export interface ShoppingView {
   /** « À récupérer » (C4), en haut. */
   pickUp: ListItem[];
   current: ID | undefined;
+  /** Rayon de la dernière coche : là où l'on est. */
+  here: ID | undefined;
   passed: Set<ID>;
   aisleOf: Map<ID, Aisle>;
   progress: { checked: number; total: number };
@@ -76,6 +78,7 @@ export function useShoppingView(
       groups,
       pickUp: data.items.filter((item) => pickUpIds.has(item.id)),
       current,
+      here: purchases.at(-1)?.aisleId,
       passed,
       aisleOf,
       progress: shoppingProgress(data.items),
