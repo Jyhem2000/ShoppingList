@@ -97,12 +97,13 @@ const definitions: Record<string, TestArticle> = {
   },
   "Papier toilette": {
     category: "papier-mouchoirs",
-    unit: "rouleau",
-    quantity: 12,
+    unit: "piece",
+    quantity: 6,
   },
   "Essuie-tout": {
     category: "papier-mouchoirs",
-    unit: "rouleau",
+    unit: "piece",
+    quantity: 4,
     aliases: ["sopalin"],
   },
   Lessive: { category: "entretien", unit: "bouteille" },

@@ -292,7 +292,7 @@
     "name": {
       "fr": "Papier toilette & Mouchoirs"
     },
-    "unit": "rouleau",
+    "unit": "piece",
     "color": "ciel",
     "icon": "toilet"
   },

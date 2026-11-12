@@ -25,12 +25,11 @@ Fichiers prévus dans `src/data/` : `categories.json`, `units.json`, `store-temp
 | `botte`     | botte / bottes           | botte     | autre     | —       | 1   |
 | `barquette` | barquette / barquettes   | barquette | autre     | —       | 1   |
 | `tranche`   | tranche / tranches       | tranche   | autre     | —       | 1   |
-| `rouleau`   | rouleau / rouleaux       | rouleau   | autre     | —       | 1   |
 
 Affichage :
 
 - dans les listes, le **symbole** pour les poids et volumes (`1,2 kg`, `50 cl`) ; le litre s'écrit **`L`** majuscule (symbole admis par le système international) pour ne jamais confondre `1 l` et `11` ; les autres unités **en toutes lettres** (« 2 tranches », « 1 barquette ») : une abréviation comme « tr. » ou « barq. » n'est pas claire (elles restent reconnues à la saisie) ;
-- dans le sélecteur d'unité, les unités sont **rangées par groupe** (`group`) : _Poids_ (gramme (g), kilogramme (kg)), _Volume_ (millilitre (ml), centilitre (cl), litre (L)), _Contenants_ (pack, boîte, bouteille, sachet, paquet, pot, barquette, rouleau), _À l'unité_ (pièce, botte, tranche) ; les unités de _Cuisine_ ci-dessous ne servent qu'aux recettes ;
+- dans le sélecteur d'unité, les unités sont **rangées par groupe** (`group`) : _Poids_ (gramme (g), kilogramme (kg)), _Volume_ (millilitre (ml), centilitre (cl), litre (L)), _Contenants_ (pack, boîte, bouteille, sachet, paquet, pot, barquette), _À l'unité_ (pièce, botte, tranche) ; les unités de _Cuisine_ ci-dessous ne servent qu'aux recettes ;
 - dans la fiche d'une ligne, des **puces « unités habituelles »** proposent en un tap, dans un **ordre fixe** (choisir une puce ne la déplace pas) : l'unité par défaut de l'article, l'unité habituelle de sa catégorie, « pièce », puis celles déjà utilisées pour lui sur d'autres lignes (crevettes : au poids, en barquette ou à la pièce) — 4 au plus, aucune donnée en plus ;
 - dans les phrases (panneaux, messages), l'unité **en toutes lettres** : « Déjà dans la liste : 6 litres », « Ajouter 1 litre ».
 
@@ -40,7 +39,7 @@ Pour les recettes, de petites unités sont utiles : `c-a-s` (cuillère à soupe)
 
 L'unité par défaut doit correspondre à **ce qu'on compte devant le rayon**, et la quantité par défaut à **ce qu'on achète le plus souvent**.
 
-1. **On compte les objets quand la taille des lots varie** : éponges (par 2, 3, 6), piles (4, 8), yaourts (4, 8, 12), œufs (6, 12), rouleaux de papier toilette (6, 9, 12…). Unité `pièce` (ou `rouleau`) et une quantité par défaut : « Éponges × 3 », jamais « 1 paquet d'éponges ».
+1. **On compte les objets quand la taille des lots varie** : éponges (par 2, 3, 6), piles (4, 8), yaourts (4, 8, 12), œufs (6, 12), rouleaux de papier toilette (6, 9, 12…). Unité `pièce` et une quantité par défaut : « Éponges × 3 », « Papier toilette × 6 », jamais « 1 paquet d'éponges ». Il n'y a pas d'unité « rouleau » (retirée le 12 novembre 2026 : c'était une pièce sous un autre nom) ; le mot reste compris à la saisie (« 12 rouleaux de PQ »).
 2. **Le contenant n'est l'unité que s'il est toujours le même** et que son contenu importe peu : un paquet de pâtes, un pot de moutarde, une bouteille d'huile, une boîte de thon, un pack d'eau de 6.
 3. **Le poids pour le vrac et la coupe** : fruits et légumes vendus au poids, fromage, viande et charcuterie à la coupe.
 4. **Le volume** pour ce qu'on achète en litres (lait, crème liquide) : « Lait 6 L ».
@@ -54,8 +53,8 @@ Articles de base (extrait du futur catalogue, phase 3) :
 | Yaourts                       | pièce     | 4              | Lots de 4, 8, 12, 16                                    |
 | Éponges                       | pièce     | 2              | Lots de 2, 3, 6                                         |
 | Piles                         | pièce     | 4              | Lots de 2, 4, 8, 12                                     |
-| Papier toilette               | rouleau   | 12             | Paquets de 4 à 24 rouleaux                              |
-| Essuie-tout                   | rouleau   | 2              | Paquets de 1 à 6 rouleaux                               |
+| Papier toilette               | pièce     | 6              | Rouleaux, en paquets de 4 à 24                          |
+| Essuie-tout                   | pièce     | 4              | Rouleaux, en paquets de 1 à 6                           |
 | Mouchoirs                     | boîte     | 1              | La boîte (ou le paquet de poche) est l'unité            |
 | Lait                          | L         | 6              | Bouteilles de 1 L, souvent par 6                        |
 | Crème fraîche                 | pièce     | 1              | Un seul article ; types épaisse, liquide…               |
@@ -80,7 +79,7 @@ Articles de base (extrait du futur catalogue, phase 3) :
 | Jus, sodas                    | bouteille | 1              |                                                         |
 | Café                          | paquet    | 1              |                                                         |
 | Lessive, liquide vaisselle    | bouteille | 1              |                                                         |
-| Sacs poubelle                 | rouleau   | 1              |                                                         |
+| Sacs poubelle                 | pièce     | 1              |                                                         |
 | Couches                       | paquet    | 1              | La taille du paquet dépend de la taille de couche       |
 
 ### Libellés, alias, types et articles génériques : règles
@@ -128,7 +127,7 @@ Volontairement fines pour être regroupées différemment selon les magasins. Un
 | `surgeles`                | Surgelés                            | sachet                    |
 | `glaces`                  | Glaces                              | pièce                     |
 | `hygiene-beaute`          | Hygiène & Beauté                    | pièce                     |
-| `papier-mouchoirs`        | Papier toilette & Mouchoirs         | rouleau                   |
+| `papier-mouchoirs`        | Papier toilette & Mouchoirs         | pièce                     |
 | `entretien`               | Entretien & Lessive                 | pièce                     |
 | `cuisine-maison`          | Cuisine & Maison                    | pièce                     |
 | `bebe`                    | Bébé                                | pièce                     |

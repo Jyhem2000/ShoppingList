@@ -2521,8 +2521,8 @@
       "fr": ["simple épaisseur", "double épaisseur", "triple épaisseur"]
     },
     "category": "papier-mouchoirs",
-    "unit": "rouleau",
-    "quantity": 12,
+    "unit": "piece",
+    "quantity": 6,
     "icon": "papier-toilette"
   },
   {
@@ -2534,8 +2534,8 @@
       "fr": ["sopalin"]
     },
     "category": "papier-mouchoirs",
-    "unit": "rouleau",
-    "quantity": 2,
+    "unit": "piece",
+    "quantity": 4,
     "icon": "essuie-tout"
   },
   {
@@ -2638,7 +2638,7 @@
       "fr": ["30 L", "50 L", "100 L"]
     },
     "category": "cuisine-maison",
-    "unit": "rouleau",
+    "unit": "piece",
     "icon": "sacs-poubelle"
   },
   {
@@ -2650,7 +2650,7 @@
       "fr": ["alu", "papier alu"]
     },
     "category": "cuisine-maison",
-    "unit": "rouleau",
+    "unit": "piece",
     "icon": "papier-aluminium"
   },
   {
@@ -2662,7 +2662,7 @@
       "fr": ["film étirable"]
     },
     "category": "cuisine-maison",
-    "unit": "rouleau",
+    "unit": "piece",
     "icon": "film-alimentaire"
   },
   {
@@ -2674,7 +2674,7 @@
       "fr": ["papier sulfurisé"]
     },
     "category": "cuisine-maison",
-    "unit": "rouleau",
+    "unit": "piece",
     "icon": "papier-cuisson"
   },
   {

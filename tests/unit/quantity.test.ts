@@ -96,7 +96,7 @@ describe("formatQuantity", () => {
     expect(formatQuantity(3, unit("piece"))).toBe("× 3");
     expect(formatQuantity(2, unit("boite"))).toBe("2 boîtes");
     expect(formatQuantity(1, unit("boite"))).toBe("1 boîte");
-    expect(formatQuantity(12, unit("rouleau"))).toBe("12 rouleaux");
+    expect(formatQuantity(3, unit("bouteille"))).toBe("3 bouteilles");
   });
 
   it("écrit l'unité en toutes lettres dans les phrases", () => {
