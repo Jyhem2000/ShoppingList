@@ -27,6 +27,7 @@ import {
   type LucideIcon,
   Milk,
   PawPrint,
+  RotateCcw,
   Popcorn,
   ShoppingBasket,
   Snowflake,
@@ -75,6 +76,8 @@ export const groupIcons: Record<string, LucideIcon> = {
   "ice-cream-cone": IceCreamCone,
   milk: Milk,
   "paw-print": PawPrint,
+  // Groupe « À récupérer » du mode courses (docs/03 C4).
+  "rotate-ccw": RotateCcw,
   popcorn: Popcorn,
   "shopping-basket": ShoppingBasket,
   snowflake: Snowflake,

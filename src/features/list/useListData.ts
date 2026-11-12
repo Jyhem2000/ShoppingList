@@ -46,7 +46,7 @@ export interface ListData {
  * Tout ce qu'il faut pour afficher et modifier la liste courante ; `undefined`
  * pendant le chargement (et au premier lancement, le temps de créer les données).
  */
-export function useListData(): ListData | undefined {
+export function useListData(storeId?: ID): ListData | undefined {
   const settings = useSettings();
   const lists = useLists();
   const list =
@@ -56,7 +56,9 @@ export function useListData(): ListData | undefined {
   const units = useUnits();
   const categories = useCategories();
   const stores = useStores();
-  const store = stores?.find((s) => s.id === list?.lastStoreId) ?? stores?.[0];
+  // `storeId` : magasin imposé (celui des courses en cours), sinon celui de la liste.
+  const store =
+    stores?.find((s) => s.id === (storeId ?? list?.lastStoreId)) ?? stores?.[0];
   const aisles = useAisles(store?.id);
   const overrides = useOverrides();
   const purchaseCounts = usePurchaseCounts();

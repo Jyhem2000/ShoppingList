@@ -1,11 +1,16 @@
-import { ShoppingCart } from "lucide-react";
+import { RotateCcw, ShoppingCart } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { routes } from "@/app/routes";
 import { db } from "@/db/database";
+import { useLatestSession } from "@/db/hooks";
 import { deleteItems, restoreItems } from "@/db/lists";
+import { reopenSession } from "@/db/sessions";
 import type { ID, ListItem } from "@/domain/model";
 import { feedback } from "@/feedback";
+import { formatClock } from "@/features/shopping/format";
+import { StaleSessionPrompt } from "@/features/shopping/StaleSessionPrompt";
+import { StartShoppingSheet } from "@/features/shopping/StartShoppingSheet";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
 import { EmptyState } from "@/ui/Page";
@@ -30,7 +35,8 @@ type Panel =
   | { kind: "menu" }
   | { kind: "lists" }
   | { kind: "merge"; sources: ID[] }
-  | { kind: "store" };
+  | { kind: "store" }
+  | { kind: "start" };
 
 /** Écran Liste (docs/04 § 2.1) : la liste courante triée par rayon, et la barre d'ajout. */
 export function ListPage() {
@@ -38,6 +44,7 @@ export function ListPage() {
   const navigate = useNavigate();
   const adding = useAddToList(data);
   const [panel, setPanel] = useState<Panel | null>(null);
+  const session = useLatestSession(data?.list.id);
   const close = () => {
     setPanel(null);
   };
@@ -98,6 +105,23 @@ export function ListPage() {
         }}
       />
 
+      {session?.status === "closed" && session.closedAt && (
+        <div className="px-3 pb-3">
+          <Button
+            variant="outline"
+            className="w-full"
+            onClick={() => {
+              void reopenSession(db, session.id).then((reopened) => {
+                if (reopened) void navigate(routes.shopping);
+              });
+            }}
+          >
+            <RotateCcw />
+            {fr.shopping.reopen(formatClock(session.closedAt))}
+          </Button>
+        </div>
+      )}
+
       {data.items.length === 0 ? (
         <EmptyState
           icon={<ShoppingCart className="size-10" />}
@@ -123,6 +147,33 @@ export function ListPage() {
           }}
           onRemove={removeItem}
         />
+      )}
+      {session?.status === "open" ? (
+        <div className="flex justify-center px-3 pt-6">
+          <Button
+            size="lg"
+            onClick={() => {
+              void navigate(routes.shopping);
+            }}
+          >
+            <ShoppingCart />
+            {fr.shopping.resume}
+          </Button>
+        </div>
+      ) : (
+        data.items.some((item) => item.status === "todo") && (
+          <div className="flex justify-center px-3 pt-6">
+            <Button
+              size="lg"
+              onClick={() => {
+                setPanel({ kind: "start" });
+              }}
+            >
+              <ShoppingCart />
+              {fr.shopping.start}
+            </Button>
+          </div>
+        )
       )}
       {/* Place pour la barre d'ajout flottante. */}
       <div aria-hidden className="h-24" />
@@ -197,6 +248,10 @@ export function ListPage() {
         />
       )}
       {panel?.kind === "store" && <StoreSheet data={data} onClose={close} />}
+      {panel?.kind === "start" && (
+        <StartShoppingSheet data={data} onClose={close} />
+      )}
+      {session?.status === "open" && <StaleSessionPrompt session={session} />}
     </>
   );
 }

@@ -1,20 +1,26 @@
 import { Trash2 } from "lucide-react";
 import { motion, useMotionValue, useTransform } from "motion/react";
 import { type ReactNode, useRef } from "react";
+import { cn } from "@/ui/utils";
 
 const THRESHOLD = 100;
 
 /**
- * Glisser vers la gauche pour supprimer (docs/03 B4). Le défilement vertical reste
- * libre ; un glissement ne déclenche pas le tap de la ligne.
+ * Glisser une ligne vers la gauche pour une action (retirer, introuvable). Le
+ * défilement vertical reste libre ; un glissement ne déclenche pas le tap de la ligne.
  */
-export function SwipeToDelete({
+export function SwipeAction({
   label,
-  onDelete,
+  icon,
+  className,
+  onSwipe,
   children,
 }: {
   label: string;
-  onDelete: () => void;
+  icon: ReactNode;
+  /** Fond et couleur révélés sous la ligne. */
+  className: string;
+  onSwipe: () => void;
   children: ReactNode;
 }) {
   const x = useMotionValue(0);
@@ -26,9 +32,12 @@ export function SwipeToDelete({
       <motion.div
         aria-hidden
         style={{ opacity }}
-        className="absolute inset-0 flex items-center justify-end bg-danger/15 pr-5 text-danger"
+        className={cn(
+          "absolute inset-0 flex items-center justify-end pr-5 [&_svg]:size-5",
+          className,
+        )}
       >
-        <Trash2 className="size-5" />
+        {icon}
       </motion.div>
       <motion.div
         drag="x"
@@ -44,7 +53,7 @@ export function SwipeToDelete({
           setTimeout(() => {
             dragged.current = false;
           }, 50);
-          if (info.offset.x < -THRESHOLD || info.velocity.x < -700) onDelete();
+          if (info.offset.x < -THRESHOLD || info.velocity.x < -700) onSwipe();
         }}
         onClickCapture={(event) => {
           if (!dragged.current) return;
@@ -57,5 +66,27 @@ export function SwipeToDelete({
         {children}
       </motion.div>
     </div>
+  );
+}
+
+/** Glisser vers la gauche pour supprimer (docs/03 B4). */
+export function SwipeToDelete({
+  label,
+  onDelete,
+  children,
+}: {
+  label: string;
+  onDelete: () => void;
+  children: ReactNode;
+}) {
+  return (
+    <SwipeAction
+      label={label}
+      icon={<Trash2 />}
+      className="bg-danger/15 text-danger"
+      onSwipe={onDelete}
+    >
+      {children}
+    </SwipeAction>
   );
 }

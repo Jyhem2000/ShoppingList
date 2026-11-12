@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { db } from "@/db/database";
 import { addListItem } from "@/db/items";
 import { updateItem } from "@/db/lists";
@@ -36,9 +36,17 @@ export type PendingAdd =
  * Ajout à la liste courante (docs/03 A1 à A4, H8) : la saisie est découpée en
  * lignes ; les articles connus sont ajoutés tout de suite, les autres attendent une
  * réponse (« Déjà dans la liste », « Créer… »), un panneau à la fois.
+ * `onAdded` : appelé pour chaque nouvelle ligne (mode courses, docs/03 C4).
  */
-export function useAddToList(data: ListData | undefined) {
+export function useAddToList(
+  data: ListData | undefined,
+  onAdded?: (item: ListItem, article: Article) => void,
+) {
   const [queue, setQueue] = useState<PendingAdd[]>([]);
+  const added = useRef(onAdded);
+  useEffect(() => {
+    added.current = onAdded;
+  });
 
   const addArticle = useCallback(
     async (
@@ -70,6 +78,7 @@ export function useAddToList(data: ListData | undefined) {
           acceptedTypes,
         };
       feedback.add();
+      added.current?.(result.item, article);
       // Simplifiée (1200 g → 1,2 kg) : on le dit, avec « Annuler » (docs/03 H8).
       const raw = entryAmount(entry, article, data.units, false);
       if (raw && raw.unit.id !== amount.unit.id) {

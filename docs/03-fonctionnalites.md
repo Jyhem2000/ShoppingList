@@ -126,7 +126,7 @@ Lancé par un bouton bien visible sur la liste ; confirmation du magasin.
 ### C2. Cocher — _v1.0_
 
 - Tap sur une ligne = dans le caddie : barrée, puis glisse en fin de rayon ou disparaît (réglage H3), avec un son (H6).
-- Dernière ligne d'un rayon cochée → le rayon se **replie** avec une coche ; le rayon suivant devient le rayon courant (mis en évidence).
+- Dernière ligne d'un rayon cochée → le rayon se **replie** avec une coche ; le rayon suivant devient le rayon courant (mis en évidence) : le premier rayon qui a encore des articles à prendre, à partir de celui de la dernière coche.
 - Re-tap = décocher.
 
 ### C3. Introuvable — _v1.0_
@@ -135,7 +135,9 @@ Glisser une ligne → « Introuvable » : elle passe en bas, grisée, et restera
 
 ### C4. Ajouter pendant les courses — _v1.0_
 
-La barre d'ajout reste disponible. Si le rayon de l'article ajouté est **déjà terminé**, l'app l'indique (« Rayon Crèmerie déjà passé ») et place la ligne dans un groupe **« À récupérer »** affiché en haut.
+La barre d'ajout reste disponible. Si le rayon de l'article ajouté est **déjà passé** (on y a coché quelque chose, puis coché ailleurs), l'app l'indique (« Rayon Crèmerie déjà passé ») et place la ligne dans un groupe **« À récupérer »** affiché en haut.
+
+Après l'ajout, un panneau propose : **« OK, à prendre »** ; **« Je l'ai déjà dans le caddie »** (article pris en passant : la ligne est cochée et l'achat compte pour l'apprentissage) ; **« Il est dans un autre rayon… »** (même choix que C5, retenu pour les prochaines courses).
 
 ### C5. Changer un article de rayon — _v1.0_
 
@@ -150,7 +152,7 @@ Bouton **« Terminer les courses »**, toujours visible en mode courses → conf
 
 ### C7. Apprentissage de l'ordre des rayons — _v1.0_
 
-À chaque clôture, l'ordre dans lequel les rayons ont été parcourus met à jour l'ordre du magasin (algorithme en 07 § 7), sauf si l'ordre est verrouillé.
+À chaque clôture, l'ordre dans lequel les rayons ont été parcourus (l'ordre des coches, pas leur heure) met à jour l'ordre du magasin (algorithme en 07 § 7.6), sauf si l'ordre est verrouillé. Les rayons non visités gardent leur place.
 
 **Critères** : après 3 sessions simulées parcourues dans l'ordre Crèmerie → Fruits & Légumes → Épicerie, la liste s'affiche dans cet ordre pour ce magasin, et l'ordre des autres magasins est inchangé.
 
@@ -158,7 +160,7 @@ Bouton **« Terminer les courses »**, toujours visible en mode courses → conf
 
 - Après la clôture, la liste affiche **« Rouvrir les courses »** tant qu'aucune nouvelle session n'a démarré sur cette liste.
 - Réouverture → retour en mode courses, articles déjà achetés affichés cochés, ajout et cochage des oublis, puis nouvelle clôture qui **remplace** les calculs précédents.
-- Session restée ouverte plusieurs heures : à la réouverture de l'app, « Tu as terminé tes courses de _hier 18 h_ ? — Terminer · Continuer ».
+- Session restée ouverte plus de **3 heures** après la dernière coche : à la réouverture de l'app, « Tu as terminé tes courses de _hier 18 h_ ? — Terminer · Continuer ».
 
 **Critères** : clôturer, rouvrir, cocher un article de plus, clôturer → l'historique contient tous les articles une seule fois et l'apprentissage n'est appliqué qu'une fois.
 

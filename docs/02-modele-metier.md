@@ -314,7 +314,7 @@ Un bouton **« Terminer les courses »** clôture explicitement la session. C'es
 - **articles introuvables** dans ce magasin ;
 - récapitulatif : articles achetés, introuvables, durée.
 
-À la clôture, les lignes cochées quittent la liste (elles sont dans l'historique) ; les lignes introuvables et non cochées restent.
+À la clôture, les lignes cochées quittent la liste (elles sont dans l'historique) ; les lignes introuvables et non cochées restent. Les introuvables sont signalées « Introuvable la dernière fois » et redeviennent à acheter au début des courses suivantes.
 
 ### Réouverture
 

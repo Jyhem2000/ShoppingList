@@ -25,10 +25,11 @@ import {
 
 const t = fr.devUi;
 
+/** Une partie de la maquette, séparée de la précédente par un filet et de l'air. */
 function Block({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <section className="pt-6">
-      <h2 className="px-5 pb-2 text-xs font-bold tracking-widest text-muted-foreground uppercase">
+    <section className="mt-10 border-t border-border pt-6 first-of-type:mt-6 first-of-type:border-t-0">
+      <h2 className="px-5 pb-4 text-xs font-bold tracking-widest text-muted-foreground uppercase">
         {title}
       </h2>
       {children}

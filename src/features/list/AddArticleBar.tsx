@@ -1,5 +1,5 @@
 import { Plus } from "lucide-react";
-import { useMemo, useRef, useState } from "react";
+import { type ReactNode, useMemo, useRef, useState } from "react";
 import { parseEntry, type ParsedEntry } from "@/domain/entry";
 import type { Article } from "@/domain/model";
 import { searchArticles } from "@/domain/search";
@@ -23,7 +23,10 @@ export function AddArticleBar({
   onSubmit,
   onPick,
   onCreate,
+  trailing,
 }: {
+  /** À droite de la barre (« Terminer » en mode courses). */
+  trailing?: ReactNode;
   data: ListData;
   onSubmit: (text: string) => void;
   onPick: (article: Article, entry: ParsedEntry) => void;
@@ -125,17 +128,21 @@ export function AddArticleBar({
             )}
           </ul>
         )}
-        <AddBar
-          placeholder={t.addPlaceholder}
-          addLabel={t.addLabel}
-          value={text}
-          onValueChange={setText}
-          inputRef={input}
-          onSubmit={(value) => {
-            onSubmit(value);
-            input.current?.focus();
-          }}
-        />
+        <div className="flex items-center gap-2">
+          <AddBar
+            className="min-w-0 flex-1"
+            placeholder={t.addPlaceholder}
+            addLabel={t.addLabel}
+            value={text}
+            onValueChange={setText}
+            inputRef={input}
+            onSubmit={(value) => {
+              onSubmit(value);
+              input.current?.focus();
+            }}
+          />
+          {trailing}
+        </div>
       </div>
     </div>
   );

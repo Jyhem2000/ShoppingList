@@ -5,7 +5,8 @@ import { cn } from "@/ui/utils";
 
 /**
  * Bouton shadcn/ui adapté au mobile (cibles ≥ 44 px), docs/05 § 5.5. Deux styles :
- * principal (violet plein) et secondaire (`outline`, contour violet). `destructive` est
+ * principal (violet plein) et secondaire (`outline`, contour violet). `gold` : « Terminer
+ * les courses ». `destructive` est
  * le style principal en rouge ; `icon` un bouton fait d'une icône seule (en or) ;
  * `link` un lien.
  * Une icône dans un bouton avec texte prend la couleur du texte.
@@ -21,6 +22,8 @@ const buttonVariants = cva(
         outline:
           "border border-primary/50 bg-transparent text-primary hover:bg-primary/10 active:bg-primary/20",
         destructive: "bg-danger text-bg hover:bg-danger/90 active:bg-danger/80",
+        // « Terminer les courses » (docs/04 § 2.3) : le seul bouton plein en or.
+        gold: "bg-secondary text-on-secondary hover:bg-secondary-strong active:bg-secondary-strong",
         link: "text-primary underline-offset-4 hover:underline",
         icon: "text-secondary hover:bg-secondary/10 active:bg-secondary/20",
         // Bouton fait d'une icône seule, dans un formulaire (+ et −, ajout d'un type) : or (docs/05 § 2).

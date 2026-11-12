@@ -74,6 +74,11 @@ export interface Store extends Base {
   name: string;
   orderLocked: boolean;
   lastUsedAt?: number;
+  /**
+   * Ordre appris des articles dans ce magasin (docs/07 § 7.6) : score par article,
+   * plus petit d'abord, comparé seulement entre articles d'un même rayon.
+   */
+  articleOrder?: Record<ID, number>;
 }
 
 export interface AisleCategory {

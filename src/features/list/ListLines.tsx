@@ -31,6 +31,7 @@ export function ListLines({
             data.store.id,
             data.aisles,
             data.overrides,
+            data.store.articleOrder,
           )
         : [],
     [data],
@@ -74,7 +75,13 @@ export function ListLines({
                     label={article.name}
                     icon={article.icon}
                     color={paletteColor(category?.color)}
-                    details={lineDetails(item)}
+                    details={
+                      item.status === "unavailable"
+                        ? [fr.list.unavailableLastTime, lineDetails(item)]
+                            .filter(Boolean)
+                            .join(" · ")
+                        : lineDetails(item)
+                    }
                     quantity={lineQuantity(item, data.unitById)}
                     checked={item.status === "checked"}
                     onClick={() => {

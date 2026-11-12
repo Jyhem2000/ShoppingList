@@ -131,6 +131,7 @@ interface Store extends Base {
   name: string;
   orderLocked: boolean;
   lastUsedAt?: number;
+  articleOrder?: Record<ID, number>; // ordre appris des articles (§ 7.6), comparé entre articles d'un même rayon
 }
 
 interface Aisle extends Base {
@@ -300,18 +301,21 @@ Exception de l'article → rayon **principal** de sa catégorie → « Non class
 
 Groupes par rayon effectif, rayons triés par `position` (« Non classé » en dernier), rayons vides omis ; dans un groupe : lignes `todo` puis `checked` puis `unavailable`, chacune avec les articles génériques en tête, puis triée par ordre appris (`articleOrder` : score par article, plus petit d'abord ; les articles sans ordre appris viennent après) puis alphabétique. Lignes archivées exclues.
 
-> L'ordre appris des articles d'un magasin n'a pas encore de table : son stockage sera défini avec l'apprentissage (phase 5, § 7.6). D'ici là, `articleOrder` est vide et le tri est alphabétique.
+`articleOrder` est l'ordre appris des articles du magasin (`Store.articleOrder`, § 7.6) : un champ sans index, donc sans changement du schéma Dexie.
 
 ### 7.6 Clôture, apprentissage et réouverture
 
 **Clôture** (`closeSession`), dans une seule transaction :
 
 1. Enregistrer `learningSnapshot` (positions actuelles des rayons du magasin et ordre des articles).
-2. Si le magasin n'est pas verrouillé, appliquer l'apprentissage à partir de **tous** les achats de la session :
-   - pour chaque rayon ayant au moins un achat : horodatage **médian** de ses achats (robuste aux allers-retours) ;
-   - rang des rayons selon ces médianes, normalisé en `r ∈ [0, 1]` ;
-   - nouvelle position : `0,6 × ancienne + 0,4 × r` (rayon jamais classé : `r`) ; rayons non visités inchangés ;
-   - même principe pour l'ordre des articles dans chaque rayon.
+2. Si le magasin n'est pas verrouillé, appliquer l'apprentissage (`learnAislePositions`, `learnArticleOrder` dans `src/domain/shopping.ts`) à partir de **tous** les achats de la session :
+   - les achats sont numérotés dans l'**ordre des coches** (rang 0, 1, 2…) : l'heure ne sert qu'à les trier, une pause en magasin ne pèse rien ;
+   - pour chaque rayon ayant au moins un achat : rang **médian** de ses achats (robuste aux allers-retours : un oubli repris à la fin ne fait pas passer le rayon en dernier) ;
+   - les rayons visités se **répartissent entre leurs propres positions**, dans l'ordre de ces médianes : les rayons non visités et « Non classé » ne bougent pas ;
+   - même principe pour les articles, rayon par rayon (`Store.articleOrder`) ; un article sans ordre appris prend une place après les articles connus.
+
+   Choix du 12 novembre 2026, à la place d'une moyenne `0,6 × ancienne + 0,4 × r` (rang normalisé sur [0, 1]) : celle-ci tirait les rayons visités vers les extrémités, devant ou derrière des rayons non visités, alors que la session ne dit rien de leur place relative. L'ordre observé est donc repris tel quel ; un parcours inhabituel se corrige à la course suivante, ou en verrouillant l'ordre.
+
 3. Marquer les lignes cochées `closedInSessionId = session.id` ; session `closed`.
 
 **Réouverture** (`reopenSession`) : restaurer les positions depuis `learningSnapshot`, retirer `closedInSessionId` des lignes de la session (elles réapparaissent cochées), session `open`. La clôture suivante recalcule tout : **aucun double comptage**.

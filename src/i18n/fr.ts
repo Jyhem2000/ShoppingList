@@ -137,6 +137,83 @@ export const fr = {
       create: "Créer le magasin",
       later: "Les rayons se modifient dans une prochaine version.",
     },
+    unavailableLastTime: "Introuvable la dernière fois",
+  },
+  shopping: {
+    start: "C'est parti",
+    resume: "Reprendre les courses",
+    reopen: (time: string) => `Rouvrir les courses (${time})`,
+    startTitle: "Faire les courses",
+    startText: "Dans quel magasin ?",
+    go: "C'est parti",
+    quit: "Quitter le mode courses (les courses restent ouvertes)",
+    progress: (checked: number, total: number) => `${checked} / ${total}`,
+    progressLabel: (checked: number, total: number) =>
+      `${checked} articles dans le caddie sur ${total}`,
+    finish: "Terminer",
+    finishLong: "Terminer les courses",
+    finishTitle: "Terminer les courses ?",
+    finishText: (count: number) =>
+      count > 0
+        ? `${count === 1 ? "Il reste 1 article à prendre : il restera" : `Il reste ${count} articles à prendre : ils resteront`} dans la liste.`
+        : "Les articles cochés quittent la liste.",
+    finishConfirm: "Terminer",
+    cancel: "Continuer les courses",
+    pickUp: "À récupérer",
+    aislePassed: (aisle: string) =>
+      `Rayon ${aisle} déjà passé : il t'attend dans « À récupérer ».`,
+    current: "rayon en cours",
+    swipeHint:
+      "Glisser vers la gauche : introuvable · appui long : changer de rayon",
+    unavailable: "Introuvable",
+    unavailableToast: (name: string) => `${name} : introuvable`,
+    screenOnFailed:
+      "L'écran pourra se mettre en veille : ce téléphone ne permet pas de le garder allumé.",
+    allDone: "Tout est dans le caddie !",
+    added: {
+      title: (name: string) => `${name} ajouté`,
+      inAisle: (aisle: string) => `Rangé dans le rayon ${aisle}.`,
+      alreadyTaken: "Je l'ai déjà dans le caddie",
+      otherAisle: "Il est dans un autre rayon…",
+      ok: "OK, à prendre",
+    },
+    move: {
+      title: (name: string) => `Déplacer ${name}`,
+      text: "Vers quel rayon de ce magasin ?",
+      withCategory: "Où l'on trouve sa catégorie",
+      others: "Autres rayons",
+      here: "rayon actuel",
+      scopeTitle: (aisle: string) => `Vers ${aisle}`,
+      scopeText: "Pour les prochaines courses dans ce magasin :",
+      onlyArticle: (name: string) => `Seulement ${name}`,
+      wholeCategory: (category: string) => `Toute la catégorie ${category}`,
+      done: (name: string, aisle: string) => `${name} → ${aisle}`,
+    },
+    when: { today: "aujourd'hui", yesterday: "hier" },
+    stale: {
+      title: (when: string) => `Tu as terminé tes courses de ${when} ?`,
+      text: "Elles sont restées ouvertes.",
+      finish: "Terminer",
+      resume: "Continuer",
+    },
+    recap: {
+      title: "Courses terminées",
+      bought: (count: number) =>
+        count > 1
+          ? `${count} articles achetés`
+          : count === 1
+            ? "1 article acheté"
+            : "Aucun article acheté",
+      unavailable: (count: number) =>
+        count > 1
+          ? `${count} introuvables, restés dans la liste`
+          : "1 introuvable, resté dans la liste",
+      duration: (duration: string) => `Durée : ${duration}`,
+      learned: "Ordre des rayons mis à jour pour ce magasin.",
+      back: "Retour à la liste",
+      reopen: "Rouvrir les courses",
+      missing: "Ces courses ne sont plus disponibles.",
+    },
   },
   catalog: {
     title: "Catalogue",

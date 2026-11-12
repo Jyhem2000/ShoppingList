@@ -79,13 +79,15 @@ Sur Android, le geste ou bouton **Retour** du système ferme d'abord le panneau 
 │ ● Épicerie salée                 │
 │  …                               │
 ├──────────────────────────────────┤
-│ 🔍 Ajouter…  [✓ Terminer les courses] │
+│ 🔍 Ajouter…          [✓ Terminer]  │
 └──────────────────────────────────┘
 ```
 
 - Tap = cocher · glisser = introuvable · appui long = déplacer de rayon.
 - `✕` = quitter le mode courses **sans clôturer** (la session reste ouverte, on peut y revenir).
-- **« Terminer les courses »** (bouton or) = clôture (C6), après confirmation.
+- **« Terminer les courses »** (bouton or « Terminer », à droite de la barre d'ajout) = clôture (C6), après confirmation.
+- Article ajouté pendant les courses : panneau « OK, à prendre » · « Je l'ai déjà dans le caddie » · « Il est dans un autre rayon… » (C4).
+- Sur la liste : **« C'est parti »** sous les lignes (puis choix du magasin) ; **« Reprendre les courses »** si une session est restée ouverte.
 
 ### 2.4 Récapitulatif de fin de courses
 
