@@ -26,6 +26,26 @@ const prefixIds = (body: string, name: string) =>
     .replace(/url\(#([^)]+)\)/g, `url(#${name}-$1)`)
     .replace(/href="#([^"]+)"/g, `href="#${name}-$1"`);
 
+/**
+ * Le filet sombre qui détache deux objets (docs/05 § 4) est dessiné dans la couleur du
+ * fond des cartes, #18181d en thème sombre : il suit le thème (--surface), sinon il
+ * ferait un trait noir sur fond blanc.
+ */
+const GAP = "#18181d";
+const themeGap = (body: string) =>
+  body.replace(/<[^>]+>/g, (tag) => {
+    if (!tag.includes(GAP)) return tag;
+    const styles: string[] = [];
+    const cleaned = tag.replace(
+      /\s(fill|stroke)="#18181d"/g,
+      (_, prop: string) => {
+        styles.push(`${prop}:var(--surface)`);
+        return "";
+      },
+    );
+    return cleaned.replace(/^<(\w+)/, `<$1 style="${styles.join(";")}"`);
+  });
+
 const pack: IconPack = {};
 
 for (const [path, svg] of Object.entries(drawings)) {
@@ -42,7 +62,7 @@ for (const [path, svg] of Object.entries(drawings)) {
     ].flatMap(words),
   );
   pack[name] = {
-    b: prefixIds(body.replace(/>\s+</g, "><").trim(), name),
+    b: themeGap(prefixIds(body.replace(/>\s+</g, "><").trim(), name)),
     l: article.name.fr.toLocaleLowerCase("fr"),
     k: [...keywords].sort((a, b) => a.localeCompare(b, "fr")),
     c: article.category,

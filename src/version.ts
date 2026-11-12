@@ -31,3 +31,14 @@ export function formatVersion(
   const channel = fr.about.channels[info.channel] ?? info.channel;
   return `${info.version} · ${channel} · ${info.commit}`;
 }
+
+/** Compare deux numéros de version (`0.10.0` vient après `0.9.0`). */
+export function compareVersions(a: string, b: string): number {
+  const pa = a.split(".").map(Number);
+  const pb = b.split(".").map(Number);
+  for (let i = 0; i < Math.max(pa.length, pb.length); i++) {
+    const diff = (pa[i] ?? 0) - (pb[i] ?? 0);
+    if (diff) return diff;
+  }
+  return 0;
+}

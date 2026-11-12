@@ -2,7 +2,9 @@
 
 PWA de liste de courses, local-first (aucun serveur, aucun compte), triée par rayon selon le magasin. Optimisée pour Chrome : iPhone (dernière version d'iOS, cible principale) et Android récent (cible secondaire).
 
-## Phase actuelle : développement de la v1.0 — phase 1 (socle)
+## Phase actuelle : développement de la v1.0 — phase 6 (tout modifiable) en préparation
+
+Version publiée : `0.5.0` (mode courses publié avant l'essai en magasin, à la demande de l'utilisateur ; correctifs en `0.5.x` ou dans la `0.6.0`). La phase 6 commence par un plan à valider.
 
 La documentation est **validée** (8 novembre 2026). Suivre le plan de `docs/09-plan-de-developpement.md` phase par phase, en travaillant directement sur `dev` (pas de branche de travail ni de pull request). Pour les phases 3 à 6 et 8, proposer un plan avant d'implémenter. Ne jamais commencer une phase suivante sans validation de la précédente.
 
@@ -14,7 +16,7 @@ La documentation est **validée** (8 novembre 2026). Suivre le plan de `docs/09-
 
 - Sur iPhone, tout tourne dans **WebKit** (Chrome iPhone comme app installée). Fonctionnalités **essentielles** : doivent marcher sur iPhone ET Android. Fonctionnalités **de confort** (bouton « Installer » d'Android…) : au moins un des deux, avec détection préalable et **aucune erreur** là où elles manquent. Rien qui ne marche nulle part.
 - **100 % gratuit** : aucune API payante, aucune clé d'API payante, aucun service tiers payant.
-- **Thème sombre unique** (pas de thème clair ni de sélecteur de thème).
+- **Thème sombre par défaut, thème clair au choix** (Réglages → Thème : automatique, sombre, clair ; docs/05 § 2). Tout écran doit rester lisible dans les deux : uniquement les tokens, jamais de couleur en dur.
 - Interface **en français** ; tous les textes dans `src/i18n/fr.ts`.
 - Tout est modifiable par l'utilisateur (articles, catégories, rayons, magasins, unités, listes, recettes).
 
@@ -48,7 +50,7 @@ Vite · React 19 · TypeScript strict · Tailwind v4 · shadcn/ui · React Route
 - Messages en français, format Conventional Commits (`feat:`, `fix:`, `docs:`, `test:`, `chore:`).
 - On travaille **directement sur `dev`** : commits poussés sur `dev` (préproduction, déployée automatiquement), sans branche de travail ni pull request.
 - **Jamais de travail ni de push direct sur `main`** : elle n'avance que par `npm run release` (mise en production, manuelle).
-- Publication d'une version : `npm run release` depuis `dev` (calcule la version depuis les commits, vérifie que ses nouveautés sont écrites dans `src/i18n/fr.ts` → `releaseNotes`, lance tous les contrôles, tague, avance `main` ; Cloudflare déploie). Fin de chaque phase de la v1.0 → 0.1.0 … 0.7.0 ; puis `0.9.0` (installation définitive), correctifs `0.9.x`, `1.0.0` après validation (docs/07 § 9). **Ne jamais publier sans demande explicite.**
+- Publication d'une version : `npm run release` depuis `dev` (calcule la version depuis les commits, vérifie que ses nouveautés sont écrites dans `src/i18n/fr.ts` → `releaseNotes`, lance tous les contrôles, tague, avance `main` ; Cloudflare déploie). Numérotation : **`0.N.0` = phase N validée** (peut contenir en avant-première la phase suivante), correctifs `0.N.x` ; puis `0.9.0` (installation définitive), correctifs `0.9.x`, `1.0.0` après validation (docs/07 § 9, tableau des versions publiées dans docs/09). **Ne jamais publier sans demande explicite.**
 
 ## Outils locaux de l'agent (non versionnés)
 

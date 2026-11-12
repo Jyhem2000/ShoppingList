@@ -1,4 +1,3 @@
-import { Search } from "lucide-react";
 import { type ReactNode, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import { catalogCategoryPath } from "@/app/routes";
@@ -10,6 +9,7 @@ import { PageHeader } from "@/ui/Page";
 import { paletteColor } from "@/features/list/format";
 import { useListData } from "@/features/list/useListData";
 import { ArticleGrid } from "./ArticleGrid";
+import { CatalogSearch } from "./CatalogSearch";
 
 const t = fr.catalog;
 const MAX_USUAL = 9;
@@ -27,21 +27,24 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
 }
 
 /**
- * Catalogue (docs/03 A5, A6) : recherche, favoris et habituels en tête, puis la
- * grille des catégories. Les habituels viennent de l'historique des courses.
+ * Catalogue (docs/03 A5, A6) : recherche avec suggestions, favoris et habituels en
+ * tête, puis la grille des catégories. Les habituels viennent de l'historique des courses.
  */
 export function CatalogPage() {
   const data = useListData();
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
+  // « Voir les N résultats » : la grille complète de la recherche.
+  const [showAll, setShowAll] = useState(false);
 
   const view = useMemo(() => {
     if (!data) return undefined;
-    const results = query.trim()
-      ? searchArticles(query, data.articles, data.purchaseCounts).map(
-          (r) => r.article,
-        )
-      : [];
+    const results =
+      showAll && query.trim()
+        ? searchArticles(query, data.articles, data.purchaseCounts).map(
+            (r) => r.article,
+          )
+        : [];
     const favorites = data.articles
       .filter((a) => a.favorite)
       .sort((a, b) => collator.compare(a.name, b.name));
@@ -68,31 +71,29 @@ export function CatalogPage() {
           collator.compare(a.name, b.name),
       );
     return { results, favorites, usual, categories, counts };
-  }, [data, query]);
+  }, [data, query, showAll]);
 
   return (
     <>
       <PageHeader title={t.title} />
-      <div className="px-4 pb-2">
-        <label className="flex h-12 items-center gap-2 rounded-full border border-border bg-raised px-4">
-          <Search className="size-5 shrink-0 text-secondary" aria-hidden />
-          <input
-            type="search"
-            value={query}
-            onChange={(event) => {
-              setQuery(event.target.value);
-            }}
-            placeholder={t.search}
-            aria-label={t.search}
-            autoComplete="off"
-            className="min-w-0 flex-1 bg-transparent text-base outline-none placeholder:text-muted-foreground"
-          />
-        </label>
-      </div>
+      {data && (
+        <CatalogSearch
+          data={data}
+          query={query}
+          onQueryChange={(text) => {
+            setQuery(text);
+            setShowAll(false);
+          }}
+          showAll={showAll}
+          onShowAll={() => {
+            setShowAll(true);
+          }}
+        />
+      )}
 
       {data && view && (
         <>
-          {query.trim() ? (
+          {showAll && query.trim() ? (
             <ArticleGrid articles={view.results} data={data} />
           ) : (
             <>

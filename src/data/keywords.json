@@ -62,15 +62,43 @@
       "mayonnaise",
       "moutarde",
       "pesto",
-      "vinaigrette",
-      "epice",
-      "cumin",
-      "curry",
-      "paprika"
+      "vinaigrette"
     ],
     "category": "sauces-condiments",
     "unit": "pot",
     "icon": "sauce-tomate"
+  },
+  {
+    "match": [
+      "epice",
+      "cumin",
+      "curry",
+      "paprika",
+      "cannelle",
+      "muscade",
+      "piment",
+      "curcuma"
+    ],
+    "category": "epices",
+    "unit": "pot",
+    "icon": "epices"
+  },
+  {
+    "match": [
+      "wok",
+      "nem",
+      "sushi",
+      "wasabi",
+      "tortilla",
+      "taco",
+      "fajita",
+      "nouille",
+      "ramen",
+      "soja",
+      "harissa"
+    ],
+    "category": "cuisine-du-monde",
+    "unit": "piece"
   },
   {
     "match": ["huile", "vinaigre"],

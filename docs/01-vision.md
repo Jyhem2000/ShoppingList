@@ -23,7 +23,7 @@ Au supermarché, on arrive au rayon frais et on se rend compte qu'on a oublié l
 3. **Rapide avant tout.** Ajouter un article connu en 2 secondes au plus. Jamais de popup bloquante sans raison.
 4. **L'app apprend, l'utilisateur ne configure pas.** L'ordre des rayons et les articles habituels se déduisent de l'usage, mais **tout reste modifiable** : articles, catégories, rayons, magasins, unités, listes, recettes.
 5. **Pensée pour le magasin.** Utilisable d'une main en marchant.
-6. **Belle et vivante.** Thème sombre unique, violet pâle et or, icônes colorées, animations douces, petits sons.
+6. **Belle et vivante.** Thème sombre (par défaut) ou clair, violet et or, icônes colorées, animations douces, petits sons.
 7. **Données portables.** Export et import complets à tout moment.
 
 ## Plateformes cibles
@@ -52,5 +52,4 @@ Détail des fonctionnalités du navigateur et de leur support : [07 § 3](07-arc
 - Comptes utilisateurs, synchronisation temps réel, serveur.
 - Photos d'articles.
 - Gestion de stock du frigo / placards.
-- Thème clair.
 - Multilingue : l'app est en français. Les textes et le catalogue sont toutefois organisés pour qu'une version anglaise reste possible sans migration (idée I3).

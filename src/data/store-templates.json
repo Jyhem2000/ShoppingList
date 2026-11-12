@@ -181,6 +181,10 @@
             "primary": true
           },
           {
+            "category": "epices",
+            "primary": true
+          },
+          {
             "category": "huiles-vinaigres",
             "primary": true
           }
@@ -499,6 +503,10 @@
             "primary": true
           },
           {
+            "category": "epices",
+            "primary": true
+          },
+          {
             "category": "huiles-vinaigres",
             "primary": true
           },
@@ -729,6 +737,10 @@
           },
           {
             "category": "sauces-condiments",
+            "primary": true
+          },
+          {
+            "category": "epices",
             "primary": true
           },
           {

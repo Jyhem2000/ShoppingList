@@ -98,6 +98,21 @@ test("réglage des sons : tous d'un coup ou un par un, mémorisé", async ({
   await expect(page.getByText("5 sons sur 6")).toBeVisible();
 });
 
+test("thème : clair ou sombre au choix, mémorisé, sans attendre le chargement", async ({
+  page,
+}) => {
+  await enterApp(page);
+  await page.getByRole("link", { name: "Réglages" }).click();
+  await page.getByRole("radio", { name: "Clair" }).click();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+  await page.reload();
+  // Posé par index.html avant l'affichage de l'app.
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+  await expect(page.getByRole("radio", { name: "Clair" })).toBeChecked();
+  await page.getByRole("radio", { name: "Sombre" }).click();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+});
+
 test("l'app s'ouvre hors ligne une fois chargée", async ({
   page,
   context,

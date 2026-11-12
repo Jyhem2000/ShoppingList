@@ -137,11 +137,20 @@
   {
     "key": "sauces-condiments",
     "name": {
-      "fr": "Sauces, Condiments & Épices"
+      "fr": "Sauces & Condiments"
     },
     "unit": "pot",
     "color": "ambre",
     "icon": "amphora"
+  },
+  {
+    "key": "epices",
+    "name": {
+      "fr": "Sel, Poivre & Épices"
+    },
+    "unit": "pot",
+    "color": "terre",
+    "icon": "flame"
   },
   {
     "key": "huiles-vinaigres",
@@ -283,7 +292,7 @@
     "name": {
       "fr": "Papier toilette & Mouchoirs"
     },
-    "unit": "rouleau",
+    "unit": "piece",
     "color": "ciel",
     "icon": "toilet"
   },
@@ -299,7 +308,7 @@
   {
     "key": "cuisine-maison",
     "name": {
-      "fr": "Cuisine & Maison (sacs, alu, piles…)"
+      "fr": "Cuisine & Maison"
     },
     "unit": "piece",
     "color": "ardoise",

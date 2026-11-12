@@ -47,7 +47,7 @@ export function LineSheet({
   const [quantityText, setQuantityText] = useState(formatNumber(item.quantity));
   const [note, setNote] = useState(item.note ?? "");
   const [newType, setNewType] = useState("");
-  const usualUnits = useUsualUnits(article, data);
+  const usualUnits = useUsualUnits(article, data, item.id);
   if (!article || !unit) return null;
 
   const step = unit.step > 0 ? unit.step : 1;
@@ -85,7 +85,7 @@ export function LineSheet({
       }}
       title={article.name}
     >
-      <div className="flex max-h-[65dvh] flex-col gap-5 overflow-y-auto pb-1">
+      <div className="flex flex-col gap-5 pb-1">
         <div className="flex gap-3">
           <Field label={t.quantity} className="flex-1">
             <div className="flex items-center gap-2">

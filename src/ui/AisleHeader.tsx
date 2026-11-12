@@ -1,4 +1,5 @@
 import { Check, ChevronDown } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
 import type { ReactNode } from "react";
 import { GroupIcon } from "@/ui/GroupIcon";
 import { palette, type PaletteColor } from "@/ui/palette";
@@ -8,7 +9,8 @@ import { cn } from "@/ui/utils";
  * Bloc d'un rayon (docs/05 § 5.2) : la couleur du rayon forme la bordure gauche de
  * tout le bloc ; icône Lucide du rayon dans sa couleur ; l'en-tête teinté (icône · libellé · compteur, repliable) est plus
  * grand que les articles, indentés en dessous. `done` : rayon terminé en mode courses ;
- * `current` : rayon en cours (mis en évidence).
+ * `current` : rayon en cours (mis en évidence). `outlined` : liste hors mode courses ; en
+ * thème clair, le bloc n'a pas de fond, seulement une bordure fine de sa couleur.
  */
 export function AisleSection({
   label,
@@ -18,6 +20,7 @@ export function AisleSection({
   expanded,
   done = false,
   current = false,
+  outlined = false,
   currentLabel,
   onToggle,
   children,
@@ -29,6 +32,7 @@ export function AisleSection({
   expanded: boolean;
   done?: boolean;
   current?: boolean;
+  outlined?: boolean;
   /** Mention lue par les lecteurs d'écran sur le rayon en cours. */
   currentLabel?: string;
   onToggle: () => void;
@@ -44,6 +48,8 @@ export function AisleSection({
         "overflow-hidden rounded-2xl border-l-4 bg-surface transition-shadow",
         palette[color].border,
         current && "ring-2 ring-primary",
+        outlined &&
+          "light:border light:border-l-4 light:bg-transparent light:[--row-bg:var(--bg)]",
       )}
     >
       <button
@@ -78,12 +84,26 @@ export function AisleSection({
         <ChevronDown
           aria-hidden
           className={cn(
-            "size-5 shrink-0 text-muted-foreground transition-transform",
+            "size-5 shrink-0 text-muted-foreground transition-transform duration-200 motion-reduce:transition-none",
             !expanded && "-rotate-90",
           )}
         />
       </button>
-      {expanded && <div className="divide-y divide-border/50">{children}</div>}
+      {/* Dépliage animé (docs/05 § 6), selon le réglage « Animations ». */}
+      <AnimatePresence initial={false}>
+        {expanded && (
+          <motion.div
+            key="lines"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.22, ease: [0.2, 0.9, 0.3, 1] }}
+            className="overflow-hidden"
+          >
+            <div className="divide-y divide-border/50">{children}</div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

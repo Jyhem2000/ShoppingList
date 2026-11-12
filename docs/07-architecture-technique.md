@@ -244,7 +244,7 @@ db.version(1).stores({
 });
 ```
 
-- **Préférences de l'appareil** (sons, son par son, écran allumé) : hors de `Settings`, dans `localStorage` (`src/app/preferences.ts`). Elles dépendent du téléphone, ne sont pas exportées et ne sont pas écrasées par l'import d'une sauvegarde venant d'un autre appareil.
+- **Préférences de l'appareil** (sons, son par son, écran allumé, thème) : hors de `Settings`, dans `localStorage` (`src/app/preferences.ts`). Elles dépendent du téléphone, ne sont pas exportées et ne sont pas écrasées par l'import d'une sauvegarde venant d'un autre appareil.
 - Unicité « un article par liste » vérifiée par la couche d'accès aux données (les lignes archivées `closedInSessionId` sont exclues).
 - **La version du schéma de données est indépendante de la version de l'app** : elle n'augmente que si la structure change. Toute évolution = nouvelle `version(n)` + fonction `upgrade` + test de migration. Les migrations s'exécutent automatiquement au premier lancement de la nouvelle version.
 
@@ -269,7 +269,8 @@ db.version(1).stores({
 
 ### Manifest et iOS
 
-- Manifest : nom, icônes (dont `apple-touch-icon` 180×180 et icône adaptative Android), `display: standalone`, couleurs `#0f0f12`.
+- Thème (H11) : `src/app/theme.ts` pose `<html data-theme="dark|light">` et la couleur de la barre d'état ; un petit script dans `index.html` le fait avant l'affichage, depuis la préférence enregistrée. Sur iPhone, le style de la barre d'état (`apple-mobile-web-app-status-bar-style`) n'est lu qu'au lancement : texte blanc en sombre, noir en clair.
+- Manifest : nom, icônes (dont `apple-touch-icon` 180×180 et icône adaptative Android), `display: standalone`, couleurs `#0b0b0e`.
 - `<meta name="viewport" content="…, viewport-fit=cover">` + gestion des `safe-area-inset-*`.
 - Précache de toute l'app : JS, CSS, police, pack d'icônes, sons.
 
@@ -425,17 +426,21 @@ Il n'y a pas d'autre branche : pas de branche de travail ni de pull request. Seu
 
 ### Nouveautés
 
-L'historique git sert aux développeurs ; ses messages sont trop techniques pour l'utilisateur. Les **nouveautés** de chaque version sont donc écrites pour l'utilisateur dans `src/i18n/fr.ts` (`releaseNotes`), affichées dans Réglages → À propos → Nouveautés, et reprises par l'écran « Quoi de neuf » après une mise à jour (H5). `npm run release` refuse de publier une version dont les nouveautés ne sont pas écrites.
+L'historique git sert aux développeurs ; ses messages sont trop techniques pour l'utilisateur. Les **nouveautés** de chaque version sont donc écrites pour l'utilisateur dans `src/i18n/fr.ts` (`releaseNotes`), affichées dans Réglages → À propos → Nouveautés, et reprises par l'écran « Quoi de neuf » après une mise à jour (H5). `npm run release` refuse de publier une version dont les nouveautés ne sont pas écrites. On peut les écrire à l'avance : l'écran n'affiche que les versions égales ou antérieures à celle de l'app.
 
 ### Cycle des versions
 
-| Moment                                        | Version                                                                                                                                                                                   | Où l'installer                                                               |
-| --------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| Fin de chaque phase de la v1.0 (phases 1 à 7) | `0.1.0` … `0.7.0`, publiées par `npm run release`                                                                                                                                         | Préproduction pour les essais (la production existe mais ne sert pas encore) |
-| Fin de la phase 7                             | **`0.9.0`** — candidate à la v1.0 (`npm run release -- 0.9.0`)                                                                                                                            | **Production** : installation définitive sur les téléphones                  |
-| Usage réel (2-3 semaines)                     | `0.9.1`, `0.9.2`… correctifs                                                                                                                                                              | Production                                                                   |
-| Validation de la 0.9                          | **`1.0.0`** — même code (`npm run release -- 1.0.0`)                                                                                                                                      | Production (les données restent en place)                                    |
-| Versions suivantes                            | Développement sur `dev`, testé en préproduction avec une **copie des vraies données** (export de sauvegarde de la production → import en préproduction), puis `1.1.0`, correctifs `1.1.x` | Production                                                                   |
+| Moment                                        | Version                                                                                                                                                                                   | Où l'installer                                                     |
+| --------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| Validation de chaque phase de la v1.0 (1 à 7) | `0.N.0` = phase N validée (`0.4.0` … `0.7.0`), publiées par `npm run release` ; correctifs entre deux : `0.N.1`, `0.N.2`…                                                                 | Production, pour les essais (pas encore d'installation définitive) |
+| Fin de la phase 7                             | **`0.9.0`** — candidate à la v1.0 (`npm run release -- 0.9.0`)                                                                                                                            | **Production** : installation définitive sur les téléphones        |
+| Usage réel (2-3 semaines)                     | `0.9.1`, `0.9.2`… correctifs                                                                                                                                                              | Production                                                         |
+| Validation de la 0.9                          | **`1.0.0`** — même code (`npm run release -- 1.0.0`)                                                                                                                                      | Production (les données restent en place)                          |
+| Versions suivantes                            | Développement sur `dev`, testé en préproduction avec une **copie des vraies données** (export de sauvegarde de la production → import en préproduction), puis `1.1.0`, correctifs `1.1.x` | Production                                                         |
+
+**Règle de numérotation pendant la v1.0** : la version `0.N.0` sort quand la **phase N est validée** (critères de 09 et checklist téléphone). Elle peut contenir en avant-première le travail de la phase suivante, encore en essai : la `0.4.0` (phases 1 à 4 validées) contient déjà le mode courses de la phase 5, qui deviendra la `0.5.0` après l'essai en magasin. Le calcul automatique donne le bon numéro tant que la version contient un `feat:` ; sinon, l'imposer (`npm run release -- 0.5.0`).
+
+Versions publiées : voir le tableau de [09](09-plan-de-developpement.md#versions-publiées). L'historique git a été repris à zéro le 12 novembre 2026 (un seul commit pour les phases 1 à 5) : les anciennes `0.1.0` et `0.3.0` n'existent plus, la première version de l'historique actuel est la `0.4.0`.
 
 Pourquoi une 0.9 en production plutôt qu'en préproduction : la validation en usage réel demande une version **figée** dont on **garde les données** ; la préproduction change à chaque fusion sur `dev` et a ses propres données (§ 4).
 

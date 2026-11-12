@@ -2,9 +2,9 @@
 
 ## 1. Ambiance
 
-Un **thème sombre unique, franchement « dark mode »** : fond quasi noir et neutre (gris très foncé), et **deux couleurs** réservées aux éléments d'interface : le **violet** (couleur principale) et l'**or** (couleur secondaire) ; des touches de couleurs douces par rayon pour la variété, des icônes colorées, des coins arrondis généreux, des animations souples, de petits sons et des vibrations là où c'est possible.
+Un **thème sombre, franchement « dark mode »**, par défaut : fond quasi noir et neutre (gris très foncé), et **deux couleurs** réservées aux éléments d'interface : le **violet** (couleur principale) et l'**or** (couleur secondaire) ; des touches de couleurs douces par rayon pour la variété, des icônes colorées, des coins arrondis généreux, des animations souples, de petits sons et des vibrations là où c'est possible.
 
-Pas de thème clair, pas de sélecteur de thème.
+Un **thème clair** lui correspond, rôle pour rôle (même design system, mêmes noms de tokens) : fonds blancs et gris très clairs, violet profond, or. Choix dans Réglages → **Thème** (H11) : _Automatique_ (suit le téléphone), _Sombre_, _Clair_ ; décision du 12 novembre 2026, qui remplace le « thème sombre unique » du départ.
 
 ## 2. Couleurs
 
@@ -14,10 +14,10 @@ Définis une seule fois dans `src/styles/index.css` ; les composants n'utilisent
 
 | Rôle                   | Token                | Valeur    | Usage                                                                                                                                  |
 | ---------------------- | -------------------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| Fond 1                 | `--bg`               | `#0f0f12` | Fond de l'app (gris quasi noir, neutre)                                                                                                |
+| Fond 1                 | `--bg`               | `#0b0b0e` | Fond de l'app (gris quasi noir, neutre)                                                                                                |
 | Fond 2                 | `--surface`          | `#18181d` | Cartes, lignes, panneaux, barre d'onglets                                                                                              |
-| Fond 3                 | `--raised`           | `#232329` | Éléments surélevés, champs de saisie, appui sur une ligne                                                                              |
-| Séparateur             | `--border`           | `#2e2e36` | Bordures, séparateurs                                                                                                                  |
+| Fond 3                 | `--raised`           | `#2a2a32` | Éléments surélevés, champs de saisie, appui sur une ligne                                                                              |
+| Séparateur             | `--border`           | `#3a3a45` | Bordures, séparateurs                                                                                                                  |
 | Texte principal        | `--text`             | `#ededf0` | Libellés, contenu                                                                                                                      |
 | Texte secondaire       | `--text-muted`       | `#a3a3ad` | Descriptions, notes, titres de section                                                                                                 |
 | **Couleur principale** | `--primary`          | `#a37ef2` | **Violet** : tout ce qui s'actionne (boutons, interrupteurs, liens, focus) et les **titres d'écran**                                   |
@@ -25,11 +25,40 @@ Définis une seule fois dans `src/styles/index.css` ; les composants n'utilisent
 |                        | `--on-primary`       | `#140d22` | Texte sur fond violet                                                                                                                  |
 | **Couleur secondaire** | `--secondary`        | `#f5c451` | **Or** : les repères — icônes d'interface, onglet actif (icône, libellé et trait au-dessus), quantités, progression, numéro de version |
 |                        | `--secondary-strong` | `#e0a92e` | Or appuyé                                                                                                                              |
+|                        | `--secondary-fill`   | `#f5c451` | Or des **aplats** : bouton « Terminer », barre de progression, pastille de quantité, trait de l'onglet actif                           |
 |                        | `--on-secondary`     | `#1d1606` | Texte sur fond or                                                                                                                      |
 | Succès                 | `--success`          | `#2ec27e` | Vert franc : coche, rayon terminé, message de réussite                                                                                 |
 | Information            | `--info`             | `#3d9bff` | Bleu : message d'information (conversion automatique…)                                                                                 |
 | Attention              | `--warning`          | `#ff7b3a` | Orange : « À récupérer », catégories non rattachées                                                                                    |
 | Danger                 | `--danger`           | `#f2484f` | Rouge franc : suppression, message d'erreur                                                                                            |
+
+Écarts entre les fonds élargis le 12 novembre 2026 après essai sur iPhone (tout se confondait) : fond 1 plus sombre, fond 3 et séparateurs plus clairs. Le fond 2 ne bouge pas : c'est la couleur du filet sombre des icônes dessinées et du fond du logo.
+
+### Thème clair
+
+Mêmes tokens, redéfinis sous `:root[data-theme="light"]` dans `src/styles/index.css`. Violet **`#5B21B6`** et or **`#FBBF24`**, choisis le 12 novembre 2026. Fond de l'app **blanc**, cartes, lignes et panneaux **gris très clair**, éléments mis en avant (barre d'ajout, recherche du catalogue, toasts) en **or clair** bordés d'or (`--field-border`) ; les champs des fiches restent blancs, bordés de gris, pour ne pas alourdir les panneaux. Les cartes d'articles du catalogue n'ont pas de fond non plus, seulement une bordure fine de la couleur de leur catégorie. Sur fond blanc, l'or vif est trop pâle pour un petit texte ou une icône au trait : il sert aux **aplats** (`--secondary-fill` : bouton « Terminer », barre de progression, trait de l'onglet actif) et à la bordure des champs ; les **repères** (icônes, quantités, onglet actif) passent en **violet** (`--secondary` = violet principal). Retours d'essai du 12 novembre 2026 : l'ambre foncé essayé d'abord faisait « rouille ». En thème clair, les blocs de rayon de la liste (hors mode courses) et les cartes de catégorie du catalogue n'ont **pas de fond** : une bordure fine de leur couleur suffit.
+
+| Rôle                   | Token              | Valeur    |
+| ---------------------- | ------------------ | --------- |
+| Fond 1                 | `--bg`             | `#ffffff` |
+| Fond 2                 | `--surface`        | `#f7f7fa` |
+| Fond 3                 | `--raised`         | `#fef3c7` |
+| Séparateur             | `--border`         | `#dcdce4` |
+| Bordure des champs     | `--field-border`   | `#fbbf24` |
+| Texte principal        | `--text`           | `#16161b` |
+| Texte secondaire       | `--text-muted`     | `#5b5b67` |
+| **Couleur principale** | `--primary`        | `#5b21b6` |
+|                        | `--primary-strong` | `#4c1d95` |
+|                        | `--on-primary`     | `#ffffff` |
+| **Couleur secondaire** | `--secondary`      | `#5b21b6` |
+|                        | `--secondary-fill` | `#fbbf24` |
+|                        | `--on-secondary`   | `#1d1606` |
+| Succès                 | `--success`        | `#15803d` |
+| Information            | `--info`           | `#1d4ed8` |
+| Attention              | `--warning`        | `#c2410c` |
+| Danger                 | `--danger`         | `#dc2626` |
+
+La palette des rayons et catégories garde ses teintes, plus soutenues (`--pal-…`) pour rester lisible sur blanc. Le filet qui détache deux objets dans les icônes dessinées suit le thème (`--surface`, voir § 4). L'icône de l'app et le logo gardent leur fond sombre.
 
 Règles :
 
@@ -129,11 +158,11 @@ Carré arrondi, fond = couleur de la catégorie à ~15 %, 1 ou 2 lettres en gras
 
 1. **Ligne d'article** : **indentée** sous l'en-tête de son rayon · icône 28 px · libellé 16 px · types acceptés / note en `--text-muted` · quantité + unité en or (`--secondary`), alignée à droite · toute la ligne cliquable. Hauteur 44 px, 48 px en mode courses ; ligne cochée barrée, icône grisée avec une petite coche verte.
 2. **Bloc de rayon** : la couleur du rayon forme la **bordure gauche de tout le bloc** (en-tête et articles) ; en-tête au fond teinté de la couleur (~10 %) : icône 28 px · libellé 18 px · compteur · chevron ; repliable. Rayon terminé en mode courses : libellé vert et coche à la place du compteur. 16 px d'écart entre deux rayons.
-3. **Barre d'ajout** : fond `--raised`, en pilule, loupe or, bouton « + » violet, flottante au-dessus de la barre d'onglets ; saisie en 16 px (pas de zoom automatique sur iPhone).
+3. **Barre d'ajout** : fond `--raised`, en pilule, **bordure de 2 px** (`--field-border` : violet en sombre, or en clair) pour ressortir de l'interface, sans ombre, loupe or, bouton « + » violet, flottante au-dessus de la barre d'onglets ; saisie en 16 px (pas de zoom automatique sur iPhone). Même style pour la recherche du catalogue.
 4. **Carte du catalogue** : grande icône (56 px), libellé sur 2 lignes max, pastille de quantité or si dans la liste, entourée d'un fin liseré de la couleur de la carte pour rester lisible sur une icône jaune.
 5. **Boutons** : **deux styles seulement** — principal (fond violet `--primary`, texte `--on-primary`, hauteur ≥ 48 px en taille `lg`) pour l'action principale de l'écran, et secondaire (contour violet) pour les autres actions. Variantes : suppression (style principal en rouge), bouton fait d'une icône seule (▶) en or. **Appui bien visible** : le bouton rétrécit (95 %) et fonce pendant le toucher.
-6. **Panneaux glissants** : fond `--surface`, poignée en haut, coins supérieurs arrondis. Une fiche à consulter d'abord (ligne, quantité, création d'article) s'ouvre **sans focus sur un champ** : le clavier ne cache pas le reste.
-7. **Messages (toasts)** : en bas, au-dessus de la barre d'ajout, 5 secondes, un seul à la fois. Quatre tons, avec bordure gauche et icône de leur couleur : **réussite** (`--success` : « 3 lignes ajoutées »), **information** (`--info` : « Converti en 1,2 kg — Annuler »), **attention** (`--warning` : « Rayon Crèmerie déjà passé », phase 5), **erreur** (`--danger` : enregistrement impossible). Ton neutre pour un retrait annulable (« Pommes : retiré de la liste — Annuler »).
+6. **Panneaux glissants** : fond `--surface`, poignée en haut, coins supérieurs arrondis. En-tête fixe avec **✕ toujours visible** (même clavier ouvert) ; on ferme aussi en glissant la poignée vers le bas ou en touchant à côté. Panneau à étapes (déplacer un article) : bouton **←** pour revenir à l'étape précédente. Une fiche à consulter d'abord (ligne, quantité, création d'article) s'ouvre **sans focus sur un champ** : le clavier ne cache pas le reste.
+7. **Messages (toasts)** : **en haut**, au-dessus de tout (panneaux compris) et jamais sous le clavier ; ils descendent, puis remontent seuls après 3 secondes (5 avec « Annuler »). Un seul à la fois, fond `--raised`, **bordure de 2 px et icône de la couleur du ton** : **réussite** (`--success` : « 3 lignes ajoutées »), **information** (`--info` : « Converti en 1,2 kg — Annuler »), **attention** (`--warning`), **erreur** (`--danger` : enregistrement impossible). Ton neutre, en or avec une flèche de retour, pour une action annulable (« Pommes : retiré de la liste — Annuler », « Pâtes : introuvable — Annuler »).
 
 ## 6. Animations
 
@@ -141,7 +170,7 @@ Bibliothèque **Motion**.
 
 - Ajout : la ligne apparaît à sa place dans son rayon avec un léger rebond ; la ligne existante « pulse » si l'article était déjà là.
 - Cocher : trait barré animé, puis glissement vers le bas ou disparition.
-- Rayon terminé : repli + coche menthe.
+- Rayon terminé : repli + coche menthe. Tout rayon se déplie et se replie en douceur.
 - Panneaux : glissement depuis le bas avec ressort.
 - Réglage **Animations** (H1) : _Automatique_ (suit `prefers-reduced-motion` du système) · _Toujours_ (ignore le réglage système) · _Jamais_.
 

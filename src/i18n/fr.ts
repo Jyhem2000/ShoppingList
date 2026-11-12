@@ -7,6 +7,7 @@ export const fr = {
     storeName: "Mon supermarché",
     unsortedAisle: "Non classé",
   },
+  sheet: { close: "Fermer", back: "Retour" },
   tabs: {
     list: "Liste",
     catalog: "Catalogue",
@@ -180,13 +181,20 @@ export const fr = {
     move: {
       title: (name: string) => `Déplacer ${name}`,
       text: "Vers quel rayon de ce magasin ?",
+      hereSection: "Le rayon où tu es",
       withCategory: "Où l'on trouve sa catégorie",
       others: "Autres rayons",
-      here: "rayon actuel",
-      scopeTitle: (aisle: string) => `Vers ${aisle}`,
-      scopeText: "Pour les prochaines courses dans ce magasin :",
+      all: "Rayons du magasin",
+      current: "son rayon actuel",
+      scopeTitle: (aisle: string) => `Ranger dans ${aisle}`,
+      scopeText: (aisle: string) =>
+        `L'app s'en souviendra pour tes prochaines courses dans ce magasin. Qu'est-ce qui se trouve dans ${aisle} ?`,
       onlyArticle: (name: string) => `Seulement ${name}`,
+      onlyArticleHint: (category: string) =>
+        `Les autres articles de ${category} restent où ils sont.`,
       wholeCategory: (category: string) => `Toute la catégorie ${category}`,
+      wholeCategoryHint: (aisle: string) =>
+        `Tous ses articles iront dans ${aisle}.`,
       done: (name: string, aisle: string) => `${name} → ${aisle}`,
     },
     when: { today: "aujourd'hui", yesterday: "hier" },
@@ -222,6 +230,10 @@ export const fr = {
     usual: "Habituels",
     categories: "Catégories",
     noResult: "Aucun article trouvé.",
+    clear: "Effacer la recherche",
+    suggestions: "Articles trouvés",
+    added: (name: string) => `${name} ajouté à la liste`,
+    showAll: (count: number) => `Voir les ${count} résultats`,
     back: "Catalogue",
     quantityTitle: (name: string) => name,
     remove: "Retirer de la liste",
@@ -234,6 +246,12 @@ export const fr = {
     sectionFeatures: "Fonctionnalités",
     sectionApp: "Application",
     sectionList: "Liste",
+    sectionDisplay: "Affichage",
+    theme: {
+      title: "Thème",
+      hint: "Automatique : suit le réglage clair ou sombre du téléphone.",
+      options: { auto: "Automatique", dark: "Sombre", light: "Clair" },
+    },
     simplify: {
       title: "Simplifier les quantités",
       hint: "1200 g devient 1,2 kg, 150 cl devient 1,5 L.",
@@ -360,12 +378,24 @@ export const fr = {
     version: (version: string) => `Version ${version}`,
     versions: [
       {
+        version: "0.5.0",
+        date: "2026-11-12",
+        items: [
+          "Thème clair au choix : Réglages → Affichage → Thème (automatique, sombre ou clair).",
+          "Le catalogue propose les articles dès la première lettre tapée ; Entrée ajoute le premier.",
+          "Panneaux plus simples à fermer : bouton ✕ toujours visible, ou glisser vers le bas. Les messages s'affichent en haut, bien visibles.",
+          "Changer un article de rayon en magasin : le rayon où tu es est proposé en premier, chaque choix est expliqué, et on peut revenir en arrière.",
+          "Rayons qui se déplient en douceur, nouvelles lignes animées, fonds plus contrastés et barre d'ajout plus visible.",
+          "Nouveaux types courants (jambon, steaks hachés 5 %, fromage blanc, couches, croquettes…), l'article Gnocchis et la catégorie Sel, Poivre & Épices. Les unités proposées ne changent plus d'ordre.",
+        ],
+      },
+      {
         version: "0.4.0",
         date: "2026-11-12",
         items: [
           "La liste se remplit en un geste : « 2 baguettes, du beurre », le catalogue par catégorie, et elle se range toute seule par rayon, dans l'ordre de ton magasin.",
           "Plusieurs listes, plusieurs magasins, unités claires (500 g, 1 bouteille) et achats ponctuels qui n'encombrent pas le catalogue.",
-          "Mode courses : touche un article quand il est dans le caddie, glisse-le s'il est introuvable, appui long pour le changer de rayon ; l'écran reste allumé.",
+          "Mode courses, à l'essai : touche un article quand il est dans le caddie, glisse-le s'il est introuvable, appui long pour le changer de rayon ; l'écran reste allumé.",
           "Un article ajouté en route va dans « À récupérer » si son rayon est passé, ou se coche tout de suite si tu l'as déjà pris.",
           "À la fin des courses, l'app apprend l'ordre de ton parcours. Un oubli à la caisse ? « Rouvrir les courses ».",
           "Toutes les icônes d'articles sont dessinées pour l'app, et elle a un nouveau logo.",

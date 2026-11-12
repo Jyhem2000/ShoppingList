@@ -4,7 +4,7 @@ Chaque fonctionnalité a un identifiant (`A1`, `B2`…) réutilisé dans le plan
 
 | Version                  | Thème            | Fonctionnalités                        |
 | ------------------------ | ---------------- | -------------------------------------- |
-| **v1.0**                 | Cœur             | A1-A7 · B1-B6 · C1-C8 · G1-G5 · H1-H10 |
+| **v1.0**                 | Cœur             | A1-A7 · B1-B6 · C1-C8 · G1-G5 · H1-H11 |
 | **v1.1**                 | Recettes         | E1-E2                                  |
 | **v1.2**                 | Anti-oubli       | D1-D2                                  |
 | **v1.3**                 | Partage          | F1-F2 · A8                             |
@@ -67,7 +67,7 @@ Grille de catégories (icône + libellé) → grille d'articles (grande icône +
 
 - Tap sur un article absent de la liste = ajout avec la quantité par défaut.
 - Article déjà présent : pastille de quantité ; un tap ouvre le sélecteur de quantité (`−` / `+` / ✕) au lieu d'ajouter d'office.
-- Recherche en haut de la grille.
+- Recherche en haut du catalogue, avec **suggestions dès la première lettre** (nom, alias, sans tenir compte des accents ; la partie tapée en gras ; quantité si l'article est déjà dans la liste). Tap ou Entrée sur la première = même effet qu'un tap sur la carte ; au-delà de 8 suggestions, « Voir les N résultats » ouvre la grille complète.
 
 ### A6. Habituels et favoris — _v1.0_
 
@@ -305,6 +305,10 @@ Réglage **activé par défaut** : en mode courses, l'écran ne se met pas en ve
 Réglages → **Aide** : un mode d'emploi court (remplir la liste, faire les courses, terminer, rouvrir) et **ce que l'app règle toute seule** (ordre des rayons et des articles, rayon d'un article, habitudes ; apprentissage activé ou non par magasin).
 
 Conseil mis en avant : **suivre le même parcours** dans un magasin, au moins pendant les premières courses, le temps que l'app apprenne l'ordre ; cocher les articles **au moment où on les prend**, pas tous à la caisse. Ensuite, on peut désactiver l'apprentissage si l'ordre convient.
+
+### H11. Thème
+
+Réglages → **Thème** : _Automatique_ (par défaut : suit le réglage clair ou sombre du téléphone, et change avec lui), _Sombre_, _Clair_. Préférence de l'appareil (comme les sons). Le thème est posé avant le premier affichage : pas d'éclair de la mauvaise couleur au lancement.
 
 ## Idées non planifiées
 

@@ -11,7 +11,7 @@
     "group": "count",
     "step": 1,
     "aliases": {
-      "fr": ["pc", "pcs", "unité", "unités"]
+      "fr": ["pc", "pcs", "unité", "unités", "rouleau", "rouleaux"]
     }
   },
   {
@@ -224,19 +224,6 @@
     "aliases": {
       "fr": ["tr."]
     }
-  },
-  {
-    "key": "rouleau",
-    "name": {
-      "fr": {
-        "singular": "rouleau",
-        "plural": "rouleaux",
-        "abbr": "rouleau"
-      }
-    },
-    "dimension": "other",
-    "group": "container",
-    "step": 1
   },
   {
     "key": "c-a-s",

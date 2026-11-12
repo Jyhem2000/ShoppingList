@@ -112,7 +112,11 @@ describe("saisie naturelle : tableau de docs/03 § A2", () => {
 
   it("sans quantité : la quantité par défaut de l'article", () => {
     expect(enter("oeufs")).toEqual(["Œufs : × 6"]);
-    expect(enter("papier toilette")).toEqual(["Papier toilette : 12 rouleaux"]);
+    expect(enter("papier toilette")).toEqual(["Papier toilette : × 6"]);
+    // « rouleau » se lit comme « pièce » : l'unité n'existe plus, le mot reste compris.
+    expect(enter("12 rouleaux de papier toilette")).toEqual([
+      "Papier toilette : × 12",
+    ]);
   });
 
   it("trouve l'article par un alias ou un début de libellé", () => {
