@@ -136,7 +136,6 @@ export const fr = {
       template: "Rayons de départ",
       name: "Nom du magasin",
       create: "Créer le magasin",
-      later: "Les rayons se modifient dans une prochaine version.",
     },
     unavailableLastTime: "Introuvable la dernière fois",
   },
@@ -221,6 +220,231 @@ export const fr = {
       back: "Retour à la liste",
       reopen: "Rouvrir les courses",
       missing: "Ces courses ne sont plus disponibles.",
+    },
+  },
+  manage: {
+    section: "Mes données",
+    style: {
+      icon: "Icône",
+      color: "Couleur",
+      none: "Aucune",
+    },
+    confirmCancel: "Annuler",
+    categories: {
+      title: "Catégories",
+      hint: "Noms, icônes et couleurs, fusion",
+      count: (count: number) =>
+        count > 1 ? `${count} articles` : `${count} article`,
+      add: "Nouvelle catégorie",
+      newTitle: "Nouvelle catégorie",
+      name: "Nom",
+      create: "Créer la catégorie",
+      nameTaken: "Une autre catégorie porte déjà ce nom.",
+      system:
+        "Catégorie de l'app : elle ne se supprime pas. Ses articles vont dans « Non classé ».",
+      newHint:
+        "Pense à la ranger dans un rayon de chaque magasin (Magasins & rayons).",
+      merge: "Fusionner avec une autre catégorie",
+      mergeTitle: (name: string) => `Fusionner ${name} dans…`,
+      mergeText:
+        "La catégorie choisie reprend ses articles et ses rayons ; celle-ci disparaît.",
+      merged: (from: string, into: string) => `${from} fusionnée dans ${into}`,
+      delete: "Supprimer la catégorie",
+      deleteTitle: (name: string) => `Supprimer ${name} ?`,
+      deleteText: (count: number) =>
+        count === 0
+          ? "Elle ne contient aucun article."
+          : `${count > 1 ? `Ses ${count} articles iront` : "Son article ira"} dans la catégorie choisie.`,
+      moveTo: "Déplacer ses articles vers",
+      deleted: (name: string) => `Catégorie ${name} supprimée`,
+      done: "Terminé",
+    },
+    units: {
+      title: "Unités",
+      hint: "Poids, volumes, contenants et leurs abréviations",
+      add: "Nouvelle unité",
+      newTitle: "Nouvelle unité",
+      singular: "Nom (singulier)",
+      plural: "Pluriel",
+      abbr: "Abréviation",
+      abbrHint:
+        "Facultative. Sans abréviation : le nom en entier (« 2 bouteilles »).",
+      group: "Type",
+      factor: (base: string) => `Valeur en ${base}`,
+      factorHint: (base: string) =>
+        `Combien de ${base} dans une unité : 1000 pour un kilogramme. Permet de convertir.`,
+      base: { mass: "grammes", volume: "millilitres" },
+      step: "Pas des boutons − et +",
+      create: "Créer l'unité",
+      nameTaken: "Une autre unité porte déjà ce nom.",
+      save: "Enregistrer",
+      usage: (lines: number, articles: number) =>
+        `Utilisée par ${articles} article${articles > 1 ? "s" : ""} et ${lines} ligne${lines > 1 ? "s" : ""}.`,
+      delete: "Supprimer l'unité",
+      deleteTitle: (name: string) => `Supprimer « ${name} » ?`,
+      deleteText:
+        "Les articles et les lignes qui l'utilisent passent à l'unité choisie, la quantité convertie quand c'est possible.",
+      replaceWith: "Remplacer par",
+      deleted: (name: string) => `Unité « ${name} » supprimée`,
+    },
+    icon: {
+      title: "Icône",
+      search: "Chercher une icône",
+      none: "Aucune (initiales)",
+      noResult: "Aucune icône ne correspond.",
+      change: "Changer l'icône",
+    },
+    articles: {
+      title: "Articles",
+      hint: "Noms, catégories, unités, types, icônes",
+      search: "Chercher un article",
+      allCategories: "Toutes les catégories",
+      count: (count: number) =>
+        count > 1 ? `${count} articles` : `${count} article`,
+      add: "Nouvel article",
+      newTitle: "Nouvel article",
+      name: "Nom",
+      category: "Catégorie",
+      unit: "Unité",
+      create: "Créer l'article",
+      exists: (name: string) => `« ${name} » existe déjà`,
+      duplicates: "Doublons probables",
+      duplicatesHint:
+        "Même catégorie, même icône et noms proches. Fusionne-les, ou dis à l'app que ce sont bien deux articles.",
+      merge: "Fusionner",
+      notDuplicate: "Ce ne sont pas des doublons",
+      notDuplicateDone: "Compris, ils ne seront plus proposés",
+      noResult: "Aucun article trouvé.",
+    },
+    article: {
+      name: "Nom",
+      nameTaken: "Un autre article porte déjà ce nom.",
+      category: "Catégorie",
+      unit: "Unité par défaut",
+      quantity: "Quantité par défaut",
+      quantityHint: "Ajoutée quand tu n'en précises pas (vide : 1).",
+      types: "Types",
+      typesHint:
+        "Les variétés qu'on peut choisir sur une ligne : Gala, Golden…",
+      newType: "Nouveau type",
+      addType: "Ajouter le type",
+      removeType: (type: string) => `Retirer le type ${type}`,
+      aliases: "Autres noms",
+      aliasesHint:
+        "Pour le trouver aussi sous ces noms en tapant : sopalin, pdt, coca…",
+      newAlias: "Autre nom",
+      addAlias: "Ajouter le nom",
+      removeAlias: (alias: string) => `Retirer le nom ${alias}`,
+      favorite: "Favori",
+      favoriteHint: "Toujours en tête du catalogue.",
+      usage: (lines: number, lists: number) =>
+        lines === 0
+          ? "Dans aucune liste pour l'instant."
+          : lists > 1
+            ? `Dans ${lists} listes.`
+            : "Dans une liste.",
+      merge: "Fusionner avec un autre article",
+      mergeTitle: (name: string) => `Fusionner dans ${name}`,
+      mergeSearch: "Article à fusionner",
+      mergeText: (keep: string, other: string) =>
+        `${other} disparaît : ses lignes et son historique passent à ${keep}, et « ${other} » devient un autre nom de ${keep}.`,
+      mergeConfirm: "Fusionner",
+      merged: (other: string, keep: string) => `${other} fusionné dans ${keep}`,
+      keep: (name: string) => `Garder ${name}`,
+      delete: "Supprimer l'article",
+      deleteTitle: (name: string) => `Supprimer ${name} ?`,
+      deleteText: (lists: number) =>
+        lists === 0
+          ? "Il disparaît du catalogue. L'historique de tes courses reste."
+          : `Il disparaît du catalogue et ${lists > 1 ? `des ${lists} listes` : "de la liste"} où il se trouve. L'historique de tes courses reste.`,
+      deleted: (name: string) => `${name} supprimé`,
+      missing: "Cet article n'existe plus.",
+      edit: "Modifier l'article",
+    },
+    stores: {
+      title: "Magasins & rayons",
+      hint: "Rayons, leur ordre et les catégories de chacun",
+      aisles: (count: number) =>
+        count > 1 ? `${count} rayons` : `${count} rayon`,
+      add: "Nouveau magasin",
+      newTitle: "Nouveau magasin",
+      name: "Nom du magasin",
+      from: "Rayons de départ",
+      fromTemplate: "Un modèle",
+      fromCopy: "Une copie",
+      fromEmpty: "Aucun rayon",
+      emptyHint: "Un seul rayon « Non classé » : tu crées les tiens ensuite.",
+      copyOf: "Copier les rayons de",
+      create: "Créer le magasin",
+    },
+    store: {
+      name: "Nom",
+      learn: "Apprendre l'ordre de mes courses",
+      learnHint:
+        "À la fin des courses, les rayons parcourus prennent l'ordre de ton passage.",
+      aisles: "Rayons",
+      aislesHint:
+        "Glisse la poignée pour changer l'ordre ; touche un rayon pour ses catégories.",
+      reorder: (name: string) => `Déplacer ${name}`,
+      categories: (count: number) =>
+        count === 0
+          ? "Aucune catégorie"
+          : count > 1
+            ? `${count} catégories`
+            : "1 catégorie",
+      always: "toujours en dernier",
+      addAisle: "Nouveau rayon",
+      newAisle: "Nouveau rayon",
+      unattached: "Catégories non rattachées",
+      unattachedHint:
+        "Leurs articles vont dans « Non classé ». Touche-en une pour la ranger.",
+      place: (category: string) => `Ranger ${category}`,
+      placeHint: "Dans quel rayon ? Elle y sera principale.",
+      overrides: "Exceptions",
+      overridesHint:
+        "Articles rangés ailleurs que dans le rayon de leur catégorie, pour ce magasin.",
+      removeOverride: (name: string) => `Retirer l'exception de ${name}`,
+      overrideRemoved: (name: string) =>
+        `${name} retourne dans le rayon de sa catégorie`,
+      delete: "Supprimer le magasin",
+      deleteTitle: (name: string) => `Supprimer « ${name} » ?`,
+      deleteText:
+        "Ses rayons et ses exceptions seront supprimés. Tes listes et l'historique de tes courses restent.",
+      deleteLast: "C'est ton seul magasin : il ne peut pas être supprimé.",
+      deleteShopping:
+        "Des courses sont en cours dans ce magasin : termine-les d'abord.",
+      deleted: (name: string) => `« ${name} » supprimé`,
+      edit: "Modifier ce magasin",
+      missing: "Ce magasin n'existe plus.",
+    },
+    aisle: {
+      title: "Rayon",
+      name: "Nom du rayon",
+      categories: "Catégories",
+      categoriesHint:
+        "Pleine : rayon principal de la catégorie (ses articles y vont). Contour : elle s'y trouve aussi.",
+      primary: "principale",
+      secondary: "aussi ici",
+      makePrimary: (category: string) => `${category} : rendre principale`,
+      makeSecondary: (category: string) => `${category} : rendre secondaire`,
+      removeCategory: (category: string) => `Retirer ${category}`,
+      addCategory: "Ajouter une catégorie",
+      chooseCategory: "Choisir une catégorie",
+      unsortedHint:
+        "Reçoit les articles des catégories rattachées à aucun rayon. Il reste toujours en dernier.",
+      merge: "Fusionner avec un autre rayon",
+      mergeTitle: (name: string) => `Fusionner ${name} dans…`,
+      mergeText:
+        "Le rayon choisi reçoit toutes ses catégories ; celui-ci disparaît.",
+      merged: (from: string, into: string) => `${from} fusionné dans ${into}`,
+      delete: "Supprimer le rayon",
+      deleteTitle: (name: string) => `Supprimer ${name} ?`,
+      deleteText:
+        "Les catégories dont c'est le rayon principal iront dans « Non classé ».",
+      deletePromote:
+        "Ou dans un de leurs rayons secondaires quand elles en ont un",
+      deleted: (name: string) => `Rayon ${name} supprimé`,
+      done: "Terminé",
     },
   },
   catalog: {
@@ -377,6 +601,16 @@ export const fr = {
     title: "Nouveautés",
     version: (version: string) => `Version ${version}`,
     versions: [
+      {
+        version: "0.6.0",
+        date: "2026-11-12",
+        items: [
+          "Tout est modifiable : Réglages → Mes données → Articles, Catégories, Magasins & rayons, Unités.",
+          "Magasins : crée-les depuis un modèle, une copie ou à vide ; range les rayons au doigt, choisis leurs catégories, leur icône et leur couleur ; active ou coupe l'apprentissage de l'ordre.",
+          "Articles : nom, catégorie, unité et quantité par défaut, types, autres noms, icône et favori. L'app repère les doublons probables et propose de les fusionner.",
+          "Raccourcis : « Modifier l'article » depuis une ligne, appui long sur une carte du catalogue, « Modifier ce magasin » depuis le choix du magasin.",
+        ],
+      },
       {
         version: "0.5.0",
         date: "2026-11-12",

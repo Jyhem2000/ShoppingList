@@ -1,5 +1,6 @@
 import { palette, type PaletteColor } from "@/ui/palette";
 import { ProductIcon } from "@/ui/ProductIcon";
+import { useLongPress } from "@/ui/useLongPress";
 
 /**
  * Carte du catalogue (docs/05 § 5.4) : grande icône, libellé sur 2 lignes au plus,
@@ -12,18 +13,23 @@ export function CatalogCard({
   color,
   quantity,
   onClick,
+  onLongPress,
 }: {
   label: string;
   icon?: string;
   color?: PaletteColor;
   quantity?: string;
   onClick?: () => void;
+  /** Appui long : la fiche de l'article (docs/04 § 2.5). */
+  onLongPress?: () => void;
 }) {
+  const { handlers, wrapClick } = useLongPress(onLongPress);
   return (
     <button
       type="button"
-      onClick={onClick}
-      className={`relative flex min-h-32 flex-col items-center gap-2 rounded-2xl bg-surface px-2 pt-4 pb-3 text-center transition-colors active:bg-raised light:border light:bg-transparent ${palette[color ?? "gris"].border}`}
+      onClick={wrapClick(onClick)}
+      {...handlers}
+      className={`relative flex min-h-32 flex-col items-center gap-2 rounded-2xl bg-surface px-2 pt-4 pb-3 text-center transition-colors select-none [-webkit-touch-callout:none] active:bg-raised light:border light:bg-transparent ${palette[color ?? "gris"].border}`}
     >
       {quantity && (
         <span className="absolute top-1.5 right-1.5 z-10 rounded-full border-2 border-surface bg-secondary-fill px-2 py-0.5 text-xs font-extrabold text-on-secondary tabular-nums light:border-bg">

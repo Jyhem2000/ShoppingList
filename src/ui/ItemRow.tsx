@@ -1,12 +1,8 @@
 import { Check } from "lucide-react";
-import { useRef } from "react";
 import type { PaletteColor } from "@/ui/palette";
 import { ProductIcon } from "@/ui/ProductIcon";
+import { useLongPress } from "@/ui/useLongPress";
 import { cn } from "@/ui/utils";
-
-const LONG_PRESS_MS = 500;
-/** Au-delà de ce déplacement du doigt, ce n'est plus un appui long (défilement, glissement). */
-const LONG_PRESS_SLOP = 10;
 
 /**
  * Ligne d'article (docs/05 § 5.1), indentée sous l'en-tête de son rayon : icône ·
@@ -38,66 +34,14 @@ export function ItemRow({
   onClick?: () => void;
   onLongPress?: () => void;
 }) {
-  const press = useRef<{
-    timer: ReturnType<typeof setTimeout>;
-    x: number;
-    y: number;
-  } | null>(null);
-  const longPressed = useRef(false);
-  const cancel = () => {
-    if (press.current) clearTimeout(press.current.timer);
-    press.current = null;
-  };
+  const { handlers, wrapClick } = useLongPress(onLongPress);
   const muted = checked || unavailable;
 
   return (
     <button
       type="button"
-      onClick={() => {
-        if (longPressed.current) {
-          longPressed.current = false;
-          return;
-        }
-        onClick?.();
-      }}
-      onPointerDown={
-        onLongPress &&
-        ((event) => {
-          longPressed.current = false;
-          const { clientX: x, clientY: y } = event;
-          cancel();
-          press.current = {
-            x,
-            y,
-            timer: setTimeout(() => {
-              press.current = null;
-              longPressed.current = true;
-              onLongPress();
-            }, LONG_PRESS_MS),
-          };
-        })
-      }
-      onPointerMove={
-        onLongPress &&
-        ((event) => {
-          const start = press.current;
-          if (
-            start &&
-            Math.hypot(event.clientX - start.x, event.clientY - start.y) >
-              LONG_PRESS_SLOP
-          )
-            cancel();
-        })
-      }
-      onPointerUp={onLongPress && cancel}
-      onPointerCancel={onLongPress && cancel}
-      onPointerLeave={onLongPress && cancel}
-      onContextMenu={
-        onLongPress &&
-        ((event) => {
-          event.preventDefault();
-        })
-      }
+      onClick={wrapClick(onClick)}
+      {...handlers}
       aria-pressed={shopping ? checked : undefined}
       className={cn(
         "flex w-full items-center gap-3 py-2 pr-4 pl-9 text-left transition-colors select-none [-webkit-touch-callout:none] active:bg-raised",

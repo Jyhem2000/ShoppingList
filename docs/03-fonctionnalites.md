@@ -234,7 +234,7 @@ Trois manières, toutes aboutissant à l'écran d'aperçu décrit en [02 § 9](0
 
 ### G1. Articles
 
-Écran « Articles » : recherche, filtre par catégorie. Fiche article : libellé, catégorie, unité par défaut, types, alias, icône, favori. Créer, modifier, supprimer, **fusionner** deux articles. Section **« Doublons probables »** : paires d'articles avec la même icône et la même catégorie et des libellés proches ou un alias en commun ; « Fusionner » ou « Ce ne sont pas des doublons » (mémorisé).
+Écran « Articles » (Réglages → Mes données) : recherche, filtre par catégorie. Fiche article : libellé, catégorie, unité et quantité par défaut, types, alias (« autres noms »), icône, favori ; on y arrive aussi par « Modifier l'article » dans la fiche d'une ligne, ou par un appui long sur une carte du catalogue. Créer, modifier, supprimer, **fusionner** deux articles. Section **« Doublons probables »** : paires d'articles avec la même icône et la même catégorie et des libellés proches ou un alias en commun ; « Fusionner » ou « Ce ne sont pas des doublons » (mémorisé).
 
 ### G2. Catégories
 
@@ -242,9 +242,10 @@ Créer, renommer, changer icône/couleur, supprimer (réaffectation des articles
 
 ### G3. Magasins et rayons
 
-- Créer un magasin (depuis un modèle, une copie ou de zéro), renommer, supprimer.
+- Créer un magasin (depuis un modèle, une copie ou de zéro), renommer, supprimer (jamais le dernier, ni pendant des courses en cours) ; « Modifier ce magasin » depuis le choix du magasin de la liste.
 - Rayons : créer, renommer, icône/couleur, **réordonner par glisser-déposer**, fusionner, supprimer.
-- Rattacher les catégories aux rayons : une catégorie peut être dans plusieurs rayons d'un magasin, dont **un principal** ; voir les catégories non rattachées.
+- Rattacher les catégories aux rayons : une catégorie peut être dans plusieurs rayons d'un magasin, dont **un principal** (puce pleine ; contour = secondaire ; toucher pour changer) ; voir et ranger les catégories non rattachées.
+- Supprimer un rayon : ses catégories principales vont dans « Non classé », ou dans un de leurs rayons secondaires (au choix).
 - **Apprentissage de l'ordre : activé / désactivé** (C7), pour chaque magasin ; voir et supprimer les exceptions par article.
 
 ### G4. Unités

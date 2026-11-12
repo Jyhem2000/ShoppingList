@@ -10,8 +10,24 @@ export const routes = {
   sounds: "/reglages/sons",
   shopping: "/courses",
   shoppingRecap: "/courses/bilan/:sessionId",
+  manageArticles: "/reglages/articles",
+  manageArticle: "/reglages/articles/:articleId",
+  manageCategories: "/reglages/categories",
+  manageUnits: "/reglages/unites",
+  manageStores: "/reglages/magasins",
+  manageStore: "/reglages/magasins/:storeId",
   devUi: "/dev/ui",
 } as const;
+
+/** Fiche d'un article. */
+export function manageArticlePath(articleId: string): string {
+  return routes.manageArticle.replace(":articleId", articleId);
+}
+
+/** Fiche d'un magasin (rayons, catégories). */
+export function manageStorePath(storeId: string): string {
+  return routes.manageStore.replace(":storeId", storeId);
+}
 
 /** Bilan d'une session de courses. */
 export function shoppingRecapPath(sessionId: string): string {
