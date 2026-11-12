@@ -1,5 +1,7 @@
-import { Check, Plus } from "lucide-react";
+import { Check, Pencil, Plus } from "lucide-react";
 import { useState } from "react";
+import { useNavigate } from "react-router";
+import { manageStorePath } from "@/app/routes";
 import { storeTemplatesData } from "@/data";
 import { createStoreFromTemplate } from "@/db/catalog";
 import { db } from "@/db/database";
@@ -24,6 +26,7 @@ export function StoreSheet({
   data: ListData;
   onClose: () => void;
 }) {
+  const navigate = useNavigate();
   const [creating, setCreating] = useState(false);
   const [template, setTemplate] = useState(
     storeTemplatesData[0]?.key ?? "supermarche",
@@ -41,7 +44,6 @@ export function StoreSheet({
         if (!open) onClose();
       }}
       title={creating ? t.newTitle : t.title}
-      description={creating ? t.later : undefined}
     >
       {creating ? (
         <form
@@ -127,6 +129,19 @@ export function StoreSheet({
             <Plus />
             {t.newStore}
           </Button>
+          {data.store && (
+            <Button
+              variant="outline"
+              onClick={() => {
+                if (!data.store) return;
+                onClose();
+                void navigate(manageStorePath(data.store.id));
+              }}
+            >
+              <Pencil />
+              {fr.manage.store.edit}
+            </Button>
+          )}
         </div>
       )}
     </Sheet>

@@ -1,4 +1,4 @@
-import { Info, Palette, Scale, Sun, Volume2 } from "lucide-react";
+import { Info, Palette, Scale, Store, Sun, Volume2 } from "lucide-react";
 import {
   soundEvents,
   themePreferences,
@@ -118,6 +118,15 @@ export function SettingsPage() {
             }
           />
         </Row>
+      </Section>
+
+      <Section title={fr.manage.section}>
+        <LinkRow
+          to={routes.manageStores}
+          icon={<Store />}
+          label={fr.manage.stores.title}
+          hint={fr.manage.stores.hint}
+        />
       </Section>
 
       <Section title={t.sectionApp} className="pb-6">

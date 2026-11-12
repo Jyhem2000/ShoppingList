@@ -136,7 +136,6 @@ export const fr = {
       template: "Rayons de départ",
       name: "Nom du magasin",
       create: "Créer le magasin",
-      later: "Les rayons se modifient dans une prochaine version.",
     },
     unavailableLastTime: "Introuvable la dernière fois",
   },
@@ -221,6 +220,100 @@ export const fr = {
       back: "Retour à la liste",
       reopen: "Rouvrir les courses",
       missing: "Ces courses ne sont plus disponibles.",
+    },
+  },
+  manage: {
+    section: "Mes données",
+    style: {
+      icon: "Icône",
+      color: "Couleur",
+      none: "Aucune",
+    },
+    confirmCancel: "Annuler",
+    stores: {
+      title: "Magasins & rayons",
+      hint: "Rayons, leur ordre et les catégories de chacun",
+      aisles: (count: number) =>
+        count > 1 ? `${count} rayons` : `${count} rayon`,
+      add: "Nouveau magasin",
+      newTitle: "Nouveau magasin",
+      name: "Nom du magasin",
+      from: "Rayons de départ",
+      fromTemplate: "Un modèle",
+      fromCopy: "Une copie",
+      fromEmpty: "Aucun rayon",
+      emptyHint: "Un seul rayon « Non classé » : tu crées les tiens ensuite.",
+      copyOf: "Copier les rayons de",
+      create: "Créer le magasin",
+    },
+    store: {
+      name: "Nom",
+      learn: "Apprendre l'ordre de mes courses",
+      learnHint:
+        "À la fin des courses, les rayons parcourus prennent l'ordre de ton passage.",
+      aisles: "Rayons",
+      aislesHint:
+        "Glisse la poignée pour changer l'ordre ; touche un rayon pour ses catégories.",
+      reorder: (name: string) => `Déplacer ${name}`,
+      categories: (count: number) =>
+        count === 0
+          ? "Aucune catégorie"
+          : count > 1
+            ? `${count} catégories`
+            : "1 catégorie",
+      always: "toujours en dernier",
+      addAisle: "Nouveau rayon",
+      newAisle: "Nouveau rayon",
+      unattached: "Catégories non rattachées",
+      unattachedHint:
+        "Leurs articles vont dans « Non classé ». Touche-en une pour la ranger.",
+      place: (category: string) => `Ranger ${category}`,
+      placeHint: "Dans quel rayon ? Elle y sera principale.",
+      overrides: "Exceptions",
+      overridesHint:
+        "Articles rangés ailleurs que dans le rayon de leur catégorie, pour ce magasin.",
+      removeOverride: (name: string) => `Retirer l'exception de ${name}`,
+      overrideRemoved: (name: string) =>
+        `${name} retourne dans le rayon de sa catégorie`,
+      delete: "Supprimer le magasin",
+      deleteTitle: (name: string) => `Supprimer « ${name} » ?`,
+      deleteText:
+        "Ses rayons et ses exceptions seront supprimés. Tes listes et l'historique de tes courses restent.",
+      deleteLast: "C'est ton seul magasin : il ne peut pas être supprimé.",
+      deleteShopping:
+        "Des courses sont en cours dans ce magasin : termine-les d'abord.",
+      deleted: (name: string) => `« ${name} » supprimé`,
+      edit: "Modifier ce magasin",
+      missing: "Ce magasin n'existe plus.",
+    },
+    aisle: {
+      title: "Rayon",
+      name: "Nom du rayon",
+      categories: "Catégories",
+      categoriesHint:
+        "Pleine : rayon principal de la catégorie (ses articles y vont). Contour : elle s'y trouve aussi.",
+      primary: "principale",
+      secondary: "aussi ici",
+      makePrimary: (category: string) => `${category} : rendre principale`,
+      makeSecondary: (category: string) => `${category} : rendre secondaire`,
+      removeCategory: (category: string) => `Retirer ${category}`,
+      addCategory: "Ajouter une catégorie",
+      chooseCategory: "Choisir une catégorie",
+      unsortedHint:
+        "Reçoit les articles des catégories rattachées à aucun rayon. Il reste toujours en dernier.",
+      merge: "Fusionner avec un autre rayon",
+      mergeTitle: (name: string) => `Fusionner ${name} dans…`,
+      mergeText:
+        "Le rayon choisi reçoit toutes ses catégories ; celui-ci disparaît.",
+      merged: (from: string, into: string) => `${from} fusionné dans ${into}`,
+      delete: "Supprimer le rayon",
+      deleteTitle: (name: string) => `Supprimer ${name} ?`,
+      deleteText:
+        "Les catégories dont c'est le rayon principal iront dans « Non classé ».",
+      deletePromote:
+        "Ou dans un de leurs rayons secondaires quand elles en ont un",
+      deleted: (name: string) => `Rayon ${name} supprimé`,
+      done: "Terminé",
     },
   },
   catalog: {
