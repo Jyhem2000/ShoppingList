@@ -2,6 +2,8 @@ import { createHashRouter } from "react-router";
 import { CatalogPage } from "@/features/catalog/CatalogPage";
 import { CategoryPage } from "@/features/catalog/CategoryPage";
 import { UiPage } from "@/features/dev/UiPage";
+import { ArticlePage } from "@/features/manage/ArticlePage";
+import { ArticlesPage } from "@/features/manage/ArticlesPage";
 import { StorePage } from "@/features/manage/StorePage";
 import { StoresPage } from "@/features/manage/StoresPage";
 import { ListPage } from "@/features/list/ListPage";
@@ -29,6 +31,8 @@ export const router = createHashRouter([
       { path: routes.sounds, element: <SoundsPage /> },
       { path: routes.shopping, element: <ShoppingPage /> },
       { path: routes.shoppingRecap, element: <RecapPage /> },
+      { path: routes.manageArticles, element: <ArticlesPage /> },
+      { path: routes.manageArticle, element: <ArticlePage /> },
       { path: routes.manageStores, element: <StoresPage /> },
       { path: routes.manageStore, element: <StorePage /> },
       { path: routes.devUi, element: <UiPage /> },

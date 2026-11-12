@@ -1,6 +1,8 @@
-import { Minus, Plus, Trash2 } from "lucide-react";
+import { Minus, Pencil, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { addArticleType } from "@/db/catalog";
+import { Link } from "react-router";
+import { manageArticlePath } from "@/app/routes";
 import { db } from "@/db/database";
 import { updateItem } from "@/db/lists";
 import type { ListItem } from "@/domain/model";
@@ -227,6 +229,18 @@ export function LineSheet({
             placeholder={t.notePlaceholder}
           />
         </Field>
+
+        <Link
+          to={manageArticlePath(article.id)}
+          onClick={() => {
+            saveNote();
+            onClose();
+          }}
+          className="-my-1 flex min-h-11 items-center justify-center gap-2 text-sm font-semibold text-primary"
+        >
+          <Pencil className="size-4" aria-hidden />
+          {fr.manage.article.edit}
+        </Link>
 
         <div className="flex gap-2">
           <Button

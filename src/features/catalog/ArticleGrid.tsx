@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router";
+import { manageArticlePath } from "@/app/routes";
 import type { Article } from "@/domain/model";
 import { fr } from "@/i18n/fr";
 import { CatalogCard } from "@/ui/CatalogCard";
@@ -18,6 +20,7 @@ export function ArticleGrid({
   data: ListData;
 }) {
   const { pick, sheet } = useCatalogPick(data);
+  const navigate = useNavigate();
   const inList = new Map(data.items.map((item) => [item.articleId, item]));
 
   if (articles.length === 0)
@@ -42,6 +45,9 @@ export function ArticleGrid({
               quantity={item ? lineQuantity(item, data.unitById) : undefined}
               onClick={() => {
                 pick(article);
+              }}
+              onLongPress={() => {
+                void navigate(manageArticlePath(article.id));
               }}
             />
           );

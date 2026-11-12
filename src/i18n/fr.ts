@@ -230,6 +230,80 @@ export const fr = {
       none: "Aucune",
     },
     confirmCancel: "Annuler",
+    icon: {
+      title: "Icône",
+      search: "Chercher une icône",
+      none: "Aucune (initiales)",
+      noResult: "Aucune icône ne correspond.",
+      change: "Changer l'icône",
+    },
+    articles: {
+      title: "Articles",
+      hint: "Noms, catégories, unités, types, icônes",
+      search: "Chercher un article",
+      allCategories: "Toutes les catégories",
+      count: (count: number) =>
+        count > 1 ? `${count} articles` : `${count} article`,
+      add: "Nouvel article",
+      newTitle: "Nouvel article",
+      name: "Nom",
+      category: "Catégorie",
+      unit: "Unité",
+      create: "Créer l'article",
+      exists: (name: string) => `« ${name} » existe déjà`,
+      duplicates: "Doublons probables",
+      duplicatesHint:
+        "Même catégorie, même icône et noms proches. Fusionne-les, ou dis à l'app que ce sont bien deux articles.",
+      merge: "Fusionner",
+      notDuplicate: "Ce ne sont pas des doublons",
+      notDuplicateDone: "Compris, ils ne seront plus proposés",
+      noResult: "Aucun article trouvé.",
+    },
+    article: {
+      name: "Nom",
+      nameTaken: "Un autre article porte déjà ce nom.",
+      category: "Catégorie",
+      unit: "Unité par défaut",
+      quantity: "Quantité par défaut",
+      quantityHint: "Ajoutée quand tu n'en précises pas (vide : 1).",
+      types: "Types",
+      typesHint:
+        "Les variétés qu'on peut choisir sur une ligne : Gala, Golden…",
+      newType: "Nouveau type",
+      addType: "Ajouter le type",
+      removeType: (type: string) => `Retirer le type ${type}`,
+      aliases: "Autres noms",
+      aliasesHint:
+        "Pour le trouver aussi sous ces noms en tapant : sopalin, pdt, coca…",
+      newAlias: "Autre nom",
+      addAlias: "Ajouter le nom",
+      removeAlias: (alias: string) => `Retirer le nom ${alias}`,
+      favorite: "Favori",
+      favoriteHint: "Toujours en tête du catalogue.",
+      usage: (lines: number, lists: number) =>
+        lines === 0
+          ? "Dans aucune liste pour l'instant."
+          : lists > 1
+            ? `Dans ${lists} listes.`
+            : "Dans une liste.",
+      merge: "Fusionner avec un autre article",
+      mergeTitle: (name: string) => `Fusionner dans ${name}`,
+      mergeSearch: "Article à fusionner",
+      mergeText: (keep: string, other: string) =>
+        `${other} disparaît : ses lignes et son historique passent à ${keep}, et « ${other} » devient un autre nom de ${keep}.`,
+      mergeConfirm: "Fusionner",
+      merged: (other: string, keep: string) => `${other} fusionné dans ${keep}`,
+      keep: (name: string) => `Garder ${name}`,
+      delete: "Supprimer l'article",
+      deleteTitle: (name: string) => `Supprimer ${name} ?`,
+      deleteText: (lists: number) =>
+        lists === 0
+          ? "Il disparaît du catalogue. L'historique de tes courses reste."
+          : `Il disparaît du catalogue et ${lists > 1 ? `des ${lists} listes` : "de la liste"} où il se trouve. L'historique de tes courses reste.`,
+      deleted: (name: string) => `${name} supprimé`,
+      missing: "Cet article n'existe plus.",
+      edit: "Modifier l'article",
+    },
     stores: {
       title: "Magasins & rayons",
       hint: "Rayons, leur ordre et les catégories de chacun",
