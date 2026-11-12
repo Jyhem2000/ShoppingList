@@ -140,11 +140,11 @@ Tous les magasins n'ont pas les mêmes rayons. Dans une supérette, la charcuter
 
 ### Magasin
 
-| Propriété        | Description                                                 |
-| ---------------- | ----------------------------------------------------------- |
-| Libellé          | « Carrefour Market », « Marché du samedi »                  |
-| Rayons           | Liste **ordonnée** selon le parcours                        |
-| Ordre verrouillé | Si oui, l'apprentissage automatique ne modifie plus l'ordre |
+| Propriété        | Description                                                                                                    |
+| ---------------- | -------------------------------------------------------------------------------------------------------------- |
+| Libellé          | « Carrefour Market », « Marché du samedi »                                                                     |
+| Rayons           | Liste **ordonnée** selon le parcours                                                                           |
+| Ordre verrouillé | Si oui, l'apprentissage automatique ne modifie plus l'ordre (affiché « Apprentissage de l'ordre : désactivé ») |
 
 À la création d'un magasin, on part :
 

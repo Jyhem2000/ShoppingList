@@ -2,14 +2,14 @@
 
 Chaque fonctionnalité a un identifiant (`A1`, `B2`…) réutilisé dans le plan de développement et les tests, et une version cible :
 
-| Version                  | Thème            | Fonctionnalités                       |
-| ------------------------ | ---------------- | ------------------------------------- |
-| **v1.0**                 | Cœur             | A1-A7 · B1-B6 · C1-C8 · G1-G5 · H1-H9 |
-| **v1.1**                 | Recettes         | E1-E2                                 |
-| **v1.2**                 | Anti-oubli       | D1-D2                                 |
-| **v1.3**                 | Partage          | F1-F2 · A8                            |
-| **Plus tard**            | —                | D3 · E3                               |
-| **Idées non planifiées** | Peut-être jamais | I1 · I2 · I3                          |
+| Version                  | Thème            | Fonctionnalités                        |
+| ------------------------ | ---------------- | -------------------------------------- |
+| **v1.0**                 | Cœur             | A1-A7 · B1-B6 · C1-C8 · G1-G5 · H1-H10 |
+| **v1.1**                 | Recettes         | E1-E2                                  |
+| **v1.2**                 | Anti-oubli       | D1-D2                                  |
+| **v1.3**                 | Partage          | F1-F2 · A8                             |
+| **Plus tard**            | —                | D3 · E3                                |
+| **Idées non planifiées** | Peut-être jamais | I1 · I2 · I3                           |
 
 L'ordre des versions après la v1.0 pourra être réévalué après quelques semaines d'usage réel. Les règles métier citées sont détaillées dans [02](02-modele-metier.md).
 
@@ -152,7 +152,9 @@ Bouton **« Terminer les courses »**, toujours visible en mode courses → conf
 
 ### C7. Apprentissage de l'ordre des rayons — _v1.0_
 
-À chaque clôture, l'ordre dans lequel les rayons ont été parcourus (l'ordre des coches, pas leur heure) met à jour l'ordre du magasin (algorithme en 07 § 7.6), sauf si l'ordre est verrouillé. Les rayons non visités gardent leur place.
+À chaque clôture, l'ordre dans lequel les rayons ont été parcourus (l'ordre des coches, pas leur heure) met à jour l'ordre du magasin (algorithme en 07 § 7.6), sauf si l'apprentissage est désactivé pour ce magasin. Les rayons non visités gardent leur place.
+
+**Apprentissage activé / désactivé, par magasin** (G3) : activé par défaut. On le désactive quand l'ordre convient, ou pour des courses inhabituelles, et on le réactive quand on veut. Désactivé, le magasin garde son ordre ; on peut toujours le changer à la main (glisser-déposer).
 
 **Critères** : après 3 sessions simulées parcourues dans l'ordre Crèmerie → Fruits & Légumes → Épicerie, la liste s'affiche dans cet ordre pour ce magasin, et l'ordre des autres magasins est inchangé.
 
@@ -243,7 +245,7 @@ Créer, renommer, changer icône/couleur, supprimer (réaffectation des articles
 - Créer un magasin (depuis un modèle, une copie ou de zéro), renommer, supprimer.
 - Rayons : créer, renommer, icône/couleur, **réordonner par glisser-déposer**, fusionner, supprimer.
 - Rattacher les catégories aux rayons : une catégorie peut être dans plusieurs rayons d'un magasin, dont **un principal** ; voir les catégories non rattachées.
-- Verrouiller / déverrouiller l'ordre ; voir et supprimer les exceptions par article.
+- **Apprentissage de l'ordre : activé / désactivé** (C7), pour chaque magasin ; voir et supprimer les exceptions par article.
 
 ### G4. Unités
 
@@ -297,6 +299,12 @@ Réglage **activé par défaut** : 1200 g → 1,2 kg, avec « Annuler » (voir [
 ### H9. Écran allumé pendant les courses
 
 Réglage **activé par défaut** : en mode courses, l'écran ne se met pas en veille (Screen Wake Lock, C1). Grisé si le téléphone ne le permet pas.
+
+### H10. Aide
+
+Réglages → **Aide** : un mode d'emploi court (remplir la liste, faire les courses, terminer, rouvrir) et **ce que l'app règle toute seule** (ordre des rayons et des articles, rayon d'un article, habitudes ; apprentissage activé ou non par magasin).
+
+Conseil mis en avant : **suivre le même parcours** dans un magasin, au moins pendant les premières courses, le temps que l'app apprenne l'ordre ; cocher les articles **au moment où on les prend**, pas tous à la caisse. Ensuite, on peut désactiver l'apprentissage si l'ordre convient.
 
 ## Idées non planifiées
 

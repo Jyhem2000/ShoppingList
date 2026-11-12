@@ -360,22 +360,15 @@ export const fr = {
     version: (version: string) => `Version ${version}`,
     versions: [
       {
-        version: "0.3.0",
-        date: "2026-11-09",
+        version: "0.4.0",
+        date: "2026-11-12",
         items: [
-          "Nouvelle apparence : thème sombre violet et or, nouvelle police, icônes d'articles en couleur et sons plus doux.",
-          "La barre d'onglets reste bien en bas de l'écran dès l'ouverture sur iPhone, et le titre de chaque écran reste visible en haut.",
-          "Les données de départ sont prêtes : 238 articles courants, leurs catégories et le magasin « Mon supermarché ». Les listes arrivent dans la prochaine version.",
-        ],
-      },
-      {
-        version: "0.1.0",
-        date: "2026-11-08",
-        items: [
-          "L'app s'installe sur l'écran d'accueil de l'iPhone et d'Android, en plein écran, et fonctionne hors ligne.",
-          "Au premier lancement, un écran explique comment l'installer selon ton téléphone.",
-          "Réglages → Fonctionnalités : sons (tous ou un par un) et écran allumé pendant les courses.",
-          "Un bandeau propose la nouvelle version quand elle est disponible.",
+          "La liste se remplit en un geste : « 2 baguettes, du beurre », le catalogue par catégorie, et elle se range toute seule par rayon, dans l'ordre de ton magasin.",
+          "Plusieurs listes, plusieurs magasins, unités claires (500 g, 1 bouteille) et achats ponctuels qui n'encombrent pas le catalogue.",
+          "Mode courses : touche un article quand il est dans le caddie, glisse-le s'il est introuvable, appui long pour le changer de rayon ; l'écran reste allumé.",
+          "Un article ajouté en route va dans « À récupérer » si son rayon est passé, ou se coche tout de suite si tu l'as déjà pris.",
+          "À la fin des courses, l'app apprend l'ordre de ton parcours. Un oubli à la caisse ? « Rouvrir les courses ».",
+          "Toutes les icônes d'articles sont dessinées pour l'app, et elle a un nouveau logo.",
         ],
       },
     ],

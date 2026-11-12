@@ -55,13 +55,13 @@ C1 à C8.
 
 ### Phase 6 — Tout est modifiable
 
-G1 à G5 (articles et alias, catégories, magasins et rayons avec glisser-déposer et rayons principaux/secondaires, unités, sélecteur d'icône).
+G1 à G5 (articles et alias, catégories, magasins et rayons avec glisser-déposer et rayons principaux/secondaires, apprentissage de l'ordre activé ou non par magasin, unités, sélecteur d'icône).
 
 - ✅ _Scénario E2E 5 vert._ → `0.6.0`.
 
 ### Phase 7 — Réglages, sauvegarde, finitions
 
-H1 à H6 et H9, catalogue complet (~1 000 articles avec alias) **relu par toi catégorie par catégorie**, passe d'animations et de sons, accessibilité, états vides.
+H1 à H6, H9 et H10 (écran d'aide : mode d'emploi, ce que l'app règle toute seule, conseil de suivre le même parcours pendant l'apprentissage), catalogue complet (~1 000 articles avec alias) **relu par toi catégorie par catégorie**, passe d'animations et de sons, accessibilité, états vides.
 
 - ✅ _Essai réel en magasin sur les deux téléphones (préproduction)._ → `0.7.0`.
 

@@ -32,6 +32,8 @@ Rien à paramétrer : l'app part d'un magasin type, puis s'adapte au tien chaque
 - **Le rayon d'un article** : quand tu le déplaces (appui long), l'app retient ton choix pour ce magasin, pour cet article seul ou pour toute sa catégorie.
 - **Tes habitudes** : les articles que tu achètes souvent remontent en premier quand tu tapes dans la barre.
 
+**Astuce** : dans un nouveau magasin, suis ton parcours habituel pendant les premières courses et coche chaque article au moment où tu le prends, pas à la caisse : l'app apprend plus vite et plus juste.
+
 Chaque magasin a son propre ordre : apprendre l'un ne change pas les autres. Courses rouvertes puis terminées à nouveau : rien n'est compté deux fois.
 
 ## Installation

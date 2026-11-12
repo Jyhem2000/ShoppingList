@@ -124,13 +124,14 @@ Partage (v1.3)
   Coller une liste partagée ▸
 Sauvegarde
   Exporter mes données ▸   Importer ▸   Dernière sauvegarde : il y a 12 j
+Aide ▸                      (H10 : mode d'emploi, ce que l'app règle toute seule)
 À propos
   Version 1.0.0 · Quoi de neuf ▸ · Licences ▸
 ```
 
 ### 2.8 Magasin
 
-- Libellé (modifiable), verrou de l'ordre 🔒.
+- Libellé (modifiable), interrupteur **« Apprendre l'ordre de mes courses »** (activé par défaut ; désactivé = ordre verrouillé, C7).
 - Liste des rayons avec poignées de glisser-déposer ; chaque rayon se déplie pour montrer ses catégories (puces : pleines = principale, contour = secondaire ; « + catégorie »).
 - Section « Catégories non rattachées » (en orange si non vide).
 - Section « Exceptions » : articles placés hors du rayon principal de leur catégorie dans ce magasin.
