@@ -1,6 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { App } from "@/app/App";
+import { trackTheme } from "@/app/theme";
 import { db } from "@/db/database";
 import { loadIconPack } from "@/icons/pack";
 import {
@@ -10,6 +11,7 @@ import {
 import { trackAppHeight } from "@/platform/viewport";
 import "@/styles/index.css";
 
+trackTheme();
 captureInstallPrompt();
 trackAppHeight();
 

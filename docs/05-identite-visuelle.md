@@ -2,9 +2,9 @@
 
 ## 1. Ambiance
 
-Un **thème sombre unique, franchement « dark mode »** : fond quasi noir et neutre (gris très foncé), et **deux couleurs** réservées aux éléments d'interface : le **violet** (couleur principale) et l'**or** (couleur secondaire) ; des touches de couleurs douces par rayon pour la variété, des icônes colorées, des coins arrondis généreux, des animations souples, de petits sons et des vibrations là où c'est possible.
+Un **thème sombre, franchement « dark mode »**, par défaut : fond quasi noir et neutre (gris très foncé), et **deux couleurs** réservées aux éléments d'interface : le **violet** (couleur principale) et l'**or** (couleur secondaire) ; des touches de couleurs douces par rayon pour la variété, des icônes colorées, des coins arrondis généreux, des animations souples, de petits sons et des vibrations là où c'est possible.
 
-Pas de thème clair, pas de sélecteur de thème.
+Un **thème clair** lui correspond, rôle pour rôle (même design system, mêmes noms de tokens) : fonds blancs et gris très clairs, violet profond, or. Choix dans Réglages → **Thème** (H11) : _Automatique_ (suit le téléphone), _Sombre_, _Clair_ ; décision du 12 novembre 2026, qui remplace le « thème sombre unique » du départ.
 
 ## 2. Couleurs
 
@@ -25,6 +25,7 @@ Définis une seule fois dans `src/styles/index.css` ; les composants n'utilisent
 |                        | `--on-primary`       | `#140d22` | Texte sur fond violet                                                                                                                  |
 | **Couleur secondaire** | `--secondary`        | `#f5c451` | **Or** : les repères — icônes d'interface, onglet actif (icône, libellé et trait au-dessus), quantités, progression, numéro de version |
 |                        | `--secondary-strong` | `#e0a92e` | Or appuyé                                                                                                                              |
+|                        | `--secondary-fill`   | `#f5c451` | Or des **aplats** : bouton « Terminer », barre de progression, pastille de quantité, trait de l'onglet actif                           |
 |                        | `--on-secondary`     | `#1d1606` | Texte sur fond or                                                                                                                      |
 | Succès                 | `--success`          | `#2ec27e` | Vert franc : coche, rayon terminé, message de réussite                                                                                 |
 | Information            | `--info`             | `#3d9bff` | Bleu : message d'information (conversion automatique…)                                                                                 |
@@ -32,6 +33,31 @@ Définis une seule fois dans `src/styles/index.css` ; les composants n'utilisent
 | Danger                 | `--danger`           | `#f2484f` | Rouge franc : suppression, message d'erreur                                                                                            |
 
 Écarts entre les fonds élargis le 12 novembre 2026 après essai sur iPhone (tout se confondait) : fond 1 plus sombre, fond 3 et séparateurs plus clairs. Le fond 2 ne bouge pas : c'est la couleur du filet sombre des icônes dessinées et du fond du logo.
+
+### Thème clair
+
+Mêmes tokens, redéfinis sous `:root[data-theme="light"]` dans `src/styles/index.css`. Violet et or choisis le 12 novembre 2026 : **`#5B21B6`** (violet) et **`#FBBF24`** (or). Sur fond blanc, l'or vif est trop pâle pour un petit texte ou une icône au trait : il sert aux **aplats** (`--secondary-fill`), et un ambre foncé du même ton (`--secondary`) aux quantités, icônes et repères.
+
+| Rôle                   | Token              | Valeur    |
+| ---------------------- | ------------------ | --------- |
+| Fond 1                 | `--bg`             | `#eeeef3` |
+| Fond 2                 | `--surface`        | `#ffffff` |
+| Fond 3                 | `--raised`         | `#e4e4eb` |
+| Séparateur             | `--border`         | `#cfcfd9` |
+| Texte principal        | `--text`           | `#16161b` |
+| Texte secondaire       | `--text-muted`     | `#5b5b67` |
+| **Couleur principale** | `--primary`        | `#5b21b6` |
+|                        | `--primary-strong` | `#4c1d95` |
+|                        | `--on-primary`     | `#ffffff` |
+| **Couleur secondaire** | `--secondary`      | `#b45309` |
+|                        | `--secondary-fill` | `#fbbf24` |
+|                        | `--on-secondary`   | `#1d1606` |
+| Succès                 | `--success`        | `#15803d` |
+| Information            | `--info`           | `#1d4ed8` |
+| Attention              | `--warning`        | `#c2410c` |
+| Danger                 | `--danger`         | `#dc2626` |
+
+La palette des rayons et catégories garde ses teintes, plus soutenues (`--pal-…`) pour rester lisible sur blanc. Le filet qui détache deux objets dans les icônes dessinées suit le thème (`--surface`, voir § 4). L'icône de l'app et le logo gardent leur fond sombre.
 
 Règles :
 

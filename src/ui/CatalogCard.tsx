@@ -25,7 +25,7 @@ export function CatalogCard({
       className="relative flex min-h-32 flex-col items-center gap-2 rounded-2xl bg-surface px-2 pt-4 pb-3 text-center transition-colors active:bg-raised"
     >
       {quantity && (
-        <span className="absolute top-1.5 right-1.5 z-10 rounded-full border-2 border-surface bg-secondary px-2 py-0.5 text-xs font-extrabold text-on-secondary tabular-nums">
+        <span className="absolute top-1.5 right-1.5 z-10 rounded-full border-2 border-surface bg-secondary-fill px-2 py-0.5 text-xs font-extrabold text-on-secondary tabular-nums">
           {quantity}
         </span>
       )}

@@ -31,7 +31,7 @@ export function TabBar() {
                 cn(
                   "-mt-px flex h-[calc(3.25rem_+_env(safe-area-inset-bottom)_*_2_/_3)] flex-col items-center justify-center gap-1 border-t-2 text-[11px] font-bold transition-colors",
                   isActive
-                    ? "border-secondary text-secondary"
+                    ? "border-secondary-fill text-secondary"
                     : "border-transparent text-muted-foreground",
                 )
               }

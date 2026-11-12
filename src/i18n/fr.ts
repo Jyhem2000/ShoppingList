@@ -246,6 +246,12 @@ export const fr = {
     sectionFeatures: "Fonctionnalités",
     sectionApp: "Application",
     sectionList: "Liste",
+    sectionDisplay: "Affichage",
+    theme: {
+      title: "Thème",
+      hint: "Automatique : suit le réglage clair ou sombre du téléphone.",
+      options: { auto: "Automatique", dark: "Sombre", light: "Clair" },
+    },
     simplify: {
       title: "Simplifier les quantités",
       hint: "1200 g devient 1,2 kg, 150 cl devient 1,5 L.",

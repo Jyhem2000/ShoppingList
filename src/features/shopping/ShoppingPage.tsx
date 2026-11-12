@@ -233,7 +233,7 @@ function Shopping({
           className="mx-2 mt-2 h-1.5 overflow-hidden rounded-full bg-raised"
         >
           <motion.div
-            className="h-full rounded-full bg-secondary"
+            className="h-full rounded-full bg-secondary-fill"
             initial={false}
             animate={{ width: `${total ? (checked / total) * 100 : 0}%` }}
           />

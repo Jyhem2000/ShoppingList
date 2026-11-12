@@ -16,7 +16,7 @@ La documentation est **validée** (8 novembre 2026). Suivre le plan de `docs/09-
 
 - Sur iPhone, tout tourne dans **WebKit** (Chrome iPhone comme app installée). Fonctionnalités **essentielles** : doivent marcher sur iPhone ET Android. Fonctionnalités **de confort** (bouton « Installer » d'Android…) : au moins un des deux, avec détection préalable et **aucune erreur** là où elles manquent. Rien qui ne marche nulle part.
 - **100 % gratuit** : aucune API payante, aucune clé d'API payante, aucun service tiers payant.
-- **Thème sombre unique** (pas de thème clair ni de sélecteur de thème).
+- **Thème sombre par défaut, thème clair au choix** (Réglages → Thème : automatique, sombre, clair ; docs/05 § 2). Tout écran doit rester lisible dans les deux : uniquement les tokens, jamais de couleur en dur.
 - Interface **en français** ; tous les textes dans `src/i18n/fr.ts`.
 - Tout est modifiable par l'utilisateur (articles, catégories, rayons, magasins, unités, listes, recettes).
 

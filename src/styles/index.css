@@ -2,10 +2,13 @@
 @import "@fontsource-variable/plus-jakarta-sans";
 
 /*
- * Design system — thème sombre unique (docs/05 § 2).
- * Fonds neutres quasi noirs ; deux couleurs :
+ * Design system — thème sombre (par défaut) et thème clair (docs/05 § 2), choisis dans
+ * Réglages → Thème et posés sur <html data-theme="dark|light"> (src/app/theme.ts).
+ * Fonds neutres ; deux couleurs :
  * - principale, violet : tout ce qui s'actionne (boutons, interrupteurs, liens) et les titres d'écran ;
  * - secondaire, or : les repères (icônes, onglet actif, quantités, progression).
+ *   `--secondary` sert aux textes et icônes, `--secondary-fill` aux aplats (bouton Terminer,
+ *   barre de progression, pastilles) ; identiques en sombre, l'aplat reste jaune vif en clair.
  * Une icône placée dans un bouton prend la couleur du texte du bouton.
  */
 :root {
@@ -13,7 +16,7 @@
 
   /* Fonds, du plus profond au plus haut */
   --bg: #0b0b0e; /* fond 1 : l'app */
-  --surface: #18181d; /* fond 2 : cartes, lignes, panneaux */
+  --surface: #18181d; /* fond 2 : cartes, lignes, panneaux (et filet des icônes) */
   --raised: #2a2a32; /* fond 3 : éléments surélevés, champs, boutons neutres */
   --border: #3a3a45;
 
@@ -29,6 +32,8 @@
   /* Couleur secondaire : or */
   --secondary: #f5c451;
   --secondary-strong: #e0a92e;
+  --secondary-fill: #f5c451;
+  --secondary-fill-strong: #e0a92e;
   --on-secondary: #1d1606; /* texte sur fond or */
 
   /* États : couleurs franches, ce sont des messages importants */
@@ -37,7 +42,68 @@
   --warning: #ff7b3a;
   --danger: #f2484f;
 
+  /* Palette des rayons et catégories : tons doux, lisibles sur fond sombre */
+  --pal-sauge: #8fcf9c;
+  --pal-ble: #e6c27a;
+  --pal-corail: #f29b85;
+  --pal-canard: #6fc3d0;
+  --pal-rose: #f2a7c3;
+  --pal-creme: #f3e3a1;
+  --pal-ambre: #f0b35e;
+  --pal-terre: #c9a27e;
+  --pal-prune: #d38fc4;
+  --pal-ciel: #8fb2f2;
+  --pal-glacier: #a5e1f0;
+  --pal-lilas: #b9a4f0;
+  --pal-ardoise: #9aa7bd;
+  --pal-gris: #85858f;
+
   --radius: 1rem;
+}
+
+/* Thème clair : mêmes rôles, valeurs lisibles sur fond blanc. */
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --bg: #eeeef3;
+  --surface: #ffffff;
+  --raised: #e4e4eb;
+  --border: #cfcfd9;
+
+  --text: #16161b;
+  --text-muted: #5b5b67;
+
+  --primary: #5b21b6;
+  --primary-strong: #4c1d95;
+  --on-primary: #ffffff;
+
+  /* Or : aplats en #FBBF24, textes et icônes en ambre foncé du même ton */
+  --secondary: #b45309;
+  --secondary-strong: #92400e;
+  --secondary-fill: #fbbf24;
+  --secondary-fill-strong: #f59e0b;
+  --on-secondary: #1d1606;
+
+  --success: #15803d;
+  --info: #1d4ed8;
+  --warning: #c2410c;
+  --danger: #dc2626;
+
+  /* Palette : mêmes teintes, plus soutenues pour rester lisibles sur blanc */
+  --pal-sauge: #2f8a47;
+  --pal-ble: #a87a12;
+  --pal-corail: #c9472a;
+  --pal-canard: #127f8f;
+  --pal-rose: #c23d78;
+  --pal-creme: #8f7a1a;
+  --pal-ambre: #b8650c;
+  --pal-terre: #8a5a34;
+  --pal-prune: #9a3d88;
+  --pal-ciel: #2f63c9;
+  --pal-glacier: #1f8aa6;
+  --pal-lilas: #6b4fc9;
+  --pal-ardoise: #4f5d78;
+  --pal-gris: #6b6b76;
 }
 
 @theme inline {
@@ -55,6 +121,8 @@
   --color-on-primary: var(--on-primary);
   --color-secondary: var(--secondary);
   --color-secondary-strong: var(--secondary-strong);
+  --color-secondary-fill: var(--secondary-fill);
+  --color-secondary-fill-strong: var(--secondary-fill-strong);
   --color-on-secondary: var(--on-secondary);
   --color-success: var(--success);
   --color-info: var(--info);
@@ -83,21 +151,21 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
-  /* Palette des rayons et catégories (docs/05 § 2) */
-  --color-sauge: #8fcf9c;
-  --color-ble: #e6c27a;
-  --color-corail: #f29b85;
-  --color-canard: #6fc3d0;
-  --color-rose: #f2a7c3;
-  --color-creme: #f3e3a1;
-  --color-ambre: #f0b35e;
-  --color-terre: #c9a27e;
-  --color-prune: #d38fc4;
-  --color-ciel: #8fb2f2;
-  --color-glacier: #a5e1f0;
-  --color-lilas: #b9a4f0;
-  --color-ardoise: #9aa7bd;
-  --color-gris: #85858f;
+  /* Palette des rayons et catégories (docs/05 § 2), selon le thème */
+  --color-sauge: var(--pal-sauge);
+  --color-ble: var(--pal-ble);
+  --color-corail: var(--pal-corail);
+  --color-canard: var(--pal-canard);
+  --color-rose: var(--pal-rose);
+  --color-creme: var(--pal-creme);
+  --color-ambre: var(--pal-ambre);
+  --color-terre: var(--pal-terre);
+  --color-prune: var(--pal-prune);
+  --color-ciel: var(--pal-ciel);
+  --color-glacier: var(--pal-glacier);
+  --color-lilas: var(--pal-lilas);
+  --color-ardoise: var(--pal-ardoise);
+  --color-gris: var(--pal-gris);
 }
 
 /* Zone qui défile sans barre de défilement visible (docs/07 § 4). */

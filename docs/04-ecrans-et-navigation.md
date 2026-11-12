@@ -114,6 +114,7 @@ Fonctionnalités   (icône, libellé, description ; grisée « Non disponible su
 Ressenti
   Animations ............ Automatique ▸
 Affichage
+  Thème ................. Automatique · Sombre · Clair
   Affichage compact ..... ◯
   Simplifier les quantités ●   (1200 g → 1,2 kg)
 Mode courses

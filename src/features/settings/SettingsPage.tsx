@@ -1,6 +1,7 @@
-import { Info, Scale, Sun, Volume2 } from "lucide-react";
+import { Info, Palette, Scale, Sun, Volume2 } from "lucide-react";
 import {
   soundEvents,
+  themePreferences,
   updatePreferences,
   usePreferences,
 } from "@/app/preferences";
@@ -11,6 +12,7 @@ import { updateSettings } from "@/db/settings";
 import { isAudioSupported } from "@/feedback";
 import { fr } from "@/i18n/fr";
 import { isWakeLockSupported } from "@/platform/wakeLock";
+import { Chip } from "@/ui/form";
 import { LinkRow, PageHeader, Row, Section } from "@/ui/Page";
 import { Switch } from "@/ui/switch";
 
@@ -71,6 +73,38 @@ export function SettingsPage() {
             }
           />
         </Row>
+      </Section>
+
+      <Section title={t.sectionDisplay}>
+        <Row
+          icon={<Palette />}
+          label={t.theme.title}
+          hint={
+            <>
+              {t.theme.hint}
+              <span
+                role="radiogroup"
+                aria-label={t.theme.title}
+                className="mt-2.5 flex flex-wrap gap-2"
+              >
+                {themePreferences.map((theme) => (
+                  <Chip
+                    key={theme}
+                    role="radio"
+                    aria-pressed={undefined}
+                    aria-checked={preferences.theme === theme}
+                    selected={preferences.theme === theme}
+                    onClick={() => {
+                      updatePreferences((p) => ({ ...p, theme }));
+                    }}
+                  >
+                    {t.theme.options[theme]}
+                  </Chip>
+                ))}
+              </span>
+            </>
+          }
+        />
       </Section>
 
       <Section title={t.sectionList}>

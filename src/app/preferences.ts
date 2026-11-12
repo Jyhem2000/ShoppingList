@@ -1,7 +1,7 @@
 import { useSyncExternalStore } from "react";
 
 /**
- * Préférences propres à l'appareil (docs/07 § 5) : sons, écran allumé.
+ * Préférences propres à l'appareil (docs/07 § 5) : sons, écran allumé, thème.
  * Stockées dans `localStorage`, hors de la base et des sauvegardes : chaque téléphone
  * garde les siennes, même après l'import des données d'un autre.
  */
@@ -15,6 +15,14 @@ export const soundEvents = [
 ] as const;
 export type SoundEvent = (typeof soundEvents)[number];
 
+/** Thème (docs/03 H11) : celui du téléphone, ou imposé. */
+export type ThemePreference = "auto" | "dark" | "light";
+export const themePreferences: readonly ThemePreference[] = [
+  "auto",
+  "dark",
+  "light",
+];
+
 export interface DevicePreferences {
   /** Interrupteur général des sons. */
   sounds: boolean;
@@ -24,6 +32,7 @@ export interface DevicePreferences {
   soundStyle: "recorded" | "generated";
   /** Garder l'écran allumé pendant les courses. */
   keepScreenOn: boolean;
+  theme: ThemePreference;
 }
 
 export const defaultPreferences: DevicePreferences = {
@@ -38,9 +47,11 @@ export const defaultPreferences: DevicePreferences = {
   },
   soundStyle: "recorded",
   keepScreenOn: true,
+  theme: "auto",
 };
 
-const STORAGE_KEY = "shoppinglist.preferences";
+/** Lue aussi par le petit script d'index.html qui pose le thème avant l'affichage. */
+export const STORAGE_KEY = "shoppinglist.preferences";
 
 /** Fusionne une valeur lue (éventuellement ancienne ou abîmée) avec les valeurs par défaut. */
 export function parsePreferences(raw: string | null): DevicePreferences {
@@ -61,6 +72,7 @@ export function parsePreferences(raw: string | null): DevicePreferences {
           ? data.soundStyle
           : defaultPreferences.soundStyle,
       keepScreenOn: bool(data.keepScreenOn, defaultPreferences.keepScreenOn),
+      theme: themePreferences.find((t) => t === data.theme) ?? "auto",
     };
   } catch {
     return defaultPreferences;
@@ -95,11 +107,11 @@ export function updatePreferences(
   for (const listener of listeners) listener();
 }
 
-function subscribe(listener: () => void): () => void {
+export function subscribePreferences(listener: () => void): () => void {
   listeners.add(listener);
   return () => listeners.delete(listener);
 }
 
 export function usePreferences(): DevicePreferences {
-  return useSyncExternalStore(subscribe, getPreferences);
+  return useSyncExternalStore(subscribePreferences, getPreferences);
 }

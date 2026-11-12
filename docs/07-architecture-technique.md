@@ -244,7 +244,7 @@ db.version(1).stores({
 });
 ```
 
-- **Préférences de l'appareil** (sons, son par son, écran allumé) : hors de `Settings`, dans `localStorage` (`src/app/preferences.ts`). Elles dépendent du téléphone, ne sont pas exportées et ne sont pas écrasées par l'import d'une sauvegarde venant d'un autre appareil.
+- **Préférences de l'appareil** (sons, son par son, écran allumé, thème) : hors de `Settings`, dans `localStorage` (`src/app/preferences.ts`). Elles dépendent du téléphone, ne sont pas exportées et ne sont pas écrasées par l'import d'une sauvegarde venant d'un autre appareil.
 - Unicité « un article par liste » vérifiée par la couche d'accès aux données (les lignes archivées `closedInSessionId` sont exclues).
 - **La version du schéma de données est indépendante de la version de l'app** : elle n'augmente que si la structure change. Toute évolution = nouvelle `version(n)` + fonction `upgrade` + test de migration. Les migrations s'exécutent automatiquement au premier lancement de la nouvelle version.
 
@@ -269,6 +269,7 @@ db.version(1).stores({
 
 ### Manifest et iOS
 
+- Thème (H11) : `src/app/theme.ts` pose `<html data-theme="dark|light">` et la couleur de la barre d'état ; un petit script dans `index.html` le fait avant l'affichage, depuis la préférence enregistrée. Sur iPhone, le style de la barre d'état (`apple-mobile-web-app-status-bar-style`) n'est lu qu'au lancement : texte blanc en sombre, noir en clair.
 - Manifest : nom, icônes (dont `apple-touch-icon` 180×180 et icône adaptative Android), `display: standalone`, couleurs `#0b0b0e`.
 - `<meta name="viewport" content="…, viewport-fit=cover">` + gestion des `safe-area-inset-*`.
 - Précache de toute l'app : JS, CSS, police, pack d'icônes, sons.
