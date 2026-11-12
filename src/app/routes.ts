@@ -12,6 +12,8 @@ export const routes = {
   shoppingRecap: "/courses/bilan/:sessionId",
   manageArticles: "/reglages/articles",
   manageArticle: "/reglages/articles/:articleId",
+  manageCategories: "/reglages/categories",
+  manageUnits: "/reglages/unites",
   manageStores: "/reglages/magasins",
   manageStore: "/reglages/magasins/:storeId",
   devUi: "/dev/ui",

@@ -4,8 +4,10 @@ import { CategoryPage } from "@/features/catalog/CategoryPage";
 import { UiPage } from "@/features/dev/UiPage";
 import { ArticlePage } from "@/features/manage/ArticlePage";
 import { ArticlesPage } from "@/features/manage/ArticlesPage";
+import { CategoriesPage } from "@/features/manage/CategoriesPage";
 import { StorePage } from "@/features/manage/StorePage";
 import { StoresPage } from "@/features/manage/StoresPage";
+import { UnitsPage } from "@/features/manage/UnitsPage";
 import { ListPage } from "@/features/list/ListPage";
 import { RecapPage } from "@/features/shopping/RecapPage";
 import { ShoppingPage } from "@/features/shopping/ShoppingPage";
@@ -33,6 +35,8 @@ export const router = createHashRouter([
       { path: routes.shoppingRecap, element: <RecapPage /> },
       { path: routes.manageArticles, element: <ArticlesPage /> },
       { path: routes.manageArticle, element: <ArticlePage /> },
+      { path: routes.manageCategories, element: <CategoriesPage /> },
+      { path: routes.manageUnits, element: <UnitsPage /> },
       { path: routes.manageStores, element: <StoresPage /> },
       { path: routes.manageStore, element: <StorePage /> },
       { path: routes.devUi, element: <UiPage /> },

@@ -182,7 +182,7 @@ L'ajout d'un article ne pose **jamais** de question : il va dans le rayon princi
 Autres règles :
 
 - Chaque magasin possède un rayon spécial **« Non classé »**, toujours en dernier, qui reçoit les catégories rattachées à aucun rayon.
-- On peut créer, renommer, réordonner, fusionner, scinder et supprimer des rayons. Supprimer un rayon renvoie les catégories dont il était le rayon principal dans « Non classé » (ou vers un de leurs rayons secondaires, au choix).
+- On peut créer, renommer, réordonner, fusionner, scinder (créer un rayon, puis y ranger une partie des catégories) et supprimer des rayons. Supprimer un rayon renvoie les catégories dont il était le rayon principal dans « Non classé » (ou vers un de leurs rayons secondaires, au choix).
 
 ### Exception par article
 

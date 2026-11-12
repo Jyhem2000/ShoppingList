@@ -151,3 +151,39 @@ export function mergeAisles<A extends AisleLike>(
       .map((o) => ({ ...o, aisleId: target.id })),
   };
 }
+
+/**
+ * Une catégorie disparaît dans une autre (fusion ou suppression, docs/02 § 3) : dans un
+ * magasin, ses rayons deviennent ceux de la catégorie gardée ; si celle-ci n'avait pas
+ * de rayon principal, elle prend celui de la catégorie fusionnée. Renvoie les rayons
+ * modifiés d'un même magasin.
+ */
+export function moveCategoryInAisles<A extends AisleLike>(
+  aisles: readonly A[],
+  sourceId: ID,
+  targetId: ID | undefined,
+): A[] {
+  const targetHasPrimary =
+    targetId !== undefined &&
+    aisles.some((a) => categoryRole(a, targetId) === "primary");
+  const changed: A[] = [];
+  for (const aisle of aisles) {
+    const source = aisle.categories.find((c) => c.categoryId === sourceId);
+    if (!source) continue;
+    let categories = aisle.categories.filter((c) => c.categoryId !== sourceId);
+    if (targetId !== undefined) {
+      const primary = source.primary && !targetHasPrimary;
+      const role = categoryRole(aisle, targetId);
+      if (role === "none")
+        categories = [...categories, { categoryId: targetId, primary }];
+      else if (primary && role === "secondary")
+        categories = categories.map((c) =>
+          c.categoryId === targetId
+            ? { categoryId: targetId, primary: true }
+            : c,
+        );
+    }
+    changed.push({ ...aisle, categories });
+  }
+  return changed;
+}

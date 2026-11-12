@@ -230,6 +230,63 @@ export const fr = {
       none: "Aucune",
     },
     confirmCancel: "Annuler",
+    categories: {
+      title: "Catégories",
+      hint: "Noms, icônes et couleurs, fusion",
+      count: (count: number) =>
+        count > 1 ? `${count} articles` : `${count} article`,
+      add: "Nouvelle catégorie",
+      newTitle: "Nouvelle catégorie",
+      name: "Nom",
+      create: "Créer la catégorie",
+      nameTaken: "Une autre catégorie porte déjà ce nom.",
+      system:
+        "Catégorie de l'app : elle ne se supprime pas. Ses articles vont dans « Non classé ».",
+      newHint:
+        "Pense à la ranger dans un rayon de chaque magasin (Magasins & rayons).",
+      merge: "Fusionner avec une autre catégorie",
+      mergeTitle: (name: string) => `Fusionner ${name} dans…`,
+      mergeText:
+        "La catégorie choisie reprend ses articles et ses rayons ; celle-ci disparaît.",
+      merged: (from: string, into: string) => `${from} fusionnée dans ${into}`,
+      delete: "Supprimer la catégorie",
+      deleteTitle: (name: string) => `Supprimer ${name} ?`,
+      deleteText: (count: number) =>
+        count === 0
+          ? "Elle ne contient aucun article."
+          : `${count > 1 ? `Ses ${count} articles iront` : "Son article ira"} dans la catégorie choisie.`,
+      moveTo: "Déplacer ses articles vers",
+      deleted: (name: string) => `Catégorie ${name} supprimée`,
+      done: "Terminé",
+    },
+    units: {
+      title: "Unités",
+      hint: "Poids, volumes, contenants et leurs abréviations",
+      add: "Nouvelle unité",
+      newTitle: "Nouvelle unité",
+      singular: "Nom (singulier)",
+      plural: "Pluriel",
+      abbr: "Abréviation",
+      abbrHint:
+        "Facultative. Sans abréviation : le nom en entier (« 2 bouteilles »).",
+      group: "Type",
+      factor: (base: string) => `Valeur en ${base}`,
+      factorHint: (base: string) =>
+        `Combien de ${base} dans une unité : 1000 pour un kilogramme. Permet de convertir.`,
+      base: { mass: "grammes", volume: "millilitres" },
+      step: "Pas des boutons − et +",
+      create: "Créer l'unité",
+      nameTaken: "Une autre unité porte déjà ce nom.",
+      save: "Enregistrer",
+      usage: (lines: number, articles: number) =>
+        `Utilisée par ${articles} article${articles > 1 ? "s" : ""} et ${lines} ligne${lines > 1 ? "s" : ""}.`,
+      delete: "Supprimer l'unité",
+      deleteTitle: (name: string) => `Supprimer « ${name} » ?`,
+      deleteText:
+        "Les articles et les lignes qui l'utilisent passent à l'unité choisie, la quantité convertie quand c'est possible.",
+      replaceWith: "Remplacer par",
+      deleted: (name: string) => `Unité « ${name} » supprimée`,
+    },
     icon: {
       title: "Icône",
       search: "Chercher une icône",
@@ -544,6 +601,16 @@ export const fr = {
     title: "Nouveautés",
     version: (version: string) => `Version ${version}`,
     versions: [
+      {
+        version: "0.6.0",
+        date: "2026-11-12",
+        items: [
+          "Tout est modifiable : Réglages → Mes données → Articles, Catégories, Magasins & rayons, Unités.",
+          "Magasins : crée-les depuis un modèle, une copie ou à vide ; range les rayons au doigt, choisis leurs catégories, leur icône et leur couleur ; active ou coupe l'apprentissage de l'ordre.",
+          "Articles : nom, catégorie, unité et quantité par défaut, types, autres noms, icône et favori. L'app repère les doublons probables et propose de les fusionner.",
+          "Raccourcis : « Modifier l'article » depuis une ligne, appui long sur une carte du catalogue, « Modifier ce magasin » depuis le choix du magasin.",
+        ],
+      },
       {
         version: "0.5.0",
         date: "2026-11-12",
