@@ -51,6 +51,7 @@ export function ListLines({
             color={paletteColor(aisle.color)}
             count={remaining}
             expanded={expanded}
+            outlined
             onToggle={() => {
               setCollapsed((current) => {
                 const next = new Set(current);

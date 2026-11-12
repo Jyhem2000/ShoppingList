@@ -38,7 +38,7 @@ export function AddBar({
         setText("");
       }}
       className={cn(
-        "flex items-center gap-2 rounded-full border-2 border-primary/60 bg-raised py-1.5 pr-1.5 pl-4 shadow-lg shadow-black/60 focus-within:border-primary",
+        "flex items-center gap-2 rounded-full border-2 border-field-border bg-raised py-1.5 pr-1.5 pl-4 focus-within:border-primary",
         className,
       )}
     >

@@ -95,46 +95,46 @@ Articles de base (extrait du futur catalogue, phase 3) :
 
 Volontairement fines pour être regroupées différemment selon les magasins. Unité par défaut suggérée pour les nouveaux articles de la catégorie. Dans un nom double, **chaque partie prend une majuscule** (« Pain & Viennoiseries », « Lait, Crème & Beurre ») : ce sont des étiquettes. Les deux catégories système vont dans le rayon « Non classé ».
 
-| Slug                      | Libellé                              | Unité par défaut suggérée |
-| ------------------------- | ------------------------------------ | ------------------------- |
-| `fruits`                  | Fruits                               | kg                        |
-| `legumes`                 | Légumes                              | kg                        |
-| `herbes-aromatiques`      | Herbes aromatiques                   | botte                     |
-| `pain-viennoiseries`      | Pain & Viennoiseries                 | pièce                     |
-| `viande`                  | Viande                               | g                         |
-| `volaille`                | Volaille                             | g                         |
-| `charcuterie`             | Charcuterie                          | paquet                    |
-| `poisson-fruits-de-mer`   | Poisson & Fruits de mer              | g                         |
-| `traiteur`                | Traiteur & Plats préparés            | barquette                 |
-| `oeufs`                   | Œufs                                 | pièce                     |
-| `lait-creme-beurre`       | Lait, Crème & Beurre                 | pièce                     |
-| `yaourts-desserts`        | Yaourts & Desserts frais             | pièce                     |
-| `fromages`                | Fromages                             | pièce                     |
-| `pates-riz-feculents`     | Pâtes, Riz & Féculents               | paquet                    |
-| `conserves-bocaux`        | Conserves & Bocaux                   | boîte                     |
-| `sauces-condiments`       | Sauces, Condiments & Épices          | pot                       |
-| `huiles-vinaigres`        | Huiles & Vinaigres                   | bouteille                 |
-| `aperitif`                | Apéritif                             | sachet                    |
-| `cuisine-du-monde`        | Cuisine du monde                     | pièce                     |
-| `farine-sucre-patisserie` | Farine, Sucre & Pâtisserie           | paquet                    |
-| `petit-dejeuner`          | Céréales & Petit-déjeuner            | paquet                    |
-| `biscuits-gateaux`        | Biscuits & Gâteaux                   | paquet                    |
-| `chocolat-confiserie`     | Chocolat & Confiserie                | pièce                     |
-| `confitures-tartiner`     | Confitures & Pâtes à tartiner        | pot                       |
-| `cafe-the`                | Café & Thé                           | paquet                    |
-| `eaux`                    | Eaux                                 | pack                      |
-| `jus-sodas`               | Jus & Sodas                          | bouteille                 |
-| `alcools`                 | Bières, Vins & Alcools               | bouteille                 |
-| `surgeles`                | Surgelés                             | sachet                    |
-| `glaces`                  | Glaces                               | pièce                     |
-| `hygiene-beaute`          | Hygiène & Beauté                     | pièce                     |
-| `papier-mouchoirs`        | Papier toilette & Mouchoirs          | rouleau                   |
-| `entretien`               | Entretien & Lessive                  | pièce                     |
-| `cuisine-maison`          | Cuisine & Maison (sacs, alu, piles…) | pièce                     |
-| `bebe`                    | Bébé                                 | pièce                     |
-| `animaux`                 | Animaux                              | pièce                     |
-| `autres`                  | Autres _(système, non supprimable)_  | pièce                     |
-| `achats-ponctuels`        | Achats ponctuels _(système)_         | pièce                     |
+| Slug                      | Libellé                             | Unité par défaut suggérée |
+| ------------------------- | ----------------------------------- | ------------------------- |
+| `fruits`                  | Fruits                              | kg                        |
+| `legumes`                 | Légumes                             | kg                        |
+| `herbes-aromatiques`      | Herbes aromatiques                  | botte                     |
+| `pain-viennoiseries`      | Pain & Viennoiseries                | pièce                     |
+| `viande`                  | Viande                              | g                         |
+| `volaille`                | Volaille                            | g                         |
+| `charcuterie`             | Charcuterie                         | paquet                    |
+| `poisson-fruits-de-mer`   | Poisson & Fruits de mer             | g                         |
+| `traiteur`                | Traiteur & Plats préparés           | barquette                 |
+| `oeufs`                   | Œufs                                | pièce                     |
+| `lait-creme-beurre`       | Lait, Crème & Beurre                | pièce                     |
+| `yaourts-desserts`        | Yaourts & Desserts frais            | pièce                     |
+| `fromages`                | Fromages                            | pièce                     |
+| `pates-riz-feculents`     | Pâtes, Riz & Féculents              | paquet                    |
+| `conserves-bocaux`        | Conserves & Bocaux                  | boîte                     |
+| `sauces-condiments`       | Sauces, Condiments & Épices         | pot                       |
+| `huiles-vinaigres`        | Huiles & Vinaigres                  | bouteille                 |
+| `aperitif`                | Apéritif                            | sachet                    |
+| `cuisine-du-monde`        | Cuisine du monde                    | pièce                     |
+| `farine-sucre-patisserie` | Farine, Sucre & Pâtisserie          | paquet                    |
+| `petit-dejeuner`          | Céréales & Petit-déjeuner           | paquet                    |
+| `biscuits-gateaux`        | Biscuits & Gâteaux                  | paquet                    |
+| `chocolat-confiserie`     | Chocolat & Confiserie               | pièce                     |
+| `confitures-tartiner`     | Confitures & Pâtes à tartiner       | pot                       |
+| `cafe-the`                | Café & Thé                          | paquet                    |
+| `eaux`                    | Eaux                                | pack                      |
+| `jus-sodas`               | Jus & Sodas                         | bouteille                 |
+| `alcools`                 | Bières, Vins & Alcools              | bouteille                 |
+| `surgeles`                | Surgelés                            | sachet                    |
+| `glaces`                  | Glaces                              | pièce                     |
+| `hygiene-beaute`          | Hygiène & Beauté                    | pièce                     |
+| `papier-mouchoirs`        | Papier toilette & Mouchoirs         | rouleau                   |
+| `entretien`               | Entretien & Lessive                 | pièce                     |
+| `cuisine-maison`          | Cuisine & Maison                    | pièce                     |
+| `bebe`                    | Bébé                                | pièce                     |
+| `animaux`                 | Animaux                             | pièce                     |
+| `autres`                  | Autres _(système, non supprimable)_ | pièce                     |
+| `achats-ponctuels`        | Achats ponctuels _(système)_        | pièce                     |
 
 ## 3. Modèles de magasins
 

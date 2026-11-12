@@ -36,20 +36,21 @@ Définis une seule fois dans `src/styles/index.css` ; les composants n'utilisent
 
 ### Thème clair
 
-Mêmes tokens, redéfinis sous `:root[data-theme="light"]` dans `src/styles/index.css`. Fond de l'app **blanc**, cartes, lignes et panneaux **gris clair**, éléments surélevés (champs, barre d'ajout, toasts) en **violet clair** : le violet principal éclairci (retour d'essai du 12 novembre 2026). Violet et or choisis le 12 novembre 2026 : **`#5B21B6`** (violet) et **`#FBBF24`** (or). Sur fond blanc, l'or vif est trop pâle pour un petit texte ou une icône au trait : il sert aux **aplats** (`--secondary-fill`), et un ambre foncé du même ton (`--secondary`) aux quantités, icônes et repères.
+Mêmes tokens, redéfinis sous `:root[data-theme="light"]` dans `src/styles/index.css`. Violet **`#5B21B6`** et or **`#FBBF24`**, choisis le 12 novembre 2026. Fond de l'app **blanc**, cartes, lignes et panneaux **gris très clair**, éléments surélevés (champs, barre d'ajout, toasts) en **or clair** bordés d'or (`--field-border`). Sur fond blanc, l'or vif est trop pâle pour un petit texte ou une icône au trait : il sert aux **aplats** (`--secondary-fill` : bouton « Terminer », barre de progression, trait de l'onglet actif) et à la bordure des champs ; les **repères** (icônes, quantités, onglet actif) passent en **violet** (`--secondary` = violet principal). Retours d'essai du 12 novembre 2026 : l'ambre foncé essayé d'abord faisait « rouille ». En thème clair, les blocs de rayon de la liste (hors mode courses) et les cartes de catégorie du catalogue n'ont **pas de fond** : une bordure fine de leur couleur suffit.
 
 | Rôle                   | Token              | Valeur    |
 | ---------------------- | ------------------ | --------- |
 | Fond 1                 | `--bg`             | `#ffffff` |
-| Fond 2                 | `--surface`        | `#f1f1f5` |
-| Fond 3                 | `--raised`         | `#ebe4fa` |
-| Séparateur             | `--border`         | `#d6d6e0` |
+| Fond 2                 | `--surface`        | `#f7f7fa` |
+| Fond 3                 | `--raised`         | `#fef3c7` |
+| Séparateur             | `--border`         | `#dcdce4` |
+| Bordure des champs     | `--field-border`   | `#fbbf24` |
 | Texte principal        | `--text`           | `#16161b` |
 | Texte secondaire       | `--text-muted`     | `#5b5b67` |
 | **Couleur principale** | `--primary`        | `#5b21b6` |
 |                        | `--primary-strong` | `#4c1d95` |
 |                        | `--on-primary`     | `#ffffff` |
-| **Couleur secondaire** | `--secondary`      | `#b45309` |
+| **Couleur secondaire** | `--secondary`      | `#5b21b6` |
 |                        | `--secondary-fill` | `#fbbf24` |
 |                        | `--on-secondary`   | `#1d1606` |
 | Succès                 | `--success`        | `#15803d` |
@@ -157,7 +158,7 @@ Carré arrondi, fond = couleur de la catégorie à ~15 %, 1 ou 2 lettres en gras
 
 1. **Ligne d'article** : **indentée** sous l'en-tête de son rayon · icône 28 px · libellé 16 px · types acceptés / note en `--text-muted` · quantité + unité en or (`--secondary`), alignée à droite · toute la ligne cliquable. Hauteur 44 px, 48 px en mode courses ; ligne cochée barrée, icône grisée avec une petite coche verte.
 2. **Bloc de rayon** : la couleur du rayon forme la **bordure gauche de tout le bloc** (en-tête et articles) ; en-tête au fond teinté de la couleur (~10 %) : icône 28 px · libellé 18 px · compteur · chevron ; repliable. Rayon terminé en mode courses : libellé vert et coche à la place du compteur. 16 px d'écart entre deux rayons.
-3. **Barre d'ajout** : fond `--raised`, en pilule, **bordure violette de 2 px** pour ressortir de l'interface, loupe or, bouton « + » violet, flottante au-dessus de la barre d'onglets ; saisie en 16 px (pas de zoom automatique sur iPhone). Même style pour la recherche du catalogue.
+3. **Barre d'ajout** : fond `--raised`, en pilule, **bordure de 2 px** (`--field-border` : violet en sombre, or en clair) pour ressortir de l'interface, sans ombre, loupe or, bouton « + » violet, flottante au-dessus de la barre d'onglets ; saisie en 16 px (pas de zoom automatique sur iPhone). Même style pour la recherche du catalogue.
 4. **Carte du catalogue** : grande icône (56 px), libellé sur 2 lignes max, pastille de quantité or si dans la liste, entourée d'un fin liseré de la couleur de la carte pour rester lisible sur une icône jaune.
 5. **Boutons** : **deux styles seulement** — principal (fond violet `--primary`, texte `--on-primary`, hauteur ≥ 48 px en taille `lg`) pour l'action principale de l'écran, et secondaire (contour violet) pour les autres actions. Variantes : suppression (style principal en rouge), bouton fait d'une icône seule (▶) en or. **Appui bien visible** : le bouton rétrécit (95 %) et fonce pendant le toucher.
 6. **Panneaux glissants** : fond `--surface`, poignée en haut, coins supérieurs arrondis. En-tête fixe avec **✕ toujours visible** (même clavier ouvert) ; on ferme aussi en glissant la poignée vers le bas ou en touchant à côté. Panneau à étapes (déplacer un article) : bouton **←** pour revenir à l'étape précédente. Une fiche à consulter d'abord (ligne, quantité, création d'article) s'ouvre **sans focus sur un champ** : le clavier ne cache pas le reste.

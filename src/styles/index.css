@@ -1,6 +1,9 @@
 @import "tailwindcss";
 @import "@fontsource-variable/plus-jakarta-sans";
 
+/* Styles propres au thème clair : `light:bg-transparent`… */
+@custom-variant light (&:where([data-theme="light"], [data-theme="light"] *));
+
 /*
  * Design system — thème sombre (par défaut) et thème clair (docs/05 § 2), choisis dans
  * Réglages → Thème et posés sur <html data-theme="dark|light"> (src/app/theme.ts).
@@ -19,6 +22,8 @@
   --surface: #18181d; /* fond 2 : cartes, lignes, panneaux (et filet des icônes) */
   --raised: #2a2a32; /* fond 3 : éléments surélevés, champs, boutons neutres */
   --border: #3a3a45;
+  /* Bordure des champs mis en avant (barre d'ajout, recherche du catalogue) */
+  --field-border: color-mix(in srgb, var(--primary) 60%, transparent);
 
   /* Textes */
   --text: #ededf0; /* texte principal */
@@ -65,11 +70,12 @@
 :root[data-theme="light"] {
   color-scheme: light;
 
-  /* Fond de l'app blanc, cartes et panneaux gris, éléments surélevés violet clair */
+  /* Fond de l'app blanc, cartes et panneaux gris très clair, éléments surélevés or clair */
   --bg: #ffffff;
-  --surface: #f1f1f5;
-  --raised: #ebe4fa;
-  --border: #d6d6e0;
+  --surface: #f7f7fa;
+  --raised: #fef3c7;
+  --border: #dcdce4;
+  --field-border: #fbbf24;
 
   --text: #16161b;
   --text-muted: #5b5b67;
@@ -78,9 +84,10 @@
   --primary-strong: #4c1d95;
   --on-primary: #ffffff;
 
-  /* Or : aplats en #FBBF24, textes et icônes en ambre foncé du même ton */
-  --secondary: #b45309;
-  --secondary-strong: #92400e;
+  /* Or : aplats en #FBBF24 ; trop pâle pour un texte ou une icône au trait sur blanc,
+     les repères (icônes, quantités) passent en violet. */
+  --secondary: #5b21b6;
+  --secondary-strong: #4c1d95;
   --secondary-fill: #fbbf24;
   --secondary-fill-strong: #f59e0b;
   --on-secondary: #1d1606;
@@ -115,6 +122,7 @@
   --color-surface: var(--surface);
   --color-raised: var(--raised);
   --color-border: var(--border);
+  --color-field-border: var(--field-border);
   --color-text: var(--text);
   --color-text-muted: var(--text-muted);
   --color-primary: var(--primary);

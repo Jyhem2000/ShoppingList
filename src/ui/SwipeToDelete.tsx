@@ -61,7 +61,8 @@ export function SwipeAction({
           event.stopPropagation();
         }}
         aria-label={label}
-        className="relative bg-surface"
+        // Fond opaque qui cache l'action ; celui du bloc parent (`--row-bg`), sinon --surface.
+        className="relative bg-(--row-bg,var(--surface))"
       >
         {children}
       </motion.div>
