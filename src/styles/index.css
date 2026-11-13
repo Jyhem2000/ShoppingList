@@ -72,10 +72,10 @@
 :root[data-theme="light"] {
   color-scheme: light;
 
-  /* Fond de l'app blanc, cartes et panneaux violet très clair, éléments surélevés gris très clair */
+  /* Fond de l'app blanc, cartes et panneaux gris très clair, éléments surélevés violet très clair */
   --bg: #ffffff;
-  --surface: #efeafc;
-  --raised: #f4f4f7;
+  --surface: #f7f7fa;
+  --raised: #efeafc;
   --border: #d6d6df;
   /* Filet des icônes : fond de la ligne ou des cartes (repli de var(), packData.ts) */
   --icon-gap: initial;
