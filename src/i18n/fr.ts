@@ -672,6 +672,14 @@ export const fr = {
     version: (version: string) => `Version ${version}`,
     versions: [
       {
+        version: "0.7.1",
+        date: "2026-11-13",
+        items: [
+          "En rangeant ton magasin, rien ne saute plus à l'écran : les autres articles de la catégorie que tu viens de ranger restent dans « À placer » jusqu'à ce que tu les coches.",
+          "« Rouvrir les courses » n'est proposé que le jour même, et plus jamais pour un magasin supprimé.",
+        ],
+      },
+      {
         version: "0.7.0",
         date: "2026-11-13",
         items: [
