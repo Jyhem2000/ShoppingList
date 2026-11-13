@@ -92,7 +92,9 @@ Articles de base (extrait du futur catalogue, phase 3) :
 
 ## 2. Catégories (~35)
 
-Volontairement fines pour être regroupées différemment selon les magasins. Unité par défaut suggérée pour les nouveaux articles de la catégorie. Dans un nom double, **chaque partie prend une majuscule** (« Pain & Viennoiseries », « Lait, Crème & Beurre ») : ce sont des étiquettes. Les deux catégories système vont dans le rayon « Non classé ».
+Volontairement fines pour être regroupées différemment selon les magasins. Unité par défaut suggérée pour les nouveaux articles de la catégorie. Dans un nom double, **chaque partie prend une majuscule** (« Pain & Viennoiseries », « Lait, Crème & Beurre ») : ce sont des étiquettes. Les deux catégories système vont dans « À placer » de chaque magasin.
+
+Chaque catégorie (sauf les catégories système) a aussi un **nom court** et une **famille**, qui servent au titre des rayons sans nom (02 § 4). Ils sont dans `src/data/categories.json` (`short`, `family`) et `src/data/families.json` ; le tableau validé le 13 novembre 2026 est dans 09, phase 7. Familles : Fruits & légumes, Boulangerie, Viandes & poissons, Frais, Épicerie salée, Épicerie sucrée, Boissons, Surgelés, Hygiène, Maison.
 
 | Slug                      | Libellé                             | Unité par défaut suggérée |
 | ------------------------- | ----------------------------------- | ------------------------- |
@@ -135,79 +137,9 @@ Volontairement fines pour être regroupées différemment selon les magasins. Un
 | `autres`                  | Autres _(système, non supprimable)_ | pièce                     |
 | `achats-ponctuels`        | Achats ponctuels _(système)_        | pièce                     |
 
-## 3. Modèles de magasins
+## 3. Magasins
 
-Le même catalogue de catégories, regroupé différemment : c'est ce qui permet de coller à la réalité de chaque magasin. Les noms de rayons ci-dessous servent de repère dans cette doc et à reconnaître les anciens noms à retirer (schéma 2) : les rayons créés depuis un modèle **n'ont pas de nom**, ils sont numérotés dans l'ordre de passage et désignés par leurs catégories (02 § 4). Dans les tableaux, une catégorie est **principale** dans son rayon sauf mention _(secondaire)_ (voir [02 § 4](02-modele-metier.md#catégorie-présente-dans-plusieurs-rayons)).
-
-### « Hypermarché »
-
-| #   | Rayon                    | Catégories                                                                                                                                                |
-| --- | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | Fruits & Légumes         | fruits, legumes, herbes-aromatiques                                                                                                                       |
-| 2   | Boulangerie & Pâtisserie | pain-viennoiseries, biscuits-gateaux _(secondaire)_                                                                                                       |
-| 3   | Boucherie à la coupe     | viande, volaille                                                                                                                                          |
-| 4   | Charcuterie à la coupe   | charcuterie                                                                                                                                               |
-| 5   | Poissonnerie             | poisson-fruits-de-mer                                                                                                                                     |
-| 6   | Fromagerie à la coupe    | fromages                                                                                                                                                  |
-| 7   | Terroir                  | viande _(secondaire)_, charcuterie _(secondaire)_, fromages _(secondaire)_                                                                                |
-| 8   | Frais libre-service      | traiteur, oeufs, lait-creme-beurre, yaourts-desserts, viande _(secondaire)_, volaille _(secondaire)_, charcuterie _(secondaire)_, fromages _(secondaire)_ |
-| 9   | Épicerie salée           | pates-riz-feculents, conserves-bocaux, sauces-condiments, huiles-vinaigres                                                                                |
-| 10  | Cuisine du monde         | cuisine-du-monde                                                                                                                                          |
-| 11  | Apéritif                 | aperitif                                                                                                                                                  |
-| 12  | Épicerie sucrée          | farine-sucre-patisserie, petit-dejeuner, biscuits-gateaux, chocolat-confiserie, confitures-tartiner, cafe-the                                             |
-| 13  | Boissons                 | eaux, jus-sodas                                                                                                                                           |
-| 14  | Cave                     | alcools                                                                                                                                                   |
-| 15  | Surgelés                 | surgeles, glaces                                                                                                                                          |
-| 16  | Hygiène & Beauté         | hygiene-beaute, papier-mouchoirs                                                                                                                          |
-| 17  | Bébé                     | bebe                                                                                                                                                      |
-| 18  | Entretien & Maison       | entretien, cuisine-maison                                                                                                                                 |
-| 19  | Animaux                  | animaux                                                                                                                                                   |
-| —   | Non classé               | autres + toute catégorie non rattachée                                                                                                                    |
-
-### « Supermarché »
-
-| #   | Rayon                  | Catégories                                                                                                    |
-| --- | ---------------------- | ------------------------------------------------------------------------------------------------------------- |
-| 1   | Fruits & Légumes       | fruits, legumes, herbes-aromatiques                                                                           |
-| 2   | Boulangerie            | pain-viennoiseries                                                                                            |
-| 3   | Boucherie              | viande, volaille                                                                                              |
-| 4   | Poissonnerie           | poisson-fruits-de-mer                                                                                         |
-| 5   | Charcuterie & Traiteur | charcuterie, traiteur, viande _(secondaire)_                                                                  |
-| 6   | Crèmerie               | oeufs, lait-creme-beurre, yaourts-desserts                                                                    |
-| 7   | Fromages               | fromages                                                                                                      |
-| 8   | Épicerie salée         | pates-riz-feculents, conserves-bocaux, sauces-condiments, huiles-vinaigres, cuisine-du-monde                  |
-| 9   | Apéritif               | aperitif                                                                                                      |
-| 10  | Épicerie sucrée        | farine-sucre-patisserie, petit-dejeuner, biscuits-gateaux, chocolat-confiserie, confitures-tartiner, cafe-the |
-| 11  | Boissons               | eaux, jus-sodas, alcools                                                                                      |
-| 12  | Surgelés               | surgeles, glaces                                                                                              |
-| 13  | Hygiène                | hygiene-beaute, papier-mouchoirs, bebe                                                                        |
-| 14  | Entretien & Maison     | entretien, cuisine-maison, animaux                                                                            |
-| —   | Non classé             | autres + toute catégorie non rattachée                                                                        |
-
-### « Supérette »
-
-| #   | Rayon            | Catégories                                                                                                                                                                                                            |
-| --- | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | Fruits & Légumes | fruits, legumes, herbes-aromatiques                                                                                                                                                                                   |
-| 2   | Frais            | viande, volaille, charcuterie, poisson-fruits-de-mer, traiteur, oeufs, lait-creme-beurre, yaourts-desserts, fromages                                                                                                  |
-| 3   | Épicerie         | pates-riz-feculents, conserves-bocaux, aperitif, sauces-condiments, huiles-vinaigres, cuisine-du-monde, farine-sucre-patisserie, petit-dejeuner, biscuits-gateaux, chocolat-confiserie, confitures-tartiner, cafe-the |
-| 4   | Boissons         | eaux, jus-sodas, alcools                                                                                                                                                                                              |
-| 5   | Surgelés         | surgeles, glaces                                                                                                                                                                                                      |
-| 6   | Droguerie        | hygiene-beaute, papier-mouchoirs, entretien, cuisine-maison, bebe, animaux                                                                                                                                            |
-| —   | Non classé       | autres, pain-viennoiseries…                                                                                                                                                                                           |
-
-### « Marché »
-
-| #   | Rayon                | Catégories                          |
-| --- | -------------------- | ----------------------------------- |
-| 1   | Primeur              | fruits, legumes, herbes-aromatiques |
-| 2   | Fromager             | fromages, oeufs, lait-creme-beurre  |
-| 3   | Boucher / charcutier | viande, volaille, charcuterie       |
-| 4   | Poissonnier          | poisson-fruits-de-mer               |
-| 5   | Boulanger            | pain-viennoiseries                  |
-| —   | Non classé           | tout le reste                       |
-
-Au premier lancement, un magasin **« Mon supermarché »** est créé à partir du modèle « Supermarché ».
+Plus de modèles de magasin depuis la phase 7 (13 novembre 2026) : ils regroupaient les catégories de façon arbitraire, et faux pour le vrai magasin de l'utilisateur. Aucun magasin n'est créé au premier lancement ; un magasin se crée vide (au premier « C'est parti », ou dans Réglages) et ses rayons se rangent pendant les courses (03 C4).
 
 ## 3 bis. Rendements de recette proposés
 

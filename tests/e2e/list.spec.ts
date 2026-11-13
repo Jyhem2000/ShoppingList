@@ -1,5 +1,13 @@
 import { expect, test } from "@playwright/test";
-import { addToList, aisleNames, enterApp, line, startShopping } from "./app";
+import {
+  addToList,
+  aisleNames,
+  enterApp,
+  finishShopping,
+  line,
+  nextAisle,
+  startShopping,
+} from "./app";
 
 /** Scénarios de bout en bout de la liste (docs/08 § 3 : 1, 2, 3 et 6). */
 
@@ -43,10 +51,10 @@ test("2. ajout éclair, article déjà présent, création d'un article inconnu"
   await expect(line(page, "Œufs")).toContainText("× 6");
 });
 
-test("3. liste par catégorie ; en courses, par rayon dans l'ordre du magasin choisi", async ({
+test("3. liste par catégorie ; la première course construit le magasin, la suivante suit ce parcours", async ({
   page,
 }) => {
-  await enterApp(page);
+  await enterApp(page, { tips: true });
   await addToList(page, "lait, pommes, pain");
   await expect(line(page, "Pain")).toBeVisible();
   expect(await aisleNames(page)).toEqual([
@@ -55,26 +63,46 @@ test("3. liste par catégorie ; en courses, par rayon dans l'ordre du magasin ch
     "Lait, Crème & Beurre",
   ]);
 
-  // Un deuxième magasin, rangé autrement (Réglages → Magasins & rayons).
-  await page.getByRole("link", { name: "Réglages" }).click();
-  await page.getByRole("link", { name: /Magasins & rayons/ }).click();
-  await page.getByRole("button", { name: "Nouveau magasin" }).click();
-  const sheet = page.getByRole("dialog", { name: "Nouveau magasin" });
-  await sheet.getByRole("button", { name: "Marché", exact: true }).click();
-  await sheet.getByRole("button", { name: "Créer le magasin" }).click();
-  await expect(page.getByRole("heading", { name: "Marché" })).toBeVisible();
+  // Aucun magasin au départ : on le nomme en partant.
+  await startShopping(page, "Marché", { create: true });
+  await expect.poll(() => aisleNames(page)).toEqual(["À placer"]);
+  const place = page.getByRole("dialog", {
+    name: /Touche un article quand il est dans le caddie/,
+  });
+  await expect(place).toBeVisible();
+  await place.click();
 
-  await page.getByRole("link", { name: "Liste" }).click();
-  await startShopping(page, "Marché");
+  // On coche dans l'ordre du parcours, « Rayon suivant » à chaque changement de rayon.
+  await line(page, "Pommes").click();
+  const next = page.getByRole("dialog", { name: /Tu changes de rayon/ });
+  await expect(next).toBeVisible();
+  await next.click();
+  await nextAisle(page);
+  await line(page, "Pain").click();
+  await nextAisle(page);
+  await line(page, "Lait").click();
   await expect
     .poll(() => aisleNames(page))
-    .toEqual([
-      "Rayon 1 : Fruits · Légumes · Herbes aromatiques",
-      "Rayon 2 : Fromages · Œufs · Lait, Crème & Beurre",
-      "Rayon 5 : Pain & Viennoiseries",
-    ]);
-});
+    .toEqual(["Rayon : Fruits", "Rayon : Pain", "Rayon : Lait"]);
+  await finishShopping(page);
+  const stored = page.getByRole("dialog", {
+    name: /Ton magasin est enregistré/,
+  });
+  await expect(stored).toBeVisible();
+  await stored.click();
+  await page.getByRole("button", { name: "Retour à la liste" }).click();
 
+  // La course suivante : rangée par rayon, dans l'ordre du parcours, rien à placer.
+  await addToList(page, "beurre, bananes");
+  await startShopping(page, "Marché");
+  await expect(line(page, "Bananes")).toBeVisible();
+  await expect
+    .poll(() => aisleNames(page))
+    .toEqual(["Rayon : Fruits", "Rayon : Lait"]);
+  await expect(
+    page.getByRole("button", { name: "Rayon suivant" }),
+  ).toBeHidden();
+});
 test("6. les données restent après un rechargement", async ({ page }) => {
   await enterApp(page);
   await addToList(page, "1,5 kg pommes");

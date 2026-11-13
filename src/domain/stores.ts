@@ -1,4 +1,10 @@
-import type { Aisle, AisleCategory, ArticleAisleOverride, ID } from "./model";
+import type {
+  Aisle,
+  AisleCategory,
+  ArticleAisleOverride,
+  Category,
+  ID,
+} from "./model";
 
 /**
  * Édition des magasins et des rayons (docs/02 § 4, docs/03 G3). Fonctions pures : elles
@@ -24,20 +30,8 @@ export function sortAisles<A extends AisleLike>(aisles: readonly A[]): A[] {
 }
 
 /**
- * Numéro de chaque rayon dans l'ordre de passage (1, 2…), « Non classé » exclu
- * (docs/02 § 4). Il suit l'ordre appris : il peut changer d'une course à l'autre.
- */
-export function aisleNumbers(aisles: readonly AisleLike[]): Map<ID, number> {
-  return new Map(
-    sortAisles(aisles)
-      .filter((aisle) => !aisle.isUnsorted)
-      .map((aisle, index) => [aisle.id, index + 1]),
-  );
-}
-
-/**
- * Ce qui décrit un rayon sans nom : ses catégories principales, dans l'ordre du rayon
- * (vide s'il n'en a pas).
+ * Ce qui décrit un rayon sans nom : ses catégories principales, dans l'ordre où elles
+ * y ont été rangées (vide s'il n'en a pas).
  */
 export function aisleContents(
   aisle: Pick<Aisle, "categories">,
@@ -47,6 +41,80 @@ export function aisleContents(
     const name = c.primary ? categoryName(c.categoryId) : undefined;
     return name ? [name] : [];
   });
+}
+
+/** Ce que le titre d'un rayon sait d'une catégorie. */
+export interface CategoryLabel {
+  /** Nom court : « Pain », « Café & thé ». */
+  short: string;
+  /** Nom de sa famille (« Épicerie sucrée »), s'il y en a une. */
+  family?: string;
+}
+
+/**
+ * Titre d'un rayon sans nom, d'après ses catégories principales (docs/02 § 4), sans
+ * jamais de titre à rallonge :
+ * 1. une seule catégorie : son nom court (« Fromages ») ;
+ * 2. toutes de la même famille : le nom de la famille (« Épicerie sucrée ») ;
+ * 3. sinon les deux plus achetées (`weight`, à égalité l'ordre du rayon) et le nombre
+ *    des autres (« Pain · Café & thé +2 »).
+ * `undefined` : aucune catégorie principale.
+ */
+export function aisleTitle(
+  aisle: Pick<Aisle, "categories">,
+  label: (categoryId: ID) => CategoryLabel | undefined,
+  weight: (categoryId: ID) => number = () => 0,
+): string | undefined {
+  const primaries = aisle.categories.flatMap((c, index) => {
+    const found = c.primary ? label(c.categoryId) : undefined;
+    return found ? [{ ...found, id: c.categoryId, index }] : [];
+  });
+  const [first] = primaries;
+  if (!first) return undefined;
+  if (primaries.length === 1) return first.short;
+  if (first.family && primaries.every((c) => c.family === first.family))
+    return first.family;
+  const top = [...primaries]
+    .sort((a, b) => weight(b.id) - weight(a.id) || a.index - b.index)
+    .slice(0, 2)
+    .map((c) => c.short)
+    .join(" · ");
+  return primaries.length > 2 ? `${top} +${primaries.length - 2}` : top;
+}
+
+/**
+ * Rangement d'un article coché dans « À placer » (docs/03 C4) : toute sa catégorie va
+ * dans le rayon en cours, sauf une catégorie système (« Autres ») ou déjà rangée dans
+ * un autre rayon de ce magasin : alors l'article seul (exception par article).
+ */
+export function placementScope(
+  category: Pick<Category, "id" | "isSystem"> | undefined,
+  aisles: readonly Pick<Aisle, "categories" | "isUnsorted">[],
+): "category" | "article" {
+  if (!category || category.isSystem) return "article";
+  const placed = aisles.some(
+    (aisle) =>
+      !aisle.isUnsorted &&
+      aisle.categories.some((c) => c.categoryId === category.id && c.primary),
+  );
+  return placed ? "article" : "category";
+}
+
+/**
+ * Positions des rayons après l'ouverture de `newId` juste après `afterId` (en tête si
+ * absent), réparties sur [0, 1] ; « Non classé » ne bouge pas.
+ */
+export function insertAisleAfter(
+  aisles: readonly AisleLike[],
+  afterId: ID | undefined,
+  newId: ID,
+): Record<ID, number> {
+  const ids = sortAisles(aisles)
+    .filter((a) => !a.isUnsorted && a.id !== newId)
+    .map((a) => a.id);
+  const index = afterId === undefined ? -1 : ids.indexOf(afterId);
+  ids.splice(index + 1, 0, newId);
+  return spreadPositions(ids);
 }
 
 export type CategoryRole = "primary" | "secondary" | "none";

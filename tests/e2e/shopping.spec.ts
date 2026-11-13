@@ -1,21 +1,17 @@
 import { expect, type Page, test } from "@playwright/test";
-import { addToList, enterApp, line } from "./app";
+import {
+  addToList,
+  enterApp,
+  finishShopping,
+  line,
+  nextAisle,
+  startShopping,
+} from "./app";
 
 /** Scénario de bout en bout du mode courses (docs/08 § 3 : 4). */
 
 function aisle(page: Page, name: string) {
   return page.locator(`main section[aria-label^="${name}"]`);
-}
-
-async function finish(page: Page) {
-  await page.getByRole("button", { name: "Terminer les courses" }).click();
-  await page
-    .getByRole("dialog", { name: "Terminer les courses ?" })
-    .getByRole("button", { name: "Terminer", exact: true })
-    .click();
-  await expect(
-    page.getByRole("heading", { name: "Courses terminées" }),
-  ).toBeVisible();
 }
 
 test("4. mode courses : rayon replié, « À récupérer », clôture, réouverture", async ({
@@ -25,41 +21,41 @@ test("4. mode courses : rayon replié, « À récupérer », clôture, réouvert
   await addToList(page, "pommes, lait, beurre");
   await expect(line(page, "Beurre")).toBeVisible();
 
-  await page.getByRole("button", { name: "C'est parti" }).click();
-  await page
-    .getByRole("dialog", { name: "Faire les courses" })
-    .getByRole("button", { name: "C'est parti" })
-    .click();
+  // Premières courses dans ce magasin : ses rayons se rangent en cochant.
+  await startShopping(page, "Supermarché", { create: true });
   await expect(page.getByTestId("shopping-progress")).toHaveText("0 / 3");
   await expect(
     page.getByRole("navigation", { name: "Navigation principale" }),
   ).toBeHidden();
 
-  // Cocher tout un rayon : il se replie, avec une coche.
+  // Cocher tout un rayon puis passer au suivant : il se replie, avec une coche.
   await line(page, "Pommes").click();
   await expect(page.getByTestId("shopping-progress")).toHaveText("1 / 3");
+  await nextAisle(page);
   await expect(
-    aisle(page, "Rayon 1 :").getByRole("button", {
-      expanded: false,
-    }),
+    aisle(page, "Rayon : Fruits").getByRole("button", { expanded: false }),
   ).toBeVisible();
 
-  // On passe en Crèmerie, puis on pense aux carottes : leur rayon est passé.
+  // Au rayon du lait (le beurre, même catégorie, l'y rejoint), on pense aux bananes :
+  // leur rayon est passé.
   await line(page, "Lait").click();
-  await addToList(page, "carottes");
-  const added = page.getByRole("dialog", { name: "Carottes ajouté" });
+  await expect(
+    aisle(page, "Rayon : Lait").getByRole("button", { name: /^Beurre/ }),
+  ).toBeVisible();
+  await addToList(page, "bananes");
+  const added = page.getByRole("dialog", { name: "Bananes ajouté" });
   await expect(added).toContainText("déjà passé");
   await added.getByRole("button", { name: "OK, à prendre" }).click();
   await expect(
-    aisle(page, "À récupérer").getByRole("button", { name: /^Carottes/ }),
+    aisle(page, "À récupérer").getByRole("button", { name: /^Bananes/ }),
   ).toBeVisible();
 
   // Terminer : les lignes cochées quittent la liste.
-  await finish(page);
+  await finishShopping(page);
   await expect(page.getByText("2 articles achetés")).toBeVisible();
   await page.getByRole("button", { name: "Retour à la liste" }).click();
   await expect(line(page, "Beurre")).toBeVisible();
-  await expect(line(page, "Carottes")).toBeVisible();
+  await expect(line(page, "Bananes")).toBeVisible();
   await expect(line(page, "Lait")).toBeHidden();
   await expect(line(page, "Pommes")).toBeHidden();
 
@@ -68,6 +64,6 @@ test("4. mode courses : rayon replié, « À récupérer », clôture, réouvert
   await expect(line(page, "Lait")).toHaveAttribute("aria-pressed", "true");
   await expect(page.getByTestId("shopping-progress")).toHaveText("2 / 4");
   await line(page, "Beurre").click();
-  await finish(page);
+  await finishShopping(page);
   await expect(page.getByText("3 articles achetés")).toBeVisible();
 });

@@ -22,6 +22,6 @@ export interface CatalogArticleData {
 }
 
 /** Version du catalogue embarqué : augmente quand il s'enrichit. */
-export const CATALOG_VERSION = 2;
+export const CATALOG_VERSION = 3;
 
 export const catalogData = catalogJson as CatalogArticleData[];

@@ -1405,6 +1405,28 @@
     "icon": "lait"
   },
   {
+    "key": "lait-aromatise",
+    "name": {
+      "fr": "Lait aromatisé"
+    },
+    "aliases": {
+      "fr": [
+        "lait à la fraise",
+        "lait fraise",
+        "lait chocolaté",
+        "lait au chocolat",
+        "lait à la vanille"
+      ]
+    },
+    "types": {
+      "fr": ["fraise", "chocolat", "vanille"]
+    },
+    "category": "lait-creme-beurre",
+    "unit": "bouteille",
+    "icon": "lait-aromatise",
+    "since": 3
+  },
+  {
     "key": "beurre",
     "name": {
       "fr": "Beurre"

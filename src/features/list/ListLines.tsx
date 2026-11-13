@@ -52,7 +52,6 @@ export function ListLines({
             color={paletteColor(category.color)}
             count={remaining}
             expanded={expanded}
-            outlined
             onToggle={() => {
               setCollapsed((current) => {
                 const next = new Set(current);

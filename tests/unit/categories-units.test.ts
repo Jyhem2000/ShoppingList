@@ -8,7 +8,7 @@ import {
 import { ShoppingDatabase } from "@/db/database";
 import { addListItem } from "@/db/items";
 import { seedDatabase } from "@/db/seed";
-import { nameSeededAisles } from "./fixtures";
+import { addTestStore } from "./fixtures";
 import { deleteUnit } from "@/db/units";
 import { categoryRole } from "@/domain/stores";
 
@@ -22,7 +22,7 @@ async function setup() {
   database = new ShoppingDatabase(`test-${crypto.randomUUID()}`);
   const db = database;
   await seedDatabase(db, 0);
-  await nameSeededAisles(db);
+  await addTestStore(db);
   const category = async (slug: string) => {
     const found = await db.categories.where("slug").equals(slug).first();
     if (!found) throw new Error(slug);

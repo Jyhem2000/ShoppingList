@@ -40,7 +40,7 @@ export async function createCategory(
 export async function updateCategory(
   database: ShoppingDatabase,
   id: ID,
-  changes: Partial<Pick<Category, "name" | "icon" | "color">>,
+  changes: Partial<Pick<Category, "name" | "shortName" | "icon" | "color">>,
   now = Date.now(),
 ): Promise<"saved" | "nameTaken"> {
   return database.transaction("rw", database.categories, async () => {

@@ -1,6 +1,6 @@
-import { Ban, Check, X } from "lucide-react";
+import { ArrowDown, Ban, Check, X } from "lucide-react";
 import { motion } from "motion/react";
-import { useCallback, useMemo, useState } from "react";
+import { Fragment, useCallback, useState } from "react";
 import { Navigate, useNavigate } from "react-router";
 import { routes, shoppingRecapPath } from "@/app/routes";
 import { db } from "@/db/database";
@@ -15,8 +15,12 @@ import {
   closeSession,
   markUnavailable,
   moveArticle,
+  openNextAisle,
+  placeAndCheck,
   uncheckItem,
 } from "@/db/sessions";
+import { categoriesData } from "@/data";
+import { sortCategories } from "@/domain/categories";
 import type {
   Aisle,
   Article,
@@ -24,7 +28,7 @@ import type {
   ListItem,
   ShoppingSession,
 } from "@/domain/model";
-import { aisleNumbers } from "@/domain/stores";
+
 import { feedback } from "@/feedback";
 import { QuantitySheet } from "@/features/catalog/QuantitySheet";
 import { AddArticleBar } from "@/features/list/AddArticleBar";
@@ -44,6 +48,7 @@ import { Button } from "@/ui/button";
 import { ItemRow } from "@/ui/ItemRow";
 import { Sheet } from "@/ui/Sheet";
 import { SwipeAction } from "@/ui/SwipeToDelete";
+import { Tip } from "@/ui/Tip";
 import { showToast } from "@/ui/toast";
 import { AddedInStoreSheet } from "./AddedInStoreSheet";
 import { MoveAisleSheet } from "./MoveAisleSheet";
@@ -109,10 +114,8 @@ function Shopping({
   const navigate = useNavigate();
   const [panel, setPanel] = useState<Panel | null>(null);
   const [expanded, setExpanded] = useState<ReadonlyMap<ID, boolean>>(new Map());
-  // Rayons numérotés dans l'ordre de passage (docs/02 § 4).
-  const numbers = useMemo(() => aisleNumbers(data.aisles), [data.aisles]);
   const textOf = (aisle: Aisle) =>
-    aisleText(aisle, numbers.get(aisle.id), data.categoryById);
+    aisleText(aisle, data.categoryById, data.categoryWeights);
   const close = () => {
     setPanel(null);
   };
@@ -121,9 +124,26 @@ function Shopping({
   }, []);
   const adding = useAddToList(data, onAdded);
 
+  /** Cocher un article de « À placer » : il est rangé dans le rayon en cours (C4). */
+  const place = (item: ListItem) => {
+    const article = data.articleById.get(item.articleId);
+    if (!article) return;
+    void placeAndCheck(db, session, item, article, view.placing?.id).then(
+      () => {
+        feedback.check();
+      },
+      reportSaveError,
+    );
+  };
+
   /** Cocher, dans son rayon ou dans celui où l'article a été pris (`aisleId`). */
   const check = (item: ListItem, aisleId?: ID) => {
-    const target = aisleId ?? view.aisleOf.get(item.id)?.id;
+    const own = view.aisleOf.get(item.id);
+    if (!aisleId && (!own || own.isUnsorted)) {
+      place(item);
+      return;
+    }
+    const target = aisleId ?? own?.id;
     if (!target) return;
     const lastOfAisle = !data.items.some(
       (other) =>
@@ -217,6 +237,47 @@ function Shopping({
     );
   };
 
+  // « À placer » : à prendre d'abord, puis rangé par catégorie (ordre du catalogue).
+  const categoryRank = new Map(
+    sortCategories(
+      data.categories,
+      categoriesData.map((c) => c.key),
+    ).map((category, index) => [category.id, index]),
+  );
+  const rankOf = (item: ListItem) =>
+    categoryRank.get(data.articleById.get(item.articleId)?.categoryId ?? "") ??
+    0;
+  const unplaced = [...view.unplaced].sort(
+    (a, b) =>
+      Number(a.status !== "todo") - Number(b.status !== "todo") ||
+      rankOf(a) - rankOf(b) ||
+      (data.articleById.get(a.articleId)?.name ?? "").localeCompare(
+        data.articleById.get(b.articleId)?.name ?? "",
+        "fr",
+      ),
+  );
+  const toPlace = unplaced.filter((item) => item.status === "todo").length;
+  const unplacedBlock = unplaced.length > 0 && (
+    <AisleSection
+      label={fr.aisles.unplaced}
+      icon="shopping-basket"
+      color="gris"
+      count={toPlace}
+      expanded
+      onToggle={() => undefined}
+    >
+      {unplaced.map((item, index) =>
+        index === 0 ? (
+          <div key={item.id} data-tip="first-unplaced">
+            {row(item)}
+          </div>
+        ) : (
+          row(item)
+        ),
+      )}
+    </AisleSection>
+  );
+
   const remaining = data.items.filter((item) => item.status === "todo").length;
   const { checked, total } = view.progress;
   const added =
@@ -284,28 +345,39 @@ function Shopping({
             {view.pickUp.map(row)}
           </AisleSection>
         )}
+        {view.unplacedAfter === undefined && unplacedBlock}
         {view.groups.map(({ aisle, items, done }) => {
           const open = expanded.get(aisle.id) ?? !done;
           const text = textOf(aisle);
           return (
-            <AisleSection
-              key={aisle.id}
-              label={text.title}
-              description={text.description}
-              icon={aisle.icon}
-              color={paletteColor(aisle.color)}
-              count={items.filter((i) => i.status === "todo").length}
-              expanded={open}
-              done={done}
-              current={aisle.id === view.current}
-              currentLabel={t.current}
-              kicker={text.kicker}
-              onToggle={() => {
-                setExpanded((current) => new Map(current).set(aisle.id, !open));
-              }}
-            >
-              {items.map(row)}
-            </AisleSection>
+            <Fragment key={aisle.id}>
+              <AisleSection
+                label={text.title}
+                description={text.description}
+                icon={aisle.icon}
+                color={paletteColor(aisle.color)}
+                count={items.filter((i) => i.status === "todo").length}
+                expanded={open}
+                done={done}
+                current={aisle.id === view.current}
+                currentLabel={t.current}
+                kicker={text.kicker}
+                onToggle={() => {
+                  setExpanded((current) =>
+                    new Map(current).set(aisle.id, !open),
+                  );
+                }}
+              >
+                {items.length > 0 ? (
+                  items.map(row)
+                ) : (
+                  <p className="px-4 py-3 text-sm text-muted-foreground">
+                    {t.emptyAisle}
+                  </p>
+                )}
+              </AisleSection>
+              {aisle.id === view.unplacedAfter && unplacedBlock}
+            </Fragment>
           );
         })}
         {remaining === 0 && total > 0 && (
@@ -323,6 +395,24 @@ function Shopping({
         onSubmit={(text) => void adding.submit(text)}
         onPick={(article, entry) => void adding.pick(article, entry)}
         onCreate={adding.create}
+        above={
+          toPlace > 0 && (
+            <Button
+              variant="outline"
+              data-tip="next-aisle"
+              className="mb-2 h-12 w-full bg-bg"
+              aria-description={t.nextAisleHint}
+              onClick={() => {
+                void openNextAisle(db, session, view.placing?.id).catch(
+                  reportSaveError,
+                );
+              }}
+            >
+              <ArrowDown />
+              {t.nextAisle}
+            </Button>
+          )
+        }
         trailing={
           <Button
             variant="gold"
@@ -336,6 +426,20 @@ function Shopping({
             {t.finish}
           </Button>
         }
+      />
+
+      {/* Bulles d'aide de la première course (docs/03 H12), une à la fois. */}
+      <Tip
+        id="shopping-place"
+        text={fr.tips.place}
+        target='[data-tip="first-unplaced"]'
+        show={!panel && toPlace > 0 && !view.placing}
+      />
+      <Tip
+        id="shopping-next"
+        text={fr.tips.next}
+        target='[data-tip="next-aisle"]'
+        show={!panel && toPlace > 0 && view.placing !== undefined}
       />
 
       {pending?.kind === "exists" && (
@@ -363,7 +467,11 @@ function Shopping({
       {added?.item && added.article && (
         <AddedInStoreSheet
           article={added.article}
-          aisle={view.aisleOf.get(added.item.id)}
+          aisle={
+            view.aisleOf.get(added.item.id)?.isUnsorted
+              ? undefined
+              : view.aisleOf.get(added.item.id)
+          }
           here={
             view.here ? data.aisles.find((a) => a.id === view.here) : undefined
           }
@@ -373,7 +481,12 @@ function Shopping({
             const item = added.item;
             const article = added.article;
             close();
-            if (!item || !article || !target) return;
+            if (!item || !article) return;
+            // Pas encore de rayon : rangé dans le rayon en cours, comme dans « À placer ».
+            if (!target) {
+              place(item);
+              return;
+            }
             const done = () => {
               check(item, target.id);
             };

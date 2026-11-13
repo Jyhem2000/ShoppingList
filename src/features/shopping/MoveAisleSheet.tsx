@@ -2,7 +2,7 @@ import { useState } from "react";
 import { db } from "@/db/database";
 import { moveArticle, type MoveScope } from "@/db/sessions";
 import type { Aisle, Article, ID } from "@/domain/model";
-import { aisleNumbers } from "@/domain/stores";
+
 import { aisleText, paletteColor } from "@/features/list/format";
 import type { ListData } from "@/features/list/useListData";
 import { fr } from "@/i18n/fr";
@@ -41,13 +41,12 @@ export function MoveAisleSheet({
   const [target, setTarget] = useState<Aisle>();
   const storeId = data.store?.id;
   const category = data.categoryById.get(article.categoryId);
-  const sorted = [...data.aisles].sort(
-    (a, b) =>
-      Number(a.isUnsorted) - Number(b.isUnsorted) || a.position - b.position,
-  );
-  const numbers = aisleNumbers(data.aisles);
+  // « À placer » n'est pas un vrai rayon : on n'y range rien à la main.
+  const sorted = data.aisles
+    .filter((aisle) => !aisle.isUnsorted)
+    .sort((a, b) => a.position - b.position);
   const textOf = (aisle: Aisle) =>
-    aisleText(aisle, numbers.get(aisle.id), data.categoryById);
+    aisleText(aisle, data.categoryById, data.categoryWeights);
   const hasCategory = (aisle: Aisle) =>
     aisle.categories.some((c) => c.categoryId === article.categoryId);
   const here =

@@ -9,10 +9,8 @@ import { cn } from "@/ui/utils";
  * Bloc d'un rayon (docs/05 § 5.2) : la couleur du rayon forme la bordure gauche de
  * tout le bloc ; icône Lucide du rayon dans sa couleur ; l'en-tête teinté (icône · libellé · compteur, repliable) est plus
  * grand que les articles, indentés en dessous. `done` : rayon terminé en mode courses ;
- * `current` : rayon en cours (mis en évidence).
- * Mode courses : pas de fond sous les articles, une bordure fine de la couleur du rayon.
- * `outlined` (liste hors mode courses) : en sombre, les articles sur le fond 3 ; en clair,
- * comme en mode courses.
+ * `current` : rayon en cours (mis en évidence). Dans la liste comme en mode courses, et
+ * dans les deux thèmes : pas de fond sous les articles, une bordure fine de sa couleur.
  */
 export function AisleSection({
   label,
@@ -22,7 +20,6 @@ export function AisleSection({
   expanded,
   done = false,
   current = false,
-  outlined = false,
   currentLabel,
   kicker,
   description,
@@ -36,7 +33,6 @@ export function AisleSection({
   expanded: boolean;
   done?: boolean;
   current?: boolean;
-  outlined?: boolean;
   /** Mention lue par les lecteurs d'écran sur le rayon en cours. */
   currentLabel?: string;
   /** Au-dessus du nom : « Rayon 3 », pour ne pas confondre avec une catégorie. */
@@ -59,9 +55,8 @@ export function AisleSection({
         "overflow-hidden rounded-2xl border-l-4 transition-shadow",
         palette[color].border,
         current && "ring-2 ring-primary",
-        outlined
-          ? "bg-surface [--row-bg:var(--raised)] light:border light:border-l-4 light:bg-transparent light:[--row-bg:var(--bg)]"
-          : "border border-l-4 [--row-bg:var(--bg)]",
+        // Liste comme courses, dans les deux thèmes : pas de fond sous les articles.
+        "border border-l-4 [--row-bg:var(--bg)]",
       )}
     >
       <button

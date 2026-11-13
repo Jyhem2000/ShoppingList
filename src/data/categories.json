@@ -4,6 +4,10 @@
     "name": {
       "fr": "Fruits"
     },
+    "short": {
+      "fr": "Fruits"
+    },
+    "family": "fruits-legumes",
     "unit": "kg",
     "color": "ambre",
     "icon": "apple"
@@ -13,6 +17,10 @@
     "name": {
       "fr": "Légumes"
     },
+    "short": {
+      "fr": "Légumes"
+    },
+    "family": "fruits-legumes",
     "unit": "kg",
     "color": "sauge",
     "icon": "carrot"
@@ -22,6 +30,10 @@
     "name": {
       "fr": "Herbes aromatiques"
     },
+    "short": {
+      "fr": "Herbes"
+    },
+    "family": "fruits-legumes",
     "unit": "botte",
     "color": "sauge",
     "icon": "sprout"
@@ -31,6 +43,10 @@
     "name": {
       "fr": "Pain & Viennoiseries"
     },
+    "short": {
+      "fr": "Pain"
+    },
+    "family": "boulangerie",
     "unit": "piece",
     "color": "ble",
     "icon": "croissant"
@@ -40,6 +56,10 @@
     "name": {
       "fr": "Viande"
     },
+    "short": {
+      "fr": "Viande"
+    },
+    "family": "viandes-poissons",
     "unit": "g",
     "color": "corail",
     "icon": "beef"
@@ -49,6 +69,10 @@
     "name": {
       "fr": "Volaille"
     },
+    "short": {
+      "fr": "Volaille"
+    },
+    "family": "viandes-poissons",
     "unit": "g",
     "color": "terre",
     "icon": "drumstick"
@@ -58,6 +82,10 @@
     "name": {
       "fr": "Charcuterie"
     },
+    "short": {
+      "fr": "Charcuterie"
+    },
+    "family": "frais",
     "unit": "paquet",
     "color": "rose",
     "icon": "ham"
@@ -67,6 +95,10 @@
     "name": {
       "fr": "Poisson & Fruits de mer"
     },
+    "short": {
+      "fr": "Poisson"
+    },
+    "family": "viandes-poissons",
     "unit": "g",
     "color": "canard",
     "icon": "fish"
@@ -76,6 +108,10 @@
     "name": {
       "fr": "Traiteur & Plats préparés"
     },
+    "short": {
+      "fr": "Traiteur"
+    },
+    "family": "frais",
     "unit": "barquette",
     "color": "prune",
     "icon": "cooking-pot"
@@ -85,6 +121,10 @@
     "name": {
       "fr": "Œufs"
     },
+    "short": {
+      "fr": "Œufs"
+    },
+    "family": "frais",
     "unit": "piece",
     "color": "creme",
     "icon": "egg"
@@ -94,6 +134,10 @@
     "name": {
       "fr": "Lait, Crème & Beurre"
     },
+    "short": {
+      "fr": "Lait"
+    },
+    "family": "frais",
     "unit": "piece",
     "color": "creme",
     "icon": "milk"
@@ -103,6 +147,10 @@
     "name": {
       "fr": "Yaourts & Desserts frais"
     },
+    "short": {
+      "fr": "Yaourts"
+    },
+    "family": "frais",
     "unit": "piece",
     "color": "glacier",
     "icon": "dessert"
@@ -112,6 +160,10 @@
     "name": {
       "fr": "Fromages"
     },
+    "short": {
+      "fr": "Fromages"
+    },
+    "family": "frais",
     "unit": "piece",
     "color": "ble",
     "icon": "triangle"
@@ -121,6 +173,10 @@
     "name": {
       "fr": "Pâtes, Riz & Féculents"
     },
+    "short": {
+      "fr": "Pâtes & riz"
+    },
+    "family": "epicerie-salee",
     "unit": "paquet",
     "color": "ble",
     "icon": "wheat"
@@ -130,6 +186,10 @@
     "name": {
       "fr": "Conserves & Bocaux"
     },
+    "short": {
+      "fr": "Conserves"
+    },
+    "family": "epicerie-salee",
     "unit": "boite",
     "color": "ardoise",
     "icon": "can"
@@ -139,6 +199,10 @@
     "name": {
       "fr": "Sauces & Condiments"
     },
+    "short": {
+      "fr": "Sauces"
+    },
+    "family": "epicerie-salee",
     "unit": "pot",
     "color": "ambre",
     "icon": "amphora"
@@ -148,6 +212,10 @@
     "name": {
       "fr": "Sel, Poivre & Épices"
     },
+    "short": {
+      "fr": "Épices"
+    },
+    "family": "epicerie-salee",
     "unit": "pot",
     "color": "terre",
     "icon": "flame",
@@ -158,6 +226,10 @@
     "name": {
       "fr": "Huiles & Vinaigres"
     },
+    "short": {
+      "fr": "Huiles"
+    },
+    "family": "epicerie-salee",
     "unit": "bouteille",
     "color": "sauge",
     "icon": "droplet"
@@ -167,6 +239,10 @@
     "name": {
       "fr": "Apéritif"
     },
+    "short": {
+      "fr": "Apéro"
+    },
+    "family": "epicerie-salee",
     "unit": "sachet",
     "color": "corail",
     "icon": "popcorn"
@@ -176,6 +252,10 @@
     "name": {
       "fr": "Cuisine du monde"
     },
+    "short": {
+      "fr": "Monde"
+    },
+    "family": "epicerie-salee",
     "unit": "piece",
     "color": "prune",
     "icon": "globe"
@@ -185,6 +265,10 @@
     "name": {
       "fr": "Farine, Sucre & Pâtisserie"
     },
+    "short": {
+      "fr": "Pâtisserie"
+    },
+    "family": "epicerie-sucree",
     "unit": "paquet",
     "color": "creme",
     "icon": "cupcake"
@@ -194,6 +278,10 @@
     "name": {
       "fr": "Céréales & Petit-déjeuner"
     },
+    "short": {
+      "fr": "Petit-déj"
+    },
+    "family": "epicerie-sucree",
     "unit": "paquet",
     "color": "ble",
     "icon": "sunrise"
@@ -203,6 +291,10 @@
     "name": {
       "fr": "Biscuits & Gâteaux"
     },
+    "short": {
+      "fr": "Biscuits"
+    },
+    "family": "epicerie-sucree",
     "unit": "paquet",
     "color": "ambre",
     "icon": "cookie"
@@ -212,6 +304,10 @@
     "name": {
       "fr": "Chocolat & Confiserie"
     },
+    "short": {
+      "fr": "Chocolat"
+    },
+    "family": "epicerie-sucree",
     "unit": "piece",
     "color": "terre",
     "icon": "candy"
@@ -221,6 +317,10 @@
     "name": {
       "fr": "Confitures & Pâtes à tartiner"
     },
+    "short": {
+      "fr": "Confitures"
+    },
+    "family": "epicerie-sucree",
     "unit": "pot",
     "color": "corail",
     "icon": "cherry"
@@ -230,6 +330,10 @@
     "name": {
       "fr": "Café & Thé"
     },
+    "short": {
+      "fr": "Café & thé"
+    },
+    "family": "epicerie-sucree",
     "unit": "paquet",
     "color": "terre",
     "icon": "coffee"
@@ -239,6 +343,10 @@
     "name": {
       "fr": "Eaux"
     },
+    "short": {
+      "fr": "Eaux"
+    },
+    "family": "boissons",
     "unit": "pack",
     "color": "ciel",
     "icon": "glass-water"
@@ -248,6 +356,10 @@
     "name": {
       "fr": "Jus & Sodas"
     },
+    "short": {
+      "fr": "Jus & sodas"
+    },
+    "family": "boissons",
     "unit": "bouteille",
     "color": "lilas",
     "icon": "cup-soda"
@@ -257,6 +369,10 @@
     "name": {
       "fr": "Bières, Vins & Alcools"
     },
+    "short": {
+      "fr": "Alcools"
+    },
+    "family": "boissons",
     "unit": "bouteille",
     "color": "prune",
     "icon": "wine"
@@ -266,6 +382,10 @@
     "name": {
       "fr": "Surgelés"
     },
+    "short": {
+      "fr": "Surgelés"
+    },
+    "family": "surgeles",
     "unit": "sachet",
     "color": "glacier",
     "icon": "snowflake"
@@ -275,6 +395,10 @@
     "name": {
       "fr": "Glaces"
     },
+    "short": {
+      "fr": "Glaces"
+    },
+    "family": "surgeles",
     "unit": "piece",
     "color": "rose",
     "icon": "ice-cream-cone"
@@ -284,6 +408,10 @@
     "name": {
       "fr": "Hygiène & Beauté"
     },
+    "short": {
+      "fr": "Hygiène"
+    },
+    "family": "hygiene",
     "unit": "piece",
     "color": "lilas",
     "icon": "soap-dispenser-droplet"
@@ -293,6 +421,10 @@
     "name": {
       "fr": "Papier toilette & Mouchoirs"
     },
+    "short": {
+      "fr": "Papier"
+    },
+    "family": "hygiene",
     "unit": "piece",
     "color": "ciel",
     "icon": "toilet"
@@ -302,6 +434,10 @@
     "name": {
       "fr": "Entretien & Lessive"
     },
+    "short": {
+      "fr": "Entretien"
+    },
+    "family": "maison",
     "unit": "piece",
     "color": "canard",
     "icon": "spray-can"
@@ -311,6 +447,10 @@
     "name": {
       "fr": "Cuisine & Maison"
     },
+    "short": {
+      "fr": "Maison"
+    },
+    "family": "maison",
     "unit": "piece",
     "color": "ardoise",
     "icon": "house"
@@ -320,6 +460,10 @@
     "name": {
       "fr": "Bébé"
     },
+    "short": {
+      "fr": "Bébé"
+    },
+    "family": "hygiene",
     "unit": "piece",
     "color": "rose",
     "icon": "baby"
@@ -329,6 +473,10 @@
     "name": {
       "fr": "Animaux"
     },
+    "short": {
+      "fr": "Animaux"
+    },
+    "family": "maison",
     "unit": "piece",
     "color": "terre",
     "icon": "paw-print"

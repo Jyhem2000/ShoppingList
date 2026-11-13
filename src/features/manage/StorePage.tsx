@@ -25,6 +25,7 @@ import {
   useArticles,
   useCategories,
   useOverrides,
+  usePurchaseCounts,
   useStores,
 } from "@/db/hooks";
 import {
@@ -36,14 +37,11 @@ import {
   updateStore,
 } from "@/db/stores";
 import type { Aisle, Category, ID } from "@/domain/model";
-import {
-  aisleNumbers,
-  sortAisles,
-  unattachedCategories,
-} from "@/domain/stores";
+import { sortAisles, unattachedCategories } from "@/domain/stores";
 import {
   type AisleText,
   aisleText,
+  categoryWeights,
   paletteColor,
 } from "@/features/list/format";
 import { fr } from "@/i18n/fr";
@@ -75,6 +73,7 @@ export function StorePage() {
   const categories = useCategories();
   const overrides = useOverrides();
   const articles = useArticles();
+  const purchaseCounts = usePurchaseCounts();
   const [openAisle, setOpenAisle] = useState<ID | null>(null);
   const [placing, setPlacing] = useState<Category | null>(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
@@ -100,14 +99,21 @@ export function StorePage() {
         <EmptyState icon={<X className="size-10" />} title={t.missing} />
       </>
     );
-  if (!store || !aisles || !categories || !overrides || !articles) return null;
+  if (
+    !store ||
+    !aisles ||
+    !categories ||
+    !overrides ||
+    !articles ||
+    !purchaseCounts
+  )
+    return null;
 
   const aisleById = new Map(aisles.map((a) => [a.id, a]));
   const articleById = new Map(articles.map((a) => [a.id, a]));
   const categoryById = new Map(categories.map((c) => [c.id, c]));
-  const numbers = aisleNumbers(aisles);
-  const textOf = (aisle: Aisle) =>
-    aisleText(aisle, numbers.get(aisle.id), categoryById);
+  const weights = categoryWeights(articles, purchaseCounts);
+  const textOf = (aisle: Aisle) => aisleText(aisle, categoryById, weights);
   const unattached = unattachedCategories(aisles, categories);
   const exceptions = overrides.filter((o) => o.storeId === store.id);
 
@@ -290,6 +296,7 @@ export function StorePage() {
           aisle={editing}
           aisles={sorted}
           categories={categories}
+          weights={weights}
           onClose={() => {
             setOpenAisle(null);
           }}
@@ -370,11 +377,7 @@ export function StorePage() {
                       replace: true,
                       state: backState,
                     });
-                  } else
-                    showToast(
-                      result === "last" ? t.deleteLast : t.deleteShopping,
-                      { tone: "warning" },
-                    );
+                  } else showToast(t.deleteShopping, { tone: "warning" });
                 });
               }}
             >
@@ -437,11 +440,6 @@ function AisleRow({
           className={cn("size-5 shrink-0", palette[color].text)}
         />
         <span className="min-w-0 flex-1">
-          {text.kicker && (
-            <span className="block text-xs leading-tight font-bold tracking-widest text-muted-foreground uppercase">
-              {text.kicker}
-            </span>
-          )}
           <span className="line-clamp-2 font-semibold">{text.title}</span>
           <span className="block truncate text-sm text-muted-foreground">
             {aisle.isUnsorted

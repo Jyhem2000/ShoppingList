@@ -79,22 +79,6 @@ describe("sauvegarde (docs/03 H4)", () => {
     };
     expect(readBackup(JSON.stringify(future), 1).kind).toBe("newer");
   });
-  it("importe une sauvegarde du schéma 1 en numérotant ses rayons (noms de modèle retirés)", async () => {
-    const source = open();
-    await seedDatabase(source, 0);
-    const [first, second] = await source.aisles
-      .filter((a) => !a.isUnsorted)
-      .toArray();
-    if (!first || !second) throw new Error("rayons");
-    await source.aisles.update(first.id, { name: "Fruits & Légumes" });
-    await source.aisles.update(second.id, { name: "Mon rayon pain" });
-    const backup = { ...(await exportBackup(source, 0)), schema: 1 };
-
-    const target = open();
-    await importBackup(target, backup);
-    expect((await target.aisles.get(first.id))?.name).toBe("");
-    expect((await target.aisles.get(second.id))?.name).toBe("Mon rayon pain");
-  });
 });
 
 describe("mise à jour du catalogue sans réinstaller (docs/06 § 7)", () => {

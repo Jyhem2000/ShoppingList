@@ -1,6 +1,12 @@
 import { describe, expect, it } from "vitest";
 import { effectiveAisle, groupListForStore } from "@/domain/aisles";
-import { aisleContents, aisleNumbers } from "@/domain/stores";
+import { placingAisle } from "@/domain/shopping";
+import {
+  type CategoryLabel,
+  aisleTitle,
+  insertAisleAfter,
+  placementScope,
+} from "@/domain/stores";
 import type {
   ArticleAisleOverride,
   ItemStatus,
@@ -186,36 +192,79 @@ describe("groupListForStore (docs/07 § 7.5)", () => {
   });
 });
 
-describe("rayons numérotés dans l'ordre de passage (docs/02 § 4)", () => {
-  it("numérote 1, 2… dans l'ordre des positions, sans « Non classé »", () => {
-    const numbers = aisleNumbers(aisles);
-    expect(numbers.get(aisle("Fruits & Légumes").id)).toBe(1);
-    expect(numbers.get(aisle("Crèmerie").id)).toBe(6);
-    expect(
-      aisles.filter((a) => a.isUnsorted).map((a) => numbers.get(a.id)),
-    ).toEqual([undefined]);
+describe("titre d'un rayon sans nom (docs/02 § 4)", () => {
+  const labels: Record<string, CategoryLabel> = {
+    pain: { short: "Pain", family: "Boulangerie" },
+    cafe: { short: "Café & thé", family: "Épicerie sucrée" },
+    petitDej: { short: "Petit-déj", family: "Épicerie sucrée" },
+    biscuits: { short: "Biscuits", family: "Épicerie sucrée" },
+    perso: { short: "Bio" },
+  };
+  const label = (id: string) => labels[id];
+  const aisleWith = (...ids: string[]) => ({
+    categories: [
+      ...ids.map((categoryId) => ({ categoryId, primary: true })),
+      // Une catégorie secondaire ne compte pas.
+      { categoryId: "pain", primary: false },
+    ],
   });
 
-  it("suit l'ordre appris : un rayon passé en tête devient le 1", () => {
-    const moved = aisles.map((a) =>
-      a.id === aisle("Crèmerie").id ? { ...a, position: -1 } : a,
+  it("une seule catégorie : son nom court", () => {
+    expect(aisleTitle(aisleWith("cafe"), label)).toBe("Café & thé");
+  });
+
+  it("toutes de la même famille : le nom de la famille", () => {
+    expect(aisleTitle(aisleWith("cafe", "petitDej", "biscuits"), label)).toBe(
+      "Épicerie sucrée",
     );
-    const numbers = aisleNumbers(moved);
-    expect(numbers.get(aisle("Crèmerie").id)).toBe(1);
-    expect(numbers.get(aisle("Fruits & Légumes").id)).toBe(2);
   });
 
-  it("décrit un rayon par ses catégories principales seulement", () => {
-    const name = (id: string) => categories.find((c) => c.id === id)?.name;
-    expect(aisleContents(aisle("Crèmerie"), name)).toEqual([
-      "Œufs",
-      "Lait, Crème & Beurre",
-      "Yaourts & Desserts frais",
+  it("sinon les deux plus achetées, puis le nombre des autres", () => {
+    const aisle = aisleWith("pain", "petitDej", "cafe", "biscuits");
+    expect(aisleTitle(aisle, label)).toBe("Pain · Petit-déj +2");
+    const weights: Record<string, number> = { cafe: 9, biscuits: 3 };
+    expect(aisleTitle(aisle, label, (id) => weights[id] ?? 0)).toBe(
+      "Café & thé · Biscuits +2",
+    );
+    expect(aisleTitle(aisleWith("pain", "perso"), label)).toBe("Pain · Bio");
+  });
+
+  it("aucune catégorie principale : pas de titre", () => {
+    expect(aisleTitle({ categories: [] }, label)).toBeUndefined();
+  });
+});
+
+describe("ranger en cochant (docs/03 C4)", () => {
+  const fruits = categories.find((c) => c.catalogKey === "fruits");
+  const autres = categories.find((c) => c.catalogKey === "autres");
+  const bio = { id: "bio", isSystem: false };
+
+  it("une catégorie sans rayon y va entière ; sinon, ou si c'est « Autres », l'article seul", () => {
+    expect(placementScope(bio, aisles)).toBe("category");
+    expect(placementScope(fruits, aisles)).toBe("article");
+    expect(placementScope(autres, aisles)).toBe("article");
+    expect(placementScope(fruits, [])).toBe("category");
+  });
+
+  it("« Rayon suivant » s'insère juste après le rayon en cours", () => {
+    const positions = insertAisleAfter(aisles, aisle("Crèmerie").id, "new");
+    const order = [...aisles.filter((a) => !a.isUnsorted), { id: "new" }]
+      .sort((a, b) => (positions[a.id] ?? 0) - (positions[b.id] ?? 0))
+      .map((a) => ("name" in a ? a.name : a.id));
+    expect(order.slice(4, 8)).toEqual([
+      "Charcuterie & Traiteur",
+      "Crèmerie",
+      "new",
+      "Fromages",
     ]);
-    // Charcuterie & Traiteur : la viande n'y est que secondaire.
-    expect(aisleContents(aisle("Charcuterie & Traiteur"), name)).toEqual([
-      "Charcuterie",
-      "Traiteur & Plats préparés",
-    ]);
+    const first = insertAisleAfter(aisles, undefined, "new");
+    expect(Math.min(...Object.values(first))).toBe(first.new);
+  });
+
+  it("le rayon en cours : celui de « Rayon suivant » s'il est plus récent que la dernière coche", () => {
+    const opened = { aisleId: "b", at: 20 };
+    expect(placingAisle(opened, { aisleId: "a", at: 10 })).toBe("b");
+    expect(placingAisle(opened, { aisleId: "a", at: 30 })).toBe("a");
+    expect(placingAisle(undefined, undefined)).toBeUndefined();
   });
 });

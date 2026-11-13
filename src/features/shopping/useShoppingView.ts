@@ -11,8 +11,10 @@ import {
   currentAisle,
   passedAisles,
   pickUpItems,
+  placingAisle,
   shoppingProgress,
 } from "@/domain/shopping";
+import { sortAisles } from "@/domain/stores";
 import type { ListData } from "@/features/list/useListData";
 
 export interface ShoppingGroup extends AisleGroup<Aisle, ListItem> {
@@ -21,9 +23,19 @@ export interface ShoppingGroup extends AisleGroup<Aisle, ListItem> {
 }
 
 export interface ShoppingView {
+  /** Rayons qui ont des lignes, dans l'ordre du parcours, plus le rayon en cours (même vide). */
   groups: ShoppingGroup[];
   /** « À récupérer » (C4), en haut. */
   pickUp: ListItem[];
+  /**
+   * « À placer » (C4) : lignes dont la catégorie n'a pas encore de rayon dans ce
+   * magasin, rangées dans le rayon en cours quand on les coche.
+   */
+  unplaced: ListItem[];
+  /** Rayon après lequel afficher « À placer » ; absent : en tête. */
+  unplacedAfter: ID | undefined;
+  /** Rayon en cours pour ranger ce qu'on coche dans « À placer ». */
+  placing: Aisle | undefined;
   current: ID | undefined;
   /** Rayon de la dernière coche : là où l'on est. */
   here: ID | undefined;
@@ -32,7 +44,7 @@ export interface ShoppingView {
   progress: { checked: number; total: number };
 }
 
-/** Ce qu'affiche le mode courses : rayons, état de chacun, « À récupérer », progression. */
+/** Ce qu'affiche le mode courses : rayons, état de chacun, « À placer », « À récupérer ». */
 export function useShoppingView(
   data: ListData | undefined,
   session: ShoppingSession | null | undefined,
@@ -54,29 +66,58 @@ export function useShoppingView(
     const passed = passedAisles(purchases);
     const pickUpIds = pickUpItems(
       data.items,
-      (item) => aisleOf.get(item.id)?.id,
+      (item) => {
+        const aisle = aisleOf.get(item.id);
+        return aisle?.isUnsorted ? undefined : aisle?.id;
+      },
       passed,
       session,
     );
     const hide = data.settings.checkedBehavior === "hide";
-    const groups = grouped.flatMap(({ aisle, items }) => {
+    const placingId = placingAisle(session.openedAisle, purchases.at(-1));
+    const placing = data.aisles.find(
+      (aisle) => aisle.id === placingId && !aisle.isUnsorted,
+    );
+
+    const byAisle = new Map(
+      grouped
+        .filter(({ aisle }) => !aisle.isUnsorted)
+        .map(({ aisle, items }) => [aisle.id, items]),
+    );
+    // Le rayon en cours reste affiché même vide : c'est là que vont les coches.
+    if (placing && !byAisle.has(placing.id)) byAisle.set(placing.id, []);
+    const groups = sortAisles(data.aisles).flatMap((aisle) => {
+      const items = byAisle.get(aisle.id);
+      if (!items) return [];
       const own = items.filter((item) => !pickUpIds.has(item.id));
-      if (own.length === 0) return [];
+      if (own.length === 0 && aisle.id !== placing?.id) return [];
       return [
         {
           aisle,
           items: hide ? own.filter((item) => item.status !== "checked") : own,
-          done: own.every((item) => item.status !== "todo"),
+          // Le rayon en cours reste ouvert tant qu'on y range.
+          done:
+            aisle.id !== placing?.id &&
+            own.every((item) => item.status !== "todo"),
         },
       ];
     });
-    const current = currentAisle(
-      groups.map((g) => ({ id: g.aisle.id, hasTodo: !g.done })),
-      purchases.at(-1)?.aisleId,
-    );
+    const unplaced =
+      grouped
+        .find(({ aisle }) => aisle.isUnsorted)
+        ?.items.filter((item) => !pickUpIds.has(item.id)) ?? [];
+    const current =
+      placing?.id ??
+      currentAisle(
+        groups.map((g) => ({ id: g.aisle.id, hasTodo: !g.done })),
+        purchases.at(-1)?.aisleId,
+      );
     return {
       groups,
       pickUp: data.items.filter((item) => pickUpIds.has(item.id)),
+      unplaced,
+      unplacedAfter: placing?.id,
+      placing,
       current,
       here: purchases.at(-1)?.aisleId,
       passed,

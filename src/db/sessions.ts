@@ -1,4 +1,5 @@
 import type {
+  Aisle,
   Article,
   ID,
   ListItem,
@@ -6,6 +7,7 @@ import type {
   ShoppingSession,
 } from "@/domain/model";
 import { learnAislePositions, learnArticleOrder } from "@/domain/shopping";
+import { insertAisleAfter, placementScope } from "@/domain/stores";
 import type { ShoppingDatabase } from "./database";
 
 /**
@@ -120,6 +122,151 @@ export async function checkItem(
   );
 }
 
+/** Icône et couleur d'un rayon qui vient d'être ouvert, avant qu'il reçoive une catégorie. */
+const NEW_AISLE_STYLE = { icon: "shopping-basket", color: "gris" } as const;
+
+/** Rayon ouvert pendant ces courses, encore vide : ni catégorie, ni exception. */
+async function isFreshEmptyAisle(
+  database: ShoppingDatabase,
+  aisle: Aisle,
+  session: Pick<ShoppingSession, "startedAt">,
+): Promise<boolean> {
+  if (aisle.isUnsorted || aisle.categories.length > 0) return false;
+  if (aisle.createdAt < session.startedAt) return false;
+  const overrides = await database.overrides
+    .filter((o) => o.aisleId === aisle.id)
+    .count();
+  return overrides === 0;
+}
+
+/** Nouveau rayon sans nom, juste après `afterId` (en tête si absent). */
+async function openAisleAfter(
+  database: ShoppingDatabase,
+  storeId: ID,
+  afterId: ID | undefined,
+  now: number,
+): Promise<Aisle> {
+  const aisles = await database.aisles
+    .where("storeId")
+    .equals(storeId)
+    .toArray();
+  const aisle: Aisle = {
+    id: crypto.randomUUID(),
+    createdAt: now,
+    updatedAt: now,
+    storeId,
+    name: "",
+    ...NEW_AISLE_STYLE,
+    position: 0,
+    categories: [],
+    isUnsorted: false,
+  };
+  const positions = insertAisleAfter([...aisles, aisle], afterId, aisle.id);
+  aisle.position = positions[aisle.id] ?? 0;
+  await database.aisles.add(aisle);
+  for (const other of aisles)
+    if (
+      positions[other.id] !== undefined &&
+      positions[other.id] !== other.position
+    )
+      await database.aisles.update(other.id, { position: positions[other.id] });
+  return aisle;
+}
+
+/**
+ * « Rayon suivant » (docs/03 C4) : ouvre un rayon juste après le rayon en cours, qui
+ * devient le rayon en cours. Si le rayon en cours vient d'être ouvert et est encore
+ * vide, il sert tel quel : jamais deux rayons vides à la suite.
+ */
+export async function openNextAisle(
+  database: ShoppingDatabase,
+  session: Pick<ShoppingSession, "id" | "storeId" | "startedAt">,
+  currentId: ID | undefined,
+  now = Date.now(),
+): Promise<Aisle> {
+  return database.transaction(
+    "rw",
+    [database.aisles, database.overrides, database.sessions],
+    async () => {
+      const current = currentId
+        ? await database.aisles.get(currentId)
+        : undefined;
+      const aisle =
+        current && (await isFreshEmptyAisle(database, current, session))
+          ? current
+          : await openAisleAfter(database, session.storeId, currentId, now);
+      await database.sessions.update(session.id, {
+        openedAisle: { aisleId: aisle.id, at: now },
+      });
+      return aisle;
+    },
+  );
+}
+
+/**
+ * Cocher un article de « À placer » (docs/03 C4) : il est rangé dans le rayon en cours
+ * (ouvert en tête du magasin s'il n'y en a pas encore) — toute sa catégorie, ou lui
+ * seul (`placementScope`) —, puis coché. Un rayon qui reçoit sa première catégorie
+ * prend son icône et sa couleur. Renvoie le rayon choisi.
+ */
+export async function placeAndCheck(
+  database: ShoppingDatabase,
+  session: Pick<ShoppingSession, "id" | "storeId">,
+  item: Pick<ListItem, "id" | "articleId" | "quantity" | "unitId">,
+  article: Pick<Article, "id" | "categoryId">,
+  targetId: ID | undefined,
+  now = Date.now(),
+): Promise<ID> {
+  return database.transaction(
+    "rw",
+    [
+      database.aisles,
+      database.overrides,
+      database.categories,
+      database.items,
+      database.purchases,
+    ],
+    async () => {
+      const aisles = await database.aisles
+        .where("storeId")
+        .equals(session.storeId)
+        .toArray();
+      const target =
+        aisles.find((a) => a.id === targetId && !a.isUnsorted) ??
+        (await openAisleAfter(database, session.storeId, undefined, now));
+      const category = await database.categories.get(article.categoryId);
+      const existing = await database.overrides
+        .where("[storeId+articleId]")
+        .equals([session.storeId, article.id])
+        .toArray();
+      await database.overrides.bulkDelete(existing.map((o) => o.id));
+      if (placementScope(category, aisles) === "category" && category) {
+        const fresh = target.categories.length === 0;
+        await database.aisles.update(target.id, {
+          categories: [
+            ...target.categories.filter((c) => c.categoryId !== category.id),
+            { categoryId: category.id, primary: true },
+          ],
+          ...(fresh &&
+          target.icon === NEW_AISLE_STYLE.icon &&
+          target.color === NEW_AISLE_STYLE.color
+            ? { icon: category.icon, color: category.color }
+            : {}),
+          updatedAt: now,
+        });
+      } else
+        await database.overrides.add({
+          id: crypto.randomUUID(),
+          storeId: session.storeId,
+          articleId: article.id,
+          aisleId: target.id,
+        });
+      await checkItem(database, session, item, target.id, now);
+      return target.id;
+    },
+  );
+}
+
 /** Remettre à prendre (décocher, ou retirer « Introuvable »). */
 export async function uncheckItem(
   database: ShoppingDatabase,
@@ -177,9 +324,10 @@ async function removePurchases(
 }
 
 /**
- * Terminer les courses (C6), en une seule transaction : photo de l'ordre actuel,
- * apprentissage à partir de tous les achats de la session (sauf ordre verrouillé),
- * puis les lignes cochées quittent la liste.
+ * Terminer les courses (C6), en une seule transaction : les rayons ouverts pendant les
+ * courses et restés vides disparaissent, photo de l'ordre actuel, apprentissage à
+ * partir de tous les achats de la session (sauf ordre verrouillé), puis les lignes
+ * cochées quittent la liste.
  */
 export async function closeSession(
   database: ShoppingDatabase,
@@ -194,10 +342,18 @@ export async function closeSession(
       database.aisles,
       database.stores,
       database.items,
+      database.overrides,
     ],
     async () => {
       const session = await database.sessions.get(sessionId);
       if (session?.status !== "open") return;
+      // Rayons ouverts par « Rayon suivant » restés vides : ils n'apprennent rien.
+      for (const aisle of await database.aisles
+        .where("storeId")
+        .equals(session.storeId)
+        .toArray())
+        if (await isFreshEmptyAisle(database, aisle, session))
+          await database.aisles.delete(aisle.id);
       const store = await database.stores.get(session.storeId);
       const aisles = await database.aisles
         .where("storeId")

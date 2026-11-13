@@ -74,7 +74,7 @@ export function AddedInStoreSheet({
               onTakenIn(here, true);
             }}
           >
-            {t.where.here(textOf(here).label)}
+            {t.where.here(textOf(here).into)}
           </Button>
           <p className="-mt-1 text-center text-sm text-muted-foreground">
             {t.where.hereHint}
@@ -86,7 +86,7 @@ export function AddedInStoreSheet({
                 onTakenIn(aisle, false);
               }}
             >
-              {t.where.usual(textOf(aisle).label)}
+              {t.where.usual(textOf(aisle).title)}
             </Button>
           )}
           <Button
@@ -104,8 +104,9 @@ export function AddedInStoreSheet({
           <Button
             variant="outline"
             onClick={() => {
-              // Pas encore de rayon en cours, ou déjà le bon : coché dans son rayon.
-              if (here && here.id !== aisle?.id) setAsking(true);
+              // Pas encore de rayon en cours, déjà le bon, ou pas encore de rayon
+              // (« À placer ») : coché dans son rayon, ou rangé dans le rayon en cours.
+              if (aisle && here && here.id !== aisle.id) setAsking(true);
               else onTakenIn(aisle, false);
             }}
           >

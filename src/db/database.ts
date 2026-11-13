@@ -13,7 +13,6 @@ import type {
   Store,
   Unit,
 } from "@/domain/model";
-import { clearTemplateAisleName } from "./migrations";
 
 /** Tables et index du schéma (version 1). */
 export const SCHEMA_V1 = {
@@ -58,17 +57,10 @@ export class ShoppingDatabase extends Dexie {
   constructor(name = "shoppinglist") {
     super(name);
     this.version(1).stores(SCHEMA_V1);
-    // Version 2 : mêmes tables ; rayons numérotés, nom de modèle retiré (migrations.ts).
-    this.version(2)
-      .stores(SCHEMA_V1)
-      .upgrade((tx) =>
-        tx
-          .table<Aisle, string>("aisles")
-          .toCollection()
-          .modify((aisle) => {
-            clearTemplateAisleName(aisle);
-          }),
-      );
+    // Version 2 : mêmes tables, aucune donnée modifiée. Elle a porté en préproduction une
+    // migration des noms de rayons, retirée depuis (les magasins se construisent pendant
+    // les courses) ; elle reste déclarée pour les bases déjà passées en version 2.
+    this.version(2).stores(SCHEMA_V1);
   }
 }
 

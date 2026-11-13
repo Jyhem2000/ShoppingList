@@ -2,7 +2,7 @@ import "fake-indexeddb/auto";
 import { afterEach, describe, expect, it } from "vitest";
 import { ShoppingDatabase } from "@/db/database";
 import { seedDatabase } from "@/db/seed";
-import { nameSeededAisles } from "./fixtures";
+import { addTestStore } from "./fixtures";
 import {
   copyStore,
   deleteAisle,
@@ -83,7 +83,7 @@ async function setup() {
   database = new ShoppingDatabase(`test-${crypto.randomUUID()}`);
   const db = database;
   await seedDatabase(db, 0);
-  await nameSeededAisles(db);
+  await addTestStore(db);
   const store = await db.stores.toCollection().first();
   if (!store) throw new Error("magasin");
   const aisles = await db.aisles.where("storeId").equals(store.id).toArray();
@@ -139,9 +139,8 @@ describe("édition d'un magasin (docs/03 G3)", () => {
     expect((await db.overrides.get("o1"))?.aisleId).toBe(cremerie.id);
   });
 
-  it("copier un magasin ne touche pas l'original ; on ne supprime jamais le dernier magasin", async () => {
+  it("copier un magasin ne touche pas l'original ; même le dernier magasin se supprime", async () => {
     const { db, store, byName, category } = await setup();
-    expect(await deleteStore(db, store.id)).toBe("last");
     const copy = await copyStore(db, store.id, "Copie");
     if (!copy) throw new Error("copie");
     const copied = await db.aisles.where("storeId").equals(copy.id).toArray();
@@ -158,5 +157,8 @@ describe("édition d'un magasin (docs/03 G3)", () => {
     expect(categoryRole(byName("Boulangerie"), glaces.id)).toBe("none");
     expect(await deleteStore(db, copy.id)).toBe("deleted");
     expect(await db.aisles.where("storeId").equals(copy.id).count()).toBe(0);
+    // Plus de magasin : le prochain « C'est parti » en fera créer un.
+    expect(await deleteStore(db, store.id)).toBe("deleted");
+    expect(await db.stores.count()).toBe(0);
   });
 });

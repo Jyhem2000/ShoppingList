@@ -59,7 +59,7 @@ Si aucun article ni alias ne correspond : suggestion « Créer _Sauce nuoc-mâm_
 - Un tap ouvre une **fiche rapide** préremplie : catégorie et **unité devinées** (dictionnaire de mots-clés, voir 06 § 5), icône devinée. Catégorie et unité sont **obligatoires** ; elles sont toujours remplies (au pire « Autres » / « pièce »).
 - « Créer et ajouter » en un tap si les valeurs devinées conviennent.
 - Si le slug existe déjà (variation d'écriture), l'article existant est proposé à la place.
-- **Achat ponctuel** : « Juste cette fois » (une friteuse…) range l'article dans la catégorie système « Achats ponctuels », sans lui demander de catégorie ; il va dans le rayon « Non classé » et reste dans le catalogue sous « Achats ponctuels » pour être réutilisé. « Garder dans le catalogue » (fiche de la ligne ou du catalogue) en fait un article normal : choisir une vraie catégorie est alors obligatoire.
+- **Achat ponctuel** : « Juste cette fois » (une friteuse…) range l'article dans la catégorie système « Achats ponctuels », sans lui demander de catégorie ; il va dans « À placer » en magasin et reste dans le catalogue sous « Achats ponctuels » pour être réutilisé. « Garder dans le catalogue » (fiche de la ligne ou du catalogue) en fait un article normal : choisir une vraie catégorie est alors obligatoire.
 
 ### A5. Catalogue visuel — _v1.0_
 
@@ -90,7 +90,7 @@ Aucun développement spécifique : le **micro du clavier** (iPhone comme Android
 Décision du 13 novembre 2026, après le premier essai réel : une liste **n'appartient à aucun magasin**, elle se range donc **par catégorie** ; le regroupement **par rayon** n'apparaît qu'en **mode courses**, une fois le magasin choisi (et dans le réglage des magasins).
 
 - **Liste** : lignes groupées par **catégorie**, dans l'ordre du catalogue (06 § 2), catégories créées ensuite par ordre alphabétique, « Autres » et « Achats ponctuels » en dernier. Dans une catégorie : l'article générique en tête, puis alphabétique. En-tête : icône, couleur et nom de la catégorie, nombre de lignes.
-- **Mode courses** : lignes groupées par **rayon effectif** (02 § 4) du magasin choisi, rayons dans l'ordre du parcours, « Non classé » en dernier ; dans un rayon, ordre appris des articles, sinon alphabétique. L'en-tête porte **« Rayon 3 »** (son numéro dans l'ordre de passage) au-dessus de son nom, ou de ses catégories principales s'il n'a pas de nom, et son repère éventuel en dessous (02 § 4).
+- **Mode courses** : lignes groupées par **rayon effectif** (02 § 4) du magasin choisi, rayons dans l'ordre du parcours, le bloc **« À placer »** (C4) juste après le rayon en cours ; dans un rayon, ordre appris des articles, sinon alphabétique. L'en-tête porte le mot **« RAYON »** au-dessus de son nom, ou du titre tiré de ses catégories (« Pain · Café & thé +2 », 02 § 4), et son repère éventuel en dessous.
 
 ### B2. Plusieurs listes — _v1.0_
 
@@ -106,7 +106,7 @@ Glisser vers la gauche ou bouton dans la fiche ; message « Annuler » pendant 5
 
 ### B5. Choisir le magasin — _v1.0_
 
-Au départ des courses (« C'est parti ») : le dernier magasin utilisé pour cette liste est proposé. La liste elle-même n'affiche pas de magasin (B1).
+Au départ des courses (« C'est parti ») : le dernier magasin utilisé pour cette liste est proposé, avec **« Un autre magasin »** pour en créer un en le nommant. Sans aucun magasin (premier lancement, ou après avoir supprimé le dernier), seul son nom est demandé : il est créé vide, et ses rayons se rangent pendant les courses (C4). La liste elle-même n'affiche pas de magasin (B1).
 
 ### B6. Vider — _v1.0_
 
@@ -134,17 +134,24 @@ Lancé par un bouton bien visible sur la liste ; confirmation du magasin.
 
 Glisser une ligne → « Pas pris » : elle passe en bas, grisée, et restera dans la liste après les courses. La raison n'importe pas (introuvable, rupture, plus besoin, trop cher) : l'article n'est simplement pas dans le caddie. Libellé « Introuvable » remplacé le 13 novembre 2026, après essai en magasin ; en interne, le statut reste `unavailable`.
 
-### C4. Ajouter pendant les courses — _v1.0_
+### C4. Ranger le magasin en cochant ; ajouter pendant les courses — _v1.0_
 
-La barre d'ajout reste disponible. Si le rayon de l'article ajouté est **déjà passé** (on y a coché quelque chose, puis coché ailleurs), l'app l'indique (« Rayon Crèmerie déjà passé ») et place la ligne dans un groupe **« À récupérer »** affiché en haut.
+**Ranger en cochant** (décision du 13 novembre 2026, phase 7) : un magasin se construit pendant les courses, sans rien régler avant.
+
+- Les articles dont la catégorie n'a pas encore de rayon dans ce magasin sont dans le bloc **« À placer »**, rangé par catégorie, affiché juste après le rayon en cours (en tête s'il n'y en a pas encore). À la première course dans un magasin, tout y est.
+- **Cocher** un article de « À placer » le range dans le **rayon en cours** (ouvert à la première coche) : toute sa catégorie y devient principale. Si sa catégorie a déjà un rayon dans ce magasin, ou si c'est « Autres » ou « Achats ponctuels », seul l'article y est rangé (exception par article). Le rayon prend l'icône et la couleur de sa première catégorie.
+- Bouton **« Rayon suivant »**, au-dessus de la barre d'ajout, tant qu'il reste des articles à placer : il ouvre un nouveau rayon juste après le rayon en cours, qui devient le rayon en cours. Le rayon en cours s'affiche même vide, avec une explication. Un rayon ouvert et resté vide n'est jamais doublé, et il disparaît à la fin des courses.
+- Le rayon en cours : celui ouvert par « Rayon suivant », ou celui de la dernière coche si elle est plus récente.
+
+**Ajouter pendant les courses** : la barre d'ajout reste disponible. Si le rayon de l'article ajouté est **déjà passé** (on y a coché quelque chose, puis coché ailleurs), l'app l'indique (« Rayon Crèmerie déjà passé ») et place la ligne dans un groupe **« À récupérer »** affiché en haut.
 
 Après l'ajout, un panneau propose : **« OK, à prendre »** ; **« Je l'ai déjà dans le caddie »** (article pris en passant : la ligne est cochée et l'achat compte pour l'apprentissage) ; **« Il est dans un autre rayon… »** (même choix que C5, retenu pour les prochaines courses).
 
-« Je l'ai déjà dans le caddie », quand l'article n'est pas rangé dans le rayon où l'on est (celui de la dernière coche) : l'app demande **« Où as-tu pris … ? »** — **« Ici, rayon X »** (coché dans ce rayon, et rangé dans ce rayon pour ce magasin : exception par article), **« Dans son rayon, Y »**, ou **« Dans un autre rayon… »** (choix du rayon, puis coché). L'achat compte ainsi dans le bon rayon pour l'apprentissage.
+« Je l'ai déjà dans le caddie » sur un article sans rayon : il est rangé dans le rayon en cours, comme dans « À placer ». Quand l'article a un rayon qui n'est pas celui où l'on est (celui de la dernière coche) : l'app demande **« Où as-tu pris … ? »** — **« Ici, au rayon X »** (coché dans ce rayon, et rangé dans ce rayon pour ce magasin : exception par article), **« Dans son rayon, Y »**, ou **« Dans un autre rayon… »** (choix du rayon, puis coché). L'achat compte ainsi dans le bon rayon pour l'apprentissage.
 
 ### C5. Changer un article de rayon — _v1.0_
 
-Appui long sur une ligne → « Déplacer vers… » → rayons où la catégorie est présente en premier, puis les autres → « Seulement cet article dans ce magasin » ou « Toute la catégorie dans ce magasin » (voir 02 § 4).
+Appui long sur une ligne → « Déplacer vers… » → le rayon où l'on est, puis ceux où la catégorie est présente, puis les autres (jamais « À placer ») → « Seulement cet article dans ce magasin » ou « Toute la catégorie dans ce magasin » (voir 02 § 4).
 
 ### C6. Terminer les courses (clôture) — _v1.0_
 
@@ -159,7 +166,7 @@ Bouton **« Terminer les courses »**, toujours visible en mode courses → conf
 
 **Apprentissage activé / désactivé, par magasin** (G3) : activé par défaut. On le désactive quand l'ordre convient, ou pour des courses inhabituelles, et on le réactive quand on veut. Désactivé, le magasin garde son ordre ; on peut toujours le changer à la main (glisser-déposer).
 
-**Critères** : après 3 sessions simulées parcourues dans l'ordre Crèmerie → Fruits & Légumes → Épicerie, la liste s'affiche dans cet ordre pour ce magasin, et l'ordre des autres magasins est inchangé.
+**Critères** : après 3 sessions simulées parcourues dans l'ordre Crèmerie → Fruits & Légumes → Épicerie, la liste s'affiche dans cet ordre pour ce magasin, et l'ordre des autres magasins est inchangé. Les rayons ouverts par « Rayon suivant » prennent directement leur place dans le parcours.
 
 ### C8. Rouvrir les courses — _v1.0_
 
@@ -241,14 +248,14 @@ Trois manières, toutes aboutissant à l'écran d'aperçu décrit en [02 § 9](0
 
 ### G2. Catégories
 
-Créer, renommer, changer icône/couleur, supprimer (réaffectation des articles), fusionner.
+Créer, renommer, changer icône/couleur, **nom court** facultatif (titre des rayons, 02 § 4 ; par défaut celui du catalogue), supprimer (réaffectation des articles), fusionner.
 
 ### G3. Magasins et rayons
 
-- Créer un magasin (depuis un modèle, une copie ou de zéro), renommer, supprimer (jamais le dernier, ni pendant des courses en cours) ; « Modifier ce magasin » depuis le choix du magasin de la liste.
-- Rayons : créer, **nommer (facultatif)**, ajouter un **repère** facultatif (« au fond du magasin »), icône/couleur, **réordonner par glisser-déposer**, fusionner, supprimer. Sans nom, un rayon est désigné par son numéro dans l'ordre de passage et ses catégories principales (02 § 4) ; c'est le cas des rayons créés depuis un modèle.
+- Créer un magasin (vide, ou copie d'un autre ; plus de modèle depuis la phase 7), renommer, supprimer (même le dernier, jamais pendant des courses en cours). Le plus simple : le créer au départ des courses (B5) et laisser ses rayons se ranger en cochant (C4).
+- Rayons : créer, **nommer (facultatif)**, ajouter un **repère** facultatif (« au fond du magasin »), icône/couleur, **réordonner par glisser-déposer**, fusionner, supprimer. Sans nom, son titre vient de ses catégories principales (02 § 4) ; le champ nom le montre en grisé. Un rayon est toujours renommable.
 - Rattacher les catégories aux rayons : une catégorie peut être dans plusieurs rayons d'un magasin, dont **un principal** (puce pleine ; contour = secondaire ; toucher pour changer) ; voir et ranger les catégories non rattachées.
-- Supprimer un rayon : ses catégories principales vont dans « Non classé », ou dans un de leurs rayons secondaires (au choix).
+- Supprimer un rayon : ses catégories principales vont dans « À placer », ou dans un de leurs rayons secondaires (au choix).
 - **Apprentissage de l'ordre : activé / désactivé** (C7), pour chaque magasin ; voir et supprimer les exceptions par article.
 
 ### G4. Unités
@@ -280,6 +287,8 @@ Glissent en fin de rayon · disparaissent.
 Export de toutes les données en fichier `.json` (feuille de partage → Fichiers, Drive…) ; import en **remplacement** ou en **fusion**. ~~Rappel discret si aucune sauvegarde depuis 30 jours~~ : à trancher (voir plus bas).
 
 Avancé le 13 novembre 2026, après le premier essai réel (Réglages → Sauvegarde) : export, import en **remplacement** (après confirmation, avec le résumé du fichier), date de la dernière sauvegarde. L'import en fusion reste pour la phase 8. Les préférences de l'appareil (sons, thème, écran allumé) ne sont pas dans le fichier.
+
+Ajouté en phase 7 : **« Copier dans le presse-papiers »** (la même sauvegarde, en texte) et **« Coller une sauvegarde »** (lecture du presse-papiers, ou champ où coller le texte si le téléphone ne permet pas de le lire). Pratique pour désinstaller et réinstaller l'app : copier, coller dans Notes, puis coller dans l'app réinstallée. Le fichier reste disponible : les deux sont utiles. Fonctionnalité de confort pour la copie (bouton absent si le navigateur ne la permet pas), le collage marche partout grâce au champ.
 
 Ajouté pour la phase 8 (décision du 13 novembre 2026) :
 
@@ -323,6 +332,16 @@ Conseil mis en avant : **suivre le même parcours** dans un magasin, au moins pe
 ### H11. Thème
 
 Réglages → **Thème** : _Automatique_ (par défaut : suit le réglage clair ou sombre du téléphone, et change avec lui), _Sombre_, _Clair_. Préférence de l'appareil (comme les sons). Le thème est posé avant le premier affichage : pas d'éclair de la mauvaise couleur au lancement.
+
+### H12. Bulles d'aide — _v1.0_
+
+Ajouté en phase 7 (guide allégé) : une bulle, montrée **une seule fois**, sur un écran assombri sauf l'élément concerné, avec une flèche ; un toucher n'importe où la ferme.
+
+- Première course, sur le premier article de « À placer » : « Touche un article quand il est dans le caddie : l'app retient dans quel rayon il se trouve. »
+- Après la première coche, sur « Rayon suivant » : « Tu changes de rayon ? Touche ici : les articles suivants iront dans le nouveau rayon. »
+- Au premier bilan : « Ton magasin est enregistré : la prochaine fois, ta liste suivra ton parcours. »
+
+Mémorisées sur le téléphone (préférences de l'appareil, hors sauvegarde) ; Réglages → **« Revoir les conseils »** les fait revenir. Un **guide de démonstration complet** (parcours pas à pas, flèches sur chaque action) reste pour plus tard.
 
 ## Idées non planifiées
 

@@ -71,26 +71,31 @@ Sur Android, le geste ou bouton **Retour** du système ferme d'abord le panneau 
 ├──────────────────────────────────┤
 │ ⚠ À récupérer                    │  ← C4
 │  🧀 Comté                  200 g │
-│ ✓ RAYON 1 Fruits · Légumes (replié)
-│ ● RAYON 2             ← courant  │
-│   Œufs · Lait, Crème & Beurre    │  ← sans nom : ses catégories
+│ ✓ RAYON Fruits & légumes (replié)│
+│ ● RAYON               ← courant  │
+│   Frais                          │  ← sans nom : titre tiré des catégories
 │   au fond du magasin             │  ← repère facultatif
 │  🥚 Œufs                     × 6 │  ← grandes lignes
 │  🧈 Beurre                   × 1 │
 │  ─────────────────────────────── │
 │  🥛 Lait (barré)             × 6 │  ← coché, glisse en bas
-│ ● RAYON 3 Sucré & petit-déj      │  ← nommé par l'utilisateur
+│ ● À placer                       │  ← C4 : catégories sans rayon ici
+│  ☕ Café                   1 paq │  ← cocher = ranger dans le rayon courant
+│ ● RAYON Pain · Café & thé +2     │
 │  …                               │
 ├──────────────────────────────────┤
+│        [ ↓ Rayon suivant ]       │  ← tant qu'il reste à placer
 │ 🔍 Ajouter…          [✓ Terminer]  │
 └──────────────────────────────────┘
 ```
+
+- Première course dans un magasin : tout est dans « À placer » ; on coche dans l'ordre du parcours, « Rayon suivant » à chaque changement de rayon (C4). Bulles d'aide la première fois (H12).
 
 - Tap = cocher · glisser = pas pris · appui long = déplacer de rayon · tap sur la quantité = la changer.
 - `✕` = quitter le mode courses **sans clôturer** (la session reste ouverte, on peut y revenir).
 - **« Terminer les courses »** (bouton or « Terminer », à droite de la barre d'ajout) = clôture (C6), après confirmation.
 - Article ajouté pendant les courses : panneau « OK, à prendre » · « Je l'ai déjà dans le caddie » · « Il est dans un autre rayon… » (C4).
-- Sur la liste : **« C'est parti »** sous les lignes (puis choix du magasin) ; **« Reprendre les courses »** si une session est restée ouverte.
+- Sur la liste : **« C'est parti »** sous les lignes (puis choix du magasin, ou « Un autre magasin » à nommer ; sans magasin, seulement son nom) ; **« Reprendre les courses »** si une session est restée ouverte.
 
 ### 2.4 Récapitulatif de fin de courses
 
@@ -127,12 +132,14 @@ Mes données
 Partage (v1.3)
   Coller une liste partagée ▸
 Sauvegarde
-  Exporter mes données ▸   Importer ▸   Dernière sauvegarde : il y a 12 j
+  Exporter mes données ▸   Copier dans le presse-papiers ▸   Dernière sauvegarde : il y a 12 j
+  Importer une sauvegarde ▸   Coller une sauvegarde ▸
     (libellé : changer de téléphone, réinstaller l'app, copie hors du téléphone)
   Restaurer une copie ▸
     (libellé : copies automatiques des 7 derniers jours, contre une fausse
      manipulation ; elles disparaissent avec l'app)
 Aide ▸                      (H10 : mode d'emploi, ce que l'app règle toute seule)
+  Revoir les conseils        (H12 : les bulles d'aide reviennent)
 À propos
   Version 1.0.0 · Quoi de neuf ▸ · Licences ▸
 ```
@@ -140,8 +147,8 @@ Aide ▸                      (H10 : mode d'emploi, ce que l'app règle toute se
 ### 2.8 Magasin
 
 - Libellé (modifiable), interrupteur **« Apprendre l'ordre de mes courses »** (activé par défaut ; désactivé = ordre verrouillé, C7).
-- Liste des rayons avec poignées de glisser-déposer : « RAYON 3 », puis son nom ou ses catégories principales, puis son repère ou son nombre de catégories. Toucher un rayon ouvre sa fiche : nom et repère facultatifs (le champ nom montre « Rayon 3 » en grisé), catégories (puces : pleines = principale, contour = secondaire ; « + catégorie »), icône et couleur, fusion, suppression.
-- Partout où l'on choisit un rayon (changer un article de rayon, « Où as-tu pris… ? », fusion, ranger une catégorie), il apparaît comme « Rayon 3 · Son nom » ou « Rayon 3 » avec ses catégories en dessous.
+- Liste des rayons avec poignées de glisser-déposer : son nom, ou le titre tiré de ses catégories (02 § 4), puis son repère ou son nombre de catégories ; « À placer » en dernier. Toucher un rayon ouvre sa fiche : nom et repère facultatifs (le champ nom montre le titre automatique en grisé), catégories (puces : pleines = principale, contour = secondaire ; « + catégorie »), icône et couleur, fusion, suppression.
+- Partout où l'on choisit un rayon (changer un article de rayon, « Où as-tu pris… ? », fusion, ranger une catégorie), il apparaît sous son titre, avec ses catégories en dessous s'il n'a pas de nom.
 - Section « Catégories non rattachées » (en orange si non vide).
 - Section « Exceptions » : articles placés hors du rayon principal de leur catégorie dans ce magasin.
 
@@ -173,7 +180,7 @@ Tap sur un candidat = « C'est celui-là ». Bouton « Importer ».
    - iPhone (Chrome) : gestes illustrés — bouton Partager de Chrome → « Ajouter à l'écran d'accueil » → Ajouter ;
    - Android (Chrome) : bouton **« Installer »** (invite native du navigateur).
      Lien discret « Continuer dans le navigateur quand même ».
-2. Dans l'app installée : création des données de départ, puis la liste vide « Courses » avec le magasin « Mon supermarché ».
+2. Dans l'app installée : création des données de départ, puis la liste vide « Courses ». **Aucun magasin** : le premier se crée au premier « C'est parti » (03 B5), ses rayons pendant les courses (03 C4).
 
 ### 2.12 Mise à jour et « Quoi de neuf »
 

@@ -3,8 +3,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { manageStorePath, routes } from "@/app/routes";
-import { storeTemplatesData } from "@/data";
-import { createStoreFromTemplate } from "@/db/catalog";
+
 import { db } from "@/db/database";
 import { useStores } from "@/db/hooks";
 import { copyStore, createEmptyStore } from "@/db/stores";
@@ -17,9 +16,12 @@ import { Sheet } from "@/ui/Sheet";
 
 const t = fr.manage.stores;
 
-type Source = "template" | "copy" | "empty";
+type Source = "copy" | "empty";
 
-/** Magasins (docs/03 G3) : la liste, et la création d'un magasin. */
+/**
+ * Magasins (docs/03 G3) : la liste, et la création d'un magasin vide (ses rayons se
+ * rangent pendant les courses) ou copié d'un autre. Plus de modèle de magasin.
+ */
 export function StoresPage() {
   const stores = useStores();
   const [creating, setCreating] = useState(false);
@@ -71,21 +73,18 @@ export function StoresPage() {
 function NewStoreSheet({ onClose }: { onClose: () => void }) {
   const navigate = useNavigate();
   const stores = useStores();
-  const [source, setSource] = useState<Source>("template");
-  const [template, setTemplate] = useState(storeTemplatesData[0]?.key ?? "");
+  const [source, setSource] = useState<Source>("empty");
   const [copyFrom, setCopyFrom] = useState<ID>();
-  const [name, setName] = useState(storeTemplatesData[0]?.name.fr ?? "");
+  const [name, setName] = useState("");
   const from = copyFrom ?? stores?.[0]?.id;
 
   const create = async () => {
     const clean = name.trim();
     if (!clean) return;
     const store =
-      source === "template"
-        ? await createStoreFromTemplate(db, template, clean)
-        : source === "copy" && from
-          ? await copyStore(db, from, clean)
-          : await createEmptyStore(db, clean);
+      source === "copy" && from
+        ? await copyStore(db, from, clean)
+        : await createEmptyStore(db, clean);
     onClose();
     if (store) void navigate(manageStorePath(store.id));
   };
@@ -113,43 +112,25 @@ function NewStoreSheet({ onClose }: { onClose: () => void }) {
           <div className="flex flex-wrap gap-2">
             {(
               [
-                ["template", t.fromTemplate],
-                ["copy", t.fromCopy],
                 ["empty", t.fromEmpty],
+                ["copy", t.fromCopy],
               ] as const
-            ).map(([key, label]) => (
-              <Chip
-                key={key}
-                selected={source === key}
-                onClick={() => {
-                  setSource(key);
-                }}
-              >
-                {label}
-              </Chip>
-            ))}
+            )
+              // Rien à copier sans magasin.
+              .filter(([key]) => key !== "copy" || (stores?.length ?? 0) > 0)
+              .map(([key, label]) => (
+                <Chip
+                  key={key}
+                  selected={source === key}
+                  onClick={() => {
+                    setSource(key);
+                  }}
+                >
+                  {label}
+                </Chip>
+              ))}
           </div>
         </div>
-        {source === "template" && (
-          <div className="flex flex-wrap gap-2">
-            {storeTemplatesData.map((tpl) => (
-              <Chip
-                key={tpl.key}
-                selected={tpl.key === template}
-                onClick={() => {
-                  const previous = storeTemplatesData.find(
-                    (x) => x.key === template,
-                  );
-                  if (!name.trim() || name === previous?.name.fr)
-                    setName(tpl.name.fr);
-                  setTemplate(tpl.key);
-                }}
-              >
-                {tpl.name.fr}
-              </Chip>
-            ))}
-          </div>
-        )}
         {source === "copy" && (
           <div>
             <p className="mb-1.5 text-sm font-semibold text-muted-foreground">

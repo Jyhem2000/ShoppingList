@@ -146,24 +146,30 @@ Tous les magasins n'ont pas les mêmes rayons. Dans une supérette, la charcuter
 | Rayons           | Liste **ordonnée** selon le parcours                                                                           |
 | Ordre verrouillé | Si oui, l'apprentissage automatique ne modifie plus l'ordre (affiché « Apprentissage de l'ordre : désactivé ») |
 
-À la création d'un magasin, on part :
+Aucun magasin n'existe au premier lancement : le premier se crée au premier « C'est parti » (03 B5). Un magasin part :
 
-- d'un **modèle** (« Hypermarché », « Supermarché », « Supérette », « Marché », voir 06) ;
-- ou d'une **copie** d'un magasin existant ;
-- ou de **zéro** (un seul rayon « Non classé »).
+- de **zéro** (un seul rayon spécial, « À placer ») : **ses rayons se créent pendant les courses**, en cochant (03 C4) ;
+- ou d'une **copie** d'un magasin existant.
+
+Décision du 13 novembre 2026, après le premier essai réel : il n'y a plus de modèles de magasin (« Hypermarché », « Supermarché »…). Des rayons préremplis étaient faux pour presque tout le monde : dans le vrai supermarché de l'utilisateur, le pain est avec le sucré, le petit-déjeuner et le café. Même le dernier magasin peut être supprimé.
 
 ### Rayon
 
-| Propriété      | Description                                                                                |
-| -------------- | ------------------------------------------------------------------------------------------ |
-| Numéro         | **Calculé, jamais stocké** : son rang dans l'ordre de passage (1, 2…), sans « Non classé » |
-| Libellé        | **Facultatif** : « Frais libre-service », « Sucré & petit-déj »                            |
-| Repère         | Facultatif : « au fond du magasin »                                                        |
-| Icône, couleur | Pour l'en-tête dans la liste                                                               |
-| Catégories     | Les catégories présentes dans ce rayon, chacune marquée **principale** ou **secondaire**   |
-| Position       | Sa place dans le parcours du magasin                                                       |
+| Propriété      | Description                                                                              |
+| -------------- | ---------------------------------------------------------------------------------------- |
+| Libellé        | **Facultatif** : « Frais libre-service », « Sucré & petit-déj »                          |
+| Repère         | Facultatif : « au fond du magasin »                                                      |
+| Icône, couleur | Pour l'en-tête dans la liste                                                             |
+| Catégories     | Les catégories présentes dans ce rayon, chacune marquée **principale** ou **secondaire** |
+| Position       | Sa place dans le parcours du magasin                                                     |
 
-**Rayons numérotés** (décision du 13 novembre 2026, après le premier essai réel) : un rayon réel ne porte pas toujours le nom d'une catégorie (« Boulangerie » n'existe pas dans tous les magasins : le pain peut être avec le sucré, le petit-déjeuner et le café). Un rayon est donc désigné par **son numéro dans l'ordre de passage** (« Rayon 3 »), puis par **son nom** s'il en a un, sinon par **ses catégories principales** (« Pain & Viennoiseries · Petit-déjeuner · Café & Thé »). Le numéro suit l'ordre appris : il peut changer quand l'ordre du parcours change. Les rayons créés depuis un modèle n'ont pas de nom ; à la mise à jour (schéma 2), les noms restés tels que le modèle les avait donnés ont été retirés, ceux tapés par l'utilisateur gardés.
+**Titre d'un rayon** (décision du 13 novembre 2026) : un rayon réel ne porte pas toujours le nom d'une catégorie. Sans nom donné par l'utilisateur, son titre vient de **ses catégories principales**, sans jamais être à rallonge, et sans numéro (un numéro bougerait avec l'apprentissage et ne correspondrait pas aux panneaux du magasin) :
+
+1. une seule catégorie : son **nom court** (« Fromages ») ;
+2. toutes de la même **famille** : le nom de la famille (« Épicerie sucrée ») ;
+3. sinon : les **deux catégories les plus achetées** (à égalité, l'ordre où elles y ont été rangées), puis le nombre des autres (« Pain · Café & thé +2 »).
+
+Le nom court et la famille de chaque catégorie sont dans 06 § 2 (nom court modifiable, 03 G2). La famille ne sert qu'à ce titre. Au-dessus du titre, le mot « RAYON » seul, pour ne pas confondre un rayon avec une catégorie ; la liste complète des catégories reste dans la fiche du rayon.
 
 ### Catégorie présente dans plusieurs rayons
 
@@ -185,8 +191,8 @@ L'ajout d'un article ne pose **jamais** de question : il va dans le rayon princi
 
 Autres règles :
 
-- Chaque magasin possède un rayon spécial **« Non classé »**, toujours en dernier, qui reçoit les catégories rattachées à aucun rayon.
-- On peut créer, renommer, réordonner, fusionner, scinder (créer un rayon, puis y ranger une partie des catégories) et supprimer des rayons. Supprimer un rayon renvoie les catégories dont il était le rayon principal dans « Non classé » (ou vers un de leurs rayons secondaires, au choix).
+- Chaque magasin possède un rayon spécial **« À placer »** (appelé « Non classé » jusqu'au 13 novembre 2026) qui reçoit les catégories rattachées à aucun rayon. En mode courses, il s'affiche juste après le rayon en cours : ce qu'on y coche se range dans ce rayon (03 C4).
+- On peut créer, renommer, réordonner, fusionner, scinder (créer un rayon, puis y ranger une partie des catégories) et supprimer des rayons. Supprimer un rayon renvoie les catégories dont il était le rayon principal dans « À placer » (ou vers un de leurs rayons secondaires, au choix).
 
 ### Exception par article
 
@@ -197,7 +203,7 @@ Un article peut être placé dans un autre rayon **pour un magasin donné**. L'e
 ```
 1. exception de l'article pour ce magasin, si elle existe
 2. sinon, le rayon principal de sa catégorie dans ce magasin
-3. sinon, « Non classé »
+3. sinon, « À placer »
 ```
 
 ### Déplacer un article
@@ -384,7 +390,7 @@ Aucune méthode automatique (slug, n-grammes…) ne peut deviner que « Coca » 
 
 ## 10. Catalogue de départ
 
-- L'app embarque un **catalogue de départ** d'environ **1 000 articles** courants en France, avec leurs **alias** (synonymes, abréviations, marques passées dans le langage courant, variantes régionales), ainsi que les catégories, unités et modèles de magasins (voir 06). C'est une donnée par défaut, comme un dictionnaire.
+- L'app embarque un **catalogue de départ** d'environ **1 000 articles** courants en France, avec leurs **alias** (synonymes, abréviations, marques passées dans le langage courant, variantes régionales), ainsi que les catégories et les unités (voir 06). C'est une donnée par défaut, comme un dictionnaire.
 - Au premier lancement, il est **copié** dans les données de l'utilisateur. Ensuite, ce sont ses données : il les modifie, supprime, complète librement.
 - Chaque article copié garde sa **clé catalogue**. Comme deux utilisateurs de l'app partent du même catalogue, la grande majorité des articles partagés sont reconnus à coup sûr, même renommés.
 - Plus le catalogue est complet, moins on crée d'articles soi-même, et moins il y a de doublons au partage.

@@ -1,18 +1,21 @@
 import "fake-indexeddb/auto";
 import { afterEach, describe, expect, it } from "vitest";
-import { createStoreFromTemplate } from "@/db/catalog";
+
 import { ShoppingDatabase } from "@/db/database";
 import { addListItem } from "@/db/items";
 import { seedDatabase } from "@/db/seed";
-import { nameSeededAisles } from "./fixtures";
+import { addTestStore } from "./fixtures";
 import {
   checkItem,
   closeSession,
   markUnavailable,
   moveArticle,
+  openNextAisle,
+  placeAndCheck,
   reopenSession,
   startSession,
 } from "@/db/sessions";
+import { createEmptyStore } from "@/db/stores";
 import { groupListForStore } from "@/domain/aisles";
 import type { ID } from "@/domain/model";
 import { learnAislePositions } from "@/domain/shopping";
@@ -28,7 +31,7 @@ async function setup() {
   database = new ShoppingDatabase(`test-${crypto.randomUUID()}`);
   const db = database;
   await seedDatabase(db, 0);
-  await nameSeededAisles(db);
+  await addTestStore(db);
   const list = await db.lists.toCollection().first();
   const store = await db.stores.toCollection().first();
   if (!list || !store) throw new Error("données de départ absentes");
@@ -87,7 +90,7 @@ async function displayedAisles(db: ShoppingDatabase, storeId: ID) {
 describe("clôture et apprentissage (docs/03 C6, C7)", () => {
   it("après 3 courses Crèmerie → Fruits & Légumes → Épicerie, la liste suit cet ordre dans ce magasin seulement", async () => {
     const { db, list, store, article, shop } = await setup();
-    const other = await createStoreFromTemplate(db, "supermarche", "Autre");
+    const other = await addTestStore(db, "Autre");
     const otherBefore = await displayedAisles(db, other.id);
 
     for (let n = 0; n < 3; n++) {
@@ -278,5 +281,87 @@ describe("changer un article de rayon (docs/03 C5)", () => {
       cremerie?.categories.find((c) => c.categoryId === lait.categoryId)
         ?.primary,
     ).toBe(false);
+  });
+});
+
+describe("magasin construit pendant les courses (docs/03 C4)", () => {
+  it("ranger en cochant, « Rayon suivant », rayons vides retirés à la clôture", async () => {
+    database = new ShoppingDatabase(`test-${crypto.randomUUID()}`);
+    const db = database;
+    await seedDatabase(db, 0);
+    const list = await db.lists.toCollection().first();
+    if (!list) throw new Error("liste");
+    const store = await createEmptyStore(db, "Marché", 0);
+    const items = new Map<string, Awaited<ReturnType<typeof addListItem>>>();
+    const article = async (key: string) => {
+      const found = await db.articles.where("catalogKey").equals(key).first();
+      if (!found) throw new Error(key);
+      return found;
+    };
+    for (const key of ["pommes", "bananes", "lait"]) {
+      const a = await article(key);
+      items.set(
+        key,
+        await addListItem(db, {
+          listId: list.id,
+          articleId: a.id,
+          quantity: 1,
+          unitId: a.defaultUnitId,
+        }),
+      );
+    }
+    const session = await startSession(db, list.id, store.id, 1000);
+    const place = async (
+      key: string,
+      target: string | undefined,
+      at: number,
+    ) => {
+      const added = items.get(key);
+      if (!added) throw new Error(key);
+      return placeAndCheck(
+        db,
+        session,
+        added.item,
+        await article(key),
+        target,
+        at,
+      );
+    };
+
+    // Premier article : le rayon 1 s'ouvre, toute la catégorie Fruits y va.
+    const first = await place("pommes", undefined, 2000);
+    const fruits = await db.categories
+      .filter((c) => c.catalogKey === "fruits")
+      .first();
+    let aisle = await db.aisles.get(first);
+    expect(aisle?.categories).toEqual([
+      { categoryId: fruits?.id, primary: true },
+    ]);
+    expect(aisle?.icon).toBe(fruits?.icon);
+
+    // Rayon suivant (deux fois de suite : un seul rayon vide), puis le lait.
+    const next = await openNextAisle(db, session, first, 3000);
+    const again = await openNextAisle(db, session, next.id, 3500);
+    expect(again.id).toBe(next.id);
+    const second = await place("lait", next.id, 4000);
+    expect(second).toBe(next.id);
+
+    // Sa catégorie a déjà un rayon (Fruits, au rayon 1) : seul cet article est rangé ici.
+    await place("bananes", second, 5000);
+    expect(await db.overrides.filter((o) => o.aisleId === second).count()).toBe(
+      1,
+    );
+
+    // Un rayon ouvert et laissé vide disparaît à la clôture.
+    const empty = await openNextAisle(db, session, second, 6000);
+    await closeSession(db, session.id, 7000);
+    expect(await db.aisles.get(empty.id)).toBeUndefined();
+    const kept = (await db.aisles.where("storeId").equals(store.id).toArray())
+      .filter((a) => !a.isUnsorted)
+      .sort((a, b) => a.position - b.position)
+      .map((a) => a.id);
+    expect(kept).toEqual([first, second]);
+    aisle = await db.aisles.get(second);
+    expect(aisle?.categories).toHaveLength(1);
   });
 });

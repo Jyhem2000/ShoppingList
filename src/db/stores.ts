@@ -1,4 +1,3 @@
-import { storeTemplatesData } from "@/data";
 import type { Aisle, Category, ID, Store } from "@/domain/model";
 import {
   type CategoryRole,
@@ -11,60 +10,13 @@ import {
 import { fr } from "@/i18n/fr";
 import type { ShoppingDatabase } from "./database";
 
-/** Positions réparties uniformément sur [0, 1] (docs/07 § 7.6). */
-function spread(index: number, count: number): number {
-  return count > 1 ? index / (count - 1) : 0;
-}
-
-/**
- * Magasin créé à partir d'un modèle (docs/06 § 3) : ses rayons dans l'ordre du
- * modèle, sans nom (numérotés, désignés par leurs catégories), plus « Non classé » en
- * dernier.
- */
-export function buildStore(
-  templateKey: string,
-  name: string,
-  categories: readonly Category[],
-  now: number,
-  newId: () => ID = () => crypto.randomUUID(),
-): { store: Store; aisles: Aisle[] } {
-  const base = () => ({ id: newId(), createdAt: now, updatedAt: now });
-  const template = storeTemplatesData.find((t) => t.key === templateKey);
-  if (!template) throw new Error(`Modèle de magasin inconnu : ${templateKey}`);
-  const categoryByKey = new Map(categories.map((c) => [c.catalogKey, c]));
-  const store: Store = { ...base(), name, orderLocked: false };
-  const aisles: Aisle[] = template.aisles.map((aisle, index) => ({
-    ...base(),
-    storeId: store.id,
-    name: "",
-    icon: aisle.icon,
-    color: aisle.color,
-    position: spread(index, template.aisles.length),
-    // Une catégorie supprimée par l'utilisateur est simplement ignorée.
-    categories: aisle.categories.flatMap((c) => {
-      const category = categoryByKey.get(c.category);
-      return category ? [{ categoryId: category.id, primary: c.primary }] : [];
-    }),
-    isUnsorted: false,
-  }));
-  // Catégories système (« Autres », « Achats ponctuels ») : rayon « Non classé ».
-  const system = categories.filter((category) => category.isSystem);
-  aisles.push({
-    ...base(),
-    storeId: store.id,
-    name: fr.defaults.unsortedAisle,
-    icon: "shopping-basket",
-    color: "gris",
-    position: 1,
-    categories: system.map((c) => ({ categoryId: c.id, primary: true })),
-    isUnsorted: true,
-  });
-  return { store, aisles };
-}
-
 // ——— Édition des magasins et des rayons (docs/03 G3) ———
 
-/** Magasin vide : un seul rayon « Non classé », qui reçoit les catégories système. */
+/**
+ * Magasin vide (docs/02 § 4) : un seul rayon « Non classé » (« À placer » en mode
+ * courses), qui reçoit les catégories système ; les autres rayons se créent pendant
+ * les courses.
+ */
 export function buildEmptyStore(
   name: string,
   categories: readonly Category[],
@@ -180,11 +132,12 @@ export async function updateStore(
   await database.stores.update(id, { ...changes, updatedAt: Date.now() });
 }
 
-export type DeleteStoreResult = "deleted" | "last" | "shopping";
+export type DeleteStoreResult = "deleted" | "shopping";
 
 /**
- * Supprimer un magasin, ses rayons et ses exceptions. Refusé pour le dernier magasin,
- * ou pendant des courses ouvertes dans ce magasin. L'historique des achats reste.
+ * Supprimer un magasin, ses rayons et ses exceptions, même le dernier : le prochain
+ * « C'est parti » en fera créer un. Refusé pendant des courses ouvertes dans ce
+ * magasin. L'historique des achats reste.
  */
 export async function deleteStore(
   database: ShoppingDatabase,
@@ -200,7 +153,6 @@ export async function deleteStore(
       database.sessions,
     ],
     async () => {
-      if ((await database.stores.count()) <= 1) return "last";
       const open = await database.sessions
         .where("storeId")
         .equals(id)

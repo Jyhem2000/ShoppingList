@@ -1,4 +1,4 @@
-import { Download, Upload } from "lucide-react";
+import { ClipboardCopy, ClipboardPaste, Download, Upload } from "lucide-react";
 import { useRef, useState } from "react";
 import {
   type Backup,
@@ -12,8 +12,10 @@ import { db } from "@/db/database";
 import { useSettings } from "@/db/hooks";
 import { updateSettings } from "@/db/settings";
 import { fr } from "@/i18n/fr";
+import { canCopyText, copyText, pasteText } from "@/platform/clipboard";
 import { shareOrDownload } from "@/platform/share";
 import { Button } from "@/ui/button";
+import { Field } from "@/ui/form";
 import { Section } from "@/ui/Page";
 import { Sheet } from "@/ui/Sheet";
 import { showToast } from "@/ui/toast";
@@ -23,7 +25,8 @@ const DAY_MS = 24 * 60 * 60 * 1000;
 
 /**
  * Sauvegarde (docs/03 H4) : exporter toutes les données dans un fichier (feuille de
- * partage du téléphone), et importer un fichier en remplacement, après confirmation.
+ * partage du téléphone) ou dans le presse-papiers, et importer un fichier ou un texte
+ * collé, en remplacement, après confirmation.
  */
 export function BackupSection() {
   const settings = useSettings();
@@ -52,13 +55,49 @@ export function BackupSection() {
     }
   };
 
-  const readFile = async (chosen: File) => {
-    const result = readBackup(await chosen.text(), db.verno);
-    if (result.kind === "ok") setPending(result);
-    else
-      showToast(result.kind === "newer" ? t.newer : t.invalid, {
+  const [pasting, setPasting] = useState(false);
+  const [pasted, setPasted] = useState("");
+
+  const readText = (text: string, invalid: string) => {
+    const result = readBackup(text, db.verno);
+    if (result.kind === "ok") {
+      setPasting(false);
+      setPending(result);
+    } else
+      showToast(result.kind === "newer" ? t.newer : invalid, {
         tone: "warning",
       });
+  };
+
+  const readFile = async (chosen: File) => {
+    readText(await chosen.text(), t.invalid);
+  };
+
+  // La copie part du toucher : le texte est fabriqué pendant qu'elle a lieu.
+  const copyData = () => {
+    let exportedAt = 0;
+    const text = exportBackup(db).then((backup) => {
+      exportedAt = backup.exportedAt;
+      return JSON.stringify(backup);
+    });
+    void copyText(text).then(async (copied) => {
+      if (!copied) {
+        showToast(t.copyFailed, { tone: "warning" });
+        return;
+      }
+      await updateSettings(db, { lastBackupAt: exportedAt });
+      showToast(t.copied, { tone: "success" });
+    });
+  };
+
+  // Coller : directement si le téléphone le permet, sinon dans un champ.
+  const pasteData = async () => {
+    const text = await pasteText();
+    if (text?.trim()) readText(text, t.invalidText);
+    else {
+      setPasted("");
+      setPasting(true);
+    }
   };
 
   return (
@@ -69,6 +108,15 @@ export function BackupSection() {
           <Download />
           {t.export}
         </Button>
+        {canCopyText() && (
+          <>
+            <Button variant="outline" onClick={copyData}>
+              <ClipboardCopy />
+              {t.copy}
+            </Button>
+            <p className="text-sm text-muted-foreground">{t.copyHint}</p>
+          </>
+        )}
         <p className="text-sm text-muted-foreground">{t.last(days)}</p>
         <Button
           variant="outline"
@@ -78,6 +126,10 @@ export function BackupSection() {
         >
           <Upload />
           {t.import}
+        </Button>
+        <Button variant="outline" onClick={() => void pasteData()}>
+          <ClipboardPaste />
+          {t.paste}
         </Button>
         <p className="text-sm text-muted-foreground">{t.importHint}</p>
         <input
@@ -92,6 +144,38 @@ export function BackupSection() {
           }}
         />
       </div>
+      {pasting && (
+        <Sheet
+          open
+          onOpenChange={(open) => {
+            if (!open) setPasting(false);
+          }}
+          title={t.pasteTitle}
+          description={t.pasteText}
+        >
+          <form
+            className="flex flex-col gap-3"
+            onSubmit={(event) => {
+              event.preventDefault();
+              readText(pasted, t.invalidText);
+            }}
+          >
+            <Field label={t.pasteTitle}>
+              <textarea
+                value={pasted}
+                placeholder={t.pastePlaceholder}
+                onChange={(event) => {
+                  setPasted(event.target.value);
+                }}
+                className="h-32 w-full rounded-xl border border-border bg-raised px-3 py-2 font-mono text-sm outline-none focus:border-primary light:bg-bg"
+              />
+            </Field>
+            <Button type="submit" disabled={!pasted.trim()}>
+              {t.pasteCheck}
+            </Button>
+          </form>
+        </Sheet>
+      )}
       {pending && (
         <Sheet
           open

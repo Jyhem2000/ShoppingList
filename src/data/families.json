@@ -1,0 +1,62 @@
+[
+  {
+    "key": "fruits-legumes",
+    "name": {
+      "fr": "Fruits & légumes"
+    }
+  },
+  {
+    "key": "boulangerie",
+    "name": {
+      "fr": "Boulangerie"
+    }
+  },
+  {
+    "key": "viandes-poissons",
+    "name": {
+      "fr": "Viandes & poissons"
+    }
+  },
+  {
+    "key": "frais",
+    "name": {
+      "fr": "Frais"
+    }
+  },
+  {
+    "key": "epicerie-salee",
+    "name": {
+      "fr": "Épicerie salée"
+    }
+  },
+  {
+    "key": "epicerie-sucree",
+    "name": {
+      "fr": "Épicerie sucrée"
+    }
+  },
+  {
+    "key": "boissons",
+    "name": {
+      "fr": "Boissons"
+    }
+  },
+  {
+    "key": "surgeles",
+    "name": {
+      "fr": "Surgelés"
+    }
+  },
+  {
+    "key": "hygiene",
+    "name": {
+      "fr": "Hygiène"
+    }
+  },
+  {
+    "key": "maison",
+    "name": {
+      "fr": "Maison"
+    }
+  }
+]

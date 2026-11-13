@@ -1,7 +1,8 @@
 import { useSyncExternalStore } from "react";
 
 /**
- * Préférences propres à l'appareil (docs/07 § 5) : sons, écran allumé, thème.
+ * Préférences propres à l'appareil (docs/07 § 5) : sons, écran allumé, thème, bulles
+ * d'aide déjà vues.
  * Stockées dans `localStorage`, hors de la base et des sauvegardes : chaque téléphone
  * garde les siennes, même après l'import des données d'un autre.
  */
@@ -31,6 +32,8 @@ export interface DevicePreferences {
   /** Garder l'écran allumé pendant les courses. */
   keepScreenOn: boolean;
   theme: ThemePreference;
+  /** Bulles d'aide déjà montrées (docs/03 H12), une seule fois chacune. */
+  seenTips: string[];
 }
 
 export const defaultPreferences: DevicePreferences = {
@@ -45,6 +48,7 @@ export const defaultPreferences: DevicePreferences = {
   },
   keepScreenOn: true,
   theme: "auto",
+  seenTips: [],
 };
 
 /** Lue aussi par le petit script d'index.html qui pose le thème avant l'affichage. */
@@ -66,6 +70,9 @@ export function parsePreferences(raw: string | null): DevicePreferences {
       soundEvents: events,
       keepScreenOn: bool(data.keepScreenOn, defaultPreferences.keepScreenOn),
       theme: themePreferences.find((t) => t === data.theme) ?? "auto",
+      seenTips: Array.isArray(data.seenTips)
+        ? data.seenTips.filter((tip) => typeof tip === "string")
+        : [],
     };
   } catch {
     return defaultPreferences;

@@ -188,6 +188,20 @@ export function currentAisle(
   );
 }
 
+/**
+ * Rayon en cours pour ranger ce qu'on coche dans « À placer » (C4) : celui ouvert par
+ * « Rayon suivant » s'il est plus récent que la dernière coche, sinon celui de la
+ * dernière coche.
+ */
+export function placingAisle(
+  opened: ShoppingSession["openedAisle"],
+  lastPurchase: Pick<Purchase, "aisleId" | "at"> | undefined,
+): ID | undefined {
+  if (opened && (!lastPurchase || opened.at >= lastPurchase.at))
+    return opened.aisleId;
+  return lastPurchase?.aisleId;
+}
+
 /** Session oubliée (C8) : plus de 3 heures sans rien cocher. */
 export const STALE_AFTER_MS = 3 * 60 * 60 * 1000;
 

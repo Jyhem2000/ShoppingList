@@ -72,15 +72,15 @@ G1 à G5 (articles et alias, catégories, magasins et rayons avec glisser-dépos
 
 - ✅ _Scénario E2E 5 vert._ → `0.6.0`.
 
-### Phase 7 — Magasins construits pendant les courses _(plan à valider)_
+### Phase 7 — Magasins construits pendant les courses _(plan validé le 13 novembre 2026, réalisé)_
 
 Décision du 13 novembre 2026, après le premier essai réel : des rayons préremplis par un modèle sont faux pour presque tout le monde (dans le vrai supermarché de l'utilisateur, le pain est avec le sucré, le petit-déjeuner et le café). Le magasin se construit donc **pendant la première course**, et un rayon se nomme d'après ce qu'il contient.
 
 **1. Plus de modèles de magasin, plus de magasin au premier lancement**
 
-- Suppression des modèles (« Hypermarché », « Supermarché », « Supérette », « Marché ») : fichier `store-templates.json`, 06 § 3, choix « Rayons de départ ». Un nouveau magasin est **vide** ou la **copie** d'un magasin existant. Les anciens noms de rayons des modèles restent figés dans `src/db/migrations.ts` (migration du schéma 2).
-- Premier lancement : seulement la liste « Courses ». Rien n'est supprimé chez un utilisateur existant (son « Mon supermarché » reste).
-- Page du magasin : **« Repartir de zéro »** (avec confirmation) vide ses rayons, ses exceptions et l'ordre appris de ses articles ; le nom et l'historique restent. Le magasin se reconstruit à la course suivante.
+- Suppression des modèles (« Hypermarché », « Supermarché », « Supérette », « Marché ») : fichier `store-templates.json`, 06 § 3, choix « Rayons de départ ». Un nouveau magasin est **vide** ou la **copie** d'un magasin existant. Pas de migration des données existantes (choix de l'utilisateur : il refait son magasin) ; la version 2 du schéma reste déclarée, sans changement de données.
+- Premier lancement : seulement la liste « Courses ». Rien n'est supprimé chez un utilisateur existant (son « Mon supermarché » reste) ; même le dernier magasin peut être supprimé.
+- ~~« Repartir de zéro »~~ : abandonné (il suffit de supprimer le magasin et d'en créer un au départ des courses).
 
 **2. Premier « C'est parti » sans magasin**
 
@@ -97,7 +97,7 @@ Décision du 13 novembre 2026, après le premier essai réel : des rayons prére
 **4. Le nom d'un rayon, sans numéro**
 
 - Le numéro (« Rayon 3 ») n'est plus affiché : il bouge avec l'apprentissage et ne correspond pas aux panneaux du magasin. Au-dessus du titre, le mot **« RAYON »** seul, pour ne pas confondre avec une catégorie.
-- Chaque catégorie reçoit un **nom court** et une **famille** (tableau ci-dessous, à relire), modifiables dans la fiche de la catégorie ; une catégorie créée par l'utilisateur a son nom pour nom court et aucune famille. Schéma 3 : nom court et famille ajoutés aux catégories du catalogue déjà en base.
+- Chaque catégorie reçoit un **nom court** et une **famille** (tableau ci-dessous, à relire), modifiables dans la fiche de la catégorie ; une catégorie créée par l'utilisateur a son nom pour nom court et aucune famille. Pas de schéma 3 : le nom court d'une catégorie du catalogue vient du catalogue (par sa clé) tant que l'utilisateur ne le change pas, la famille aussi.
 - **Titre** d'un rayon, dans cet ordre :
   1. le nom donné par l'utilisateur ;
   2. une seule catégorie principale : son nom court (« Fromages ») ;
@@ -158,9 +158,15 @@ Décision du 13 novembre 2026, après le premier essai réel : des rayons prére
 
 **6. Tests et docs**
 
-- Tests unitaires : règle de rangement d'une coche, « Rayon suivant » (insertion après le rayon en cours, pas de rayon vide en double, rayons vides retirés à la clôture), titre d'un rayon, « Repartir de zéro », migration du schéma 3.
+- Tests unitaires : règle de rangement d'une coche, « Rayon suivant » (insertion après le rayon en cours, pas de rayon vide en double, rayons vides retirés à la clôture), titre d'un rayon, nom court et famille de chaque catégorie, plus de magasin au premier lancement.
 - Scénarios E2E : 3 réécrit (première course qui construit le magasin, puis la liste suit ce parcours à la course suivante), 5 adapté (sans modèle).
 - Docs 02, 03 (B5, C1, C4, C7, G2, G3, H10, H12), 04 (2.3, 2.8, 2.11), 06 (§ 2 nom court et famille, § 3 retiré), 07, 08 ; maquette `#/dev/ui`.
+
+**7. Ajouts demandés pendant la phase**
+
+- Article **« Lait aromatisé »** (types fraise, chocolat, vanille ; icône de la brique de lait, bande marron), catalogue version 3.
+- Sauvegarde : **« Copier dans le presse-papiers »** et **« Coller une sauvegarde »**, en plus du fichier (03 H4).
+- Liste et mode courses, dans les deux thèmes : pas de fond sous les articles, bloc bordé d'un trait fin de sa couleur.
 
 - ✅ _Scénarios E2E 3 et 5 verts ; essai réel : un magasin construit pendant une course, puis une course qui suit ce parcours._ → `0.7.0`.
 

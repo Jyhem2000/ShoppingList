@@ -8,7 +8,7 @@ import {
   updateAisle,
 } from "@/db/stores";
 import type { Aisle, Category } from "@/domain/model";
-import { aisleNumbers, categoryRole } from "@/domain/stores";
+import { categoryRole } from "@/domain/stores";
 import { aisleText, paletteColor } from "@/features/list/format";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
@@ -27,8 +27,8 @@ const t = fr.manage.aisle;
 type Step = "edit" | "merge" | "delete";
 
 /**
- * Un rayon (docs/03 G3) : nom et repère facultatifs (sans nom, il est désigné par son
- * numéro et ses catégories), icône et couleur, catégories (pleine = principale,
+ * Un rayon (docs/03 G3) : nom et repère facultatifs (sans nom, son titre vient de ses
+ * catégories), icône et couleur, catégories (pleine = principale,
  * contour = aussi ici ; toucher pour changer, ✕ pour retirer), fusion, suppression.
  * Tout est enregistré au fil de l'eau.
  */
@@ -36,11 +36,14 @@ export function AisleSheet({
   aisle,
   aisles,
   categories,
+  weights,
   onClose,
 }: {
   aisle: Aisle;
   aisles: Aisle[];
   categories: Category[];
+  /** Achats par catégorie, pour le titre des rayons sans nom. */
+  weights: ReadonlyMap<string, number>;
   onClose: () => void;
 }) {
   const [step, setStep] = useState<Step>("edit");
@@ -55,10 +58,8 @@ export function AisleSheet({
     .filter((c) => !c.isSystem && categoryRole(aisle, c.id) === "none")
     .sort((a, b) => a.name.localeCompare(b.name, "fr"));
   const others = aisles.filter((a) => a.id !== aisle.id);
-  const numbers = aisleNumbers(aisles);
-  const textOf = (a: Aisle) => aisleText(a, numbers.get(a.id), categoryById);
+  const textOf = (a: Aisle) => aisleText(a, categoryById, weights);
   const text = textOf(aisle);
-  const number = numbers.get(aisle.id);
 
   const setRole = (
     categoryId: string,
@@ -162,25 +163,14 @@ export function AisleSheet({
 
       {step === "edit" && (
         <div className="flex flex-col gap-5 pb-1">
-          {aisle.isUnsorted ? (
-            <NameField
-              key={aisle.name}
-              label={fr.manage.store.name}
-              value={aisle.name}
-              onSave={(clean) =>
-                void updateAisle(db, aisle.id, { name: clean })
-              }
-            />
-          ) : (
+          {!aisle.isUnsorted && (
             <>
               <NameField
                 key={aisle.name}
                 label={t.name}
                 value={aisle.name}
                 optional
-                placeholder={
-                  number === undefined ? undefined : fr.aisles.number(number)
-                }
+                placeholder={text.automatic}
                 hint={t.nameHint}
                 onSave={(clean) =>
                   void updateAisle(db, aisle.id, { name: clean })

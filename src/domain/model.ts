@@ -38,6 +38,11 @@ export interface Category extends Base {
   /** Unique. */
   slug: string;
   name: string;
+  /**
+   * Nom court choisi par l'utilisateur, pour le titre d'un rayon (docs/02 § 4) ; absent :
+   * celui du catalogue (`catalogKey`), sinon le nom.
+   */
+  shortName?: string;
   /** Nom d'icône Lucide (docs/05 § 4). */
   icon?: string;
   /** Nom de la palette (docs/05 § 2). */
@@ -90,8 +95,8 @@ export interface AisleCategory {
 export interface Aisle extends Base {
   storeId: ID;
   /**
-   * Nom choisi par l'utilisateur ; vide = sans nom : le rayon est désigné par son numéro
-   * dans l'ordre de passage et ses catégories (docs/02 § 4).
+   * Nom choisi par l'utilisateur ; vide = sans nom : le titre du rayon vient de ses
+   * catégories (docs/02 § 4).
    */
   name: string;
   /** Repère libre : « au fond du magasin ». */
@@ -101,7 +106,10 @@ export interface Aisle extends Base {
   /** Score 0..1, appris ou manuel ; tri croissant. */
   position: number;
   categories: AisleCategory[];
-  /** Rayon « Non classé ». */
+  /**
+   * Rayon « Non classé » d'un magasin, affiché « À placer » en mode courses : les articles
+   * dont la catégorie n'a pas encore de rayon dans ce magasin (docs/03 C4).
+   */
   isUnsorted: boolean;
 }
 
@@ -160,6 +168,11 @@ export interface ShoppingSession {
   startedAt: number;
   status: "open" | "closed";
   closedAt?: number;
+  /**
+   * Rayon ouvert par « Rayon suivant » (docs/03 C4) et quand : il devient le rayon en
+   * cours tant qu'aucune coche plus récente n'en désigne un autre.
+   */
+  openedAisle?: { aisleId: ID; at: number };
   /** État avant application de l'apprentissage, pour la réouverture. */
   learningSnapshot?: {
     aislePositions: Record<ID, number>;

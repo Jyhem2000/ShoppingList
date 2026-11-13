@@ -43,22 +43,23 @@ Principe : **tester ce qui peut casser silencieusement et ce qui fait la valeur 
 
 ### Tests unitaires (Vitest)
 
-| Sujet                                                               | Pourquoi c'est important                                                                                          |
-| ------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| `slugify`, `searchKey`                                              | Base de l'unicité et de l'import                                                                                  |
-| `searchArticles`                                                    | Qualité de l'ajout éclair (accents, pluriels, fautes de frappe)                                                   |
-| `parseEntry`                                                        | Nombreux cas de saisie (tableau de 03 § A2)                                                                       |
-| `effectiveAisle`, `groupListForStore`                               | Cœur de l'app : le tri par rayon                                                                                  |
-| Clôture, apprentissage, réouverture                                 | Logique statistique ; jamais de double comptage après réouverture                                                 |
-| `convert`, `changeUnit`, `simplify`, `mergeQuantity`, `scaleRecipe` | Calculs, conversions et arrondis (y compris rendements « 1 cake »)                                                |
-| Suggestions anti-oubli                                              | Logique statistique                                                                                               |
-| `slugify` sur d'autres alphabets                                    | Jamais de slug vide (cyrillique, chinois…)                                                                        |
-| `resolveImport`, `suggestCandidates`                                | Partage entre deux catalogues différents : clé, alias, dictionnaire du catalogue, candidats par icône/catégorie   |
-| `findLikelyDuplicates`                                              | Détection des doublons sans faux positifs grossiers                                                               |
-| Données initiales et premier lancement                              | Slugs et alias sans doublon, icônes du pack, un rayon principal par catégorie ; copie unique au premier lancement |
-| Migrations Dexie                                                    | Ne jamais perdre les données d'une version à l'autre                                                              |
-| Export puis import d'une sauvegarde                                 | Aller-retour sans perte                                                                                           |
-| Copies automatiques internes                                        | Une par jour au plus, 7 gardées, restauration sans perte                                                          |
+| Sujet                                                               | Pourquoi c'est important                                                                                                            |
+| ------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `slugify`, `searchKey`                                              | Base de l'unicité et de l'import                                                                                                    |
+| `searchArticles`                                                    | Qualité de l'ajout éclair (accents, pluriels, fautes de frappe)                                                                     |
+| `parseEntry`                                                        | Nombreux cas de saisie (tableau de 03 § A2)                                                                                         |
+| `effectiveAisle`, `groupListForStore`                               | Cœur de l'app : le tri par rayon                                                                                                    |
+| Rangement en cochant, « Rayon suivant », titre d'un rayon           | Le magasin se construit pendant les courses (03 C4, 02 § 4) : bonne catégorie au bon rayon, jamais deux rayons vides, titres courts |
+| Clôture, apprentissage, réouverture                                 | Logique statistique ; jamais de double comptage après réouverture                                                                   |
+| `convert`, `changeUnit`, `simplify`, `mergeQuantity`, `scaleRecipe` | Calculs, conversions et arrondis (y compris rendements « 1 cake »)                                                                  |
+| Suggestions anti-oubli                                              | Logique statistique                                                                                                                 |
+| `slugify` sur d'autres alphabets                                    | Jamais de slug vide (cyrillique, chinois…)                                                                                          |
+| `resolveImport`, `suggestCandidates`                                | Partage entre deux catalogues différents : clé, alias, dictionnaire du catalogue, candidats par icône/catégorie                     |
+| `findLikelyDuplicates`                                              | Détection des doublons sans faux positifs grossiers                                                                                 |
+| Données initiales et premier lancement                              | Slugs et alias sans doublon, icônes du pack, un rayon principal par catégorie ; copie unique au premier lancement                   |
+| Migrations Dexie                                                    | Ne jamais perdre les données d'une version à l'autre                                                                                |
+| Export puis import d'une sauvegarde                                 | Aller-retour sans perte                                                                                                             |
+| Copies automatiques internes                                        | Une par jour au plus, 7 gardées, restauration sans perte                                                                            |
 
 ### Scénarios de bout en bout (Playwright)
 
@@ -66,9 +67,9 @@ Chaque scénario tourne sur deux configurations : **WebKit + iPhone émulé** (c
 
 1. Premier lancement → données de départ créées → liste vide affichée.
 2. Ajout éclair (`3 tom` + Entrée), article déjà présent (« Ne rien faire »), création d'un article inconnu.
-3. Liste rangée par catégorie ; en mode courses, rangée par rayon dans l'ordre du magasin choisi (un autre magasin donne un autre ordre).
-4. Mode courses : cocher un rayon entier → repli ; ajout d'un article d'un rayon passé → « À récupérer » ; terminer les courses → lignes cochées retirées ; rouvrir → elles réapparaissent cochées ; terminer à nouveau.
-5. Modifier un magasin : réordonner les rayons, déplacer une catégorie, rendre un rayon principal pour une catégorie → la liste suit.
+3. Liste rangée par catégorie ; la première course dans un nouveau magasin le construit (tout « À placer », on coche dans l'ordre du parcours avec « Rayon suivant », bulles d'aide) ; la course suivante est rangée par rayon dans cet ordre, sans rien à placer.
+4. Mode courses (premières courses dans un nouveau magasin) : cocher un rayon entier → repli ; ajout d'un article d'un rayon passé → « À récupérer » ; terminer les courses → lignes cochées retirées ; rouvrir → elles réapparaissent cochées ; terminer à nouveau.
+5. Modifier un magasin : réordonner les rayons, déplacer une catégorie, rendre un rayon principal pour une catégorie → la liste suit. Le magasin est d'abord construit par une course.
 6. Rechargement de la page → les données sont toujours là.
 7. _(v1.1)_ Recette ajoutée pour un autre rendement (personnes et « cakes ») → quantités correctes dans la liste.
 8. _(v1.3)_ Partage puis import dans un profil vierge → aperçu correct, association « C'est le même que… » mémorisée, articles créés.

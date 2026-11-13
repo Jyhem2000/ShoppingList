@@ -7,7 +7,7 @@ Fini les allers-retours au rayon frais parce que tu avais oublié le beurre : l'
 ## Ce qu'elle fait
 
 - ⚡ **Ajout éclair** : tape `3 tom`, Entrée, c'est ajouté. Comprend « 500 g de farine », « une douzaine d'œufs », « pommes gala ».
-- 🗺️ **Tri par rayon** selon le magasin choisi, avec des rayons qui collent à la réalité de chaque magasin.
+- 🗺️ **Tri par rayon** selon le magasin choisi : ses rayons se créent pendant tes premières courses, tels qu'ils sont vraiment.
 - 🧠 **Apprend l'ordre des rayons** à partir de l'ordre dans lequel tu coches tes articles.
 - 🛒 **Mode courses** : grosses lignes, rayons qui se replient une fois terminés, écran qui reste allumé, alerte si tu ajoutes un article d'un rayon déjà passé, clôture des courses (et réouverture en cas d'oubli à la caisse).
 - ✏️ **Tout est modifiable** : articles, catégories, rayons, magasins, unités.
@@ -19,7 +19,7 @@ Fini les allers-retours au rayon frais parce que tu avais oublié le beurre : l'
 ## Mode d'emploi
 
 1. **Remplis ta liste** avec la barre du bas (`2 baguettes, du beurre`) ou le catalogue. Elle se range toute seule par catégorie ; en magasin, elle se range par rayon, dans l'ordre de ton parcours.
-2. **En magasin**, touche **C'est parti** et choisis le magasin. Touche une ligne quand l'article est dans le caddie ; glisse-la vers la gauche si tu ne le prends pas (introuvable, plus besoin…) : il reste dans la liste ; appui long pour dire qu'il est dans un autre rayon.
+2. **En magasin**, touche **C'est parti** et choisis le magasin (ou nomme-le, la première fois). La première fois, tout est « À placer » : touche chaque article quand il est dans le caddie, et **Rayon suivant** quand tu changes de rayon ; le magasin est enregistré tel que tu l'as parcouru. Touche une ligne quand l'article est dans le caddie ; glisse-la vers la gauche si tu ne le prends pas (introuvable, plus besoin…) : il reste dans la liste ; appui long pour dire qu'il est dans un autre rayon.
 3. **Tu penses à un article en passant** : ajoute-le avec la barre. Si tu l'as déjà pris, choisis « Je l'ai déjà dans le caddie » ; s'il n'est pas dans le rayon prévu, « Il est dans un autre rayon… ». Si son rayon est déjà passé, il t'attend en haut dans « À récupérer ».
 4. **À la caisse**, touche **Terminer**. Un oubli ? « Rouvrir les courses » sur la liste, tant que tu n'as pas recommencé de nouvelles courses.
 
@@ -29,7 +29,7 @@ Tout reste sur ton téléphone. Pense à **Réglages → Sauvegarde → Exporter
 
 ### Ce que l'app règle toute seule
 
-Rien à paramétrer : l'app part d'un magasin type, puis s'adapte au tien chaque fois que tu termines tes courses.
+Rien à paramétrer à l'avance : ton magasin se construit pendant tes premières courses, puis l'app s'adapte chaque fois que tu les termines.
 
 - **L'ordre des rayons** : les rayons où tu as coché quelque chose sont rangés dans l'ordre où tu les as parcourus. Seul l'**ordre des coches** compte, pas l'heure : une pause ou une attente au rayon coupe ne change rien. Un aller-retour (un oubli repris à la fin) ne fait pas passer un rayon en dernier. Les rayons où tu n'es pas passé gardent leur place.
 - **L'ordre des articles dans chaque rayon** : même principe, d'après l'ordre dans lequel tu les prends.
