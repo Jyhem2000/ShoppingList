@@ -25,6 +25,7 @@ export function MoveAisleSheet({
   currentAisleId,
   hereAisleId,
   sessionId,
+  onMoved,
   onClose,
 }: {
   data: ListData;
@@ -32,6 +33,8 @@ export function MoveAisleSheet({
   currentAisleId: ID | undefined;
   hereAisleId?: ID;
   sessionId?: ID;
+  /** Appelé une fois l'article rangé (pour le cocher dans ce rayon, par exemple). */
+  onMoved?: (aisleId: ID) => void;
   onClose: () => void;
 }) {
   const [target, setTarget] = useState<Aisle>();
@@ -62,11 +65,13 @@ export function MoveAisleSheet({
     }).then(() => {
       showToast(t.done(article.name, aisle.name), { tone: "success" });
     });
+    onMoved?.(aisle.id);
     onClose();
   };
 
   const pick = (aisle: Aisle) => {
     if (aisle.id === currentAisleId) {
+      onMoved?.(aisle.id);
       onClose();
       return;
     }

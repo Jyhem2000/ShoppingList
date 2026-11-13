@@ -1,23 +1,19 @@
-import { ChevronDown, Ellipsis, Store } from "lucide-react";
+import { ChevronDown, Ellipsis } from "lucide-react";
 import { fr } from "@/i18n/fr";
 
 const t = fr.list;
 
 /**
- * En-tête de la liste (docs/04 § 2.1) : nom de la liste courante (changer de
- * liste), magasin d'affichage, menu. Reste visible en haut, comme les autres en-têtes.
+ * En-tête de la liste (docs/04 § 2.1) : nom de la liste courante (changer de liste)
+ * et menu. Pas de magasin : il se choisit au départ des courses. Reste visible en haut, comme les autres en-têtes.
  */
 export function ListHeader({
   listName,
-  storeName,
   onChooseList,
-  onChooseStore,
   onMenu,
 }: {
   listName: string;
-  storeName?: string;
   onChooseList: () => void;
-  onChooseStore: () => void;
   onMenu: () => void;
 }) {
   return (
@@ -43,16 +39,6 @@ export function ListHeader({
           <Ellipsis className="size-6" aria-hidden />
         </button>
       </div>
-      <button
-        type="button"
-        onClick={onChooseStore}
-        aria-label={`${storeName ?? ""} — ${t.chooseStore}`}
-        className="mt-1 -ml-1 flex min-h-11 items-center gap-1.5 rounded-xl px-1 text-sm font-semibold text-muted-foreground active:bg-raised"
-      >
-        <Store className="size-4 text-secondary" aria-hidden />
-        <span className="truncate">{storeName}</span>
-        <ChevronDown className="size-4" aria-hidden />
-      </button>
     </header>
   );
 }

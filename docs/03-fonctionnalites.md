@@ -85,11 +85,12 @@ Aucun développement spécifique : le **micro du clavier** (iPhone comme Android
 
 ## B. La liste de courses
 
-### B1. Tri par rayon dans l'ordre du magasin — _v1.0_
+### B1. Liste par catégorie, courses par rayon — _v1.0_
 
-- Lignes groupées par **rayon effectif** (voir 02 § 4) du magasin sélectionné, rayons dans l'ordre du parcours, « Non classé » en dernier.
-- Dans un rayon : ordre appris des articles si disponible, sinon alphabétique.
-- En-tête de rayon : icône, couleur, libellé, nombre de lignes restantes.
+Décision du 13 novembre 2026, après le premier essai réel : une liste **n'appartient à aucun magasin**, elle se range donc **par catégorie** ; le regroupement **par rayon** n'apparaît qu'en **mode courses**, une fois le magasin choisi (et dans le réglage des magasins).
+
+- **Liste** : lignes groupées par **catégorie**, dans l'ordre du catalogue (06 § 2), catégories créées ensuite par ordre alphabétique, « Autres » et « Achats ponctuels » en dernier. Dans une catégorie : l'article générique en tête, puis alphabétique. En-tête : icône, couleur et nom de la catégorie, nombre de lignes.
+- **Mode courses** : lignes groupées par **rayon effectif** (02 § 4) du magasin choisi, rayons dans l'ordre du parcours, « Non classé » en dernier ; dans un rayon, ordre appris des articles, sinon alphabétique. L'en-tête porte la mention **« Rayon »** au-dessus du nom, pour ne pas confondre avec une catégorie.
 
 ### B2. Plusieurs listes — _v1.0_
 
@@ -103,9 +104,9 @@ Tap sur une ligne → fiche : quantité (boutons `−`/`+` selon le pas de l'uni
 
 Glisser vers la gauche ou bouton dans la fiche ; message « Annuler » pendant 5 secondes.
 
-### B5. Choisir le magasin d'affichage — _v1.0_
+### B5. Choisir le magasin — _v1.0_
 
-Sélecteur de magasin dans l'en-tête de la liste ; le tri se met à jour immédiatement. Le dernier magasin choisi est mémorisé pour cette liste.
+Au départ des courses (« C'est parti ») : le dernier magasin utilisé pour cette liste est proposé. La liste elle-même n'affiche pas de magasin (B1).
 
 ### B6. Vider — _v1.0_
 
@@ -129,15 +130,17 @@ Lancé par un bouton bien visible sur la liste ; confirmation du magasin.
 - Dernière ligne d'un rayon cochée → le rayon se **replie** avec une coche ; le rayon suivant devient le rayon courant (mis en évidence) : le premier rayon qui a encore des articles à prendre, à partir de celui de la dernière coche.
 - Re-tap = décocher.
 
-### C3. Introuvable — _v1.0_
+### C3. Pas pris — _v1.0_
 
-Glisser une ligne → « Introuvable » : elle passe en bas, grisée, et restera dans la liste après les courses.
+Glisser une ligne → « Pas pris » : elle passe en bas, grisée, et restera dans la liste après les courses. La raison n'importe pas (introuvable, rupture, plus besoin, trop cher) : l'article n'est simplement pas dans le caddie. Libellé « Introuvable » remplacé le 13 novembre 2026, après essai en magasin ; en interne, le statut reste `unavailable`.
 
 ### C4. Ajouter pendant les courses — _v1.0_
 
 La barre d'ajout reste disponible. Si le rayon de l'article ajouté est **déjà passé** (on y a coché quelque chose, puis coché ailleurs), l'app l'indique (« Rayon Crèmerie déjà passé ») et place la ligne dans un groupe **« À récupérer »** affiché en haut.
 
 Après l'ajout, un panneau propose : **« OK, à prendre »** ; **« Je l'ai déjà dans le caddie »** (article pris en passant : la ligne est cochée et l'achat compte pour l'apprentissage) ; **« Il est dans un autre rayon… »** (même choix que C5, retenu pour les prochaines courses).
+
+« Je l'ai déjà dans le caddie », quand l'article n'est pas rangé dans le rayon où l'on est (celui de la dernière coche) : l'app demande **« Où as-tu pris … ? »** — **« Ici, rayon X »** (coché dans ce rayon, et rangé dans ce rayon pour ce magasin : exception par article), **« Dans son rayon, Y »**, ou **« Dans un autre rayon… »** (choix du rayon, puis coché). L'achat compte ainsi dans le bon rayon pour l'apprentissage.
 
 ### C5. Changer un article de rayon — _v1.0_
 
@@ -276,6 +279,8 @@ Glissent en fin de rayon · disparaissent.
 
 Export de toutes les données en fichier `.json` (feuille de partage → Fichiers, Drive…) ; import en **remplacement** ou en **fusion**. Rappel discret si aucune sauvegarde depuis 30 jours.
 
+Avancé le 13 novembre 2026, après le premier essai réel (Réglages → Sauvegarde) : export, import en **remplacement** (après confirmation, avec le résumé du fichier), date de la dernière sauvegarde. L'import en fusion et le rappel des 30 jours restent pour la phase 7. Les préférences de l'appareil (sons, thème, écran allumé) ne sont pas dans le fichier.
+
 ### H5. Installation, stockage, mises à jour
 
 - Premier lancement dans le navigateur : écran expliquant comment **installer l'app** (indispensable sur iPhone, voir 07 § 4) ; sur Android, bouton **« Installer »**.
@@ -285,7 +290,7 @@ Export de toutes les données en fichier `.json` (feuille de partage → Fichier
 
 ### H6. Sons
 
-Petits sons discrets et gratuits sur les actions : ajout d'un article, cocher, rayon terminé, courses terminées, suppression. Réglage **Sons** général, **style des sons** (enregistrés ou générés), plus **un interrupteur par son** avec un bouton pour l'écouter (tous activés par défaut). Volume bas. Respecte le mode silencieux de l'iPhone. Voir 05 § 7.
+Petits sons discrets et gratuits sur les actions : ajout d'un article, cocher, rayon terminé, courses terminées, suppression. Réglage **Sons** général, plus **un interrupteur par son** avec un bouton pour l'écouter (tous activés par défaut). Volume bas. Respecte le mode silencieux de l'iPhone. Voir 05 § 7.
 
 ### H7. ~~Vibrations~~ — retirée
 

@@ -1,8 +1,8 @@
 import type { PaletteColor } from "@/ui/palette";
 
 /**
- * Fausses données de la maquette (phase 2) : une liste triée par rayon telle que
- * l'app l'affichera, pour valider le rendu avant de construire les fonctionnalités.
+ * Fausses données de la maquette : la liste (par catégorie) et un rayon du mode courses,
+ * tels que l'app les affiche.
  */
 export interface MockItem {
   label: string;
@@ -19,11 +19,12 @@ export interface MockAisle {
   items: MockItem[];
 }
 
+/** La liste, rangée par catégorie (indépendante du magasin). */
 export const mockAisles: MockAisle[] = [
   {
-    label: "Fruits & Légumes",
-    icon: "carrot",
-    color: "sauge",
+    label: "Fruits",
+    icon: "apple",
+    color: "ambre",
     items: [
       {
         label: "Pommes",
@@ -31,13 +32,17 @@ export const mockAisles: MockAisle[] = [
         details: "Gala ou Golden",
         quantity: "1 kg",
       },
-      { label: "Carottes", icon: "carottes", quantity: "1 kg" },
-      { label: "Persil", icon: "persil", quantity: "1 botte" },
       { label: "Bananes", icon: "bananes", quantity: "× 6" },
     ],
   },
   {
-    label: "Boulangerie",
+    label: "Légumes",
+    icon: "carrot",
+    color: "sauge",
+    items: [{ label: "Carottes", icon: "carottes", quantity: "1 kg" }],
+  },
+  {
+    label: "Pain & Viennoiseries",
     icon: "croissant",
     color: "ble",
     items: [
@@ -51,13 +56,10 @@ export const mockAisles: MockAisle[] = [
     ],
   },
   {
-    label: "Non classé",
+    label: "Autres",
     icon: "shopping-basket",
     color: "gris",
-    items: [
-      { label: "Sauce nuoc-mâm", quantity: "× 1" },
-      { label: "Pain de mie complet", quantity: "× 1" },
-    ],
+    items: [{ label: "Sauce nuoc-mâm", quantity: "× 1" }],
   },
 ];
 

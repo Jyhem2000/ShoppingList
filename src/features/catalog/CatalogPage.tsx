@@ -2,6 +2,7 @@ import { type ReactNode, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import { catalogCategoryPath } from "@/app/routes";
 import { categoriesData } from "@/data";
+import { sortCategories } from "@/domain/categories";
 import { searchArticles } from "@/domain/search";
 import { fr } from "@/i18n/fr";
 import { CategoryCard } from "@/ui/CategoryCard";
@@ -56,20 +57,12 @@ export function CatalogPage() {
     const counts = new Map<string, number>();
     for (const article of data.articles)
       counts.set(article.categoryId, (counts.get(article.categoryId) ?? 0) + 1);
-    // Ordre du catalogue de départ (docs/06 § 2), puis les catégories créées par
-    // l'utilisateur par ordre alphabétique ; « Autres » toujours en dernier.
-    const rank = (key: string | undefined) => {
-      const index = categoriesData.findIndex((c) => c.key === key);
-      return index < 0 ? categoriesData.length - 1 : index;
-    };
-    const categories = data.categories
-      .filter((c) => counts.has(c.id))
-      .sort(
-        (a, b) =>
-          Number(a.isSystem) - Number(b.isSystem) ||
-          rank(a.catalogKey) - rank(b.catalogKey) ||
-          collator.compare(a.name, b.name),
-      );
+    // Même ordre que la liste (docs/06 § 2) : catalogue de départ, puis les catégories
+    // créées par l'utilisateur, les catégories système en dernier.
+    const categories = sortCategories(
+      data.categories.filter((c) => counts.has(c.id)),
+      categoriesData.map((c) => c.key),
+    );
     return { results, favorites, usual, categories, counts };
   }, [data, query, showAll]);
 

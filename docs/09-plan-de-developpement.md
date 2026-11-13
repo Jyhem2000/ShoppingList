@@ -19,6 +19,7 @@ Numérotation : la version **`0.N.0` sort quand la phase N est validée** ; elle
 | `0.4.0` | 12 novembre 2026 | Phases 1 à 4 validées ; mode courses (phase 5) en avant-première, à valider par un essai en magasin.                                                                                                                                 |
 | `0.5.0` | 12 novembre 2026 | Phase 5 publiée **avant** l'essai en magasin, à la demande de l'utilisateur (seul utilisateur) : l'essai se fait sur la production ; correctifs en `0.5.x` ou dans la `0.6.0`. Thème clair, recherche du catalogue, retours de test. |
 | `0.6.0` | 12 novembre 2026 | Phase 6 (tout modifiable : magasins et rayons, articles et doublons, icônes, catégories, unités), publiée pour un essai réel par l'utilisateur ; validation sur la production, correctifs en `0.6.x`.                                |
+| `0.6.1` | 13 novembre 2026 | Retours du premier essai réel : liste par catégorie (rayons en mode courses), sauvegarde (export, import), catalogue mis à jour sans réinstaller, « où l'as-tu pris ? », quantité modifiable en magasin, « Pas pris ».               |
 
 Les `0.1.0` et `0.3.0` publiées les 8 et 9 novembre 2026 ont disparu avec la reprise à zéro de l'historique git (12 novembre 2026).
 
@@ -71,7 +72,7 @@ G1 à G5 (articles et alias, catégories, magasins et rayons avec glisser-dépos
 
 ### Phase 7 — Réglages, sauvegarde, finitions
 
-H1 à H6, H9 et H10 (écran d'aide : mode d'emploi, ce que l'app règle toute seule, conseil de suivre le même parcours pendant l'apprentissage), catalogue complet (~1 000 articles avec alias) **relu par toi catégorie par catégorie**, passe d'animations et de sons, accessibilité, états vides.
+H1 à H6 (H4 avancée en partie dans la `0.6.1` : export et import en remplacement), H9 et H10 (écran d'aide : mode d'emploi, ce que l'app règle toute seule, conseil de suivre le même parcours pendant l'apprentissage), catalogue complet (~1 000 articles avec alias) **relu par toi catégorie par catégorie**, passe d'animations et de sons, accessibilité, états vides.
 
 - ✅ _Essai réel en magasin sur les deux téléphones (préproduction)._ → `0.7.0`.
 

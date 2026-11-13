@@ -22,6 +22,7 @@ export function AisleSection({
   current = false,
   outlined = false,
   currentLabel,
+  kicker,
   onToggle,
   children,
 }: {
@@ -35,6 +36,8 @@ export function AisleSection({
   outlined?: boolean;
   /** Mention lue par les lecteurs d'écran sur le rayon en cours. */
   currentLabel?: string;
+  /** Petit mot au-dessus du nom : « Rayon », pour ne pas confondre avec une catégorie. */
+  kicker?: string;
   onToggle: () => void;
   children: ReactNode;
 }) {
@@ -66,13 +69,23 @@ export function AisleSection({
           className={cn("size-6 shrink-0", palette[color].text)}
           strokeWidth={2}
         />
-        <span
-          className={cn(
-            "min-w-0 flex-1 truncate text-lg font-extrabold",
-            done ? "text-success" : palette[color].text,
+        <span className="min-w-0 flex-1">
+          {kicker && (
+            <span
+              aria-hidden
+              className="block text-[11px] leading-tight font-bold tracking-widest text-muted-foreground uppercase"
+            >
+              {kicker}
+            </span>
           )}
-        >
-          {label}
+          <span
+            className={cn(
+              "block truncate text-lg leading-snug font-extrabold",
+              done ? "text-success" : palette[color].text,
+            )}
+          >
+            {label}
+          </span>
         </span>
         {done ? (
           <Check className="size-5 text-success" strokeWidth={3} aria-hidden />

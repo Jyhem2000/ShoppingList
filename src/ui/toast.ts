@@ -21,9 +21,9 @@ export interface ToastOptions {
   duration?: number;
 }
 
-/** Un message à lire : 3 s ; avec une action (« Annuler »), le temps de la toucher : 5 s. */
-const DURATION_MS = 3000;
-const ACTION_DURATION_MS = 5000;
+/** Un message à lire : 2,5 s ; avec une action (« Annuler »), le temps de la toucher : 4 s. */
+const DURATION_MS = 2500;
+const ACTION_DURATION_MS = 4000;
 
 let current: Toast | null = null;
 let timer: ReturnType<typeof setTimeout> | undefined;

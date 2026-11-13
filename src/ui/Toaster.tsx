@@ -5,8 +5,10 @@ import {
   Info,
   type LucideIcon,
   Undo2,
+  X,
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
+import { fr } from "@/i18n/fr";
 import { dismissToast, type ToastTone, useToast } from "@/ui/toast";
 import { cn } from "@/ui/utils";
 
@@ -23,6 +25,7 @@ const tones: Record<ToastTone, { icon: LucideIcon; className: string }> = {
  * (panneaux compris) et jamais caché par le clavier : il descend, puis remonte tout seul.
  * Posé sous le flou qu'iOS 26 met sous la barre d'état (même marge que les titres d'écran).
  * Bordure épaisse et icône de la couleur du ton, sur un fond plus clair que l'interface.
+ * Se ferme aussi d'un ✕ ou en le poussant vers le haut.
  */
 export function Toaster() {
   const toast = useToast();
@@ -37,8 +40,14 @@ export function Toaster() {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -90, opacity: 0 }}
             transition={{ type: "spring", stiffness: 420, damping: 34 }}
+            drag="y"
+            dragConstraints={{ top: 0, bottom: 0 }}
+            dragElastic={{ top: 0.8, bottom: 0 }}
+            onDragEnd={(_, info) => {
+              if (info.offset.y < -30 || info.velocity.y < -300) dismissToast();
+            }}
             className={cn(
-              "pointer-events-auto flex items-center gap-3 rounded-2xl border-2 bg-raised py-2 pr-2 pl-3 shadow-xl shadow-black/60",
+              "pointer-events-auto flex touch-none items-center gap-2 rounded-2xl border-2 bg-raised py-1 pr-1 pl-3 shadow-xl shadow-black/60",
               tones[toast.tone].className,
             )}
           >
@@ -58,6 +67,14 @@ export function Toaster() {
                 {toast.action.label}
               </button>
             )}
+            <button
+              type="button"
+              aria-label={fr.toast.close}
+              onClick={dismissToast}
+              className="flex size-11 shrink-0 items-center justify-center rounded-xl text-muted-foreground active:bg-surface"
+            >
+              <X className="size-5" aria-hidden />
+            </button>
           </motion.div>
         )}
       </AnimatePresence>

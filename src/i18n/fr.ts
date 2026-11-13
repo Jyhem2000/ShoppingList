@@ -8,6 +8,7 @@ export const fr = {
     unsortedAisle: "Non classé",
   },
   sheet: { close: "Fermer", back: "Retour" },
+  toast: { close: "Fermer le message" },
   tabs: {
     list: "Liste",
     catalog: "Catalogue",
@@ -20,7 +21,6 @@ export const fr = {
       "Ajoute un article avec la barre du bas (« 2 baguettes, du beurre ») ou parcours le catalogue.",
     openCatalog: "Ouvrir le catalogue",
     chooseList: "Changer de liste",
-    chooseStore: "Changer de magasin",
     menu: "Actions sur la liste",
     addPlaceholder: "Ajouter un article…",
     addLabel: "Ajouter",
@@ -129,15 +129,7 @@ export const fr = {
       done: (count: number) =>
         count > 1 ? `${count} lignes ajoutées` : "1 ligne ajoutée",
     },
-    stores: {
-      title: "Magasin",
-      newStore: "Nouveau magasin",
-      newTitle: "Nouveau magasin",
-      template: "Rayons de départ",
-      name: "Nom du magasin",
-      create: "Créer le magasin",
-    },
-    unavailableLastTime: "Introuvable la dernière fois",
+    unavailableLastTime: "Pas pris la dernière fois",
   },
   shopping: {
     start: "C'est parti",
@@ -163,10 +155,12 @@ export const fr = {
     aislePassed: (aisle: string) =>
       `Rayon ${aisle} déjà passé : il t'attend dans « À récupérer ».`,
     current: "rayon en cours",
+    aisleKicker: "Rayon",
     swipeHint:
-      "Glisser vers la gauche : introuvable · appui long : changer de rayon",
-    unavailable: "Introuvable",
-    unavailableToast: (name: string) => `${name} : introuvable`,
+      "Glisser vers la gauche : pas pris · appui long : changer de rayon",
+    unavailable: "Pas pris",
+    changeQuantity: (name: string) => `Changer la quantité de ${name}`,
+    unavailableToast: (name: string) => `${name} : pas pris`,
     screenOnFailed:
       "L'écran pourra se mettre en veille : ce téléphone ne permet pas de le garder allumé.",
     allDone: "Tout est dans le caddie !",
@@ -176,6 +170,14 @@ export const fr = {
       alreadyTaken: "Je l'ai déjà dans le caddie",
       otherAisle: "Il est dans un autre rayon…",
       ok: "OK, à prendre",
+    },
+    where: {
+      title: (name: string) => `Où as-tu pris ${name} ?`,
+      text: "Pour que l'app sache où le trouver la prochaine fois.",
+      here: (aisle: string) => `Ici, rayon ${aisle}`,
+      hereHint: "Il sera rangé dans ce rayon pour les prochaines courses.",
+      usual: (aisle: string) => `Dans son rayon, ${aisle}`,
+      other: "Dans un autre rayon…",
     },
     move: {
       title: (name: string) => `Déplacer ${name}`,
@@ -213,8 +215,8 @@ export const fr = {
             : "Aucun article acheté",
       unavailable: (count: number) =>
         count > 1
-          ? `${count} introuvables, restés dans la liste`
-          : "1 introuvable, resté dans la liste",
+          ? `${count} pas pris, restés dans la liste`
+          : "1 pas pris, resté dans la liste",
       duration: (duration: string) => `Durée : ${duration}`,
       learned: "Ordre des rayons mis à jour pour ce magasin.",
       back: "Retour à la liste",
@@ -230,6 +232,35 @@ export const fr = {
       none: "Aucune",
     },
     confirmCancel: "Annuler",
+    backup: {
+      section: "Sauvegarde",
+      export: "Exporter mes données",
+      exportHint:
+        "Un fichier avec tes listes, magasins, rayons, articles et ton historique, à garder dans Fichiers ou Drive.",
+      last: (days: number | undefined) =>
+        days === undefined
+          ? "Aucune sauvegarde pour l'instant."
+          : days === 0
+            ? "Dernière sauvegarde : aujourd'hui."
+            : `Dernière sauvegarde : il y a ${days} jour${days > 1 ? "s" : ""}.`,
+      exported: "Sauvegarde prête",
+      import: "Importer une sauvegarde",
+      importHint:
+        "Remplace toutes les données de l'app par celles d'un fichier exporté.",
+      importTitle: "Remplacer toutes tes données ?",
+      importText: (
+        date: string,
+        articles: number,
+        lists: number,
+        stores: number,
+      ) =>
+        `Sauvegarde du ${date} : ${articles} articles, ${lists} liste${lists > 1 ? "s" : ""}, ${stores} magasin${stores > 1 ? "s" : ""}. Tes données actuelles seront remplacées ; exporte-les d'abord si tu veux les garder.`,
+      importConfirm: "Remplacer mes données",
+      invalid: "Ce fichier n'est pas une sauvegarde de ShoppingList.",
+      newer:
+        "Cette sauvegarde vient d'une version plus récente de l'app : mets l'app à jour d'abord.",
+      imported: "Données importées",
+    },
     categories: {
       title: "Catégories",
       hint: "Noms, icônes et couleurs, fusion",
@@ -458,6 +489,8 @@ export const fr = {
     suggestions: "Articles trouvés",
     added: (name: string) => `${name} ajouté à la liste`,
     showAll: (count: number) => `Voir les ${count} résultats`,
+    categoryResult: (count: number) =>
+      `Catégorie · ${count > 1 ? `ses ${count} articles` : "son article"}`,
     back: "Catalogue",
     quantityTitle: (name: string) => name,
     remove: "Retirer de la liste",
@@ -502,12 +535,6 @@ export const fr = {
     silentOther:
       "Le volume des sons est celui du multimédia du téléphone : baisse-le pour les rendre plus discrets.",
     listen: (label: string) => `Écouter « ${label} »`,
-    styleTitle: "Style des sons",
-    styles: { recorded: "Sons enregistrés", generated: "Sons générés" },
-    stylesHint: {
-      recorded: "Doux et naturels.",
-      generated: "Petits sons synthétisés par l'app.",
-    },
     events: {
       add: "Ajout d'un article",
       check: "Article coché",
@@ -562,7 +589,7 @@ export const fr = {
     delete: "Supprimer",
     listen: "Écouter",
     toggle: "Interrupteur",
-    list: "Liste triée par rayon",
+    list: "Liste rangée par catégorie",
     shopping: "Mode courses",
     shoppingHint:
       "Touche une ligne pour la cocher : elle glisse en bas du rayon.",
@@ -574,10 +601,7 @@ export const fr = {
     sheetAdd: "Ajouter 1 litre",
     sheetNothing: "Ne rien faire",
     sounds: "Sons",
-    soundsHint:
-      "Chaque son dans les deux styles. Le style utilisé par l'app se choisit dans Réglages → Sons.",
-    soundRecorded: "Enregistré",
-    soundGenerated: "Généré",
+    soundsHint: "Les sons de l'app, à écouter un par un.",
     icons: (count: number) => `Icônes d'articles (${count})`,
     iconsHint:
       "Le pack embarqué dans l'app, disponible hors ligne. Un monogramme remplace les icônes manquantes.",
@@ -601,6 +625,19 @@ export const fr = {
     title: "Nouveautés",
     version: (version: string) => `Version ${version}`,
     versions: [
+      {
+        version: "0.6.1",
+        date: "2026-11-13",
+        items: [
+          "La liste se range par catégorie : elle ne dépend d'aucun magasin. En magasin, elle se range par rayon, marqué « Rayon », dans l'ordre de ton parcours.",
+          "Article pris en passant : l'app demande dans quel rayon tu l'as pris, et s'en souvient pour ce magasin.",
+          "Sauvegarde : Réglages → Sauvegarde → exporter toutes tes données dans un fichier, et les réimporter (nouveau téléphone, réinstallation).",
+          "Les nouveaux articles du catalogue arrivent avec les mises à jour, sans réinstaller : Brandade de morue, Conserves au choix, Gnocchis, catégorie Sel, Poivre & Épices.",
+          "En magasin, touche la quantité d'un article pour la changer. Un article glissé est « pas pris » (plus besoin, introuvable…) : il reste dans la liste.",
+          "Catalogue : taper le nom d'une catégorie (« animaux ») la propose avec tous ses articles.",
+          "Messages plus courts, à fermer d'un ✕ ou en les poussant vers le haut. Sur iPhone, secouer le téléphone ne propose plus « Annuler la saisie ». Un seul jeu de sons, les plus doux.",
+        ],
+      },
       {
         version: "0.6.0",
         date: "2026-11-12",

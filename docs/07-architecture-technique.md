@@ -300,6 +300,8 @@ Exception de l'article → rayon **principal** de sa catégorie → « Non class
 
 ### 7.5 `groupListForStore(items, articles, store, aisles, overrides, articleOrder)` → `AisleGroup[]`
 
+Mode courses (03 B1). La liste, elle, est groupée par catégorie : `groupListByCategory` (`src/domain/categories.ts`), catégories dans l'ordre du catalogue (`sortCategories`, partagé avec l'écran Catalogue).
+
 Groupes par rayon effectif, rayons triés par `position` (« Non classé » en dernier), rayons vides omis ; dans un groupe : lignes `todo` puis `checked` puis `unavailable`, chacune avec les articles génériques en tête, puis triée par ordre appris (`articleOrder` : score par article, plus petit d'abord ; les articles sans ordre appris viennent après) puis alphabétique. Lignes archivées exclues.
 
 `articleOrder` est l'ordre appris des articles du magasin (`Store.articleOrder`, § 7.6) : un champ sans index, donc sans changement du schéma Dexie.

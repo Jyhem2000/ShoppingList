@@ -12,6 +12,16 @@ import { trackAppHeight } from "@/platform/viewport";
 import "@/styles/index.css";
 
 trackTheme();
+
+// iPhone : un champ qui garde le focus en arrière-plan fait proposer « Annuler la
+// saisie » quand on secoue le téléphone en le reprenant. On rend le focus en partant.
+document.addEventListener("visibilitychange", () => {
+  if (
+    document.visibilityState === "hidden" &&
+    document.activeElement instanceof HTMLElement
+  )
+    document.activeElement.blur();
+});
 captureInstallPrompt();
 trackAppHeight();
 
@@ -25,8 +35,11 @@ if (currentInstallEnvironment().standalone && "storage" in navigator) {
 
 // Premier lancement : données initiales copiées dans la base (docs/02 § 10).
 // Chargé à part : le catalogue n'alourdit pas le premier affichage.
+// Puis les nouveautés du catalogue, sans réinstaller (docs/06 § 7).
 void import("@/db/seed")
   .then(({ seedDatabase }) => seedDatabase(db))
+  .then(() => import("@/db/catalogUpdate"))
+  .then(({ updateCatalog }) => updateCatalog(db))
   .catch((error: unknown) => {
     console.error("Initialisation des données impossible", error);
   });

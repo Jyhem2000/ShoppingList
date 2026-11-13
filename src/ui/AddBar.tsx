@@ -1,11 +1,15 @@
 import { Plus, Search } from "lucide-react";
-import { type Ref, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "@/ui/utils";
 
 /**
  * Barre d'ajout (docs/05 § 5.3) : fond surélevé, coins très arrondis, flottante
  * au-dessus de la barre d'onglets. Texte en 16 px pour éviter le zoom de l'iPhone.
  * Contrôlée (`value`, `onValueChange`) ou autonome.
+ *
+ * Chaque fois qu'elle se vide (ajout, suggestion choisie), le champ est recréé : son
+ * historique de frappe disparaît, et iOS ne propose plus « Annuler la saisie » quand on
+ * secoue le téléphone en le reprenant en main. Le focus est gardé.
  */
 export function AddBar({
   placeholder,
@@ -13,7 +17,6 @@ export function AddBar({
   onSubmit,
   value,
   onValueChange,
-  inputRef,
   className,
 }: {
   placeholder: string;
@@ -21,12 +24,29 @@ export function AddBar({
   onSubmit?: (text: string) => void;
   value?: string;
   onValueChange?: (text: string) => void;
-  inputRef?: Ref<HTMLInputElement>;
   className?: string;
 }) {
   const [own, setOwn] = useState("");
   const text = value ?? own;
   const setText = onValueChange ?? setOwn;
+  const [generation, setGeneration] = useState(0);
+  const element = useRef<HTMLInputElement | null>(null);
+  const previous = useRef(text);
+  const refocus = useRef(false);
+
+  useEffect(() => {
+    if (previous.current !== "" && text === "") {
+      refocus.current = document.activeElement === element.current;
+      setGeneration((n) => n + 1);
+    }
+    previous.current = text;
+  }, [text]);
+
+  useEffect(() => {
+    if (!refocus.current) return;
+    refocus.current = false;
+    element.current?.focus();
+  }, [generation]);
 
   return (
     <form
@@ -44,7 +64,8 @@ export function AddBar({
     >
       <Search className="size-5 shrink-0 text-secondary" aria-hidden />
       <input
-        ref={inputRef}
+        key={generation}
+        ref={element}
         value={text}
         onChange={(event) => {
           setText(event.target.value);

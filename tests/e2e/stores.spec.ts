@@ -1,15 +1,14 @@
 import { expect, test } from "@playwright/test";
-import { addToList, aisleNames, enterApp, line } from "./app";
+import { addToList, aisleNames, enterApp, line, startShopping } from "./app";
 
 /** Scénario de bout en bout de l'édition d'un magasin (docs/08 § 3 : 5). */
 
-test("5. modifier un magasin : réordonner les rayons, rendre un rayon principal pour une catégorie → la liste suit", async ({
+test("5. modifier un magasin : réordonner les rayons, rendre un rayon principal pour une catégorie → les courses suivent", async ({
   page,
 }) => {
   await enterApp(page);
   await addToList(page, "pommes, lait");
   await expect(line(page, "Lait")).toBeVisible();
-  expect(await aisleNames(page)).toEqual(["Fruits & Légumes", "Crèmerie"]);
 
   // Réglages → Magasins & rayons → Mon supermarché.
   await page.getByRole("link", { name: "Réglages" }).click();
@@ -46,6 +45,7 @@ test("5. modifier un magasin : réordonner les rayons, rendre un rayon principal
   await sheet.getByRole("button", { name: "Terminé" }).click();
 
   await page.getByRole("link", { name: "Liste" }).click();
+  await startShopping(page, "Mon supermarché");
   await expect(line(page, "Pommes")).toBeVisible();
   await expect
     .poll(() => aisleNames(page))

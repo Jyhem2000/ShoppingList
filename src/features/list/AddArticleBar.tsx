@@ -1,5 +1,5 @@
 import { Plus } from "lucide-react";
-import { type ReactNode, useMemo, useRef, useState } from "react";
+import { type ReactNode, useMemo, useState } from "react";
 import { parseEntry, type ParsedEntry } from "@/domain/entry";
 import type { Article } from "@/domain/model";
 import { searchArticles } from "@/domain/search";
@@ -33,7 +33,6 @@ export function AddArticleBar({
   onCreate: (entry: ParsedEntry) => void;
 }) {
   const [text, setText] = useState("");
-  const input = useRef<HTMLInputElement>(null);
 
   const { entry, suggestions, canCreate } = useMemo(() => {
     const entries = parseEntry(text, data.units);
@@ -61,7 +60,6 @@ export function AddArticleBar({
 
   const done = () => {
     setText("");
-    input.current?.focus();
   };
 
   return (
@@ -135,10 +133,8 @@ export function AddArticleBar({
             addLabel={t.addLabel}
             value={text}
             onValueChange={setText}
-            inputRef={input}
             onSubmit={(value) => {
               onSubmit(value);
-              input.current?.focus();
             }}
           />
           {trailing}

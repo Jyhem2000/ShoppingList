@@ -24,7 +24,6 @@ import { ListLines } from "./ListLines";
 import { ListMenuSheet } from "./ListMenuSheet";
 import { ListsSheet } from "./ListsSheet";
 import { MergeListsSheet } from "./MergeListsSheet";
-import { StoreSheet } from "./StoreSheet";
 import { useAddToList } from "./useAddToList";
 import { useListData } from "./useListData";
 
@@ -35,7 +34,6 @@ type Panel =
   | { kind: "menu" }
   | { kind: "lists" }
   | { kind: "merge"; sources: ID[] }
-  | { kind: "store" }
   | { kind: "start" };
 
 /** Écran Liste (docs/04 § 2.1) : la liste courante triée par rayon, et la barre d'ajout. */
@@ -93,12 +91,8 @@ export function ListPage() {
     <>
       <ListHeader
         listName={data.list.name}
-        storeName={data.store?.name}
         onChooseList={() => {
           setPanel({ kind: "lists" });
-        }}
-        onChooseStore={() => {
-          setPanel({ kind: "store" });
         }}
         onMenu={() => {
           setPanel({ kind: "menu" });
@@ -247,7 +241,6 @@ export function ListPage() {
           onClose={close}
         />
       )}
-      {panel?.kind === "store" && <StoreSheet data={data} onClose={close} />}
       {panel?.kind === "start" && (
         <StartShoppingSheet data={data} onClose={close} />
       )}

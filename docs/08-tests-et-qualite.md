@@ -65,7 +65,7 @@ Chaque scénario tourne sur deux configurations : **WebKit + iPhone émulé** (c
 
 1. Premier lancement → données de départ créées → liste vide affichée.
 2. Ajout éclair (`3 tom` + Entrée), article déjà présent (« Ne rien faire »), création d'un article inconnu.
-3. Liste triée par rayon, changement de magasin → ordre différent.
+3. Liste rangée par catégorie ; en mode courses, rangée par rayon dans l'ordre du magasin choisi (un autre magasin donne un autre ordre).
 4. Mode courses : cocher un rayon entier → repli ; ajout d'un article d'un rayon passé → « À récupérer » ; terminer les courses → lignes cochées retirées ; rouvrir → elles réapparaissent cochées ; terminer à nouveau.
 5. Modifier un magasin : réordonner les rayons, déplacer une catégorie, rendre un rayon principal pour une catégorie → la liste suit.
 6. Rechargement de la page → les données sont toujours là.
