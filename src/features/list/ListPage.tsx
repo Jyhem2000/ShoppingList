@@ -6,6 +6,7 @@ import { db } from "@/db/database";
 import { useLatestSession } from "@/db/hooks";
 import { deleteItems, restoreItems } from "@/db/lists";
 import { reopenSession } from "@/db/sessions";
+import { canReopen } from "@/domain/shopping";
 import type { ID, ListItem } from "@/domain/model";
 import { feedback } from "@/feedback";
 import { formatClock } from "@/features/shopping/format";
@@ -43,6 +44,7 @@ export function ListPage() {
   const adding = useAddToList(data);
   const [panel, setPanel] = useState<Panel | null>(null);
   const session = useLatestSession(data?.list.id);
+  const [now] = useState(() => Date.now());
   const close = () => {
     setPanel(null);
   };
@@ -99,22 +101,28 @@ export function ListPage() {
         }}
       />
 
-      {session?.status === "closed" && session.closedAt && (
-        <div className="px-3 pb-3">
-          <Button
-            variant="outline"
-            className="w-full"
-            onClick={() => {
-              void reopenSession(db, session.id).then((reopened) => {
-                if (reopened) void navigate(routes.shopping);
-              });
-            }}
-          >
-            <RotateCcw />
-            {fr.shopping.reopen(formatClock(session.closedAt))}
-          </Button>
-        </div>
-      )}
+      {session?.closedAt &&
+        canReopen(
+          session,
+          session.id,
+          data.stores.some((store) => store.id === session.storeId),
+          now,
+        ) && (
+          <div className="px-3 pb-3">
+            <Button
+              variant="outline"
+              className="w-full"
+              onClick={() => {
+                void reopenSession(db, session.id).then((reopened) => {
+                  if (reopened) void navigate(routes.shopping);
+                });
+              }}
+            >
+              <RotateCcw />
+              {fr.shopping.reopen(formatClock(session.closedAt))}
+            </Button>
+          </div>
+        )}
 
       {data.items.length === 0 ? (
         <EmptyState

@@ -142,7 +142,8 @@ function Shopping({
   /** Cocher, dans son rayon ou dans celui où l'article a été pris (`aisleId`). */
   const check = (item: ListItem, aisleId?: ID) => {
     const own = view.aisleOf.get(item.id);
-    if (!aisleId && (!own || own.isUnsorted)) {
+    const unplaced = view.unplaced.some((other) => other.id === item.id);
+    if (!aisleId && (unplaced || !own || own.isUnsorted)) {
       place(item);
       return;
     }

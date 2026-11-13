@@ -2,6 +2,7 @@ import { expect, test } from "@playwright/test";
 import {
   addToList,
   aisleNames,
+  check,
   enterApp,
   finishShopping,
   line,
@@ -19,11 +20,11 @@ test("5. modifier un magasin : réordonner les rayons, rendre un rayon principal
   await addToList(page, "pommes, pain, lait");
   await expect(line(page, "Lait")).toBeVisible();
   await startShopping(page, "Mon magasin", { create: true });
-  await line(page, "Pommes").click();
+  await check(page, "Pommes");
   await nextAisle(page);
-  await line(page, "Pain").click();
+  await check(page, "Pain");
   await nextAisle(page);
-  await line(page, "Lait").click();
+  await check(page, "Lait");
   await finishShopping(page);
   await page.getByRole("button", { name: "Retour à la liste" }).click();
 

@@ -7,6 +7,7 @@ import {
   passedAisles,
   pickUpItems,
   STALE_AFTER_MS,
+  canReopen,
 } from "@/domain/shopping";
 
 const aisles = [
@@ -149,5 +150,22 @@ describe("pendant les courses (docs/03 C2, C4, C8)", () => {
   it("une session est oubliée après 3 heures sans coche", () => {
     expect(isStale(0, STALE_AFTER_MS - 1)).toBe(false);
     expect(isStale(0, STALE_AFTER_MS)).toBe(true);
+  });
+});
+
+describe("rouvrir les courses (docs/03 C8)", () => {
+  const closedAt = new Date(2026, 10, 13, 18, 30).getTime();
+  const session = { id: "s", status: "closed" as const, closedAt };
+
+  it("le jour même, pour la dernière course, dans un magasin qui existe encore", () => {
+    const evening = new Date(2026, 10, 13, 22, 0).getTime();
+    expect(canReopen(session, "s", true, evening)).toBe(true);
+    expect(canReopen(session, "autre", true, evening)).toBe(false);
+    expect(canReopen(session, "s", false, evening)).toBe(false);
+  });
+
+  it("plus le lendemain", () => {
+    const tomorrow = new Date(2026, 10, 14, 8, 0).getTime();
+    expect(canReopen(session, "s", true, tomorrow)).toBe(false);
   });
 });

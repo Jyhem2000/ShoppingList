@@ -142,6 +142,7 @@ Glisser une ligne → « Pas pris » : elle passe en bas, grisée, et restera da
 - **Cocher** un article de « À placer » le range dans le **rayon en cours** (ouvert à la première coche) : toute sa catégorie y devient principale. Si sa catégorie a déjà un rayon dans ce magasin, ou si c'est « Autres » ou « Achats ponctuels », seul l'article y est rangé (exception par article). Le rayon prend l'icône et la couleur de sa première catégorie.
 - Bouton **« Rayon suivant »**, au-dessus de la barre d'ajout, tant qu'il reste des articles à placer : il ouvre un nouveau rayon juste après le rayon en cours, qui devient le rayon en cours. Le rayon en cours s'affiche même vide, avec une explication. Un rayon ouvert et resté vide n'est jamais doublé, et il disparaît à la fin des courses.
 - Le rayon en cours : celui ouvert par « Rayon suivant », ou celui de la dernière coche si elle est plus récente.
+- Rien ne saute à l'écran (retour d'essai du 13 novembre 2026) : quand une catégorie est rangée en cochant un de ses articles, ses **autres articles déjà dans la liste**, encore à prendre, **restent dans « À placer »** jusqu'à ce qu'on les coche (ils vont alors dans le rayon en cours, sans exception s'il s'agit du rayon de leur catégorie). Un article ajouté ensuite va directement dans son rayon (ou « À récupérer » s'il est passé). Aux courses suivantes, tous sont dans le rayon de leur catégorie.
 
 **Ajouter pendant les courses** : la barre d'ajout reste disponible. Si le rayon de l'article ajouté est **déjà passé** (on y a coché quelque chose, puis coché ailleurs), l'app l'indique (« Rayon Crèmerie déjà passé ») et place la ligne dans un groupe **« À récupérer »** affiché en haut.
 
@@ -170,7 +171,7 @@ Bouton **« Terminer les courses »**, toujours visible en mode courses → conf
 
 ### C8. Rouvrir les courses — _v1.0_
 
-- Après la clôture, la liste affiche **« Rouvrir les courses »** tant qu'aucune nouvelle session n'a démarré sur cette liste.
+- Après la clôture, la liste (et le bilan) affichent **« Rouvrir les courses »** le **jour même** seulement, tant qu'aucune nouvelle session n'a démarré sur cette liste et que le magasin existe encore (retour d'essai du 13 novembre 2026 : le bouton restait affiché indéfiniment, même après la suppression du magasin).
 - Réouverture → retour en mode courses, articles déjà achetés affichés cochés, ajout et cochage des oublis, puis nouvelle clôture qui **remplace** les calculs précédents.
 - Session restée ouverte plus de **3 heures** après la dernière coche : à la réouverture de l'app, « Tu as terminé tes courses de _hier 18 h_ ? — Terminer · Continuer ».
 

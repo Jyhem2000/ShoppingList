@@ -169,6 +169,7 @@ Décision du 13 novembre 2026, après le premier essai réel : des rayons prére
 - Sauvegarde : **« Copier dans le presse-papiers »** et **« Coller une sauvegarde »**, en plus du fichier (03 H4).
 - Liste et mode courses, dans les deux thèmes : pas de fond sous les articles, bloc bordé d'un trait fin de sa couleur.
 - Retours avant publication : « À placer » avec un intertitre par catégorie, marge sous « Rayon suivant », litière en paquets (première correction du catalogue, 06 § 7).
+- Retours après la `0.7.0` : les autres articles d'une catégorie qu'on vient de ranger restent dans « À placer » jusqu'à leur coche (plus rien ne saute à l'écran) ; « Rouvrir les courses » seulement le jour même, et jamais si le magasin a été supprimé.
 
 - ✅ _Scénarios E2E 3 et 5 verts ; essai réel : un magasin construit pendant une course, puis une course qui suit ce parcours._ → `0.7.0`.
 

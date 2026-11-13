@@ -338,6 +338,10 @@ describe("magasin construit pendant les courses (docs/03 C4)", () => {
       { categoryId: fruits?.id, primary: true },
     ]);
     expect(aisle?.icon).toBe(fruits?.icon);
+    // Ses autres articles restent « À placer » pendant ces courses (vue du mode courses).
+    expect((await db.sessions.get(session.id))?.placedCategories).toEqual([
+      { categoryId: fruits?.id, at: 2000 },
+    ]);
 
     // Rayon suivant (deux fois de suite : un seul rayon vide), puis le lait.
     const next = await openNextAisle(db, session, first, 3000);

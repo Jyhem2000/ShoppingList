@@ -29,7 +29,8 @@ export interface ShoppingView {
   pickUp: ListItem[];
   /**
    * « À placer » (C4) : lignes dont la catégorie n'a pas encore de rayon dans ce
-   * magasin, rangées dans le rayon en cours quand on les coche.
+   * magasin, ou vient d'en recevoir un pendant ces courses, rangées dans le rayon en
+   * cours quand on les coche.
    */
   unplaced: ListItem[];
   /** Rayon après lequel afficher « À placer » ; absent : en tête. */
@@ -63,9 +64,36 @@ export function useShoppingView(
     const aisleOf = new Map<ID, Aisle>();
     for (const { aisle, items } of grouped)
       for (const item of items) aisleOf.set(item.id, aisle);
+
+    // Catégorie rangée pendant ces courses : ses autres articles déjà dans la liste,
+    // encore à prendre, ne sautent pas vers le rayon ; ils restent dans « À placer »
+    // jusqu'à leur coche. Ceux ajoutés ensuite vont dans leur rayon (ou « À récupérer »).
+    const placedAt = new Map(
+      (session.placedCategories ?? []).map((p) => [p.categoryId, p.at]),
+    );
+    const overridden = new Set(
+      data.overrides
+        .filter((o) => o.storeId === session.storeId)
+        .map((o) => o.articleId),
+    );
+    const staying = new Set(
+      data.items
+        .filter((item) => {
+          const article = data.articleById.get(item.articleId);
+          return (
+            item.status === "todo" &&
+            article !== undefined &&
+            item.createdAt < (placedAt.get(article.categoryId) ?? 0) &&
+            !overridden.has(article.id) &&
+            aisleOf.get(item.id)?.isUnsorted === false
+          );
+        })
+        .map((item) => item.id),
+    );
+
     const passed = passedAisles(purchases);
     const pickUpIds = pickUpItems(
-      data.items,
+      data.items.filter((item) => !staying.has(item.id)),
       (item) => {
         const aisle = aisleOf.get(item.id);
         return aisle?.isUnsorted ? undefined : aisle?.id;
@@ -89,7 +117,9 @@ export function useShoppingView(
     const groups = sortAisles(data.aisles).flatMap((aisle) => {
       const items = byAisle.get(aisle.id);
       if (!items) return [];
-      const own = items.filter((item) => !pickUpIds.has(item.id));
+      const own = items.filter(
+        (item) => !pickUpIds.has(item.id) && !staying.has(item.id),
+      );
       if (own.length === 0 && aisle.id !== placing?.id) return [];
       return [
         {
@@ -102,10 +132,12 @@ export function useShoppingView(
         },
       ];
     });
-    const unplaced =
-      grouped
+    const unplaced = [
+      ...(grouped
         .find(({ aisle }) => aisle.isUnsorted)
-        ?.items.filter((item) => !pickUpIds.has(item.id)) ?? [];
+        ?.items.filter((item) => !pickUpIds.has(item.id)) ?? []),
+      ...data.items.filter((item) => staying.has(item.id)),
+    ];
     const current =
       placing?.id ??
       currentAisle(

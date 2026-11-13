@@ -2,6 +2,7 @@ import { expect, test } from "@playwright/test";
 import {
   addToList,
   aisleNames,
+  check,
   enterApp,
   finishShopping,
   line,
@@ -78,9 +79,9 @@ test("3. liste par catégorie ; la première course construit le magasin, la sui
   await expect(next).toBeVisible();
   await next.click();
   await nextAisle(page);
-  await line(page, "Pain").click();
+  await check(page, "Pain");
   await nextAisle(page);
-  await line(page, "Lait").click();
+  await check(page, "Lait");
   await expect
     .poll(() => aisleNames(page))
     .toEqual(["Rayon : Fruits", "Rayon : Pain", "Rayon : Lait"]);
