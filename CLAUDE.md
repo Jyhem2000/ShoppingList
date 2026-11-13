@@ -4,7 +4,7 @@ PWA de liste de courses, local-first (aucun serveur, aucun compte), triée par r
 
 ## Phase actuelle : développement de la v1.0 — phase 6 (tout modifiable) publiée, à valider
 
-Version `0.6.0` publiée (phase 6) pour un essai réel ; correctifs en `0.6.x`. Ensuite : phase 7 (réglages, sauvegarde, aide, finitions).
+Version `0.6.1` publiée (phase 6 et retours du premier essai réel) ; correctifs en `0.6.x`. Ensuite : phase 7 (réglages, sauvegarde, aide, finitions).
 
 La documentation est **validée** (8 novembre 2026). Suivre le plan de `docs/09-plan-de-developpement.md` phase par phase, en travaillant directement sur `dev` (pas de branche de travail ni de pull request). Pour les phases 3 à 6 et 8, proposer un plan avant d'implémenter. Ne jamais commencer une phase suivante sans validation de la précédente.
 
