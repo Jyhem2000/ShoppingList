@@ -124,7 +124,10 @@ Partage (v1.3)
   Coller une liste partagée ▸
 Sauvegarde
   Exporter mes données ▸   Importer ▸   Dernière sauvegarde : il y a 12 j
-  Restaurer une copie ▸    (copies automatiques des 7 derniers jours)
+    (libellé : changer de téléphone, réinstaller l'app, copie hors du téléphone)
+  Restaurer une copie ▸
+    (libellé : copies automatiques des 7 derniers jours, contre une fausse
+     manipulation ; elles disparaissent avec l'app)
 Aide ▸                      (H10 : mode d'emploi, ce que l'app règle toute seule)
 À propos
   Version 1.0.0 · Quoi de neuf ▸ · Licences ▸
