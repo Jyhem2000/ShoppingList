@@ -284,7 +284,7 @@ Avancé le 13 novembre 2026, après le premier essai réel (Réglages → Sauveg
 Ajouté pour la phase 7 (décision du 13 novembre 2026) :
 
 - **Copies automatiques internes** : une copie par jour, au premier lancement de la journée, en gardant les **7 dernières** ; Réglages → Sauvegarde → **« Restaurer une copie »** (date, résumé, confirmation). Elles protègent contre une fausse manipulation, un import qui écrase tout ou un bug de mise à jour, **pas** contre la suppression de l'app, un changement de téléphone ou un effacement du stockage : elles vivent dans le même stockage que la base (une app web ne peut pas écrire un fichier hors de son stockage sans un geste de l'utilisateur, et un service en ligne contredirait « aucun serveur, aucun compte »). Nouvelle table Dexie → nouvelle version du schéma, migration et test.
-- **Rappel renforcé** de la vraie sauvegarde (fichier exporté) : après 30 jours sans sauvegarde, **ou** après beaucoup de changements depuis la dernière ; un geste pour exporter vers Fichiers, iCloud Drive ou Drive. Rappel discret, qu'on peut reporter.
+- **À trancher avant de l'implémenter — rappel renforcé** de la vraie sauvegarde (fichier exporté) : en plus du rappel des 30 jours, un rappel après beaucoup de changements depuis la dernière sauvegarde ; un geste pour exporter vers Fichiers, iCloud Drive ou Drive ; discret, qu'on peut reporter. Pas sûr d'être utile : à décider avec toi avant tout code.
 
 ### H5. Installation, stockage, mises à jour
 
