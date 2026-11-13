@@ -1,6 +1,6 @@
 import { ChevronRight, Plus, Search } from "lucide-react";
 import { useMemo, useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { manageArticlePath, routes } from "@/app/routes";
 import { markNotDuplicate, mergeArticles } from "@/db/articles";
 import { createArticle } from "@/db/catalog";
@@ -15,6 +15,7 @@ import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
 import { Field, Select, TextInput } from "@/ui/form";
 import { PageHeader, Section } from "@/ui/Page";
+import { NavButton } from "@/ui/NavButton";
 import { ProductIcon } from "@/ui/ProductIcon";
 import { Sheet } from "@/ui/Sheet";
 import { showToast } from "@/ui/toast";
@@ -146,9 +147,9 @@ export function ArticlesPage() {
                   const category = data.categoryById.get(article.categoryId);
                   return (
                     <li key={article.id}>
-                      <Link
+                      <NavButton
                         to={manageArticlePath(article.id)}
-                        className="flex min-h-12 items-center gap-3 px-4 py-1.5 active:bg-raised"
+                        className="flex min-h-12 w-full items-center gap-3 px-4 py-1.5 text-left active:bg-raised"
                       >
                         <ProductIcon
                           icon={article.icon}
@@ -168,7 +169,7 @@ export function ArticlesPage() {
                           className="size-5 text-muted-foreground"
                           aria-hidden
                         />
-                      </Link>
+                      </NavButton>
                     </li>
                   );
                 })}

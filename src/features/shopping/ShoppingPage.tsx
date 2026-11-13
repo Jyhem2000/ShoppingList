@@ -224,7 +224,7 @@ function Shopping({
 
   return (
     <>
-      <header className="sticky top-0 z-20 border-b border-border bg-bg px-2 pt-3 pb-3">
+      <header className="sticky top-0 z-20 border-b border-border bg-bg px-2 pt-7 pb-3">
         <div className="flex items-center gap-1">
           <button
             type="button"

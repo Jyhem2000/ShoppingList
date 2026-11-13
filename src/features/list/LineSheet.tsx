@@ -1,7 +1,6 @@
 import { Minus, Pencil, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { addArticleType } from "@/db/catalog";
-import { Link } from "react-router";
 import { manageArticlePath } from "@/app/routes";
 import { db } from "@/db/database";
 import { updateItem } from "@/db/lists";
@@ -10,6 +9,7 @@ import { changeUnit, formatNumber } from "@/domain/quantity";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
 import { Chip, Field, TextInput } from "@/ui/form";
+import { NavButton } from "@/ui/NavButton";
 import { Sheet } from "@/ui/Sheet";
 import { KeepOneOff } from "./KeepOneOff";
 import { UnitSelect } from "./UnitSelect";
@@ -230,7 +230,7 @@ export function LineSheet({
           />
         </Field>
 
-        <Link
+        <NavButton
           to={manageArticlePath(article.id)}
           onClick={() => {
             saveNote();
@@ -240,7 +240,7 @@ export function LineSheet({
         >
           <Pencil className="size-4" aria-hidden />
           {fr.manage.article.edit}
-        </Link>
+        </NavButton>
 
         <div className="flex gap-2">
           <Button

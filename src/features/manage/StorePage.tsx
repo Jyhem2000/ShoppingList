@@ -40,6 +40,7 @@ import { sortAisles, unattachedCategories } from "@/domain/stores";
 import { paletteColor } from "@/features/list/format";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
+import { backState } from "@/ui/navigation";
 import { GroupIcon } from "@/ui/GroupIcon";
 import { EmptyState, PageHeader, Row, Section } from "@/ui/Page";
 import { palette } from "@/ui/palette";
@@ -341,7 +342,10 @@ export function StorePage() {
                   setConfirmDelete(false);
                   if (result === "deleted") {
                     showToast(t.deleted(store.name), { tone: "success" });
-                    void navigate(routes.manageStores, { replace: true });
+                    void navigate(routes.manageStores, {
+                      replace: true,
+                      state: backState,
+                    });
                   } else
                     showToast(
                       result === "last" ? t.deleteLast : t.deleteShopping,

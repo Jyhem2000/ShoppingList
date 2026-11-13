@@ -28,8 +28,9 @@ const prefixIds = (body: string, name: string) =>
 
 /**
  * Le filet sombre qui détache deux objets (docs/05 § 4) est dessiné dans la couleur du
- * fond des cartes, #18181d en thème sombre : il suit le thème (--surface), sinon il
- * ferait un trait noir sur fond blanc.
+ * fond des cartes, #18181d en thème sombre (`--icon-gap`) ; en thème clair, il prend le
+ * fond de la ligne (`--row-bg`) ou des cartes (`--surface`), sinon il ferait un trait
+ * noir sur fond blanc.
  */
 const GAP = "#18181d";
 const themeGap = (body: string) =>
@@ -39,7 +40,7 @@ const themeGap = (body: string) =>
     const cleaned = tag.replace(
       /\s(fill|stroke)="#18181d"/g,
       (_, prop: string) => {
-        styles.push(`${prop}:var(--surface)`);
+        styles.push(`${prop}:var(--icon-gap,var(--row-bg,var(--surface)))`);
         return "";
       },
     );

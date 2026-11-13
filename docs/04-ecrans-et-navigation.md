@@ -13,7 +13,9 @@ Barre d'onglets en bas (masquée en mode courses) :
 | **Recettes**  | `chef-hat`     | Les recettes                              | v1.1 (onglet absent avant) |
 | **Réglages**  | `settings`     | Réglages, gestion des données, sauvegarde | v1.0                       |
 
-L'en-tête de chaque écran (titre, et bouton de retour sur une sous-page) **reste visible en haut** quand le contenu défile, avec sa marge haute : le titre ne passe jamais sous le flou qu'iOS 26 pose sous la barre d'état, qu'aucun réglage web ne permet de retirer. Quand le contenu de l'écran dépasse la hauteur disponible, une fine bordure sépare l'en-tête du contenu.
+L'en-tête de chaque écran (titre, et bouton de retour sur une sous-page) **reste visible en haut** quand le contenu défile, avec sa marge haute : le titre ne passe jamais sous le flou qu'iOS 26 pose sous la barre d'état, qu'aucun réglage web ne permet de retirer. Quand le contenu de l'écran dépasse la hauteur disponible, une fine bordure sépare l'en-tête du contenu. Le mode courses suit la même règle (nom du magasin sous le flou corrigé le 13 novembre 2026).
+
+Un écran s'ouvre en haut ; au **retour** (bouton ‹ de l'en-tête, retour d'Android), il retrouve la position où on l'avait laissé. Les lignes qui mènent à un autre écran (Réglages, liste des articles) sont des boutons, pas des liens : un appui long ne les fait pas glisser et n'ouvre pas l'aperçu d'iOS.
 
 Les fiches d'édition s'ouvrent en **panneaux glissants depuis le bas** (bottom sheets), refermables d'un glissement vers le bas.
 

@@ -9,8 +9,8 @@ import { cn } from "@/ui/utils";
  * Bloc d'un rayon (docs/05 § 5.2) : la couleur du rayon forme la bordure gauche de
  * tout le bloc ; icône Lucide du rayon dans sa couleur ; l'en-tête teinté (icône · libellé · compteur, repliable) est plus
  * grand que les articles, indentés en dessous. `done` : rayon terminé en mode courses ;
- * `current` : rayon en cours (mis en évidence). `outlined` : liste hors mode courses ; en
- * thème clair, le bloc n'a pas de fond, seulement une bordure fine de sa couleur.
+ * `current` : rayon en cours (mis en évidence). `outlined` : liste hors mode courses, les
+ * articles sur le fond 3 ; en thème clair, le bloc a une bordure fine de sa couleur.
  */
 export function AisleSection({
   label,
@@ -52,7 +52,7 @@ export function AisleSection({
         palette[color].border,
         current && "ring-2 ring-primary",
         outlined &&
-          "light:border light:border-l-4 light:bg-transparent light:[--row-bg:var(--bg)]",
+          "[--row-bg:var(--raised)] light:border light:border-l-4 light:bg-transparent",
       )}
     >
       <button
@@ -73,7 +73,7 @@ export function AisleSection({
           {kicker && (
             <span
               aria-hidden
-              className="block text-[11px] leading-tight font-bold tracking-widest text-muted-foreground uppercase"
+              className="block text-sm leading-tight font-bold tracking-widest text-muted-foreground uppercase"
             >
               {kicker}
             </span>
