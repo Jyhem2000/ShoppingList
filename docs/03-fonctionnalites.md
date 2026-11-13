@@ -279,9 +279,9 @@ Glissent en fin de rayon · disparaissent.
 
 Export de toutes les données en fichier `.json` (feuille de partage → Fichiers, Drive…) ; import en **remplacement** ou en **fusion**. ~~Rappel discret si aucune sauvegarde depuis 30 jours~~ : à trancher (voir plus bas).
 
-Avancé le 13 novembre 2026, après le premier essai réel (Réglages → Sauvegarde) : export, import en **remplacement** (après confirmation, avec le résumé du fichier), date de la dernière sauvegarde. L'import en fusion reste pour la phase 7. Les préférences de l'appareil (sons, thème, écran allumé) ne sont pas dans le fichier.
+Avancé le 13 novembre 2026, après le premier essai réel (Réglages → Sauvegarde) : export, import en **remplacement** (après confirmation, avec le résumé du fichier), date de la dernière sauvegarde. L'import en fusion reste pour la phase 8. Les préférences de l'appareil (sons, thème, écran allumé) ne sont pas dans le fichier.
 
-Ajouté pour la phase 7 (décision du 13 novembre 2026) :
+Ajouté pour la phase 8 (décision du 13 novembre 2026) :
 
 - **Copies automatiques internes** : une copie par jour, au premier lancement de la journée, en gardant les **7 dernières** ; Réglages → Sauvegarde → **« Restaurer une copie »** (date, résumé, confirmation). Dans la plupart des cas, elles suffisent. Elles protègent contre une fausse manipulation, un import qui écrase tout ou un bug de mise à jour, **pas** contre la suppression de l'app, un changement de téléphone ou un effacement du stockage : elles vivent dans le même stockage que la base (une app web ne peut pas écrire un fichier hors de son stockage sans un geste de l'utilisateur, et un service en ligne contredirait « aucun serveur, aucun compte »). Nouvelle table Dexie → nouvelle version du schéma, migration et test.
 - **Libellés explicatifs** dans Réglages → Sauvegarde, à la place d'un rappel :
