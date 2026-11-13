@@ -65,7 +65,8 @@ export const mockAisles: MockAisle[] = [
 
 /** Rayon en mode courses : lignes cochées en bas. */
 export const mockShoppingAisle: MockAisle = {
-  label: "Crèmerie",
+  // Rayon sans nom : désigné par ses catégories principales (docs/02 § 4).
+  label: "Œufs · Lait, Crème & Beurre",
   icon: "milk",
   color: "creme",
   items: [

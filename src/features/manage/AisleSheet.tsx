@@ -8,8 +8,8 @@ import {
   updateAisle,
 } from "@/db/stores";
 import type { Aisle, Category } from "@/domain/model";
-import { categoryRole } from "@/domain/stores";
-import { paletteColor } from "@/features/list/format";
+import { aisleNumbers, categoryRole } from "@/domain/stores";
+import { aisleText, paletteColor } from "@/features/list/format";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
 import { Field, Select } from "@/ui/form";
@@ -27,7 +27,8 @@ const t = fr.manage.aisle;
 type Step = "edit" | "merge" | "delete";
 
 /**
- * Un rayon (docs/03 G3) : nom, icône et couleur, catégories (pleine = principale,
+ * Un rayon (docs/03 G3) : nom et repère facultatifs (sans nom, il est désigné par son
+ * numéro et ses catégories), icône et couleur, catégories (pleine = principale,
  * contour = aussi ici ; toucher pour changer, ✕ pour retirer), fusion, suppression.
  * Tout est enregistré au fil de l'eau.
  */
@@ -54,6 +55,10 @@ export function AisleSheet({
     .filter((c) => !c.isSystem && categoryRole(aisle, c.id) === "none")
     .sort((a, b) => a.name.localeCompare(b.name, "fr"));
   const others = aisles.filter((a) => a.id !== aisle.id);
+  const numbers = aisleNumbers(aisles);
+  const textOf = (a: Aisle) => aisleText(a, numbers.get(a.id), categoryById);
+  const text = textOf(aisle);
+  const number = numbers.get(aisle.id);
 
   const setRole = (
     categoryId: string,
@@ -76,10 +81,10 @@ export function AisleSheet({
       }
       title={
         step === "merge"
-          ? t.mergeTitle(aisle.name)
+          ? t.mergeTitle(text.label)
           : step === "delete"
-            ? t.deleteTitle(aisle.name)
-            : aisle.name
+            ? t.deleteTitle(text.label)
+            : text.label
       }
       description={
         step === "merge"
@@ -91,31 +96,43 @@ export function AisleSheet({
     >
       {step === "merge" && (
         <ul className="-mx-2">
-          {others.map((target) => (
-            <li key={target.id}>
-              <button
-                type="button"
-                onClick={() => {
-                  void mergeAisleInto(db, aisle.id, target.id).then(() => {
-                    showToast(t.merged(aisle.name, target.name), {
-                      tone: "success",
+          {others.map((target) => {
+            const targetText = textOf(target);
+            return (
+              <li key={target.id}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    void mergeAisleInto(db, aisle.id, target.id).then(() => {
+                      showToast(t.merged(text.label, targetText.label), {
+                        tone: "success",
+                      });
                     });
-                  });
-                  onClose();
-                }}
-                className="flex min-h-12 w-full items-center gap-3 rounded-xl px-2 text-left font-semibold active:bg-raised"
-              >
-                <GroupIcon
-                  name={target.icon}
-                  className={cn(
-                    "size-5",
-                    palette[paletteColor(target.color)].text,
-                  )}
-                />
-                {target.name}
-              </button>
-            </li>
-          ))}
+                    onClose();
+                  }}
+                  className="flex min-h-12 w-full items-center gap-3 rounded-xl px-2 py-1.5 text-left active:bg-raised"
+                >
+                  <GroupIcon
+                    name={target.icon}
+                    className={cn(
+                      "size-5 shrink-0",
+                      palette[paletteColor(target.color)].text,
+                    )}
+                  />
+                  <span className="min-w-0 flex-1">
+                    <span className="block truncate font-semibold">
+                      {targetText.label}
+                    </span>
+                    {targetText.contents && (
+                      <span className="block truncate text-sm text-muted-foreground">
+                        {targetText.contents}
+                      </span>
+                    )}
+                  </span>
+                </button>
+              </li>
+            );
+          })}
         </ul>
       )}
 
@@ -133,7 +150,7 @@ export function AisleSheet({
             variant="destructive"
             onClick={() => {
               void deleteAisle(db, aisle.id, promote).then(() => {
-                showToast(t.deleted(aisle.name), { tone: "success" });
+                showToast(t.deleted(text.label), { tone: "success" });
               });
               onClose();
             }}
@@ -145,12 +162,44 @@ export function AisleSheet({
 
       {step === "edit" && (
         <div className="flex flex-col gap-5 pb-1">
-          <NameField
-            key={aisle.name}
-            label={t.name}
-            value={aisle.name}
-            onSave={(clean) => void updateAisle(db, aisle.id, { name: clean })}
-          />
+          {aisle.isUnsorted ? (
+            <NameField
+              key={aisle.name}
+              label={fr.manage.store.name}
+              value={aisle.name}
+              onSave={(clean) =>
+                void updateAisle(db, aisle.id, { name: clean })
+              }
+            />
+          ) : (
+            <>
+              <NameField
+                key={aisle.name}
+                label={t.name}
+                value={aisle.name}
+                optional
+                placeholder={
+                  number === undefined ? undefined : fr.aisles.number(number)
+                }
+                hint={t.nameHint}
+                onSave={(clean) =>
+                  void updateAisle(db, aisle.id, { name: clean })
+                }
+              />
+              <NameField
+                key={`description-${aisle.description ?? ""}`}
+                label={t.description}
+                value={aisle.description ?? ""}
+                optional
+                placeholder={t.descriptionPlaceholder}
+                onSave={(clean) =>
+                  void updateAisle(db, aisle.id, {
+                    description: clean || undefined,
+                  })
+                }
+              />
+            </>
+          )}
 
           {aisle.isUnsorted ? (
             <p className="text-sm text-muted-foreground">{t.unsortedHint}</p>

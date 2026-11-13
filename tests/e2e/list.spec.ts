@@ -68,7 +68,11 @@ test("3. liste par catégorie ; en courses, par rayon dans l'ordre du magasin ch
   await startShopping(page, "Marché");
   await expect
     .poll(() => aisleNames(page))
-    .toEqual(["Primeur", "Fromager", "Boulanger"]);
+    .toEqual([
+      "Rayon 1 : Fruits · Légumes · Herbes aromatiques",
+      "Rayon 2 : Fromages · Œufs · Lait, Crème & Beurre",
+      "Rayon 5 : Pain & Viennoiseries",
+    ]);
 });
 
 test("6. les données restent après un rechargement", async ({ page }) => {

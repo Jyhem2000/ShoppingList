@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { effectiveAisle, groupListForStore } from "@/domain/aisles";
+import { aisleContents, aisleNumbers } from "@/domain/stores";
 import type {
   ArticleAisleOverride,
   ItemStatus,
@@ -182,5 +183,39 @@ describe("groupListForStore (docs/07 § 7.5)", () => {
       [],
     );
     expect(groups.at(-1)?.aisle.isUnsorted).toBe(true);
+  });
+});
+
+describe("rayons numérotés dans l'ordre de passage (docs/02 § 4)", () => {
+  it("numérote 1, 2… dans l'ordre des positions, sans « Non classé »", () => {
+    const numbers = aisleNumbers(aisles);
+    expect(numbers.get(aisle("Fruits & Légumes").id)).toBe(1);
+    expect(numbers.get(aisle("Crèmerie").id)).toBe(6);
+    expect(
+      aisles.filter((a) => a.isUnsorted).map((a) => numbers.get(a.id)),
+    ).toEqual([undefined]);
+  });
+
+  it("suit l'ordre appris : un rayon passé en tête devient le 1", () => {
+    const moved = aisles.map((a) =>
+      a.id === aisle("Crèmerie").id ? { ...a, position: -1 } : a,
+    );
+    const numbers = aisleNumbers(moved);
+    expect(numbers.get(aisle("Crèmerie").id)).toBe(1);
+    expect(numbers.get(aisle("Fruits & Légumes").id)).toBe(2);
+  });
+
+  it("décrit un rayon par ses catégories principales seulement", () => {
+    const name = (id: string) => categories.find((c) => c.id === id)?.name;
+    expect(aisleContents(aisle("Crèmerie"), name)).toEqual([
+      "Œufs",
+      "Lait, Crème & Beurre",
+      "Yaourts & Desserts frais",
+    ]);
+    // Charcuterie & Traiteur : la viande n'y est que secondaire.
+    expect(aisleContents(aisle("Charcuterie & Traiteur"), name)).toEqual([
+      "Charcuterie",
+      "Traiteur & Plats préparés",
+    ]);
   });
 });

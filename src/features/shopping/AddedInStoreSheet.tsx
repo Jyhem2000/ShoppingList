@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { Aisle, Article } from "@/domain/model";
+import type { AisleText } from "@/features/list/format";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
 import { Sheet } from "@/ui/Sheet";
@@ -20,6 +21,7 @@ export function AddedInStoreSheet({
   aisle,
   here,
   passed,
+  textOf,
   onTakenIn,
   onOtherAisle,
   onClose,
@@ -30,6 +32,8 @@ export function AddedInStoreSheet({
   /** Rayon où l'on est (dernière coche), s'il y en a un. */
   here: Aisle | undefined;
   passed: boolean;
+  /** Comment désigner un rayon (numéro, nom). */
+  textOf: (aisle: Aisle) => AisleText;
   /** Coché dans ce rayon ; `remember` : l'article y sera rangé dans ce magasin. */
   onTakenIn: (aisle: Aisle | undefined, remember: boolean) => void;
   /** Choisir un autre rayon ; `taken` : il est déjà dans le caddie. */
@@ -58,8 +62,8 @@ export function AddedInStoreSheet({
           ? t.where.text
           : aisle
             ? passed
-              ? t.aislePassed(aisle.name)
-              : t.added.inAisle(aisle.name)
+              ? t.aislePassed(textOf(aisle).label)
+              : t.added.inAisle(textOf(aisle).into)
             : undefined
       }
     >
@@ -70,7 +74,7 @@ export function AddedInStoreSheet({
               onTakenIn(here, true);
             }}
           >
-            {t.where.here(here.name)}
+            {t.where.here(textOf(here).label)}
           </Button>
           <p className="-mt-1 text-center text-sm text-muted-foreground">
             {t.where.hereHint}
@@ -82,7 +86,7 @@ export function AddedInStoreSheet({
                 onTakenIn(aisle, false);
               }}
             >
-              {t.where.usual(aisle.name)}
+              {t.where.usual(textOf(aisle).label)}
             </Button>
           )}
           <Button

@@ -7,6 +7,13 @@ export const fr = {
     storeName: "Mon supermarché",
     unsortedAisle: "Non classé",
   },
+  /** Désigner un rayon : numéro dans l'ordre de passage, nom facultatif (docs/02 § 4). */
+  aisles: {
+    number: (n: number) => `Rayon ${n}`,
+    into: (n: number, name?: string) =>
+      name ? `au rayon ${n} (${name})` : `au rayon ${n}`,
+    intoUnsorted: (name: string) => `dans « ${name} »`,
+  },
   sheet: { close: "Fermer", back: "Retour" },
   toast: { close: "Fermer le message" },
   tabs: {
@@ -152,10 +159,9 @@ export const fr = {
     finishConfirm: "Terminer",
     cancel: "Continuer les courses",
     pickUp: "À récupérer",
-    aislePassed: (aisle: string) =>
-      `Rayon ${aisle} déjà passé : il t'attend dans « À récupérer ».`,
+    aislePassed: (label: string) =>
+      `${label} déjà passé : il t'attend dans « À récupérer ».`,
     current: "rayon en cours",
-    aisleKicker: "Rayon",
     swipeHint:
       "Glisser vers la gauche : pas pris · appui long : changer de rayon",
     unavailable: "Pas pris",
@@ -166,7 +172,7 @@ export const fr = {
     allDone: "Tout est dans le caddie !",
     added: {
       title: (name: string) => `${name} ajouté`,
-      inAisle: (aisle: string) => `Rangé dans le rayon ${aisle}.`,
+      inAisle: (into: string) => `Rangé ${into}.`,
       alreadyTaken: "Je l'ai déjà dans le caddie",
       otherAisle: "Il est dans un autre rayon…",
       ok: "OK, à prendre",
@@ -174,9 +180,9 @@ export const fr = {
     where: {
       title: (name: string) => `Où as-tu pris ${name} ?`,
       text: "Pour que l'app sache où le trouver la prochaine fois.",
-      here: (aisle: string) => `Ici, rayon ${aisle}`,
+      here: (label: string) => `Ici, ${label}`,
       hereHint: "Il sera rangé dans ce rayon pour les prochaines courses.",
-      usual: (aisle: string) => `Dans son rayon, ${aisle}`,
+      usual: (label: string) => `Dans son rayon, ${label}`,
       other: "Dans un autre rayon…",
     },
     move: {
@@ -187,16 +193,15 @@ export const fr = {
       others: "Autres rayons",
       all: "Rayons du magasin",
       current: "son rayon actuel",
-      scopeTitle: (aisle: string) => `Ranger dans ${aisle}`,
-      scopeText: (aisle: string) =>
-        `L'app s'en souviendra pour tes prochaines courses dans ce magasin. Qu'est-ce qui se trouve dans ${aisle} ?`,
+      scopeTitle: (into: string) => `Ranger ${into}`,
+      scopeText: (into: string) =>
+        `L'app s'en souviendra pour tes prochaines courses dans ce magasin. Qu'est-ce qui se trouve ${into} ?`,
       onlyArticle: (name: string) => `Seulement ${name}`,
       onlyArticleHint: (category: string) =>
         `Les autres articles de ${category} restent où ils sont.`,
       wholeCategory: (category: string) => `Toute la catégorie ${category}`,
-      wholeCategoryHint: (aisle: string) =>
-        `Tous ses articles iront dans ${aisle}.`,
-      done: (name: string, aisle: string) => `${name} → ${aisle}`,
+      wholeCategoryHint: (into: string) => `Tous ses articles iront ${into}.`,
+      done: (name: string, label: string) => `${name} → ${label}`,
     },
     when: { today: "aujourd'hui", yesterday: "hier" },
     stale: {
@@ -425,7 +430,6 @@ export const fr = {
             : "1 catégorie",
       always: "toujours en dernier",
       addAisle: "Nouveau rayon",
-      newAisle: "Nouveau rayon",
       unattached: "Catégories non rattachées",
       unattachedHint:
         "Leurs articles vont dans « Non classé ». Touche-en une pour la ranger.",
@@ -450,7 +454,11 @@ export const fr = {
     },
     aisle: {
       title: "Rayon",
-      name: "Nom du rayon",
+      name: "Nom du rayon (facultatif)",
+      nameHint:
+        "Sans nom, le rayon est désigné par son numéro dans l'ordre de passage et ses catégories.",
+      description: "Repère (facultatif)",
+      descriptionPlaceholder: "Au fond du magasin, à côté des caisses…",
       categories: "Catégories",
       categoriesHint:
         "Pleine : rayon principal de la catégorie (ses articles y vont). Contour : elle s'y trouve aussi.",
@@ -474,7 +482,7 @@ export const fr = {
         "Les catégories dont c'est le rayon principal iront dans « Non classé ».",
       deletePromote:
         "Ou dans un de leurs rayons secondaires quand elles en ont un",
-      deleted: (name: string) => `Rayon ${name} supprimé`,
+      deleted: (label: string) => `${label} supprimé`,
       done: "Terminé",
     },
   },

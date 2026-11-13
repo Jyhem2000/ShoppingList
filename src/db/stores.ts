@@ -18,7 +18,8 @@ function spread(index: number, count: number): number {
 
 /**
  * Magasin créé à partir d'un modèle (docs/06 § 3) : ses rayons dans l'ordre du
- * modèle, plus « Non classé » en dernier.
+ * modèle, sans nom (numérotés, désignés par leurs catégories), plus « Non classé » en
+ * dernier.
  */
 export function buildStore(
   templateKey: string,
@@ -35,7 +36,7 @@ export function buildStore(
   const aisles: Aisle[] = template.aisles.map((aisle, index) => ({
     ...base(),
     storeId: store.id,
-    name: aisle.name.fr,
+    name: "",
     icon: aisle.icon,
     color: aisle.color,
     position: spread(index, template.aisles.length),
@@ -223,7 +224,7 @@ export async function deleteStore(
 export async function addAisle(
   database: ShoppingDatabase,
   storeId: ID,
-  input: Pick<Aisle, "name" | "icon" | "color">,
+  input: Pick<Aisle, "icon" | "color">,
   now = Date.now(),
 ): Promise<Aisle> {
   return database.transaction("rw", database.aisles, async () => {
@@ -240,6 +241,7 @@ export async function addAisle(
       createdAt: now,
       updatedAt: now,
       storeId,
+      name: "",
       ...input,
       position: positions[id] ?? 1,
       categories: [],
@@ -253,7 +255,7 @@ export async function addAisle(
 export async function updateAisle(
   database: ShoppingDatabase,
   id: ID,
-  changes: Partial<Pick<Aisle, "name" | "icon" | "color">>,
+  changes: Partial<Pick<Aisle, "name" | "description" | "icon" | "color">>,
 ): Promise<void> {
   await database.aisles.update(id, { ...changes, updatedAt: Date.now() });
 }

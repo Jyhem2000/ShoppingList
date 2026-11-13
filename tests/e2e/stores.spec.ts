@@ -15,8 +15,10 @@ test("5. modifier un magasin : réordonner les rayons, rendre un rayon principal
   await page.getByRole("link", { name: /Magasins & rayons/ }).click();
   await page.getByRole("link", { name: /^Mon supermarché/ }).click();
 
-  // Crèmerie tout en haut, au clavier (poignée de glisser-déposer).
-  const grip = page.getByRole("button", { name: "Déplacer Crèmerie" });
+  // Les rayons sont numérotés dans l'ordre de passage et désignés par leurs catégories.
+  // La crèmerie (rayon 6) tout en haut, au clavier (poignée de glisser-déposer).
+  const aisles = page.getByRole("list", { name: "Rayons" });
+  const grip = page.getByRole("button", { name: "Déplacer Rayon 6" });
   await grip.focus();
   // Une courte pause entre les touches : dnd-kit mesure les positions à chaque pas.
   await page.keyboard.press("Space");
@@ -26,13 +28,13 @@ test("5. modifier un magasin : réordonner les rayons, rendre un rayon principal
   }
   await page.waitForTimeout(150);
   await page.keyboard.press("Space");
-  await expect(
-    page.getByRole("list", { name: "Rayons" }).getByRole("listitem").first(),
-  ).toContainText("Crèmerie");
+  await expect(aisles.getByRole("listitem").first()).toContainText(
+    "Rayon 1Œufs · Lait, Crème & Beurre",
+  );
 
-  // Les fruits deviennent principaux en Boulangerie.
-  await page.getByRole("button", { name: /^Boulangerie/ }).click();
-  const sheet = page.getByRole("dialog", { name: "Boulangerie" });
+  // Les fruits deviennent principaux au rayon du pain (désormais le 3).
+  await aisles.getByRole("button", { name: /Pain & Viennoiseries/ }).click();
+  const sheet = page.getByRole("dialog", { name: "Rayon 3" });
   await sheet
     .getByLabel("Ajouter une catégorie")
     .selectOption({ label: "Fruits" });
@@ -49,5 +51,8 @@ test("5. modifier un magasin : réordonner les rayons, rendre un rayon principal
   await expect(line(page, "Pommes")).toBeVisible();
   await expect
     .poll(() => aisleNames(page))
-    .toEqual(["Crèmerie", "Boulangerie"]);
+    .toEqual([
+      "Rayon 1 : Œufs · Lait, Crème & Beurre · Yaourts & Desserts frais",
+      "Rayon 3 : Pain & Viennoiseries · Fruits",
+    ]);
 });

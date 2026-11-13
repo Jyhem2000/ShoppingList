@@ -1,6 +1,6 @@
 import { Ban, Check, X } from "lucide-react";
 import { motion } from "motion/react";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Navigate, useNavigate } from "react-router";
 import { routes, shoppingRecapPath } from "@/app/routes";
 import { db } from "@/db/database";
@@ -17,13 +17,21 @@ import {
   moveArticle,
   uncheckItem,
 } from "@/db/sessions";
-import type { Article, ID, ListItem, ShoppingSession } from "@/domain/model";
+import type {
+  Aisle,
+  Article,
+  ID,
+  ListItem,
+  ShoppingSession,
+} from "@/domain/model";
+import { aisleNumbers } from "@/domain/stores";
 import { feedback } from "@/feedback";
 import { QuantitySheet } from "@/features/catalog/QuantitySheet";
 import { AddArticleBar } from "@/features/list/AddArticleBar";
 import { CreateArticleSheet } from "@/features/list/CreateArticleSheet";
 import { ExistsSheet } from "@/features/list/ExistsSheet";
 import {
+  aisleText,
   lineDetails,
   lineQuantity,
   paletteColor,
@@ -101,6 +109,10 @@ function Shopping({
   const navigate = useNavigate();
   const [panel, setPanel] = useState<Panel | null>(null);
   const [expanded, setExpanded] = useState<ReadonlyMap<ID, boolean>>(new Map());
+  // Rayons numérotés dans l'ordre de passage (docs/02 § 4).
+  const numbers = useMemo(() => aisleNumbers(data.aisles), [data.aisles]);
+  const textOf = (aisle: Aisle) =>
+    aisleText(aisle, numbers.get(aisle.id), data.categoryById);
   const close = () => {
     setPanel(null);
   };
@@ -274,10 +286,12 @@ function Shopping({
         )}
         {view.groups.map(({ aisle, items, done }) => {
           const open = expanded.get(aisle.id) ?? !done;
+          const text = textOf(aisle);
           return (
             <AisleSection
               key={aisle.id}
-              label={aisle.name}
+              label={text.title}
+              description={text.description}
               icon={aisle.icon}
               color={paletteColor(aisle.color)}
               count={items.filter((i) => i.status === "todo").length}
@@ -285,7 +299,7 @@ function Shopping({
               done={done}
               current={aisle.id === view.current}
               currentLabel={t.current}
-              kicker={t.aisleKicker}
+              kicker={text.kicker}
               onToggle={() => {
                 setExpanded((current) => new Map(current).set(aisle.id, !open));
               }}
@@ -354,6 +368,7 @@ function Shopping({
             view.here ? data.aisles.find((a) => a.id === view.here) : undefined
           }
           passed={view.pickUp.some((item) => item.id === added.item?.id)}
+          textOf={textOf}
           onTakenIn={(target, remember) => {
             const item = added.item;
             const article = added.article;

@@ -39,7 +39,7 @@ test("4. mode courses : rayon replié, « À récupérer », clôture, réouvert
   await line(page, "Pommes").click();
   await expect(page.getByTestId("shopping-progress")).toHaveText("1 / 3");
   await expect(
-    aisle(page, "Fruits & Légumes").getByRole("button", {
+    aisle(page, "Rayon 1 :").getByRole("button", {
       expanded: false,
     }),
   ).toBeVisible();

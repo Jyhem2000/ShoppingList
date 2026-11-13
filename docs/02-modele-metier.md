@@ -154,12 +154,16 @@ Tous les magasins n'ont pas les mêmes rayons. Dans une supérette, la charcuter
 
 ### Rayon
 
-| Propriété      | Description                                                                              |
-| -------------- | ---------------------------------------------------------------------------------------- |
-| Libellé        | « Frais libre-service »                                                                  |
-| Icône, couleur | Pour l'en-tête dans la liste                                                             |
-| Catégories     | Les catégories présentes dans ce rayon, chacune marquée **principale** ou **secondaire** |
-| Position       | Sa place dans le parcours du magasin                                                     |
+| Propriété      | Description                                                                                |
+| -------------- | ------------------------------------------------------------------------------------------ |
+| Numéro         | **Calculé, jamais stocké** : son rang dans l'ordre de passage (1, 2…), sans « Non classé » |
+| Libellé        | **Facultatif** : « Frais libre-service », « Sucré & petit-déj »                            |
+| Repère         | Facultatif : « au fond du magasin »                                                        |
+| Icône, couleur | Pour l'en-tête dans la liste                                                               |
+| Catégories     | Les catégories présentes dans ce rayon, chacune marquée **principale** ou **secondaire**   |
+| Position       | Sa place dans le parcours du magasin                                                       |
+
+**Rayons numérotés** (décision du 13 novembre 2026, après le premier essai réel) : un rayon réel ne porte pas toujours le nom d'une catégorie (« Boulangerie » n'existe pas dans tous les magasins : le pain peut être avec le sucré, le petit-déjeuner et le café). Un rayon est donc désigné par **son numéro dans l'ordre de passage** (« Rayon 3 »), puis par **son nom** s'il en a un, sinon par **ses catégories principales** (« Pain & Viennoiseries · Petit-déjeuner · Café & Thé »). Le numéro suit l'ordre appris : il peut changer quand l'ordre du parcours change. Les rayons créés depuis un modèle n'ont pas de nom ; à la mise à jour (schéma 2), les noms restés tels que le modèle les avait donnés ont été retirés, ceux tapés par l'utilisateur gardés.
 
 ### Catégorie présente dans plusieurs rayons
 

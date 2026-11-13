@@ -1,4 +1,6 @@
+import type { Aisle } from "@/domain/model";
 import type { ShoppingDatabase } from "./database";
+import { clearTemplateAisleName } from "./migrations";
 
 /**
  * Sauvegarde (docs/03 H4, docs/07 § 5) : toutes les données de l'app dans un fichier
@@ -99,16 +101,26 @@ export function readBackup(text: string, schema: number): ReadBackupResult {
   };
 }
 
-/** Remplace toutes les données par celles de la sauvegarde. */
+/**
+ * Remplace toutes les données par celles de la sauvegarde. Un fichier d'un schéma plus
+ * ancien passe d'abord par les mêmes migrations que la base (migrations.ts).
+ */
 export async function importBackup(
   database: ShoppingDatabase,
   backup: Backup,
 ): Promise<void> {
+  const tables = { ...backup.tables };
+  if (backup.schema < 2)
+    tables.aisles = (tables.aisles as Aisle[]).map((aisle) => {
+      const copy = { ...aisle };
+      clearTemplateAisleName(copy);
+      return copy;
+    });
   await database.transaction("rw", database.tables, async () => {
     for (const name of TABLES) {
       const table = database.table(name);
       await table.clear();
-      await table.bulkAdd(backup.tables[name]);
+      await table.bulkAdd(tables[name]);
     }
   });
 }

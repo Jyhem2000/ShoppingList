@@ -4,6 +4,7 @@ import { createStoreFromTemplate } from "@/db/catalog";
 import { ShoppingDatabase } from "@/db/database";
 import { addListItem } from "@/db/items";
 import { seedDatabase } from "@/db/seed";
+import { nameSeededAisles } from "./fixtures";
 import {
   checkItem,
   closeSession,
@@ -27,6 +28,7 @@ async function setup() {
   database = new ShoppingDatabase(`test-${crypto.randomUUID()}`);
   const db = database;
   await seedDatabase(db, 0);
+  await nameSeededAisles(db);
   const list = await db.lists.toCollection().first();
   const store = await db.stores.toCollection().first();
   if (!list || !store) throw new Error("données de départ absentes");

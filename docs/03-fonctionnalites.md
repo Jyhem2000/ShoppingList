@@ -90,7 +90,7 @@ Aucun développement spécifique : le **micro du clavier** (iPhone comme Android
 Décision du 13 novembre 2026, après le premier essai réel : une liste **n'appartient à aucun magasin**, elle se range donc **par catégorie** ; le regroupement **par rayon** n'apparaît qu'en **mode courses**, une fois le magasin choisi (et dans le réglage des magasins).
 
 - **Liste** : lignes groupées par **catégorie**, dans l'ordre du catalogue (06 § 2), catégories créées ensuite par ordre alphabétique, « Autres » et « Achats ponctuels » en dernier. Dans une catégorie : l'article générique en tête, puis alphabétique. En-tête : icône, couleur et nom de la catégorie, nombre de lignes.
-- **Mode courses** : lignes groupées par **rayon effectif** (02 § 4) du magasin choisi, rayons dans l'ordre du parcours, « Non classé » en dernier ; dans un rayon, ordre appris des articles, sinon alphabétique. L'en-tête porte la mention **« Rayon »** au-dessus du nom, pour ne pas confondre avec une catégorie.
+- **Mode courses** : lignes groupées par **rayon effectif** (02 § 4) du magasin choisi, rayons dans l'ordre du parcours, « Non classé » en dernier ; dans un rayon, ordre appris des articles, sinon alphabétique. L'en-tête porte **« Rayon 3 »** (son numéro dans l'ordre de passage) au-dessus de son nom, ou de ses catégories principales s'il n'a pas de nom, et son repère éventuel en dessous (02 § 4).
 
 ### B2. Plusieurs listes — _v1.0_
 
@@ -246,7 +246,7 @@ Créer, renommer, changer icône/couleur, supprimer (réaffectation des articles
 ### G3. Magasins et rayons
 
 - Créer un magasin (depuis un modèle, une copie ou de zéro), renommer, supprimer (jamais le dernier, ni pendant des courses en cours) ; « Modifier ce magasin » depuis le choix du magasin de la liste.
-- Rayons : créer, renommer, icône/couleur, **réordonner par glisser-déposer**, fusionner, supprimer.
+- Rayons : créer, **nommer (facultatif)**, ajouter un **repère** facultatif (« au fond du magasin »), icône/couleur, **réordonner par glisser-déposer**, fusionner, supprimer. Sans nom, un rayon est désigné par son numéro dans l'ordre de passage et ses catégories principales (02 § 4) ; c'est le cas des rayons créés depuis un modèle.
 - Rattacher les catégories aux rayons : une catégorie peut être dans plusieurs rayons d'un magasin, dont **un principal** (puce pleine ; contour = secondaire ; toucher pour changer) ; voir et ranger les catégories non rattachées.
 - Supprimer un rayon : ses catégories principales vont dans « Non classé », ou dans un de leurs rayons secondaires (au choix).
 - **Apprentissage de l'ordre : activé / désactivé** (C7), pour chaque magasin ; voir et supprimer les exceptions par article.

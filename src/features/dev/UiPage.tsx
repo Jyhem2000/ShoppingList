@@ -58,7 +58,7 @@ function Aisle({ aisle, large }: { aisle: MockAisle; large?: boolean }) {
       count={large ? remaining : aisle.items.length}
       expanded={expanded}
       done={large && remaining === 0}
-      kicker={large ? fr.shopping.aisleKicker : undefined}
+      kicker={large ? fr.aisles.number(6) : undefined}
       outlined={!large}
       onToggle={() => setExpanded((value) => !value)}
     >

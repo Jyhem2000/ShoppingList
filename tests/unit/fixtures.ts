@@ -1,4 +1,7 @@
-import type { Article } from "@/domain/model";
+import { DEFAULT_STORE_TEMPLATE, storeTemplatesData } from "@/data";
+import type { ShoppingDatabase } from "@/db/database";
+import type { Aisle, Article } from "@/domain/model";
+import { sortAisles } from "@/domain/stores";
 import { slugify } from "@/domain/slug";
 import { buildInitialData } from "@/db/seed";
 
@@ -10,6 +13,29 @@ import { buildInitialData } from "@/db/seed";
  * alias) ne casse jamais un test de logique.
  */
 const initial = buildInitialData(0);
+
+/**
+ * Les rayons sont créés sans nom (numérotés, docs/02 § 4). Les tests les désignent par
+ * le nom que leur donne le modèle « Supermarché » (« Crèmerie »…), dans l'ordre.
+ */
+export function withTemplateNames<A extends Aisle>(aisles: A[]): A[] {
+  const template = storeTemplatesData.find(
+    (t) => t.key === DEFAULT_STORE_TEMPLATE,
+  );
+  sortAisles(aisles)
+    .filter((a) => !a.isUnsorted)
+    .forEach((a, index) => {
+      a.name = template?.aisles[index]?.name.fr ?? a.name;
+    });
+  return aisles;
+}
+
+/** Même chose dans une base remplie par `seedDatabase`. */
+export async function nameSeededAisles(db: ShoppingDatabase): Promise<void> {
+  await db.aisles.bulkPut(withTemplateNames(await db.aisles.toArray()));
+}
+
+withTemplateNames(initial.aisles);
 
 export const { units, categories, store, aisles, list } = initial;
 

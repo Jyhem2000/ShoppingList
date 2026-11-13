@@ -2,7 +2,8 @@ import { useState } from "react";
 import { db } from "@/db/database";
 import { moveArticle, type MoveScope } from "@/db/sessions";
 import type { Aisle, Article, ID } from "@/domain/model";
-import { paletteColor } from "@/features/list/format";
+import { aisleNumbers } from "@/domain/stores";
+import { aisleText, paletteColor } from "@/features/list/format";
 import type { ListData } from "@/features/list/useListData";
 import { fr } from "@/i18n/fr";
 import { GroupIcon } from "@/ui/GroupIcon";
@@ -44,6 +45,9 @@ export function MoveAisleSheet({
     (a, b) =>
       Number(a.isUnsorted) - Number(b.isUnsorted) || a.position - b.position,
   );
+  const numbers = aisleNumbers(data.aisles);
+  const textOf = (aisle: Aisle) =>
+    aisleText(aisle, numbers.get(aisle.id), data.categoryById);
   const hasCategory = (aisle: Aisle) =>
     aisle.categories.some((c) => c.categoryId === article.categoryId);
   const here =
@@ -63,7 +67,9 @@ export function MoveAisleSheet({
       scope,
       sessionId,
     }).then(() => {
-      showToast(t.done(article.name, aisle.name), { tone: "success" });
+      showToast(t.done(article.name, textOf(aisle).label), {
+        tone: "success",
+      });
     });
     onMoved?.(aisle.id);
     onClose();
@@ -83,6 +89,7 @@ export function MoveAisleSheet({
   const row = (aisle: Aisle) => {
     const color = paletteColor(aisle.color);
     const isCurrent = aisle.id === currentAisleId;
+    const text = textOf(aisle);
     return (
       <li key={aisle.id}>
         <button
@@ -90,13 +97,20 @@ export function MoveAisleSheet({
           onClick={() => {
             pick(aisle);
           }}
-          className="flex min-h-12 w-full items-center gap-3 rounded-xl px-2 text-left font-semibold active:bg-raised"
+          className="flex min-h-12 w-full items-center gap-3 rounded-xl px-2 py-1.5 text-left active:bg-raised"
         >
           <GroupIcon
             name={aisle.icon}
             className={cn("size-5 shrink-0", palette[color].text)}
           />
-          <span className="min-w-0 flex-1 truncate">{aisle.name}</span>
+          <span className="min-w-0 flex-1">
+            <span className="block truncate font-semibold">{text.label}</span>
+            {(text.contents ?? text.description) && (
+              <span className="block truncate text-sm text-muted-foreground">
+                {text.contents ?? text.description}
+              </span>
+            )}
+          </span>
           {isCurrent && (
             <span className="shrink-0 text-sm text-muted-foreground">
               {t.current}
@@ -144,8 +158,8 @@ export function MoveAisleSheet({
             }
           : undefined
       }
-      title={target ? t.scopeTitle(target.name) : t.title(article.name)}
-      description={target ? t.scopeText(target.name) : t.text}
+      title={target ? t.scopeTitle(textOf(target).into) : t.title(article.name)}
+      description={target ? t.scopeText(textOf(target).into) : t.text}
     >
       {target ? (
         <div className="flex flex-col gap-3">
@@ -157,7 +171,7 @@ export function MoveAisleSheet({
           {option(
             "category",
             t.wholeCategory(category?.name ?? ""),
-            t.wholeCategoryHint(target.name),
+            t.wholeCategoryHint(textOf(target).into),
           )}
         </div>
       ) : (

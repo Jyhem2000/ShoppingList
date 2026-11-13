@@ -2,6 +2,7 @@ import "fake-indexeddb/auto";
 import { afterEach, describe, expect, it } from "vitest";
 import { ShoppingDatabase } from "@/db/database";
 import { seedDatabase } from "@/db/seed";
+import { nameSeededAisles } from "./fixtures";
 import {
   copyStore,
   deleteAisle,
@@ -82,6 +83,7 @@ async function setup() {
   database = new ShoppingDatabase(`test-${crypto.randomUUID()}`);
   const db = database;
   await seedDatabase(db, 0);
+  await nameSeededAisles(db);
   const store = await db.stores.toCollection().first();
   if (!store) throw new Error("magasin");
   const aisles = await db.aisles.where("storeId").equals(store.id).toArray();

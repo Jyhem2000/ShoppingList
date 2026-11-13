@@ -137,7 +137,7 @@ Volontairement fines pour être regroupées différemment selon les magasins. Un
 
 ## 3. Modèles de magasins
 
-Le même catalogue de catégories, regroupé différemment : c'est ce qui permet de coller à la réalité de chaque magasin. Dans les tableaux, une catégorie est **principale** dans son rayon sauf mention _(secondaire)_ (voir [02 § 4](02-modele-metier.md#catégorie-présente-dans-plusieurs-rayons)).
+Le même catalogue de catégories, regroupé différemment : c'est ce qui permet de coller à la réalité de chaque magasin. Les noms de rayons ci-dessous servent de repère dans cette doc et à reconnaître les anciens noms à retirer (schéma 2) : les rayons créés depuis un modèle **n'ont pas de nom**, ils sont numérotés dans l'ordre de passage et désignés par leurs catégories (02 § 4). Dans les tableaux, une catégorie est **principale** dans son rayon sauf mention _(secondaire)_ (voir [02 § 4](02-modele-metier.md#catégorie-présente-dans-plusieurs-rayons)).
 
 ### « Hypermarché »
 

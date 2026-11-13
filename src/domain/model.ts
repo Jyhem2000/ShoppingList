@@ -89,7 +89,13 @@ export interface AisleCategory {
 /** Invariant : dans un magasin, une catégorie a au plus UN rayon où `primary` est vrai. */
 export interface Aisle extends Base {
   storeId: ID;
+  /**
+   * Nom choisi par l'utilisateur ; vide = sans nom : le rayon est désigné par son numéro
+   * dans l'ordre de passage et ses catégories (docs/02 § 4).
+   */
   name: string;
+  /** Repère libre : « au fond du magasin ». */
+  description?: string;
   icon?: string;
   color: string;
   /** Score 0..1, appris ou manuel ; tri croissant. */

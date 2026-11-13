@@ -1,8 +1,9 @@
 import "fake-indexeddb/auto";
+import { Dexie } from "dexie";
 import { afterEach, describe, expect, it } from "vitest";
 import { keywordRules } from "@/data";
 import { catalogData } from "@/data/catalog";
-import { ShoppingDatabase } from "@/db/database";
+import { SCHEMA_V1, ShoppingDatabase } from "@/db/database";
 import { addListItem } from "@/db/items";
 import { buildInitialData, seedDatabase } from "@/db/seed";
 import { accentKey } from "@/domain/slug";
@@ -196,5 +197,51 @@ describe("catégories système", () => {
     const system = data.categories.filter((c) => c.isSystem).map((c) => c.id);
     expect(system).toHaveLength(2);
     expect(unsorted?.categories.map((c) => c.categoryId)).toEqual(system);
+  });
+});
+
+describe("migration du schéma 1 au schéma 2 : rayons numérotés", () => {
+  it("retire les noms venus tels quels d'un modèle, garde ceux de l'utilisateur", async () => {
+    const name = `test-${crypto.randomUUID()}`;
+    const old = new Dexie(name);
+    old.version(1).stores(SCHEMA_V1);
+    const aisle = (id: string, aisleName: string, isUnsorted = false) => ({
+      id,
+      createdAt: 0,
+      updatedAt: 0,
+      storeId: "s",
+      name: aisleName,
+      color: "gris",
+      position: 0,
+      categories: [],
+      isUnsorted,
+    });
+    await old
+      .table("aisles")
+      .bulkAdd([
+        aisle("a", "Boulangerie"),
+        aisle("b", "Primeur"),
+        aisle("c", "Sucré, petit-déj, café"),
+        aisle("d", "Non classé", true),
+      ]);
+    old.close();
+
+    database = new ShoppingDatabase(name);
+    const names = Object.fromEntries(
+      (await database.aisles.toArray()).map((a) => [a.id, a.name]),
+    );
+    expect(names).toEqual({
+      a: "",
+      b: "",
+      c: "Sucré, petit-déj, café",
+      d: "Non classé",
+    });
+  });
+
+  it("crée les rayons d'un nouveau magasin sans nom", () => {
+    const data = buildInitialData(0);
+    expect(
+      data.aisles.filter((a) => !a.isUnsorted).every((a) => a.name === ""),
+    ).toBe(true);
   });
 });

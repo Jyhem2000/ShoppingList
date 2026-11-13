@@ -25,6 +25,7 @@ export function AisleSection({
   outlined = false,
   currentLabel,
   kicker,
+  description,
   onToggle,
   children,
 }: {
@@ -38,16 +39,21 @@ export function AisleSection({
   outlined?: boolean;
   /** Mention lue par les lecteurs d'écran sur le rayon en cours. */
   currentLabel?: string;
-  /** Petit mot au-dessus du nom : « Rayon », pour ne pas confondre avec une catégorie. */
+  /** Au-dessus du nom : « Rayon 3 », pour ne pas confondre avec une catégorie. */
   kicker?: string;
+  /** Repère sous le nom : « au fond du magasin ». */
+  description?: string;
   onToggle: () => void;
   children: ReactNode;
 }) {
   return (
     <section
-      aria-label={
-        current && currentLabel ? `${label} — ${currentLabel}` : label
-      }
+      aria-label={[
+        kicker ? `${kicker} : ${label}` : label,
+        current && currentLabel,
+      ]
+        .filter(Boolean)
+        .join(" — ")}
       aria-current={current || undefined}
       className={cn(
         "overflow-hidden rounded-2xl border-l-4 transition-shadow",
@@ -83,12 +89,17 @@ export function AisleSection({
           )}
           <span
             className={cn(
-              "block truncate text-lg leading-snug font-extrabold",
+              "line-clamp-2 text-lg leading-snug font-extrabold",
               done ? "text-success" : palette[color].text,
             )}
           >
             {label}
           </span>
+          {description && (
+            <span className="block truncate text-sm text-muted-foreground">
+              {description}
+            </span>
+          )}
         </span>
         {done ? (
           <Check className="size-5 text-success" strokeWidth={3} aria-hidden />

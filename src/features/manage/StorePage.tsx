@@ -36,8 +36,16 @@ import {
   updateStore,
 } from "@/db/stores";
 import type { Aisle, Category, ID } from "@/domain/model";
-import { sortAisles, unattachedCategories } from "@/domain/stores";
-import { paletteColor } from "@/features/list/format";
+import {
+  aisleNumbers,
+  sortAisles,
+  unattachedCategories,
+} from "@/domain/stores";
+import {
+  type AisleText,
+  aisleText,
+  paletteColor,
+} from "@/features/list/format";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
 import { backState } from "@/ui/navigation";
@@ -96,6 +104,10 @@ export function StorePage() {
 
   const aisleById = new Map(aisles.map((a) => [a.id, a]));
   const articleById = new Map(articles.map((a) => [a.id, a]));
+  const categoryById = new Map(categories.map((c) => [c.id, c]));
+  const numbers = aisleNumbers(aisles);
+  const textOf = (aisle: Aisle) =>
+    aisleText(aisle, numbers.get(aisle.id), categoryById);
   const unattached = unattachedCategories(aisles, categories);
   const exceptions = overrides.filter((o) => o.storeId === store.id);
 
@@ -113,6 +125,7 @@ export function StorePage() {
     <AisleRow
       key={aisle.id}
       aisle={aisle}
+      text={textOf(aisle)}
       sortable={sortable}
       onOpen={() => {
         setOpenAisle(aisle.id);
@@ -169,7 +182,6 @@ export function StorePage() {
             className="w-full"
             onClick={() => {
               void addAisle(db, store.id, {
-                name: t.newAisle,
                 icon: "shopping-basket",
                 color: "gris",
               }).then((aisle) => {
@@ -235,7 +247,7 @@ export function StorePage() {
                       {article.name}
                     </span>
                     <span className="block truncate text-sm text-muted-foreground">
-                      → {aisle.name}
+                      → {textOf(aisle).label}
                     </span>
                   </span>
                   <button
@@ -294,33 +306,45 @@ export function StorePage() {
           description={t.placeHint}
         >
           <ul className="-mx-2">
-            {movable.map((aisle) => (
-              <li key={aisle.id}>
-                <button
-                  type="button"
-                  onClick={() => {
-                    void setAisleCategoryRole(
-                      db,
-                      store.id,
-                      aisle.id,
-                      placing.id,
-                      "primary",
-                    );
-                    setPlacing(null);
-                  }}
-                  className="flex min-h-12 w-full items-center gap-3 rounded-xl px-2 text-left font-semibold active:bg-raised"
-                >
-                  <GroupIcon
-                    name={aisle.icon}
-                    className={cn(
-                      "size-5",
-                      palette[paletteColor(aisle.color)].text,
-                    )}
-                  />
-                  {aisle.name}
-                </button>
-              </li>
-            ))}
+            {movable.map((aisle) => {
+              const text = textOf(aisle);
+              return (
+                <li key={aisle.id}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      void setAisleCategoryRole(
+                        db,
+                        store.id,
+                        aisle.id,
+                        placing.id,
+                        "primary",
+                      );
+                      setPlacing(null);
+                    }}
+                    className="flex min-h-12 w-full items-center gap-3 rounded-xl px-2 py-1.5 text-left active:bg-raised"
+                  >
+                    <GroupIcon
+                      name={aisle.icon}
+                      className={cn(
+                        "size-5 shrink-0",
+                        palette[paletteColor(aisle.color)].text,
+                      )}
+                    />
+                    <span className="min-w-0 flex-1">
+                      <span className="block truncate font-semibold">
+                        {text.label}
+                      </span>
+                      {text.contents && (
+                        <span className="block truncate text-sm text-muted-foreground">
+                          {text.contents}
+                        </span>
+                      )}
+                    </span>
+                  </button>
+                </li>
+              );
+            })}
           </ul>
         </Sheet>
       )}
@@ -373,10 +397,12 @@ export function StorePage() {
 
 function AisleRow({
   aisle,
+  text,
   sortable,
   onOpen,
 }: {
   aisle: Aisle;
+  text: AisleText;
   sortable: boolean;
   onOpen: () => void;
 }) {
@@ -411,11 +437,16 @@ function AisleRow({
           className={cn("size-5 shrink-0", palette[color].text)}
         />
         <span className="min-w-0 flex-1">
-          <span className="block truncate font-semibold">{aisle.name}</span>
+          {text.kicker && (
+            <span className="block text-xs leading-tight font-bold tracking-widest text-muted-foreground uppercase">
+              {text.kicker}
+            </span>
+          )}
+          <span className="line-clamp-2 font-semibold">{text.title}</span>
           <span className="block truncate text-sm text-muted-foreground">
             {aisle.isUnsorted
               ? t.always
-              : t.categories(aisle.categories.length)}
+              : (text.description ?? t.categories(aisle.categories.length))}
           </span>
         </span>
       </button>
@@ -424,7 +455,7 @@ function AisleRow({
           type="button"
           {...attributes}
           {...listeners}
-          aria-label={t.reorder(aisle.name)}
+          aria-label={t.reorder(text.label)}
           className="flex size-12 shrink-0 touch-none items-center justify-center text-muted-foreground"
         >
           <GripVertical className="size-5" aria-hidden />

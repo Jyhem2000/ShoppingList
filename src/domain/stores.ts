@@ -23,6 +23,32 @@ export function sortAisles<A extends AisleLike>(aisles: readonly A[]): A[] {
   );
 }
 
+/**
+ * Numéro de chaque rayon dans l'ordre de passage (1, 2…), « Non classé » exclu
+ * (docs/02 § 4). Il suit l'ordre appris : il peut changer d'une course à l'autre.
+ */
+export function aisleNumbers(aisles: readonly AisleLike[]): Map<ID, number> {
+  return new Map(
+    sortAisles(aisles)
+      .filter((aisle) => !aisle.isUnsorted)
+      .map((aisle, index) => [aisle.id, index + 1]),
+  );
+}
+
+/**
+ * Ce qui décrit un rayon sans nom : ses catégories principales, dans l'ordre du rayon
+ * (vide s'il n'en a pas).
+ */
+export function aisleContents(
+  aisle: Pick<Aisle, "categories">,
+  categoryName: (id: ID) => string | undefined,
+): string[] {
+  return aisle.categories.flatMap((c) => {
+    const name = c.primary ? categoryName(c.categoryId) : undefined;
+    return name ? [name] : [];
+  });
+}
+
 export type CategoryRole = "primary" | "secondary" | "none";
 
 /** Rôle d'une catégorie dans un rayon. */
