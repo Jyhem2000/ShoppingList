@@ -124,6 +124,7 @@ Partage (v1.3)
   Coller une liste partagée ▸
 Sauvegarde
   Exporter mes données ▸   Importer ▸   Dernière sauvegarde : il y a 12 j
+  Restaurer une copie ▸    (copies automatiques des 7 derniers jours)
 Aide ▸                      (H10 : mode d'emploi, ce que l'app règle toute seule)
 À propos
   Version 1.0.0 · Quoi de neuf ▸ · Licences ▸

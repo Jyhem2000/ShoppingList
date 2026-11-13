@@ -58,6 +58,7 @@ Principe : **tester ce qui peut casser silencieusement et ce qui fait la valeur 
 | Données initiales et premier lancement                              | Slugs et alias sans doublon, icônes du pack, un rayon principal par catégorie ; copie unique au premier lancement |
 | Migrations Dexie                                                    | Ne jamais perdre les données d'une version à l'autre                                                              |
 | Export puis import d'une sauvegarde                                 | Aller-retour sans perte                                                                                           |
+| Copies automatiques internes                                        | Une par jour au plus, 7 gardées, restauration sans perte                                                          |
 
 ### Scénarios de bout en bout (Playwright)
 
