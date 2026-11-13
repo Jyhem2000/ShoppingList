@@ -672,6 +672,19 @@ export const fr = {
     version: (version: string) => `Version ${version}`,
     versions: [
       {
+        version: "0.7.0",
+        date: "2026-11-13",
+        items: [
+          "Ton magasin se construit pendant tes courses : au premier « C'est parti », donne-lui un nom ; tout est « À placer », rangé par catégorie. Touche un article quand il est dans le caddie : il se range dans le rayon où tu es. « Rayon suivant » quand tu changes de rayon.",
+          "Plus de magasin type ni de rayons préremplis. Pour repartir de zéro, supprime ton magasin (même le dernier) et relance « C'est parti ».",
+          "Les rayons prennent le nom de ce qu'ils contiennent : « Fromages », « Épicerie sucrée », « Pain · Café & thé +2 ». Tu peux toujours les nommer, et ajouter un repère (« au fond du magasin »).",
+          "Bulles d'aide pendant tes premières courses ; « Revoir les conseils » dans les Réglages.",
+          "Sauvegarde : copier toutes tes données dans le presse-papiers (pratique pour réinstaller l'app), et coller une sauvegarde.",
+          "Nouvel article : Lait aromatisé (fraise, chocolat, vanille). La litière se compte en paquets.",
+          "Liste et courses plus lisibles en thème sombre : plus de fond sous les articles.",
+        ],
+      },
+      {
         version: "0.6.1",
         date: "2026-11-13",
         items: [

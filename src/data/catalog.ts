@@ -21,7 +21,23 @@ export interface CatalogArticleData {
   since?: number;
 }
 
-/** Version du catalogue embarqué : augmente quand il s'enrichit. */
-export const CATALOG_VERSION = 3;
+/** Version du catalogue embarqué : augmente quand il s'enrichit ou se corrige. */
+export const CATALOG_VERSION = 4;
+
+/**
+ * Corrections d'articles déjà livrés (docs/06 § 7) : appliquées à la mise à jour du
+ * catalogue, seulement sur un article que l'utilisateur n'a jamais modifié.
+ */
+export interface CatalogFix {
+  /** Version du catalogue qui apporte la correction. */
+  since: number;
+  key: string;
+  /** Nouvelle unité par défaut (clé d'unité). */
+  unit: string;
+}
+
+export const catalogFixes: CatalogFix[] = [
+  { since: 4, key: "litiere", unit: "paquet" },
+];
 
 export const catalogData = catalogJson as CatalogArticleData[];

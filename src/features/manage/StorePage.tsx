@@ -203,7 +203,9 @@ export function StorePage() {
 
       {unattached.length > 0 && (
         <Section title={t.unattached}>
-          <p className="px-4 pt-3 text-sm text-warning">{t.unattachedHint}</p>
+          <p className="px-4 pt-3 pb-2 text-sm text-warning">
+            {t.unattachedHint}
+          </p>
           <ul className="py-1">
             {unattached.map((category) => (
               <li key={category.id}>

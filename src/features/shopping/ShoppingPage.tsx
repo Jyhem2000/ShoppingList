@@ -45,10 +45,13 @@ import { type ListData, useListData } from "@/features/list/useListData";
 import { fr } from "@/i18n/fr";
 import { AisleSection } from "@/ui/AisleHeader";
 import { Button } from "@/ui/button";
+import { GroupIcon } from "@/ui/GroupIcon";
 import { ItemRow } from "@/ui/ItemRow";
+import { palette } from "@/ui/palette";
 import { Sheet } from "@/ui/Sheet";
 import { SwipeAction } from "@/ui/SwipeToDelete";
 import { Tip } from "@/ui/Tip";
+import { cn } from "@/ui/utils";
 import { showToast } from "@/ui/toast";
 import { AddedInStoreSheet } from "./AddedInStoreSheet";
 import { MoveAisleSheet } from "./MoveAisleSheet";
@@ -237,27 +240,31 @@ function Shopping({
     );
   };
 
-  // « À placer » : à prendre d'abord, puis rangé par catégorie (ordre du catalogue).
-  const categoryRank = new Map(
-    sortCategories(
-      data.categories,
-      categoriesData.map((c) => c.key),
-    ).map((category, index) => [category.id, index]),
-  );
-  const rankOf = (item: ListItem) =>
-    categoryRank.get(data.articleById.get(item.articleId)?.categoryId ?? "") ??
-    0;
-  const unplaced = [...view.unplaced].sort(
-    (a, b) =>
-      Number(a.status !== "todo") - Number(b.status !== "todo") ||
-      rankOf(a) - rankOf(b) ||
-      (data.articleById.get(a.articleId)?.name ?? "").localeCompare(
-        data.articleById.get(b.articleId)?.name ?? "",
-        "fr",
-      ),
-  );
-  const toPlace = unplaced.filter((item) => item.status === "todo").length;
-  const unplacedBlock = unplaced.length > 0 && (
+  // « À placer » : rangé par catégorie (ordre du catalogue), un intertitre par
+  // catégorie pour s'y retrouver ; dans une catégorie, à prendre d'abord, puis par nom.
+  const categoryOf = (item: ListItem) =>
+    data.categoryById.get(
+      data.articleById.get(item.articleId)?.categoryId ?? "",
+    );
+  const unplacedGroups = sortCategories(
+    data.categories,
+    categoriesData.map((c) => c.key),
+  ).flatMap((category) => {
+    const items = view.unplaced
+      .filter((item) => categoryOf(item)?.id === category.id)
+      .sort(
+        (a, b) =>
+          Number(a.status !== "todo") - Number(b.status !== "todo") ||
+          (data.articleById.get(a.articleId)?.name ?? "").localeCompare(
+            data.articleById.get(b.articleId)?.name ?? "",
+            "fr",
+          ),
+      );
+    return items.length ? [{ category, items }] : [];
+  });
+  const toPlace = view.unplaced.filter((item) => item.status === "todo").length;
+  const firstUnplaced = unplacedGroups[0]?.items[0]?.id;
+  const unplacedBlock = unplacedGroups.length > 0 && (
     <AisleSection
       label={fr.aisles.unplaced}
       icon="shopping-basket"
@@ -266,15 +273,29 @@ function Shopping({
       expanded
       onToggle={() => undefined}
     >
-      {unplaced.map((item, index) =>
-        index === 0 ? (
-          <div key={item.id} data-tip="first-unplaced">
-            {row(item)}
-          </div>
-        ) : (
-          row(item)
-        ),
-      )}
+      {unplacedGroups.map(({ category, items }) => {
+        const color = paletteColor(category.color);
+        return (
+          <Fragment key={category.id}>
+            <p className="flex items-center gap-2 px-4 pt-3 pb-1.5 text-sm font-bold">
+              <GroupIcon
+                name={category.icon}
+                className={cn("size-4 shrink-0", palette[color].text)}
+              />
+              <span className={palette[color].text}>{category.name}</span>
+            </p>
+            {items.map((item) =>
+              item.id === firstUnplaced ? (
+                <div key={item.id} data-tip="first-unplaced">
+                  {row(item)}
+                </div>
+              ) : (
+                row(item)
+              ),
+            )}
+          </Fragment>
+        );
+      })}
     </AisleSection>
   );
 
@@ -387,8 +408,8 @@ function Shopping({
           </p>
         )}
       </div>
-      {/* Place pour la barre d'ajout flottante. */}
-      <div aria-hidden className="h-24" />
+      {/* Place pour la barre d'ajout flottante, et « Rayon suivant » au-dessus. */}
+      <div aria-hidden className={toPlace > 0 ? "h-40" : "h-24"} />
 
       <AddArticleBar
         data={data}

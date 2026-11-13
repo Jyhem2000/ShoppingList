@@ -222,8 +222,10 @@ Au lancement, si le catalogue de l'app est plus récent que celui de la base (`s
 - rien de ce que l'utilisateur a créé, modifié ou supprimé n'est touché : un article du catalogue qu'il a supprimé ne revient pas ;
 - une nouvelle catégorie n'est rangée dans aucun rayon : elle apparaît dans les « Catégories non rattachées » de chaque magasin (G3).
 
-Les changements apportés à un article existant (nouveaux types, autre unité) ne sont pas recopiés : l'utilisateur les a peut-être modifiés. Plus besoin de réinstaller l'app pour profiter des nouveautés.
+Les changements apportés à un article existant ne sont pas recopiés, sauf une **correction** listée dans `catalogFixes` (`src/data/catalog.ts`, aujourd'hui l'unité par défaut) : elle ne s'applique qu'à un article que l'utilisateur n'a jamais modifié (date de mise à jour égale à la date de création). Plus besoin de réinstaller l'app pour profiter des nouveautés.
 
 | Version | Ajouts                                                                                         |
 | ------- | ---------------------------------------------------------------------------------------------- |
 | 2       | Catégorie « Sel, Poivre & Épices » ; articles Gnocchis, Brandade de morue, Conserves au choix. |
+| 3       | Article Lait aromatisé (fraise, chocolat, vanille).                                            |
+| 4       | Correction : la litière se compte en paquets (et non en sachets).                              |

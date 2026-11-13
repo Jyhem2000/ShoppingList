@@ -138,7 +138,7 @@ Glisser une ligne → « Pas pris » : elle passe en bas, grisée, et restera da
 
 **Ranger en cochant** (décision du 13 novembre 2026, phase 7) : un magasin se construit pendant les courses, sans rien régler avant.
 
-- Les articles dont la catégorie n'a pas encore de rayon dans ce magasin sont dans le bloc **« À placer »**, rangé par catégorie, affiché juste après le rayon en cours (en tête s'il n'y en a pas encore). À la première course dans un magasin, tout y est.
+- Les articles dont la catégorie n'a pas encore de rayon dans ce magasin sont dans le bloc **« À placer »**, rangé par catégorie avec un intertitre par catégorie (icône, nom, couleur), affiché juste après le rayon en cours (en tête s'il n'y en a pas encore). À la première course dans un magasin, tout y est.
 - **Cocher** un article de « À placer » le range dans le **rayon en cours** (ouvert à la première coche) : toute sa catégorie y devient principale. Si sa catégorie a déjà un rayon dans ce magasin, ou si c'est « Autres » ou « Achats ponctuels », seul l'article y est rangé (exception par article). Le rayon prend l'icône et la couleur de sa première catégorie.
 - Bouton **« Rayon suivant »**, au-dessus de la barre d'ajout, tant qu'il reste des articles à placer : il ouvre un nouveau rayon juste après le rayon en cours, qui devient le rayon en cours. Le rayon en cours s'affiche même vide, avec une explication. Un rayon ouvert et resté vide n'est jamais doublé, et il disparaît à la fin des courses.
 - Le rayon en cours : celui ouvert par « Rayon suivant », ou celui de la dernière coche si elle est plus récente.

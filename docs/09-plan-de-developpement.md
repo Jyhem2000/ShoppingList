@@ -16,12 +16,13 @@ Numérotation : la version **`0.N.0` sort quand la phase N est validée** ; elle
 
 ### Versions publiées
 
-| Version | Date             | Contenu                                                                                                                                                                                                                              |
-| ------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `0.4.0` | 12 novembre 2026 | Phases 1 à 4 validées ; mode courses (phase 5) en avant-première, à valider par un essai en magasin.                                                                                                                                 |
-| `0.5.0` | 12 novembre 2026 | Phase 5 publiée **avant** l'essai en magasin, à la demande de l'utilisateur (seul utilisateur) : l'essai se fait sur la production ; correctifs en `0.5.x` ou dans la `0.6.0`. Thème clair, recherche du catalogue, retours de test. |
-| `0.6.0` | 12 novembre 2026 | Phase 6 (tout modifiable : magasins et rayons, articles et doublons, icônes, catégories, unités), publiée pour un essai réel par l'utilisateur ; validation sur la production, correctifs en `0.6.x`.                                |
-| `0.6.1` | 13 novembre 2026 | Retours du premier essai réel : liste par catégorie (rayons en mode courses), sauvegarde (export, import), catalogue mis à jour sans réinstaller, « où l'as-tu pris ? », quantité modifiable en magasin, « Pas pris ».               |
+| Version | Date             | Contenu                                                                                                                                                                                                                                                          |
+| ------- | ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `0.4.0` | 12 novembre 2026 | Phases 1 à 4 validées ; mode courses (phase 5) en avant-première, à valider par un essai en magasin.                                                                                                                                                             |
+| `0.5.0` | 12 novembre 2026 | Phase 5 publiée **avant** l'essai en magasin, à la demande de l'utilisateur (seul utilisateur) : l'essai se fait sur la production ; correctifs en `0.5.x` ou dans la `0.6.0`. Thème clair, recherche du catalogue, retours de test.                             |
+| `0.6.0` | 12 novembre 2026 | Phase 6 (tout modifiable : magasins et rayons, articles et doublons, icônes, catégories, unités), publiée pour un essai réel par l'utilisateur ; validation sur la production, correctifs en `0.6.x`.                                                            |
+| `0.7.0` | 13 novembre 2026 | Phase 7 (magasins construits pendant les courses : « À placer », « Rayon suivant », titres des rayons tirés de leurs catégories, bulles d'aide), sauvegarde par presse-papiers ; publiée pour l'essai réel, validation sur la production, correctifs en `0.7.x`. |
+| `0.6.1` | 13 novembre 2026 | Retours du premier essai réel : liste par catégorie (rayons en mode courses), sauvegarde (export, import), catalogue mis à jour sans réinstaller, « où l'as-tu pris ? », quantité modifiable en magasin, « Pas pris ».                                           |
 
 Les `0.1.0` et `0.3.0` publiées les 8 et 9 novembre 2026 ont disparu avec la reprise à zéro de l'historique git (12 novembre 2026).
 
@@ -167,6 +168,7 @@ Décision du 13 novembre 2026, après le premier essai réel : des rayons prére
 - Article **« Lait aromatisé »** (types fraise, chocolat, vanille ; icône de la brique de lait, bande marron), catalogue version 3.
 - Sauvegarde : **« Copier dans le presse-papiers »** et **« Coller une sauvegarde »**, en plus du fichier (03 H4).
 - Liste et mode courses, dans les deux thèmes : pas de fond sous les articles, bloc bordé d'un trait fin de sa couleur.
+- Retours avant publication : « À placer » avec un intertitre par catégorie, marge sous « Rayon suivant », litière en paquets (première correction du catalogue, 06 § 7).
 
 - ✅ _Scénarios E2E 3 et 5 verts ; essai réel : un magasin construit pendant une course, puis une course qui suit ce parcours._ → `0.7.0`.
 
