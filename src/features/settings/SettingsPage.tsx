@@ -2,6 +2,7 @@ import {
   Apple,
   Info,
   LayoutGrid,
+  Lightbulb,
   Palette,
   Ruler,
   Scale,
@@ -25,6 +26,9 @@ import { isWakeLockSupported } from "@/platform/wakeLock";
 import { Chip } from "@/ui/form";
 import { LinkRow, PageHeader, Row, Section } from "@/ui/Page";
 import { Switch } from "@/ui/switch";
+import { resetTips } from "@/ui/tips";
+import { showToast } from "@/ui/toast";
+import { Button } from "@/ui/button";
 import { BackupSection } from "./BackupSection";
 
 const t = fr.settings;
@@ -161,6 +165,21 @@ export function SettingsPage() {
       <BackupSection />
 
       <Section title={t.sectionApp} className="pb-6">
+        <Row
+          icon={<Lightbulb />}
+          label={fr.tips.reset}
+          hint={fr.tips.resetHint}
+        >
+          <Button
+            variant="outline"
+            onClick={() => {
+              resetTips();
+              showToast(fr.tips.resetDone, { tone: "success" });
+            }}
+          >
+            {fr.tips.resetAction}
+          </Button>
+        </Row>
         <LinkRow to={routes.about} icon={<Info />} label={t.about} />
       </Section>
     </>

@@ -18,6 +18,7 @@ import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
 import { EmptyState, PageHeader } from "@/ui/Page";
 import { ProductIcon } from "@/ui/ProductIcon";
+import { Tip } from "@/ui/Tip";
 import { formatDuration } from "./format";
 
 const t = fr.shopping.recap;
@@ -136,6 +137,7 @@ export function RecapPage() {
           </Button>
         )}
       </div>
+      <Tip id="shopping-stored" text={fr.tips.stored} />
     </>
   );
 }

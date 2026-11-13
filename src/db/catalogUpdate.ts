@@ -1,5 +1,5 @@
 import { categoriesData } from "@/data";
-import { CATALOG_VERSION, catalogData } from "@/data/catalog";
+import { CATALOG_VERSION, catalogData, catalogFixes } from "@/data/catalog";
 import type { ShoppingDatabase } from "./database";
 import { buildInitialData } from "./seed";
 
@@ -9,7 +9,8 @@ import { buildInitialData } from "./seed";
  * la base, s'ils n'y sont pas déjà (même clé, ou même nom pour un article créé à la
  * main). Rien de ce que l'utilisateur a créé, modifié ou supprimé avant n'est touché.
  * Une nouvelle catégorie n'est rangée dans aucun rayon : elle apparaît dans les
- * « Catégories non rattachées » de chaque magasin. Renvoie le nombre d'ajouts.
+ * « Catégories non rattachées » de chaque magasin. Les corrections (`catalogFixes`)
+ * ne touchent qu'un article jamais modifié. Renvoie le nombre d'ajouts et de corrections.
  */
 export async function updateCatalog(
   database: ShoppingDatabase,
@@ -66,6 +67,17 @@ export async function updateCatalog(
           categoryId,
           defaultUnitId: unitId,
         });
+        added++;
+      }
+
+      for (const fix of catalogFixes) {
+        if (!isNew(fix.since)) continue;
+        const article = articles.find((a) => a.catalogKey === fix.key);
+        const unitId = unitByKey.get(fix.unit);
+        // Modifié par l'utilisateur (date de mise à jour) : on n'y touche pas.
+        if (!article || !unitId || article.updatedAt !== article.createdAt)
+          continue;
+        await database.articles.update(article.id, { defaultUnitId: unitId });
         added++;
       }
 

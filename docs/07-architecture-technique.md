@@ -62,7 +62,7 @@ Rappel ([01](01-vision.md#plateformes-cibles)) : sur iPhone, **tous les navigate
 **iPhone** :
 
 1. **L'app installée sur l'écran d'accueil a son propre stockage**, séparé de celui de Chrome (et de Safari). Les données saisies dans le navigateur avant l'installation ne se retrouvent pas dans l'app. → L'écran de premier lancement (04 § 2.11) pousse à installer **avant** toute saisie.
-2. **Effacement automatique** : WebKit peut effacer les données d'un _site_ non visité depuis 7 jours ; une app installée n'est pas concernée de la même façon (son compteur dépend de son propre usage). → Installation fortement recommandée + rappel de sauvegarde (H4).
+2. **Effacement automatique** : WebKit peut effacer les données d'un _site_ non visité depuis 7 jours ; une app installée n'est pas concernée de la même façon (son compteur dépend de son propre usage). → Installation fortement recommandée + export en fichier expliqué dans Réglages → Sauvegarde (H4). Les copies automatiques internes (H4) ne couvrent pas ce risque : elles sont effacées avec le reste.
 3. **Hauteur au lancement** : bug connu d'iOS. Au lancement de l'app installée, la zone d'affichage mesure la hauteur de l'écran moins celle de la barre d'état (797 au lieu de 844 sur l'iPhone de test) jusqu'au premier défilement de la page. La page est peinte sur tout l'écran, mais un élément en position fixe est coupé au bas de cette zone : la barre d'onglets remontait, ou ses libellés étaient coupés. Tant que la zone est trop courte (iPhone, app installée, portrait), le cadre de l'app est donc posé dans la page (position absolue) à la hauteur de l'écran ; dès qu'iOS l'a corrigée, il redevient fixe à 100 % de la zone d'affichage, pour que le rebond de la page ne le déplace pas (`src/platform/viewport.ts`). Correction validée sur iPhone avec un diagnostic de mesures, retiré depuis. Un défilement invisible d'un pixel au lancement a été essayé puis abandonné : il ne corrigeait pas la hauteur et faisait trembler l'affichage. Seul le contenu défile. La page ne rebondit pas (`overscroll-behavior: none` sur `html`) : sur iPhone, un rebond de la page faisait ignorer l'appui suivant sur la barre d'onglets. Le contenu garde son effet élastique, mais sa barre de défilement est masquée : iOS la dessinait au-dessus du titre, sous la barre d'état. Barre d'état en `black-translucent`, avec une bande opaque sur sa zone.
 4. **Liens** : un lien ouvert depuis Messages s'ouvre dans le navigateur, jamais dans l'app installée → mécanisme « Coller une liste partagée » (F2).
 
@@ -141,7 +141,7 @@ interface Aisle extends Base {
   color: string;
   position: number; // score 0..1, appris ou manuel ; tri croissant
   categories: { categoryId: ID; primary: boolean }[];
-  isUnsorted: boolean; // rayon "Non classé"
+  isUnsorted: boolean; // rayon spécial « À placer » (ex-« Non classé »)
 }
 // Invariant : dans un magasin, une catégorie a au plus UN rayon où primary = true.
 
@@ -246,7 +246,7 @@ db.version(1).stores({
 
 - **Préférences de l'appareil** (sons, son par son, écran allumé, thème) : hors de `Settings`, dans `localStorage` (`src/app/preferences.ts`). Elles dépendent du téléphone, ne sont pas exportées et ne sont pas écrasées par l'import d'une sauvegarde venant d'un autre appareil.
 - Unicité « un article par liste » vérifiée par la couche d'accès aux données (les lignes archivées `closedInSessionId` sont exclues).
-- **La version du schéma de données est indépendante de la version de l'app** : elle n'augmente que si la structure change. Toute évolution = nouvelle `version(n)` + fonction `upgrade` + test de migration. Les migrations s'exécutent automatiquement au premier lancement de la nouvelle version.
+- **La version du schéma de données est indépendante de la version de l'app** : elle n'augmente que si la structure change. Toute évolution = nouvelle `version(n)` + fonction `upgrade` + test de migration. Les migrations s'exécutent automatiquement au premier lancement de la nouvelle version. Historique : **version 2** (13 novembre 2026) — mêmes tables, aucune donnée modifiée ; elle a porté en préproduction une migration des noms de rayons, retirée avec la phase 7 (les magasins se construisent pendant les courses), et reste déclarée pour les bases déjà passées en version 2. Champs ajoutés sans index (donc sans nouvelle version) : `Aisle.description`, `Category.shortName`, `ShoppingSession.openedAisle`.
 
 ## 6. App installée, hors ligne et mises à jour
 
@@ -434,8 +434,8 @@ L'historique git sert aux développeurs ; ses messages sont trop techniques pour
 
 | Moment                                        | Version                                                                                                                                                                                   | Où l'installer                                                     |
 | --------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| Validation de chaque phase de la v1.0 (1 à 7) | `0.N.0` = phase N validée (`0.4.0` … `0.7.0`), publiées par `npm run release` ; correctifs entre deux : `0.N.1`, `0.N.2`…                                                                 | Production, pour les essais (pas encore d'installation définitive) |
-| Fin de la phase 7                             | **`0.9.0`** — candidate à la v1.0 (`npm run release -- 0.9.0`)                                                                                                                            | **Production** : installation définitive sur les téléphones        |
+| Validation de chaque phase de la v1.0 (1 à 8) | `0.N.0` = phase N validée (`0.4.0` … `0.8.0`), publiées par `npm run release` ; correctifs entre deux : `0.N.1`, `0.N.2`…                                                                 | Production, pour les essais (pas encore d'installation définitive) |
+| Fin de la phase 8                             | **`0.9.0`** — candidate à la v1.0 (`npm run release -- 0.9.0`)                                                                                                                            | **Production** : installation définitive sur les téléphones        |
 | Usage réel (2-3 semaines)                     | `0.9.1`, `0.9.2`… correctifs                                                                                                                                                              | Production                                                         |
 | Validation de la 0.9                          | **`1.0.0`** — même code (`npm run release -- 1.0.0`)                                                                                                                                      | Production (les données restent en place)                          |
 | Versions suivantes                            | Développement sur `dev`, testé en préproduction avec une **copie des vraies données** (export de sauvegarde de la production → import en préproduction), puis `1.1.0`, correctifs `1.1.x` | Production                                                         |

@@ -1,17 +1,103 @@
-import type { Article } from "@/domain/model";
+import type { ShoppingDatabase } from "@/db/database";
+import { buildEmptyStore } from "@/db/stores";
+import type { Aisle, Article, Category, Store } from "@/domain/model";
+import { spreadPositions } from "@/domain/stores";
 import { slugify } from "@/domain/slug";
 import { buildInitialData } from "@/db/seed";
 
 /**
  * Données des tests de logique (recherche, saisie, tri par rayon).
  *
- * Unités, catégories et magasin viennent des données initiales ; les articles sont
- * propres aux tests, pour que la relecture du catalogue (libellés, quantités,
+ * Unités et catégories viennent des données initiales ; le magasin et les articles
+ * sont propres aux tests, pour que la relecture du catalogue (libellés, quantités,
  * alias) ne casse jamais un test de logique.
  */
 const initial = buildInitialData(0);
 
-export const { units, categories, store, aisles, list } = initial;
+/**
+ * Le magasin des tests : un supermarché aux rayons nommés, chacun avec ses catégories
+ * (clés du catalogue ; « ? » = secondaire). L'app n'a plus de modèle de magasin : les
+ * rayons se construisent pendant les courses (docs/03 C4).
+ */
+const layout: [string, string[]][] = [
+  ["Fruits & Légumes", ["fruits", "legumes", "herbes-aromatiques"]],
+  ["Boulangerie", ["pain-viennoiseries"]],
+  ["Boucherie", ["viande", "volaille"]],
+  ["Poissonnerie", ["poisson-fruits-de-mer"]],
+  ["Charcuterie & Traiteur", ["charcuterie", "traiteur", "viande?"]],
+  ["Crèmerie", ["oeufs", "lait-creme-beurre", "yaourts-desserts"]],
+  ["Fromages", ["fromages"]],
+  [
+    "Épicerie salée",
+    [
+      "pates-riz-feculents",
+      "conserves-bocaux",
+      "sauces-condiments",
+      "epices",
+      "huiles-vinaigres",
+      "cuisine-du-monde",
+    ],
+  ],
+  ["Apéritif", ["aperitif"]],
+  [
+    "Épicerie sucrée",
+    [
+      "farine-sucre-patisserie",
+      "petit-dejeuner",
+      "biscuits-gateaux",
+      "chocolat-confiserie",
+      "confitures-tartiner",
+      "cafe-the",
+    ],
+  ],
+  ["Boissons", ["eaux", "jus-sodas", "alcools"]],
+  ["Surgelés", ["surgeles", "glaces"]],
+  ["Hygiène", ["hygiene-beaute", "papier-mouchoirs", "bebe"]],
+  ["Entretien & Maison", ["entretien", "cuisine-maison", "animaux"]],
+];
+
+export function buildTestStore(
+  categories: readonly Category[],
+  name = "Mon supermarché",
+): { store: Store; aisles: Aisle[] } {
+  const { store, aisles } = buildEmptyStore(name, categories, 0);
+  const byKey = new Map(categories.map((c) => [c.catalogKey, c.id]));
+  const ids = layout.map(() => crypto.randomUUID());
+  const positions = spreadPositions(ids);
+  layout.forEach(([aisleName, keys], index) => {
+    const id = ids[index] ?? "";
+    aisles.push({
+      id,
+      createdAt: 0,
+      updatedAt: 0,
+      storeId: store.id,
+      name: aisleName,
+      icon: "shopping-basket",
+      color: "gris",
+      position: positions[id] ?? 0,
+      categories: keys.flatMap((key) => {
+        const categoryId = byKey.get(key.replace("?", ""));
+        return categoryId ? [{ categoryId, primary: !key.endsWith("?") }] : [];
+      }),
+      isUnsorted: false,
+    });
+  });
+  return { store, aisles };
+}
+
+/** Ajoute le magasin des tests à une base remplie par `seedDatabase`. */
+export async function addTestStore(
+  db: ShoppingDatabase,
+  name?: string,
+): Promise<Store> {
+  const { store, aisles } = buildTestStore(await db.categories.toArray(), name);
+  await db.stores.add(store);
+  await db.aisles.bulkAdd(aisles);
+  return store;
+}
+
+export const { units, categories, list } = initial;
+export const { store, aisles } = buildTestStore(categories);
 
 interface TestArticle {
   category: string;

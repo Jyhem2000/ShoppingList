@@ -1,6 +1,6 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { ReactNode } from "react";
-import { Link } from "react-router";
+import { NavButton } from "@/ui/NavButton";
 import { cn } from "@/ui/utils";
 
 /**
@@ -19,15 +19,16 @@ export function PageHeader({
   return (
     <header className="sticky top-0 z-20 mb-2 flex items-center gap-2 border-b border-transparent bg-bg px-4 pt-7 pb-2 group-data-[scrollable]/main:border-border">
       {backTo && (
-        <Link
+        <NavButton
           to={backTo}
+          back
           aria-label="Retour"
           // Cible de 44 px, mais occupe la hauteur d'une ligne de titre (32 px) :
           // le titre reste au même niveau, avec ou sans bouton de retour.
           className="-my-1.5 -ml-2 flex size-11 items-center justify-center rounded-xl text-primary hover:bg-raised"
         >
           <ChevronLeft className="size-6" />
-        </Link>
+        </NavButton>
       )}
       <h1 className="text-2xl font-extrabold tracking-tight text-primary">
         {title}
@@ -115,7 +116,7 @@ export function Row({
   );
 }
 
-/** Ligne qui mène à un autre écran. */
+/** Ligne qui mène à un autre écran (un bouton, voir NavButton). */
 export function LinkRow({
   to,
   icon,
@@ -128,9 +129,9 @@ export function LinkRow({
   hint?: ReactNode;
 }) {
   return (
-    <Link
+    <NavButton
       to={to}
-      className="flex min-h-14 items-center gap-3 px-4 py-3 active:bg-raised"
+      className="flex min-h-14 w-full items-center gap-3 px-4 py-3 text-left active:bg-raised"
     >
       {icon && (
         <span className="shrink-0 text-secondary [&_svg]:size-5">{icon}</span>
@@ -142,6 +143,6 @@ export function LinkRow({
         )}
       </span>
       <ChevronRight className="size-5 text-muted-foreground" aria-hidden />
-    </Link>
+    </NavButton>
   );
 }

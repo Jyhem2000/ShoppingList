@@ -10,7 +10,7 @@ import {
 import { db } from "@/db/database";
 import { useArticles, useCategories } from "@/db/hooks";
 import type { Category, ID } from "@/domain/model";
-import { paletteColor } from "@/features/list/format";
+import { categoryShortName, paletteColor } from "@/features/list/format";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
 import { Field, Select, TextInput } from "@/ui/form";
@@ -291,6 +291,19 @@ function CategorySheet({
               save({ name });
             }}
           />
+          {!category.isSystem && (
+            <NameField
+              key={`short-${category.shortName ?? ""}`}
+              label={t.shortName}
+              value={category.shortName ?? ""}
+              optional
+              placeholder={categoryShortName({ ...category, shortName: "" })}
+              hint={t.shortNameHint}
+              onSave={(shortName) => {
+                save({ shortName: shortName || undefined });
+              }}
+            />
+          )}
           {category.isSystem && (
             <p className="text-sm text-muted-foreground">{t.system}</p>
           )}

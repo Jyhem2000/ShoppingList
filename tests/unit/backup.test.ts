@@ -90,9 +90,22 @@ describe("mise à jour du catalogue sans réinstaller (docs/06 § 7)", () => {
       await database.articles.where("catalogKey").equals(key).delete();
     await database.categories.filter((c) => c.catalogKey === "epices").delete();
     await database.articles.where("catalogKey").equals("pommes").delete();
+    // Livrée en sachet avant la correction du catalogue 4.
+    const sachet = await database.units.where("slug").equals("sachet").first();
+    const litiere = await database.articles
+      .where("catalogKey")
+      .equals("litiere")
+      .first();
+    if (!sachet || !litiere) throw new Error("données");
+    await database.articles.update(litiere.id, { defaultUnitId: sachet.id });
     await updateSettings(database, { catalogVersion: 1 });
 
-    expect(await updateCatalog(database)).toBe(4);
+    // 3 articles, 1 catégorie, 1 correction (la litière, jamais modifiée).
+    expect(await updateCatalog(database)).toBe(5);
+    const paquet = await database.units.where("slug").equals("paquet").first();
+    expect((await database.articles.get(litiere.id))?.defaultUnitId).toBe(
+      paquet?.id,
+    );
     for (const key of ["brandade-de-morue", "gnocchis", "conserves"])
       expect(
         await database.articles.where("catalogKey").equals(key).count(),

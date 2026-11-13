@@ -23,6 +23,7 @@ import type {
   Store,
   Unit,
 } from "@/domain/model";
+import { categoryWeights } from "./format";
 
 export interface ListData {
   settings: Settings;
@@ -40,6 +41,8 @@ export interface ListData {
   aisles: Aisle[];
   overrides: ArticleAisleOverride[];
   purchaseCounts: Map<ID, number>;
+  /** Achats par catégorie : titre des rayons sans nom (docs/02 § 4). */
+  categoryWeights: Map<ID, number>;
 }
 
 /**
@@ -94,6 +97,7 @@ export function useListData(storeId?: ID): ListData | undefined {
       aisles,
       overrides,
       purchaseCounts,
+      categoryWeights: categoryWeights(articles, purchaseCounts),
     };
   }, [
     settings,

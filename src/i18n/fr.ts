@@ -4,8 +4,29 @@ export const fr = {
   /** Noms donnés aux données créées au premier lancement (docs/04 § 2.11). */
   defaults: {
     listName: "Courses",
-    storeName: "Mon supermarché",
-    unsortedAisle: "Non classé",
+    unsortedAisle: "À placer",
+  },
+  /** Désigner un rayon : son nom, ou un titre tiré de ses catégories (docs/02 § 4). */
+  aisles: {
+    kicker: "Rayon",
+    label: (title: string) => `Rayon ${title}`,
+    into: (title: string) => `au rayon ${title}`,
+    newAisle: "Nouveau rayon",
+    unplaced: "À placer",
+    intoUnplaced: "dans « À placer »",
+  },
+  /** Bulles d'aide montrées une seule fois (docs/03 H12). */
+  tips: {
+    dismiss: "Touche l'écran pour continuer",
+    place:
+      "Touche un article quand il est dans le caddie : l'app retient dans quel rayon il se trouve.",
+    next: "Tu changes de rayon ? Touche ici : les articles suivants iront dans le nouveau rayon.",
+    stored:
+      "Ton magasin est enregistré : la prochaine fois, ta liste suivra ton parcours.",
+    reset: "Revoir les conseils",
+    resetAction: "Revoir",
+    resetHint: "Les bulles d'aide du premier usage reviendront.",
+    resetDone: "Les conseils reviendront.",
   },
   sheet: { close: "Fermer", back: "Retour" },
   toast: { close: "Fermer le message" },
@@ -137,7 +158,16 @@ export const fr = {
     reopen: (time: string) => `Rouvrir les courses (${time})`,
     startTitle: "Faire les courses",
     startText: "Dans quel magasin ?",
+    newStore: "Un autre magasin",
+    newStoreName: "Nom du magasin",
+    newStorePlaceholder: "Super U, marché du samedi…",
+    newStoreHint:
+      "Ses rayons se rangent pendant tes courses : touche un article quand il est dans le caddie, et « Rayon suivant » quand tu changes de rayon.",
     go: "C'est parti",
+    nextAisle: "Rayon suivant",
+    nextAisleHint: "Les articles cochés ensuite iront dans un nouveau rayon",
+    emptyAisle:
+      "Touche un article de « À placer » quand il est dans le caddie : il sera rangé dans ce rayon.",
     quit: "Quitter le mode courses (les courses restent ouvertes)",
     progress: (checked: number, total: number) => `${checked} / ${total}`,
     progressLabel: (checked: number, total: number) =>
@@ -152,10 +182,9 @@ export const fr = {
     finishConfirm: "Terminer",
     cancel: "Continuer les courses",
     pickUp: "À récupérer",
-    aislePassed: (aisle: string) =>
-      `Rayon ${aisle} déjà passé : il t'attend dans « À récupérer ».`,
+    aislePassed: (label: string) =>
+      `${label} déjà passé : il t'attend dans « À récupérer ».`,
     current: "rayon en cours",
-    aisleKicker: "Rayon",
     swipeHint:
       "Glisser vers la gauche : pas pris · appui long : changer de rayon",
     unavailable: "Pas pris",
@@ -166,7 +195,7 @@ export const fr = {
     allDone: "Tout est dans le caddie !",
     added: {
       title: (name: string) => `${name} ajouté`,
-      inAisle: (aisle: string) => `Rangé dans le rayon ${aisle}.`,
+      inAisle: (into: string) => `Rangé ${into}.`,
       alreadyTaken: "Je l'ai déjà dans le caddie",
       otherAisle: "Il est dans un autre rayon…",
       ok: "OK, à prendre",
@@ -174,9 +203,9 @@ export const fr = {
     where: {
       title: (name: string) => `Où as-tu pris ${name} ?`,
       text: "Pour que l'app sache où le trouver la prochaine fois.",
-      here: (aisle: string) => `Ici, rayon ${aisle}`,
+      here: (into: string) => `Ici, ${into}`,
       hereHint: "Il sera rangé dans ce rayon pour les prochaines courses.",
-      usual: (aisle: string) => `Dans son rayon, ${aisle}`,
+      usual: (title: string) => `Dans son rayon : ${title}`,
       other: "Dans un autre rayon…",
     },
     move: {
@@ -187,16 +216,15 @@ export const fr = {
       others: "Autres rayons",
       all: "Rayons du magasin",
       current: "son rayon actuel",
-      scopeTitle: (aisle: string) => `Ranger dans ${aisle}`,
-      scopeText: (aisle: string) =>
-        `L'app s'en souviendra pour tes prochaines courses dans ce magasin. Qu'est-ce qui se trouve dans ${aisle} ?`,
+      scopeTitle: (into: string) => `Ranger ${into}`,
+      scopeText: (into: string) =>
+        `L'app s'en souviendra pour tes prochaines courses dans ce magasin. Qu'est-ce qui se trouve ${into} ?`,
       onlyArticle: (name: string) => `Seulement ${name}`,
       onlyArticleHint: (category: string) =>
         `Les autres articles de ${category} restent où ils sont.`,
       wholeCategory: (category: string) => `Toute la catégorie ${category}`,
-      wholeCategoryHint: (aisle: string) =>
-        `Tous ses articles iront dans ${aisle}.`,
-      done: (name: string, aisle: string) => `${name} → ${aisle}`,
+      wholeCategoryHint: (into: string) => `Tous ses articles iront ${into}.`,
+      done: (name: string, label: string) => `${name} → ${label}`,
     },
     when: { today: "aujourd'hui", yesterday: "hier" },
     stale: {
@@ -244,6 +272,18 @@ export const fr = {
             ? "Dernière sauvegarde : aujourd'hui."
             : `Dernière sauvegarde : il y a ${days} jour${days > 1 ? "s" : ""}.`,
       exported: "Sauvegarde prête",
+      copy: "Copier dans le presse-papiers",
+      copyHint:
+        "Pratique pour désinstaller et réinstaller l'app : copie, colle le texte dans Notes, puis « Coller une sauvegarde » dans l'app réinstallée.",
+      copied: "Sauvegarde copiée : colle-la dans Notes pour la garder",
+      copyFailed: "Copie impossible : utilise plutôt « Exporter mes données ».",
+      paste: "Coller une sauvegarde",
+      pasteTitle: "Coller une sauvegarde",
+      pasteText:
+        "Colle ici le texte d'une sauvegarde copiée (touche longue → Coller).",
+      pastePlaceholder: '{ "app": "ShoppingList", … }',
+      pasteCheck: "Vérifier la sauvegarde",
+      invalidText: "Ce texte n'est pas une sauvegarde de ShoppingList.",
       import: "Importer une sauvegarde",
       importHint:
         "Remplace toutes les données de l'app par celles d'un fichier exporté.",
@@ -271,6 +311,9 @@ export const fr = {
       name: "Nom",
       create: "Créer la catégorie",
       nameTaken: "Une autre catégorie porte déjà ce nom.",
+      shortName: "Nom court (facultatif)",
+      shortNameHint:
+        "Sert au titre des rayons qui la contiennent (« Pain · Café & thé +2 »).",
       system:
         "Catégorie de l'app : elle ne se supprime pas. Ses articles vont dans « Non classé ».",
       newHint:
@@ -401,10 +444,10 @@ export const fr = {
       newTitle: "Nouveau magasin",
       name: "Nom du magasin",
       from: "Rayons de départ",
-      fromTemplate: "Un modèle",
       fromCopy: "Une copie",
       fromEmpty: "Aucun rayon",
-      emptyHint: "Un seul rayon « Non classé » : tu crées les tiens ensuite.",
+      emptyHint:
+        "Ses rayons se rangent pendant tes premières courses : touche un article quand il est dans le caddie, et « Rayon suivant » quand tu changes de rayon.",
       copyOf: "Copier les rayons de",
       create: "Créer le magasin",
     },
@@ -425,7 +468,6 @@ export const fr = {
             : "1 catégorie",
       always: "toujours en dernier",
       addAisle: "Nouveau rayon",
-      newAisle: "Nouveau rayon",
       unattached: "Catégories non rattachées",
       unattachedHint:
         "Leurs articles vont dans « Non classé ». Touche-en une pour la ranger.",
@@ -441,7 +483,7 @@ export const fr = {
       deleteTitle: (name: string) => `Supprimer « ${name} » ?`,
       deleteText:
         "Ses rayons et ses exceptions seront supprimés. Tes listes et l'historique de tes courses restent.",
-      deleteLast: "C'est ton seul magasin : il ne peut pas être supprimé.",
+
       deleteShopping:
         "Des courses sont en cours dans ce magasin : termine-les d'abord.",
       deleted: (name: string) => `« ${name} » supprimé`,
@@ -450,7 +492,11 @@ export const fr = {
     },
     aisle: {
       title: "Rayon",
-      name: "Nom du rayon",
+      name: "Nom du rayon (facultatif)",
+      nameHint:
+        "Sans nom, son titre vient de ses catégories (indiqué en gris).",
+      description: "Repère (facultatif)",
+      descriptionPlaceholder: "Au fond du magasin, à côté des caisses…",
       categories: "Catégories",
       categoriesHint:
         "Pleine : rayon principal de la catégorie (ses articles y vont). Contour : elle s'y trouve aussi.",
@@ -462,7 +508,7 @@ export const fr = {
       addCategory: "Ajouter une catégorie",
       chooseCategory: "Choisir une catégorie",
       unsortedHint:
-        "Reçoit les articles des catégories rattachées à aucun rayon. Il reste toujours en dernier.",
+        "Les articles dont la catégorie n'a pas encore de rayon dans ce magasin. En courses, touche-les quand ils sont dans le caddie : ils se rangent dans le rayon où tu es.",
       merge: "Fusionner avec un autre rayon",
       mergeTitle: (name: string) => `Fusionner ${name} dans…`,
       mergeText:
@@ -474,7 +520,7 @@ export const fr = {
         "Les catégories dont c'est le rayon principal iront dans « Non classé ».",
       deletePromote:
         "Ou dans un de leurs rayons secondaires quand elles en ont un",
-      deleted: (name: string) => `Rayon ${name} supprimé`,
+      deleted: (label: string) => `${label} supprimé`,
       done: "Terminé",
     },
   },
@@ -625,6 +671,19 @@ export const fr = {
     title: "Nouveautés",
     version: (version: string) => `Version ${version}`,
     versions: [
+      {
+        version: "0.7.0",
+        date: "2026-11-13",
+        items: [
+          "Ton magasin se construit pendant tes courses : au premier « C'est parti », donne-lui un nom ; tout est « À placer », rangé par catégorie. Touche un article quand il est dans le caddie : il se range dans le rayon où tu es. « Rayon suivant » quand tu changes de rayon.",
+          "Plus de magasin type ni de rayons préremplis. Pour repartir de zéro, supprime ton magasin (même le dernier) et relance « C'est parti ».",
+          "Les rayons prennent le nom de ce qu'ils contiennent : « Fromages », « Épicerie sucrée », « Pain · Café & thé +2 ». Tu peux toujours les nommer, et ajouter un repère (« au fond du magasin »).",
+          "Bulles d'aide pendant tes premières courses ; « Revoir les conseils » dans les Réglages.",
+          "Sauvegarde : copier toutes tes données dans le presse-papiers (pratique pour réinstaller l'app), et coller une sauvegarde.",
+          "Nouvel article : Lait aromatisé (fraise, chocolat, vanille). La litière se compte en paquets.",
+          "Liste et courses plus lisibles en thème sombre : plus de fond sous les articles.",
+        ],
+      },
       {
         version: "0.6.1",
         date: "2026-11-13",

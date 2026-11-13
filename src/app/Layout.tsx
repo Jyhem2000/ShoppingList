@@ -1,6 +1,11 @@
 import { MotionConfig } from "motion/react";
-import { useEffect, useRef, useState } from "react";
-import { Outlet, useLocation } from "react-router";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import {
+  NavigationType,
+  Outlet,
+  useLocation,
+  useNavigationType,
+} from "react-router";
 import { useSettings } from "@/db/hooks";
 import type { Settings } from "@/domain/model";
 import { Toaster } from "@/ui/Toaster";
@@ -22,17 +27,68 @@ const reducedMotion: Record<
  * La barre de défilement du contenu est masquée : iOS la dessinait au-dessus du
  * titre, sous la barre d'état.
  * En mode courses, la barre d'onglets est masquée (docs/04 § 1).
+ *
+ * Défilement : chaque écran s'ouvre en haut, sauf au retour (bouton « Retour » de
+ * l'en-tête, retour d'Android) où il retrouve la position qu'il avait. Le contenu se
+ * charge après coup (base locale) : la position est reprise dès qu'il est assez haut,
+ * sauf si l'utilisateur touche l'écran entre-temps.
  */
 export function Layout() {
   const main = useRef<HTMLElement>(null);
-  const { pathname } = useLocation();
+  const location = useLocation();
+  const navigationType = useNavigationType();
+  const { pathname } = location;
   const settings = useSettings();
   const shopping = pathname.startsWith(routes.shopping);
 
-  // Chaque écran s'ouvre en haut.
-  useEffect(() => {
+  // Position de chaque écran, et position à reprendre quand le contenu sera chargé.
+  const positions = useRef(new Map<string, number>());
+  const shown = useRef(pathname);
+  const pending = useRef<number | undefined>(undefined);
+  const resume = () => {
+    const area = main.current;
+    const target = pending.current;
+    if (!area || target === undefined) return;
+    area.scrollTo(0, target);
+    if (Math.abs(area.scrollTop - target) <= 1) pending.current = undefined;
+  };
+
+  useLayoutEffect(() => {
+    shown.current = location.pathname;
+    const state = location.state as { back?: boolean } | null;
+    const back = navigationType === NavigationType.Pop || state?.back === true;
+    pending.current = back
+      ? positions.current.get(location.pathname)
+      : undefined;
     main.current?.scrollTo(0, 0);
-  }, [pathname]);
+    resume();
+    // Au-delà d'une seconde, le contenu ne viendra plus : on n'insiste pas.
+    const timer = setTimeout(() => {
+      pending.current = undefined;
+    }, 1000);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [location, navigationType]);
+
+  useEffect(() => {
+    const area = main.current;
+    if (!area) return;
+    const save = () => {
+      positions.current.set(shown.current, area.scrollTop);
+    };
+    const cancel = () => {
+      pending.current = undefined;
+    };
+    area.addEventListener("scroll", save, { passive: true });
+    area.addEventListener("touchstart", cancel, { passive: true });
+    area.addEventListener("wheel", cancel, { passive: true });
+    return () => {
+      area.removeEventListener("scroll", save);
+      area.removeEventListener("touchstart", cancel);
+      area.removeEventListener("wheel", cancel);
+    };
+  }, []);
 
   // Le contenu dépasse-t-il de la zone ? (bordure sous l'en-tête, voir PageHeader)
   const content = useRef<HTMLDivElement>(null);
@@ -43,6 +99,7 @@ export function Layout() {
     if (!area || !inner) return;
     const update = () => {
       setScrollable(area.scrollHeight > area.clientHeight + 1);
+      resume();
     };
     const observer = new ResizeObserver(update);
     observer.observe(area);

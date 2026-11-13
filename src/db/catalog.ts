@@ -1,10 +1,9 @@
-import type { Article, Category, ID, Store } from "@/domain/model";
+import type { Article, ID } from "@/domain/model";
 import { slugify } from "@/domain/slug";
 import type { ShoppingDatabase } from "./database";
-import { buildStore } from "./stores";
 
 /**
- * Articles et magasins créés par l'utilisateur (docs/03 A4, B5). L'édition complète
+ * Articles créés par l'utilisateur (docs/03 A4). L'édition complète
  * (fiches article, catégories, rayons) arrive en phase 6.
  */
 export interface NewArticle {
@@ -64,28 +63,6 @@ export async function addArticleType(
       updatedAt: Date.now(),
     });
   });
-}
-
-/** Magasin créé à partir d'un modèle (docs/02 § 4). */
-export async function createStoreFromTemplate(
-  database: ShoppingDatabase,
-  templateKey: string,
-  name: string,
-  now = Date.now(),
-): Promise<Store> {
-  return database.transaction(
-    "rw",
-    database.stores,
-    database.aisles,
-    database.categories,
-    async () => {
-      const categories: Category[] = await database.categories.toArray();
-      const { store, aisles } = buildStore(templateKey, name, categories, now);
-      await database.stores.add(store);
-      await database.aisles.bulkAdd(aisles);
-      return store;
-    },
-  );
 }
 
 /** Change la catégorie d'un article (achat ponctuel gardé dans le catalogue). */

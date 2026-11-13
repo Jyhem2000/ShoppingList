@@ -1,10 +1,11 @@
 import "fake-indexeddb/auto";
 import { afterEach, describe, expect, it } from "vitest";
-import { keywordRules } from "@/data";
+import { categoriesData, familiesData, keywordRules } from "@/data";
 import { catalogData } from "@/data/catalog";
 import { ShoppingDatabase } from "@/db/database";
 import { addListItem } from "@/db/items";
 import { buildInitialData, seedDatabase } from "@/db/seed";
+import { buildEmptyStore } from "@/db/stores";
 import { accentKey } from "@/domain/slug";
 import pack from "@/icons/packData";
 import { groupIcons } from "@/icons/lucide";
@@ -51,16 +52,13 @@ describe("données initiales (docs/06)", () => {
     }
   });
 
-  it("n'utilise que des icônes connues : pack pour les articles, Lucide pour catégories et rayons", () => {
+  it("n'utilise que des icônes connues : pack pour les articles, Lucide pour les catégories", () => {
     const articleIcons = [
       ...data.articles.map((a) => a.icon),
       ...keywordRules.map((r) => r.icon),
     ].filter((icon) => icon !== undefined);
     expect(articleIcons.filter((icon) => !(icon in pack))).toEqual([]);
-    const groupIconNames = [
-      ...data.categories.map((c) => c.icon),
-      ...data.aisles.map((a) => a.icon),
-    ];
+    const groupIconNames = data.categories.map((c) => c.icon);
     expect(
       groupIconNames.filter(
         (icon) => icon === undefined || !(icon in groupIcons),
@@ -79,18 +77,16 @@ describe("données initiales (docs/06)", () => {
     expect(Object.keys(pack).sort()).toEqual(keys);
   });
 
-  it("donne un rayon principal à chaque catégorie du magasin par défaut, sauf « Autres »", () => {
-    const primaries = new Set(
-      data.aisles.flatMap((a) =>
-        a.isUnsorted
-          ? []
-          : a.categories.filter((c) => c.primary).map((c) => c.categoryId),
-      ),
-    );
-    const orphans = data.categories
-      .filter((c) => !c.isSystem && !primaries.has(c.id))
-      .map((c) => c.name);
-    expect(orphans).toEqual([]);
+  it("donne un nom court et une famille connue à chaque catégorie, sauf les catégories système", () => {
+    const families = new Set(familiesData.map((f) => f.key));
+    const missing = categoriesData
+      .filter(
+        (c) =>
+          !c.system &&
+          (!c.short?.fr || c.family === undefined || !families.has(c.family)),
+      )
+      .map((c) => c.key);
+    expect(missing).toEqual([]);
   });
 
   it("ne référence que des catégories et unités existantes", () => {
@@ -110,13 +106,9 @@ describe("premier lancement", () => {
     expect(await seedDatabase(db)).toBe(false);
 
     expect(await db.articles.count()).toBe(catalogData.length);
-    const stores = await db.stores.toArray();
-    expect(stores.map((s) => s.name)).toEqual(["Mon supermarché"]);
-    const aisles = await db.aisles
-      .where("storeId")
-      .equals(stores[0]?.id ?? "")
-      .toArray();
-    expect(aisles.filter((a) => a.isUnsorted)).toHaveLength(1);
+    // Aucun magasin : le premier se crée au premier « C'est parti » (docs/03 B5).
+    expect(await db.stores.count()).toBe(0);
+    expect(await db.aisles.count()).toBe(0);
     const lists = await db.lists.toArray();
     expect(lists.map((l) => l.name)).toEqual(["Courses"]);
     const settings = (await db.meta.get("settings"))?.value;
@@ -190,11 +182,13 @@ describe("une seule ligne par article dans une liste (docs/02 § 6)", () => {
 });
 
 describe("catégories système", () => {
-  it("rangent « Autres » et « Achats ponctuels » dans le rayon « Non classé »", () => {
+  it("rangent « Autres » et « Achats ponctuels » dans « À placer » d'un nouveau magasin", () => {
     const data = buildInitialData(0);
-    const unsorted = data.aisles.find((a) => a.isUnsorted);
+    const { aisles } = buildEmptyStore("Marché", data.categories, 0);
     const system = data.categories.filter((c) => c.isSystem).map((c) => c.id);
     expect(system).toHaveLength(2);
-    expect(unsorted?.categories.map((c) => c.categoryId)).toEqual(system);
+    expect(aisles).toHaveLength(1);
+    expect(aisles[0]?.isUnsorted).toBe(true);
+    expect(aisles[0]?.categories.map((c) => c.categoryId)).toEqual(system);
   });
 });

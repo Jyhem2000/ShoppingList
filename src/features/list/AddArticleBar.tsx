@@ -24,9 +24,12 @@ export function AddArticleBar({
   onPick,
   onCreate,
   trailing,
+  above,
 }: {
   /** À droite de la barre (« Terminer » en mode courses). */
   trailing?: ReactNode;
+  /** Au-dessus de la barre, quand il n'y a pas de suggestions (« Rayon suivant »). */
+  above?: ReactNode;
   data: ListData;
   onSubmit: (text: string) => void;
   onPick: (article: Article, entry: ParsedEntry) => void;
@@ -126,6 +129,7 @@ export function AddArticleBar({
             )}
           </ul>
         )}
+        {!(entry && (suggestions.length > 0 || canCreate)) && above}
         <div className="flex items-center gap-2">
           <AddBar
             className="min-w-0 flex-1"

@@ -19,6 +19,7 @@ import { UnitSelect } from "@/features/list/UnitSelect";
 import { type ListData, useListData } from "@/features/list/useListData";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
+import { backState } from "@/ui/navigation";
 import { Field, Select, TextInput } from "@/ui/form";
 import { EmptyState, PageHeader, Row, Section } from "@/ui/Page";
 import { ProductIcon } from "@/ui/ProductIcon";
@@ -286,7 +287,10 @@ function ArticleForm({ article, data }: { article: Article; data: ListData }) {
               onClick={() => {
                 void deleteArticle(db, article.id).then(() => {
                   showToast(t.deleted(article.name), { tone: "success" });
-                  void navigate(routes.manageArticles, { replace: true });
+                  void navigate(routes.manageArticles, {
+                    replace: true,
+                    state: backState,
+                  });
                 });
               }}
             >

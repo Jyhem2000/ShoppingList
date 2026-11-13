@@ -109,7 +109,7 @@ export function CatalogSearch({
 
   return (
     <div className="relative px-4 pb-2">
-      <label className="flex h-12 items-center gap-2 rounded-full border-2 border-field-border bg-raised pr-1 pl-4 focus-within:border-primary">
+      <label className="flex h-12 items-center gap-2 rounded-full border-2 border-field-border bg-bg pr-1 pl-4 focus-within:border-primary">
         <Search className="size-5 shrink-0 text-secondary" aria-hidden />
         <input
           ref={input}

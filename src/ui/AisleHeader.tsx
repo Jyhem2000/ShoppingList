@@ -9,8 +9,8 @@ import { cn } from "@/ui/utils";
  * Bloc d'un rayon (docs/05 § 5.2) : la couleur du rayon forme la bordure gauche de
  * tout le bloc ; icône Lucide du rayon dans sa couleur ; l'en-tête teinté (icône · libellé · compteur, repliable) est plus
  * grand que les articles, indentés en dessous. `done` : rayon terminé en mode courses ;
- * `current` : rayon en cours (mis en évidence). `outlined` : liste hors mode courses ; en
- * thème clair, le bloc n'a pas de fond, seulement une bordure fine de sa couleur.
+ * `current` : rayon en cours (mis en évidence). Dans la liste comme en mode courses, et
+ * dans les deux thèmes : pas de fond sous les articles, une bordure fine de sa couleur.
  */
 export function AisleSection({
   label,
@@ -20,9 +20,9 @@ export function AisleSection({
   expanded,
   done = false,
   current = false,
-  outlined = false,
   currentLabel,
   kicker,
+  description,
   onToggle,
   children,
 }: {
@@ -33,26 +33,30 @@ export function AisleSection({
   expanded: boolean;
   done?: boolean;
   current?: boolean;
-  outlined?: boolean;
   /** Mention lue par les lecteurs d'écran sur le rayon en cours. */
   currentLabel?: string;
-  /** Petit mot au-dessus du nom : « Rayon », pour ne pas confondre avec une catégorie. */
+  /** Au-dessus du nom : « Rayon 3 », pour ne pas confondre avec une catégorie. */
   kicker?: string;
+  /** Repère sous le nom : « au fond du magasin ». */
+  description?: string;
   onToggle: () => void;
   children: ReactNode;
 }) {
   return (
     <section
-      aria-label={
-        current && currentLabel ? `${label} — ${currentLabel}` : label
-      }
+      aria-label={[
+        kicker ? `${kicker} : ${label}` : label,
+        current && currentLabel,
+      ]
+        .filter(Boolean)
+        .join(" — ")}
       aria-current={current || undefined}
       className={cn(
-        "overflow-hidden rounded-2xl border-l-4 bg-surface transition-shadow",
+        "overflow-hidden rounded-2xl border-l-4 transition-shadow",
         palette[color].border,
         current && "ring-2 ring-primary",
-        outlined &&
-          "light:border light:border-l-4 light:bg-transparent light:[--row-bg:var(--bg)]",
+        // Liste comme courses, dans les deux thèmes : pas de fond sous les articles.
+        "border border-l-4 [--row-bg:var(--bg)]",
       )}
     >
       <button
@@ -73,19 +77,24 @@ export function AisleSection({
           {kicker && (
             <span
               aria-hidden
-              className="block text-[11px] leading-tight font-bold tracking-widest text-muted-foreground uppercase"
+              className="block text-sm leading-tight font-bold tracking-widest text-muted-foreground uppercase"
             >
               {kicker}
             </span>
           )}
           <span
             className={cn(
-              "block truncate text-lg leading-snug font-extrabold",
+              "line-clamp-2 text-lg leading-snug font-extrabold",
               done ? "text-success" : palette[color].text,
             )}
           >
             {label}
           </span>
+          {description && (
+            <span className="block truncate text-sm text-muted-foreground">
+              {description}
+            </span>
+          )}
         </span>
         {done ? (
           <Check className="size-5 text-success" strokeWidth={3} aria-hidden />

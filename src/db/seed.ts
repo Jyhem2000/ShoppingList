@@ -1,31 +1,27 @@
-import { categoriesData, DEFAULT_STORE_TEMPLATE, unitsData } from "@/data";
+import { categoriesData, unitsData } from "@/data";
 import { CATALOG_VERSION, catalogData } from "@/data/catalog";
 import type {
-  Aisle,
   Article,
   Category,
   ID,
   Settings,
   ShoppingList,
-  Store,
   Unit,
 } from "@/domain/model";
 import { slugify } from "@/domain/slug";
 import { fr } from "@/i18n/fr";
 import type { ShoppingDatabase } from "./database";
-import { buildStore } from "./stores";
 
 /**
  * Premier lancement (docs/02 § 10, docs/04 § 2.11) : copie des données initiales
- * dans la base, création du magasin « Mon supermarché » et de la liste « Courses ».
+ * dans la base et création de la liste « Courses ». Aucun magasin : le premier se crée
+ * au premier « C'est parti », et ses rayons pendant les courses.
  * Ensuite, ce sont les données de l'utilisateur : rien n'est jamais recopié par-dessus.
  */
 export interface InitialData {
   units: Unit[];
   categories: Category[];
   articles: Article[];
-  store: Store;
-  aisles: Aisle[];
   list: ShoppingList;
   settings: Settings;
 }
@@ -94,19 +90,10 @@ export function buildInitialData(
     };
   });
 
-  const { store, aisles } = buildStore(
-    DEFAULT_STORE_TEMPLATE,
-    fr.defaults.storeName,
-    categories,
-    now,
-    newId,
-  );
-
   const list: ShoppingList = {
     ...base(),
     name: fr.defaults.listName,
     position: 0,
-    lastStoreId: store.id,
   };
 
   const settings: Settings = {
@@ -119,7 +106,7 @@ export function buildInitialData(
     dismissedSuggestions: [],
   };
 
-  return { units, categories, articles, store, aisles, list, settings };
+  return { units, categories, articles, list, settings };
 }
 
 /**
@@ -136,8 +123,7 @@ export async function seedDatabase(
     await database.units.bulkAdd(data.units);
     await database.categories.bulkAdd(data.categories);
     await database.articles.bulkAdd(data.articles);
-    await database.stores.add(data.store);
-    await database.aisles.bulkAdd(data.aisles);
+
     await database.lists.add(data.list);
     await database.meta.add({ key: "settings", value: data.settings });
     return true;

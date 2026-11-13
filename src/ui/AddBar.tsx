@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { cn } from "@/ui/utils";
 
 /**
- * Barre d'ajout (docs/05 § 5.3) : fond surélevé, coins très arrondis, flottante
+ * Barre d'ajout (docs/05 § 5.3) : fond de l'app, bordure, coins très arrondis, flottante
  * au-dessus de la barre d'onglets. Texte en 16 px pour éviter le zoom de l'iPhone.
  * Contrôlée (`value`, `onValueChange`) ou autonome.
  *
@@ -58,7 +58,7 @@ export function AddBar({
         setText("");
       }}
       className={cn(
-        "flex items-center gap-2 rounded-full border-2 border-field-border bg-raised py-1.5 pr-1.5 pl-4 focus-within:border-primary",
+        "flex items-center gap-2 rounded-full border-2 border-field-border bg-bg py-1.5 pr-1.5 pl-4 focus-within:border-primary",
         className,
       )}
     >
