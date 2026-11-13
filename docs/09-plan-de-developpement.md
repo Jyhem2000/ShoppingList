@@ -71,7 +71,7 @@ G1 à G5 (articles et alias, catégories, magasins et rayons avec glisser-dépos
 
 ### Phase 7 — Réglages, sauvegarde, finitions
 
-H1 à H6, H9 et H10 (écran d'aide : mode d'emploi, ce que l'app règle toute seule, conseil de suivre le même parcours pendant l'apprentissage), catalogue complet (~1 000 articles avec alias) **relu par toi catégorie par catégorie**, passe d'animations et de sons, accessibilité, états vides.
+H1 à H6 (H4 avancée en partie dans la `0.6.1` : export et import en remplacement), H9 et H10 (écran d'aide : mode d'emploi, ce que l'app règle toute seule, conseil de suivre le même parcours pendant l'apprentissage), catalogue complet (~1 000 articles avec alias) **relu par toi catégorie par catégorie**, passe d'animations et de sons, accessibilité, états vides.
 
 - ✅ _Essai réel en magasin sur les deux téléphones (préproduction)._ → `0.7.0`.
 

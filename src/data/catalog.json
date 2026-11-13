@@ -1256,6 +1256,22 @@
     "icon": "surimi"
   },
   {
+    "key": "brandade-de-morue",
+    "name": {
+      "fr": "Brandade de morue"
+    },
+    "aliases": {
+      "fr": ["brandade"]
+    },
+    "types": {
+      "fr": ["à tartiner", "parmentière"]
+    },
+    "category": "poisson-fruits-de-mer",
+    "unit": "pot",
+    "icon": "brandade-de-morue",
+    "since": 2
+  },
+  {
     "key": "taboule",
     "name": {
       "fr": "Taboulé"
@@ -1359,7 +1375,8 @@
     },
     "category": "traiteur",
     "unit": "paquet",
-    "icon": "gnocchis"
+    "icon": "gnocchis",
+    "since": 2
   },
   {
     "key": "oeufs",
@@ -1669,6 +1686,23 @@
     "category": "pates-riz-feculents",
     "unit": "paquet",
     "icon": "puree-en-flocons"
+  },
+  {
+    "key": "conserves",
+    "name": {
+      "fr": "Conserves au choix"
+    },
+    "aliases": {
+      "fr": ["conserve", "boîte de conserve"]
+    },
+    "types": {
+      "fr": ["légumes", "plats cuisinés", "poisson", "fruits au sirop"]
+    },
+    "category": "conserves-bocaux",
+    "unit": "boite",
+    "generic": true,
+    "icon": "conserves",
+    "since": 2
   },
   {
     "key": "thon",

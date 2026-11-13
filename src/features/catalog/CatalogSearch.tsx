@@ -1,10 +1,15 @@
-import { Search, X } from "lucide-react";
+import { ChevronRight, Search, X } from "lucide-react";
 import { type ReactNode, useId, useMemo, useRef } from "react";
+import { useNavigate } from "react-router";
+import { catalogCategoryPath } from "@/app/routes";
 import type { Article } from "@/domain/model";
+import { searchKey } from "@/domain/slug";
 import { searchArticles } from "@/domain/search";
 import { lineQuantity, paletteColor } from "@/features/list/format";
 import type { ListData } from "@/features/list/useListData";
 import { fr } from "@/i18n/fr";
+import { GroupIcon } from "@/ui/GroupIcon";
+import { palette } from "@/ui/palette";
 import { ProductIcon } from "@/ui/ProductIcon";
 import { showToast } from "@/ui/toast";
 import { useCatalogPick } from "./useCatalogPick";
@@ -62,6 +67,25 @@ export function CatalogSearch({
   const listId = useId();
   const input = useRef<HTMLInputElement>(null);
   const { pick, sheet } = useCatalogPick(data);
+  const navigate = useNavigate();
+  // Catégories dont un mot commence par la saisie (« anim » → Animaux) : tous leurs articles.
+  const categories = useMemo(() => {
+    const key = searchKey(query);
+    if (!key) return [];
+    const counts = new Map<string, number>();
+    for (const a of data.articles)
+      counts.set(a.categoryId, (counts.get(a.categoryId) ?? 0) + 1);
+    return data.categories
+      .filter(
+        (c) =>
+          (counts.get(c.id) ?? 0) > 0 &&
+          searchKey(c.name)
+            .split("-")
+            .some((word) => word.startsWith(key)),
+      )
+      .slice(0, 3)
+      .map((c) => ({ category: c, count: counts.get(c.id) ?? 0 }));
+  }, [query, data]);
   const results = useMemo(
     () =>
       query.trim()
@@ -138,7 +162,38 @@ export function CatalogSearch({
           }}
           className="absolute inset-x-4 top-full z-30 -mt-1 max-h-[60dvh] overflow-y-auto rounded-2xl border border-border bg-surface shadow-lg shadow-black/40"
         >
-          {suggestions.length === 0 && (
+          {categories.map(({ category, count }) => (
+            <li key={category.id} role="option" aria-selected={false}>
+              <button
+                type="button"
+                onClick={() => {
+                  onQueryChange("");
+                  void navigate(catalogCategoryPath(category.id));
+                }}
+                className="flex min-h-12 w-full items-center gap-3 border-b border-border/60 px-3 py-1.5 text-left active:bg-raised"
+              >
+                <span className="flex size-7 items-center justify-center">
+                  <GroupIcon
+                    name={category.icon}
+                    className={`size-6 ${palette[paletteColor(category.color)].text}`}
+                  />
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block truncate font-semibold">
+                    {highlight(category.name, query)}
+                  </span>
+                  <span className="block truncate text-sm text-muted-foreground">
+                    {t.categoryResult(count)}
+                  </span>
+                </span>
+                <ChevronRight
+                  className="size-5 text-muted-foreground"
+                  aria-hidden
+                />
+              </button>
+            </li>
+          ))}
+          {suggestions.length === 0 && categories.length === 0 && (
             <li className="px-4 py-3 text-muted-foreground">{t.noResult}</li>
           )}
           {suggestions.map((article) => {

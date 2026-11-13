@@ -83,7 +83,7 @@ Sur Android, le geste ou bouton **Retour** du système ferme d'abord le panneau 
 └──────────────────────────────────┘
 ```
 
-- Tap = cocher · glisser = introuvable · appui long = déplacer de rayon.
+- Tap = cocher · glisser = pas pris · appui long = déplacer de rayon · tap sur la quantité = la changer.
 - `✕` = quitter le mode courses **sans clôturer** (la session reste ouverte, on peut y revenir).
 - **« Terminer les courses »** (bouton or « Terminer », à droite de la barre d'ajout) = clôture (C6), après confirmation.
 - Article ajouté pendant les courses : panneau « OK, à prendre » · « Je l'ai déjà dans le caddie » · « Il est dans un autre rayon… » (C4).
@@ -91,7 +91,7 @@ Sur Android, le geste ou bouton **Retour** du système ferme d'abord le panneau 
 
 ### 2.4 Récapitulatif de fin de courses
 
-Articles achetés, introuvables (restés dans la liste), durée, éventuellement « Ordre des rayons mis à jour ». Boutons « Retour à la liste » et « Rouvrir » (C8).
+Articles achetés, pas pris (restés dans la liste), durée, éventuellement « Ordre des rayons mis à jour ». Boutons « Retour à la liste » et « Rouvrir » (C8).
 
 ### 2.5 Catalogue
 

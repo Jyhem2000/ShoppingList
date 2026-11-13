@@ -25,6 +25,7 @@ import { isWakeLockSupported } from "@/platform/wakeLock";
 import { Chip } from "@/ui/form";
 import { LinkRow, PageHeader, Row, Section } from "@/ui/Page";
 import { Switch } from "@/ui/switch";
+import { BackupSection } from "./BackupSection";
 
 const t = fr.settings;
 
@@ -156,6 +157,8 @@ export function SettingsPage() {
           hint={fr.manage.units.hint}
         />
       </Section>
+
+      <BackupSection />
 
       <Section title={t.sectionApp} className="pb-6">
         <LinkRow to={routes.about} icon={<Info />} label={t.about} />

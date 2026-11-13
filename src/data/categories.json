@@ -150,7 +150,8 @@
     },
     "unit": "pot",
     "color": "terre",
-    "icon": "flame"
+    "icon": "flame",
+    "since": 2
   },
   {
     "key": "huiles-vinaigres",

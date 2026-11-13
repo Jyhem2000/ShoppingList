@@ -279,3 +279,19 @@ Les choix de l'utilisateur ne modifient pas le dictionnaire : ils sont enregistr
 ## 6. Pack d'icônes
 
 Voir [05 § 4](05-identite-visuelle.md#4-icônes). Une icône dessinée par article du catalogue (236, `src/icons/drawn/`, visibles dans la maquette `#/dev/ui`), chacune avec ses **mots-clés en français** (nom, alias et types de l'article) pour la recherche dans le sélecteur.
+
+## 7. Mise à jour du catalogue sans réinstaller
+
+Le catalogue embarqué a un numéro de version (`CATALOG_VERSION`, `src/data/catalog.ts`), gardé dans les réglages de l'app (`Settings.catalogVersion`). Une catégorie ou un article ajouté au catalogue porte `since` : la version qui l'a introduit (absent : 1).
+
+Au lancement, si le catalogue de l'app est plus récent que celui de la base (`src/db/catalogUpdate.ts`) :
+
+- les catégories et articles apparus depuis sont **ajoutés**, sauf s'ils existent déjà (même clé, ou même nom pour un article créé à la main) ;
+- rien de ce que l'utilisateur a créé, modifié ou supprimé n'est touché : un article du catalogue qu'il a supprimé ne revient pas ;
+- une nouvelle catégorie n'est rangée dans aucun rayon : elle apparaît dans les « Catégories non rattachées » de chaque magasin (G3).
+
+Les changements apportés à un article existant (nouveaux types, autre unité) ne sont pas recopiés : l'utilisateur les a peut-être modifiés. Plus besoin de réinstaller l'app pour profiter des nouveautés.
+
+| Version | Ajouts                                                                                         |
+| ------- | ---------------------------------------------------------------------------------------------- |
+| 2       | Catégorie « Sel, Poivre & Épices » ; articles Gnocchis, Brandade de morue, Conserves au choix. |

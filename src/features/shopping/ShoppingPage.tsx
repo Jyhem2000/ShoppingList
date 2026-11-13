@@ -18,6 +18,7 @@ import {
 } from "@/db/sessions";
 import type { Article, ID, ListItem, ShoppingSession } from "@/domain/model";
 import { feedback } from "@/feedback";
+import { QuantitySheet } from "@/features/catalog/QuantitySheet";
 import { AddArticleBar } from "@/features/list/AddArticleBar";
 import { CreateArticleSheet } from "@/features/list/CreateArticleSheet";
 import { ExistsSheet } from "@/features/list/ExistsSheet";
@@ -46,7 +47,8 @@ const t = fr.shopping;
 type Panel =
   | { kind: "added"; itemId: ID; articleId: ID }
   | { kind: "move"; articleId: ID; aisleId: ID | undefined }
-  | { kind: "finish" };
+  | { kind: "finish" }
+  | { kind: "quantity"; itemId: ID };
 
 /**
  * Mode courses (docs/03 C1 à C6, docs/04 § 2.3) : grandes lignes par rayon, tap =
@@ -164,6 +166,10 @@ function Shopping({
             aisleId: view.aisleOf.get(item.id)?.id,
           });
         }}
+        quantityLabel={t.changeQuantity(article.name)}
+        onQuantityClick={() => {
+          setPanel({ kind: "quantity", itemId: item.id });
+        }}
       />
     );
     return (
@@ -202,6 +208,10 @@ function Shopping({
   const moving =
     panel?.kind === "move" ? data.articleById.get(panel.articleId) : undefined;
   const pending = adding.pending;
+  const quantityItem =
+    panel?.kind === "quantity"
+      ? data.items.find((item) => item.id === panel.itemId)
+      : undefined;
 
   return (
     <>
@@ -353,6 +363,14 @@ function Shopping({
           currentAisleId={panel.aisleId}
           hereAisleId={view.here}
           sessionId={session.id}
+          onClose={close}
+        />
+      )}
+      {panel?.kind === "quantity" && quantityItem && (
+        <QuantitySheet
+          key={quantityItem.id}
+          item={quantityItem}
+          data={data}
           onClose={close}
         />
       )}

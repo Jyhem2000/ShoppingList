@@ -8,6 +8,7 @@ export const fr = {
     unsortedAisle: "Non classé",
   },
   sheet: { close: "Fermer", back: "Retour" },
+  toast: { close: "Fermer le message" },
   tabs: {
     list: "Liste",
     catalog: "Catalogue",
@@ -137,7 +138,7 @@ export const fr = {
       name: "Nom du magasin",
       create: "Créer le magasin",
     },
-    unavailableLastTime: "Introuvable la dernière fois",
+    unavailableLastTime: "Pas pris la dernière fois",
   },
   shopping: {
     start: "C'est parti",
@@ -164,9 +165,10 @@ export const fr = {
       `Rayon ${aisle} déjà passé : il t'attend dans « À récupérer ».`,
     current: "rayon en cours",
     swipeHint:
-      "Glisser vers la gauche : introuvable · appui long : changer de rayon",
-    unavailable: "Introuvable",
-    unavailableToast: (name: string) => `${name} : introuvable`,
+      "Glisser vers la gauche : pas pris · appui long : changer de rayon",
+    unavailable: "Pas pris",
+    changeQuantity: (name: string) => `Changer la quantité de ${name}`,
+    unavailableToast: (name: string) => `${name} : pas pris`,
     screenOnFailed:
       "L'écran pourra se mettre en veille : ce téléphone ne permet pas de le garder allumé.",
     allDone: "Tout est dans le caddie !",
@@ -213,8 +215,8 @@ export const fr = {
             : "Aucun article acheté",
       unavailable: (count: number) =>
         count > 1
-          ? `${count} introuvables, restés dans la liste`
-          : "1 introuvable, resté dans la liste",
+          ? `${count} pas pris, restés dans la liste`
+          : "1 pas pris, resté dans la liste",
       duration: (duration: string) => `Durée : ${duration}`,
       learned: "Ordre des rayons mis à jour pour ce magasin.",
       back: "Retour à la liste",
@@ -230,6 +232,35 @@ export const fr = {
       none: "Aucune",
     },
     confirmCancel: "Annuler",
+    backup: {
+      section: "Sauvegarde",
+      export: "Exporter mes données",
+      exportHint:
+        "Un fichier avec tes listes, magasins, rayons, articles et ton historique, à garder dans Fichiers ou Drive.",
+      last: (days: number | undefined) =>
+        days === undefined
+          ? "Aucune sauvegarde pour l'instant."
+          : days === 0
+            ? "Dernière sauvegarde : aujourd'hui."
+            : `Dernière sauvegarde : il y a ${days} jour${days > 1 ? "s" : ""}.`,
+      exported: "Sauvegarde prête",
+      import: "Importer une sauvegarde",
+      importHint:
+        "Remplace toutes les données de l'app par celles d'un fichier exporté.",
+      importTitle: "Remplacer toutes tes données ?",
+      importText: (
+        date: string,
+        articles: number,
+        lists: number,
+        stores: number,
+      ) =>
+        `Sauvegarde du ${date} : ${articles} articles, ${lists} liste${lists > 1 ? "s" : ""}, ${stores} magasin${stores > 1 ? "s" : ""}. Tes données actuelles seront remplacées ; exporte-les d'abord si tu veux les garder.`,
+      importConfirm: "Remplacer mes données",
+      invalid: "Ce fichier n'est pas une sauvegarde de ShoppingList.",
+      newer:
+        "Cette sauvegarde vient d'une version plus récente de l'app : mets l'app à jour d'abord.",
+      imported: "Données importées",
+    },
     categories: {
       title: "Catégories",
       hint: "Noms, icônes et couleurs, fusion",
@@ -458,6 +489,8 @@ export const fr = {
     suggestions: "Articles trouvés",
     added: (name: string) => `${name} ajouté à la liste`,
     showAll: (count: number) => `Voir les ${count} résultats`,
+    categoryResult: (count: number) =>
+      `Catégorie · ${count > 1 ? `ses ${count} articles` : "son article"}`,
     back: "Catalogue",
     quantityTitle: (name: string) => name,
     remove: "Retirer de la liste",
@@ -601,6 +634,17 @@ export const fr = {
     title: "Nouveautés",
     version: (version: string) => `Version ${version}`,
     versions: [
+      {
+        version: "0.6.1",
+        date: "2026-11-13",
+        items: [
+          "Sauvegarde : Réglages → Sauvegarde → exporter toutes tes données dans un fichier, et les réimporter (nouveau téléphone, réinstallation).",
+          "Les nouveaux articles du catalogue arrivent avec les mises à jour, sans réinstaller : Brandade de morue, Conserves au choix, Gnocchis, catégorie Sel, Poivre & Épices.",
+          "En magasin, touche la quantité d'un article pour la changer. Un article glissé est « pas pris » (plus besoin, introuvable…) : il reste dans la liste.",
+          "Catalogue : taper le nom d'une catégorie (« animaux ») la propose avec tous ses articles.",
+          "Messages plus courts, à fermer d'un ✕ ou en les poussant vers le haut. Sur iPhone, secouer le téléphone ne propose plus « Annuler la saisie ».",
+        ],
+      },
       {
         version: "0.6.0",
         date: "2026-11-12",

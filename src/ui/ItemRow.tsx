@@ -9,7 +9,8 @@ import { cn } from "@/ui/utils";
  * libellé · détails (types acceptés, note) · quantité en or à droite. Toute la ligne
  * est cliquable. Texte en 16 px, plus petit que l'en-tête du rayon (18 px).
  * `shopping` : mode courses (cible de 48 px, texte de 18 px, coche).
- * `unavailable` : introuvable (grisée). `onLongPress` : appui long (changer de rayon).
+ * `unavailable` : pas pris (grisée). `onLongPress` : appui long (changer de rayon).
+ * `onQuantityClick` : la quantité devient un bouton à part (la changer en magasin).
  */
 export function ItemRow({
   label,
@@ -22,6 +23,8 @@ export function ItemRow({
   shopping = false,
   onClick,
   onLongPress,
+  onQuantityClick,
+  quantityLabel,
 }: {
   label: string;
   icon?: string;
@@ -33,18 +36,29 @@ export function ItemRow({
   shopping?: boolean;
   onClick?: () => void;
   onLongPress?: () => void;
+  onQuantityClick?: () => void;
+  /** Nom accessible du bouton de quantité (« Changer la quantité de Lait »). */
+  quantityLabel?: string;
 }) {
   const { handlers, wrapClick } = useLongPress(onLongPress);
   const muted = checked || unavailable;
 
-  return (
+  const quantityClass = cn(
+    "shrink-0 font-bold tabular-nums",
+    shopping && "text-lg",
+    muted ? "text-muted-foreground" : "text-secondary",
+  );
+  const separate = quantity !== undefined && onQuantityClick !== undefined;
+
+  const row = (
     <button
       type="button"
       onClick={wrapClick(onClick)}
       {...handlers}
       aria-pressed={shopping ? checked : undefined}
       className={cn(
-        "flex w-full items-center gap-3 py-2 pr-4 pl-9 text-left transition-colors select-none [-webkit-touch-callout:none] active:bg-raised",
+        "flex w-full min-w-0 items-center gap-3 py-2 pl-9 text-left transition-colors select-none [-webkit-touch-callout:none] active:bg-raised",
+        separate ? "pr-1" : "pr-4",
         shopping ? "min-h-12" : "min-h-11",
       )}
     >
@@ -79,17 +93,26 @@ export function ItemRow({
           </span>
         )}
       </span>
-      {quantity && (
-        <span
-          className={cn(
-            "shrink-0 font-bold tabular-nums",
-            shopping && "text-lg",
-            muted ? "text-muted-foreground" : "text-secondary",
-          )}
-        >
-          {quantity}
-        </span>
+      {quantity && !separate && (
+        <span className={quantityClass}>{quantity}</span>
       )}
     </button>
+  );
+  if (!separate) return row;
+  return (
+    <div className="flex items-stretch">
+      {row}
+      <button
+        type="button"
+        aria-label={quantityLabel}
+        onClick={onQuantityClick}
+        className={cn(
+          "flex min-w-14 shrink-0 items-center justify-end pr-4 pl-2 underline decoration-dotted underline-offset-4 active:bg-raised",
+          quantityClass,
+        )}
+      >
+        {quantity}
+      </button>
+    </div>
   );
 }

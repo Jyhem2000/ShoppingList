@@ -32,6 +32,8 @@ export interface CategoryData {
   icon?: string;
   /** « Autres » : toujours présente, non supprimable. */
   system?: boolean;
+  /** Version du catalogue qui l'a ajoutée (absente : 1). */
+  since?: number;
 }
 
 export interface StoreTemplateData {

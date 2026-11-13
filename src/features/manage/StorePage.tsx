@@ -144,7 +144,7 @@ export function StorePage() {
       </Section>
 
       <Section title={t.aisles}>
-        <p className="px-4 pt-3 text-sm text-muted-foreground">
+        <p className="px-4 pt-3 pb-3 text-sm text-muted-foreground">
           {t.aislesHint}
         </p>
         <DndContext
@@ -162,7 +162,7 @@ export function StorePage() {
           </SortableContext>
         </DndContext>
         {unsorted && <ul className="pb-1">{aisleRow(unsorted, false)}</ul>}
-        <div className="px-4 pb-4">
+        <div className="px-4 pt-4 pb-4">
           <Button
             variant="outline"
             className="w-full"

@@ -150,8 +150,8 @@ function ArticleForm({ article, data }: { article: Article; data: ListData }) {
                 ))}
             </Select>
           </Field>
-          <div className="flex gap-3">
-            <Field label={t.unit} className="min-w-0 flex-1">
+          <div className="flex flex-col gap-4">
+            <Field label={t.unit}>
               <UnitSelect
                 units={data.units}
                 value={article.defaultUnitId}
@@ -160,7 +160,7 @@ function ArticleForm({ article, data }: { article: Article; data: ListData }) {
                 }}
               />
             </Field>
-            <Field label={t.quantity} className="w-28">
+            <Field label={t.quantity} className="w-32">
               <TextInput
                 inputMode="decimal"
                 value={quantity}

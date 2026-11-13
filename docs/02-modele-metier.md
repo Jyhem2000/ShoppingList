@@ -249,7 +249,7 @@ Dimensions : **masse** (base g), **volume** (base ml), **autre** (pièce, pack, 
 | Unité          | ✅          | Par défaut, l'unité par défaut de l'article ; modifiable (avec conversion, § 5) |
 | Types acceptés | —           | Sous-ensemble des types de l'article. **Vide = peu importe**                    |
 | Note           | —           | « bio », « la marque verte »                                                    |
-| Statut         | ✅          | à acheter / dans le caddie / introuvable                                        |
+| Statut         | ✅          | à acheter / dans le caddie / pas pris                                           |
 | Origine        | —           | « via recette Raclette (6 pers.) »                                              |
 
 **Affichage des types acceptés** : vide → rien ; un type → « Gala uniquement » ; plusieurs → « Gala ou Golden ». On peut ajouter un nouveau type à la volée depuis la ligne ; il est alors ajouté aux types de l'article.
@@ -311,10 +311,10 @@ Un bouton **« Terminer les courses »** clôture explicitement la session. C'es
 - **ordre des rayons** du magasin (apprentissage, 07 § 7) ;
 - **ordre des articles** dans les rayons ;
 - **fréquences d'achat** (articles habituels, suggestions anti-oubli) ;
-- **articles introuvables** dans ce magasin ;
-- récapitulatif : articles achetés, introuvables, durée.
+- **articles pas pris** dans ce magasin ;
+- récapitulatif : articles achetés, pas pris, durée.
 
-À la clôture, les lignes cochées quittent la liste (elles sont dans l'historique) ; les lignes introuvables et non cochées restent. Les introuvables sont signalées « Introuvable la dernière fois » et redeviennent à acheter au début des courses suivantes.
+À la clôture, les lignes cochées quittent la liste (elles sont dans l'historique) ; les lignes pas prises et non cochées restent. Les lignes pas prises sont signalées « Pas pris la dernière fois » et redeviennent à acheter au début des courses suivantes.
 
 ### Réouverture
 

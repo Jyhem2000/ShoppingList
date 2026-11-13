@@ -129,9 +129,9 @@ Lancé par un bouton bien visible sur la liste ; confirmation du magasin.
 - Dernière ligne d'un rayon cochée → le rayon se **replie** avec une coche ; le rayon suivant devient le rayon courant (mis en évidence) : le premier rayon qui a encore des articles à prendre, à partir de celui de la dernière coche.
 - Re-tap = décocher.
 
-### C3. Introuvable — _v1.0_
+### C3. Pas pris — _v1.0_
 
-Glisser une ligne → « Introuvable » : elle passe en bas, grisée, et restera dans la liste après les courses.
+Glisser une ligne → « Pas pris » : elle passe en bas, grisée, et restera dans la liste après les courses. La raison n'importe pas (introuvable, rupture, plus besoin, trop cher) : l'article n'est simplement pas dans le caddie. Libellé « Introuvable » remplacé le 13 novembre 2026, après essai en magasin ; en interne, le statut reste `unavailable`.
 
 ### C4. Ajouter pendant les courses — _v1.0_
 
@@ -275,6 +275,8 @@ Glissent en fin de rayon · disparaissent.
 ### H4. Sauvegarde
 
 Export de toutes les données en fichier `.json` (feuille de partage → Fichiers, Drive…) ; import en **remplacement** ou en **fusion**. Rappel discret si aucune sauvegarde depuis 30 jours.
+
+Avancé le 13 novembre 2026, après le premier essai réel (Réglages → Sauvegarde) : export, import en **remplacement** (après confirmation, avec le résumé du fichier), date de la dernière sauvegarde. L'import en fusion et le rappel des 30 jours restent pour la phase 7. Les préférences de l'appareil (sons, thème, écran allumé) ne sont pas dans le fichier.
 
 ### H5. Installation, stockage, mises à jour
 

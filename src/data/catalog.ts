@@ -17,9 +17,11 @@ export interface CatalogArticleData {
   /** Article générique (« Fruits au choix »). */
   generic?: boolean;
   icon?: string;
+  /** Version du catalogue qui l'a ajouté (absente : 1), pour la mise à jour sans réinstaller. */
+  since?: number;
 }
 
 /** Version du catalogue embarqué : augmente quand il s'enrichit. */
-export const CATALOG_VERSION = 1;
+export const CATALOG_VERSION = 2;
 
 export const catalogData = catalogJson as CatalogArticleData[];
