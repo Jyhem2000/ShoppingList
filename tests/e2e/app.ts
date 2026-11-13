@@ -18,18 +18,31 @@ export async function addToList(page: Page, text: string) {
   await input.press("Enter");
 }
 
-/** Noms des rayons affichés, dans l'ordre. */
+/** Noms des groupes affichés (catégories de la liste, rayons des courses), dans l'ordre. */
 export async function aisleNames(page: Page): Promise<string[]> {
   return page
     .locator("main section[aria-label]")
     .evaluateAll((sections) =>
-      sections.map((section) => section.getAttribute("aria-label") ?? ""),
+      sections.map(
+        (section) =>
+          (section.getAttribute("aria-label") ?? "").split(" — ")[0] ?? "",
+      ),
     );
 }
 
-/** Ligne d'un article dans la liste. */
+/** « C'est parti » dans ce magasin. */
+export async function startShopping(page: Page, store: string) {
+  await page.getByRole("button", { name: "C'est parti" }).click();
+  const sheet = page.getByRole("dialog", { name: "Faire les courses" });
+  await sheet.getByRole("radio", { name: store, exact: true }).click();
+  await sheet.getByRole("button", { name: "C'est parti" }).click();
+  await expect(page.getByTestId("shopping-progress")).toBeVisible();
+}
+
+/** Ligne d'un article dans la liste (pas l'en-tête d'une catégorie au nom voisin). */
 export function line(page: Page, name: string) {
   return page
     .locator("main section")
-    .getByRole("button", { name: new RegExp(`^${name}`) });
+    .getByRole("button", { name: new RegExp(`^${name}`) })
+    .and(page.locator("button:not([aria-expanded])"));
 }

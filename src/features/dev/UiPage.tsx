@@ -58,6 +58,7 @@ function Aisle({ aisle, large }: { aisle: MockAisle; large?: boolean }) {
       count={large ? remaining : aisle.items.length}
       expanded={expanded}
       done={large && remaining === 0}
+      kicker={large ? fr.shopping.aisleKicker : undefined}
       outlined={!large}
       onToggle={() => setExpanded((value) => !value)}
     >
@@ -242,20 +243,14 @@ export function UiPage() {
                 {fr.soundsPage.events[name]}
               </p>
               <Button
-                size="sm"
-                variant="outline"
-                onClick={() => previewSound(name, "recorded")}
+                variant="icon"
+                size="icon"
+                aria-label={fr.soundsPage.listen(fr.soundsPage.events[name])}
+                onClick={() => {
+                  previewSound(name);
+                }}
               >
                 <Play />
-                {t.soundRecorded}
-              </Button>
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={() => previewSound(name, "generated")}
-              >
-                <Play />
-                {t.soundGenerated}
               </Button>
             </div>
           ))}

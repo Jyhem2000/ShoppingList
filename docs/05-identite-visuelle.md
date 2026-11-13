@@ -178,19 +178,16 @@ Bibliothèque **Motion**.
 
 ### Sons (H6)
 
-Petits sons courts, doux et discrets, **à volume bas** (un son léger, jamais plus fort que le reste du téléphone). Deux styles, au choix dans Réglages → Sons (« Style des sons ») :
+Petits sons courts, doux et discrets, **à volume bas** (un son léger, jamais plus fort que le reste du téléphone) : fichiers WAV de **Kenney Interface Sounds** (licence **CC0**, domaine public, usage commercial libre, mention facultative, créditée dans l'écran Licences), dans `public/sounds/`, mis en cache pour le hors-ligne. Les sons synthétisés par le code, essayés en parallèle, ont été retirés le 13 novembre 2026 : plus de choix de style.
 
-- **Sons enregistrés** (par défaut) : fichiers WAV de **Kenney Interface Sounds** (licence **CC0**, domaine public, usage commercial libre, mention facultative, créditée dans l'écran Licences), dans `public/sounds/`, mis en cache pour le hors-ligne ;
-- **Sons générés** : synthétisés par le code (aucun fichier), conservés tant que le choix définitif n'est pas fait.
-
-| Action             | Son enregistré (fichier Kenney d'origine) | Son généré               |
-| ------------------ | ----------------------------------------- | ------------------------ |
-| Ajout d'un article | `drop_001`                                | « pop » léger            |
-| Cocher             | `click_003`                               | « tic » court            |
-| Rayon terminé      | `confirmation_001`                        | petit carillon (2 notes) |
-| Courses terminées  | `confirmation_002`                        | carillon montant         |
-| Suppression        | `close_001`                               | glissement descendant    |
-| Action impossible  | `back_002`                                | son sourd bref           |
+| Action             | Fichier Kenney d'origine |
+| ------------------ | ------------------------ |
+| Ajout d'un article | `drop_001`               |
+| Cocher             | `click_003`              |
+| Rayon terminé      | `confirmation_001`       |
+| Courses terminées  | `confirmation_002`       |
+| Suppression        | `close_001`              |
+| Action impossible  | `back_002`               |
 
 Lecture via la **Web Audio API**. Sur iPhone, le moteur audio peut rester bloqué après un passage en arrière-plan : il est fermé quand l'app est masquée et recréé au son suivant.
 
@@ -198,7 +195,7 @@ Points d'attention :
 
 - sur iPhone, le son ne peut démarrer qu'après un premier geste de l'utilisateur (le premier tap suffit) ;
 - **mode silencieux** : sur iPhone, la session audio est déclarée « ambient » (Audio Session API, iOS 17+) : les sons sont coupés quand le bouton silencieux est activé et n'interrompent pas la musique en cours. Android ne permet pas de connaître le mode silencieux depuis le web : les sons suivent le volume multimédia ;
-- réglage **Sons** général, **style des sons** et **un interrupteur par son**, chacun pouvant être écouté (Réglages → Fonctionnalités → Sons).
+- réglage **Sons** général et **un interrupteur par son**, chacun pouvant être écouté (Réglages → Fonctionnalités → Sons).
 
 ### Vibrations — non retenues
 

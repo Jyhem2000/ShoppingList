@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { addToList, aisleNames, enterApp, line } from "./app";
+import { addToList, aisleNames, enterApp, line, startShopping } from "./app";
 
 /** Scénarios de bout en bout de la liste (docs/08 § 3 : 1, 2, 3 et 6). */
 
@@ -11,9 +11,6 @@ test("1. premier lancement : données de départ créées, liste vide", async ({
     page.getByRole("heading", { name: "Courses", exact: true }),
   ).toBeVisible();
   await expect(page.getByText("Ta liste est vide")).toBeVisible();
-  await expect(
-    page.getByRole("button", { name: /Mon supermarché/ }),
-  ).toBeVisible();
 });
 
 test("2. ajout éclair, article déjà présent, création d'un article inconnu", async ({
@@ -46,25 +43,29 @@ test("2. ajout éclair, article déjà présent, création d'un article inconnu"
   await expect(line(page, "Œufs")).toContainText("× 6");
 });
 
-test("3. liste triée par rayon ; un autre magasin donne un autre ordre", async ({
+test("3. liste par catégorie ; en courses, par rayon dans l'ordre du magasin choisi", async ({
   page,
 }) => {
   await enterApp(page);
   await addToList(page, "lait, pommes, pain");
   await expect(line(page, "Pain")).toBeVisible();
   expect(await aisleNames(page)).toEqual([
-    "Fruits & Légumes",
-    "Boulangerie",
-    "Crèmerie",
+    "Fruits",
+    "Pain & Viennoiseries",
+    "Lait, Crème & Beurre",
   ]);
 
-  await page.getByRole("button", { name: /Changer de magasin/ }).click();
+  // Un deuxième magasin, rangé autrement (Réglages → Magasins & rayons).
+  await page.getByRole("link", { name: "Réglages" }).click();
+  await page.getByRole("link", { name: /Magasins & rayons/ }).click();
   await page.getByRole("button", { name: "Nouveau magasin" }).click();
   const sheet = page.getByRole("dialog", { name: "Nouveau magasin" });
   await sheet.getByRole("button", { name: "Marché", exact: true }).click();
   await sheet.getByRole("button", { name: "Créer le magasin" }).click();
+  await expect(page.getByRole("heading", { name: "Marché" })).toBeVisible();
 
-  await expect(page.getByRole("button", { name: /^Marché/ })).toBeVisible();
+  await page.getByRole("link", { name: "Liste" }).click();
+  await startShopping(page, "Marché");
   await expect
     .poll(() => aisleNames(page))
     .toEqual(["Primeur", "Fromager", "Boulanger"]);

@@ -14,6 +14,7 @@ import {
   checkItem,
   closeSession,
   markUnavailable,
+  moveArticle,
   uncheckItem,
 } from "@/db/sessions";
 import type { Article, ID, ListItem, ShoppingSession } from "@/domain/model";
@@ -46,13 +47,20 @@ const t = fr.shopping;
 
 type Panel =
   | { kind: "added"; itemId: ID; articleId: ID }
-  | { kind: "move"; articleId: ID; aisleId: ID | undefined }
+  | {
+      kind: "move";
+      articleId: ID;
+      aisleId: ID | undefined;
+      /** Ligne à cocher dans le rayon choisi (déjà dans le caddie). */
+      checkItemId?: ID;
+    }
   | { kind: "finish" }
   | { kind: "quantity"; itemId: ID };
 
 /**
  * Mode courses (docs/03 C1 à C6, docs/04 § 2.3) : grandes lignes par rayon, tap =
- * dans le caddie, glisser = introuvable, appui long = changer de rayon ; le rayon
+ * dans le caddie, glisser = pas pris, appui long = changer de rayon, tap sur la
+ * quantité = la changer ; le rayon
  * terminé se replie, le rayon en cours est mis en évidence. ✕ quitte sans clôturer.
  */
 export function ShoppingPage() {
@@ -101,16 +109,17 @@ function Shopping({
   }, []);
   const adding = useAddToList(data, onAdded);
 
-  const check = (item: ListItem) => {
-    const aisle = view.aisleOf.get(item.id);
-    if (!aisle) return;
+  /** Cocher, dans son rayon ou dans celui où l'article a été pris (`aisleId`). */
+  const check = (item: ListItem, aisleId?: ID) => {
+    const target = aisleId ?? view.aisleOf.get(item.id)?.id;
+    if (!target) return;
     const lastOfAisle = !data.items.some(
       (other) =>
         other.id !== item.id &&
         other.status === "todo" &&
-        view.aisleOf.get(other.id)?.id === aisle.id,
+        view.aisleOf.get(other.id)?.id === target,
     );
-    void checkItem(db, session, item, aisle.id).then(() => {
+    void checkItem(db, session, item, target).then(() => {
       if (lastOfAisle) feedback.aisleDone();
       else feedback.check();
     }, reportSaveError);
@@ -276,6 +285,7 @@ function Shopping({
               done={done}
               current={aisle.id === view.current}
               currentLabel={t.current}
+              kicker={t.aisleKicker}
               onToggle={() => {
                 setExpanded((current) => new Map(current).set(aisle.id, !open));
               }}
@@ -340,17 +350,35 @@ function Shopping({
         <AddedInStoreSheet
           article={added.article}
           aisle={view.aisleOf.get(added.item.id)}
+          here={
+            view.here ? data.aisles.find((a) => a.id === view.here) : undefined
+          }
           passed={view.pickUp.some((item) => item.id === added.item?.id)}
-          onTaken={() => {
-            if (added.item) check(added.item);
+          onTakenIn={(target, remember) => {
+            const item = added.item;
+            const article = added.article;
             close();
+            if (!item || !article || !target) return;
+            const done = () => {
+              check(item, target.id);
+            };
+            if (remember && data.store)
+              void moveArticle(db, {
+                storeId: data.store.id,
+                article,
+                aisleId: target.id,
+                scope: "article",
+                sessionId: session.id,
+              }).then(done);
+            else done();
           }}
-          onOtherAisle={() => {
+          onOtherAisle={(taken) => {
             if (!added.item || !added.article) return;
             setPanel({
               kind: "move",
               articleId: added.article.id,
               aisleId: view.aisleOf.get(added.item.id)?.id,
+              checkItemId: taken ? added.item.id : undefined,
             });
           }}
           onClose={close}
@@ -363,6 +391,12 @@ function Shopping({
           currentAisleId={panel.aisleId}
           hereAisleId={view.here}
           sessionId={session.id}
+          onMoved={(aisleId) => {
+            const item =
+              panel.checkItemId &&
+              data.items.find((i) => i.id === panel.checkItemId);
+            if (item) check(item, aisleId);
+          }}
           onClose={close}
         />
       )}

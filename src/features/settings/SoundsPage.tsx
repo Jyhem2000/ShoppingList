@@ -1,4 +1,4 @@
-import { Check, Info, Play } from "lucide-react";
+import { Info, Play } from "lucide-react";
 import {
   soundEvents,
   updatePreferences,
@@ -9,7 +9,6 @@ import {
   canFollowSilentMode,
   isAudioSupported,
   previewSound,
-  type SoundStyle,
 } from "@/feedback";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
@@ -17,7 +16,6 @@ import { PageHeader, Row, Section } from "@/ui/Page";
 import { Switch } from "@/ui/switch";
 
 const t = fr.soundsPage;
-const styles: SoundStyle[] = ["recorded", "generated"];
 
 /** Réglage des sons : tous d'un coup ou un par un, chacun pouvant être écouté. */
 export function SoundsPage() {
@@ -52,40 +50,6 @@ export function SoundsPage() {
           {canFollowSilentMode() ? t.silentIos : t.silentOther}
         </p>
       )}
-
-      <Section title={t.styleTitle}>
-        {styles.map((style) => {
-          const selected = preferences.soundStyle === style;
-          return (
-            <button
-              key={style}
-              type="button"
-              role="radio"
-              aria-checked={selected}
-              disabled={!masterOn}
-              onClick={() => {
-                updatePreferences((p) => ({ ...p, soundStyle: style }));
-                previewSound("aisleDone", style);
-              }}
-              className="flex min-h-14 w-full items-center gap-3 px-4 py-3 text-left active:bg-raised disabled:opacity-45"
-            >
-              <span className="min-w-0 flex-1">
-                <span className="block font-semibold">{t.styles[style]}</span>
-                <span className="block text-sm text-muted-foreground">
-                  {t.stylesHint[style]}
-                </span>
-              </span>
-              {selected && (
-                <Check
-                  className="size-5 text-secondary"
-                  strokeWidth={3}
-                  aria-hidden
-                />
-              )}
-            </button>
-          );
-        })}
-      </Section>
 
       <Section className="pb-6">
         {soundEvents.map((name) => {

@@ -26,19 +26,18 @@ Sur Android, le geste ou bouton **Retour** du système ferme d'abord le panneau 
 ```
 ┌──────────────────────────────────┐
 │ Courses semaine ▾             ⋯  │  ← liste courante (changer), menu
-│ 🏪 Super U ▾                     │  ← magasin d'affichage
 ├──────────────────────────────────┤
 │ ↺ Rouvrir les courses (18 h 02)  │  ← C8, si courses récemment clôturées
 │ 💡 Tu prends souvent : 🥛 🧈  +  │  ← D1 (v1.2)
 │                                  │
-│ ● Fruits & Légumes            3  │  ← en-tête de rayon (couleur)
+│ ● Fruits                      1  │  ← en-tête de catégorie (couleur)
 │  🍎 Pommes   Gala ou Golden 1 kg │
+│ ● Légumes                     2  │
 │  🥕 Carottes               1 kg  │
 │  🌿 Persil                 1 botte│
-│ ● Crèmerie                    2  │
+│ ● Œufs                        1  │
 │  🥚 Œufs                     × 6 │
-│  🧈 Beurre  doux             × 1 │
-│ ● Non classé                  1  │
+│ ● Autres                      1  │
 │  SN Sauce nuoc-mâm           × 1 │  ← monogramme
 │                                  │
 │        [ 🛒 C'est parti ]        │
@@ -51,7 +50,7 @@ Sur Android, le geste ou bouton **Retour** du système ferme d'abord le panneau 
 
 - Menu `⋯` : renommer, dupliquer, ajouter une autre liste, toutes mes listes, partager _(v1.3)_, coller une liste _(v1.3)_, retirer les cochés, vider, supprimer la liste.
 - Tap sur le nom de la liste → **Mes listes** : changer de liste, réordonner (poignée), créer une liste en y ajoutant le contenu d'autres listes.
-- Tap sur le magasin → choisir le magasin (mémorisé pour la liste) ou en **créer un à partir d'un modèle** ; l'édition des rayons vient avec G3.
+- La liste est rangée **par catégorie** (03 B1) ; le magasin se choisit au départ des courses (« C'est parti »), et les magasins se gèrent dans Réglages → Magasins & rayons.
 - Tap sur une ligne → **fiche ligne** (B3). Glisser à gauche → supprimer (B4), avec « Annuler » pendant 5 secondes.
 - État vide : illustration + « Ajoute ton premier article » + raccourci vers le Catalogue.
 
@@ -70,7 +69,7 @@ Sur Android, le geste ou bouton **Retour** du système ferme d'abord le panneau 
 ├──────────────────────────────────┤
 │ ⚠ À récupérer                    │  ← C4
 │  🧀 Comté                  200 g │
-│ ✓ Fruits & Légumes (replié)      │
+│ ✓ RAYON Fruits & Légumes (replié)│
 │ ● Crèmerie            ← courant  │
 │  🥚 Œufs                     × 6 │  ← grandes lignes
 │  🧈 Beurre                   × 1 │

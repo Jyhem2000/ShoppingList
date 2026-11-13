@@ -18,7 +18,7 @@ Fini les allers-retours au rayon frais parce que tu avais oublié le beurre : l'
 
 ## Mode d'emploi
 
-1. **Remplis ta liste** avec la barre du bas (`2 baguettes, du beurre`) ou le catalogue. Elle se range toute seule par rayon.
+1. **Remplis ta liste** avec la barre du bas (`2 baguettes, du beurre`) ou le catalogue. Elle se range toute seule par catégorie ; en magasin, elle se range par rayon, dans l'ordre de ton parcours.
 2. **En magasin**, touche **C'est parti** et choisis le magasin. Touche une ligne quand l'article est dans le caddie ; glisse-la vers la gauche si tu ne le prends pas (introuvable, plus besoin…) : il reste dans la liste ; appui long pour dire qu'il est dans un autre rayon.
 3. **Tu penses à un article en passant** : ajoute-le avec la barre. Si tu l'as déjà pris, choisis « Je l'ai déjà dans le caddie » ; s'il n'est pas dans le rayon prévu, « Il est dans un autre rayon… ». Si son rayon est déjà passé, il t'attend en haut dans « À récupérer ».
 4. **À la caisse**, touche **Terminer**. Un oubli ? « Rouvrir les courses » sur la liste, tant que tu n'as pas recommencé de nouvelles courses.

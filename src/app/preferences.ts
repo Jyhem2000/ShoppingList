@@ -28,8 +28,6 @@ export interface DevicePreferences {
   sounds: boolean;
   /** Chaque son, activable séparément (pris en compte seulement si `sounds`). */
   soundEvents: Record<SoundEvent, boolean>;
-  /** Style des sons : enregistrés (fichiers) ou générés par le code. */
-  soundStyle: "recorded" | "generated";
   /** Garder l'écran allumé pendant les courses. */
   keepScreenOn: boolean;
   theme: ThemePreference;
@@ -45,7 +43,6 @@ export const defaultPreferences: DevicePreferences = {
     remove: true,
     error: true,
   },
-  soundStyle: "recorded",
   keepScreenOn: true,
   theme: "auto",
 };
@@ -67,10 +64,6 @@ export function parsePreferences(raw: string | null): DevicePreferences {
     return {
       sounds: bool(data.sounds, defaultPreferences.sounds),
       soundEvents: events,
-      soundStyle:
-        data.soundStyle === "generated" || data.soundStyle === "recorded"
-          ? data.soundStyle
-          : defaultPreferences.soundStyle,
       keepScreenOn: bool(data.keepScreenOn, defaultPreferences.keepScreenOn),
       theme: themePreferences.find((t) => t === data.theme) ?? "auto",
     };

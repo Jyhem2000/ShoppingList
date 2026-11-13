@@ -235,10 +235,10 @@ Dimensions : **masse** (base g), **volume** (base ml), **autre** (pièce, pack, 
 
 ### Liste
 
-| Propriété               | Description                                                                                                                            |
-| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| Libellé                 | « Courses de la semaine », « Anniversaire »                                                                                            |
-| Dernier magasin utilisé | Mémorisé pour l'affichage, mais **la liste n'appartient à aucun magasin** : on choisit le magasin au moment de l'afficher ou de partir |
+| Propriété               | Description                                                                                                                                                 |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Libellé                 | « Courses de la semaine », « Anniversaire »                                                                                                                 |
+| Dernier magasin utilisé | Proposé au départ des courses, mais **la liste n'appartient à aucun magasin** : elle se range par catégorie, et par rayon seulement en mode courses (03 B1) |
 
 ### Ligne
 

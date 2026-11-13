@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from "motion/react";
 import { useMemo, useState } from "react";
-import { groupListForStore } from "@/domain/aisles";
+import { categoriesData } from "@/data";
+import { groupListByCategory } from "@/domain/categories";
 import type { ID, ListItem } from "@/domain/model";
 import { fr } from "@/i18n/fr";
 import { AisleSection } from "@/ui/AisleHeader";
@@ -9,9 +10,13 @@ import { SwipeToDelete } from "@/ui/SwipeToDelete";
 import { lineDetails, lineQuantity, paletteColor } from "./format";
 import type { ListData } from "./useListData";
 
+/** Ordre des catégories du catalogue de départ (docs/06 § 2). */
+const catalogOrder = categoriesData.map((c) => c.key);
+
 /**
- * Lignes de la liste groupées par rayon du magasin choisi (docs/03 B1). Tap sur
- * une ligne : sa fiche ; glisser à gauche : retirer.
+ * Lignes de la liste groupées par catégorie (docs/03 B1) : une liste ne dépend d'aucun
+ * magasin ; les rayons n'apparaissent qu'en mode courses. Tap sur une ligne : sa fiche ;
+ * glisser à gauche : retirer.
  */
 export function ListLines({
   data,
@@ -25,38 +30,34 @@ export function ListLines({
   const [collapsed, setCollapsed] = useState<ReadonlySet<ID>>(new Set());
   const groups = useMemo(
     () =>
-      data.store
-        ? groupListForStore(
-            data.items,
-            data.articleById,
-            data.store.id,
-            data.aisles,
-            data.overrides,
-            data.store.articleOrder,
-          )
-        : [],
+      groupListByCategory(
+        data.items,
+        data.articleById,
+        data.categories,
+        catalogOrder,
+      ),
     [data],
   );
 
   return (
     <div className="flex flex-col gap-4 px-3">
-      {groups.map(({ aisle, items }) => {
-        const expanded = !collapsed.has(aisle.id);
+      {groups.map(({ category, items }) => {
+        const expanded = !collapsed.has(category.id);
         const remaining = items.filter((i) => i.status === "todo").length;
         return (
           <AisleSection
-            key={aisle.id}
-            label={aisle.name}
-            icon={aisle.icon}
-            color={paletteColor(aisle.color)}
+            key={category.id}
+            label={category.name}
+            icon={category.icon}
+            color={paletteColor(category.color)}
             count={remaining}
             expanded={expanded}
             outlined
             onToggle={() => {
               setCollapsed((current) => {
                 const next = new Set(current);
-                if (expanded) next.add(aisle.id);
-                else next.delete(aisle.id);
+                if (expanded) next.add(category.id);
+                else next.delete(category.id);
                 return next;
               });
             }}
@@ -66,7 +67,7 @@ export function ListLines({
               {items.map((item) => {
                 const article = data.articleById.get(item.articleId);
                 if (!article) return null;
-                const category = data.categoryById.get(article.categoryId);
+
                 return (
                   <motion.div
                     key={item.id}
@@ -85,7 +86,7 @@ export function ListLines({
                       <ItemRow
                         label={article.name}
                         icon={article.icon}
-                        color={paletteColor(category?.color)}
+                        color={paletteColor(category.color)}
                         details={
                           item.status === "unavailable"
                             ? [fr.list.unavailableLastTime, lineDetails(item)]
