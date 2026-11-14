@@ -92,7 +92,7 @@ Articles de base (extrait du futur catalogue, phase 3) :
 
 ## 2. Catégories (~35)
 
-Volontairement fines pour être regroupées différemment selon les magasins. Unité par défaut suggérée pour les nouveaux articles de la catégorie. Dans un nom double, **chaque partie prend une majuscule** (« Pain & Viennoiseries », « Lait, Crème & Beurre ») : ce sont des étiquettes. Les deux catégories système vont dans « À placer » de chaque magasin.
+Volontairement fines pour être regroupées différemment selon les magasins. Unité par défaut suggérée pour les nouveaux articles de la catégorie. Dans un nom double, **chaque partie prend une majuscule** (« Pain & Viennoiseries », « Lait, Crème, Beurre & Œufs ») : ce sont des étiquettes. Pas de catégorie pour un seul article : les œufs sont rangés avec la crèmerie (retour d'essai du 15 novembre 2026, catalogue 7). Les deux catégories système vont dans « À placer » de chaque magasin.
 
 Chaque catégorie (sauf les catégories système) a aussi un **nom court** et une **famille**, qui servent au titre des rayons sans nom (02 § 4). Ils sont dans `src/data/categories.json` (`short`, `family`) et `src/data/families.json` ; le tableau validé le 13 novembre 2026 est dans 09, phase 7. Familles : Fruits & légumes, Boulangerie, Viandes & poissons, Frais, Épicerie salée, Épicerie sucrée, Boissons, Surgelés, Hygiène, Maison.
 
@@ -107,8 +107,7 @@ Chaque catégorie (sauf les catégories système) a aussi un **nom court** et un
 | `charcuterie`             | Charcuterie                         | paquet                    |
 | `poisson-fruits-de-mer`   | Poisson & Fruits de mer             | g                         |
 | `traiteur`                | Traiteur & Plats préparés           | barquette                 |
-| `oeufs`                   | Œufs                                | pièce                     |
-| `lait-creme-beurre`       | Lait, Crème & Beurre                | pièce                     |
+| `lait-creme-beurre`       | Lait, Crème, Beurre & Œufs          | pièce                     |
 | `yaourts-desserts`        | Yaourts & Desserts frais            | pièce                     |
 | `fromages`                | Fromages                            | pièce                     |
 | `pates-riz-feculents`     | Pâtes, Riz & Féculents              | paquet                    |
@@ -222,7 +221,7 @@ Au lancement, si le catalogue de l'app est plus récent que celui de la base (`s
 - rien de ce que l'utilisateur a créé, modifié ou supprimé n'est touché : un article du catalogue qu'il a supprimé ne revient pas ;
 - une nouvelle catégorie n'est rangée dans aucun rayon : elle apparaît dans les « Catégories non rattachées » de chaque magasin (G3).
 
-Les changements apportés à un article existant ne sont pas recopiés, sauf une **correction** listée dans `catalogFixes` (`src/data/catalog.ts`, aujourd'hui l'unité par défaut) : elle ne s'applique qu'à un article que l'utilisateur n'a jamais modifié (date de mise à jour égale à la date de création). Plus besoin de réinstaller l'app pour profiter des nouveautés.
+Les changements apportés à un article existant ne sont pas recopiés, sauf une **correction** listée dans `catalogFixes` (`src/data/catalog.ts`, aujourd'hui l'unité par défaut) : elle ne s'applique qu'à un article que l'utilisateur n'a jamais modifié (date de mise à jour égale à la date de création). De même, une catégorie **fondue** dans une autre (`categoryMerges`) ne l'est que si l'utilisateur ne l'a jamais modifiée — ses articles gardent alors leur rayon dans chaque magasin (exception par article) — et une catégorie **renommée** (`categoryRenames`) ne change de nom que s'il porte encore l'ancien. Plus besoin de réinstaller l'app pour profiter des nouveautés.
 
 | Version | Ajouts                                                                                                                                                                                                                                                                                                                                                                                        |
 | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -231,3 +230,4 @@ Les changements apportés à un article existant ne sont pas recopiés, sauf une
 | 4       | Correction : la litière se compte en paquets (et non en sachets).                                                                                                                                                                                                                                                                                                                             |
 | 5       | Lot 1 du catalogue complet (phase 8) : 44 articles d'épicerie salée (pâtes et féculents, conserves, sauces, épices, huiles, apéritif, cuisine du monde).                                                                                                                                                                                                                                      |
 | 6       | Lot 2 du catalogue complet (phase 8) : 145 articles — épicerie sucrée, frais (charcuterie, traiteur, crèmerie, desserts, fromages), viandes et poissons, boulangerie, boissons, surgelés, hygiène, maison, animaux. Catalogue : 428 articles. Autres noms retirés pour éviter les doublons : « granola » (Muesli), « faisselle » (Fromage blanc). Liniment retiré à la relecture (trop rare). |
+| 7       | Catégorie « Œufs » fondue dans « Lait, Crème & Beurre », renommée « Lait, Crème, Beurre & Œufs » (nom court « Lait & Œufs ») : une catégorie pour un seul article ne servait à rien. Sur une base existante, la fusion ne se fait que si l'utilisateur n'a pas modifié « Œufs », et les œufs gardent leur rayon dans chaque magasin ; le renommage, que s'il n'a pas renommé la catégorie.    |

@@ -119,8 +119,7 @@ Décision du 13 novembre 2026, après le premier essai réel : des rayons prére
 | Poisson & Fruits de mer       | Poisson     | Viandes & poissons |
 | Charcuterie                   | Charcuterie | Frais              |
 | Traiteur & Plats préparés     | Traiteur    | Frais              |
-| Œufs                          | Œufs        | Frais              |
-| Lait, Crème & Beurre          | Lait        | Frais              |
+| Lait, Crème, Beurre & Œufs    | Lait & Œufs | Frais              |
 | Yaourts & Desserts frais      | Yaourts     | Frais              |
 | Fromages                      | Fromages    | Frais              |
 | Pâtes, Riz & Féculents        | Pâtes & riz | Épicerie salée     |

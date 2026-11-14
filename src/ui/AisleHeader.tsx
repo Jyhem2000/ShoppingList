@@ -130,3 +130,66 @@ export function AisleSection({
     </section>
   );
 }
+
+/**
+ * Sous-groupe repliable d'un bloc (une catégorie dans « À placer », docs/03 C4) :
+ * intertitre (icône · nom dans sa couleur · compteur · chevron), plus discret que
+ * l'en-tête du rayon ; toucher l'intertitre replie ou déplie ses articles.
+ */
+export function AisleSubgroup({
+  label,
+  icon,
+  color,
+  count,
+  expanded,
+  onToggle,
+  children,
+}: {
+  label: string;
+  icon?: string;
+  color: PaletteColor;
+  count: number;
+  expanded: boolean;
+  onToggle: () => void;
+  children: ReactNode;
+}) {
+  return (
+    <div>
+      <button
+        type="button"
+        aria-expanded={expanded}
+        onClick={onToggle}
+        className="flex min-h-12 w-full items-center gap-2 px-4 pt-2 pb-1 text-left text-sm font-bold transition-colors active:bg-raised"
+      >
+        <GroupIcon name={icon} palette={color} className="size-4 shrink-0" />
+        <span className={cn("min-w-0 flex-1 truncate", palette[color].text)}>
+          {label}
+        </span>
+        <span className="rounded-full bg-raised px-2 py-0.5 text-xs text-muted-foreground tabular-nums">
+          {count}
+        </span>
+        <ChevronDown
+          aria-hidden
+          className={cn(
+            "size-4 shrink-0 text-muted-foreground transition-transform duration-200 motion-reduce:transition-none",
+            !expanded && "-rotate-90",
+          )}
+        />
+      </button>
+      <AnimatePresence initial={false}>
+        {expanded && (
+          <motion.div
+            key="lines"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.22, ease: [0.2, 0.9, 0.3, 1] }}
+            className="overflow-hidden"
+          >
+            {children}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}

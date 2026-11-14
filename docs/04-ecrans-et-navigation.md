@@ -89,7 +89,7 @@ Sur Android, le geste ou bouton **Retour** du système ferme d'abord le panneau 
 └──────────────────────────────────┘
 ```
 
-- Première course dans un magasin : tout est dans « À placer » ; on coche dans l'ordre du parcours, « Rayon suivant » à chaque changement de rayon (C4). Bulles d'aide la première fois (H12).
+- Première course dans un magasin : tout est dans « À placer » ; on coche dans l'ordre du parcours, « Rayon suivant » à chaque changement de rayon (C4). Bulles d'aide la première fois (H12). « Rayon suivant » est un bouton plein (violet), au-dessus de la barre d'ajout : c'est l'action clé tant qu'il reste des articles à placer (retour d'essai du 15 novembre 2026, il passait inaperçu en contour). Les catégories de « À placer » se replient d'un toucher sur leur intertitre.
 
 - Tap = cocher · glisser = pas pris · appui long = déplacer de rayon · tap sur la quantité = la changer.
 - `✕` = quitter le mode courses **sans clôturer** (la session reste ouverte, on peut y revenir).

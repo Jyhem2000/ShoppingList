@@ -68,5 +68,5 @@ test("5. modifier un magasin : réordonner les rayons, rendre un rayon principal
   await expect(line(page, "Bananes")).toBeVisible();
   await expect
     .poll(() => aisleNames(page))
-    .toEqual(["Rayon : Lait", "Rayon : Pain · Fruits"]);
+    .toEqual(["Rayon : Lait & Œufs", "Rayon : Pain · Fruits"]);
 });

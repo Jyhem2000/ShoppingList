@@ -37,13 +37,12 @@ import { aisleText, lineDetails, lineQuantity } from "@/features/list/format";
 import { reportSaveError, useAddToList } from "@/features/list/useAddToList";
 import { type ListData, useListData } from "@/features/list/useListData";
 import { fr } from "@/i18n/fr";
-import { AisleSection } from "@/ui/AisleHeader";
+import { AisleSection, AisleSubgroup } from "@/ui/AisleHeader";
 import { Button } from "@/ui/button";
-import { GroupIcon } from "@/ui/GroupIcon";
 import { ItemRow } from "@/ui/ItemRow";
 import { EmptyHint, Loading, PageTitle } from "@/ui/Page";
 import { PulseLine } from "@/ui/PulseLine";
-import { palette, paletteColor } from "@/ui/palette";
+import { paletteColor } from "@/ui/palette";
 import { Sheet } from "@/ui/Sheet";
 import { SwipeAction } from "@/ui/SwipeToDelete";
 import { Tip } from "@/ui/Tip";
@@ -107,6 +106,10 @@ function Shopping({
   const navigate = useNavigate();
   const [panel, setPanel] = useState<Panel | null>(null);
   const [expanded, setExpanded] = useState<ReadonlyMap<ID, boolean>>(new Map());
+  // Catégories repliées dans « À placer » (toutes dépliées au départ).
+  const [foldedCategories, setFoldedCategories] = useState<ReadonlySet<ID>>(
+    new Set(),
+  );
   const textOf = (aisle: Aisle) =>
     aisleText(aisle, data.categoryById, data.categoryWeights);
   const close = () => {
@@ -267,17 +270,24 @@ function Shopping({
       onToggle={() => undefined}
     >
       {unplacedGroups.map(({ category, items }) => {
-        const color = paletteColor(category.color);
+        const folded = foldedCategories.has(category.id);
         return (
-          <Fragment key={category.id}>
-            <p className="flex items-center gap-2 px-4 pt-3 pb-1.5 text-sm font-bold">
-              <GroupIcon
-                name={category.icon}
-                palette={color}
-                className="size-4 shrink-0"
-              />
-              <span className={palette[color].text}>{category.name}</span>
-            </p>
+          <AisleSubgroup
+            key={category.id}
+            label={category.name}
+            icon={category.icon}
+            color={paletteColor(category.color)}
+            count={items.filter((item) => item.status === "todo").length}
+            expanded={!folded}
+            onToggle={() => {
+              setFoldedCategories((current) => {
+                const next = new Set(current);
+                if (folded) next.delete(category.id);
+                else next.add(category.id);
+                return next;
+              });
+            }}
+          >
             {items.map((item) =>
               item.id === firstUnplaced ? (
                 <div key={item.id} data-tip="first-unplaced">
@@ -287,7 +297,7 @@ function Shopping({
                 row(item)
               ),
             )}
-          </Fragment>
+          </AisleSubgroup>
         );
       })}
     </AisleSection>
@@ -411,9 +421,8 @@ function Shopping({
         above={
           toPlace > 0 && (
             <Button
-              variant="outline"
               data-tip="next-aisle"
-              className="mb-2 h-12 w-full bg-bg"
+              className="mb-2 h-12 w-full shadow-lg shadow-overlay"
               aria-description={t.nextAisleHint}
               onClick={() => {
                 void openNextAisle(db, session, view.placing?.id).catch(

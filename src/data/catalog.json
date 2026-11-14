@@ -1386,7 +1386,7 @@
     "types": {
       "fr": ["plein air", "bio", "extra-frais"]
     },
-    "category": "oeufs",
+    "category": "lait-creme-beurre",
     "unit": "piece",
     "quantity": 6,
     "icon": "oeufs"
