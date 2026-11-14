@@ -4250,14 +4250,6 @@
     "since": 6
   },
   {
-    "key": "liniment",
-    "name": { "fr": "Liniment" },
-    "category": "bebe",
-    "unit": "bouteille",
-    "icon": "liniment",
-    "since": 6
-  },
-  {
     "key": "creme-pour-le-change",
     "name": { "fr": "Crème pour le change" },
     "category": "bebe",

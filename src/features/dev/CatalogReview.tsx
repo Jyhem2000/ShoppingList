@@ -15,6 +15,13 @@ const t = fr.devUi.review;
 
 /** Version du catalogue dont les articles sont à relire. */
 const SINCE = 6;
+/** Articles plus anciens dont le dessin a changé pendant la relecture du lot. */
+const REDRAWN = new Set([
+  "cremes-dessert",
+  "muscade",
+  "herbes-de-provence",
+  "origan",
+]);
 const STORAGE_KEY = "shoppinglist.iconReview";
 
 /** Remarques en cours, gardées sur ce téléphone (rien d'essentiel : vide si absent). */
@@ -37,7 +44,9 @@ function loadRemarks(): Record<string, string> {
  * à nouveau la retire) ; en bas, toutes les remarques se copient dans le presse-papiers.
  */
 export function CatalogReview() {
-  const batch = catalogData.filter((a) => a.since === SINCE);
+  const batch = catalogData.filter(
+    (a) => a.since === SINCE || REDRAWN.has(a.key),
+  );
   const [remarks, setRemarks] = useState(loadRemarks);
   // « Refaire uniquement » : seulement les icônes à revoir, pour valider leurs corrections.
   const [onlyRedo, setOnlyRedo] = useState(false);

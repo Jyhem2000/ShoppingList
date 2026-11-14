@@ -1,8 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <g transform="rotate(-15 16 16)">
-  <path fill="#a83a3a" d="M3.6 17.4c0-4.4 5.4-7.8 12.4-7.8s12.4 3.4 12.4 7.8c0 3.6-5.4 6.2-12.4 6.2S3.6 21 3.6 17.4z"/>
-  <path fill="#fbeee0" d="M3.6 17.4c0-4.4 5.4-7.8 12.4-7.8s12.4 3.4 12.4 7.8c-1.4-1.4-6.6-2.4-12.4-2.4s-11 1-12.4 2.4z"/>
-  <path fill="none" stroke="#e8d0b8" stroke-linecap="round" stroke-width="0.6" d="M8 12.8l4 3M12 11.2l4.4 3.6M16.4 10.6l4.4 3.6M20.6 11.2l3.6 3M9.4 15.2l4-3.4M14 14.4l4-3.6M18.4 14.6l3.8-3.4"/>
-  <path fill="#8a2a2a" d="M6 20.4c2.8 1.6 6.4 2.4 10 2.4s7.2-.8 10-2.4c-1.6 2-5.4 3.2-10 3.2s-8.4-1.2-10-3.2z"/>
-  </g>
+  <clipPath id="cn1"><path d="M13.6 15C12.4 18.2 11.6 21 11 24C10.6 26 10.4 28 10.4 30H25.4C25.4 27 24.8 24 23.6 21C22.8 19 22.2 17.2 21.8 15Z"/></clipPath>
+<g clip-path="url(#cn1)">
+<rect width="32" height="32" fill="#7a4a2e"/>
+<rect width="32" height="20.2" fill="#2f7d4c"/>
+<rect width="32" height="1.4" y="20" fill="#f4f4f4"/>
+<rect width="4" height="32" x="21.6" fill="#00000022"/>
+</g>
+<ellipse cx="17.6" cy="11.4" rx="7.2" ry="6.6" fill="#2f7d4c"/>
+<path fill="#4aa86a" d="M13.2 8.2c1.2-1.8 3.4-2.8 5.6-2.6c-2 .8-3.4 2-4 3.6z"/>
+<path fill="#256a3e" d="M24.2 9.6c.8 3.6-1 7-4.2 8.2c1.8-1.8 2.8-4.4 2.6-7.4z"/>
+<path fill="#f2b01e" d="M11.6 10.2C8.8 9.8 5.6 10.2 4 11.4c-.7.6-.5 1.6.4 1.8c2 .6 5 .6 7.6.4z"/>
+<path fill="#d48a10" d="M11.8 12.8c-2.4.4-5.2.4-7.2-.2c.4.6 1.2.9 2.2 1.1c1.6.3 3.4.2 5-.2z"/>
+<ellipse cx="7.6" cy="11.2" rx=".6" ry=".3" fill="#a86a08"/>
+<circle cx="15" cy="9.8" r="1.2" fill="#1d2733"/>
+<circle cx="14.7" cy="9.5" r=".4" fill="#ffffff"/>
 </svg>

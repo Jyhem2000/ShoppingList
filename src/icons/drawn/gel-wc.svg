@@ -1,8 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <path fill="#3d7bd9" d="M10 14.6c0-2.6 2-4.4 4.6-4.4h4c2.6 0 4.6 1.8 4.6 4.4V27c0 1.2-1 2.2-2.2 2.2h-8.8c-1.2 0-2.2-1-2.2-2.2z"/>
-  <rect width="4" height="19" x="19.2" y="10.2" fill="#2f5aa8"/>
-  <path fill="#3d7bd9" d="M13 10.6l-3.4-4.4c-.4-.6-.2-1.4.4-1.6l1.6-.6c.6-.2 1.2 0 1.6.6l3 4.4z"/>
-  <rect width="3" height="2.6" x="8.2" y="3" fill="#ffffff" rx="0.6" transform="rotate(-35 9.7 4.3)"/>
-  <rect width="13.2" height="7" x="10" y="17.6" fill="#ffffff"/>
-  <path fill="#7cc4ec" d="M14.6 23c-1.4-1.4-1-3.6 1.4-4.4c-.4 1 0 1.8.8 2.2c.2-1 1-1.6 1.8-1.6c-.6 1.6.4 2.6-.4 3.8c-1 .8-2.6.8-3.6 0z"/>
+  <path fill="none" stroke="#3d7bd9" stroke-linecap="round" stroke-width="3.8" d="M17 14V9.6C17 6.4 14.6 4.6 11.6 4.8C9.6 5 8.2 5.8 7 7.2"/>
+<path fill="none" stroke="#6aa0ec" stroke-linecap="round" stroke-width=".7" d="M15.6 12.6V9.8C15.6 7.6 14 6.2 11.8 6.2"/>
+<path fill="#f4f4f4" d="M7.6 6.2L4.6 8.6c-.4.3-.4.9 0 1.2l.6.4c.4.2.8.2 1.1-.1l2.8-2.6z"/>
+<path fill="#3d7bd9" d="M11.4 16.4c0-1.8 1.4-3 3.2-3h4.8c1.8 0 3.2 1.2 3.2 3l.6 10.8c.1 1.3-.9 2.4-2.2 2.4h-8c-1.3 0-2.3-1.1-2.2-2.4z"/>
+<clipPath id="gw1"><path d="M11.4 16.4c0-1.8 1.4-3 3.2-3h4.8c1.8 0 3.2 1.2 3.2 3l.6 10.8c.1 1.3-.9 2.4-2.2 2.4h-8c-1.3 0-2.3-1.1-2.2-2.4z"/></clipPath>
+<g clip-path="url(#gw1)"><rect width="5" height="20" x="19.6" y="12" fill="#2f5aa8"/></g>
+<rect width="10.4" height="6.6" x="11.8" y="18.4" fill="#ffffff"/>
+<path fill="#7cc4ec" d="M17 19.6c1.4 1.8 2 2.8 2 3.6a2 2 0 0 1 -4 0c0-.8.6-1.8 2-3.6z"/>
+<rect width=".9" height="8" x="12.6" y="15" fill="#ffffff55" rx=".45"/>
 </svg>
