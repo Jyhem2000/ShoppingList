@@ -237,12 +237,13 @@ db.version(1).stores({
   sessions: "id, listId, storeId, status, startedAt",
   purchases: "id, sessionId, storeId, articleId, at",
   meta: "key", // settings, version du catalogue…
+  copies: "id, at", // copies automatiques (version 3), hors fichier de sauvegarde
 });
 ```
 
 - **Préférences de l'appareil** (sons, son par son, écran allumé, thème) : hors de `Settings`, dans `localStorage` (`src/app/preferences.ts`). Elles dépendent du téléphone, ne sont pas exportées et ne sont pas écrasées par l'import d'une sauvegarde venant d'un autre appareil.
 - Unicité « un article par liste » vérifiée par la couche d'accès aux données (les lignes archivées `closedInSessionId` sont exclues).
-- **La version du schéma de données est indépendante de la version de l'app** : elle n'augmente que si la structure change. Toute évolution = nouvelle `version(n)` + fonction `upgrade` + test de migration. Les migrations s'exécutent automatiquement au premier lancement de la nouvelle version. Historique : **version 2** (13 novembre 2026) — mêmes tables, aucune donnée modifiée ; elle a porté en préproduction une migration des noms de rayons, retirée avec la phase 7 (les magasins se construisent pendant les courses), et reste déclarée pour les bases déjà passées en version 2. Champs ajoutés sans index (donc sans nouvelle version) : `Aisle.description`, `Category.shortName`, `ShoppingSession.openedAisle`, `ShoppingSession.placedCategories`.
+- **La version du schéma de données est indépendante de la version de l'app** : elle n'augmente que si la structure change. Toute évolution = nouvelle `version(n)` + fonction `upgrade` + test de migration. Les migrations s'exécutent automatiquement au premier lancement de la nouvelle version. Historique : **version 2** (13 novembre 2026) — mêmes tables, aucune donnée modifiée ; elle a porté en préproduction une migration des noms de rayons, retirée avec la phase 7 (les magasins se construisent pendant les courses), et reste déclarée pour les bases déjà passées en version 2. **Version 3** (14 novembre 2026) — nouvelle table `copies` (copies automatiques internes, 03 H4), vide au départ : rien à migrer, les données existantes restent telles quelles (test de passage de la version 2 à la 3). Champs ajoutés sans index (donc sans nouvelle version) : `Aisle.description`, `Category.shortName`, `ShoppingSession.openedAisle`, `ShoppingSession.placedCategories`.
 
 ## 6. App installée, hors ligne et mises à jour
 

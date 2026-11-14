@@ -35,14 +35,26 @@ if (currentInstallEnvironment().standalone && "storage" in navigator) {
 
 // Premier lancement : données initiales copiées dans la base (docs/02 § 10).
 // Chargé à part : le catalogue n'alourdit pas le premier affichage.
-// Puis les nouveautés du catalogue, sans réinstaller (docs/06 § 7).
+// Puis la copie automatique du jour (docs/03 H4), avant toute modification, et les
+// nouveautés du catalogue, sans réinstaller (docs/06 § 7).
+const dailyCopy = () =>
+  import("@/db/copies").then(({ takeDailyCopy }) => takeDailyCopy(db));
 void import("@/db/seed")
   .then(({ seedDatabase }) => seedDatabase(db))
+  .then(dailyCopy)
   .then(() => import("@/db/catalogUpdate"))
   .then(({ updateCatalog }) => updateCatalog(db))
   .catch((error: unknown) => {
     console.error("Initialisation des données impossible", error);
   });
+
+// Une app installée reste souvent ouverte plusieurs jours : copie du jour au retour.
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible")
+    dailyCopy().catch((error: unknown) => {
+      console.error("Copie automatique impossible", error);
+    });
+});
 
 const root = document.getElementById("root");
 if (!root) throw new Error("Élément #root introuvable");

@@ -5,6 +5,7 @@ import type { ShoppingDatabase } from "./database";
  * JSON — listes, magasins et rayons, articles, catégories, unités, historique, réglages
  * de l'app. Les préférences de l'appareil (sons, thème…) n'en font pas partie.
  * Import en **remplacement** : la base est vidée puis remplie, en une seule transaction.
+ * Les copies automatiques (copies.ts) ne font pas partie du fichier et ne sont pas touchées.
  */
 
 export const BACKUP_FORMAT = 1;
@@ -87,15 +88,16 @@ export function readBackup(text: string, schema: number): ReadBackupResult {
   if (backup.format > BACKUP_FORMAT || backup.schema > schema)
     return { kind: "newer" };
   const full = backup as Backup;
+  return { kind: "ok", backup: full, summary: summarizeBackup(full) };
+}
+
+/** Ce qu'une sauvegarde contient, en quelques nombres. */
+export function summarizeBackup(backup: Backup): BackupSummary {
   return {
-    kind: "ok",
-    backup: full,
-    summary: {
-      exportedAt: full.exportedAt,
-      articles: full.tables.articles.length,
-      lists: full.tables.lists.length,
-      stores: full.tables.stores.length,
-    },
+    exportedAt: backup.exportedAt,
+    articles: backup.tables.articles.length,
+    lists: backup.tables.lists.length,
+    stores: backup.tables.stores.length,
   };
 }
 

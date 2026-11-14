@@ -2,7 +2,14 @@ import "fake-indexeddb/auto";
 import { afterEach, describe, expect, it } from "vitest";
 import { exportBackup, importBackup, readBackup } from "@/db/backup";
 import { updateCatalog } from "@/db/catalogUpdate";
-import { ShoppingDatabase } from "@/db/database";
+import {
+  COPIES_KEPT,
+  listCopies,
+  restoreCopy,
+  takeDailyCopy,
+} from "@/db/copies";
+import { SCHEMA_V1, ShoppingDatabase } from "@/db/database";
+import { Dexie } from "dexie";
 import { addListItem } from "@/db/items";
 import { seedDatabase } from "@/db/seed";
 import { updateSettings } from "@/db/settings";
@@ -122,5 +129,62 @@ describe("mise à jour du catalogue sans réinstaller (docs/06 § 7)", () => {
     ).toBe(0);
     // Une seule fois.
     expect(await updateCatalog(database)).toBe(0);
+  });
+});
+
+describe("copies automatiques internes (docs/03 H4)", () => {
+  const DAY = 24 * 60 * 60 * 1000;
+  // Midi, pour rester dans le même jour local quel que soit le fuseau des tests.
+  const noon = (day: number) => new Date(2026, 10, 1 + day, 12).getTime();
+
+  it("une par jour au plus, les 7 dernières gardées, restauration sans perte", async () => {
+    const database = open();
+    await seedDatabase(database, 0);
+    const list = await database.lists.toCollection().first();
+    if (!list) throw new Error("liste");
+
+    expect(await takeDailyCopy(database, noon(0))).toBe(true);
+    // Même jour : pas de deuxième copie.
+    expect(await takeDailyCopy(database, noon(0) + 3 * 60 * 60 * 1000)).toBe(
+      false,
+    );
+    const before = await database.lists.toArray();
+
+    // Une fausse manipulation, puis la restauration de la copie du jour.
+    await database.lists.update(list.id, { name: "Effacée par erreur" });
+    const [copy] = await listCopies(database);
+    if (!copy) throw new Error("copie");
+    expect(copy.summary.lists).toBe(1);
+    expect(await restoreCopy(database, copy.id)).toBe(true);
+    expect(await database.lists.toArray()).toEqual(before);
+    // Les copies, elles, restent après une restauration.
+    expect(await database.copies.count()).toBe(1);
+
+    for (let day = 1; day <= 9; day++)
+      await takeDailyCopy(database, noon(0) + day * DAY);
+    const kept = await listCopies(database);
+    expect(kept).toHaveLength(COPIES_KEPT);
+    // Les plus récentes d'abord ; les plus anciennes ont disparu.
+    expect(kept[0]?.at).toBe(noon(0) + 9 * DAY);
+    expect(kept.at(-1)?.at).toBe(noon(0) + 3 * DAY);
+    // Le fichier exporté ne contient jamais les copies.
+    expect(Object.keys((await exportBackup(database)).tables)).not.toContain(
+      "copies",
+    );
+  });
+
+  it("le passage au schéma 3 garde les données de la version 2", async () => {
+    const name = `test-${crypto.randomUUID()}`;
+    const old = new Dexie(name);
+    old.version(2).stores(SCHEMA_V1);
+    await old.open();
+    await old.table("lists").add({ id: "l1", name: "Liste 1", position: 0 });
+    old.close();
+
+    const database = new ShoppingDatabase(name);
+    databases.push(database);
+    expect(await database.lists.get("l1")).toMatchObject({ name: "Liste 1" });
+    expect(await database.copies.count()).toBe(0);
+    expect(database.verno).toBe(3);
   });
 });

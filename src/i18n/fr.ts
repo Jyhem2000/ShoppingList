@@ -306,6 +306,19 @@ export const fr = {
       newer:
         "Cette sauvegarde vient d'une version plus récente de l'app : mets l'app à jour d'abord.",
       imported: "Données importées",
+      copies: {
+        section: "Copies automatiques",
+        hint: "Chaque jour, l'app garde une copie de tes données dans le téléphone, sur les 7 derniers jours : pour revenir en arrière après une fausse manipulation, un import ou une mise à jour. Elles disparaissent avec l'app : pour changer de téléphone, exporte un fichier.",
+        none: "Aucune copie pour l'instant : la première sera faite au prochain lancement de l'app.",
+        title: (date: string) =>
+          date.charAt(0).toLocaleUpperCase("fr") + date.slice(1),
+        summary: (articles: number, lists: number, stores: number) =>
+          `${articles} articles · ${lists} liste${lists > 1 ? "s" : ""} · ${stores === 0 ? "aucun magasin" : `${stores} magasin${stores > 1 ? "s" : ""}`}`,
+        restoreTitle: (date: string) => `Revenir à la copie du ${date} ?`,
+        restoreText:
+          "Toutes tes données actuelles (listes, magasins, articles, historique) seront remplacées par celles de cette copie. Les copies, elles, restent : tu pourras revenir à une autre.",
+        restoreConfirm: "Restaurer cette copie",
+      },
     },
     categories: {
       title: "Catégories",
