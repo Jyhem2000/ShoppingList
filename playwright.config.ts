@@ -28,7 +28,14 @@ export default defineConfig({
     trace: "retain-on-failure",
   },
   projects: [
-    { name: "iphone", use: { ...devices["iPhone 15"] } },
+    {
+      name: "iphone",
+      use: { ...devices["iPhone 15"] },
+      // WebKit sous Windows cesse parfois un moment de redessiner la page (docs/08 § 3) :
+      // un échec isolé est rejoué une fois et signalé « flaky » ; deux échecs, c'est un
+      // vrai problème.
+      retries: 1,
+    },
     { name: "android", use: { ...devices["Pixel 7"] } },
   ],
   webServer: {
