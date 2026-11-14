@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <path fill="#d9a84e" d="M9 8h14l1.4 20c0 .9-.7 1.6-1.6 1.6H9.2c-.9 0-1.6-.7-1.6-1.6z"/>
+  <clipPath id="pc"><path fill="#000" d="M9 8h14l1.4 20c0 .9-.7 1.6-1.6 1.6H9.2c-.9 0-1.6-.7-1.6-1.6z"/></clipPath>
+  <g clip-path="url(#pc)"><rect width="5" height="24" x="20.4" y="7" fill="#00000022"/></g>
+  <rect width="15.6" height="3" x="8.2" y="5.6" fill="#b8862e" rx="0.6"/>
+  <rect width="8.4" height="10" x="11.8" y="14" fill="#f6ead0" rx="2.2"/>
+  <circle cx="13.6" cy="17.4" r="1.3" fill="#b8742e"/>
+  <circle cx="17.2" cy="16.6" r="1.4" fill="#c98a3a"/>
+  <circle cx="15.4" cy="20.2" r="1.4" fill="#a8642a"/>
+  <circle cx="18.4" cy="21" r="1.2" fill="#c98a3a"/>
+  <circle cx="13" cy="21.8" r="1.1" fill="#b8742e"/>
+  <circle cx="16" cy="18.4" r="0.6" fill="#c0282e"/>
+  <circle cx="18.8" cy="18.8" r="0.6" fill="#c0282e"/>
+</svg>

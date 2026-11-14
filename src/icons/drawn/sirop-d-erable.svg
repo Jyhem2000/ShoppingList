@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <path fill="#a8561a" d="M14.2 4.6h3.6v5.2c0 1 3.2 2 3.2 4.6V27c0 1.2-1 2.2-2.2 2.2h-5.6c-1.2 0-2.2-1-2.2-2.2V14.4c0-2.6 3.2-3.6 3.2-4.6z"/>
+  <clipPath id="tall"><path fill="#000" d="M14.2 4.6h3.6v5.2c0 1 3.2 2 3.2 4.6V27c0 1.2-1 2.2-2.2 2.2h-5.6c-1.2 0-2.2-1-2.2-2.2V14.4c0-2.6 3.2-3.6 3.2-4.6z"/></clipPath>
+  <g clip-path="url(#tall)">
+  <rect width="12" height="5.4" x="10" y="4" fill="#e3eef6"/>
+  <rect width="4" height="26" x="18" y="4" fill="#7a3a10"/>
+  <rect width="12" height="6.6" x="10" y="17" fill="#fbf4dc"/>
+  </g>
+  <path fill="#c0282e" d="M16 17.6l.5 1.2 1.1-.5-.3 1.3 1.2.2-.9.8.6.9-1.3-.2-.2 1.3-.7-1-.7 1-.2-1.3-1.3.2.6-.9-.9-.8 1.2-.2-.3-1.3 1.1.5z"/>
+  <rect width="1" height="10" x="12" y="15" fill="#ffffff55" rx="0.5"/>
+  <rect width="4.8" height="3.2" x="13.6" y="2.2" fill="#2a2a30" rx="0.8"/>
+</svg>

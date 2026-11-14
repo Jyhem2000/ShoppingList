@@ -14,7 +14,7 @@ import { cn } from "@/ui/utils";
 const t = fr.devUi.review;
 
 /** Version du catalogue dont les articles sont à relire. */
-const SINCE = 5;
+const SINCE = 6;
 const STORAGE_KEY = "shoppinglist.iconReview";
 
 /** Remarques en cours, gardées sur ce téléphone (rien d'essentiel : vide si absent). */

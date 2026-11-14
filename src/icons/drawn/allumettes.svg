@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <path fill="#e0b450" d="M5 16.4l5-3.4h17l-5 3.4z"/>
+  <rect width="3" height="9" x="12" y="6.6" fill="#f2dca8" rx="0.4" transform="rotate(-10 13.5 11.1)"/>
+  <rect width="3" height="9" x="16" y="5.6" fill="#f2dca8" rx="0.4" transform="rotate(5 17.5 10.1)"/>
+  <rect width="3" height="9" x="19.6" y="6.8" fill="#f2dca8" rx="0.4" transform="rotate(15 21.1 11.3)"/>
+  <ellipse cx="13.2" cy="6.6" rx="1.6" ry="1.9" fill="#c0282e" transform="rotate(-10 13.2 6.6)"/>
+  <ellipse cx="17.4" cy="5.6" rx="1.6" ry="1.9" fill="#c0282e" transform="rotate(5 17.4 5.6)"/>
+  <ellipse cx="21.2" cy="6.8" rx="1.6" ry="1.9" fill="#c0282e" transform="rotate(15 21.2 6.8)"/>
+  <path fill="#e8c068" d="M5 16.4h17V27H5z"/>
+  <path fill="#c0282e" d="M22 16.4l5-3.4v10.6L22 27z"/>
+  <path fill="#c0282e" d="M5 18.6h17v5.6H5z"/>
+  <path fill="#2a2a30" d="M23 15.4l3-2v8.6l-3 2z"/>
+</svg>
