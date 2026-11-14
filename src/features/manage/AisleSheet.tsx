@@ -22,6 +22,7 @@ import { showToast } from "@/ui/toast";
 import { NameField } from "./NameField";
 import { cn } from "@/ui/utils";
 import { RowButton } from "@/ui/RowButton";
+import { feedback } from "@/feedback";
 const t = fr.manage.aisle;
 
 type Step = "edit" | "merge" | "delete";
@@ -142,6 +143,7 @@ export function AisleSheet({
             label={t.delete}
             onConfirm={() => {
               void deleteAisle(db, aisle.id, promote).then(() => {
+                feedback.remove();
                 showToast(t.deleted(text.label), { tone: "success" });
               });
               onClose();

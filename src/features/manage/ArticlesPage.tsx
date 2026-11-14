@@ -14,7 +14,7 @@ import { fr } from "@/i18n/fr";
 import { SearchField } from "@/ui/SearchField";
 import { Button } from "@/ui/button";
 import { Field, Select, TextInput } from "@/ui/form";
-import { PageHeader, Section } from "@/ui/Page";
+import { EmptyHint, PageHeader, Section } from "@/ui/Page";
 import { Sheet } from "@/ui/Sheet";
 import { showToast } from "@/ui/toast";
 import { RowButton } from "@/ui/RowButton";
@@ -126,7 +126,7 @@ export function ArticlesPage() {
           </div>
           <Section title={t.count(view.shown.length)} className="pb-6">
             {view.shown.length === 0 ? (
-              <p className="px-4 py-4 text-muted-foreground">{t.noResult}</p>
+              <EmptyHint inset>{t.noResult}</EmptyHint>
             ) : (
               <ul className="divide-y divide-border/50">
                 {view.shown.map((article) => {

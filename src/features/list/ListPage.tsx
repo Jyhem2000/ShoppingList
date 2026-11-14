@@ -122,11 +122,9 @@ export function ListPage() {
 
       {data.items.length === 0 ? (
         <EmptyState
-          icon={<ShoppingCart className="size-10" />}
+          icon={<ShoppingCart />}
           title={t.emptyTitle}
-        >
-          {t.emptyText}
-          <span className="mt-5 block">
+          action={
             <Button
               variant="outline"
               onClick={() => {
@@ -135,7 +133,9 @@ export function ListPage() {
             >
               {t.openCatalog}
             </Button>
-          </span>
+          }
+        >
+          {t.emptyText}
         </EmptyState>
       ) : (
         <ListLines

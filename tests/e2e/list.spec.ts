@@ -95,6 +95,8 @@ test("3. liste par catégorie ; la première course construit le magasin, la sui
 
   // La course suivante : rangée par rayon, dans l'ordre du parcours, rien à placer.
   await addToList(page, "beurre, bananes");
+  // Les deux lignes d'abord : chacune décale « C'est parti », qui raterait le clic.
+  await expect(line(page, "Bananes")).toBeVisible();
   await startShopping(page, "Marché");
   await expect(line(page, "Bananes")).toBeVisible();
   await expect

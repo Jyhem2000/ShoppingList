@@ -74,6 +74,11 @@ Chaque scénario tourne sur deux configurations : **WebKit + iPhone émulé** (c
 7. _(v1.1)_ Recette ajoutée pour un autre rendement (personnes et « cakes ») → quantités correctes dans la liste.
 8. _(v1.3)_ Partage puis import dans un profil vierge → aperçu correct, association « C'est le même que… » mémorisée, articles créés.
 
+Échecs intermittents recherchés le 14 novembre 2026 (suite rejouée 12 fois : 2 échecs sur 216 passages, tous sur iPhone) :
+
+- scénario 3 : « C'est parti » touché pendant que la deuxième ligne s'ajoutait au-dessus et le décalait. Le test attend désormais que les lignes soient là ;
+- scénario 5 : WebKit (sous Windows) cesse un moment de redessiner la page ; Playwright attend alors en vain qu'un bouton soit immobile. Rien dans l'app : la page répond toujours et aucune animation n'est en cours. Si un scénario échoue seul sur iPhone avec « waiting for element to be visible, enabled and stable », le relancer ; s'il échoue à nouveau, c'est un vrai problème.
+
 ## 4. Qualité du code
 
 - TypeScript strict, aucun `any` implicite.

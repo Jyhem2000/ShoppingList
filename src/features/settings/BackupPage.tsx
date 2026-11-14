@@ -25,7 +25,7 @@ import { canCopyText, copyText, pasteText } from "@/platform/clipboard";
 import { shareOrDownload } from "@/platform/share";
 import { Button } from "@/ui/button";
 import { ConfirmActions, Field, TextArea } from "@/ui/form";
-import { PageHeader, Section } from "@/ui/Page";
+import { EmptyHint, PageHeader, Section } from "@/ui/Page";
 import { Sheet } from "@/ui/Sheet";
 import { showToast } from "@/ui/toast";
 import { RowButton } from "@/ui/RowButton";
@@ -176,11 +176,7 @@ export function BackupPage() {
         <p className="px-4 pt-4 pb-2 text-sm text-muted-foreground">
           {t.copies.hint}
         </p>
-        {copies?.length === 0 && (
-          <p className="px-4 pb-4 text-sm text-muted-foreground">
-            {t.copies.none}
-          </p>
-        )}
+        {copies?.length === 0 && <EmptyHint inset>{t.copies.none}</EmptyHint>}
         {copies?.map((copy) => (
           <RowButton
             key={copy.id}

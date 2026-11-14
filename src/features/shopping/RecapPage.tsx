@@ -57,10 +57,7 @@ export function RecapPage() {
     return (
       <>
         <PageHeader title={t.title} backTo={routes.list} />
-        <EmptyState
-          icon={<CircleCheck className="size-10" />}
-          title={t.missing}
-        />
+        <EmptyState icon={<CircleCheck />} title={t.missing} />
       </>
     );
   if (!session || !purchases || !articles || !categories || !aisles)

@@ -1,4 +1,5 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { motion } from "motion/react";
 import type { ReactNode } from "react";
 import { fr } from "@/i18n/fr";
 import { NavButton } from "@/ui/NavButton";
@@ -43,24 +44,62 @@ export function Loading({ children }: { children: ReactNode }) {
   );
 }
 
-/** État vide illustré. */
+/**
+ * Écran vide illustré : icône en or, titre, une phrase qui dit quoi
+ * faire, et au besoin le bouton qui le fait. Apparaît en fondu.
+ */
 export function EmptyState({
   icon,
   title,
   children,
+  action,
 }: {
   icon: ReactNode;
   title: string;
   children?: ReactNode;
+  action?: ReactNode;
 }) {
   return (
-    <div className="flex flex-col items-center px-8 pt-16 text-center">
-      <div className="mb-5 flex size-20 items-center justify-center rounded-3xl bg-raised text-secondary">
+    <motion.div
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.25, ease: "easeOut" }}
+      className="flex flex-col items-center px-8 pt-16 text-center"
+    >
+      <div
+        aria-hidden
+        className="mb-5 flex size-20 items-center justify-center rounded-3xl bg-raised text-secondary [&_svg]:size-10"
+      >
         {icon}
       </div>
       <h2 className="mb-2 text-xl font-bold">{title}</h2>
       {children && <p className="max-w-xs text-muted-foreground">{children}</p>}
-    </div>
+      {action && <div className="mt-5">{action}</div>}
+    </motion.div>
+  );
+}
+
+/**
+ * Rien à montrer dans une partie d'écran ou un panneau (recherche sans résultat,
+ * section vide) : une phrase discrète, centrée. `inset` : dans une section (marges
+ * latérales) plutôt que dans un panneau (qui a les siennes).
+ */
+export function EmptyHint({
+  children,
+  inset = false,
+}: {
+  children: ReactNode;
+  inset?: boolean;
+}) {
+  return (
+    <p
+      className={cn(
+        "py-4 text-center text-sm text-muted-foreground",
+        inset && "px-4",
+      )}
+    >
+      {children}
+    </p>
   );
 }
 

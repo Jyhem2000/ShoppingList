@@ -58,7 +58,7 @@ export function AddBar({
         setText("");
       }}
       className={cn(
-        "flex items-center gap-2 rounded-full border-2 border-field-border bg-bg py-1.5 pr-1.5 pl-4 focus-within:border-primary",
+        "flex items-center gap-2 rounded-full border-2 border-field-border bg-bg py-1 pr-1 pl-4 focus-within:border-primary",
         className,
       )}
     >
@@ -75,13 +75,13 @@ export function AddBar({
         enterKeyHint="done"
         autoComplete="off"
         autoCorrect="off"
-        className="h-10 min-w-0 flex-1 bg-transparent text-base outline-none placeholder:text-muted-foreground"
+        className="h-11 min-w-0 flex-1 bg-transparent text-base outline-none placeholder:text-muted-foreground"
       />
       <button
         type="submit"
         aria-label={addLabel}
         disabled={!text.trim()}
-        className="flex size-10 shrink-0 items-center justify-center rounded-full bg-primary text-on-primary transition-opacity disabled:opacity-40"
+        className="flex size-11 shrink-0 items-center justify-center rounded-full bg-primary text-on-primary transition-opacity disabled:opacity-40"
       >
         <Plus className="size-5" aria-hidden />
       </button>

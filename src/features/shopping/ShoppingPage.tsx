@@ -41,7 +41,8 @@ import { AisleSection } from "@/ui/AisleHeader";
 import { Button } from "@/ui/button";
 import { GroupIcon } from "@/ui/GroupIcon";
 import { ItemRow } from "@/ui/ItemRow";
-import { Loading, PageTitle } from "@/ui/Page";
+import { EmptyHint, Loading, PageTitle } from "@/ui/Page";
+import { PulseLine } from "@/ui/PulseLine";
 import { palette, paletteColor } from "@/ui/palette";
 import { Sheet } from "@/ui/Sheet";
 import { SwipeAction } from "@/ui/SwipeToDelete";
@@ -212,20 +213,22 @@ function Shopping({
         layout="position"
         transition={{ duration: 0.25 }}
       >
-        {isUnavailable ? (
-          line
-        ) : (
-          <SwipeAction
-            label={`${article.name} — ${t.swipeHint}`}
-            icon={<Ban />}
-            className="bg-warning/15 text-warning"
-            onSwipe={() => {
-              unavailable(item);
-            }}
-          >
-            {line}
-          </SwipeAction>
-        )}
+        <PulseLine id={item.id}>
+          {isUnavailable ? (
+            line
+          ) : (
+            <SwipeAction
+              label={`${article.name} — ${t.swipeHint}`}
+              icon={<Ban />}
+              className="bg-warning/15 text-warning"
+              onSwipe={() => {
+                unavailable(item);
+              }}
+            >
+              {line}
+            </SwipeAction>
+          )}
+        </PulseLine>
       </motion.div>
     );
   };
@@ -322,13 +325,15 @@ function Shopping({
             <X className="size-6" aria-hidden />
           </button>
           <PageTitle className="min-w-0 flex-1">{data.store?.name}</PageTitle>
+          {/* « 3/7 » à l'écran, une phrase entière pour le lecteur d'écran. */}
           <span
             data-testid="shopping-progress"
-            aria-label={t.progressLabel(checked, total)}
+            aria-hidden
             className="shrink-0 pr-2 text-lg font-extrabold text-secondary tabular-nums"
           >
             {t.progress(checked, total)}
           </span>
+          <span className="sr-only">{t.progressLabel(checked, total)}</span>
         </div>
         <div
           aria-hidden
@@ -381,9 +386,7 @@ function Shopping({
                 {items.length > 0 ? (
                   items.map(row)
                 ) : (
-                  <p className="px-4 py-3 text-sm text-muted-foreground">
-                    {t.emptyAisle}
-                  </p>
+                  <EmptyHint inset>{t.emptyAisle}</EmptyHint>
                 )}
               </AisleSection>
               {aisle.id === view.unplacedAfter && unplacedBlock}

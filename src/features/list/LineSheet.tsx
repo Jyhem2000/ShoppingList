@@ -150,7 +150,6 @@ export function LineSheet({
                 onClick={() => {
                   setUnit(u.id);
                 }}
-                className="min-h-10"
               >
                 {u.singular}
               </Chip>

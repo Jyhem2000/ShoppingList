@@ -6,6 +6,7 @@ import type { ID, ListItem } from "@/domain/model";
 import { fr } from "@/i18n/fr";
 import { AisleSection } from "@/ui/AisleHeader";
 import { ItemRow } from "@/ui/ItemRow";
+import { PulseLine } from "@/ui/PulseLine";
 import { SwipeToDelete } from "@/ui/SwipeToDelete";
 import { lineDetails, lineQuantity } from "./format";
 import type { ListData } from "./useListData";
@@ -76,30 +77,32 @@ export function ListLines({
                     exit={{ opacity: 0, height: 0 }}
                     transition={{ type: "spring", stiffness: 500, damping: 32 }}
                   >
-                    <SwipeToDelete
-                      label={`${article.name} — ${fr.list.swipeHint}`}
-                      onDelete={() => {
-                        onRemove(item);
-                      }}
-                    >
-                      <ItemRow
-                        label={article.name}
-                        icon={article.icon}
-                        color={paletteColor(category.color)}
-                        details={
-                          item.status === "unavailable"
-                            ? [fr.list.unavailableLastTime, lineDetails(item)]
-                                .filter(Boolean)
-                                .join(" · ")
-                            : lineDetails(item)
-                        }
-                        quantity={lineQuantity(item, data.unitById)}
-                        checked={item.status === "checked"}
-                        onClick={() => {
-                          onOpen(item);
+                    <PulseLine id={item.id}>
+                      <SwipeToDelete
+                        label={`${article.name} — ${fr.list.swipeHint}`}
+                        onDelete={() => {
+                          onRemove(item);
                         }}
-                      />
-                    </SwipeToDelete>
+                      >
+                        <ItemRow
+                          label={article.name}
+                          icon={article.icon}
+                          color={paletteColor(category.color)}
+                          details={
+                            item.status === "unavailable"
+                              ? [fr.list.unavailableLastTime, lineDetails(item)]
+                                  .filter(Boolean)
+                                  .join(" · ")
+                              : lineDetails(item)
+                          }
+                          quantity={lineQuantity(item, data.unitById)}
+                          checked={item.status === "checked"}
+                          onClick={() => {
+                            onOpen(item);
+                          }}
+                        />
+                      </SwipeToDelete>
+                    </PulseLine>
                   </motion.div>
                 );
               })}

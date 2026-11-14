@@ -1,4 +1,5 @@
 import { useSyncExternalStore } from "react";
+import { feedback } from "@/feedback";
 
 /**
  * Message bref en bas de l'écran, avec une action facultative (« Annuler »).
@@ -48,6 +49,8 @@ export function showToast(message: string, options: ToastOptions = {}): void {
   } = options;
   clearTimeout(timer);
   current = { id: nextId++, message, tone, action };
+  // Un refus ou un échec s'entend : son « Action impossible » (docs/05 § 7).
+  if (tone === "warning" || tone === "error") feedback.error();
   emit();
   timer = setTimeout(dismissToast, duration);
 }

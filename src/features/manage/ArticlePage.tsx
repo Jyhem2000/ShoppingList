@@ -31,6 +31,7 @@ import { NameField } from "./NameField";
 import { RowButton } from "@/ui/RowButton";
 import { ArticleIcon } from "@/ui/ArticleIcon";
 import { paletteColor } from "@/ui/palette";
+import { feedback } from "@/feedback";
 const t = fr.manage.article;
 
 /** Un alias est stocké en slug (docs/07 § 5) : on l'affiche avec des espaces. */
@@ -53,7 +54,7 @@ export function ArticlePage() {
           title={fr.manage.articles.title}
           backTo={routes.manageArticles}
         />
-        <EmptyState icon={<X className="size-10" />} title={t.missing} />
+        <EmptyState icon={<X />} title={t.missing} />
       </>
     );
   if (!data || !article) return null;
@@ -289,6 +290,7 @@ function ArticleForm({ article, data }: { article: Article; data: ListData }) {
             label={t.delete}
             onConfirm={() => {
               void deleteArticle(db, article.id).then(() => {
+                feedback.remove();
                 showToast(t.deleted(article.name), { tone: "success" });
                 void navigate(routes.manageArticles, {
                   replace: true,

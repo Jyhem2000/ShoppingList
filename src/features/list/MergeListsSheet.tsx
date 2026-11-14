@@ -13,6 +13,7 @@ import { showToast } from "@/ui/toast";
 import { lineQuantity } from "./format";
 import type { ListData } from "./useListData";
 import { ArticleIcon } from "@/ui/ArticleIcon";
+import { EmptyHint } from "@/ui/Page";
 const t = fr.list.merge;
 
 /**
@@ -80,9 +81,9 @@ export function MergeListsSheet({
         <fieldset>
           <FieldLabel as="legend">{t.lines}</FieldLabel>
           {sources.length === 0 ? (
-            <p className="text-sm text-muted-foreground">{t.nothing}</p>
+            <EmptyHint>{t.nothing}</EmptyHint>
           ) : lines.length === 0 ? (
-            <p className="text-sm text-muted-foreground">{t.empty}</p>
+            <EmptyHint>{t.empty}</EmptyHint>
           ) : (
             lines.map((line) => {
               const article = data.articleById.get(line.articleId);

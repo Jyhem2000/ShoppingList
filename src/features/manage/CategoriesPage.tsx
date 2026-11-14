@@ -22,6 +22,7 @@ import { StylePicker } from "@/ui/StylePicker";
 import { showToast } from "@/ui/toast";
 import { NameField } from "./NameField";
 import { RowButton } from "@/ui/RowButton";
+import { feedback } from "@/feedback";
 const t = fr.manage.categories;
 const collator = new Intl.Collator("fr");
 
@@ -257,6 +258,7 @@ function CategorySheet({
             disabled={!moveTo}
             onConfirm={() => {
               void deleteCategory(db, category.id, moveTo).then(() => {
+                feedback.remove();
                 showToast(t.deleted(category.name), { tone: "success" });
               });
               onClose();
