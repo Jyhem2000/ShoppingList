@@ -15,7 +15,6 @@ import { palette, paletteColors } from "@/ui/palette";
 import { ProductIcon } from "@/ui/ProductIcon";
 import { Sheet } from "@/ui/Sheet";
 import { Switch } from "@/ui/switch";
-import { CatalogReview } from "./CatalogReview";
 import {
   type MockAisle,
   mockAisles,
@@ -102,10 +101,6 @@ export function UiPage() {
     <>
       <PageHeader title={t.title} backTo={routes.about} />
       <p className="px-5 text-sm text-muted-foreground">{t.intro}</p>
-
-      <Block title={t.review.title}>
-        <CatalogReview />
-      </Block>
 
       <Block title={t.colors}>
         <div className="grid grid-cols-2 gap-2 px-4">
@@ -279,22 +274,24 @@ export function UiPage() {
         </div>
       </Block>
 
-      {/* Barre d'ajout flottante, comme sur l'écran Liste. */}
-      <div className="sticky bottom-0 mt-6 bg-gradient-to-t from-bg via-bg/90 to-transparent px-3 pt-6 pb-3">
-        {lastAdded && (
-          <p role="status" className="pb-2 text-center text-sm text-success">
-            {t.added(lastAdded)}
-          </p>
-        )}
-        <AddBar
-          placeholder={t.addPlaceholder}
-          addLabel={t.add}
-          onSubmit={(text) => {
-            feedback.add();
-            setLastAdded(text);
-          }}
-        />
-      </div>
+      {/* Barre d'ajout de l'écran Liste, en dernier : elle ne masque pas la maquette. */}
+      <Block title={t.addBar}>
+        <div className="px-3 pb-3">
+          {lastAdded && (
+            <p role="status" className="pb-2 text-center text-sm text-success">
+              {t.added(lastAdded)}
+            </p>
+          )}
+          <AddBar
+            placeholder={t.addPlaceholder}
+            addLabel={t.add}
+            onSubmit={(text) => {
+              feedback.add();
+              setLastAdded(text);
+            }}
+          />
+        </div>
+      </Block>
     </>
   );
 }
