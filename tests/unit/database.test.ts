@@ -110,7 +110,7 @@ describe("premier lancement", () => {
     expect(await db.stores.count()).toBe(0);
     expect(await db.aisles.count()).toBe(0);
     const lists = await db.lists.toArray();
-    expect(lists.map((l) => l.name)).toEqual(["Courses"]);
+    expect(lists.map((l) => l.name)).toEqual(["Liste 1"]);
     const settings = (await db.meta.get("settings"))?.value;
     expect(settings?.currentListId).toBe(lists[0]?.id);
   });

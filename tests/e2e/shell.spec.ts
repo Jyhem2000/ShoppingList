@@ -41,7 +41,7 @@ test("navigation entre les onglets et écran À propos avec la version", async (
 }) => {
   await enterApp(page);
   await expect(
-    page.getByRole("heading", { name: "Courses", exact: true }),
+    page.getByRole("heading", { name: "Liste 1", exact: true }),
   ).toBeVisible();
 
   await page.getByRole("link", { name: "Catalogue" }).click();

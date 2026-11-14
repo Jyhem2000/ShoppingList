@@ -50,7 +50,7 @@ Sur Android, le geste ou bouton **Retour** du système ferme d'abord le panneau 
 └──────────────────────────────────┘
 ```
 
-- Menu `⋯` : **seulement des actions sur la liste courante** (« Actions sur cette liste ») — renommer, dupliquer, « Y ajouter le contenu d'une autre liste » (panneau « Compléter « Courses » »), partager _(v1.3)_, coller une liste _(v1.3)_, retirer les cochés, vider, supprimer la liste. Les autres listes s'ouvrent en touchant le nom de la liste (14 novembre 2026 : « Toutes mes listes » retiré du menu, qui semblait mélanger cette liste et les autres).
+- Menu `⋯` : **seulement des actions sur la liste courante** (« Actions sur cette liste ») — renommer, dupliquer, « Y ajouter le contenu d'une autre liste » (panneau « Compléter « Liste 1 » »), partager _(v1.3)_, coller une liste _(v1.3)_, retirer les cochés, vider, supprimer la liste. Les autres listes s'ouvrent en touchant le nom de la liste (14 novembre 2026 : « Toutes mes listes » retiré du menu, qui semblait mélanger cette liste et les autres).
 - Tap sur le nom de la liste → **Mes listes** : changer de liste, réordonner (poignée), créer une liste en y ajoutant le contenu d'autres listes.
 - La liste est rangée **par catégorie** (03 B1) ; le magasin se choisit au départ des courses (« C'est parti »), et les magasins se gèrent dans Réglages → Magasins & rayons.
 - Tap sur une ligne → **fiche ligne** (B3). Glisser à gauche → supprimer (B4), avec « Annuler » pendant 5 secondes.
@@ -198,7 +198,7 @@ Tap sur un candidat = « C'est celui-là ». Bouton « Importer ».
    - iPhone (Chrome) : gestes illustrés — bouton Partager de Chrome → « Ajouter à l'écran d'accueil » → Ajouter ;
    - Android (Chrome) : bouton **« Installer »** (invite native du navigateur).
      Lien discret « Continuer dans le navigateur quand même ».
-2. Dans l'app installée : création des données de départ, puis la liste vide « Courses ». **Aucun magasin** : le premier se crée au premier « C'est parti » (03 B5), ses rayons pendant les courses (03 C4).
+2. Dans l'app installée : création des données de départ, puis la liste vide **« Liste 1 »** (14 novembre 2026, au lieu de « Courses » : le numéro dit qu'il peut y en avoir plusieurs et incite à la renommer). **Aucun magasin** : le premier se crée au premier « C'est parti » (03 B5), ses rayons pendant les courses (03 C4).
 
 ### 2.12 Mise à jour et « Quoi de neuf »
 

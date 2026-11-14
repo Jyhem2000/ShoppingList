@@ -3,7 +3,7 @@ export const fr = {
   appName: "ShoppingList",
   /** Noms donnés aux données créées au premier lancement (docs/04 § 2.11). */
   defaults: {
-    listName: "Courses",
+    listName: "Liste 1",
     unsortedAisle: "À placer",
   },
   /** Désigner un rayon : son nom, ou un titre tiré de ses catégories (docs/02 § 4). */

@@ -28,7 +28,11 @@ export function ListHeader({
           <h1 className="truncate text-2xl font-extrabold tracking-tight text-primary">
             {listName}
           </h1>
-          <ChevronDown className="size-5 shrink-0 text-primary" aria-hidden />
+          {/* Centré sur les majuscules du nom, pas sur la hauteur de ligne : 2 px plus haut. */}
+          <ChevronDown
+            className="size-5 shrink-0 -translate-y-0.5 text-primary"
+            aria-hidden
+          />
         </button>
         <button
           type="button"
