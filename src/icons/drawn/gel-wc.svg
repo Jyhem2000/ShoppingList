@@ -1,11 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <path fill="none" stroke="#3d7bd9" stroke-linecap="round" stroke-width="3.8" d="M17 14V9.6C17 6.4 14.6 4.6 11.6 4.8C9.6 5 8.2 5.8 7 7.2"/>
-<path fill="none" stroke="#6aa0ec" stroke-linecap="round" stroke-width=".7" d="M15.6 12.6V9.8C15.6 7.6 14 6.2 11.8 6.2"/>
-<path fill="#f4f4f4" d="M7.6 6.2L4.6 8.6c-.4.3-.4.9 0 1.2l.6.4c.4.2.8.2 1.1-.1l2.8-2.6z"/>
-<path fill="#3d7bd9" d="M11.4 16.4c0-1.8 1.4-3 3.2-3h4.8c1.8 0 3.2 1.2 3.2 3l.6 10.8c.1 1.3-.9 2.4-2.2 2.4h-8c-1.3 0-2.3-1.1-2.2-2.4z"/>
-<clipPath id="gw1"><path d="M11.4 16.4c0-1.8 1.4-3 3.2-3h4.8c1.8 0 3.2 1.2 3.2 3l.6 10.8c.1 1.3-.9 2.4-2.2 2.4h-8c-1.3 0-2.3-1.1-2.2-2.4z"/></clipPath>
-<g clip-path="url(#gw1)"><rect width="5" height="20" x="19.6" y="12" fill="#2f5aa8"/></g>
-<rect width="10.4" height="6.6" x="11.8" y="18.4" fill="#ffffff"/>
-<path fill="#7cc4ec" d="M17 19.6c1.4 1.8 2 2.8 2 3.6a2 2 0 0 1 -4 0c0-.8.6-1.8 2-3.6z"/>
-<rect width=".9" height="8" x="12.6" y="15" fill="#ffffff55" rx=".45"/>
+  <path fill="#3d7bd9" stroke="#3d7bd9" stroke-linejoin="round" stroke-width="1.2" d="M14.8 15.6L8 7.8L10.4 5.6L19.8 15.6Z"/>
+<path fill="#2f5aa8" d="M17.4 15.6L9.8 6.2L10.4 5.6L19.8 15.6Z"/>
+<rect width="3.4" height="2.8" x="-1.7" y="-1.4" fill="#f4f4f4" rx=".6" transform="translate(8.6 6.2) rotate(-42)"/>
+<path fill="#d8dde2" d="M7.4 5.4L4.4 7.4c-.4.3-.5.9-.1 1.2l.5.4c.4.3.9.2 1.2-.1L8.4 6.4z"/>
+<path fill="#3d7bd9" d="M11 17.4c0-2 1.6-3.4 3.6-3.4h4.8c2 0 3.6 1.4 3.6 3.4V27c0 1.4-1.1 2.6-2.6 2.6h-6.8c-1.5 0-2.6-1.2-2.6-2.6z"/>
+<clipPath id="gw2"><path d="M11 17.4c0-2 1.6-3.4 3.6-3.4h4.8c2 0 3.6 1.4 3.6 3.4V27c0 1.4-1.1 2.6-2.6 2.6h-6.8c-1.5 0-2.6-1.2-2.6-2.6z"/></clipPath>
+<g clip-path="url(#gw2)"><rect width="5" height="20" x="19.6" y="12" fill="#2f5aa8"/></g>
+<rect width="12" height="6.8" x="11" y="18.6" fill="#ffffff"/>
+<path fill="#7cc4ec" d="M16.4 19.8c1.4 1.8 2 2.8 2 3.6a2 2 0 0 1 -4 0c0-.8.6-1.8 2-3.6z"/>
+<rect width=".9" height="8" x="12.2" y="15.4" fill="#ffffff55" rx=".45"/>
 </svg>

@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <path fill="#a8681e" d="M14.4 4h3.2v5.4c0 1.6.6 2.6 1.8 3.6c1.4 1.2 2 2.2 2 3.8V28c0 .9-.7 1.6-1.6 1.6h-7.6c-.9 0-1.6-.7-1.6-1.6V16.8c0-1.6.6-2.6 2-3.8c1.2-1 1.8-2 1.8-3.6z"/>
+  <path fill="#2f6a2a" d="M14.4 4h3.2v5.4c0 1.6.6 2.6 1.8 3.6c1.4 1.2 2 2.2 2 3.8V28c0 .9-.7 1.6-1.6 1.6h-7.6c-.9 0-1.6-.7-1.6-1.6V16.8c0-1.6.6-2.6 2-3.8c1.2-1 1.8-2 1.8-3.6z"/>
 <clipPath id="ci1"><path d="M14.4 4h3.2v5.4c0 1.6.6 2.6 1.8 3.6c1.4 1.2 2 2.2 2 3.8V28c0 .9-.7 1.6-1.6 1.6h-7.6c-.9 0-1.6-.7-1.6-1.6V16.8c0-1.6.6-2.6 2-3.8c1.2-1 1.8-2 1.8-3.6z"/></clipPath>
-<g clip-path="url(#ci1)"><rect width="6" height="30" x="18.4" y="2" fill="#7e4a12"/></g>
+<g clip-path="url(#ci1)"><rect width="6" height="30" x="18.4" y="2" fill="#1f4a1c"/></g>
 <rect width="1" height="10" x="11.8" y="16.4" fill="#ffffff44" rx=".5"/>
 <rect width="2.8" height="2.8" x="14.6" y="1.4" fill="#d8b07a" rx=".9"/>
 <rect width="4" height="1.2" x="14" y="3.4" fill="#c9cdd3" rx=".4"/>

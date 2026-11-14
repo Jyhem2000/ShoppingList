@@ -1,14 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <path fill="#e0a82a" d="M14.4 3.4h3.2v4.4c0 1 .5 1.6 1.4 2l1.6.8c1 .5 1.6 1.4 1.6 2.6V28c0 .9-.7 1.6-1.6 1.6h-9.2c-.9 0-1.6-.7-1.6-1.6V13.2c0-1.2.6-2.1 1.6-2.6l1.6-.8c.9-.4 1.4-1 1.4-2z"/>
-<clipPath id="pa1"><path d="M14.4 3.4h3.2v4.4c0 1 .5 1.6 1.4 2l1.6.8c1 .5 1.6 1.4 1.6 2.6V28c0 .9-.7 1.6-1.6 1.6h-9.2c-.9 0-1.6-.7-1.6-1.6V13.2c0-1.2.6-2.1 1.6-2.6l1.6-.8c.9-.4 1.4-1 1.4-2z"/></clipPath>
-<g clip-path="url(#pa1)">
-<rect width="5" height="30" x="19.4" y="2" fill="#b8841a"/>
-<rect width="14" height="10" x="9" y="15" fill="#2456b8"/>
-<rect width="14" height="10" x="19.4" y="15" fill="#1c4590"/>
+  <path fill="#a8680c" d="M14.4 3.4h3.2v4.4c0 1 .5 1.6 1.4 2l1.6.8c1 .5 1.6 1.4 1.6 2.6V28c0 .9-.7 1.6-1.6 1.6h-9.2c-.9 0-1.6-.7-1.6-1.6V13.2c0-1.2.6-2.1 1.6-2.6l1.6-.8c.9-.4 1.4-1 1.4-2z"/>
+<clipPath id="pa2"><path d="M14.4 3.4h3.2v4.4c0 1 .5 1.6 1.4 2l1.6.8c1 .5 1.6 1.4 1.6 2.6V28c0 .9-.7 1.6-1.6 1.6h-9.2c-.9 0-1.6-.7-1.6-1.6V13.2c0-1.2.6-2.1 1.6-2.6l1.6-.8c.9-.4 1.4-1 1.4-2z"/></clipPath>
+<g clip-path="url(#pa2)">
+<rect width="5" height="30" x="19.4" y="2" fill="#7e4c06"/>
+<rect width="14" height="11" x="9" y="14.4" fill="#f6d02a"/>
+<rect width="14" height="2" x="9" y="14.4" fill="#1f4aa0"/>
+<rect width="14" height="1" x="9" y="24.4" fill="#1f4aa0"/>
+<rect width="3" height="11" x="19.6" y="14.4" fill="#00000022"/>
 </g>
-<circle cx="16" cy="20" r="3" fill="#f6c232"/>
-<path fill="none" stroke="#ffffff" stroke-linecap="round" stroke-width=".5" d="M11.2 16.4h9.6M11.2 23.6h9.6"/>
-<rect width=".9" height="9" x="10.6" y="13.6" fill="#ffffff55" rx=".45"/>
-<rect width="4.2" height="2.6" x="13.9" y="1.6" fill="#f6c232" rx=".6"/>
-<rect width="4.2" height=".7" x="13.9" y="3.2" fill="#2456b8"/>
+<text x="15.6" y="22.6" fill="#1f4aa0" stroke="#ffffff" stroke-width=".5" paint-order="stroke" font-family="Arial, Helvetica, sans-serif" font-size="6.6" font-weight="900" text-anchor="middle">51</text>
+<path fill="none" stroke="#ffffff" stroke-linecap="round" stroke-width=".4" d="M11.6 15.4h6.8"/>
+<rect width=".9" height="9" x="10.6" y="13.6" fill="#ffffff44" rx=".45"/>
+<rect width="4.2" height="2.6" x="13.9" y="1.6" fill="#f6d02a" rx=".6"/>
+<rect width="4.2" height=".7" x="13.9" y="3.2" fill="#1f4aa0"/>
 </svg>
