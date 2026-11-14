@@ -693,8 +693,21 @@ export const fr = {
     review: {
       title: "Catalogue : lot à relire",
       intro:
-        "Nouveaux articles du catalogue (version 5) : icône en grand et à la taille d'une ligne, nom, catégorie, unité. La note dit si le dessin est nouveau, recoloré ou repris.",
+        "Nouveaux articles du catalogue (version 5) : icône en grand et à la taille d'une ligne, nom, catégorie, unité. La note dit si le dessin est nouveau, recoloré ou repris. « Refaire » sur une icône pour dire ce qui ne va pas, puis copie les remarques en bas pour les coller dans la conversation.",
       batch: "Lot 1 — Épicerie salée",
+      redo: "Refaire",
+      remark: (name: string) => `Ce qui ne va pas : ${name}`,
+      remarkPlaceholder: "Ce qui ne va pas (forme, couleur, détail…)",
+      copy: (count: number) =>
+        count > 1
+          ? `Copier les ${count} remarques`
+          : count === 1
+            ? "Copier la remarque"
+            : "Aucune icône à refaire",
+      copyTitle: (batch: string) => `${batch} : icônes à refaire`,
+      copied: (count: number) =>
+        count > 1 ? `${count} remarques copiées` : "Remarque copiée",
+      copyFailed: "Copie impossible sur ce téléphone",
       notes: {
         boulgour: "riz recoloré",
         polenta: "semoule recolorée",
