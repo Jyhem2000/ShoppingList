@@ -684,6 +684,18 @@ export const fr = {
     version: (version: string) => `Version ${version}`,
     versions: [
       {
+        version: "0.7.2",
+        date: "2026-11-14",
+        items: [
+          "Réglages réorganisés : « Mes données » en tête (articles, catégories, magasins, unités), la sauvegarde dans son propre écran, les préférences (sons, écran allumé, thème) regroupées.",
+          "Sauvegarde : « Copier les données » et « Coller les données », quatre boutons de même importance.",
+          "Menu ⋯ de la liste : seulement des actions sur cette liste, dont « Y ajouter le contenu d'une autre liste ». Les autres listes s'ouvrent en touchant son nom.",
+          "Les quantités sont toujours simplifiées (1200 g → 1,2 kg), avec « Annuler » : le réglage a disparu.",
+          "Titres de parties plus visibles, champs de recherche identiques partout.",
+          "Corrections : un rayon ne peut plus être fusionné dans « À placer » ; après « Rouvrir les courses », les articles se rangent après le dernier rayon et ne sont jamais en double ; supprimer une liste termine ses courses restées ouvertes.",
+        ],
+      },
+      {
         version: "0.7.1",
         date: "2026-11-14",
         items: [

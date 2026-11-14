@@ -4,7 +4,7 @@ PWA de liste de courses, local-first (aucun serveur, aucun compte), triée par r
 
 ## Phase actuelle : développement de la v1.0 — phase 8 (réglages, sauvegarde, finitions)
 
-Version `0.7.1` publiée ; phase 7 (magasins construits pendant les courses) **validée** le 14 novembre 2026. En cours : phase 8 (réglages, sauvegarde, aide, finitions), qui commence par les retours de validation de la phase 7 (menu de la liste, réorganisation des Réglages).
+Version `0.7.2` publiée ; phase 7 (magasins construits pendant les courses) **validée** le 14 novembre 2026. En cours : phase 8 (réglages, sauvegarde, aide, finitions), qui commence par les retours de validation de la phase 7 (menu de la liste, réorganisation des Réglages).
 
 La documentation est **validée** (8 novembre 2026). Suivre le plan de `docs/09-plan-de-developpement.md` phase par phase, en travaillant directement sur `dev` (pas de branche de travail ni de pull request). Pour les phases 3 à 7 et 9, proposer un plan avant d'implémenter. Ne jamais commencer une phase suivante sans validation de la précédente.
 
