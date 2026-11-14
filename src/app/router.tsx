@@ -12,7 +12,9 @@ import { ListPage } from "@/features/list/ListPage";
 import { RecapPage } from "@/features/shopping/RecapPage";
 import { ShoppingPage } from "@/features/shopping/ShoppingPage";
 import { AboutPage } from "@/features/settings/AboutPage";
+import { BackupPage } from "@/features/settings/BackupPage";
 import { LicencesPage } from "@/features/settings/LicencesPage";
+import { PreferencesPage } from "@/features/settings/PreferencesPage";
 import { ReleaseNotesPage } from "@/features/settings/ReleaseNotesPage";
 import { SettingsPage } from "@/features/settings/SettingsPage";
 import { SoundsPage } from "@/features/settings/SoundsPage";
@@ -30,7 +32,9 @@ export const router = createHashRouter([
       { path: routes.about, element: <AboutPage /> },
       { path: routes.licences, element: <LicencesPage /> },
       { path: routes.releaseNotes, element: <ReleaseNotesPage /> },
+      { path: routes.preferences, element: <PreferencesPage /> },
       { path: routes.sounds, element: <SoundsPage /> },
+      { path: routes.backup, element: <BackupPage /> },
       { path: routes.shopping, element: <ShoppingPage /> },
       { path: routes.shoppingRecap, element: <RecapPage /> },
       { path: routes.manageArticles, element: <ArticlesPage /> },

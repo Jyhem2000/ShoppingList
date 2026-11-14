@@ -41,7 +41,7 @@ test("navigation entre les onglets et écran À propos avec la version", async (
 }) => {
   await enterApp(page);
   await expect(
-    page.getByRole("heading", { name: "Courses", exact: true }),
+    page.getByRole("heading", { name: "Liste 1", exact: true }),
   ).toBeVisible();
 
   await page.getByRole("link", { name: "Catalogue" }).click();
@@ -59,6 +59,7 @@ test("réglage des sons : tous d'un coup ou un par un, mémorisé", async ({
 }) => {
   await enterApp(page);
   await page.getByRole("link", { name: "Réglages" }).click();
+  await page.getByRole("link", { name: /^Préférences/ }).click();
   await expect(
     page.getByRole("heading", { name: "Fonctionnalités" }),
   ).toBeVisible();
@@ -103,6 +104,7 @@ test("thème : clair ou sombre au choix, mémorisé, sans attendre le chargement
 }) => {
   await enterApp(page);
   await page.getByRole("link", { name: "Réglages" }).click();
+  await page.getByRole("link", { name: /^Préférences/ }).click();
   await page.getByRole("radio", { name: "Clair" }).click();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
   await page.reload();

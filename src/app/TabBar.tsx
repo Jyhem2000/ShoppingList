@@ -18,7 +18,7 @@ const tabs = [
 export function TabBar() {
   return (
     <nav
-      aria-label="Navigation principale"
+      aria-label={fr.tabs.navigation}
       className="shrink-0 border-t border-border bg-surface pb-[calc(env(safe-area-inset-bottom)_/_3)]"
     >
       <ul className="mx-auto flex max-w-xl">

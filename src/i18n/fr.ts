@@ -3,7 +3,7 @@ export const fr = {
   appName: "ShoppingList",
   /** Noms donnés aux données créées au premier lancement (docs/04 § 2.11). */
   defaults: {
-    listName: "Courses",
+    listName: "Liste 1",
     unsortedAisle: "À placer",
   },
   /** Désigner un rayon : son nom, ou un titre tiré de ses catégories (docs/02 § 4). */
@@ -30,7 +30,9 @@ export const fr = {
   },
   sheet: { close: "Fermer", back: "Retour" },
   toast: { close: "Fermer le message" },
+  search: { clear: "Effacer la recherche" },
   tabs: {
+    navigation: "Navigation principale",
     list: "Liste",
     catalog: "Catalogue",
     settings: "Réglages",
@@ -110,13 +112,13 @@ export const fr = {
     },
     menuSheet: {
       title: "Liste",
+      description: "Actions sur cette liste",
       rename: "Renommer",
       duplicate: "Dupliquer",
-      addLists: "Ajouter une autre liste",
+      addLists: "Y ajouter le contenu d'une autre liste",
       removeChecked: "Retirer les articles cochés",
       clear: "Vider la liste",
       delete: "Supprimer la liste",
-      manage: "Toutes mes listes",
       confirmClear: "Vider la liste ?",
       confirmClearText:
         "Toutes les lignes seront retirées. Tu pourras annuler juste après.",
@@ -138,8 +140,9 @@ export const fr = {
       create: "Créer la liste",
     },
     merge: {
-      title: "Ajouter une autre liste",
-      sources: "Listes à ajouter",
+      title: (name: string) => `Compléter « ${name} »`,
+      text: "Les articles des listes choisies s'ajoutent à celle-ci ; ceux qu'elle contient déjà voient leur quantité augmenter.",
+      sources: "Prendre le contenu de",
       lines: "Lignes",
       nothing: "Choisis une ou plusieurs listes.",
       empty: "Ces listes n'ont rien à ajouter.",
@@ -262,9 +265,11 @@ export const fr = {
     confirmCancel: "Annuler",
     backup: {
       section: "Sauvegarde",
-      export: "Exporter mes données",
+      keep: "Garder une copie",
+      restore: "Récupérer une copie",
+      export: "Exporter un fichier",
       exportHint:
-        "Un fichier avec tes listes, magasins, rayons, articles et ton historique, à garder dans Fichiers ou Drive.",
+        "Un fichier avec tes listes, magasins, rayons, articles et ton historique, à garder dans tes fichiers ou ton stockage en ligne. Utile pour changer de téléphone ou réinstaller l'app : la supprimer efface ses données.",
       last: (days: number | undefined) =>
         days === undefined
           ? "Aucune sauvegarde pour l'instant."
@@ -272,21 +277,22 @@ export const fr = {
             ? "Dernière sauvegarde : aujourd'hui."
             : `Dernière sauvegarde : il y a ${days} jour${days > 1 ? "s" : ""}.`,
       exported: "Sauvegarde prête",
-      copy: "Copier dans le presse-papiers",
+      copy: "Copier les données",
       copyHint:
-        "Pratique pour désinstaller et réinstaller l'app : copie, colle le texte dans Notes, puis « Coller une sauvegarde » dans l'app réinstallée.",
-      copied: "Sauvegarde copiée : colle-la dans Notes pour la garder",
-      copyFailed: "Copie impossible : utilise plutôt « Exporter mes données ».",
-      paste: "Coller une sauvegarde",
+        "La même sauvegarde, en texte dans le presse-papiers : colle-la dans une note ou un message pour la garder, puis « Coller les données » dans l'app réinstallée.",
+      copied:
+        "Données copiées dans le presse-papiers : colle-les dans une note ou un message pour les garder",
+      copyFailed: "Copie impossible : utilise plutôt « Exporter un fichier ».",
+      paste: "Coller les données",
       pasteTitle: "Coller une sauvegarde",
       pasteText:
         "Colle ici le texte d'une sauvegarde copiée (touche longue → Coller).",
       pastePlaceholder: '{ "app": "ShoppingList", … }',
       pasteCheck: "Vérifier la sauvegarde",
       invalidText: "Ce texte n'est pas une sauvegarde de ShoppingList.",
-      import: "Importer une sauvegarde",
+      import: "Importer un fichier",
       importHint:
-        "Remplace toutes les données de l'app par celles d'un fichier exporté.",
+        "Remplace toutes les données de l'app par celles d'une sauvegarde, après confirmation.",
       importTitle: "Remplacer toutes tes données ?",
       importText: (
         date: string,
@@ -529,9 +535,7 @@ export const fr = {
     search: "Chercher un article",
     favorites: "Favoris",
     usual: "Habituels",
-    categories: "Catégories",
     noResult: "Aucun article trouvé.",
-    clear: "Effacer la recherche",
     suggestions: "Articles trouvés",
     added: (name: string) => `${name} ajouté à la liste`,
     showAll: (count: number) => `Voir les ${count} résultats`,
@@ -546,18 +550,26 @@ export const fr = {
   },
   settings: {
     title: "Réglages",
+    dataIntro:
+      "Le cœur de l'app : tes articles, leurs catégories, les rayons de tes magasins. Tout se modifie ici.",
+    counts: {
+      articles: (n: number) => (n > 1 ? `${n} articles` : `${n} article`),
+      categories: (n: number) => (n > 1 ? `${n} catégories` : `${n} catégorie`),
+      stores: (n: number) =>
+        n === 0 ? "Aucun magasin" : n > 1 ? `${n} magasins` : "1 magasin",
+      units: (n: number) => (n > 1 ? `${n} unités` : `${n} unité`),
+    },
+    preferences: {
+      title: "Préférences",
+      hint: "Sons, écran allumé, thème",
+    },
     sectionFeatures: "Fonctionnalités",
     sectionApp: "Application",
-    sectionList: "Liste",
     sectionDisplay: "Affichage",
     theme: {
       title: "Thème",
       hint: "Automatique : suit le réglage clair ou sombre du téléphone.",
       options: { auto: "Automatique", dark: "Sombre", light: "Clair" },
-    },
-    simplify: {
-      title: "Simplifier les quantités",
-      hint: "1200 g devient 1,2 kg, 150 cl devient 1,5 L.",
     },
     about: "À propos",
     unavailable: "Non disponible sur ce téléphone",
@@ -671,6 +683,18 @@ export const fr = {
     title: "Nouveautés",
     version: (version: string) => `Version ${version}`,
     versions: [
+      {
+        version: "0.7.2",
+        date: "2026-11-14",
+        items: [
+          "Réglages réorganisés : « Mes données » en tête (articles, catégories, magasins, unités), la sauvegarde dans son propre écran, les préférences (sons, écran allumé, thème) regroupées.",
+          "Sauvegarde : « Copier les données » et « Coller les données », quatre boutons de même importance.",
+          "Menu ⋯ de la liste : seulement des actions sur cette liste, dont « Y ajouter le contenu d'une autre liste ». Les autres listes s'ouvrent en touchant son nom.",
+          "Les quantités sont toujours simplifiées (1200 g → 1,2 kg), avec « Annuler » : le réglage a disparu.",
+          "Titres de parties plus visibles, champs de recherche identiques partout.",
+          "Corrections : un rayon ne peut plus être fusionné dans « À placer » ; après « Rouvrir les courses », les articles se rangent après le dernier rayon et ne sont jamais en double ; supprimer une liste termine ses courses restées ouvertes.",
+        ],
+      },
       {
         version: "0.7.1",
         date: "2026-11-14",

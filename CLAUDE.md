@@ -2,9 +2,9 @@
 
 PWA de liste de courses, local-first (aucun serveur, aucun compte), triée par rayon selon le magasin. Optimisée pour Chrome : iPhone (dernière version d'iOS, cible principale) et Android récent (cible secondaire).
 
-## Phase actuelle : développement de la v1.0 — phase 7 (magasins construits pendant les courses) publiée, à valider
+## Phase actuelle : développement de la v1.0 — phase 8 (réglages, sauvegarde, finitions)
 
-Version `0.7.1` publiée (phase 7 : magasins construits pendant les courses, et ses premiers correctifs), à valider par un essai réel ; correctifs en `0.7.x`. Ensuite : phase 8 (réglages, sauvegarde, aide, finitions).
+Version `0.7.2` publiée ; phase 7 (magasins construits pendant les courses) **validée** le 14 novembre 2026. En cours : phase 8 (réglages, sauvegarde, aide, finitions), qui commence par les retours de validation de la phase 7 (menu de la liste, réorganisation des Réglages).
 
 La documentation est **validée** (8 novembre 2026). Suivre le plan de `docs/09-plan-de-developpement.md` phase par phase, en travaillant directement sur `dev` (pas de branche de travail ni de pull request). Pour les phases 3 à 7 et 9, proposer un plan avant d'implémenter. Ne jamais commencer une phase suivante sans validation de la précédente.
 
@@ -34,6 +34,7 @@ Vite · React 19 · TypeScript strict · Tailwind v4 · shadcn/ui · React Route
 - Animations via Motion, en respectant le réglage « Animations » de l'app (auto / toujours / jamais).
 - Sons uniquement via le module `src/feedback/`. Pas de vibrations (retirées, docs/05 § 7).
 - Version de l'app : source unique `package.json`, injectée au build ; jamais de numéro de version écrit en dur.
+- Composants : le design system, ce sont aussi les composants partagés de `src/ui`. Tout élément d'interface présent à deux endroits (champ de recherche, ligne, case à cocher, boutons de confirmation, titre de section…) est un composant de `src/ui`, utilisé partout ; jamais de classes recopiées d'un écran à l'autre. Un changement de style se fait dans le composant.
 - Couleurs : uniquement les tokens du design system (docs/05 § 2, `src/styles/index.css`). Violet = ce qui s'actionne et titres d'écran ; or = icônes et repères ; une icône dans un bouton prend la couleur du texte.
 - Formatage Prettier (réglages par défaut) sur tout le dépôt, doc comprise ; ESLint strict. Exclure un fichier = le dire et le justifier, jamais contourner.
 

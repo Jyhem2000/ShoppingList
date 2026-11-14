@@ -20,7 +20,7 @@ import {
 } from "@/domain/quantity";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
-import { Field, Select, TextInput } from "@/ui/form";
+import { Field, Select, TextInput, ConfirmActions } from "@/ui/form";
 import { PageHeader, Section } from "@/ui/Page";
 import { Sheet } from "@/ui/Sheet";
 import { showToast } from "@/ui/toast";
@@ -201,18 +201,16 @@ function UnitSheet({
               ))}
             </Select>
           </Field>
-          <Button
-            variant="destructive"
+          <ConfirmActions
+            label={t.delete}
             disabled={!replacement}
-            onClick={() => {
+            onConfirm={() => {
               void deleteUnit(db, unit.id, replacement).then(() => {
                 showToast(t.deleted(unit.singular), { tone: "success" });
               });
               onClose();
             }}
-          >
-            {t.delete}
-          </Button>
+          />
         </div>
       ) : (
         <form

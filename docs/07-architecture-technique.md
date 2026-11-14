@@ -215,7 +215,6 @@ interface Purchase {
 interface Settings {
   animations: "auto" | "always" | "never";
   compact: boolean;
-  simplifyQuantities: boolean;
   checkedBehavior: "sink" | "hide";
   lastBackupAt?: number;
   lastSeenVersion?: string; // pour afficher « Quoi de neuf »

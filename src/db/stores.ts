@@ -293,6 +293,7 @@ export async function mergeAisleInto(
         !source ||
         !target ||
         source.isUnsorted ||
+        target.isUnsorted ||
         source.storeId !== target.storeId
       )
         return;

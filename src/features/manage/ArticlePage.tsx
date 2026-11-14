@@ -1,5 +1,5 @@
 import { useLiveQuery } from "dexie-react-hooks";
-import { GitMerge, Plus, Search, Trash2, X } from "lucide-react";
+import { GitMerge, Plus, Trash2, X } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { routes } from "@/app/routes";
@@ -14,13 +14,13 @@ import type { Article } from "@/domain/model";
 import { formatNumber } from "@/domain/quantity";
 import { searchArticles } from "@/domain/search";
 import { slugify } from "@/domain/slug";
-import { paletteColor } from "@/features/list/format";
 import { UnitSelect } from "@/features/list/UnitSelect";
 import { type ListData, useListData } from "@/features/list/useListData";
 import { fr } from "@/i18n/fr";
+import { SearchField } from "@/ui/SearchField";
 import { Button } from "@/ui/button";
 import { backState } from "@/ui/navigation";
-import { Field, Select, TextInput } from "@/ui/form";
+import { Field, Select, TextInput, ConfirmActions } from "@/ui/form";
 import { EmptyState, PageHeader, Row, Section } from "@/ui/Page";
 import { ProductIcon } from "@/ui/ProductIcon";
 import { Sheet } from "@/ui/Sheet";
@@ -28,7 +28,9 @@ import { Switch } from "@/ui/switch";
 import { showToast } from "@/ui/toast";
 import { IconPickerSheet } from "./IconPickerSheet";
 import { NameField } from "./NameField";
-
+import { RowButton } from "@/ui/RowButton";
+import { ArticleIcon } from "@/ui/ArticleIcon";
+import { paletteColor } from "@/ui/palette";
 const t = fr.manage.article;
 
 /** Un alias est stocké en slug (docs/07 § 5) : on l'affiche avec des espaces. */
@@ -281,30 +283,21 @@ function ArticleForm({ article, data }: { article: Article; data: ListData }) {
           title={t.deleteTitle(article.name)}
           description={t.deleteText(usage?.lists ?? 0)}
         >
-          <div className="flex flex-col gap-3">
-            <Button
-              variant="destructive"
-              onClick={() => {
-                void deleteArticle(db, article.id).then(() => {
-                  showToast(t.deleted(article.name), { tone: "success" });
-                  void navigate(routes.manageArticles, {
-                    replace: true,
-                    state: backState,
-                  });
+          <ConfirmActions
+            label={t.delete}
+            onConfirm={() => {
+              void deleteArticle(db, article.id).then(() => {
+                showToast(t.deleted(article.name), { tone: "success" });
+                void navigate(routes.manageArticles, {
+                  replace: true,
+                  state: backState,
                 });
-              }}
-            >
-              {t.delete}
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() => {
-                setPanel(null);
-              }}
-            >
-              {fr.manage.confirmCancel}
-            </Button>
-          </div>
+              });
+            }}
+            onCancel={() => {
+              setPanel(null);
+            }}
+          />
         </Sheet>
       )}
     </>
@@ -447,47 +440,26 @@ function MergeArticleSheet({
         </div>
       ) : (
         <>
-          <label className="mb-2 flex h-12 items-center gap-2 rounded-full border border-border bg-raised px-4 light:bg-bg">
-            <Search className="size-5 shrink-0 text-secondary" aria-hidden />
-            <input
-              type="search"
-              value={query}
-              onChange={(event) => {
-                setQuery(event.target.value);
-              }}
-              placeholder={t.mergeSearch}
-              aria-label={t.mergeSearch}
-              autoComplete="off"
-              className="min-w-0 flex-1 bg-transparent text-base outline-none placeholder:text-muted-foreground"
-            />
-          </label>
+          <SearchField
+            className="mb-2"
+            label={t.mergeSearch}
+            value={query}
+            onValueChange={setQuery}
+          />
           <ul className="-mx-2">
             {results.map((article) => {
               const category = data.categoryById.get(article.categoryId);
               return (
                 <li key={article.id}>
-                  <button
-                    type="button"
+                  <RowButton
+                    inset="sheet"
+                    icon={<ArticleIcon article={article} category={category} />}
+                    title={article.name}
+                    detail={category?.name}
                     onClick={() => {
                       setOther(article);
                     }}
-                    className="flex min-h-12 w-full items-center gap-3 rounded-xl px-2 text-left active:bg-raised"
-                  >
-                    <ProductIcon
-                      icon={article.icon}
-                      label={article.name}
-                      color={paletteColor(category?.color)}
-                      size={28}
-                    />
-                    <span className="min-w-0 flex-1">
-                      <span className="block truncate font-semibold">
-                        {article.name}
-                      </span>
-                      <span className="block truncate text-sm text-muted-foreground">
-                        {category?.name}
-                      </span>
-                    </span>
-                  </button>
+                  />
                 </li>
               );
             })}

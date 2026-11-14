@@ -201,7 +201,6 @@ export interface Purchase {
 export interface Settings {
   animations: "auto" | "always" | "never";
   compact: boolean;
-  simplifyQuantities: boolean;
   checkedBehavior: "sink" | "hide";
   lastBackupAt?: number;
   /** Pour afficher « Quoi de neuf ». */

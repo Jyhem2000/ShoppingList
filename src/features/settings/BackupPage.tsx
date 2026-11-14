@@ -1,5 +1,6 @@
 import { ClipboardCopy, ClipboardPaste, Download, Upload } from "lucide-react";
 import { useRef, useState } from "react";
+import { routes } from "@/app/routes";
 import {
   type Backup,
   backupFileName,
@@ -15,30 +16,30 @@ import { fr } from "@/i18n/fr";
 import { canCopyText, copyText, pasteText } from "@/platform/clipboard";
 import { shareOrDownload } from "@/platform/share";
 import { Button } from "@/ui/button";
-import { Field } from "@/ui/form";
-import { Section } from "@/ui/Page";
+import { ConfirmActions, Field, TextArea } from "@/ui/form";
+import { PageHeader, Section } from "@/ui/Page";
 import { Sheet } from "@/ui/Sheet";
 import { showToast } from "@/ui/toast";
+import { daysSince } from "./backupAge";
 
+import { useNow } from "@/ui/useNow";
 const t = fr.manage.backup;
-const DAY_MS = 24 * 60 * 60 * 1000;
 
 /**
- * Sauvegarde (docs/03 H4) : exporter toutes les données dans un fichier (feuille de
- * partage du téléphone) ou dans le presse-papiers, et importer un fichier ou un texte
- * collé, en remplacement, après confirmation.
+ * Sauvegarde (docs/03 H4, docs/04 § 2.7), dans « Mes données » : garder une copie (fichier
+ * par la feuille de partage du téléphone, ou texte dans le presse-papiers) et récupérer
+ * une copie (fichier ou texte collé), en remplacement, après confirmation. Les quatre
+ * actions ont le même poids : aucune n'est l'action principale de l'écran.
  */
-export function BackupSection() {
+export function BackupPage() {
   const settings = useSettings();
   const file = useRef<HTMLInputElement>(null);
   const [pending, setPending] = useState<{
     backup: Backup;
     summary: BackupSummary;
   } | null>(null);
-  const [now] = useState(() => Date.now());
-  const last = settings?.lastBackupAt;
-  const days =
-    last === undefined ? undefined : Math.floor((now - last) / DAY_MS);
+  const now = useNow();
+  const days = daysSince(settings?.lastBackupAt, now);
 
   const exportData = async () => {
     const backup = await exportBackup(db);
@@ -101,49 +102,61 @@ export function BackupSection() {
   };
 
   return (
-    <Section title={t.section}>
-      <div className="flex flex-col gap-3 px-4 py-4">
-        <p className="text-sm text-muted-foreground">{t.exportHint}</p>
-        <Button onClick={() => void exportData()}>
-          <Download />
-          {t.export}
-        </Button>
-        {canCopyText() && (
-          <>
-            <Button variant="outline" onClick={copyData}>
-              <ClipboardCopy />
-              {t.copy}
-            </Button>
-            <p className="text-sm text-muted-foreground">{t.copyHint}</p>
-          </>
-        )}
-        <p className="text-sm text-muted-foreground">{t.last(days)}</p>
-        <Button
-          variant="outline"
-          onClick={() => {
-            file.current?.click();
-          }}
-        >
-          <Upload />
-          {t.import}
-        </Button>
-        <Button variant="outline" onClick={() => void pasteData()}>
-          <ClipboardPaste />
-          {t.paste}
-        </Button>
-        <p className="text-sm text-muted-foreground">{t.importHint}</p>
-        <input
-          ref={file}
-          type="file"
-          accept="application/json,.json"
-          className="hidden"
-          onChange={(event) => {
-            const chosen = event.target.files?.[0];
-            event.target.value = "";
-            if (chosen) void readFile(chosen);
-          }}
-        />
-      </div>
+    <>
+      <PageHeader title={t.section} backTo={routes.settings} />
+      <p className="px-5 text-sm text-muted-foreground">
+        {/* Rien tant que les réglages ne sont pas lus : sinon « Aucune sauvegarde » s'affiche un instant. */}
+        {settings ? t.last(days) : "\u00a0"}
+      </p>
+
+      <Section title={t.keep}>
+        <div className="flex flex-col gap-3 px-4 py-4">
+          <p className="text-sm text-muted-foreground">{t.exportHint}</p>
+          <Button variant="outline" onClick={() => void exportData()}>
+            <Download />
+            {t.export}
+          </Button>
+          {canCopyText() && (
+            <>
+              <Button variant="outline" onClick={copyData}>
+                <ClipboardCopy />
+                {t.copy}
+              </Button>
+              <p className="text-sm text-muted-foreground">{t.copyHint}</p>
+            </>
+          )}
+        </div>
+      </Section>
+
+      <Section title={t.restore} className="pb-6">
+        <div className="flex flex-col gap-3 px-4 py-4">
+          <p className="text-sm text-muted-foreground">{t.importHint}</p>
+          <Button
+            variant="outline"
+            onClick={() => {
+              file.current?.click();
+            }}
+          >
+            <Upload />
+            {t.import}
+          </Button>
+          <Button variant="outline" onClick={() => void pasteData()}>
+            <ClipboardPaste />
+            {t.paste}
+          </Button>
+          <input
+            ref={file}
+            type="file"
+            accept="application/json,.json"
+            className="hidden"
+            onChange={(event) => {
+              const chosen = event.target.files?.[0];
+              event.target.value = "";
+              if (chosen) void readFile(chosen);
+            }}
+          />
+        </div>
+      </Section>
       {pasting && (
         <Sheet
           open
@@ -161,13 +174,12 @@ export function BackupSection() {
             }}
           >
             <Field label={t.pasteTitle}>
-              <textarea
+              <TextArea
                 value={pasted}
                 placeholder={t.pastePlaceholder}
                 onChange={(event) => {
                   setPasted(event.target.value);
                 }}
-                className="h-32 w-full rounded-xl border border-border bg-raised px-3 py-2 font-mono text-sm outline-none focus:border-primary light:bg-bg"
               />
             </Field>
             <Button type="submit" disabled={!pasted.trim()}>
@@ -193,29 +205,20 @@ export function BackupSection() {
             pending.summary.stores,
           )}
         >
-          <div className="flex flex-col gap-3">
-            <Button
-              variant="destructive"
-              onClick={() => {
-                void importBackup(db, pending.backup).then(() => {
-                  // Tout l'état de l'app repart des données importées.
-                  window.location.reload();
-                });
-              }}
-            >
-              {t.importConfirm}
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() => {
-                setPending(null);
-              }}
-            >
-              {fr.manage.confirmCancel}
-            </Button>
-          </div>
+          <ConfirmActions
+            label={t.importConfirm}
+            onConfirm={() => {
+              void importBackup(db, pending.backup).then(() => {
+                // Tout l'état de l'app repart des données importées.
+                window.location.reload();
+              });
+            }}
+            onCancel={() => {
+              setPending(null);
+            }}
+          />
         </Sheet>
       )}
-    </Section>
+    </>
   );
 }

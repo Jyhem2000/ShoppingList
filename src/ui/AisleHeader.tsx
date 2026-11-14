@@ -70,7 +70,8 @@ export function AisleSection({
       >
         <GroupIcon
           name={icon}
-          className={cn("size-6 shrink-0", palette[color].text)}
+          palette={color}
+          className="size-6 shrink-0"
           strokeWidth={2}
         />
         <span className="min-w-0 flex-1">

@@ -137,6 +137,17 @@ describe("édition d'un magasin (docs/03 G3)", () => {
       );
     expect(await db.aisles.get(fromages.id)).toBeUndefined();
     expect((await db.overrides.get("o1"))?.aisleId).toBe(cremerie.id);
+
+    // Jamais dans « À placer » : ses catégories n'en sortiraient plus.
+    const unsorted = (
+      await db.aisles.where("storeId").equals(store.id).toArray()
+    ).find((a) => a.isUnsorted);
+    if (!unsorted) throw new Error("À placer");
+    await mergeAisleInto(db, cremerie.id, unsorted.id);
+    expect(await db.aisles.get(cremerie.id)).toBeDefined();
+    expect((await db.aisles.get(unsorted.id))?.categories).toEqual(
+      unsorted.categories,
+    );
   });
 
   it("copier un magasin ne touche pas l'original ; même le dernier magasin se supprime", async () => {

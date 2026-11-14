@@ -17,7 +17,7 @@ test("1. premier lancement : données de départ créées, liste vide", async ({
 }) => {
   await enterApp(page);
   await expect(
-    page.getByRole("heading", { name: "Courses", exact: true }),
+    page.getByRole("heading", { name: "Liste 1", exact: true }),
   ).toBeVisible();
   await expect(page.getByText("Ta liste est vide")).toBeVisible();
 });

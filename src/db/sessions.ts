@@ -125,18 +125,26 @@ export async function checkItem(
 /** Icône et couleur d'un rayon qui vient d'être ouvert, avant qu'il reçoive une catégorie. */
 const NEW_AISLE_STYLE = { icon: "shopping-basket", color: "gris" } as const;
 
-/** Rayon ouvert pendant ces courses, encore vide : ni catégorie, ni exception. */
-async function isFreshEmptyAisle(
+/** Rayons du magasin visés par au moins une exception par article (lus en une fois). */
+async function aislesWithOverrides(
   database: ShoppingDatabase,
+  storeId: ID,
+): Promise<Set<ID>> {
+  const overrides = await database.overrides
+    .filter((o) => o.storeId === storeId)
+    .toArray();
+  return new Set(overrides.map((o) => o.aisleId));
+}
+
+/** Rayon ouvert pendant ces courses, encore vide : ni catégorie, ni exception. */
+function isFreshEmptyAisle(
   aisle: Aisle,
   session: Pick<ShoppingSession, "startedAt">,
-): Promise<boolean> {
+  withOverrides: ReadonlySet<ID>,
+): boolean {
   if (aisle.isUnsorted || aisle.categories.length > 0) return false;
   if (aisle.createdAt < session.startedAt) return false;
-  const overrides = await database.overrides
-    .filter((o) => o.aisleId === aisle.id)
-    .count();
-  return overrides === 0;
+  return !withOverrides.has(aisle.id);
 }
 
 /** Nouveau rayon sans nom, juste après `afterId` (en tête si absent). */
@@ -192,7 +200,12 @@ export async function openNextAisle(
         ? await database.aisles.get(currentId)
         : undefined;
       const aisle =
-        current && (await isFreshEmptyAisle(database, current, session))
+        current &&
+        isFreshEmptyAisle(
+          current,
+          session,
+          await aislesWithOverrides(database, session.storeId),
+        )
           ? current
           : await openAisleAfter(database, session.storeId, currentId, now);
       await database.sessions.update(session.id, {
@@ -360,13 +373,24 @@ export async function closeSession(
     async () => {
       const session = await database.sessions.get(sessionId);
       if (session?.status !== "open") return;
-      // Rayons ouverts par « Rayon suivant » restés vides : ils n'apprennent rien.
+      // Rayons ouverts par « Rayon suivant » restés vides : ils n'apprennent rien. Le
+      // rayon en cours peut en faire partie : on l'oublie aussi, pour qu'une réouverture
+      // range la suite après le rayon de la dernière coche, pas en tête du magasin.
+      const withOverrides = await aislesWithOverrides(
+        database,
+        session.storeId,
+      );
       for (const aisle of await database.aisles
         .where("storeId")
         .equals(session.storeId)
         .toArray())
-        if (await isFreshEmptyAisle(database, aisle, session))
+        if (isFreshEmptyAisle(aisle, session, withOverrides)) {
           await database.aisles.delete(aisle.id);
+          if (session.openedAisle?.aisleId === aisle.id)
+            await database.sessions.update(sessionId, {
+              openedAisle: undefined,
+            });
+        }
       const store = await database.stores.get(session.storeId);
       const aisles = await database.aisles
         .where("storeId")
@@ -434,9 +458,21 @@ export async function reopenSession(
           articleOrder: snapshot.articleOrder,
         });
       }
+      // Une seule ligne par article : un achat remis dans la liste depuis (une nouvelle
+      // ligne à prendre) l'emporte, la ligne achetée reste archivée.
+      const active = new Set(
+        (
+          await database.items
+            .where("listId")
+            .equals(session.listId)
+            .filter((item) => !item.closedInSessionId)
+            .toArray()
+        ).map((item) => item.articleId),
+      );
       await database.items
         .where("closedInSessionId")
         .equals(sessionId)
+        .filter((item) => !active.has(item.articleId))
         .modify((item) => {
           delete item.closedInSessionId;
         });

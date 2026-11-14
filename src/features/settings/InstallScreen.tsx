@@ -1,6 +1,7 @@
 import { Download, Share, TriangleAlert } from "lucide-react";
 import { useSyncExternalStore } from "react";
 import { fr } from "@/i18n/fr";
+import { PageTitle } from "@/ui/Page";
 import {
   canPromptInstall,
   type InstallContext,
@@ -46,9 +47,7 @@ export function InstallScreen({
           alt=""
           className="mx-auto mb-6 size-20 rounded-3xl"
         />
-        <h1 className="mb-3 text-3xl font-extrabold text-primary">
-          {fr.install.title}
-        </h1>
+        <PageTitle className="mb-3 text-3xl">{fr.install.title}</PageTitle>
         <p className="mb-6 text-muted-foreground">{fr.install.intro}</p>
 
         <div className="flex-1 space-y-6">

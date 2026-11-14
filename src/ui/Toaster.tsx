@@ -47,7 +47,7 @@ export function Toaster() {
               if (info.offset.y < -30 || info.velocity.y < -300) dismissToast();
             }}
             className={cn(
-              "pointer-events-auto flex touch-none items-center gap-2 rounded-2xl border-2 bg-raised py-1 pr-1 pl-3 shadow-xl shadow-black/60",
+              "pointer-events-auto flex touch-none items-center gap-2 rounded-2xl border-2 bg-raised py-1 pr-1 pl-3 shadow-xl shadow-overlay",
               tones[toast.tone].className,
             )}
           >

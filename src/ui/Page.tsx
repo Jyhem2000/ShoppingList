@@ -1,5 +1,6 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { ReactNode } from "react";
+import { fr } from "@/i18n/fr";
 import { NavButton } from "@/ui/NavButton";
 import { cn } from "@/ui/utils";
 
@@ -22,7 +23,7 @@ export function PageHeader({
         <NavButton
           to={backTo}
           back
-          aria-label="Retour"
+          aria-label={fr.sheet.back}
           // Cible de 44 px, mais occupe la hauteur d'une ligne de titre (32 px) :
           // le titre reste au même niveau, avec ou sans bouton de retour.
           className="-my-1.5 -ml-2 flex size-11 items-center justify-center rounded-xl text-primary hover:bg-raised"
@@ -30,10 +31,15 @@ export function PageHeader({
           <ChevronLeft className="size-6" />
         </NavButton>
       )}
-      <h1 className="text-2xl font-extrabold tracking-tight text-primary">
-        {title}
-      </h1>
+      <PageTitle>{title}</PageTitle>
     </header>
+  );
+}
+
+/** Attente du chargement des données (rarement visible : la base est locale). */
+export function Loading({ children }: { children: ReactNode }) {
+  return (
+    <p className="px-5 pt-10 text-center text-muted-foreground">{children}</p>
   );
 }
 
@@ -69,16 +75,51 @@ export function Section({
   className?: string;
 }) {
   return (
-    <section className={cn("px-4 pt-4", className)}>
-      {title && (
-        <h2 className="px-1 pb-2 text-xs font-bold tracking-widest text-muted-foreground uppercase">
-          {title}
-        </h2>
-      )}
+    <section className={cn("px-4", title ? "pt-6" : "pt-4", className)}>
+      {title && <SectionTitle>{title}</SectionTitle>}
       <div className="divide-y divide-border overflow-hidden rounded-2xl bg-surface">
         {children}
       </div>
     </section>
+  );
+}
+
+/**
+ * Titre d'écran (Liste, Catalogue, Réglages, magasin en mode courses…) : le même partout,
+ * en violet (docs/05 § 2).
+ */
+export function PageTitle({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <h1
+      className={cn(
+        "truncate text-2xl font-extrabold tracking-tight text-primary",
+        className,
+      )}
+    >
+      {children}
+    </h1>
+  );
+}
+
+/**
+ * Sous-titre d'une partie d'écran (Mes données, Application, Favoris…) : le même partout.
+ * Un trait or le signale, dans les deux thèmes (aplat `--secondary-fill` : l'or marque les repères, docs/05 § 2) ; le texte reste sobre.
+ */
+export function SectionTitle({ children }: { children: ReactNode }) {
+  return (
+    <h2 className="flex items-center gap-2 px-1 pb-2.5 text-base font-bold tracking-tight text-text">
+      <span
+        aria-hidden
+        className="h-5 w-1 shrink-0 rounded-full bg-secondary-fill"
+      />
+      {children}
+    </h2>
   );
 }
 

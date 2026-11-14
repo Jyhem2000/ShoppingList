@@ -6,16 +6,17 @@ import type { ID } from "@/domain/model";
 import { feedback } from "@/feedback";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
-import { ProductIcon } from "@/ui/ProductIcon";
+import { CheckRow, FieldLabel } from "@/ui/form";
+import { RowText } from "@/ui/RowButton";
 import { Sheet } from "@/ui/Sheet";
 import { showToast } from "@/ui/toast";
-import { lineQuantity, paletteColor } from "./format";
+import { lineQuantity } from "./format";
 import type { ListData } from "./useListData";
-
+import { ArticleIcon } from "@/ui/ArticleIcon";
 const t = fr.list.merge;
 
 /**
- * Ajouter une ou plusieurs autres listes à la liste courante (docs/02 § 6) :
+ * Compléter la liste courante avec le contenu d'autres listes (docs/02 § 6) :
  * choix des listes, aperçu des lignes (cases à cocher), puis fusion.
  */
 export function MergeListsSheet({
@@ -52,39 +53,32 @@ export function MergeListsSheet({
       onOpenChange={(open) => {
         if (!open) onClose();
       }}
-      title={t.title}
+      title={t.title(data.list.name)}
+      description={t.text}
     >
       <div className="flex flex-col gap-4 pb-1">
         <fieldset>
-          <legend className="mb-1.5 text-sm font-semibold text-muted-foreground">
-            {t.sources}
-          </legend>
+          <FieldLabel as="legend">{t.sources}</FieldLabel>
           {others.map((list) => (
-            <label
+            <CheckRow
               key={list.id}
-              className="flex min-h-11 items-center gap-3 font-semibold"
+              className="font-semibold"
+              checked={sources.includes(list.id)}
+              onCheckedChange={(checked) => {
+                setSources((current) =>
+                  checked
+                    ? [...current, list.id]
+                    : current.filter((id) => id !== list.id),
+                );
+              }}
             >
-              <input
-                type="checkbox"
-                className="size-5 accent-primary"
-                checked={sources.includes(list.id)}
-                onChange={(event) => {
-                  setSources((current) =>
-                    event.target.checked
-                      ? [...current, list.id]
-                      : current.filter((id) => id !== list.id),
-                  );
-                }}
-              />
               {list.name}
-            </label>
+            </CheckRow>
           ))}
         </fieldset>
 
         <fieldset>
-          <legend className="mb-1.5 text-sm font-semibold text-muted-foreground">
-            {t.lines}
-          </legend>
+          <FieldLabel as="legend">{t.lines}</FieldLabel>
           {sources.length === 0 ? (
             <p className="text-sm text-muted-foreground">{t.nothing}</p>
           ) : lines.length === 0 ? (
@@ -95,44 +89,32 @@ export function MergeListsSheet({
               if (!article) return null;
               const category = data.categoryById.get(article.categoryId);
               return (
-                <label
+                <CheckRow
                   key={line.articleId}
-                  className="flex min-h-12 items-center gap-3"
+                  checked={!excluded.has(line.articleId)}
+                  onCheckedChange={(checked) => {
+                    setExcluded((current) => {
+                      const next = new Set(current);
+                      if (checked) next.delete(line.articleId);
+                      else next.add(line.articleId);
+                      return next;
+                    });
+                  }}
                 >
-                  <input
-                    type="checkbox"
-                    className="size-5 accent-primary"
-                    checked={!excluded.has(line.articleId)}
-                    onChange={(event) => {
-                      setExcluded((current) => {
-                        const next = new Set(current);
-                        if (event.target.checked) next.delete(line.articleId);
-                        else next.add(line.articleId);
-                        return next;
-                      });
-                    }}
-                  />
-                  <ProductIcon
-                    icon={article.icon}
-                    label={article.name}
-                    color={paletteColor(category?.color)}
-                    size={28}
-                  />
-                  <span className="min-w-0 flex-1">
-                    <span className="block truncate font-semibold">
-                      {article.name}
-                    </span>
-                    <span className="block truncate text-sm text-muted-foreground">
-                      {line.kind === "new"
+                  <ArticleIcon article={article} category={category} />
+                  <RowText
+                    title={article.name}
+                    detail={
+                      (line.kind === "new"
                         ? t.isNew
-                        : t.merged(lineQuantity(line, data.unitById))}
-                      {line.note ? ` · ${line.note}` : ""}
-                    </span>
-                  </span>
+                        : t.merged(lineQuantity(line, data.unitById))) +
+                      (line.note ? ` · ${line.note}` : "")
+                    }
+                  />
                   <span className="shrink-0 font-bold text-secondary tabular-nums">
                     {lineQuantity(line, data.unitById)}
                   </span>
-                </label>
+                </CheckRow>
               );
             })
           )}

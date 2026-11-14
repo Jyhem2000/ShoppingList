@@ -1,19 +1,19 @@
-import { ChevronRight, Search, X } from "lucide-react";
 import { type ReactNode, useId, useMemo, useRef } from "react";
 import { useNavigate } from "react-router";
 import { catalogCategoryPath } from "@/app/routes";
 import type { Article } from "@/domain/model";
 import { searchKey } from "@/domain/slug";
 import { searchArticles } from "@/domain/search";
-import { lineQuantity, paletteColor } from "@/features/list/format";
+import { lineQuantity } from "@/features/list/format";
 import type { ListData } from "@/features/list/useListData";
 import { fr } from "@/i18n/fr";
 import { GroupIcon } from "@/ui/GroupIcon";
-import { palette } from "@/ui/palette";
-import { ProductIcon } from "@/ui/ProductIcon";
+import { SearchField } from "@/ui/SearchField";
 import { showToast } from "@/ui/toast";
 import { useCatalogPick } from "./useCatalogPick";
-
+import { RowButton } from "@/ui/RowButton";
+import { SuggestionList } from "@/ui/SuggestionList";
+import { ArticleIcon } from "@/ui/ArticleIcon";
 const t = fr.catalog;
 const MAX_SUGGESTIONS = 8;
 
@@ -109,88 +109,53 @@ export function CatalogSearch({
 
   return (
     <div className="relative px-4 pb-2">
-      <label className="flex h-12 items-center gap-2 rounded-full border-2 border-field-border bg-bg pr-1 pl-4 focus-within:border-primary">
-        <Search className="size-5 shrink-0 text-secondary" aria-hidden />
-        <input
-          ref={input}
-          type="search"
-          role="combobox"
-          aria-expanded={open}
-          aria-controls={listId}
-          aria-autocomplete="list"
-          value={query}
-          onChange={(event) => {
-            onQueryChange(event.target.value);
-          }}
-          onKeyDown={(event) => {
-            if (event.key === "Enter" && suggestions[0]) {
-              event.preventDefault();
-              choose(suggestions[0]);
-            }
-            if (event.key === "Escape") onQueryChange("");
-          }}
-          placeholder={t.search}
-          aria-label={t.search}
-          autoComplete="off"
-          autoCorrect="off"
-          enterKeyHint="done"
-          className="min-w-0 flex-1 bg-transparent text-base outline-none placeholder:text-muted-foreground [&::-webkit-search-cancel-button]:hidden"
-        />
-        {query && (
-          <button
-            type="button"
-            aria-label={t.clear}
-            onClick={() => {
-              onQueryChange("");
-              input.current?.focus();
-            }}
-            className="flex size-10 shrink-0 items-center justify-center rounded-full text-muted-foreground active:bg-surface"
-          >
-            <X className="size-5" aria-hidden />
-          </button>
-        )}
-      </label>
+      <SearchField
+        ref={input}
+        label={t.search}
+        value={query}
+        onValueChange={onQueryChange}
+        role="combobox"
+        aria-expanded={open}
+        aria-controls={listId}
+        aria-autocomplete="list"
+        onKeyDown={(event) => {
+          if (event.key === "Enter" && suggestions[0]) {
+            event.preventDefault();
+            choose(suggestions[0]);
+          }
+          if (event.key === "Escape") onQueryChange("");
+        }}
+      />
 
       {open && (
-        <ul
+        <SuggestionList
           id={listId}
           role="listbox"
           aria-label={t.suggestions}
-          // Garde le clavier ouvert : le tap ne retire pas le focus du champ.
-          onMouseDown={(event) => {
-            event.preventDefault();
-          }}
-          className="absolute inset-x-4 top-full z-30 -mt-1 max-h-[60dvh] overflow-y-auto rounded-2xl border border-border bg-surface shadow-lg shadow-black/40"
+          className="absolute inset-x-4 top-full z-30 -mt-1 max-h-[60dvh] overflow-y-auto"
         >
           {categories.map(({ category, count }) => (
             <li key={category.id} role="option" aria-selected={false}>
-              <button
-                type="button"
+              <RowButton
+                inset="popover"
+                className="border-b border-border/60"
+                icon={
+                  <span className="flex size-7 shrink-0 items-center justify-center">
+                    <GroupIcon
+                      name={category.icon}
+                      palette={category.color}
+                      className="size-6"
+                    />
+                  </span>
+                }
+                title={highlight(category.name, query)}
+                detail={t.categoryResult(count)}
+                chevron
                 onClick={() => {
                   onQueryChange("");
                   void navigate(catalogCategoryPath(category.id));
                 }}
-                className="flex min-h-12 w-full items-center gap-3 border-b border-border/60 px-3 py-1.5 text-left active:bg-raised"
-              >
-                <span className="flex size-7 items-center justify-center">
-                  <GroupIcon
-                    name={category.icon}
-                    className={`size-6 ${palette[paletteColor(category.color)].text}`}
-                  />
-                </span>
-                <span className="min-w-0 flex-1">
-                  <span className="block truncate font-semibold">
-                    {highlight(category.name, query)}
-                  </span>
-                  <span className="block truncate text-sm text-muted-foreground">
-                    {t.categoryResult(count)}
-                  </span>
-                </span>
-                <ChevronRight
-                  className="size-5 text-muted-foreground"
-                  aria-hidden
-                />
-              </button>
+              />
             </li>
           ))}
           {suggestions.length === 0 && categories.length === 0 && (
@@ -201,33 +166,22 @@ export function CatalogSearch({
             const item = inList.get(article.id);
             return (
               <li key={article.id} role="option" aria-selected={false}>
-                <button
-                  type="button"
+                <RowButton
+                  inset="popover"
+                  icon={<ArticleIcon article={article} category={category} />}
+                  title={highlight(article.name, query)}
+                  detail={category?.name}
+                  trailing={
+                    item && (
+                      <span className="shrink-0 text-sm font-bold text-secondary tabular-nums">
+                        {lineQuantity(item, data.unitById)}
+                      </span>
+                    )
+                  }
                   onClick={() => {
                     choose(article);
                   }}
-                  className="flex min-h-12 w-full items-center gap-3 px-3 py-1.5 text-left active:bg-raised"
-                >
-                  <ProductIcon
-                    icon={article.icon}
-                    label={article.name}
-                    color={paletteColor(category?.color)}
-                    size={28}
-                  />
-                  <span className="min-w-0 flex-1">
-                    <span className="block truncate font-semibold">
-                      {highlight(article.name, query)}
-                    </span>
-                    <span className="block truncate text-sm text-muted-foreground">
-                      {category?.name}
-                    </span>
-                  </span>
-                  {item && (
-                    <span className="shrink-0 text-sm font-bold text-secondary tabular-nums">
-                      {lineQuantity(item, data.unitById)}
-                    </span>
-                  )}
-                </button>
+                />
               </li>
             );
           })}
@@ -242,7 +196,7 @@ export function CatalogSearch({
               </button>
             </li>
           )}
-        </ul>
+        </SuggestionList>
       )}
       {sheet}
     </div>

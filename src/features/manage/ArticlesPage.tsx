@@ -1,4 +1,4 @@
-import { ChevronRight, Plus, Search } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import { manageArticlePath, routes } from "@/app/routes";
@@ -8,18 +8,17 @@ import { db } from "@/db/database";
 import { findLikelyDuplicates } from "@/domain/duplicates";
 import type { Article, ID } from "@/domain/model";
 import { searchArticles } from "@/domain/search";
-import { paletteColor } from "@/features/list/format";
 import { UnitSelect } from "@/features/list/UnitSelect";
 import { type ListData, useListData } from "@/features/list/useListData";
 import { fr } from "@/i18n/fr";
+import { SearchField } from "@/ui/SearchField";
 import { Button } from "@/ui/button";
 import { Field, Select, TextInput } from "@/ui/form";
 import { PageHeader, Section } from "@/ui/Page";
-import { NavButton } from "@/ui/NavButton";
-import { ProductIcon } from "@/ui/ProductIcon";
 import { Sheet } from "@/ui/Sheet";
 import { showToast } from "@/ui/toast";
-
+import { RowButton } from "@/ui/RowButton";
+import { ArticleIcon } from "@/ui/ArticleIcon";
 const t = fr.manage.articles;
 const collator = new Intl.Collator("fr");
 
@@ -51,20 +50,7 @@ export function ArticlesPage() {
     <>
       <PageHeader title={t.title} backTo={routes.settings} />
       <div className="flex flex-col gap-2 px-4 pb-2">
-        <label className="flex h-12 items-center gap-2 rounded-full border-2 border-field-border bg-raised px-4 focus-within:border-primary">
-          <Search className="size-5 shrink-0 text-secondary" aria-hidden />
-          <input
-            type="search"
-            value={query}
-            onChange={(event) => {
-              setQuery(event.target.value);
-            }}
-            placeholder={t.search}
-            aria-label={t.search}
-            autoComplete="off"
-            className="min-w-0 flex-1 bg-transparent text-base outline-none placeholder:text-muted-foreground"
-          />
-        </label>
+        <SearchField label={t.search} value={query} onValueChange={setQuery} />
         <Select
           aria-label={t.allCategories}
           value={categoryId}
@@ -147,29 +133,15 @@ export function ArticlesPage() {
                   const category = data.categoryById.get(article.categoryId);
                   return (
                     <li key={article.id}>
-                      <NavButton
+                      <RowButton
                         to={manageArticlePath(article.id)}
-                        className="flex min-h-12 w-full items-center gap-3 px-4 py-1.5 text-left active:bg-raised"
-                      >
-                        <ProductIcon
-                          icon={article.icon}
-                          label={article.name}
-                          color={paletteColor(category?.color)}
-                          size={28}
-                        />
-                        <span className="min-w-0 flex-1">
-                          <span className="block truncate font-semibold">
-                            {article.name}
-                          </span>
-                          <span className="block truncate text-sm text-muted-foreground">
-                            {category?.name}
-                          </span>
-                        </span>
-                        <ChevronRight
-                          className="size-5 text-muted-foreground"
-                          aria-hidden
-                        />
-                      </NavButton>
+                        icon={
+                          <ArticleIcon article={article} category={category} />
+                        }
+                        title={article.name}
+                        detail={category?.name}
+                        chevron
+                      />
                     </li>
                   );
                 })}

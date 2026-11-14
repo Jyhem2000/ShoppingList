@@ -134,3 +134,8 @@ export const palette: Record<PaletteColor, PaletteClasses> = {
     border: "border-gris",
   },
 };
+
+/** Couleur de la palette d'un rayon ou d'une catégorie (valeur inconnue → gris). */
+export function paletteColor(color: string | undefined): PaletteColor {
+  return paletteColors.find((c) => c === color) ?? "gris";
+}

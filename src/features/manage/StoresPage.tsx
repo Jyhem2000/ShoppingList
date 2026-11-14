@@ -3,14 +3,13 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { manageStorePath, routes } from "@/app/routes";
-
 import { db } from "@/db/database";
 import { useStores } from "@/db/hooks";
 import { copyStore, createEmptyStore } from "@/db/stores";
 import type { ID } from "@/domain/model";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
-import { Chip, Field, TextInput } from "@/ui/form";
+import { Chip, Field, TextInput, FieldLabel } from "@/ui/form";
 import { LinkRow, PageHeader, Section } from "@/ui/Page";
 import { Sheet } from "@/ui/Sheet";
 
@@ -106,9 +105,7 @@ function NewStoreSheet({ onClose }: { onClose: () => void }) {
         }}
       >
         <div>
-          <p className="mb-1.5 text-sm font-semibold text-muted-foreground">
-            {t.from}
-          </p>
+          <FieldLabel>{t.from}</FieldLabel>
           <div className="flex flex-wrap gap-2">
             {(
               [
@@ -133,9 +130,7 @@ function NewStoreSheet({ onClose }: { onClose: () => void }) {
         </div>
         {source === "copy" && (
           <div>
-            <p className="mb-1.5 text-sm font-semibold text-muted-foreground">
-              {t.copyOf}
-            </p>
+            <FieldLabel>{t.copyOf}</FieldLabel>
             <div className="flex flex-wrap gap-2">
               {stores?.map((store) => (
                 <Chip

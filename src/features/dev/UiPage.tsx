@@ -10,7 +10,7 @@ import { AisleSection } from "@/ui/AisleHeader";
 import { Button } from "@/ui/button";
 import { CatalogCard } from "@/ui/CatalogCard";
 import { ItemRow } from "@/ui/ItemRow";
-import { PageHeader } from "@/ui/Page";
+import { PageHeader, SectionTitle } from "@/ui/Page";
 import { palette, paletteColors } from "@/ui/palette";
 import { ProductIcon } from "@/ui/ProductIcon";
 import { Sheet } from "@/ui/Sheet";
@@ -29,9 +29,9 @@ const t = fr.devUi;
 function Block({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section className="mt-12 border-t-4 border-surface pt-8 first-of-type:mt-6 first-of-type:border-t-0 first-of-type:pt-2">
-      <h2 className="px-5 pb-4 text-xs font-bold tracking-widest text-muted-foreground uppercase">
-        {title}
-      </h2>
+      <div className="px-4">
+        <SectionTitle>{title}</SectionTitle>
+      </div>
       {children}
     </section>
   );

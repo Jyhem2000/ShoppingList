@@ -50,7 +50,7 @@ Sur Android, le geste ou bouton **Retour** du système ferme d'abord le panneau 
 └──────────────────────────────────┘
 ```
 
-- Menu `⋯` : renommer, dupliquer, ajouter une autre liste, toutes mes listes, partager _(v1.3)_, coller une liste _(v1.3)_, retirer les cochés, vider, supprimer la liste.
+- Menu `⋯` : **seulement des actions sur la liste courante** (« Actions sur cette liste ») — renommer, dupliquer, « Y ajouter le contenu d'une autre liste » (panneau « Compléter « Liste 1 » »), partager _(v1.3)_, coller une liste _(v1.3)_, retirer les cochés, vider, supprimer la liste. Les autres listes s'ouvrent en touchant le nom de la liste (14 novembre 2026 : « Toutes mes listes » retiré du menu, qui semblait mélanger cette liste et les autres).
 - Tap sur le nom de la liste → **Mes listes** : changer de liste, réordonner (poignée), créer une liste en y ajoutant le contenu d'autres listes.
 - La liste est rangée **par catégorie** (03 B1) ; le magasin se choisit au départ des courses (« C'est parti »), et les magasins se gèrent dans Réglages → Magasins & rayons.
 - Tap sur une ligne → **fiche ligne** (B3). Glisser à gauche → supprimer (B4), avec « Annuler » pendant 5 secondes.
@@ -115,8 +115,25 @@ Articles achetés, pas pris (restés dans la liste), durée, éventuellement « 
 
 ### 2.7 Réglages
 
+Organisé en accueil (décision du 14 novembre 2026) : les données de l'utilisateur, cœur du paramétrage, sont en tête et en grand ; les préférences de l'app, réglées une fois pour toutes, sont regroupées derrière une seule ligne.
+
 ```
-Fonctionnalités   (icône, libellé, description ; grisée « Non disponible sur ce téléphone » si besoin)
+Mes données       (« Le cœur de l'app… Tout se modifie ici. »)
+  [ Articles    ]  [ Catégories ]     ← grandes tuiles : icône, nom, nombre
+  [ 240 articles]  [ 39 catégories]
+  [ Magasins &  ]  [ Unités     ]
+  [ rayons : 2  ]  [ 18 unités  ]
+  Sauvegarde ▸   Dernière sauvegarde : il y a 12 j
+Application
+  Préférences ▸   Sons, écran allumé, thème
+  Revoir les conseils      [Revoir]  (H12 : les bulles d'aide reviennent)
+  À propos ▸      Version 1.0.0 · Quoi de neuf ▸ · Licences ▸
+```
+
+**Préférences** :
+
+```
+Fonctionnalités   (grisée « Non disponible sur ce téléphone » si besoin)
   Sons .................. Activés ▸  (écran Sons : interrupteur général + un par son, avec écoute)
   Écran allumé pendant les courses ●
 Ressenti
@@ -124,25 +141,26 @@ Ressenti
 Affichage
   Thème ................. Automatique · Sombre · Clair
   Affichage compact ..... ◯
-  Simplifier les quantités ●   (1200 g → 1,2 kg)
 Mode courses
   Lignes cochées ........ Glissent en bas ▸
-Mes données
-  Articles ▸   Catégories ▸   Magasins & rayons ▸   Unités ▸
-Partage (v1.3)
-  Coller une liste partagée ▸
-Sauvegarde
-  Exporter mes données ▸   Copier dans le presse-papiers ▸   Dernière sauvegarde : il y a 12 j
-  Importer une sauvegarde ▸   Coller une sauvegarde ▸
-    (libellé : changer de téléphone, réinstaller l'app, copie hors du téléphone)
+```
+
+**Sauvegarde** : quatre actions de **même poids** (boutons secondaires), aucune n'étant l'action principale de l'écran ; seule la confirmation d'un import est en rouge.
+
+```
+Dernière sauvegarde : il y a 12 j
+Garder une copie
+  (libellé : changer de téléphone, réinstaller l'app, copie hors du téléphone)
+  [ Exporter un fichier ]   [ Copier les données ]
+Récupérer une copie
+  [ Importer un fichier ]   [ Coller les données ]
+Copies automatiques (phase 8)
   Restaurer une copie ▸
     (libellé : copies automatiques des 7 derniers jours, contre une fausse
      manipulation ; elles disparaissent avec l'app)
-Aide ▸                      (H10 : mode d'emploi, ce que l'app règle toute seule)
-  Revoir les conseils        (H12 : les bulles d'aide reviennent)
-À propos
-  Version 1.0.0 · Quoi de neuf ▸ · Licences ▸
 ```
+
+Plus tard : **Aide ▸** (H10 : mode d'emploi, ce que l'app règle toute seule, avec « Revoir les conseils ») dans « Application » ; **Coller une liste partagée ▸** _(v1.3)_.
 
 ### 2.8 Magasin
 
@@ -180,7 +198,7 @@ Tap sur un candidat = « C'est celui-là ». Bouton « Importer ».
    - iPhone (Chrome) : gestes illustrés — bouton Partager de Chrome → « Ajouter à l'écran d'accueil » → Ajouter ;
    - Android (Chrome) : bouton **« Installer »** (invite native du navigateur).
      Lien discret « Continuer dans le navigateur quand même ».
-2. Dans l'app installée : création des données de départ, puis la liste vide « Courses ». **Aucun magasin** : le premier se crée au premier « C'est parti » (03 B5), ses rayons pendant les courses (03 C4).
+2. Dans l'app installée : création des données de départ, puis la liste vide **« Liste 1 »** (14 novembre 2026, au lieu de « Courses » : le numéro dit qu'il peut y en avoir plusieurs et incite à la renommer). **Aucun magasin** : le premier se crée au premier « C'est parti » (03 B5), ses rayons pendant les courses (03 C4).
 
 ### 2.12 Mise à jour et « Quoi de neuf »
 

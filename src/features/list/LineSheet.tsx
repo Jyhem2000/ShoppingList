@@ -8,7 +8,7 @@ import type { ListItem } from "@/domain/model";
 import { changeUnit, formatNumber } from "@/domain/quantity";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
-import { Chip, Field, TextInput } from "@/ui/form";
+import { Chip, Field, TextInput, FieldLabel } from "@/ui/form";
 import { NavButton } from "@/ui/NavButton";
 import { Sheet } from "@/ui/Sheet";
 import { KeepOneOff } from "./KeepOneOff";
@@ -159,9 +159,7 @@ export function LineSheet({
         )}
 
         <div>
-          <p className="mb-1.5 text-sm font-semibold text-muted-foreground">
-            {t.types}
-          </p>
+          <FieldLabel>{t.types}</FieldLabel>
           <div className="flex flex-wrap gap-2">
             <Chip
               selected={item.acceptedTypes.length === 0}
