@@ -101,3 +101,9 @@ export function line(page: Page, name: string) {
     .getByRole("button", { name: new RegExp(`^${name}`) })
     .and(page.locator("button:not([aria-expanded])"));
 }
+
+/** En mode courses : toucher un article et attendre qu'il soit coché (enregistré). */
+export async function check(page: Page, name: string) {
+  await line(page, name).click();
+  await expect(line(page, name)).toHaveAttribute("aria-pressed", "true");
+}

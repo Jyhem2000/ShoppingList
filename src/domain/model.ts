@@ -173,6 +173,12 @@ export interface ShoppingSession {
    * cours tant qu'aucune coche plus récente n'en désigne un autre.
    */
   openedAisle?: { aisleId: ID; at: number };
+  /**
+   * Catégories rangées dans un rayon pendant ces courses, et quand (docs/03 C4) : leurs
+   * articles déjà dans la liste à ce moment, encore à prendre, restent affichés dans
+   * « À placer » jusqu'à ce qu'on les coche.
+   */
+  placedCategories?: { categoryId: ID; at: number }[];
   /** État avant application de l'apprentissage, pour la réouverture. */
   learningSnapshot?: {
     aislePositions: Record<ID, number>;

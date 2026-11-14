@@ -1,5 +1,6 @@
 import { CircleCheck } from "lucide-react";
 import { useLiveQuery } from "dexie-react-hooks";
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { routes } from "@/app/routes";
 import { db } from "@/db/database";
@@ -10,9 +11,10 @@ import {
   useLatestSession,
   useSession,
   useSessionPurchases,
+  useStores,
 } from "@/db/hooks";
 import { reopenSession } from "@/db/sessions";
-import { aisleOrderChanged } from "@/domain/shopping";
+import { aisleOrderChanged, canReopen } from "@/domain/shopping";
 import { paletteColor } from "@/features/list/format";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
@@ -36,6 +38,8 @@ export function RecapPage() {
   const categories = useCategories();
   const aisles = useAisles(session?.storeId);
   const latest = useLatestSession(session?.listId);
+  const stores = useStores();
+  const [now] = useState(() => Date.now());
   const unavailable = useLiveQuery(
     () =>
       session
@@ -73,7 +77,12 @@ export function RecapPage() {
       snapshot.aislePositions,
       Object.fromEntries(aisles.map((a) => [a.id, a.position])),
     );
-  const canReopen = session.status === "closed" && latest?.id === session.id;
+  const reopenable = canReopen(
+    session,
+    latest?.id,
+    stores?.some((store) => store.id === session.storeId) ?? false,
+    now,
+  );
 
   return (
     <>
@@ -124,7 +133,7 @@ export function RecapPage() {
         >
           {t.back}
         </Button>
-        {canReopen && (
+        {reopenable && (
           <Button
             variant="outline"
             onClick={() => {

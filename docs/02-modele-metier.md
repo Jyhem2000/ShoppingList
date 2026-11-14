@@ -328,7 +328,7 @@ Un bouton **« Terminer les courses »** clôture explicitement la session. C'es
 
 ### Réouverture
 
-Oubli constaté à la caisse ? **« Rouvrir les courses »** est disponible sur la liste après la clôture, **tant qu'aucune nouvelle session n'a démarré** sur cette liste :
+Oubli constaté à la caisse ? **« Rouvrir les courses »** est disponible sur la liste après la clôture, **le jour même**, **tant qu'aucune nouvelle session n'a démarré** sur cette liste et que le magasin existe encore :
 
 - l'app revient en mode courses avec la même session ; les articles déjà achetés réapparaissent cochés ;
 - on ajoute et coche les oublis ;

@@ -225,6 +225,7 @@ export async function placeAndCheck(
       database.categories,
       database.items,
       database.purchases,
+      database.sessions,
     ],
     async () => {
       const aisles = await database.aisles
@@ -254,7 +255,19 @@ export async function placeAndCheck(
             : {}),
           updatedAt: now,
         });
-      } else
+        const current = await database.sessions.get(session.id);
+        await database.sessions.update(session.id, {
+          placedCategories: [
+            ...(current?.placedCategories ?? []),
+            { categoryId: category.id, at: now },
+          ],
+        });
+      } else if (
+        // Déjà le rayon de sa catégorie : aucune exception à garder.
+        !target.categories.some(
+          (c) => c.categoryId === article.categoryId && c.primary,
+        )
+      )
         await database.overrides.add({
           id: crypto.randomUUID(),
           storeId: session.storeId,
@@ -411,6 +424,8 @@ export async function reopenSession(
       if (session?.status !== "closed") return false;
       const latest = await latestSession(database, session.listId);
       if (latest?.id !== session.id) return false;
+      // Magasin supprimé depuis : plus rien à rouvrir.
+      if (!(await database.stores.get(session.storeId))) return false;
       const snapshot = session.learningSnapshot;
       if (snapshot) {
         for (const [id, position] of Object.entries(snapshot.aislePositions))

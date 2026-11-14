@@ -202,6 +202,24 @@ export function placingAisle(
   return lastPurchase?.aisleId;
 }
 
+/**
+ * « Rouvrir les courses » (C8) : seulement la dernière course de la liste, terminée le
+ * jour même, dans un magasin qui existe encore. Au-delà, rouvrir n'a plus de sens.
+ */
+export function canReopen(
+  session: Pick<ShoppingSession, "id" | "status" | "closedAt">,
+  latestId: ID | undefined,
+  storeExists: boolean,
+  now: number,
+): boolean {
+  if (session.status !== "closed" || session.closedAt === undefined)
+    return false;
+  if (session.id !== latestId || !storeExists) return false;
+  return (
+    new Date(session.closedAt).toDateString() === new Date(now).toDateString()
+  );
+}
+
 /** Session oubliée (C8) : plus de 3 heures sans rien cocher. */
 export const STALE_AFTER_MS = 3 * 60 * 60 * 1000;
 

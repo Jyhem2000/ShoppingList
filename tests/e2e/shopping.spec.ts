@@ -1,6 +1,7 @@
 import { expect, type Page, test } from "@playwright/test";
 import {
   addToList,
+  check,
   enterApp,
   finishShopping,
   line,
@@ -29,18 +30,23 @@ test("4. mode courses : rayon replié, « À récupérer », clôture, réouvert
   ).toBeHidden();
 
   // Cocher tout un rayon puis passer au suivant : il se replie, avec une coche.
-  await line(page, "Pommes").click();
+  await check(page, "Pommes");
   await expect(page.getByTestId("shopping-progress")).toHaveText("1 / 3");
   await nextAisle(page);
   await expect(
     aisle(page, "Rayon : Fruits").getByRole("button", { expanded: false }),
   ).toBeVisible();
 
-  // Au rayon du lait (le beurre, même catégorie, l'y rejoint), on pense aux bananes :
-  // leur rayon est passé.
-  await line(page, "Lait").click();
+  // Au rayon du lait : le beurre, même catégorie, reste « À placer » jusqu'à sa coche
+  // (rien ne saute ailleurs à l'écran). On pense aux bananes : leur rayon est passé.
+  await check(page, "Lait");
   await expect(
-    aisle(page, "Rayon : Lait").getByRole("button", { name: /^Beurre/ }),
+    aisle(page, "Rayon : Lait")
+      .getByRole("button", { name: /^Lait/ })
+      .and(page.locator("button:not([aria-expanded])")),
+  ).toBeVisible();
+  await expect(
+    aisle(page, "À placer").getByRole("button", { name: /^Beurre/ }),
   ).toBeVisible();
   await addToList(page, "bananes");
   const added = page.getByRole("dialog", { name: "Bananes ajouté" });
