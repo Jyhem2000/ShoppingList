@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+<g transform="translate(1 2)">
+  <g transform="rotate(-30 15 13)">
+  <rect width="20" height="4" x="5" y="9.6" fill="#8a4a2a" rx="2"/>
+  <rect width="20" height="1.6" x="5" y="9.6" fill="#b0683e" rx="0.8"/>
+  <ellipse cx="5" cy="11.6" rx="1.4" ry="2" fill="#c98a5a"/>
+  <path fill="none" stroke="#6d3a1e" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.4" d="M5 11.6c.6 0 .8-.6.6-1c-.4-.6-1.2-.4-1.2.4"/>
+  </g>
+  <g transform="rotate(-15 17 18)">
+  <rect width="20" height="4" x="7" y="15" fill="#18181d" stroke="#18181d" stroke-width="1.2" stroke-linejoin="round" rx="2"/>
+  <ellipse cx="7" cy="17" rx="1.4" ry="2" fill="#18181d" stroke="#18181d" stroke-width="1.2" stroke-linejoin="round"/>
+  <rect width="20" height="4" x="7" y="15" fill="#9a5530" rx="2"/>
+  <rect width="20" height="1.6" x="7" y="15" fill="#c0784a" rx="0.8"/>
+  <ellipse cx="7" cy="17" rx="1.4" ry="2" fill="#d49a6a"/>
+  <path fill="none" stroke="#6d3a1e" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.4" d="M7 17c.6 0 .8-.6.6-1c-.4-.6-1.2-.4-1.2.4"/>
+  </g>
+  <g transform="rotate(0 17 23)">
+  <rect width="20" height="4" x="6" y="21.6" fill="#18181d" stroke="#18181d" stroke-width="1.2" stroke-linejoin="round" rx="2"/>
+  <ellipse cx="6" cy="23.6" rx="1.4" ry="2" fill="#18181d" stroke="#18181d" stroke-width="1.2" stroke-linejoin="round"/>
+  <rect width="20" height="4" x="6" y="21.6" fill="#8a4a2a" rx="2"/>
+  <rect width="20" height="1.6" x="6" y="21.6" fill="#b0683e" rx="0.8"/>
+  <ellipse cx="6" cy="23.6" rx="1.4" ry="2" fill="#c98a5a"/>
+  <path fill="none" stroke="#6d3a1e" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.4" d="M6 23.6c.6 0 .8-.6.6-1c-.4-.6-1.2-.4-1.2.4"/>
+  </g>
+  </g>
+</svg>

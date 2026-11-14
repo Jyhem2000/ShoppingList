@@ -3067,7 +3067,7 @@
     "types": { "fr": ["en poudre", "en bâtons"] },
     "category": "epices",
     "unit": "pot",
-    "icon": "epices",
+    "icon": "cannelle",
     "since": 5
   },
   {
