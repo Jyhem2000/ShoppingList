@@ -535,6 +535,7 @@ export const fr = {
     search: "Chercher un article",
     favorites: "Favoris",
     usual: "Habituels",
+    categories: "Catégories",
     noResult: "Aucun article trouvé.",
     suggestions: "Articles trouvés",
     added: (name: string) => `${name} ajouté à la liste`,
