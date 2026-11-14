@@ -24,7 +24,7 @@ export function ListHeader({
           type="button"
           onClick={onChooseList}
           aria-label={`${listName} — ${t.chooseList}`}
-          className="-my-1.5 flex min-h-11 min-w-0 flex-1 items-center gap-1 text-left"
+          className="-my-1.5 flex min-h-11 min-w-0 flex-1 items-center gap-2 text-left"
         >
           <PageTitle>{listName}</PageTitle>
           {/* Centré sur les majuscules du nom (de leur sommet à la ligne de base, mesurés),

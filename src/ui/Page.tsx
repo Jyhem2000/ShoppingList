@@ -108,14 +108,14 @@ export function PageTitle({
 
 /**
  * Sous-titre d'une partie d'écran (Mes données, Application, Favoris…) : le même partout.
- * Un trait or le signale (l'or marque les repères, docs/05 § 2), le texte reste sobre.
+ * Un trait or le signale, dans les deux thèmes (aplat `--secondary-fill` : l'or marque les repères, docs/05 § 2) ; le texte reste sobre.
  */
 export function SectionTitle({ children }: { children: ReactNode }) {
   return (
     <h2 className="flex items-center gap-2 px-1 pb-2.5 text-base font-bold tracking-tight text-text">
       <span
         aria-hidden
-        className="h-4 w-1 shrink-0 rounded-full bg-secondary"
+        className="h-5 w-1 shrink-0 rounded-full bg-secondary-fill"
       />
       {children}
     </h2>
