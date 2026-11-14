@@ -2,8 +2,8 @@
 <rect width="13" height="19" x="9.5" y="10" fill="#e6edf2" rx="2.6"/>
   <clipPath id="sj"><rect width="13" height="19" x="9.5" y="10" fill="#000" rx="2.6"/></clipPath>
   <g clip-path="url(#sj)">
-  <path fill="#c8381e" d="M9.5 15.6Q16 13.8 22.5 15.6V29H9.5z"/>
-  <path fill="#a02a14" d="M18.5 14.83Q20.6 15 22.5 15.6V29H18.5z"/>
+  <rect width="13" height="14.4" x="9.5" y="14.6" fill="#c8381e"/>
+  <rect width="4" height="14.4" x="18.5" y="14.6" fill="#a02a14"/>
   
   <rect width="13" height="5.4" x="9.5" y="19.4" fill="#fbf4dc"/>
   <rect width="13" height="0.9" x="9.5" y="19.4" fill="#2a2a30"/>

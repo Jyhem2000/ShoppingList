@@ -1,7 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-<path fill="#f2c84a" d="M16 6l10 5-10 5-10-5z"/>
-  <path fill="#d9a62a" d="M6 11l10 5v11l-10-5z"/>
-  <path fill="#b8861e" d="M16 16l10-5v11l-10 5z"/>
-  <path fill="#c0282e" d="M6 15.4l10 5v3.4l-10-5z"/>
-  <path fill="#a8252a" d="M16 20.4l10-5v3.4l-10 5z"/>
+<path fill="#f2c84a" d="M16 14l10 4.6-10 4.6-10-4.6z"/>
+  <path fill="#d9a62a" d="M6 18.6l10 4.6v5.4l-10-4.6z"/>
+  <path fill="#b8861e" d="M16 23.2l10-4.6v5.4l-10 4.6z"/>
+  <path fill="#c0282e" d="M6 20.4l10 4.6v1.8l-10-4.6z"/>
+  <path fill="#a8252a" d="M16 25l10-4.6v1.8l-10 4.6z"/>
+  <path fill="#18181d" stroke="#18181d" stroke-width="1.4" stroke-linejoin="round" d="M16 8l10 4.6v5.4l-10 4.6-10-4.6v-5.4z"/>
+  <path fill="#f2c84a" d="M16 8l10 4.6-10 4.6-10-4.6z"/>
+  <path fill="#d9a62a" d="M6 12.6l10 4.6v5.4l-10-4.6z"/>
+  <path fill="#b8861e" d="M16 17.2l10-4.6v5.4l-10 4.6z"/>
+  <path fill="#c0282e" d="M6 14.4l10 4.6v1.8l-10-4.6z"/>
+  <path fill="#a8252a" d="M16 19l10-4.6v1.8l-10 4.6z"/>
 </svg>

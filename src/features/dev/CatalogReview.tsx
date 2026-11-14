@@ -5,7 +5,7 @@ import { catalogData } from "@/data/catalog";
 import { fr } from "@/i18n/fr";
 import { canCopyText, copyText } from "@/platform/clipboard";
 import { Button } from "@/ui/button";
-import { TextArea } from "@/ui/form";
+import { Chip, TextArea } from "@/ui/form";
 import { paletteColor } from "@/ui/palette";
 import { ProductIcon } from "@/ui/ProductIcon";
 import { showToast } from "@/ui/toast";
@@ -32,12 +32,15 @@ function loadRemarks(): Record<string, string> {
 /**
  * Relecture d'un lot du catalogue (phase 8, temporaire) : chaque nouvel article avec son
  * icône en grand et à la taille d'une ligne, sa catégorie, son unité et la nature de son
- * dessin. « Refaire » ouvre un champ pour dire ce qui ne va pas ; en bas, toutes les
- * remarques se copient dans le presse-papiers, à coller dans la conversation.
+ * dessin. « Refaire » ouvre un champ pour dire ce qui ne va pas ; « Refaire uniquement »
+ * n'affiche que les icônes à revoir, pour valider leurs corrections (toucher « Refaire »
+ * à nouveau la retire) ; en bas, toutes les remarques se copient dans le presse-papiers.
  */
 export function CatalogReview() {
   const batch = catalogData.filter((a) => a.since === SINCE);
   const [remarks, setRemarks] = useState(loadRemarks);
+  // « Refaire uniquement » : seulement les icônes à revoir, pour valider leurs corrections.
+  const [onlyRedo, setOnlyRedo] = useState(false);
 
   useEffect(() => {
     try {
@@ -48,6 +51,7 @@ export function CatalogReview() {
   }, [remarks]);
 
   const marked = batch.filter((a) => a.key in remarks);
+  const shown = onlyRedo ? marked : batch;
   const toggle = (key: string) => {
     setRemarks((current) =>
       key in current
@@ -78,8 +82,17 @@ export function CatalogReview() {
       <p className="pb-2 font-bold">
         {t.batch} · {batch.length}
       </p>
+      <Chip
+        className="mb-3"
+        selected={onlyRedo}
+        onClick={() => {
+          setOnlyRedo((value) => !value);
+        }}
+      >
+        {t.onlyRedo(marked.length)}
+      </Chip>
       <ul className="flex flex-col gap-2">
-        {batch.map((article) => {
+        {shown.map((article) => {
           const category = categoriesData.find(
             (c) => c.key === article.category,
           );
