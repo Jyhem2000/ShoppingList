@@ -5,7 +5,6 @@ import {
   ListPlus,
   Pencil,
   Trash2,
-  Rows3,
 } from "lucide-react";
 import { useState } from "react";
 import { db } from "@/db/database";
@@ -21,20 +20,19 @@ const t = fr.list.menuSheet;
 type View = "menu" | "rename" | "clear" | "delete";
 
 /**
- * Menu `⋯` de la liste (docs/04 § 2.1, docs/03 B2 et B6) : renommer, dupliquer,
- * ajouter une autre liste, retirer les cochés, vider, supprimer, toutes les listes.
+ * Menu `⋯` de la liste (docs/04 § 2.1, docs/03 B2 et B6) : seulement des actions sur la
+ * liste courante — renommer, dupliquer, y ajouter le contenu d'une autre liste, retirer
+ * les cochés, vider, supprimer. Les autres listes : toucher le nom de la liste.
  */
 export function ListMenuSheet({
   data,
   onClose,
   onAddLists,
-  onManageLists,
   onRemoveItems,
 }: {
   data: ListData;
   onClose: () => void;
   onAddLists: () => void;
-  onManageLists: () => void;
   onRemoveItems: (ids: string[]) => void;
 }) {
   const [view, setView] = useState<View>("menu");
@@ -62,7 +60,9 @@ export function ListMenuSheet({
           ? t.confirmClearText
           : view === "delete"
             ? t.confirmDeleteText
-            : undefined
+            : view === "menu"
+              ? t.description
+              : undefined
       }
     >
       {view === "menu" && (
@@ -84,11 +84,12 @@ export function ListMenuSheet({
           >
             {t.duplicate}
           </MenuItem>
-          <MenuItem icon={<ListPlus />} onClick={onAddLists}>
+          <MenuItem
+            icon={<ListPlus />}
+            disabled={data.lists.length < 2}
+            onClick={onAddLists}
+          >
             {t.addLists}
-          </MenuItem>
-          <MenuItem icon={<Rows3 />} onClick={onManageLists}>
-            {t.manage}
           </MenuItem>
           <MenuItem
             icon={<CircleCheckBig />}

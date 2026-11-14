@@ -50,7 +50,7 @@ Sur Android, le geste ou bouton **Retour** du système ferme d'abord le panneau 
 └──────────────────────────────────┘
 ```
 
-- Menu `⋯` : renommer, dupliquer, ajouter une autre liste, toutes mes listes, partager _(v1.3)_, coller une liste _(v1.3)_, retirer les cochés, vider, supprimer la liste.
+- Menu `⋯` : **seulement des actions sur la liste courante** (« Actions sur cette liste ») — renommer, dupliquer, « Y ajouter le contenu d'une autre liste » (panneau « Compléter « Courses » »), partager _(v1.3)_, coller une liste _(v1.3)_, retirer les cochés, vider, supprimer la liste. Les autres listes s'ouvrent en touchant le nom de la liste (14 novembre 2026 : « Toutes mes listes » retiré du menu, qui semblait mélanger cette liste et les autres).
 - Tap sur le nom de la liste → **Mes listes** : changer de liste, réordonner (poignée), créer une liste en y ajoutant le contenu d'autres listes.
 - La liste est rangée **par catégorie** (03 B1) ; le magasin se choisit au départ des courses (« C'est parti »), et les magasins se gèrent dans Réglages → Magasins & rayons.
 - Tap sur une ligne → **fiche ligne** (B3). Glisser à gauche → supprimer (B4), avec « Annuler » pendant 5 secondes.
@@ -124,7 +124,6 @@ Ressenti
 Affichage
   Thème ................. Automatique · Sombre · Clair
   Affichage compact ..... ◯
-  Simplifier les quantités ●   (1200 g → 1,2 kg)
 Mode courses
   Lignes cochées ........ Glissent en bas ▸
 Mes données

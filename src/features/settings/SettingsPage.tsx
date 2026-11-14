@@ -5,7 +5,6 @@ import {
   Lightbulb,
   Palette,
   Ruler,
-  Scale,
   Store,
   Sun,
   Volume2,
@@ -17,9 +16,6 @@ import {
   usePreferences,
 } from "@/app/preferences";
 import { routes } from "@/app/routes";
-import { db } from "@/db/database";
-import { useSettings } from "@/db/hooks";
-import { updateSettings } from "@/db/settings";
 import { isAudioSupported } from "@/feedback";
 import { fr } from "@/i18n/fr";
 import { isWakeLockSupported } from "@/platform/wakeLock";
@@ -35,12 +31,10 @@ const t = fr.settings;
 
 /**
  * Écran Réglages (docs/04 § 2.7). Section « Fonctionnalités » : seules celles qui
- * concernent l'app ; grisées si le téléphone ne les permet pas. Section « Liste » :
- * réglages enregistrés avec les données (docs/03 H8).
+ * concernent l'app ; grisées si le téléphone ne les permet pas.
  */
 export function SettingsPage() {
   const preferences = usePreferences();
-  const settings = useSettings();
   const wakeLock = isWakeLockSupported();
   const audio = isAudioSupported();
 
@@ -120,19 +114,6 @@ export function SettingsPage() {
             </>
           }
         />
-      </Section>
-
-      <Section title={t.sectionList}>
-        <Row icon={<Scale />} label={t.simplify.title} hint={t.simplify.hint}>
-          <Switch
-            checked={settings?.simplifyQuantities ?? true}
-            disabled={!settings}
-            aria-label={t.simplify.title}
-            onCheckedChange={(on) =>
-              void updateSettings(db, { simplifyQuantities: on })
-            }
-          />
-        </Row>
       </Section>
 
       <Section title={fr.manage.section}>

@@ -225,9 +225,6 @@ export function ListPage() {
           onAddLists={() => {
             setPanel({ kind: "merge", sources: [] });
           }}
-          onManageLists={() => {
-            setPanel({ kind: "lists" });
-          }}
           onRemoveItems={removeItems}
         />
       )}

@@ -99,7 +99,6 @@ export function buildInitialData(
   const settings: Settings = {
     animations: "auto",
     compact: false,
-    simplifyQuantities: true,
     checkedBehavior: "sink",
     catalogVersion: CATALOG_VERSION,
     currentListId: list.id,

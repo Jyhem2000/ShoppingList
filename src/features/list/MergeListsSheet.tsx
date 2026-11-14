@@ -15,7 +15,7 @@ import type { ListData } from "./useListData";
 const t = fr.list.merge;
 
 /**
- * Ajouter une ou plusieurs autres listes à la liste courante (docs/02 § 6) :
+ * Compléter la liste courante avec le contenu d'autres listes (docs/02 § 6) :
  * choix des listes, aperçu des lignes (cases à cocher), puis fusion.
  */
 export function MergeListsSheet({
@@ -52,7 +52,8 @@ export function MergeListsSheet({
       onOpenChange={(open) => {
         if (!open) onClose();
       }}
-      title={t.title}
+      title={t.title(data.list.name)}
+      description={t.text}
     >
       <div className="flex flex-col gap-4 pb-1">
         <fieldset>

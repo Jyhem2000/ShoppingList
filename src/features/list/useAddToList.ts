@@ -55,12 +55,8 @@ export function useAddToList(
       acceptedTypes: string[] = [],
     ): Promise<PendingAdd | undefined> => {
       if (!data) return undefined;
-      const amount = entryAmount(
-        entry,
-        article,
-        data.units,
-        data.settings.simplifyQuantities,
-      );
+      // Toujours simplifiée (docs/03 H8).
+      const amount = entryAmount(entry, article, data.units, true);
       if (!amount) return undefined;
       const result = await addListItem(db, {
         listId: data.list.id,

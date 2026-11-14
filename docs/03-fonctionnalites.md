@@ -316,7 +316,7 @@ Retirée le 8 novembre 2026 : l'API Vibration n'existe pas sur iPhone, et l'astu
 
 ### H8. Simplification des quantités
 
-Réglage **activé par défaut** : 1200 g → 1,2 kg, avec « Annuler » (voir [02 § 5](02-modele-metier.md#conversions)). _v1.0._
+**Toujours active** : 1200 g → 1,2 kg, avec « Annuler » (voir [02 § 5](02-modele-metier.md#conversions)). _v1.0._ Le réglage qui permettait de la désactiver a été retiré le 14 novembre 2026 : personne ne le change, « Annuler » suffit pour une exception.
 
 ---
 

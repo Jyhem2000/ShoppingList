@@ -113,7 +113,6 @@ describe("premier lancement", () => {
     expect(lists.map((l) => l.name)).toEqual(["Courses"]);
     const settings = (await db.meta.get("settings"))?.value;
     expect(settings?.currentListId).toBe(lists[0]?.id);
-    expect(settings?.simplifyQuantities).toBe(true);
   });
 
   it("ne touche à rien si l'utilisateur a déjà des données", async () => {
