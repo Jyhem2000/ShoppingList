@@ -56,7 +56,8 @@ import { showToast } from "@/ui/toast";
 import { cn } from "@/ui/utils";
 import { AisleSheet } from "./AisleSheet";
 import { NameField } from "./NameField";
-
+import { RowButton, RowText } from "@/ui/RowButton";
+import { ConfirmActions } from "@/ui/form";
 const t = fr.manage.store;
 
 /**
@@ -250,14 +251,10 @@ export function StorePage() {
                   key={o.id}
                   className="flex min-h-12 items-center gap-2 pr-2 pl-4"
                 >
-                  <span className="min-w-0 flex-1">
-                    <span className="block truncate font-semibold">
-                      {article.name}
-                    </span>
-                    <span className="block truncate text-sm text-muted-foreground">
-                      → {textOf(aisle).label}
-                    </span>
-                  </span>
+                  <RowText
+                    title={article.name}
+                    detail={`→ ${textOf(aisle).label}`}
+                  />
                   <button
                     type="button"
                     aria-label={t.removeOverride(article.name)}
@@ -319,8 +316,17 @@ export function StorePage() {
               const text = textOf(aisle);
               return (
                 <li key={aisle.id}>
-                  <button
-                    type="button"
+                  <RowButton
+                    inset="sheet"
+                    icon={
+                      <GroupIcon
+                        name={aisle.icon}
+                        color={aisle.color}
+                        className="size-5 shrink-0"
+                      />
+                    }
+                    title={text.label}
+                    detail={text.contents}
                     onClick={() => {
                       void setAisleCategoryRole(
                         db,
@@ -331,26 +337,7 @@ export function StorePage() {
                       );
                       setPlacing(null);
                     }}
-                    className="flex min-h-12 w-full items-center gap-3 rounded-xl px-2 py-1.5 text-left active:bg-raised"
-                  >
-                    <GroupIcon
-                      name={aisle.icon}
-                      className={cn(
-                        "size-5 shrink-0",
-                        palette[paletteColor(aisle.color)].text,
-                      )}
-                    />
-                    <span className="min-w-0 flex-1">
-                      <span className="block truncate font-semibold">
-                        {text.label}
-                      </span>
-                      {text.contents && (
-                        <span className="block truncate text-sm text-muted-foreground">
-                          {text.contents}
-                        </span>
-                      )}
-                    </span>
-                  </button>
+                  />
                 </li>
               );
             })}
@@ -367,33 +354,24 @@ export function StorePage() {
           title={t.deleteTitle(store.name)}
           description={t.deleteText}
         >
-          <div className="flex flex-col gap-3">
-            <Button
-              variant="destructive"
-              onClick={() => {
-                void deleteStore(db, store.id).then((result) => {
-                  setConfirmDelete(false);
-                  if (result === "deleted") {
-                    showToast(t.deleted(store.name), { tone: "success" });
-                    void navigate(routes.manageStores, {
-                      replace: true,
-                      state: backState,
-                    });
-                  } else showToast(t.deleteShopping, { tone: "warning" });
-                });
-              }}
-            >
-              {t.delete}
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() => {
+          <ConfirmActions
+            label={t.delete}
+            onConfirm={() => {
+              void deleteStore(db, store.id).then((result) => {
                 setConfirmDelete(false);
-              }}
-            >
-              {fr.manage.confirmCancel}
-            </Button>
-          </div>
+                if (result === "deleted") {
+                  showToast(t.deleted(store.name), { tone: "success" });
+                  void navigate(routes.manageStores, {
+                    replace: true,
+                    state: backState,
+                  });
+                } else showToast(t.deleteShopping, { tone: "warning" });
+              });
+            }}
+            onCancel={() => {
+              setConfirmDelete(false);
+            }}
+          />
         </Sheet>
       )}
     </>

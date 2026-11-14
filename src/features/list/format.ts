@@ -10,7 +10,9 @@ import type {
 } from "@/domain/model";
 import { aisleContents, aisleTitle } from "@/domain/stores";
 import { fr } from "@/i18n/fr";
-import { paletteColors, type PaletteColor } from "@/ui/palette";
+
+// Déplacée dans la palette (src/ui) ; gardée ici pour les écrans qui l'importent d'ici.
+export { paletteColor } from "@/ui/palette";
 
 const t = fr.list;
 
@@ -148,8 +150,4 @@ export function aisleText(
     description,
     automatic,
   };
-}
-/** Couleur de palette d'une catégorie ou d'un rayon (gris si inconnue). */
-export function paletteColor(color: string | undefined): PaletteColor {
-  return paletteColors.find((c) => c === color) ?? "gris";
 }

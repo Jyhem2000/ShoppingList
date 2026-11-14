@@ -1,4 +1,4 @@
-import { ChevronRight, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import { manageArticlePath, routes } from "@/app/routes";
@@ -16,11 +16,10 @@ import { SearchField } from "@/ui/SearchField";
 import { Button } from "@/ui/button";
 import { Field, Select, TextInput } from "@/ui/form";
 import { PageHeader, Section } from "@/ui/Page";
-import { NavButton } from "@/ui/NavButton";
 import { ProductIcon } from "@/ui/ProductIcon";
 import { Sheet } from "@/ui/Sheet";
 import { showToast } from "@/ui/toast";
-
+import { RowButton } from "@/ui/RowButton";
 const t = fr.manage.articles;
 const collator = new Intl.Collator("fr");
 
@@ -135,29 +134,20 @@ export function ArticlesPage() {
                   const category = data.categoryById.get(article.categoryId);
                   return (
                     <li key={article.id}>
-                      <NavButton
+                      <RowButton
                         to={manageArticlePath(article.id)}
-                        className="flex min-h-12 w-full items-center gap-3 px-4 py-1.5 text-left active:bg-raised"
-                      >
-                        <ProductIcon
-                          icon={article.icon}
-                          label={article.name}
-                          color={paletteColor(category?.color)}
-                          size={28}
-                        />
-                        <span className="min-w-0 flex-1">
-                          <span className="block truncate font-semibold">
-                            {article.name}
-                          </span>
-                          <span className="block truncate text-sm text-muted-foreground">
-                            {category?.name}
-                          </span>
-                        </span>
-                        <ChevronRight
-                          className="size-5 text-muted-foreground"
-                          aria-hidden
-                        />
-                      </NavButton>
+                        icon={
+                          <ProductIcon
+                            icon={article.icon}
+                            label={article.name}
+                            color={paletteColor(category?.color)}
+                            size={28}
+                          />
+                        }
+                        title={article.name}
+                        detail={category?.name}
+                        chevron
+                      />
                     </li>
                   );
                 })}

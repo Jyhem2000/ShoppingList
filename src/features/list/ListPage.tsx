@@ -14,7 +14,7 @@ import { StaleSessionPrompt } from "@/features/shopping/StaleSessionPrompt";
 import { StartShoppingSheet } from "@/features/shopping/StartShoppingSheet";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
-import { EmptyState } from "@/ui/Page";
+import { EmptyState, Loading } from "@/ui/Page";
 import { showToast } from "@/ui/toast";
 import { AddArticleBar } from "./AddArticleBar";
 import { CreateArticleSheet } from "./CreateArticleSheet";
@@ -49,12 +49,7 @@ export function ListPage() {
     setPanel(null);
   };
 
-  if (!data)
-    return (
-      <p className="px-5 pt-10 text-center text-muted-foreground">
-        {t.loading}
-      </p>
-    );
+  if (!data) return <Loading>{t.loading}</Loading>;
 
   /** Retire des lignes, avec « Annuler » pendant 5 secondes (docs/03 B4). */
   const removeItems = (ids: ID[]) => {

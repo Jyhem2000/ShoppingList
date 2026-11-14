@@ -12,7 +12,7 @@ import { categoryRole } from "@/domain/stores";
 import { aisleText, paletteColor } from "@/features/list/format";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
-import { Field, Select } from "@/ui/form";
+import { Field, Select, ConfirmActions } from "@/ui/form";
 import { GroupIcon } from "@/ui/GroupIcon";
 import { palette } from "@/ui/palette";
 import { Sheet } from "@/ui/Sheet";
@@ -21,7 +21,7 @@ import { Switch } from "@/ui/switch";
 import { showToast } from "@/ui/toast";
 import { NameField } from "./NameField";
 import { cn } from "@/ui/utils";
-
+import { RowButton } from "@/ui/RowButton";
 const t = fr.manage.aisle;
 
 type Step = "edit" | "merge" | "delete";
@@ -101,8 +101,17 @@ export function AisleSheet({
             const targetText = textOf(target);
             return (
               <li key={target.id}>
-                <button
-                  type="button"
+                <RowButton
+                  inset="sheet"
+                  icon={
+                    <GroupIcon
+                      name={target.icon}
+                      color={target.color}
+                      className="size-5 shrink-0"
+                    />
+                  }
+                  title={targetText.label}
+                  detail={targetText.contents}
                   onClick={() => {
                     void mergeAisleInto(db, aisle.id, target.id).then(() => {
                       showToast(t.merged(text.label, targetText.label), {
@@ -111,26 +120,7 @@ export function AisleSheet({
                     });
                     onClose();
                   }}
-                  className="flex min-h-12 w-full items-center gap-3 rounded-xl px-2 py-1.5 text-left active:bg-raised"
-                >
-                  <GroupIcon
-                    name={target.icon}
-                    className={cn(
-                      "size-5 shrink-0",
-                      palette[paletteColor(target.color)].text,
-                    )}
-                  />
-                  <span className="min-w-0 flex-1">
-                    <span className="block truncate font-semibold">
-                      {targetText.label}
-                    </span>
-                    {targetText.contents && (
-                      <span className="block truncate text-sm text-muted-foreground">
-                        {targetText.contents}
-                      </span>
-                    )}
-                  </span>
-                </button>
+                />
               </li>
             );
           })}
@@ -147,17 +137,15 @@ export function AisleSheet({
               onCheckedChange={setPromote}
             />
           </label>
-          <Button
-            variant="destructive"
-            onClick={() => {
+          <ConfirmActions
+            label={t.delete}
+            onConfirm={() => {
               void deleteAisle(db, aisle.id, promote).then(() => {
                 showToast(t.deleted(text.label), { tone: "success" });
               });
               onClose();
             }}
-          >
-            {t.delete}
-          </Button>
+          />
         </div>
       )}
 

@@ -532,7 +532,6 @@ export const fr = {
     search: "Chercher un article",
     favorites: "Favoris",
     usual: "Habituels",
-    categories: "Catégories",
     noResult: "Aucun article trouvé.",
     clear: "Effacer la recherche",
     suggestions: "Articles trouvés",

@@ -1,4 +1,4 @@
-import { ChevronRight, GitMerge, Plus, Trash2 } from "lucide-react";
+import { GitMerge, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { routes } from "@/app/routes";
 import {
@@ -13,16 +13,15 @@ import type { Category, ID } from "@/domain/model";
 import { categoryShortName, paletteColor } from "@/features/list/format";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
-import { Field, Select, TextInput } from "@/ui/form";
+import { Field, Select, TextInput, ConfirmActions } from "@/ui/form";
 import { GroupIcon } from "@/ui/GroupIcon";
 import { PageHeader, Section } from "@/ui/Page";
-import { palette, type PaletteColor } from "@/ui/palette";
+import { type PaletteColor } from "@/ui/palette";
 import { Sheet } from "@/ui/Sheet";
 import { StylePicker } from "@/ui/StylePicker";
 import { showToast } from "@/ui/toast";
-import { cn } from "@/ui/utils";
 import { NameField } from "./NameField";
-
+import { RowButton } from "@/ui/RowButton";
 const t = fr.manage.categories;
 const collator = new Intl.Collator("fr");
 
@@ -61,33 +60,21 @@ export function CategoriesPage() {
         <ul className="divide-y divide-border/50">
           {sorted.map((category) => (
             <li key={category.id}>
-              <button
-                type="button"
+              <RowButton
+                icon={
+                  <GroupIcon
+                    name={category.icon}
+                    color={category.color}
+                    className="size-6 shrink-0"
+                  />
+                }
+                title={category.name}
+                detail={t.count(counts.get(category.id) ?? 0)}
+                chevron
                 onClick={() => {
                   setOpen(category.id);
                 }}
-                className="flex min-h-12 w-full items-center gap-3 px-4 py-1.5 text-left active:bg-raised"
-              >
-                <GroupIcon
-                  name={category.icon}
-                  className={cn(
-                    "size-6 shrink-0",
-                    palette[paletteColor(category.color)].text,
-                  )}
-                />
-                <span className="min-w-0 flex-1">
-                  <span className="block truncate font-semibold">
-                    {category.name}
-                  </span>
-                  <span className="block text-sm text-muted-foreground">
-                    {t.count(counts.get(category.id) ?? 0)}
-                  </span>
-                </span>
-                <ChevronRight
-                  className="size-5 text-muted-foreground"
-                  aria-hidden
-                />
-              </button>
+              />
             </li>
           ))}
         </ul>
@@ -222,8 +209,16 @@ function CategorySheet({
         <ul className="-mx-2">
           {others.map((target) => (
             <li key={target.id}>
-              <button
-                type="button"
+              <RowButton
+                inset="sheet"
+                icon={
+                  <GroupIcon
+                    name={target.icon}
+                    color={target.color}
+                    className="size-5 shrink-0"
+                  />
+                }
+                title={target.name}
                 onClick={() => {
                   void mergeCategoryInto(db, category.id, target.id).then(
                     () => {
@@ -234,17 +229,7 @@ function CategorySheet({
                   );
                   onClose();
                 }}
-                className="flex min-h-12 w-full items-center gap-3 rounded-xl px-2 text-left font-semibold active:bg-raised"
-              >
-                <GroupIcon
-                  name={target.icon}
-                  className={cn(
-                    "size-5",
-                    palette[paletteColor(target.color)].text,
-                  )}
-                />
-                {target.name}
-              </button>
+              />
             </li>
           ))}
         </ul>
@@ -267,18 +252,16 @@ function CategorySheet({
               </Select>
             </Field>
           )}
-          <Button
-            variant="destructive"
+          <ConfirmActions
+            label={t.delete}
             disabled={!moveTo}
-            onClick={() => {
+            onConfirm={() => {
               void deleteCategory(db, category.id, moveTo).then(() => {
                 showToast(t.deleted(category.name), { tone: "success" });
               });
               onClose();
             }}
-          >
-            {t.delete}
-          </Button>
+          />
         </div>
       )}
       {step === "edit" && (

@@ -21,7 +21,7 @@ import { fr } from "@/i18n/fr";
 import { SearchField } from "@/ui/SearchField";
 import { Button } from "@/ui/button";
 import { backState } from "@/ui/navigation";
-import { Field, Select, TextInput } from "@/ui/form";
+import { Field, Select, TextInput, ConfirmActions } from "@/ui/form";
 import { EmptyState, PageHeader, Row, Section } from "@/ui/Page";
 import { ProductIcon } from "@/ui/ProductIcon";
 import { Sheet } from "@/ui/Sheet";
@@ -29,7 +29,7 @@ import { Switch } from "@/ui/switch";
 import { showToast } from "@/ui/toast";
 import { IconPickerSheet } from "./IconPickerSheet";
 import { NameField } from "./NameField";
-
+import { RowButton } from "@/ui/RowButton";
 const t = fr.manage.article;
 
 /** Un alias est stocké en slug (docs/07 § 5) : on l'affiche avec des espaces. */
@@ -282,30 +282,21 @@ function ArticleForm({ article, data }: { article: Article; data: ListData }) {
           title={t.deleteTitle(article.name)}
           description={t.deleteText(usage?.lists ?? 0)}
         >
-          <div className="flex flex-col gap-3">
-            <Button
-              variant="destructive"
-              onClick={() => {
-                void deleteArticle(db, article.id).then(() => {
-                  showToast(t.deleted(article.name), { tone: "success" });
-                  void navigate(routes.manageArticles, {
-                    replace: true,
-                    state: backState,
-                  });
+          <ConfirmActions
+            label={t.delete}
+            onConfirm={() => {
+              void deleteArticle(db, article.id).then(() => {
+                showToast(t.deleted(article.name), { tone: "success" });
+                void navigate(routes.manageArticles, {
+                  replace: true,
+                  state: backState,
                 });
-              }}
-            >
-              {t.delete}
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() => {
-                setPanel(null);
-              }}
-            >
-              {fr.manage.confirmCancel}
-            </Button>
-          </div>
+              });
+            }}
+            onCancel={() => {
+              setPanel(null);
+            }}
+          />
         </Sheet>
       )}
     </>
@@ -459,28 +450,22 @@ function MergeArticleSheet({
               const category = data.categoryById.get(article.categoryId);
               return (
                 <li key={article.id}>
-                  <button
-                    type="button"
+                  <RowButton
+                    inset="sheet"
+                    icon={
+                      <ProductIcon
+                        icon={article.icon}
+                        label={article.name}
+                        color={paletteColor(category?.color)}
+                        size={28}
+                      />
+                    }
+                    title={article.name}
+                    detail={category?.name}
                     onClick={() => {
                       setOther(article);
                     }}
-                    className="flex min-h-12 w-full items-center gap-3 rounded-xl px-2 text-left active:bg-raised"
-                  >
-                    <ProductIcon
-                      icon={article.icon}
-                      label={article.name}
-                      color={paletteColor(category?.color)}
-                      size={28}
-                    />
-                    <span className="min-w-0 flex-1">
-                      <span className="block truncate font-semibold">
-                        {article.name}
-                      </span>
-                      <span className="block truncate text-sm text-muted-foreground">
-                        {category?.name}
-                      </span>
-                    </span>
-                  </button>
+                  />
                 </li>
               );
             })}

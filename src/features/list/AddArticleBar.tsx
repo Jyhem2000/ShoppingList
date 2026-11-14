@@ -9,7 +9,8 @@ import { AddBar } from "@/ui/AddBar";
 import { ProductIcon } from "@/ui/ProductIcon";
 import { lineQuantity, paletteColor } from "./format";
 import type { ListData } from "./useListData";
-
+import { RowButton } from "@/ui/RowButton";
+import { SuggestionList } from "@/ui/SuggestionList";
 const t = fr.list;
 const MAX_SUGGESTIONS = 5;
 
@@ -69,65 +70,56 @@ export function AddArticleBar({
     <div className="absolute inset-x-0 bottom-0 z-30 bg-gradient-to-t from-bg via-bg/90 to-transparent px-3 pt-6 pb-3">
       <div className="mx-auto max-w-xl">
         {entry && (suggestions.length > 0 || canCreate) && (
-          <ul
-            aria-label={t.addPlaceholder}
-            // Garde le clavier ouvert : le tap ne retire pas le focus du champ.
-            onMouseDown={(event) => {
-              event.preventDefault();
-            }}
-            className="mb-2 overflow-hidden rounded-2xl border border-border bg-surface shadow-lg shadow-black/40"
-          >
+          <SuggestionList aria-label={t.addPlaceholder} className="mb-2">
             {suggestions.map(({ article }) => {
               const category = data.categoryById.get(article.categoryId);
               const item = inList.get(article.id);
               return (
                 <li key={article.id}>
-                  <button
-                    type="button"
+                  <RowButton
+                    inset="popover"
+                    icon={
+                      <ProductIcon
+                        icon={article.icon}
+                        label={article.name}
+                        color={paletteColor(category?.color)}
+                        size={28}
+                      />
+                    }
+                    title={article.name}
+                    detail={
+                      item
+                        ? t.inList(lineQuantity(item, data.unitById))
+                        : category?.name
+                    }
                     onClick={() => {
                       onPick(article, entry);
                       done();
                     }}
-                    className="flex min-h-12 w-full items-center gap-3 px-3 py-1.5 text-left active:bg-raised"
-                  >
-                    <ProductIcon
-                      icon={article.icon}
-                      label={article.name}
-                      color={paletteColor(category?.color)}
-                      size={28}
-                    />
-                    <span className="min-w-0 flex-1">
-                      <span className="block truncate font-semibold">
-                        {article.name}
-                      </span>
-                      <span className="block truncate text-sm text-muted-foreground">
-                        {item
-                          ? t.inList(lineQuantity(item, data.unitById))
-                          : category?.name}
-                      </span>
-                    </span>
-                  </button>
+                  />
                 </li>
               );
             })}
             {canCreate && (
               <li>
-                <button
-                  type="button"
+                <RowButton
+                  inset="popover"
+                  className="font-semibold text-primary"
+                  icon={
+                    <span className="flex size-7 shrink-0 items-center justify-center rounded-lg bg-raised">
+                      <Plus className="size-4" aria-hidden />
+                    </span>
+                  }
                   onClick={() => {
                     onCreate(entry);
                     setText("");
                   }}
-                  className="flex min-h-12 w-full items-center gap-3 px-3 py-1.5 text-left font-semibold text-primary active:bg-raised"
                 >
-                  <span className="flex size-7 items-center justify-center rounded-lg bg-raised">
-                    <Plus className="size-4" aria-hidden />
-                  </span>
                   {t.create(entry.text)}
-                </button>
+                </RowButton>
               </li>
             )}
-          </ul>
+          </SuggestionList>
         )}
         {!(entry && (suggestions.length > 0 || canCreate)) && above}
         <div className="flex items-center gap-2">

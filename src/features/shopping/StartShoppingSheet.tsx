@@ -1,4 +1,4 @@
-import { Check, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { type ReactNode, useState } from "react";
 import { useNavigate } from "react-router";
 import { routes } from "@/app/routes";
@@ -10,10 +10,10 @@ import type { ListData } from "@/features/list/useListData";
 import { reportSaveError } from "@/features/list/useAddToList";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
-import { Field, TextInput } from "@/ui/form";
+import { Field, TextInput, ChoiceMark } from "@/ui/form";
 import { Sheet } from "@/ui/Sheet";
 import { cn } from "@/ui/utils";
-
+import { RowButton } from "@/ui/RowButton";
 const t = fr.shopping;
 
 /** Choix « un autre magasin » : on le crée en partant. */
@@ -48,22 +48,20 @@ export function StartShoppingSheet({
     const selected = id === choice;
     return (
       <li key={id}>
-        <button
-          type="button"
+        <RowButton
+          inset="sheet"
+          className="font-semibold"
           role="radio"
           aria-checked={selected}
           onClick={() => {
             setChoice(id);
           }}
-          className="flex min-h-12 w-full items-center gap-3 rounded-xl px-2 text-left font-semibold active:bg-raised"
+          icon={<ChoiceMark selected={selected} icon={icon} />}
         >
-          <span className="flex size-5 items-center justify-center text-secondary">
-            {selected ? <Check className="size-5" aria-hidden /> : icon}
-          </span>
           <span className={cn("truncate", selected && "text-primary")}>
             {label}
           </span>
-        </button>
+        </RowButton>
       </li>
     );
   };

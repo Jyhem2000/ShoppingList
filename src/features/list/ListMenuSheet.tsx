@@ -11,7 +11,7 @@ import { db } from "@/db/database";
 import { deleteList, duplicateList, updateList } from "@/db/lists";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
-import { Field, MenuItem, TextInput } from "@/ui/form";
+import { ConfirmActions, Field, MenuItem, TextInput } from "@/ui/form";
 import { Sheet } from "@/ui/Sheet";
 import type { ListData } from "./useListData";
 
@@ -147,23 +147,16 @@ export function ListMenuSheet({
       )}
 
       {(view === "clear" || view === "delete") && (
-        <div className="flex gap-2">
-          <Button variant="outline" className="flex-1" onClick={onClose}>
-            {t.cancel}
-          </Button>
-          <Button
-            variant="destructive"
-            className="flex-1"
-            onClick={() => {
-              if (view === "clear")
-                onRemoveItems(data.items.map((item) => item.id));
-              else void deleteList(db, data.list.id);
-              onClose();
-            }}
-          >
-            {view === "clear" ? t.clear : t.delete}
-          </Button>
-        </div>
+        <ConfirmActions
+          label={view === "clear" ? t.clear : t.delete}
+          onConfirm={() => {
+            if (view === "clear")
+              onRemoveItems(data.items.map((item) => item.id));
+            else void deleteList(db, data.list.id);
+            onClose();
+          }}
+          onCancel={onClose}
+        />
       )}
     </Sheet>
   );

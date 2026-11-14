@@ -15,7 +15,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { Check, GripVertical, Plus } from "lucide-react";
+import { GripVertical, Plus } from "lucide-react";
 import { useState } from "react";
 import { db } from "@/db/database";
 import { createList, reorderLists } from "@/db/lists";
@@ -23,11 +23,11 @@ import { updateSettings } from "@/db/settings";
 import type { ID, ShoppingList } from "@/domain/model";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
-import { Field, TextInput } from "@/ui/form";
+import { Field, TextInput, FieldLabel, CheckRow, ChoiceMark } from "@/ui/form";
 import { Sheet } from "@/ui/Sheet";
 import { cn } from "@/ui/utils";
 import type { ListData } from "./useListData";
-
+import { RowButton } from "@/ui/RowButton";
 const t = fr.list.lists;
 
 function ListRow({
@@ -56,19 +56,17 @@ function ListRow({
         isDragging && "relative z-10 bg-raised shadow-lg",
       )}
     >
-      <button
-        type="button"
+      <RowButton
+        inset="sheet"
+        className="min-w-0 flex-1 font-semibold"
         onClick={onSelect}
         aria-current={current || undefined}
-        className="flex min-h-12 min-w-0 flex-1 items-center gap-3 rounded-xl px-2 text-left font-semibold active:bg-raised"
+        icon={<ChoiceMark selected={current} />}
       >
-        <span className="flex size-5 items-center justify-center text-secondary">
-          {current && <Check className="size-5" aria-hidden />}
-        </span>
         <span className={cn("truncate", current && "text-primary")}>
           {list.name}
         </span>
-      </button>
+      </RowButton>
       <button
         type="button"
         {...attributes}
@@ -147,28 +145,22 @@ export function ListsSheet({
             />
           </Field>
           <fieldset>
-            <legend className="mb-1.5 text-sm font-semibold text-muted-foreground">
-              {t.include}
-            </legend>
+            <FieldLabel as="legend">{t.include}</FieldLabel>
             {data.lists.map((list) => (
-              <label
+              <CheckRow
                 key={list.id}
-                className="flex min-h-11 items-center gap-3 font-semibold"
+                className="font-semibold"
+                checked={include.includes(list.id)}
+                onCheckedChange={(checked) => {
+                  setInclude((current) =>
+                    checked
+                      ? [...current, list.id]
+                      : current.filter((id) => id !== list.id),
+                  );
+                }}
               >
-                <input
-                  type="checkbox"
-                  className="size-5 accent-primary"
-                  checked={include.includes(list.id)}
-                  onChange={(event) => {
-                    setInclude((current) =>
-                      event.target.checked
-                        ? [...current, list.id]
-                        : current.filter((id) => id !== list.id),
-                    );
-                  }}
-                />
                 {list.name}
-              </label>
+              </CheckRow>
             ))}
           </fieldset>
           <Button type="submit" disabled={!name.trim()}>

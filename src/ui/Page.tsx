@@ -30,10 +30,15 @@ export function PageHeader({
           <ChevronLeft className="size-6" />
         </NavButton>
       )}
-      <h1 className="text-2xl font-extrabold tracking-tight text-primary">
-        {title}
-      </h1>
+      <PageTitle>{title}</PageTitle>
     </header>
+  );
+}
+
+/** Attente du chargement des données (rarement visible : la base est locale). */
+export function Loading({ children }: { children: ReactNode }) {
+  return (
+    <p className="px-5 pt-10 text-center text-muted-foreground">{children}</p>
   );
 }
 
@@ -78,10 +83,40 @@ export function Section({
   );
 }
 
-/** Titre d'une section : assez grand pour qu'on voie d'un coup d'œil comment l'écran est rangé. */
+/**
+ * Titre d'écran (Liste, Catalogue, Réglages, magasin en mode courses…) : le même partout,
+ * en violet (docs/05 § 2).
+ */
+export function PageTitle({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <h1
+      className={cn(
+        "truncate text-2xl font-extrabold tracking-tight text-primary",
+        className,
+      )}
+    >
+      {children}
+    </h1>
+  );
+}
+
+/**
+ * Sous-titre d'une partie d'écran (Mes données, Application, Favoris…) : le même partout.
+ * Un trait or le signale (l'or marque les repères, docs/05 § 2), le texte reste sobre.
+ */
 export function SectionTitle({ children }: { children: ReactNode }) {
   return (
-    <h2 className="px-1 pb-2 text-lg font-extrabold tracking-tight text-text">
+    <h2 className="flex items-center gap-2 px-1 pb-2.5 text-base font-bold tracking-tight text-text">
+      <span
+        aria-hidden
+        className="h-4 w-1 shrink-0 rounded-full bg-secondary"
+      />
       {children}
     </h2>
   );

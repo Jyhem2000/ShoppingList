@@ -1,5 +1,6 @@
 import { ChevronDown, Ellipsis } from "lucide-react";
 import { fr } from "@/i18n/fr";
+import { PageTitle } from "@/ui/Page";
 
 const t = fr.list;
 
@@ -25,12 +26,11 @@ export function ListHeader({
           aria-label={`${listName} — ${t.chooseList}`}
           className="-my-1.5 flex min-h-11 min-w-0 flex-1 items-center gap-1 text-left"
         >
-          <h1 className="truncate text-2xl font-extrabold tracking-tight text-primary">
-            {listName}
-          </h1>
-          {/* Centré sur les majuscules du nom, pas sur la hauteur de ligne : 2 px plus haut. */}
+          <PageTitle>{listName}</PageTitle>
+          {/* Centré sur les majuscules du nom (de leur sommet à la ligne de base, mesurés),
+              pas sur la hauteur de ligne : 1 px plus bas. */}
           <ChevronDown
-            className="size-5 shrink-0 -translate-y-0.5 text-primary"
+            className="size-5 shrink-0 translate-y-px text-primary"
             aria-hidden
           />
         </button>

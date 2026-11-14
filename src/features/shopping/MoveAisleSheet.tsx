@@ -2,16 +2,13 @@ import { useState } from "react";
 import { db } from "@/db/database";
 import { moveArticle, type MoveScope } from "@/db/sessions";
 import type { Aisle, Article, ID } from "@/domain/model";
-
-import { aisleText, paletteColor } from "@/features/list/format";
+import { aisleText } from "@/features/list/format";
 import type { ListData } from "@/features/list/useListData";
 import { fr } from "@/i18n/fr";
 import { GroupIcon } from "@/ui/GroupIcon";
-import { palette } from "@/ui/palette";
 import { Sheet } from "@/ui/Sheet";
 import { showToast } from "@/ui/toast";
-import { cn } from "@/ui/utils";
-
+import { RowButton } from "@/ui/RowButton";
 const t = fr.shopping.move;
 
 /**
@@ -86,36 +83,32 @@ export function MoveAisleSheet({
   };
 
   const row = (aisle: Aisle) => {
-    const color = paletteColor(aisle.color);
     const isCurrent = aisle.id === currentAisleId;
     const text = textOf(aisle);
     return (
       <li key={aisle.id}>
-        <button
-          type="button"
+        <RowButton
+          inset="sheet"
+          icon={
+            <GroupIcon
+              name={aisle.icon}
+              color={aisle.color}
+              className="size-5 shrink-0"
+            />
+          }
+          title={text.label}
+          detail={text.contents ?? text.description}
+          trailing={
+            isCurrent && (
+              <span className="shrink-0 text-sm text-muted-foreground">
+                {t.current}
+              </span>
+            )
+          }
           onClick={() => {
             pick(aisle);
           }}
-          className="flex min-h-12 w-full items-center gap-3 rounded-xl px-2 py-1.5 text-left active:bg-raised"
-        >
-          <GroupIcon
-            name={aisle.icon}
-            className={cn("size-5 shrink-0", palette[color].text)}
-          />
-          <span className="min-w-0 flex-1">
-            <span className="block truncate font-semibold">{text.label}</span>
-            {(text.contents ?? text.description) && (
-              <span className="block truncate text-sm text-muted-foreground">
-                {text.contents ?? text.description}
-              </span>
-            )}
-          </span>
-          {isCurrent && (
-            <span className="shrink-0 text-sm text-muted-foreground">
-              {t.current}
-            </span>
-          )}
-        </button>
+        />
       </li>
     );
   };

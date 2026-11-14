@@ -16,7 +16,7 @@ import { fr } from "@/i18n/fr";
 import { canCopyText, copyText, pasteText } from "@/platform/clipboard";
 import { shareOrDownload } from "@/platform/share";
 import { Button } from "@/ui/button";
-import { Field } from "@/ui/form";
+import { ConfirmActions, Field, TextArea } from "@/ui/form";
 import { PageHeader, Section } from "@/ui/Page";
 import { Sheet } from "@/ui/Sheet";
 import { showToast } from "@/ui/toast";
@@ -170,13 +170,12 @@ export function BackupPage() {
             }}
           >
             <Field label={t.pasteTitle}>
-              <textarea
+              <TextArea
                 value={pasted}
                 placeholder={t.pastePlaceholder}
                 onChange={(event) => {
                   setPasted(event.target.value);
                 }}
-                className="h-32 w-full rounded-xl border border-border bg-raised px-3 py-2 font-mono text-sm outline-none focus:border-primary light:bg-bg"
               />
             </Field>
             <Button type="submit" disabled={!pasted.trim()}>
@@ -202,27 +201,18 @@ export function BackupPage() {
             pending.summary.stores,
           )}
         >
-          <div className="flex flex-col gap-3">
-            <Button
-              variant="destructive"
-              onClick={() => {
-                void importBackup(db, pending.backup).then(() => {
-                  // Tout l'état de l'app repart des données importées.
-                  window.location.reload();
-                });
-              }}
-            >
-              {t.importConfirm}
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() => {
-                setPending(null);
-              }}
-            >
-              {fr.manage.confirmCancel}
-            </Button>
-          </div>
+          <ConfirmActions
+            label={t.importConfirm}
+            onConfirm={() => {
+              void importBackup(db, pending.backup).then(() => {
+                // Tout l'état de l'app repart des données importées.
+                window.location.reload();
+              });
+            }}
+            onCancel={() => {
+              setPending(null);
+            }}
+          />
         </Sheet>
       )}
     </>

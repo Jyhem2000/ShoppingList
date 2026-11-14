@@ -28,7 +28,6 @@ import type {
   ListItem,
   ShoppingSession,
 } from "@/domain/model";
-
 import { feedback } from "@/feedback";
 import { QuantitySheet } from "@/features/catalog/QuantitySheet";
 import { AddArticleBar } from "@/features/list/AddArticleBar";
@@ -47,6 +46,7 @@ import { AisleSection } from "@/ui/AisleHeader";
 import { Button } from "@/ui/button";
 import { GroupIcon } from "@/ui/GroupIcon";
 import { ItemRow } from "@/ui/ItemRow";
+import { Loading, PageTitle } from "@/ui/Page";
 import { palette } from "@/ui/palette";
 import { Sheet } from "@/ui/Sheet";
 import { SwipeAction } from "@/ui/SwipeToDelete";
@@ -95,12 +95,7 @@ export function ShoppingPage() {
   // Courses terminées (ici ou depuis la question « Tu as terminé… ? ») : le bilan.
   if (session?.status === "closed")
     return <Navigate to={shoppingRecapPath(session.id)} replace />;
-  if (!session || !data || !view)
-    return (
-      <p className="px-5 pt-10 text-center text-muted-foreground">
-        {fr.list.loading}
-      </p>
-    );
+  if (!session || !data || !view) return <Loading>{fr.list.loading}</Loading>;
   return <Shopping session={session} data={data} view={view} />;
 }
 
@@ -331,9 +326,7 @@ function Shopping({
           >
             <X className="size-6" aria-hidden />
           </button>
-          <h1 className="min-w-0 flex-1 truncate text-2xl font-extrabold tracking-tight text-primary">
-            {data.store?.name}
-          </h1>
+          <PageTitle className="min-w-0 flex-1">{data.store?.name}</PageTitle>
           <span
             data-testid="shopping-progress"
             aria-label={t.progressLabel(checked, total)}

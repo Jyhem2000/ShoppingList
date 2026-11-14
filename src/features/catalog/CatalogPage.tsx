@@ -6,7 +6,7 @@ import { sortCategories } from "@/domain/categories";
 import { searchArticles } from "@/domain/search";
 import { fr } from "@/i18n/fr";
 import { CategoryCard } from "@/ui/CategoryCard";
-import { PageHeader } from "@/ui/Page";
+import { PageHeader, SectionTitle } from "@/ui/Page";
 import { paletteColor } from "@/features/list/format";
 import { useListData } from "@/features/list/useListData";
 import { ArticleGrid } from "./ArticleGrid";
@@ -18,10 +18,10 @@ const collator = new Intl.Collator("fr");
 
 function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <section className="pt-4">
-      <h2 className="px-5 pb-2 text-xs font-bold tracking-widest text-muted-foreground uppercase">
-        {title}
-      </h2>
+    <section className="pt-6">
+      <div className="px-4">
+        <SectionTitle>{title}</SectionTitle>
+      </div>
       {children}
     </section>
   );
@@ -100,7 +100,8 @@ export function CatalogPage() {
                   <ArticleGrid articles={view.usual} data={data} />
                 </Section>
               )}
-              <Section title={t.categories}>
+              {/* Sans titre : la grille des catégories se suffit à elle-même. */}
+              <section className="pt-4">
                 <div className="grid grid-cols-3 gap-2 px-3">
                   {view.categories.map((category) => (
                     <CategoryCard
@@ -114,7 +115,7 @@ export function CatalogPage() {
                     />
                   ))}
                 </div>
-              </Section>
+              </section>
             </>
           )}
         </>

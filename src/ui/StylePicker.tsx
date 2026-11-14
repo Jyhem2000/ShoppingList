@@ -4,7 +4,7 @@ import { groupIcons } from "@/icons/lucide";
 import { GroupIcon } from "@/ui/GroupIcon";
 import { palette, type PaletteColor, paletteColors } from "@/ui/palette";
 import { cn } from "@/ui/utils";
-
+import { FieldLabel } from "@/ui/form";
 const t = fr.manage.style;
 
 /**
@@ -25,9 +25,7 @@ export function StylePicker({
   return (
     <div className="flex flex-col gap-4">
       <div>
-        <p className="mb-1.5 text-sm font-semibold text-muted-foreground">
-          {t.color}
-        </p>
+        <FieldLabel>{t.color}</FieldLabel>
         <div
           role="radiogroup"
           aria-label={t.color}
@@ -56,9 +54,7 @@ export function StylePicker({
         </div>
       </div>
       <div>
-        <p className="mb-1.5 text-sm font-semibold text-muted-foreground">
-          {t.icon}
-        </p>
+        <FieldLabel>{t.icon}</FieldLabel>
         <div
           role="radiogroup"
           aria-label={t.icon}
