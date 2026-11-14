@@ -7,13 +7,12 @@ import { feedback } from "@/feedback";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
 import { CheckRow, FieldLabel } from "@/ui/form";
-import { ProductIcon } from "@/ui/ProductIcon";
 import { RowText } from "@/ui/RowButton";
 import { Sheet } from "@/ui/Sheet";
 import { showToast } from "@/ui/toast";
-import { lineQuantity, paletteColor } from "./format";
+import { lineQuantity } from "./format";
 import type { ListData } from "./useListData";
-
+import { ArticleIcon } from "@/ui/ArticleIcon";
 const t = fr.list.merge;
 
 /**
@@ -102,12 +101,7 @@ export function MergeListsSheet({
                     });
                   }}
                 >
-                  <ProductIcon
-                    icon={article.icon}
-                    label={article.name}
-                    color={paletteColor(category?.color)}
-                    size={28}
-                  />
+                  <ArticleIcon article={article} category={category} />
                   <RowText
                     title={article.name}
                     detail={

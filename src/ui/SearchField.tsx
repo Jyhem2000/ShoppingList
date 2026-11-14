@@ -51,7 +51,7 @@ export function SearchField({
       {value && (
         <button
           type="button"
-          aria-label={fr.catalog.clear}
+          aria-label={fr.search.clear}
           onClick={() => {
             onValueChange("");
             own.current?.focus();

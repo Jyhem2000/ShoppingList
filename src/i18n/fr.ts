@@ -30,6 +30,7 @@ export const fr = {
   },
   sheet: { close: "Fermer", back: "Retour" },
   toast: { close: "Fermer le message" },
+  search: { clear: "Effacer la recherche" },
   tabs: {
     list: "Liste",
     catalog: "Catalogue",
@@ -533,7 +534,6 @@ export const fr = {
     favorites: "Favoris",
     usual: "Habituels",
     noResult: "Aucun article trouvé.",
-    clear: "Effacer la recherche",
     suggestions: "Articles trouvés",
     added: (name: string) => `${name} ajouté à la liste`,
     showAll: (count: number) => `Voir les ${count} résultats`,

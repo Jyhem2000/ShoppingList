@@ -3,10 +3,10 @@ import { manageArticlePath } from "@/app/routes";
 import type { Article } from "@/domain/model";
 import { fr } from "@/i18n/fr";
 import { CatalogCard } from "@/ui/CatalogCard";
-import { lineQuantity, paletteColor } from "@/features/list/format";
+import { lineQuantity } from "@/features/list/format";
 import type { ListData } from "@/features/list/useListData";
 import { useCatalogPick } from "./useCatalogPick";
-
+import { paletteColor } from "@/ui/palette";
 /**
  * Grille d'articles du catalogue (docs/03 A5) : un tap ajoute l'article absent
  * avec sa quantité par défaut ; s'il est déjà dans la liste, sa pastille de

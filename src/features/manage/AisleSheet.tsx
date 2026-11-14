@@ -9,12 +9,12 @@ import {
 } from "@/db/stores";
 import type { Aisle, Category } from "@/domain/model";
 import { categoryRole } from "@/domain/stores";
-import { aisleText, paletteColor } from "@/features/list/format";
+import { aisleText } from "@/features/list/format";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
 import { Field, Select, ConfirmActions } from "@/ui/form";
 import { GroupIcon } from "@/ui/GroupIcon";
-import { palette } from "@/ui/palette";
+import { palette, paletteColor } from "@/ui/palette";
 import { Sheet } from "@/ui/Sheet";
 import { StylePicker } from "@/ui/StylePicker";
 import { Switch } from "@/ui/switch";
@@ -106,7 +106,7 @@ export function AisleSheet({
                   icon={
                     <GroupIcon
                       name={target.icon}
-                      color={target.color}
+                      palette={target.color}
                       className="size-5 shrink-0"
                     />
                   }

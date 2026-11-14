@@ -8,7 +8,6 @@ import { db } from "@/db/database";
 import { findLikelyDuplicates } from "@/domain/duplicates";
 import type { Article, ID } from "@/domain/model";
 import { searchArticles } from "@/domain/search";
-import { paletteColor } from "@/features/list/format";
 import { UnitSelect } from "@/features/list/UnitSelect";
 import { type ListData, useListData } from "@/features/list/useListData";
 import { fr } from "@/i18n/fr";
@@ -16,10 +15,10 @@ import { SearchField } from "@/ui/SearchField";
 import { Button } from "@/ui/button";
 import { Field, Select, TextInput } from "@/ui/form";
 import { PageHeader, Section } from "@/ui/Page";
-import { ProductIcon } from "@/ui/ProductIcon";
 import { Sheet } from "@/ui/Sheet";
 import { showToast } from "@/ui/toast";
 import { RowButton } from "@/ui/RowButton";
+import { ArticleIcon } from "@/ui/ArticleIcon";
 const t = fr.manage.articles;
 const collator = new Intl.Collator("fr");
 
@@ -137,12 +136,7 @@ export function ArticlesPage() {
                       <RowButton
                         to={manageArticlePath(article.id)}
                         icon={
-                          <ProductIcon
-                            icon={article.icon}
-                            label={article.name}
-                            color={paletteColor(category?.color)}
-                            size={28}
-                          />
+                          <ArticleIcon article={article} category={category} />
                         }
                         title={article.name}
                         detail={category?.name}

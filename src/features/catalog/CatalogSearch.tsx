@@ -4,16 +4,16 @@ import { catalogCategoryPath } from "@/app/routes";
 import type { Article } from "@/domain/model";
 import { searchKey } from "@/domain/slug";
 import { searchArticles } from "@/domain/search";
-import { lineQuantity, paletteColor } from "@/features/list/format";
+import { lineQuantity } from "@/features/list/format";
 import type { ListData } from "@/features/list/useListData";
 import { fr } from "@/i18n/fr";
 import { GroupIcon } from "@/ui/GroupIcon";
-import { ProductIcon } from "@/ui/ProductIcon";
 import { SearchField } from "@/ui/SearchField";
 import { showToast } from "@/ui/toast";
 import { useCatalogPick } from "./useCatalogPick";
 import { RowButton } from "@/ui/RowButton";
 import { SuggestionList } from "@/ui/SuggestionList";
+import { ArticleIcon } from "@/ui/ArticleIcon";
 const t = fr.catalog;
 const MAX_SUGGESTIONS = 8;
 
@@ -143,7 +143,7 @@ export function CatalogSearch({
                   <span className="flex size-7 shrink-0 items-center justify-center">
                     <GroupIcon
                       name={category.icon}
-                      color={category.color}
+                      palette={category.color}
                       className="size-6"
                     />
                   </span>
@@ -168,14 +168,7 @@ export function CatalogSearch({
               <li key={article.id} role="option" aria-selected={false}>
                 <RowButton
                   inset="popover"
-                  icon={
-                    <ProductIcon
-                      icon={article.icon}
-                      label={article.name}
-                      color={paletteColor(category?.color)}
-                      size={28}
-                    />
-                  }
+                  icon={<ArticleIcon article={article} category={category} />}
                   title={highlight(article.name, query)}
                   detail={category?.name}
                   trailing={

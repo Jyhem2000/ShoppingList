@@ -92,7 +92,7 @@ export function MoveAisleSheet({
           icon={
             <GroupIcon
               name={aisle.icon}
-              color={aisle.color}
+              palette={aisle.color}
               className="size-5 shrink-0"
             />
           }

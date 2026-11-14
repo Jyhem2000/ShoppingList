@@ -15,14 +15,12 @@ import {
 } from "@/db/hooks";
 import { reopenSession } from "@/db/sessions";
 import { aisleOrderChanged, canReopen } from "@/domain/shopping";
-import { paletteColor } from "@/features/list/format";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
 import { EmptyState, PageHeader } from "@/ui/Page";
-import { ProductIcon } from "@/ui/ProductIcon";
 import { Tip } from "@/ui/Tip";
 import { formatDuration } from "./format";
-
+import { ArticleIcon } from "@/ui/ArticleIcon";
 const t = fr.shopping.recap;
 
 /**
@@ -113,12 +111,7 @@ export function RecapPage() {
                 key={purchase.id}
                 className="flex min-h-11 items-center gap-3 px-4 py-1.5"
               >
-                <ProductIcon
-                  icon={article.icon}
-                  label={article.name}
-                  color={paletteColor(category?.color)}
-                  size={24}
-                />
+                <ArticleIcon article={article} category={category} size={24} />
                 <span className="truncate font-semibold">{article.name}</span>
               </li>
             );

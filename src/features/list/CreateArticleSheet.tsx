@@ -10,11 +10,10 @@ import { Button } from "@/ui/button";
 import { Chip, Field, Select, TextInput } from "@/ui/form";
 import { ProductIcon } from "@/ui/ProductIcon";
 import { Sheet } from "@/ui/Sheet";
-import { paletteColor } from "./format";
 import { reportSaveError } from "./useAddToList";
 import { UnitSelect } from "./UnitSelect";
 import type { ListData } from "./useListData";
-
+import { paletteColor } from "@/ui/palette";
 const t = fr.list.createSheet;
 const collator = new Intl.Collator("fr");
 

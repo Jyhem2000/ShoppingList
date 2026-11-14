@@ -14,7 +14,6 @@ import type { Article } from "@/domain/model";
 import { formatNumber } from "@/domain/quantity";
 import { searchArticles } from "@/domain/search";
 import { slugify } from "@/domain/slug";
-import { paletteColor } from "@/features/list/format";
 import { UnitSelect } from "@/features/list/UnitSelect";
 import { type ListData, useListData } from "@/features/list/useListData";
 import { fr } from "@/i18n/fr";
@@ -30,6 +29,8 @@ import { showToast } from "@/ui/toast";
 import { IconPickerSheet } from "./IconPickerSheet";
 import { NameField } from "./NameField";
 import { RowButton } from "@/ui/RowButton";
+import { ArticleIcon } from "@/ui/ArticleIcon";
+import { paletteColor } from "@/ui/palette";
 const t = fr.manage.article;
 
 /** Un alias est stocké en slug (docs/07 § 5) : on l'affiche avec des espaces. */
@@ -452,14 +453,7 @@ function MergeArticleSheet({
                 <li key={article.id}>
                   <RowButton
                     inset="sheet"
-                    icon={
-                      <ProductIcon
-                        icon={article.icon}
-                        label={article.name}
-                        color={paletteColor(category?.color)}
-                        size={28}
-                      />
-                    }
+                    icon={<ArticleIcon article={article} category={category} />}
                     title={article.name}
                     detail={category?.name}
                     onClick={() => {

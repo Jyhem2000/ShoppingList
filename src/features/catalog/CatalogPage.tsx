@@ -7,11 +7,10 @@ import { searchArticles } from "@/domain/search";
 import { fr } from "@/i18n/fr";
 import { CategoryCard } from "@/ui/CategoryCard";
 import { PageHeader, SectionTitle } from "@/ui/Page";
-import { paletteColor } from "@/features/list/format";
 import { useListData } from "@/features/list/useListData";
 import { ArticleGrid } from "./ArticleGrid";
 import { CatalogSearch } from "./CatalogSearch";
-
+import { paletteColor } from "@/ui/palette";
 const t = fr.catalog;
 const MAX_USUAL = 9;
 const collator = new Intl.Collator("fr");

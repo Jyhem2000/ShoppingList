@@ -30,12 +30,15 @@ const t = fr.settings;
  */
 export function SettingsPage() {
   const settings = useSettings();
-  const counts = useLiveQuery(async () => ({
-    articles: await db.articles.count(),
-    categories: await db.categories.count(),
-    stores: await db.stores.count(),
-    units: await db.units.count(),
-  }));
+  const counts = useLiveQuery(async () => {
+    const [articles, categories, stores, units] = await Promise.all([
+      db.articles.count(),
+      db.categories.count(),
+      db.stores.count(),
+      db.units.count(),
+    ]);
+    return { articles, categories, stores, units };
+  });
   const [now] = useState(() => Date.now());
 
   return (

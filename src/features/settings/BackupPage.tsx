@@ -103,7 +103,10 @@ export function BackupPage() {
   return (
     <>
       <PageHeader title={t.section} backTo={routes.settings} />
-      <p className="px-5 text-sm text-muted-foreground">{t.last(days)}</p>
+      <p className="px-5 text-sm text-muted-foreground">
+        {/* Rien tant que les réglages ne sont pas lus : sinon « Aucune sauvegarde » s'affiche un instant. */}
+        {settings ? t.last(days) : "\u00a0"}
+      </p>
 
       <Section title={t.keep}>
         <div className="flex flex-col gap-3 px-4 py-4">

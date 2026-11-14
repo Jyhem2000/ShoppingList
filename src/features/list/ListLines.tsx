@@ -7,9 +7,9 @@ import { fr } from "@/i18n/fr";
 import { AisleSection } from "@/ui/AisleHeader";
 import { ItemRow } from "@/ui/ItemRow";
 import { SwipeToDelete } from "@/ui/SwipeToDelete";
-import { lineDetails, lineQuantity, paletteColor } from "./format";
+import { lineDetails, lineQuantity } from "./format";
 import type { ListData } from "./useListData";
-
+import { paletteColor } from "@/ui/palette";
 /** Ordre des catégories du catalogue de départ (docs/06 § 2). */
 const catalogOrder = categoriesData.map((c) => c.key);
 

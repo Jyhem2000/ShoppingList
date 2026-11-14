@@ -42,14 +42,13 @@ import {
   type AisleText,
   aisleText,
   categoryWeights,
-  paletteColor,
 } from "@/features/list/format";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
 import { backState } from "@/ui/navigation";
 import { GroupIcon } from "@/ui/GroupIcon";
 import { EmptyState, PageHeader, Row, Section } from "@/ui/Page";
-import { palette } from "@/ui/palette";
+import { palette, paletteColor } from "@/ui/palette";
 import { Sheet } from "@/ui/Sheet";
 import { Switch } from "@/ui/switch";
 import { showToast } from "@/ui/toast";
@@ -219,10 +218,8 @@ export function StorePage() {
                 >
                   <GroupIcon
                     name={category.icon}
-                    className={cn(
-                      "size-5",
-                      palette[paletteColor(category.color)].text,
-                    )}
+                    palette={category.color}
+                    className="size-5"
                   />
                   <span className="flex-1">{category.name}</span>
                   <ChevronRight
@@ -321,7 +318,7 @@ export function StorePage() {
                     icon={
                       <GroupIcon
                         name={aisle.icon}
-                        color={aisle.color}
+                        palette={aisle.color}
                         className="size-5 shrink-0"
                       />
                     }
@@ -417,7 +414,8 @@ function AisleRow({
         />
         <GroupIcon
           name={aisle.icon}
-          className={cn("size-5 shrink-0", palette[color].text)}
+          palette={color}
+          className="size-5 shrink-0"
         />
         <span className="min-w-0 flex-1">
           <span className="line-clamp-2 font-semibold">{text.title}</span>

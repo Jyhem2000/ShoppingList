@@ -11,9 +11,6 @@ import type {
 import { aisleContents, aisleTitle } from "@/domain/stores";
 import { fr } from "@/i18n/fr";
 
-// Déplacée dans la palette (src/ui) ; gardée ici pour les écrans qui l'importent d'ici.
-export { paletteColor } from "@/ui/palette";
-
 const t = fr.list;
 
 /** « Gala uniquement », « Gala ou Golden », puis la note (docs/02 § 6). */

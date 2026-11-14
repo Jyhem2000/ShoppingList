@@ -10,13 +10,13 @@ import {
 import { db } from "@/db/database";
 import { useArticles, useCategories } from "@/db/hooks";
 import type { Category, ID } from "@/domain/model";
-import { categoryShortName, paletteColor } from "@/features/list/format";
+import { categoryShortName } from "@/features/list/format";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
 import { Field, Select, TextInput, ConfirmActions } from "@/ui/form";
 import { GroupIcon } from "@/ui/GroupIcon";
 import { PageHeader, Section } from "@/ui/Page";
-import { type PaletteColor } from "@/ui/palette";
+import { type PaletteColor, paletteColor } from "@/ui/palette";
 import { Sheet } from "@/ui/Sheet";
 import { StylePicker } from "@/ui/StylePicker";
 import { showToast } from "@/ui/toast";
@@ -64,7 +64,7 @@ export function CategoriesPage() {
                 icon={
                   <GroupIcon
                     name={category.icon}
-                    color={category.color}
+                    palette={category.color}
                     className="size-6 shrink-0"
                   />
                 }
@@ -214,7 +214,7 @@ function CategorySheet({
                 icon={
                   <GroupIcon
                     name={target.icon}
-                    color={target.color}
+                    palette={target.color}
                     className="size-5 shrink-0"
                   />
                 }
