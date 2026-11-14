@@ -163,8 +163,10 @@ function ArticleForm({ article, data }: { article: Article; data: ListData }) {
                 }}
               />
             </Field>
-            <Field label={t.quantity} className="w-32">
+            {/* Champ étroit, intitulé sur toute la largeur (sinon sur 2 lignes). */}
+            <Field label={t.quantity}>
               <TextInput
+                className="w-32"
                 inputMode="decimal"
                 value={quantity}
                 placeholder="1"
