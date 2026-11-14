@@ -179,10 +179,10 @@ Le design system, ce sont aussi des **composants partagés** (`src/ui`), utilis�
 Bibliothèque **Motion**.
 
 - Ajout : la ligne apparaît à sa place dans son rayon avec un léger rebond ; la ligne existante « pulse » si l'article était déjà là.
-- Cocher : trait barré animé, puis glissement vers le bas ou disparition.
+- Cocher : trait barré animé, puis glissement vers le bas.
 - Rayon terminé : repli + coche menthe. Tout rayon se déplie et se replie en douceur.
 - Panneaux : glissement depuis le bas avec ressort.
-- Réglage **Animations** (H1) : _Automatique_ (suit `prefers-reduced-motion` du système) · _Toujours_ (ignore le réglage système) · _Jamais_.
+- Animations toujours présentes, sauf si le téléphone demande de les réduire (`prefers-reduced-motion`, H1) ; pas de réglage dans l'app.
 
 ## 7. Sons
 

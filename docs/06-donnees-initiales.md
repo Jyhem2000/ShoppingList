@@ -147,7 +147,7 @@ Plus de modèles de magasin depuis la phase 7 (13 novembre 2026) : ils regroupai
 
 ## 4. Catalogue de départ
 
-- **~1 000 articles** courants en France, répartis dans toutes les catégories. Un grand catalogue limite les créations manuelles, donc les doublons au moment du partage ([02 § 9](02-modele-metier.md#9-partage-dune-liste)).
+- **~500 articles** courants en France, répartis dans toutes les catégories (objectif ramené de ~1 000 à ~500 le 14 novembre 2026 : 10 à 20 articles par catégorie, davantage pour les fruits et légumes). Un grand catalogue limite les créations manuelles, donc les doublons au moment du partage ([02 § 9](02-modele-metier.md#9-partage-dune-liste)).
 - Format de chaque entrée — les textes sont **par langue**, la v1 ne remplit que `fr` :
   ```json
   {
@@ -175,7 +175,7 @@ Plus de modèles de magasin depuis la phase 7 (13 novembre 2026) : ils regroupai
 - **Même structure pour les catégories et les unités** : `key` sans langue + `name` (et pluriel, abréviation pour les unités) par langue.
 - _Plus tard (D3)_ : `season` pour les fruits et légumes, liste des mois de saison (`[9, 10, 11, 12, 1, 2]`).
 - **Production** : généré par l'agent IA pendant le développement, puis **relu par catégorie** avant validation. C'est la donnée qui fait la qualité perçue de l'app.
-- Livraison progressive : ~150 articles dès la phase données (238 livrés, relus le 9 novembre 2026), le catalogue complet avant la fin de la v1.0.
+- Livraison progressive : ~150 articles dès la phase données (238 livrés, relus le 9 novembre 2026), le catalogue complet (~500) avant la fin de la v1.0, en phase 8.
 
 ## 5. Dictionnaire de mots-clés
 

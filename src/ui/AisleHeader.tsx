@@ -112,7 +112,7 @@ export function AisleSection({
           )}
         />
       </button>
-      {/* Dépliage animé (docs/05 § 6), selon le réglage « Animations ». */}
+      {/* Dépliage animé (docs/05 § 6), sauf si le téléphone demande de réduire les animations. */}
       <AnimatePresence initial={false}>
         {expanded && (
           <motion.div

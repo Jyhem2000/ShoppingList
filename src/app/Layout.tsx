@@ -6,18 +6,10 @@ import {
   useLocation,
   useNavigationType,
 } from "react-router";
-import { useSettings } from "@/db/hooks";
-import type { Settings } from "@/domain/model";
 import { Toaster } from "@/ui/Toaster";
 import { UpdateBanner } from "./pwa/UpdateBanner";
 import { routes } from "./routes";
 import { TabBar } from "./TabBar";
-
-/** Réglage « Animations » (docs/03 H1, docs/07 § 7.10) traduit pour Motion. */
-const reducedMotion: Record<
-  Settings["animations"],
-  "user" | "always" | "never"
-> = { auto: "user", always: "never", never: "always" };
 
 /**
  * Coquille de l'app (docs/04 § 1), dans le cadre fixe posé par App : le contenu qui
@@ -38,7 +30,6 @@ export function Layout() {
   const location = useLocation();
   const navigationType = useNavigationType();
   const { pathname } = location;
-  const settings = useSettings();
   const shopping = pathname.startsWith(routes.shopping);
 
   // Position de chaque écran, et position à reprendre quand le contenu sera chargé.
@@ -110,7 +101,8 @@ export function Layout() {
   }, []);
 
   return (
-    <MotionConfig reducedMotion={reducedMotion[settings?.animations ?? "auto"]}>
+    // Animations toujours, sauf si le téléphone demande de les réduire (docs/03 H1).
+    <MotionConfig reducedMotion="user">
       <div className="flex h-full flex-col">
         <div className="relative min-h-0 flex-1">
           <main

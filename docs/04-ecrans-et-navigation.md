@@ -136,13 +136,8 @@ Application
 Fonctionnalités   (grisée « Non disponible sur ce téléphone » si besoin)
   Sons .................. Activés ▸  (écran Sons : interrupteur général + un par son, avec écoute)
   Écran allumé pendant les courses ●
-Ressenti
-  Animations ............ Automatique ▸
 Affichage
   Thème ................. Automatique · Sombre · Clair
-  Affichage compact ..... ◯
-Mode courses
-  Lignes cochées ........ Glissent en bas ▸
 ```
 
 **Sauvegarde** : quatre actions de **même poids** (boutons secondaires), aucune n'étant l'action principale de l'écran ; seule la confirmation d'un import est en rouge.

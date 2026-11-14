@@ -177,7 +177,7 @@ Décision du 13 novembre 2026, après le premier essai réel : des rayons prére
 
 ### Phase 8 — Réglages, sauvegarde, finitions
 
-H1 à H6 (H4 avancée en partie dans la `0.6.1` : export et import en remplacement ; restent l'import en fusion, les copies automatiques internes avec « Restaurer une copie », les libellés expliquant export et copies ; le rappel des 30 jours est **à trancher** avant de l'implémenter, 03 H4), H9 et H10 (écran d'aide : mode d'emploi, ce que l'app règle toute seule, conseil de suivre le même parcours pendant l'apprentissage), catalogue complet (~1 000 articles avec alias) **relu par toi catégorie par catégorie**, passe d'animations et de sons, accessibilité, états vides.
+H1 à H6 (plan validé le 14 novembre 2026) : réglages Animations, Affichage compact et Lignes cochées **retirés** (on décide pour l'utilisateur, 03 H1 à H3) ; H4 avancée en partie dans la `0.6.1` (export et import en remplacement), reste les copies automatiques internes avec « Restaurer une copie » et leurs libellés — import en fusion et rappel des 30 jours **abandonnés** (03 H4), H9 et H10 (écran d'aide : mode d'emploi, ce que l'app règle toute seule, conseil de suivre le même parcours pendant l'apprentissage), catalogue complété à **~500 articles** (contre 240 : les catégories maigres passent à 10-20 articles chacune), en lots par famille relus sur une page temporaire de préproduction, avec peu de nouvelles icônes (une par type de produit, ou une icône existante recolorée), passe d'animations et de sons, accessibilité, états vides.
 
 Retours de la validation de la phase 7 (14 novembre 2026) :
 

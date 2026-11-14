@@ -31,7 +31,7 @@ Vite · React 19 · TypeScript strict · Tailwind v4 · shadcn/ui · React Route
 - Ne jamais stocker de donnée dérivée ; ne jamais recopier le libellé d'un article dans une ligne, un ingrédient ou l'historique.
 - Toute évolution du schéma Dexie = nouvelle version + migration + test. La version du schéma est indépendante de la version de l'app.
 - Mobile d'abord (390×844), zones de sécurité, cibles tactiles ≥ 44 px (48 px en mode courses).
-- Animations via Motion, en respectant le réglage « Animations » de l'app (auto / toujours / jamais).
+- Animations via Motion, toujours présentes sauf si le téléphone demande de les réduire (`prefers-reduced-motion`) ; pas de réglage dans l'app.
 - Sons uniquement via le module `src/feedback/`. Pas de vibrations (retirées, docs/05 § 7).
 - Version de l'app : source unique `package.json`, injectée au build ; jamais de numéro de version écrit en dur.
 - Composants : le design system, ce sont aussi les composants partagés de `src/ui`. Tout élément d'interface présent à deux endroits (champ de recherche, ligne, case à cocher, boutons de confirmation, titre de section…) est un composant de `src/ui`, utilisé partout ; jamais de classes recopiées d'un écran à l'autre. Un changement de style se fait dans le composant.

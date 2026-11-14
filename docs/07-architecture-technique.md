@@ -213,9 +213,6 @@ interface Purchase {
 }
 
 interface Settings {
-  animations: "auto" | "always" | "never";
-  compact: boolean;
-  checkedBehavior: "sink" | "hide";
   lastBackupAt?: number;
   lastSeenVersion?: string; // pour afficher « Quoi de neuf »
   catalogVersion: number;
@@ -356,9 +353,9 @@ Calculées à la demande à partir des achats des sessions **clôturées**. Pour
 
 `findLikelyDuplicates(articles)` : paires d'articles de même catégorie et même icône dont les clés de recherche sont proches (distance d'édition ≤ 2, ou l'une contient l'autre) ou qui partagent un alias ; paires présentes dans `notDuplicateOf` exclues.
 
-### 7.10 Réglage des animations
+### 7.10 Animations
 
-`<MotionConfig reducedMotion>` : _Automatique_ → `"user"`, _Toujours_ → `"never"`, _Jamais_ → `"always"` + classe CSS globale désactivant transitions et animations CSS.
+`<MotionConfig reducedMotion="user">` : Motion suit `prefers-reduced-motion` du téléphone ; les animations CSS passent par `motion-safe:`. Pas de réglage dans l'app (03 H1).
 
 ### 7.11 Sons
 
