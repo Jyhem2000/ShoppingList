@@ -22,7 +22,7 @@ export interface CatalogArticleData {
 }
 
 /** Version du catalogue embarqué : augmente quand il s'enrichit ou se corrige. */
-export const CATALOG_VERSION = 4;
+export const CATALOG_VERSION = 5;
 
 /**
  * Corrections d'articles déjà livrés (docs/06 § 7) : appliquées à la mise à jour du

@@ -15,6 +15,7 @@ import { palette, paletteColors } from "@/ui/palette";
 import { ProductIcon } from "@/ui/ProductIcon";
 import { Sheet } from "@/ui/Sheet";
 import { Switch } from "@/ui/switch";
+import { CatalogReview } from "./CatalogReview";
 import {
   type MockAisle,
   mockAisles,
@@ -101,6 +102,10 @@ export function UiPage() {
     <>
       <PageHeader title={t.title} backTo={routes.about} />
       <p className="px-5 text-sm text-muted-foreground">{t.intro}</p>
+
+      <Block title={t.review.title}>
+        <CatalogReview />
+      </Block>
 
       <Block title={t.colors}>
         <div className="grid grid-cols-2 gap-2 px-4">

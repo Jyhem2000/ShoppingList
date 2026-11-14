@@ -2865,5 +2865,377 @@
     "category": "animaux",
     "unit": "paquet",
     "icon": "litiere"
+  },
+  {
+    "key": "boulgour",
+    "name": { "fr": "Boulgour" },
+    "aliases": { "fr": ["boulghour"] },
+    "category": "pates-riz-feculents",
+    "unit": "paquet",
+    "icon": "boulgour",
+    "since": 5
+  },
+  {
+    "key": "polenta",
+    "name": { "fr": "Polenta" },
+    "category": "pates-riz-feculents",
+    "unit": "paquet",
+    "icon": "polenta",
+    "since": 5
+  },
+  {
+    "key": "feuilles-de-lasagne",
+    "name": { "fr": "Feuilles de lasagne" },
+    "aliases": { "fr": ["pâtes à lasagne"] },
+    "category": "pates-riz-feculents",
+    "unit": "paquet",
+    "icon": "feuilles-de-lasagne",
+    "since": 5
+  },
+  {
+    "key": "flageolets",
+    "name": { "fr": "Flageolets" },
+    "category": "conserves-bocaux",
+    "unit": "boite",
+    "icon": "flageolets",
+    "since": 5
+  },
+  {
+    "key": "pois-casses",
+    "name": { "fr": "Pois cassés" },
+    "category": "pates-riz-feculents",
+    "unit": "paquet",
+    "icon": "pois-casses",
+    "since": 5
+  },
+  {
+    "key": "petits-pois-carottes",
+    "name": { "fr": "Petits pois-carottes" },
+    "category": "conserves-bocaux",
+    "unit": "boite",
+    "icon": "petits-pois-carottes",
+    "since": 5
+  },
+  {
+    "key": "champignons-en-boite",
+    "name": { "fr": "Champignons de Paris en boîte" },
+    "aliases": { "fr": ["champignons en boîte"] },
+    "category": "conserves-bocaux",
+    "unit": "boite",
+    "icon": "champignons-en-boite",
+    "since": 5
+  },
+  {
+    "key": "cassoulet",
+    "name": { "fr": "Cassoulet" },
+    "category": "conserves-bocaux",
+    "unit": "boite",
+    "icon": "cassoulet",
+    "since": 5
+  },
+  {
+    "key": "raviolis-en-boite",
+    "name": { "fr": "Raviolis en boîte" },
+    "category": "conserves-bocaux",
+    "unit": "boite",
+    "icon": "raviolis-en-boite",
+    "since": 5
+  },
+  {
+    "key": "maquereaux",
+    "name": { "fr": "Maquereaux" },
+    "aliases": { "fr": ["filets de maquereau"] },
+    "types": { "fr": ["au vin blanc", "à la moutarde", "à la tomate"] },
+    "category": "conserves-bocaux",
+    "unit": "boite",
+    "icon": "maquereaux",
+    "since": 5
+  },
+  {
+    "key": "cornichons",
+    "name": { "fr": "Cornichons" },
+    "category": "conserves-bocaux",
+    "unit": "pot",
+    "icon": "cornichons",
+    "since": 5
+  },
+  {
+    "key": "capres",
+    "name": { "fr": "Câpres" },
+    "category": "conserves-bocaux",
+    "unit": "pot",
+    "icon": "capres",
+    "since": 5
+  },
+  {
+    "key": "concentre-de-tomate",
+    "name": { "fr": "Concentré de tomate" },
+    "aliases": { "fr": ["double concentré"] },
+    "category": "conserves-bocaux",
+    "unit": "piece",
+    "icon": "concentre-de-tomate",
+    "since": 5
+  },
+  {
+    "key": "vinaigrette",
+    "name": { "fr": "Vinaigrette" },
+    "category": "sauces-condiments",
+    "unit": "bouteille",
+    "icon": "vinaigrette",
+    "since": 5
+  },
+  {
+    "key": "sauce-barbecue",
+    "name": { "fr": "Sauce barbecue" },
+    "aliases": { "fr": ["barbecue", "bbq"] },
+    "category": "sauces-condiments",
+    "unit": "bouteille",
+    "icon": "sauce-barbecue",
+    "since": 5
+  },
+  {
+    "key": "harissa",
+    "name": { "fr": "Harissa" },
+    "category": "sauces-condiments",
+    "unit": "piece",
+    "icon": "harissa",
+    "since": 5
+  },
+  {
+    "key": "sauce-bearnaise",
+    "name": { "fr": "Sauce béarnaise" },
+    "aliases": { "fr": ["béarnaise"] },
+    "category": "sauces-condiments",
+    "unit": "pot",
+    "icon": "sauce-bearnaise",
+    "since": 5
+  },
+  {
+    "key": "bouillon",
+    "name": { "fr": "Bouillon cube" },
+    "aliases": { "fr": ["bouillon", "cube de bouillon"] },
+    "types": { "fr": ["bœuf", "volaille", "légumes"] },
+    "category": "sauces-condiments",
+    "unit": "paquet",
+    "icon": "bouillon",
+    "since": 5
+  },
+  {
+    "key": "fond-de-veau",
+    "name": { "fr": "Fond de veau" },
+    "category": "sauces-condiments",
+    "unit": "pot",
+    "icon": "fond-de-veau",
+    "since": 5
+  },
+  {
+    "key": "tabasco",
+    "name": { "fr": "Tabasco" },
+    "aliases": { "fr": ["sauce piquante"] },
+    "category": "sauces-condiments",
+    "unit": "bouteille",
+    "icon": "tabasco",
+    "since": 5
+  },
+  {
+    "key": "cumin",
+    "name": { "fr": "Cumin" },
+    "category": "epices",
+    "unit": "pot",
+    "icon": "cumin",
+    "since": 5
+  },
+  {
+    "key": "curry",
+    "name": { "fr": "Curry" },
+    "category": "epices",
+    "unit": "pot",
+    "icon": "curry",
+    "since": 5
+  },
+  {
+    "key": "paprika",
+    "name": { "fr": "Paprika" },
+    "category": "epices",
+    "unit": "pot",
+    "icon": "paprika",
+    "since": 5
+  },
+  {
+    "key": "cannelle",
+    "name": { "fr": "Cannelle" },
+    "types": { "fr": ["en poudre", "en bâtons"] },
+    "category": "epices",
+    "unit": "pot",
+    "icon": "epices",
+    "since": 5
+  },
+  {
+    "key": "herbes-de-provence",
+    "name": { "fr": "Herbes de Provence" },
+    "category": "epices",
+    "unit": "pot",
+    "icon": "herbes-de-provence",
+    "since": 5
+  },
+  {
+    "key": "muscade",
+    "name": { "fr": "Muscade" },
+    "aliases": { "fr": ["noix de muscade"] },
+    "category": "epices",
+    "unit": "pot",
+    "icon": "muscade",
+    "since": 5
+  },
+  {
+    "key": "curcuma",
+    "name": { "fr": "Curcuma" },
+    "category": "epices",
+    "unit": "pot",
+    "icon": "curcuma",
+    "since": 5
+  },
+  {
+    "key": "piment-d-espelette",
+    "name": { "fr": "Piment d'Espelette" },
+    "category": "epices",
+    "unit": "pot",
+    "icon": "piment-d-espelette",
+    "since": 5
+  },
+  {
+    "key": "origan",
+    "name": { "fr": "Origan" },
+    "category": "epices",
+    "unit": "pot",
+    "icon": "origan",
+    "since": 5
+  },
+  {
+    "key": "huile-de-colza",
+    "name": { "fr": "Huile de colza" },
+    "category": "huiles-vinaigres",
+    "unit": "bouteille",
+    "icon": "huile-de-colza",
+    "since": 5
+  },
+  {
+    "key": "huile-de-sesame",
+    "name": { "fr": "Huile de sésame" },
+    "category": "huiles-vinaigres",
+    "unit": "bouteille",
+    "icon": "huile-de-sesame",
+    "since": 5
+  },
+  {
+    "key": "huile-d-arachide",
+    "name": { "fr": "Huile d'arachide" },
+    "category": "huiles-vinaigres",
+    "unit": "bouteille",
+    "icon": "huile-d-arachide",
+    "since": 5
+  },
+  {
+    "key": "pistaches",
+    "name": { "fr": "Pistaches" },
+    "category": "aperitif",
+    "unit": "sachet",
+    "icon": "pistaches",
+    "since": 5
+  },
+  {
+    "key": "noix-de-cajou",
+    "name": { "fr": "Noix de cajou" },
+    "aliases": { "fr": ["cajou"] },
+    "category": "aperitif",
+    "unit": "sachet",
+    "icon": "noix-de-cajou",
+    "since": 5
+  },
+  {
+    "key": "amandes",
+    "name": { "fr": "Amandes" },
+    "category": "aperitif",
+    "unit": "sachet",
+    "icon": "amandes",
+    "since": 5
+  },
+  {
+    "key": "tapenade",
+    "name": { "fr": "Tapenade" },
+    "category": "aperitif",
+    "unit": "pot",
+    "icon": "tapenade",
+    "since": 5
+  },
+  {
+    "key": "gressins",
+    "name": { "fr": "Gressins" },
+    "category": "aperitif",
+    "unit": "paquet",
+    "icon": "gressins",
+    "since": 5
+  },
+  {
+    "key": "nuoc-mam",
+    "name": { "fr": "Nuoc-mâm" },
+    "aliases": { "fr": ["sauce poisson", "nuoc mam"] },
+    "category": "cuisine-du-monde",
+    "unit": "bouteille",
+    "icon": "nuoc-mam",
+    "since": 5
+  },
+  {
+    "key": "sauce-sweet-chili",
+    "name": { "fr": "Sauce sweet chili" },
+    "aliases": { "fr": ["sweet chili"] },
+    "category": "cuisine-du-monde",
+    "unit": "bouteille",
+    "icon": "sauce-sweet-chili",
+    "since": 5
+  },
+  {
+    "key": "pate-de-curry",
+    "name": { "fr": "Pâte de curry" },
+    "types": { "fr": ["rouge", "verte", "jaune"] },
+    "category": "cuisine-du-monde",
+    "unit": "pot",
+    "icon": "pate-de-curry",
+    "since": 5
+  },
+  {
+    "key": "feuilles-de-riz",
+    "name": { "fr": "Feuilles de riz" },
+    "aliases": { "fr": ["galettes de riz", "papier de riz"] },
+    "category": "cuisine-du-monde",
+    "unit": "paquet",
+    "icon": "feuilles-de-riz",
+    "since": 5
+  },
+  {
+    "key": "algues-nori",
+    "name": { "fr": "Algues nori" },
+    "aliases": { "fr": ["nori"] },
+    "category": "cuisine-du-monde",
+    "unit": "paquet",
+    "icon": "algues-nori",
+    "since": 5
+  },
+  {
+    "key": "wasabi",
+    "name": { "fr": "Wasabi" },
+    "category": "cuisine-du-monde",
+    "unit": "piece",
+    "icon": "wasabi",
+    "since": 5
+  },
+  {
+    "key": "kit-fajitas",
+    "name": { "fr": "Kit fajitas" },
+    "aliases": { "fr": ["fajitas"] },
+    "category": "cuisine-du-monde",
+    "unit": "piece",
+    "icon": "tortillas",
+    "since": 5
   }
 ]

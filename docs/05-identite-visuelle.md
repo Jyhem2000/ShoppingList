@@ -115,6 +115,7 @@ Décision du 9 novembre 2026, après essai dans la maquette : **toutes les icôn
 
 - Source : `src/icons/drawn/<clé de l'article>.svg`. Vite les réunit au build dans le pack (`src/icons/packData.ts`) ; libellé et mots-clés viennent de l'article de même clé (nom, alias, types), et l'entrée garde sa catégorie (`c`).
 - Chaque article pointe sur son icône (`"icon": "framboises"`) ; le dictionnaire de mots-clés (06 § 5) aussi, pour les articles créés par l'utilisateur.
+- Catalogue complet (phase 8, décision du 14 novembre 2026) : pour ne pas multiplier les dessins à relire, un article peut **reprendre** le dessin d'un article proche (Cannelle → Épices, Kit fajitas → Tortillas : `"icon"` désigne alors l'autre clé), ou recevoir une **variante recolorée** d'un dessin existant (huiles, sauces en flacon, pots d'épices…), qui reste son propre fichier. Chaque dessin porte la clé d'un article. Relecture des lots sur une page temporaire de la maquette (hors production).
 - Les icônes se relisent dans la maquette (`#/dev/ui`, hors production).
 
 Règles de dessin, tirées des relectures (à appliquer à toute nouvelle icône) :
