@@ -104,7 +104,7 @@ export function UpdateBanner() {
   return (
     <div
       role="status"
-      className="absolute inset-x-3 bottom-3 z-40 mx-auto flex max-w-xl items-center gap-3 rounded-2xl border border-border bg-raised p-3 shadow-lg shadow-black/40"
+      className="absolute inset-x-3 bottom-3 z-40 mx-auto flex max-w-xl items-center gap-3 rounded-2xl border border-border bg-raised p-3 shadow-lg shadow-shadow"
     >
       <RefreshCw
         className={

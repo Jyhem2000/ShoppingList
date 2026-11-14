@@ -28,6 +28,7 @@ import { MergeListsSheet } from "./MergeListsSheet";
 import { useAddToList } from "./useAddToList";
 import { useListData } from "./useListData";
 
+import { useNow } from "@/ui/useNow";
 const t = fr.list;
 
 type Panel =
@@ -44,7 +45,7 @@ export function ListPage() {
   const adding = useAddToList(data);
   const [panel, setPanel] = useState<Panel | null>(null);
   const session = useLatestSession(data?.list.id);
-  const [now] = useState(() => Date.now());
+  const now = useNow();
   const close = () => {
     setPanel(null);
   };

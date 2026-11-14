@@ -22,6 +22,7 @@ import { Sheet } from "@/ui/Sheet";
 import { showToast } from "@/ui/toast";
 import { daysSince } from "./backupAge";
 
+import { useNow } from "@/ui/useNow";
 const t = fr.manage.backup;
 
 /**
@@ -37,7 +38,7 @@ export function BackupPage() {
     backup: Backup;
     summary: BackupSummary;
   } | null>(null);
-  const [now] = useState(() => Date.now());
+  const now = useNow();
   const days = daysSince(settings?.lastBackupAt, now);
 
   const exportData = async () => {

@@ -1,6 +1,5 @@
 import { CircleCheck } from "lucide-react";
 import { useLiveQuery } from "dexie-react-hooks";
-import { useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { routes } from "@/app/routes";
 import { db } from "@/db/database";
@@ -21,6 +20,7 @@ import { EmptyState, PageHeader } from "@/ui/Page";
 import { Tip } from "@/ui/Tip";
 import { formatDuration } from "./format";
 import { ArticleIcon } from "@/ui/ArticleIcon";
+import { useNow } from "@/ui/useNow";
 const t = fr.shopping.recap;
 
 /**
@@ -37,7 +37,7 @@ export function RecapPage() {
   const aisles = useAisles(session?.storeId);
   const latest = useLatestSession(session?.listId);
   const stores = useStores();
-  const [now] = useState(() => Date.now());
+  const now = useNow();
   const unavailable = useLiveQuery(
     () =>
       session

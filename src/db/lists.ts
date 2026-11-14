@@ -84,17 +84,26 @@ export async function duplicateList(
   );
 }
 
-/** Supprime une liste et ses lignes ; la liste courante passe à la première restante. */
+/**
+ * Supprime une liste et ses lignes ; la liste courante passe à la première restante.
+ * Des courses restées ouvertes pour cette liste sont terminées (sans apprentissage) :
+ * sinon leur magasin ne pourrait plus jamais être supprimé. Les achats restent dans
+ * l'historique.
+ */
 export async function deleteList(
   database: ShoppingDatabase,
   id: ID,
+  now = Date.now(),
 ): Promise<void> {
   await database.transaction(
     "rw",
-    database.lists,
-    database.items,
-    database.meta,
+    [database.lists, database.items, database.meta, database.sessions],
     async () => {
+      await database.sessions
+        .where("listId")
+        .equals(id)
+        .filter((session) => session.status === "open")
+        .modify({ status: "closed", closedAt: now });
       await database.items.where("listId").equals(id).delete();
       await database.lists.delete(id);
       const settings = await getSettings(database);

@@ -1,5 +1,6 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { ReactNode } from "react";
+import { fr } from "@/i18n/fr";
 import { NavButton } from "@/ui/NavButton";
 import { cn } from "@/ui/utils";
 
@@ -22,7 +23,7 @@ export function PageHeader({
         <NavButton
           to={backTo}
           back
-          aria-label="Retour"
+          aria-label={fr.sheet.back}
           // Cible de 44 px, mais occupe la hauteur d'une ligne de titre (32 px) :
           // le titre reste au même niveau, avec ou sans bouton de retour.
           className="-my-1.5 -ml-2 flex size-11 items-center justify-center rounded-xl text-primary hover:bg-raised"

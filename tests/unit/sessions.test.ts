@@ -15,7 +15,8 @@ import {
   reopenSession,
   startSession,
 } from "@/db/sessions";
-import { createEmptyStore } from "@/db/stores";
+import { createList, deleteList } from "@/db/lists";
+import { createEmptyStore, deleteStore } from "@/db/stores";
 import { groupListForStore } from "@/domain/aisles";
 import type { ID } from "@/domain/model";
 import { learnAislePositions } from "@/domain/shopping";
@@ -236,6 +237,34 @@ describe("réouverture (docs/03 C8)", () => {
     ).toEqual(expected);
   });
 
+  it("un article remis dans la liste depuis n'est pas doublé", async () => {
+    const { db, list, article, shop } = await setup();
+    const session = await shop(["pates"], ["Épicerie salée"], 0);
+    await closeSession(db, session.id, 1000);
+    const pates = await article("pates");
+    await addListItem(db, {
+      listId: list.id,
+      articleId: pates.id,
+      quantity: 2,
+      unitId: pates.defaultUnitId,
+    });
+    expect(await reopenSession(db, session.id)).toBe(true);
+    const active = (
+      await db.items.where("listId").equals(list.id).toArray()
+    ).filter((i) => !i.closedInSessionId && i.articleId === pates.id);
+    expect(active).toHaveLength(1);
+    expect(active[0]?.quantity).toBe(2);
+  });
+
+  it("supprimer la liste termine ses courses ouvertes : le magasin reste supprimable", async () => {
+    const { db, store } = await setup();
+    const other = await createList(db, "Liste 2");
+    const session = await startSession(db, other.id, store.id, 0);
+    await deleteList(db, other.id, 1000);
+    expect((await db.sessions.get(session.id))?.status).toBe("closed");
+    expect(await deleteStore(db, store.id)).toBe("deleted");
+  });
+
   it("n'est plus possible une fois de nouvelles courses commencées", async () => {
     const { db, list, store, shop } = await setup();
     const first = await shop(["pates"], ["Épicerie salée"], 0);
@@ -360,6 +389,9 @@ describe("magasin construit pendant les courses (docs/03 C4)", () => {
     const empty = await openNextAisle(db, session, second, 6000);
     await closeSession(db, session.id, 7000);
     expect(await db.aisles.get(empty.id)).toBeUndefined();
+    // Le rayon en cours disparu est oublié : une réouverture rangera la suite après
+    // le rayon de la dernière coche, pas en tête du magasin.
+    expect((await db.sessions.get(session.id))?.openedAisle).toBeUndefined();
     const kept = (await db.aisles.where("storeId").equals(store.id).toArray())
       .filter((a) => !a.isUnsorted)
       .sort((a, b) => a.position - b.position)

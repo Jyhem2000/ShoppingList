@@ -57,7 +57,8 @@ export function AisleSheet({
   const addable = categories
     .filter((c) => !c.isSystem && categoryRole(aisle, c.id) === "none")
     .sort((a, b) => a.name.localeCompare(b.name, "fr"));
-  const others = aisles.filter((a) => a.id !== aisle.id);
+  // Jamais « À placer » : ses catégories n'en sortiraient plus (docs/02 § 4).
+  const others = aisles.filter((a) => a.id !== aisle.id && !a.isUnsorted);
   const textOf = (a: Aisle) => aisleText(a, categoryById, weights);
   const text = textOf(aisle);
 

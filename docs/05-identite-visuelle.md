@@ -158,6 +158,7 @@ Carré arrondi, fond = couleur de la catégorie à ~15 %, 1 ou 2 lettres en gras
 
 Le design system, ce sont aussi des **composants partagés** (`src/ui`), utilisés partout : un élément présent à deux endroits n'est jamais recopié, il devient un composant, et un changement de style se fait une seule fois (décision du 14 novembre 2026, après trois retours sur des champs de recherche recopiés et devenus différents). Les principaux :
 
+- **Voile et ombres** : tokens `--overlay` (voile sous les panneaux et les bulles d'aide) et `--shadow` (ombre des éléments flottants), jamais de noir écrit en dur. La barre d'état prend la valeur de `--bg` du thème posé (seuls `index.html` et le manifeste, lus avant les styles, la répètent en dur).
 - **Titre d'écran** (`PageTitle`) : 24 px, extra-gras, violet — Liste, Catalogue, Réglages, nom du magasin en mode courses.
 - **Sous-titre** (`SectionTitle`) : 16 px gras, couleur du texte, précédé d'un **trait vertical or** de 20 px (`--secondary-fill`, or dans les deux thèmes) — « Mes données », « Application », « Favoris »… Plus de petites majuscules grises, trop discrètes.
 - **Champ de recherche** (`SearchField`) : pilule bordée de 2 px (`--field-border`), sans fond propre, loupe, bouton pour effacer.

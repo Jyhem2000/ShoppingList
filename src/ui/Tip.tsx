@@ -74,11 +74,11 @@ export function Tip({
             left: rect.left - pad,
             width: rect.width + pad * 2,
             height: rect.height + pad * 2,
-            boxShadow: "0 0 0 9999px rgb(0 0 0 / 0.6)",
+            boxShadow: "0 0 0 9999px var(--overlay)",
           }}
         />
       ) : (
-        <div aria-hidden className="absolute inset-0 bg-black/60" />
+        <div aria-hidden className="absolute inset-0 bg-overlay" />
       )}
       <div
         className="absolute inset-x-4 mx-auto max-w-sm"

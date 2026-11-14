@@ -11,9 +11,6 @@ import {
  */
 export type Theme = "dark" | "light";
 
-/** Couleur du fond de l'app (--bg) pour la barre d'état, selon le thème. */
-const BAR_COLOR: Record<Theme, string> = { dark: "#0b0b0e", light: "#ffffff" };
-
 export function resolveTheme(
   preference: ThemePreference,
   systemPrefersDark: boolean,
@@ -26,9 +23,14 @@ function apply(): void {
   const dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
   const theme = resolveTheme(getPreferences().theme, dark);
   document.documentElement.dataset.theme = theme;
-  document
-    .querySelector('meta[name="theme-color"]')
-    ?.setAttribute("content", BAR_COLOR[theme]);
+  // Barre d'état de la couleur du fond de l'app : le token --bg du thème posé.
+  const bar = getComputedStyle(document.documentElement)
+    .getPropertyValue("--bg")
+    .trim();
+  if (bar)
+    document
+      .querySelector('meta[name="theme-color"]')
+      ?.setAttribute("content", bar);
 }
 
 /** Applique le thème et le tient à jour (réglage de l'app, réglage du téléphone). */

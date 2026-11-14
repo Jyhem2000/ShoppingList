@@ -14,7 +14,7 @@ export function SuggestionList({ className, ...props }: ComponentProps<"ul">) {
         event.preventDefault();
       }}
       className={cn(
-        "overflow-hidden rounded-2xl border border-border bg-surface shadow-lg shadow-black/40",
+        "overflow-hidden rounded-2xl border border-border bg-surface shadow-lg shadow-shadow",
         className,
       )}
     />

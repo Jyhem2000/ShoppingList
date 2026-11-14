@@ -12,6 +12,7 @@ import { Button } from "@/ui/button";
 import { Sheet } from "@/ui/Sheet";
 import { formatWhen } from "./format";
 
+import { useNow } from "@/ui/useNow";
 const t = fr.shopping.stale;
 /** Une seule question par session et par ouverture de l'app. */
 const answered = new Set<ID>();
@@ -23,7 +24,7 @@ const answered = new Set<ID>();
 export function StaleSessionPrompt({ session }: { session: ShoppingSession }) {
   const purchases = useSessionPurchases(session.id);
   const navigate = useNavigate();
-  const [now] = useState(() => Date.now());
+  const now = useNow();
   const [, setAnswered] = useState(0);
   if (!purchases || answered.has(session.id)) return null;
   const lastActivity = purchases.at(-1)?.at ?? session.startedAt;

@@ -9,7 +9,7 @@ import {
   SlidersHorizontal,
   Store,
 } from "lucide-react";
-import { type ReactNode, useState } from "react";
+import type { ReactNode } from "react";
 import { routes } from "@/app/routes";
 import { db } from "@/db/database";
 import { useSettings } from "@/db/hooks";
@@ -21,6 +21,7 @@ import { resetTips } from "@/ui/tips";
 import { showToast } from "@/ui/toast";
 import { daysSince } from "./backupAge";
 
+import { useNow } from "@/ui/useNow";
 const t = fr.settings;
 
 /**
@@ -39,7 +40,7 @@ export function SettingsPage() {
     ]);
     return { articles, categories, stores, units };
   });
-  const [now] = useState(() => Date.now());
+  const now = useNow();
 
   return (
     <>

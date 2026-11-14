@@ -38,7 +38,7 @@ export function Sheet({
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 z-50 bg-black/60 motion-safe:data-[state=open]:animate-[fade-in_200ms_ease-out]" />
+        <Dialog.Overlay className="fixed inset-0 z-50 bg-overlay motion-safe:data-[state=open]:animate-[fade-in_200ms_ease-out]" />
         <Dialog.Content
           asChild
           onOpenAutoFocus={(event) => {

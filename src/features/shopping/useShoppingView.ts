@@ -103,9 +103,12 @@ export function useShoppingView(
     );
     const hide = data.settings.checkedBehavior === "hide";
     const placingId = placingAisle(session.openedAisle, purchases.at(-1));
-    const placing = data.aisles.find(
-      (aisle) => aisle.id === placingId && !aisle.isUnsorted,
-    );
+    const findAisle = (id: ID | undefined) =>
+      data.aisles.find((aisle) => aisle.id === id && !aisle.isUnsorted);
+    // Rayon ouvert disparu depuis (supprimé à la clôture, puis courses rouvertes) :
+    // celui de la dernière coche, jamais un nouveau rayon en tête du magasin.
+    const placing =
+      findAisle(placingId) ?? findAisle(purchases.at(-1)?.aisleId);
 
     const byAisle = new Map(
       grouped

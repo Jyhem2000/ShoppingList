@@ -94,7 +94,7 @@ Décision du 13 novembre 2026, après le premier essai réel : une liste **n'app
 
 ### B2. Plusieurs listes — _v1.0_
 
-Créer, renommer, dupliquer, supprimer (avec confirmation), réordonner. Changement rapide de liste depuis l'en-tête. **Ajouter une ou plusieurs autres listes** à la liste courante, notamment à sa création (« Base de la semaine » + « Apéro ») : aperçu avec cases à cocher, puis fusion des quantités (voir [02 § 6](02-modele-metier.md#ajouter-une-liste-dans-une-autre)).
+Créer, renommer, dupliquer, supprimer (avec confirmation ; des courses restées ouvertes pour cette liste sont alors terminées, sans apprentissage, et leurs achats restent dans l'historique), réordonner. Changement rapide de liste depuis l'en-tête. **Ajouter une ou plusieurs autres listes** à la liste courante, notamment à sa création (« Base de la semaine » + « Apéro ») : aperçu avec cases à cocher, puis fusion des quantités (voir [02 § 6](02-modele-metier.md#ajouter-une-liste-dans-une-autre)).
 
 ### B3. Éditer une ligne — _v1.0_
 
@@ -172,7 +172,7 @@ Bouton **« Terminer les courses »**, toujours visible en mode courses → conf
 ### C8. Rouvrir les courses — _v1.0_
 
 - Après la clôture, la liste (et le bilan) affichent **« Rouvrir les courses »** le **jour même** seulement, tant qu'aucune nouvelle session n'a démarré sur cette liste et que le magasin existe encore (retour d'essai du 13 novembre 2026 : le bouton restait affiché indéfiniment, même après la suppression du magasin).
-- Réouverture → retour en mode courses, articles déjà achetés affichés cochés, ajout et cochage des oublis, puis nouvelle clôture qui **remplace** les calculs précédents.
+- Réouverture → retour en mode courses, articles déjà achetés affichés cochés, ajout et cochage des oublis, puis nouvelle clôture qui **remplace** les calculs précédents. Un article acheté puis remis dans la liste depuis n'est pas doublé : la nouvelle ligne l'emporte. Les rangements suivants vont après le rayon de la dernière coche (le rayon vide ouvert par « Rayon suivant » a disparu à la clôture).
 - Session restée ouverte plus de **3 heures** après la dernière coche : à la réouverture de l'app, « Tu as terminé tes courses de _hier 18 h_ ? — Terminer · Continuer ».
 
 **Critères** : clôturer, rouvrir, cocher un article de plus, clôturer → l'historique contient tous les articles une seule fois et l'apprentissage n'est appliqué qu'une fois.
@@ -254,7 +254,7 @@ Créer, renommer, changer icône/couleur, **nom court** facultatif (titre des ra
 ### G3. Magasins et rayons
 
 - Créer un magasin (vide, ou copie d'un autre ; plus de modèle depuis la phase 7), renommer, supprimer (même le dernier, jamais pendant des courses en cours). Le plus simple : le créer au départ des courses (B5) et laisser ses rayons se ranger en cochant (C4).
-- Rayons : créer, **nommer (facultatif)**, ajouter un **repère** facultatif (« au fond du magasin »), icône/couleur, **réordonner par glisser-déposer**, fusionner, supprimer. Sans nom, son titre vient de ses catégories principales (02 § 4) ; le champ nom le montre en grisé. Un rayon est toujours renommable.
+- Rayons : créer, **nommer (facultatif)**, ajouter un **repère** facultatif (« au fond du magasin »), icône/couleur, **réordonner par glisser-déposer**, fusionner (jamais dans « À placer » : ses catégories n'en sortiraient plus), supprimer. Sans nom, son titre vient de ses catégories principales (02 § 4) ; le champ nom le montre en grisé. Un rayon est toujours renommable.
 - Rattacher les catégories aux rayons : une catégorie peut être dans plusieurs rayons d'un magasin, dont **un principal** (puce pleine ; contour = secondaire ; toucher pour changer) ; voir et ranger les catégories non rattachées.
 - Supprimer un rayon : ses catégories principales vont dans « À placer », ou dans un de leurs rayons secondaires (au choix).
 - **Apprentissage de l'ordre : activé / désactivé** (C7), pour chaque magasin ; voir et supprimer les exceptions par article.

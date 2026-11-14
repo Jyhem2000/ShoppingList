@@ -49,6 +49,10 @@
   --warning: #ff7b3a;
   --danger: #f2484f;
 
+  /* Voile sous les panneaux et les bulles d'aide, ombre des éléments flottants */
+  --overlay: rgb(0 0 0 / 0.6);
+  --shadow: rgb(0 0 0 / 0.4);
+
   /* Palette des rayons et catégories : tons doux, lisibles sur fond sombre */
   --pal-sauge: #8fcf9c;
   --pal-ble: #e6c27a;
@@ -125,6 +129,8 @@
   --color-bg: var(--bg);
   --color-surface: var(--surface);
   --color-raised: var(--raised);
+  --color-overlay: var(--overlay);
+  --color-shadow: var(--shadow);
   --color-border: var(--border);
   --color-field-border: var(--field-border);
   --color-text: var(--text);

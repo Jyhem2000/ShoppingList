@@ -32,6 +32,7 @@ export const fr = {
   toast: { close: "Fermer le message" },
   search: { clear: "Effacer la recherche" },
   tabs: {
+    navigation: "Navigation principale",
     list: "Liste",
     catalog: "Catalogue",
     settings: "Réglages",
