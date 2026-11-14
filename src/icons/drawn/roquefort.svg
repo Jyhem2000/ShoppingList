@@ -1,11 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <clipPath id="rq1"><path d="M20 11.6L28 9V24.4L20 27z"/></clipPath>
-<clipPath id="rq2"><path d="M2.6 27L20 11.6L28 9L10.6 24.4z"/></clipPath>
-<clipPath id="rq3"><path d="M2.6 27H20V11.6z"/></clipPath>
-<path fill="#c9bc9c" d="M20 11.6L28 9V24.4L20 27z"/>
-<g clip-path="url(#rq1)"><g fill="#4f7a68"><circle cx="24" cy="12.6" r=".7"/><circle cx="26.2" cy="15.4" r=".9"/><circle cx="23.4" cy="18.4" r=".6"/><circle cx="25.6" cy="20.6" r=".8"/><circle cx="23.2" cy="23.6" r=".5"/></g></g>
-<path fill="#fcf9ee" d="M2.6 27L20 11.6L28 9L10.6 24.4z"/>
-<g clip-path="url(#rq2)"><g fill="#5f8a76"><ellipse cx="13" cy="19.4" rx="1" ry=".5" transform="rotate(-40 13 19.4)"/><ellipse cx="19.6" cy="12.6" rx=".9" ry=".45" transform="rotate(-40 19.6 12.6)"/><ellipse cx="9" cy="23.6" rx=".7" ry=".35" transform="rotate(-40 9 23.6)"/><ellipse cx="22.6" cy="10.8" rx=".6" ry=".3" transform="rotate(-40 22.6 10.8)"/><ellipse cx="16.4" cy="16.8" rx=".5" ry=".3" transform="rotate(-40 16.4 16.8)"/></g></g>
-<path fill="#e4d8b8" d="M2.6 27H20V11.6z"/>
-<g clip-path="url(#rq3)"><g transform="translate(0 0)" fill="#4f7a68"><path d="M16 19c.8-.6 2-.4 2.2.4c.2.8-.6 1.4-1.4 1.6c-.8.2-1.6-1.2-.8-2zM12.4 23.4c.8-.4 1.8 0 1.6.8c-.2.8-1.2 1-1.8.6c-.4-.4-.4-1.2.2-1.4zM18.8 14.6c.6-.4 1.4.2 1.2.8c-.2.6-.8 1.2-1.4 1c-.6-.2-.4-1.4.2-1.8zM19.2 23.6c.6-.2 1.2.4.8.8c-.4.4-1.2 0-.8-.8zM8.6 25.2c.6-.2 1 .4.6.8c-.4.4-1 0-.6-.8zM14.6 21.2c.4-.2.8.2.6.6c-.2.4-.8.2-.6-.6zM20 19.6c.4-.2.8.2.6.6c-.2.4-.8.2-.6-.6z"/></g><path fill="none" stroke="#6f9a86" stroke-linecap="round" stroke-width=".5" d="M14.4 22c1-.6 2-.2 3-.8M17.8 17.2c.8.2 1.2-.4 2-.2M10 25.4c1-.4 1.6 0 2.4-.4"/></g>
+  <clipPath id="rq4"><path d="M3 26V14L28.6 12.8V24.8z"/></clipPath>
+<clipPath id="rq5"><path d="M3 14L22 5.2L28.6 12.8z"/></clipPath>
+<path fill="#e6dbbc" d="M3 26V14L28.6 12.8V24.8z"/>
+<g clip-path="url(#rq4)" fill="#4f7a68">
+<path d="M7 17.6c.8-.6 2-.4 2 .4c0 .8-1 1.2-1.6 1.2c-.8 0-1.2-1-.4-1.6zM12.6 21.6c1-.4 2 0 1.8.8c-.2.8-1.4 1.2-2 .8c-.6-.4-.4-1.4.2-1.6zM17.6 16.6c.8-.4 1.8.2 1.6 1c-.2.6-1 1.2-1.8.8c-.6-.4-.4-1.4.2-1.8zM22.6 21.4c.8-.4 1.6.2 1.4.8c-.2.6-1 1-1.6.6c-.4-.4-.4-1.2.2-1.4zM25.6 15.8c.6-.2 1.2.4.8.8c-.4.4-1.2 0-.8-.8zM9.6 23.8c.6-.2 1 .4.6.8c-.4.4-1 0-.6-.8zM20 24.2c.6-.2 1 .4.6.8c-.4.4-1 0-.6-.8zM14.8 18.6c.4-.2.8.2.6.6c-.2.4-.8.2-.6-.6z"/>
+</g>
+<path fill="#faf5e6" d="M3 14L22 5.2L28.6 12.8z"/>
+<g clip-path="url(#rq5)" fill="#5f8a76">
+<path d="M11 11.6c.8-.4 1.8 0 1.6.6c-.2.6-1.2.8-1.8.4c-.4-.2-.2-.8.2-1zM18.6 8.6c.6-.2 1.4.2 1.2.6c-.2.4-1 .6-1.4.2c-.2-.2 0-.6.2-.8zM22.4 11.4c.6-.2 1.2.2 1 .6c-.2.4-1 .4-1.2 0zM16 12.4c.4-.2.8.2.6.4c-.2.2-.8.2-.6-.4zM7.2 13.4c.4-.2.8.2.6.4c-.2.2-.8.2-.6-.4z"/>
+</g>
+<path fill="none" stroke="#ffffff66" stroke-linecap="round" stroke-width=".4" d="M3.2 14l25.2-1.2"/>
 </svg>
