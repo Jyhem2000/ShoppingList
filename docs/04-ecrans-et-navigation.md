@@ -151,9 +151,9 @@ Mode courses
 Dernière sauvegarde : il y a 12 j
 Garder une copie
   (libellé : changer de téléphone, réinstaller l'app, copie hors du téléphone)
-  [ Exporter un fichier ]   [ Copier le texte ]
+  [ Exporter un fichier ]   [ Copier les données ]
 Récupérer une copie
-  [ Importer un fichier ]   [ Coller le texte ]
+  [ Importer un fichier ]   [ Coller les données ]
 Copies automatiques (phase 8)
   Restaurer une copie ▸
     (libellé : copies automatiques des 7 derniers jours, contre une fausse

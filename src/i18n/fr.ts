@@ -268,7 +268,7 @@ export const fr = {
       restore: "Récupérer une copie",
       export: "Exporter un fichier",
       exportHint:
-        "Un fichier avec tes listes, magasins, rayons, articles et ton historique, à garder dans Fichiers ou Drive. Utile pour changer de téléphone ou réinstaller l'app : la supprimer efface ses données.",
+        "Un fichier avec tes listes, magasins, rayons, articles et ton historique, à garder dans tes fichiers ou ton stockage en ligne. Utile pour changer de téléphone ou réinstaller l'app : la supprimer efface ses données.",
       last: (days: number | undefined) =>
         days === undefined
           ? "Aucune sauvegarde pour l'instant."
@@ -276,12 +276,13 @@ export const fr = {
             ? "Dernière sauvegarde : aujourd'hui."
             : `Dernière sauvegarde : il y a ${days} jour${days > 1 ? "s" : ""}.`,
       exported: "Sauvegarde prête",
-      copy: "Copier le texte",
+      copy: "Copier les données",
       copyHint:
-        "La même sauvegarde, dans le presse-papiers : colle-la dans Notes, puis « Coller le texte » dans l'app réinstallée.",
-      copied: "Sauvegarde copiée : colle-la dans Notes pour la garder",
+        "La même sauvegarde, en texte dans le presse-papiers : colle-la dans une note ou un message pour la garder, puis « Coller les données » dans l'app réinstallée.",
+      copied:
+        "Données copiées dans le presse-papiers : colle-les dans une note ou un message pour les garder",
       copyFailed: "Copie impossible : utilise plutôt « Exporter un fichier ».",
-      paste: "Coller le texte",
+      paste: "Coller les données",
       pasteTitle: "Coller une sauvegarde",
       pasteText:
         "Colle ici le texte d'une sauvegarde copiée (touche longue → Coller).",
