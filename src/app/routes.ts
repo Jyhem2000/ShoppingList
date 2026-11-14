@@ -10,6 +10,7 @@ export const routes = {
   preferences: "/reglages/preferences",
   sounds: "/reglages/preferences/sons",
   backup: "/reglages/sauvegarde",
+  help: "/reglages/aide",
   shopping: "/courses",
   shoppingRecap: "/courses/bilan/:sessionId",
   manageArticles: "/reglages/articles",

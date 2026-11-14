@@ -326,7 +326,7 @@ Réglage **activé par défaut** : en mode courses, l'écran ne se met pas en ve
 
 ### H10. Aide
 
-Réglages → **Aide** : un mode d'emploi court (remplir la liste, faire les courses, terminer, rouvrir) et **ce que l'app règle toute seule** (ordre des rayons et des articles, rayon d'un article, habitudes ; apprentissage activé ou non par magasin).
+Réglages → **Aide** (réalisé le 14 novembre 2026) : le conseil ci-dessous en tête, un mode d'emploi court (remplir la liste, faire les courses, terminer, rouvrir) et **ce que l'app règle toute seule** (ordre des rayons et des articles, rayon d'un article, habitudes ; apprentissage activé ou non par magasin).
 
 Conseil mis en avant : **suivre le même parcours** dans un magasin, au moins pendant les premières courses, le temps que l'app apprenne l'ordre ; cocher les articles **au moment où on les prend**, pas tous à la caisse. Ensuite, on peut désactiver l'apprentissage si l'ordre convient.
 
@@ -342,7 +342,7 @@ Ajouté en phase 7 (guide allégé) : une bulle, montrée **une seule fois**, su
 - Après la première coche, sur « Rayon suivant » : « Tu changes de rayon ? Touche ici : les articles suivants iront dans le nouveau rayon. »
 - Au premier bilan : « Ton magasin est enregistré : la prochaine fois, ta liste suivra ton parcours. »
 
-Mémorisées sur le téléphone (préférences de l'appareil, hors sauvegarde) ; Réglages → **« Revoir les conseils »** les fait revenir. Un **guide de démonstration complet** (parcours pas à pas, flèches sur chaque action) reste pour plus tard.
+Mémorisées sur le téléphone (préférences de l'appareil, hors sauvegarde) ; Réglages → Aide → **« Revoir les conseils »** les fait revenir. Un **guide de démonstration complet** (parcours pas à pas, flèches sur chaque action) reste pour plus tard.
 
 ## Idées non planifiées
 

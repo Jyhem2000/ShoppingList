@@ -13,6 +13,7 @@ import { RecapPage } from "@/features/shopping/RecapPage";
 import { ShoppingPage } from "@/features/shopping/ShoppingPage";
 import { AboutPage } from "@/features/settings/AboutPage";
 import { BackupPage } from "@/features/settings/BackupPage";
+import { HelpPage } from "@/features/settings/HelpPage";
 import { LicencesPage } from "@/features/settings/LicencesPage";
 import { PreferencesPage } from "@/features/settings/PreferencesPage";
 import { ReleaseNotesPage } from "@/features/settings/ReleaseNotesPage";
@@ -35,6 +36,7 @@ export const router = createHashRouter([
       { path: routes.preferences, element: <PreferencesPage /> },
       { path: routes.sounds, element: <SoundsPage /> },
       { path: routes.backup, element: <BackupPage /> },
+      { path: routes.help, element: <HelpPage /> },
       { path: routes.shopping, element: <ShoppingPage /> },
       { path: routes.shoppingRecap, element: <RecapPage /> },
       { path: routes.manageArticles, element: <ArticlesPage /> },

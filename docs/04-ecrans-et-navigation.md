@@ -126,7 +126,7 @@ Mes données       (« Le cœur de l'app… Tout se modifie ici. »)
   Sauvegarde ▸   Dernière sauvegarde : il y a 12 j
 Application
   Préférences ▸   Sons, écran allumé, thème
-  Revoir les conseils      [Revoir]  (H12 : les bulles d'aide reviennent)
+  Aide ▸          mode d'emploi, ce que l'app règle toute seule, « Revoir les conseils » (H10, H12)
   À propos ▸      Version 1.0.0 · Quoi de neuf ▸ · Licences ▸
 ```
 
@@ -155,7 +155,7 @@ Copies automatiques (phase 8)
      manipulation ; elles disparaissent avec l'app)
 ```
 
-Plus tard : **Aide ▸** (H10 : mode d'emploi, ce que l'app règle toute seule, avec « Revoir les conseils ») dans « Application » ; **Coller une liste partagée ▸** _(v1.3)_.
+Plus tard : **Coller une liste partagée ▸** _(v1.3)_.
 
 ### 2.8 Magasin
 

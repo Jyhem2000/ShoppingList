@@ -16,6 +16,49 @@ export const fr = {
     intoUnplaced: "dans « À placer »",
   },
   /** Bulles d'aide montrées une seule fois (docs/03 H12). */
+  help: {
+    title: "Aide",
+    hint: "Mode d'emploi, ce que l'app règle toute seule",
+    advice: {
+      title: "Le conseil pour bien démarrer",
+      text: "Pendant les premières courses dans un magasin, suis le même parcours et coche chaque article au moment où tu le prends, pas tout à la caisse : l'app apprend ton magasin plus vite. Ensuite, tu pourras figer l'ordre s'il te convient.",
+    },
+    sections: [
+      {
+        title: "Remplir la liste",
+        points: [
+          "Tape « 2 baguettes, du beurre » dans la barre du bas : les articles s'ajoutent, rangés par catégorie. Tu peux aussi parcourir le Catalogue.",
+          "Touche une ligne pour changer sa quantité, sa note ou les types qui te vont ; glisse-la vers la gauche pour la retirer.",
+          "Plusieurs listes : touche le nom de la liste en haut. Le menu ⋯ agit sur la liste affichée.",
+        ],
+      },
+      {
+        title: "Faire les courses",
+        points: [
+          "« C'est parti », puis choisis le magasin, ou donne son nom la première fois.",
+          "Touche un article quand il est dans le caddie. Glisse-le s'il n'y en avait pas ; appui long pour le changer de rayon ; touche la quantité pour la corriger.",
+          "Premières courses dans un magasin : tout est « À placer ». Coche dans l'ordre où tu prends, et touche « Rayon suivant » quand tu changes de rayon : l'app construit ton magasin.",
+          "✕ en haut : tu quittes le mode courses sans les terminer, et tu pourras les reprendre.",
+        ],
+      },
+      {
+        title: "Terminer et rouvrir",
+        points: [
+          "« Terminer » : les articles pris quittent la liste, ceux qui manquaient y restent pour la prochaine fois.",
+          "Un oubli à la caisse ? « Rouvrir les courses », le jour même, depuis la liste.",
+        ],
+      },
+      {
+        title: "Ce que l'app règle toute seule",
+        points: [
+          "L'ordre des rayons et des articles, d'après l'ordre de tes coches, magasin par magasin.",
+          "Le rayon d'un article : celui de sa catégorie, sauf si tu l'as rangé ailleurs.",
+          "Tes habitudes : ce que tu achètes souvent remonte dans la recherche et dans « Habituels » du Catalogue.",
+          "Si l'ordre d'un magasin te convient, fige-le : Réglages → Magasins & rayons → ton magasin → « Apprendre l'ordre de mes courses ».",
+        ],
+      },
+    ],
+  },
   tips: {
     dismiss: "Touche l'écran pour continuer",
     place:
