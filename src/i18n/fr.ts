@@ -799,7 +799,7 @@ export const fr = {
         boudoirs: "nouveau dessin",
         "galettes-bretonnes": "nouveau dessin",
         "biscuits-fourres": "nouveau dessin",
-        "chewing-gums": "refait : trois tablettes à l'unité",
+        "chewing-gums": "refait : quatre dragées plates qui se chevauchent",
         caramels: "nouveau dessin",
         guimauves: "nouveau dessin",
         reglisse: "refait : spirale complète, bonbon rose au centre",
