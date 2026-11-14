@@ -115,8 +115,25 @@ Articles achetés, pas pris (restés dans la liste), durée, éventuellement « 
 
 ### 2.7 Réglages
 
+Organisé en accueil (décision du 14 novembre 2026) : les données de l'utilisateur, cœur du paramétrage, sont en tête et en grand ; les préférences de l'app, réglées une fois pour toutes, sont regroupées derrière une seule ligne.
+
 ```
-Fonctionnalités   (icône, libellé, description ; grisée « Non disponible sur ce téléphone » si besoin)
+Mes données       (« Le cœur de l'app… Tout se modifie ici. »)
+  [ Articles    ]  [ Catégories ]     ← grandes tuiles : icône, nom, nombre
+  [ 240 articles]  [ 39 catégories]
+  [ Magasins &  ]  [ Unités     ]
+  [ rayons : 2  ]  [ 18 unités  ]
+  Sauvegarde ▸   Dernière sauvegarde : il y a 12 j
+Application
+  Préférences ▸   Sons, écran allumé, thème
+  Revoir les conseils      [Revoir]  (H12 : les bulles d'aide reviennent)
+  À propos ▸      Version 1.0.0 · Quoi de neuf ▸ · Licences ▸
+```
+
+**Préférences** :
+
+```
+Fonctionnalités   (grisée « Non disponible sur ce téléphone » si besoin)
   Sons .................. Activés ▸  (écran Sons : interrupteur général + un par son, avec écoute)
   Écran allumé pendant les courses ●
 Ressenti
@@ -126,22 +143,24 @@ Affichage
   Affichage compact ..... ◯
 Mode courses
   Lignes cochées ........ Glissent en bas ▸
-Mes données
-  Articles ▸   Catégories ▸   Magasins & rayons ▸   Unités ▸
-Partage (v1.3)
-  Coller une liste partagée ▸
-Sauvegarde
-  Exporter mes données ▸   Copier dans le presse-papiers ▸   Dernière sauvegarde : il y a 12 j
-  Importer une sauvegarde ▸   Coller une sauvegarde ▸
-    (libellé : changer de téléphone, réinstaller l'app, copie hors du téléphone)
+```
+
+**Sauvegarde** : quatre actions de **même poids** (boutons secondaires), aucune n'étant l'action principale de l'écran ; seule la confirmation d'un import est en rouge.
+
+```
+Dernière sauvegarde : il y a 12 j
+Garder une copie
+  (libellé : changer de téléphone, réinstaller l'app, copie hors du téléphone)
+  [ Exporter un fichier ]   [ Copier le texte ]
+Récupérer une copie
+  [ Importer un fichier ]   [ Coller le texte ]
+Copies automatiques (phase 8)
   Restaurer une copie ▸
     (libellé : copies automatiques des 7 derniers jours, contre une fausse
      manipulation ; elles disparaissent avec l'app)
-Aide ▸                      (H10 : mode d'emploi, ce que l'app règle toute seule)
-  Revoir les conseils        (H12 : les bulles d'aide reviennent)
-À propos
-  Version 1.0.0 · Quoi de neuf ▸ · Licences ▸
 ```
+
+Plus tard : **Aide ▸** (H10 : mode d'emploi, ce que l'app règle toute seule, avec « Revoir les conseils ») dans « Application » ; **Coller une liste partagée ▸** _(v1.3)_.
 
 ### 2.8 Magasin
 

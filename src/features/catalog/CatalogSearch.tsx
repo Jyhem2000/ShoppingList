@@ -1,4 +1,4 @@
-import { ChevronRight, Search, X } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { type ReactNode, useId, useMemo, useRef } from "react";
 import { useNavigate } from "react-router";
 import { catalogCategoryPath } from "@/app/routes";
@@ -11,6 +11,7 @@ import { fr } from "@/i18n/fr";
 import { GroupIcon } from "@/ui/GroupIcon";
 import { palette } from "@/ui/palette";
 import { ProductIcon } from "@/ui/ProductIcon";
+import { SearchField } from "@/ui/SearchField";
 import { showToast } from "@/ui/toast";
 import { useCatalogPick } from "./useCatalogPick";
 
@@ -109,47 +110,23 @@ export function CatalogSearch({
 
   return (
     <div className="relative px-4 pb-2">
-      <label className="flex h-12 items-center gap-2 rounded-full border-2 border-field-border bg-bg pr-1 pl-4 focus-within:border-primary">
-        <Search className="size-5 shrink-0 text-secondary" aria-hidden />
-        <input
-          ref={input}
-          type="search"
-          role="combobox"
-          aria-expanded={open}
-          aria-controls={listId}
-          aria-autocomplete="list"
-          value={query}
-          onChange={(event) => {
-            onQueryChange(event.target.value);
-          }}
-          onKeyDown={(event) => {
-            if (event.key === "Enter" && suggestions[0]) {
-              event.preventDefault();
-              choose(suggestions[0]);
-            }
-            if (event.key === "Escape") onQueryChange("");
-          }}
-          placeholder={t.search}
-          aria-label={t.search}
-          autoComplete="off"
-          autoCorrect="off"
-          enterKeyHint="done"
-          className="min-w-0 flex-1 bg-transparent text-base outline-none placeholder:text-muted-foreground [&::-webkit-search-cancel-button]:hidden"
-        />
-        {query && (
-          <button
-            type="button"
-            aria-label={t.clear}
-            onClick={() => {
-              onQueryChange("");
-              input.current?.focus();
-            }}
-            className="flex size-10 shrink-0 items-center justify-center rounded-full text-muted-foreground active:bg-surface"
-          >
-            <X className="size-5" aria-hidden />
-          </button>
-        )}
-      </label>
+      <SearchField
+        ref={input}
+        label={t.search}
+        value={query}
+        onValueChange={onQueryChange}
+        role="combobox"
+        aria-expanded={open}
+        aria-controls={listId}
+        aria-autocomplete="list"
+        onKeyDown={(event) => {
+          if (event.key === "Enter" && suggestions[0]) {
+            event.preventDefault();
+            choose(suggestions[0]);
+          }
+          if (event.key === "Escape") onQueryChange("");
+        }}
+      />
 
       {open && (
         <ul

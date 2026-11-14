@@ -182,7 +182,7 @@ Retours de la validation de la phase 7 (14 novembre 2026) :
 
 - Menu `⋯` de la liste : seulement des actions sur la liste courante ; « Toutes mes listes » retiré (les autres listes s'ouvrent en touchant le nom), « Ajouter une autre liste » devient « Y ajouter le contenu d'une autre liste » (04 § 2.1).
 - Réglage « Simplifier les quantités » retiré : simplification toujours active, avec « Annuler » (03 H8).
-- Réglages réorganisés : « Mes données » et la sauvegarde mises en avant, les préférences de l'app regroupées (plan à valider).
+- Réglages organisés en accueil (04 § 2.7) : « Mes données » en tête, en grandes tuiles avec leur nombre, et la sauvegarde dans un écran à part (quatre actions de même poids) ; les préférences (sons, écran allumé, thème) derrière une seule ligne « Préférences ».
 
 - ✅ _Essai réel en magasin sur les deux téléphones (préproduction)._ → `0.8.0`.
 

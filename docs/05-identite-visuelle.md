@@ -196,7 +196,7 @@ Points d'attention :
 
 - sur iPhone, le son ne peut démarrer qu'après un premier geste de l'utilisateur (le premier tap suffit) ;
 - **mode silencieux** : sur iPhone, la session audio est déclarée « ambient » (Audio Session API, iOS 17+) : les sons sont coupés quand le bouton silencieux est activé et n'interrompent pas la musique en cours. Android ne permet pas de connaître le mode silencieux depuis le web : les sons suivent le volume multimédia ;
-- réglage **Sons** général et **un interrupteur par son**, chacun pouvant être écouté (Réglages → Fonctionnalités → Sons).
+- réglage **Sons** général et **un interrupteur par son**, chacun pouvant être écouté (Réglages → Préférences → Sons).
 
 ### Vibrations — non retenues
 

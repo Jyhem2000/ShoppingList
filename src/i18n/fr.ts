@@ -263,9 +263,11 @@ export const fr = {
     confirmCancel: "Annuler",
     backup: {
       section: "Sauvegarde",
-      export: "Exporter mes données",
+      keep: "Garder une copie",
+      restore: "Récupérer une copie",
+      export: "Exporter un fichier",
       exportHint:
-        "Un fichier avec tes listes, magasins, rayons, articles et ton historique, à garder dans Fichiers ou Drive.",
+        "Un fichier avec tes listes, magasins, rayons, articles et ton historique, à garder dans Fichiers ou Drive. Utile pour changer de téléphone ou réinstaller l'app : la supprimer efface ses données.",
       last: (days: number | undefined) =>
         days === undefined
           ? "Aucune sauvegarde pour l'instant."
@@ -273,21 +275,21 @@ export const fr = {
             ? "Dernière sauvegarde : aujourd'hui."
             : `Dernière sauvegarde : il y a ${days} jour${days > 1 ? "s" : ""}.`,
       exported: "Sauvegarde prête",
-      copy: "Copier dans le presse-papiers",
+      copy: "Copier le texte",
       copyHint:
-        "Pratique pour désinstaller et réinstaller l'app : copie, colle le texte dans Notes, puis « Coller une sauvegarde » dans l'app réinstallée.",
+        "La même sauvegarde, dans le presse-papiers : colle-la dans Notes, puis « Coller le texte » dans l'app réinstallée.",
       copied: "Sauvegarde copiée : colle-la dans Notes pour la garder",
-      copyFailed: "Copie impossible : utilise plutôt « Exporter mes données ».",
-      paste: "Coller une sauvegarde",
+      copyFailed: "Copie impossible : utilise plutôt « Exporter un fichier ».",
+      paste: "Coller le texte",
       pasteTitle: "Coller une sauvegarde",
       pasteText:
         "Colle ici le texte d'une sauvegarde copiée (touche longue → Coller).",
       pastePlaceholder: '{ "app": "ShoppingList", … }',
       pasteCheck: "Vérifier la sauvegarde",
       invalidText: "Ce texte n'est pas une sauvegarde de ShoppingList.",
-      import: "Importer une sauvegarde",
+      import: "Importer un fichier",
       importHint:
-        "Remplace toutes les données de l'app par celles d'un fichier exporté.",
+        "Remplace toutes les données de l'app par celles d'une sauvegarde, après confirmation.",
       importTitle: "Remplacer toutes tes données ?",
       importText: (
         date: string,
@@ -547,6 +549,19 @@ export const fr = {
   },
   settings: {
     title: "Réglages",
+    dataIntro:
+      "Le cœur de l'app : tes articles, leurs catégories, les rayons de tes magasins. Tout se modifie ici.",
+    counts: {
+      articles: (n: number) => (n > 1 ? `${n} articles` : `${n} article`),
+      categories: (n: number) => (n > 1 ? `${n} catégories` : `${n} catégorie`),
+      stores: (n: number) =>
+        n === 0 ? "Aucun magasin" : n > 1 ? `${n} magasins` : "1 magasin",
+      units: (n: number) => (n > 1 ? `${n} unités` : `${n} unité`),
+    },
+    preferences: {
+      title: "Préférences",
+      hint: "Sons, écran allumé, thème",
+    },
     sectionFeatures: "Fonctionnalités",
     sectionApp: "Application",
     sectionDisplay: "Affichage",

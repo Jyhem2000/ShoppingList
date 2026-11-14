@@ -25,7 +25,7 @@ export function SoundsPage() {
 
   return (
     <>
-      <PageHeader title={t.title} backTo={routes.settings} />
+      <PageHeader title={t.title} backTo={routes.preferences} />
 
       <Section>
         <Row

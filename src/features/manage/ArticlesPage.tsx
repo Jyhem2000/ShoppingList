@@ -1,4 +1,4 @@
-import { ChevronRight, Plus, Search } from "lucide-react";
+import { ChevronRight, Plus } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import { manageArticlePath, routes } from "@/app/routes";
@@ -12,6 +12,7 @@ import { paletteColor } from "@/features/list/format";
 import { UnitSelect } from "@/features/list/UnitSelect";
 import { type ListData, useListData } from "@/features/list/useListData";
 import { fr } from "@/i18n/fr";
+import { SearchField } from "@/ui/SearchField";
 import { Button } from "@/ui/button";
 import { Field, Select, TextInput } from "@/ui/form";
 import { PageHeader, Section } from "@/ui/Page";
@@ -51,20 +52,7 @@ export function ArticlesPage() {
     <>
       <PageHeader title={t.title} backTo={routes.settings} />
       <div className="flex flex-col gap-2 px-4 pb-2">
-        <label className="flex h-12 items-center gap-2 rounded-full border-2 border-field-border bg-raised px-4 focus-within:border-primary">
-          <Search className="size-5 shrink-0 text-secondary" aria-hidden />
-          <input
-            type="search"
-            value={query}
-            onChange={(event) => {
-              setQuery(event.target.value);
-            }}
-            placeholder={t.search}
-            aria-label={t.search}
-            autoComplete="off"
-            className="min-w-0 flex-1 bg-transparent text-base outline-none placeholder:text-muted-foreground"
-          />
-        </label>
+        <SearchField label={t.search} value={query} onValueChange={setQuery} />
         <Select
           aria-label={t.allCategories}
           value={categoryId}

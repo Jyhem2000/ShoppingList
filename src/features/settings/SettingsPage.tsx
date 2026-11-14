@@ -1,151 +1,98 @@
+import { useLiveQuery } from "dexie-react-hooks";
 import {
   Apple,
+  DatabaseBackup,
   Info,
   LayoutGrid,
   Lightbulb,
-  Palette,
   Ruler,
+  SlidersHorizontal,
   Store,
-  Sun,
-  Volume2,
 } from "lucide-react";
-import {
-  soundEvents,
-  themePreferences,
-  updatePreferences,
-  usePreferences,
-} from "@/app/preferences";
+import { type ReactNode, useState } from "react";
 import { routes } from "@/app/routes";
-import { isAudioSupported } from "@/feedback";
+import { db } from "@/db/database";
+import { useSettings } from "@/db/hooks";
 import { fr } from "@/i18n/fr";
-import { isWakeLockSupported } from "@/platform/wakeLock";
-import { Chip } from "@/ui/form";
-import { LinkRow, PageHeader, Row, Section } from "@/ui/Page";
-import { Switch } from "@/ui/switch";
+import { Button } from "@/ui/button";
+import { NavButton } from "@/ui/NavButton";
+import { LinkRow, PageHeader, Row, Section, SectionTitle } from "@/ui/Page";
 import { resetTips } from "@/ui/tips";
 import { showToast } from "@/ui/toast";
-import { Button } from "@/ui/button";
-import { BackupSection } from "./BackupSection";
+import { daysSince } from "./backupAge";
 
 const t = fr.settings;
 
 /**
- * Écran Réglages (docs/04 § 2.7). Section « Fonctionnalités » : seules celles qui
- * concernent l'app ; grisées si le téléphone ne les permet pas.
+ * Écran Réglages (docs/04 § 2.7), organisé en accueil : « Mes données » en tête (le
+ * cœur du paramétrage, en grandes tuiles, avec la sauvegarde), puis l'application —
+ * les préférences, réglées une fois pour toutes, derrière une seule ligne.
  */
 export function SettingsPage() {
-  const preferences = usePreferences();
-  const wakeLock = isWakeLockSupported();
-  const audio = isAudioSupported();
-
-  const soundsOn = soundEvents.filter(
-    (name) => preferences.soundEvents[name],
-  ).length;
-  const soundsState = !audio
-    ? t.unavailable
-    : !preferences.sounds || soundsOn === 0
-      ? t.sounds.stateOff
-      : soundsOn === soundEvents.length
-        ? t.sounds.stateAll
-        : t.sounds.stateSome(soundsOn, soundEvents.length);
+  const settings = useSettings();
+  const counts = useLiveQuery(async () => ({
+    articles: await db.articles.count(),
+    categories: await db.categories.count(),
+    stores: await db.stores.count(),
+    units: await db.units.count(),
+  }));
+  const [now] = useState(() => Date.now());
 
   return (
     <>
       <PageHeader title={t.title} />
 
-      <Section title={t.sectionFeatures}>
-        <LinkRow
-          to={routes.sounds}
-          icon={<Volume2 />}
-          label={t.sounds.title}
-          hint={
-            <>
-              {t.sounds.hint}
-              <span className="block font-semibold text-text">
-                {soundsState}
-              </span>
-            </>
-          }
-        />
-        <Row
-          icon={<Sun />}
-          label={t.keepScreenOn.title}
-          hint={wakeLock ? t.keepScreenOn.hint : t.unavailable}
-          disabled={!wakeLock}
-        >
-          <Switch
-            checked={wakeLock && preferences.keepScreenOn}
-            disabled={!wakeLock}
-            aria-label={t.keepScreenOn.title}
-            onCheckedChange={(on) =>
-              updatePreferences((p) => ({ ...p, keepScreenOn: on }))
+      <section className="px-4 pt-2">
+        <SectionTitle>{fr.manage.section}</SectionTitle>
+        <p className="-mt-1 px-1 pb-3 text-sm text-muted-foreground">
+          {t.dataIntro}
+        </p>
+        <div className="grid grid-cols-2 gap-3">
+          <Tile
+            to={routes.manageArticles}
+            icon={<Apple />}
+            label={fr.manage.articles.title}
+            count={counts && t.counts.articles(counts.articles)}
+          />
+          <Tile
+            to={routes.manageCategories}
+            icon={<LayoutGrid />}
+            label={fr.manage.categories.title}
+            count={counts && t.counts.categories(counts.categories)}
+          />
+          <Tile
+            to={routes.manageStores}
+            icon={<Store />}
+            label={fr.manage.stores.title}
+            count={counts && t.counts.stores(counts.stores)}
+          />
+          <Tile
+            to={routes.manageUnits}
+            icon={<Ruler />}
+            label={fr.manage.units.title}
+            count={counts && t.counts.units(counts.units)}
+          />
+        </div>
+        <div className="mt-3 overflow-hidden rounded-2xl bg-surface">
+          <LinkRow
+            to={routes.backup}
+            icon={<DatabaseBackup />}
+            label={fr.manage.backup.section}
+            hint={
+              settings &&
+              fr.manage.backup.last(daysSince(settings.lastBackupAt, now))
             }
           />
-        </Row>
-      </Section>
+        </div>
+      </section>
 
-      <Section title={t.sectionDisplay}>
-        <Row
-          icon={<Palette />}
-          label={t.theme.title}
-          hint={
-            <>
-              {t.theme.hint}
-              <span
-                role="radiogroup"
-                aria-label={t.theme.title}
-                className="mt-2.5 flex flex-wrap gap-2"
-              >
-                {themePreferences.map((theme) => (
-                  <Chip
-                    key={theme}
-                    role="radio"
-                    aria-pressed={undefined}
-                    aria-checked={preferences.theme === theme}
-                    selected={preferences.theme === theme}
-                    onClick={() => {
-                      updatePreferences((p) => ({ ...p, theme }));
-                    }}
-                  >
-                    {t.theme.options[theme]}
-                  </Chip>
-                ))}
-              </span>
-            </>
-          }
-        />
-      </Section>
-
-      <Section title={fr.manage.section}>
+      <Section title={t.sectionApp} className="pt-8 pb-6">
         <LinkRow
-          to={routes.manageArticles}
-          icon={<Apple />}
-          label={fr.manage.articles.title}
-          hint={fr.manage.articles.hint}
+          to={routes.preferences}
+          icon={<SlidersHorizontal />}
+          label={t.preferences.title}
+          hint={t.preferences.hint}
         />
-        <LinkRow
-          to={routes.manageCategories}
-          icon={<LayoutGrid />}
-          label={fr.manage.categories.title}
-          hint={fr.manage.categories.hint}
-        />
-        <LinkRow
-          to={routes.manageStores}
-          icon={<Store />}
-          label={fr.manage.stores.title}
-          hint={fr.manage.stores.hint}
-        />
-        <LinkRow
-          to={routes.manageUnits}
-          icon={<Ruler />}
-          label={fr.manage.units.title}
-          hint={fr.manage.units.hint}
-        />
-      </Section>
-
-      <BackupSection />
-
-      <Section title={t.sectionApp} className="pb-6">
         <Row
           icon={<Lightbulb />}
           label={fr.tips.reset}
@@ -164,5 +111,33 @@ export function SettingsPage() {
         <LinkRow to={routes.about} icon={<Info />} label={t.about} />
       </Section>
     </>
+  );
+}
+
+/** Grande tuile de « Mes données » : icône, nom, et combien il y en a. */
+function Tile({
+  to,
+  icon,
+  label,
+  count,
+}: {
+  to: string;
+  icon: ReactNode;
+  label: string;
+  count: string | undefined;
+}) {
+  return (
+    <NavButton
+      to={to}
+      className="flex min-h-28 flex-col items-start justify-between gap-3 rounded-2xl bg-surface p-4 text-left active:bg-raised"
+    >
+      <span className="text-secondary [&_svg]:size-7">{icon}</span>
+      <span>
+        <span className="block leading-tight font-bold">{label}</span>
+        <span className="block text-sm text-muted-foreground">
+          {count ?? " "}
+        </span>
+      </span>
+    </NavButton>
   );
 }

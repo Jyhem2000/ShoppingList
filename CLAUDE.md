@@ -34,6 +34,7 @@ Vite · React 19 · TypeScript strict · Tailwind v4 · shadcn/ui · React Route
 - Animations via Motion, en respectant le réglage « Animations » de l'app (auto / toujours / jamais).
 - Sons uniquement via le module `src/feedback/`. Pas de vibrations (retirées, docs/05 § 7).
 - Version de l'app : source unique `package.json`, injectée au build ; jamais de numéro de version écrit en dur.
+- Composants : le design system, ce sont aussi les composants partagés de `src/ui`. Tout élément d'interface présent à deux endroits (champ de recherche, ligne, case à cocher, boutons de confirmation, titre de section…) est un composant de `src/ui`, utilisé partout ; jamais de classes recopiées d'un écran à l'autre. Un changement de style se fait dans le composant.
 - Couleurs : uniquement les tokens du design system (docs/05 § 2, `src/styles/index.css`). Violet = ce qui s'actionne et titres d'écran ; or = icônes et repères ; une icône dans un bouton prend la couleur du texte.
 - Formatage Prettier (réglages par défaut) sur tout le dépôt, doc comprise ; ESLint strict. Exclure un fichier = le dire et le justifier, jamais contourner.
 

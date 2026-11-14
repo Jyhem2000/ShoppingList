@@ -294,7 +294,7 @@ Ajouté en phase 7 : **« Copier dans le presse-papiers »** (la même sauvegard
 Ajouté pour la phase 8 (décision du 13 novembre 2026) :
 
 - **Copies automatiques internes** : une copie par jour, au premier lancement de la journée, en gardant les **7 dernières** ; Réglages → Sauvegarde → **« Restaurer une copie »** (date, résumé, confirmation). Dans la plupart des cas, elles suffisent. Elles protègent contre une fausse manipulation, un import qui écrase tout ou un bug de mise à jour, **pas** contre la suppression de l'app, un changement de téléphone ou un effacement du stockage : elles vivent dans le même stockage que la base (une app web ne peut pas écrire un fichier hors de son stockage sans un geste de l'utilisateur, et un service en ligne contredirait « aucun serveur, aucun compte »). Nouvelle table Dexie → nouvelle version du schéma, migration et test.
-- **Libellés explicatifs** dans Réglages → Sauvegarde, à la place d'un rappel :
+- **Libellés explicatifs** dans Réglages → Mes données → Sauvegarde, à la place d'un rappel :
   - sous **« Exporter mes données »** : à quoi sert le fichier — changer de téléphone, réinstaller l'app (la supprimer efface ses données, iOS le précise), passer de la préproduction à la production, garder une copie hors du téléphone ;
   - à côté de **« Restaurer une copie »** : le rôle des copies automatiques — revenir sur une fausse manipulation, un import ou une mise à jour, jusqu'à 7 jours en arrière ; elles restent dans le téléphone et disparaissent avec l'app.
 - **À trancher avant de l'implémenter — rappel de sauvegarde** (fichier exporté) après 30 jours sans sauvegarde, prévu à l'origine. Probablement inutile avec les copies automatiques et les libellés : pas de code sans décision explicite.

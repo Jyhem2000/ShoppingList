@@ -69,16 +69,21 @@ export function Section({
   className?: string;
 }) {
   return (
-    <section className={cn("px-4 pt-4", className)}>
-      {title && (
-        <h2 className="px-1 pb-2 text-xs font-bold tracking-widest text-muted-foreground uppercase">
-          {title}
-        </h2>
-      )}
+    <section className={cn("px-4", title ? "pt-6" : "pt-4", className)}>
+      {title && <SectionTitle>{title}</SectionTitle>}
       <div className="divide-y divide-border overflow-hidden rounded-2xl bg-surface">
         {children}
       </div>
     </section>
+  );
+}
+
+/** Titre d'une section : assez grand pour qu'on voie d'un coup d'œil comment l'écran est rangé. */
+export function SectionTitle({ children }: { children: ReactNode }) {
+  return (
+    <h2 className="px-1 pb-2 text-lg font-extrabold tracking-tight text-text">
+      {children}
+    </h2>
   );
 }
 

@@ -1,5 +1,5 @@
 import { useLiveQuery } from "dexie-react-hooks";
-import { GitMerge, Plus, Search, Trash2, X } from "lucide-react";
+import { GitMerge, Plus, Trash2, X } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { routes } from "@/app/routes";
@@ -18,6 +18,7 @@ import { paletteColor } from "@/features/list/format";
 import { UnitSelect } from "@/features/list/UnitSelect";
 import { type ListData, useListData } from "@/features/list/useListData";
 import { fr } from "@/i18n/fr";
+import { SearchField } from "@/ui/SearchField";
 import { Button } from "@/ui/button";
 import { backState } from "@/ui/navigation";
 import { Field, Select, TextInput } from "@/ui/form";
@@ -447,20 +448,12 @@ function MergeArticleSheet({
         </div>
       ) : (
         <>
-          <label className="mb-2 flex h-12 items-center gap-2 rounded-full border border-border bg-raised px-4 light:bg-bg">
-            <Search className="size-5 shrink-0 text-secondary" aria-hidden />
-            <input
-              type="search"
-              value={query}
-              onChange={(event) => {
-                setQuery(event.target.value);
-              }}
-              placeholder={t.mergeSearch}
-              aria-label={t.mergeSearch}
-              autoComplete="off"
-              className="min-w-0 flex-1 bg-transparent text-base outline-none placeholder:text-muted-foreground"
-            />
-          </label>
+          <SearchField
+            className="mb-2"
+            label={t.mergeSearch}
+            value={query}
+            onValueChange={setQuery}
+          />
           <ul className="-mx-2">
             {results.map((article) => {
               const category = data.categoryById.get(article.categoryId);

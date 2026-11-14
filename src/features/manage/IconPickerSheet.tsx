@@ -1,7 +1,7 @@
-import { Search } from "lucide-react";
 import { useMemo, useState } from "react";
 import { searchKey } from "@/domain/slug";
 import { fr } from "@/i18n/fr";
+import { SearchField } from "@/ui/SearchField";
 import { useIconPack } from "@/icons/pack";
 import { type PaletteColor } from "@/ui/palette";
 import { ProductIcon } from "@/ui/ProductIcon";
@@ -57,20 +57,12 @@ export function IconPickerSheet({
       }}
       title={t.title}
     >
-      <label className="mb-3 flex h-12 items-center gap-2 rounded-full border border-border bg-raised px-4 light:bg-bg">
-        <Search className="size-5 shrink-0 text-secondary" aria-hidden />
-        <input
-          type="search"
-          value={query}
-          onChange={(event) => {
-            setQuery(event.target.value);
-          }}
-          placeholder={t.search}
-          aria-label={t.search}
-          autoComplete="off"
-          className="min-w-0 flex-1 bg-transparent text-base outline-none placeholder:text-muted-foreground"
-        />
-      </label>
+      <SearchField
+        className="mb-3"
+        label={t.search}
+        value={query}
+        onValueChange={setQuery}
+      />
       <div
         role="radiogroup"
         aria-label={t.title}

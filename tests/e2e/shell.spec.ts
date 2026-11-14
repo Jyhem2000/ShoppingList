@@ -59,6 +59,7 @@ test("réglage des sons : tous d'un coup ou un par un, mémorisé", async ({
 }) => {
   await enterApp(page);
   await page.getByRole("link", { name: "Réglages" }).click();
+  await page.getByRole("link", { name: /^Préférences/ }).click();
   await expect(
     page.getByRole("heading", { name: "Fonctionnalités" }),
   ).toBeVisible();
@@ -103,6 +104,7 @@ test("thème : clair ou sombre au choix, mémorisé, sans attendre le chargement
 }) => {
   await enterApp(page);
   await page.getByRole("link", { name: "Réglages" }).click();
+  await page.getByRole("link", { name: /^Préférences/ }).click();
   await page.getByRole("radio", { name: "Clair" }).click();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
   await page.reload();
