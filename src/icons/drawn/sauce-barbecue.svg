@@ -7,8 +7,10 @@
   <rect width="8" height="32" x="19.6" y="0" fill="#4e1e0e" rx="0"/>
   </g>
   <rect width="17.2" height="7.4" x="7.4" y="10" fill="#ffffff" rx="0"/>
-  <path fill="#e8641e" d="M16 10.6c1.8 1.4 2.8 2.8 2.8 4.4c0 1.6-1.2 2.6-2.8 2.6s-2.8-1-2.8-2.6c0-1 .5-1.8 1.2-2.4c0 .8.4 1.4 1 1.6c-.3-1.4.1-2.6.6-3.6z"/>
-  <path fill="#f6c232" d="M16 13.6c.9.7 1.4 1.4 1.4 2.2c0 .8-.6 1.3-1.4 1.3s-1.4-.5-1.4-1.3c0-.8.6-1.5 1.4-2.2z"/>
+  <path fill="none" stroke="#4a4a52" stroke-linecap="round" stroke-width="0.6" d="M12.8 12.2h6.4"/>
+  <path fill="#2a2a30" d="M13 12.8h6c0 1.9-1.3 3-3 3s-3-1.1-3-3z"/>
+  <path fill="none" stroke="#2a2a30" stroke-linecap="round" stroke-width="0.6" d="M14.2 15.3l-.7 1.6M17.8 15.3l.7 1.6"/>
+  <path fill="#8a3a1a" d="M14.4 11.1h3.2c.5 0 .8.3.8.6s-.3.6-.8.6h-3.2c-.5 0-.8-.3-.8-.6s.3-.6.8-.6z"/>
 <rect width="1.3" height="16" x="9.2" y="6" fill="#ffffff55" rx="0.65"/>
   <rect width="8" height="4.6" x="12" y="24.2" fill="#2a2a30" rx="1.4"/>
   <rect width="8" height="1" x="12" y="26.4" fill="#4a4a52" rx="0.5"/>
