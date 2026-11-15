@@ -106,10 +106,47 @@ describe("mise à jour du catalogue sans réinstaller (docs/06 § 7)", () => {
       .first();
     if (!sachet || !litiere) throw new Error("données");
     await database.articles.update(litiere.id, { defaultUnitId: sachet.id });
+    // Livrés au poids avant le catalogue 8 ; les poireaux ont été modifiés depuis.
+    const article = async (key: string) => {
+      const found = await database.articles
+        .where("catalogKey")
+        .equals(key)
+        .first();
+      if (!found) throw new Error(key);
+      return found;
+    };
+    const units = await database.units.toArray();
+    const unitId = (slug: string) => units.find((u) => u.slug === slug)?.id;
+    const [oignons, echalotes, poireaux, tomates] = await Promise.all(
+      ["oignons", "echalotes", "poireaux", "tomates"].map(article),
+    );
+    if (!oignons || !echalotes || !poireaux || !tomates)
+      throw new Error("données");
+    await database.articles.update(oignons.id, { defaultUnitId: unitId("kg") });
+    await database.articles.update(echalotes.id, {
+      defaultUnitId: unitId("g"),
+      defaultQuantity: 500,
+    });
+    await database.articles.update(poireaux.id, {
+      defaultUnitId: unitId("kg"),
+      updatedAt: 1,
+    });
+    await database.articles.update(tomates.id, { countable: undefined });
     await updateSettings(database, { catalogVersion: 1 });
 
-    // 3 articles, 1 catégorie, 1 correction (la litière, jamais modifiée).
-    expect(await updateCatalog(database)).toBe(5);
+    // 3 articles, 1 catégorie, la litière et les 21 corrections du catalogue 8
+    // (17 articles qui se comptent, pommes supprimées ; 6 à la pièce, sauf les poireaux).
+    expect(await updateCatalog(database)).toBe(26);
+    expect(await database.articles.get(oignons.id)).toMatchObject({
+      defaultUnitId: unitId("piece"),
+    });
+    const fixed = await database.articles.get(echalotes.id);
+    expect(fixed?.defaultUnitId).toBe(unitId("piece"));
+    expect(fixed?.defaultQuantity).toBeUndefined();
+    expect((await database.articles.get(poireaux.id))?.defaultUnitId).toBe(
+      unitId("kg"),
+    );
+    expect((await database.articles.get(tomates.id))?.countable).toBe(true);
     const paquet = await database.units.where("slug").equals("paquet").first();
     expect((await database.articles.get(litiere.id))?.defaultUnitId).toBe(
       paquet?.id,

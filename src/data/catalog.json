@@ -25,6 +25,7 @@
     },
     "category": "fruits",
     "unit": "kg",
+    "countable": true,
     "icon": "pommes"
   },
   {
@@ -37,6 +38,7 @@
     },
     "category": "fruits",
     "unit": "kg",
+    "countable": true,
     "icon": "poires"
   },
   {
@@ -59,6 +61,7 @@
     },
     "category": "fruits",
     "unit": "kg",
+    "countable": true,
     "icon": "oranges"
   },
   {
@@ -71,6 +74,7 @@
     },
     "category": "fruits",
     "unit": "kg",
+    "countable": true,
     "icon": "clementines"
   },
   {
@@ -199,6 +203,7 @@
     },
     "category": "fruits",
     "unit": "kg",
+    "countable": true,
     "icon": "peches"
   },
   {
@@ -208,6 +213,7 @@
     },
     "category": "fruits",
     "unit": "kg",
+    "countable": true,
     "icon": "nectarines"
   },
   {
@@ -218,6 +224,7 @@
     "category": "fruits",
     "unit": "g",
     "quantity": 500,
+    "countable": true,
     "icon": "abricots"
   },
   {
@@ -244,6 +251,7 @@
     "category": "fruits",
     "unit": "g",
     "quantity": 500,
+    "countable": true,
     "icon": "prunes"
   },
   {
@@ -385,6 +393,7 @@
     },
     "category": "legumes",
     "unit": "kg",
+    "countable": true,
     "icon": "tomates"
   },
   {
@@ -401,6 +410,7 @@
     "category": "legumes",
     "unit": "kg",
     "quantity": 2.5,
+    "countable": true,
     "icon": "pommes-de-terre"
   },
   {
@@ -410,6 +420,7 @@
     },
     "category": "legumes",
     "unit": "kg",
+    "countable": true,
     "icon": "carottes"
   },
   {
@@ -421,7 +432,7 @@
       "fr": ["jaunes", "rouges", "blancs"]
     },
     "category": "legumes",
-    "unit": "kg",
+    "unit": "piece",
     "icon": "oignons"
   },
   {
@@ -430,8 +441,7 @@
       "fr": "Échalotes"
     },
     "category": "legumes",
-    "unit": "g",
-    "quantity": 500,
+    "unit": "piece",
     "icon": "echalotes"
   },
   {
@@ -474,7 +484,7 @@
       "fr": "Courgettes"
     },
     "category": "legumes",
-    "unit": "kg",
+    "unit": "piece",
     "icon": "courgettes"
   },
   {
@@ -587,7 +597,7 @@
       "fr": "Poireaux"
     },
     "category": "legumes",
-    "unit": "kg",
+    "unit": "piece",
     "icon": "poireaux"
   },
   {
@@ -608,7 +618,7 @@
       "fr": "Patates douces"
     },
     "category": "legumes",
-    "unit": "kg",
+    "unit": "piece",
     "icon": "patates-douces"
   },
   {
@@ -627,6 +637,7 @@
     },
     "category": "legumes",
     "unit": "kg",
+    "countable": true,
     "icon": "navets"
   },
   {
@@ -640,6 +651,7 @@
     "category": "legumes",
     "unit": "g",
     "quantity": 500,
+    "countable": true,
     "icon": "betteraves"
   },
   {
@@ -690,7 +702,7 @@
       "fr": ["chicons"]
     },
     "category": "legumes",
-    "unit": "kg",
+    "unit": "piece",
     "icon": "endives"
   },
   {
@@ -723,6 +735,7 @@
     "category": "legumes",
     "unit": "g",
     "quantity": 500,
+    "countable": true,
     "icon": "panais"
   },
   {
@@ -748,6 +761,7 @@
     "name": { "fr": "Topinambours" },
     "category": "legumes",
     "unit": "kg",
+    "countable": true,
     "icon": "topinambours",
     "since": 7
   },
@@ -1096,6 +1110,7 @@
     "category": "volaille",
     "unit": "g",
     "quantity": 500,
+    "countable": true,
     "icon": "blancs-de-poulet"
   },
   {
@@ -4338,6 +4353,7 @@
     "aliases": { "fr": ["coquilles Saint-Jacques"] },
     "category": "poisson-fruits-de-mer",
     "unit": "g",
+    "countable": true,
     "icon": "saint-jacques",
     "since": 6
   },

@@ -61,6 +61,11 @@ export interface Article extends Base {
   defaultUnitId: ID;
   /** Ex. 6 pour les œufs ; sinon 1 (ou le pas de l'unité). */
   defaultQuantity?: number;
+  /**
+   * Article vendu au poids qui se compte (pommes, blancs de poulet) : un nombre tapé
+   * seul compte des pièces (« 3 pommes » → × 3, docs/03 A2).
+   */
+  countable?: boolean;
   /** Article générique (« Fruits au choix ») : en tête de sa catégorie et de son rayon. */
   generic?: boolean;
   types: string[];

@@ -169,7 +169,7 @@ Plus tard : **Coller une liste partagée ▸** _(v1.1)_.
 
 ### 2.9 Fiches de gestion
 
-Articles, catégories, unités : liste + recherche → fiche d'édition. Actions destructrices (supprimer, fusionner) en bas, en rouge, avec confirmation qui décrit les conséquences (« 3 listes et 1 recette utilisent cet article »).
+Articles, catégories, unités : liste + recherche → fiche d'édition. La fiche d'un article au poids a l'interrupteur « Se compte à la pièce » (02 § 2, 03 A2). Actions destructrices (supprimer, fusionner) en bas, en rouge, avec confirmation qui décrit les conséquences (« 3 listes et 1 recette utilisent cet article »).
 
 ### 2.10 Aperçu d'import _(v1.1)_
 

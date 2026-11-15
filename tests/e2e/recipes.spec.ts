@@ -65,11 +65,9 @@ test("7. recette ajoutée pour un autre rendement (personnes et cakes)", async (
     quantity: 4,
     unit: "personnes",
   });
-  // « 2 oignons » seul prendrait l'unité de l'article (le kilo), comme dans la liste.
-  await addIngredients(
-    page,
-    "2 pièces d'oignons, 500 g de farine, 1 crème fraîche",
-  );
+  // Un nombre seul compte des objets : 2 oignons, pas 2 kg (docs/03 A2).
+  await addIngredients(page, "2 oignons, 500 g de farine, 1 crème fraîche");
+  await expect(ingredient(page, "Oignons")).toContainText("× 2");
   await expect(page.locator("main li")).toHaveCount(3);
   await ingredient(page, "Crème fraîche").getByRole("button").click();
   const crème = page.getByRole("dialog", { name: "Crème fraîche" });

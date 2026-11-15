@@ -79,6 +79,7 @@ export function buildInitialData(
         .id,
       defaultUnitId: require(unitByKey.get(article.unit), article.unit).id,
       defaultQuantity: article.quantity,
+      countable: article.countable,
       generic: article.generic,
       types: article.types?.fr ?? [],
       aliases,

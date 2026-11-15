@@ -73,11 +73,22 @@ export async function updateCatalog(
       for (const fix of catalogFixes) {
         if (!isNew(fix.since)) continue;
         const article = articles.find((a) => a.catalogKey === fix.key);
-        const unitId = unitByKey.get(fix.unit);
+        const unitId =
+          fix.unit === undefined ? undefined : unitByKey.get(fix.unit);
         // Modifié par l'utilisateur (date de mise à jour) : on n'y touche pas.
-        if (!article || !unitId || article.updatedAt !== article.createdAt)
+        if (
+          !article ||
+          (fix.unit !== undefined && !unitId) ||
+          article.updatedAt !== article.createdAt
+        )
           continue;
-        await database.articles.update(article.id, { defaultUnitId: unitId });
+        await database.articles.update(article.id, {
+          ...(unitId && { defaultUnitId: unitId }),
+          ...(fix.quantity !== undefined && {
+            defaultQuantity: fix.quantity ?? undefined,
+          }),
+          ...(fix.countable !== undefined && { countable: fix.countable }),
+        });
         added++;
       }
 

@@ -513,6 +513,9 @@ export const fr = {
       removeAlias: (alias: string) => `Retirer le nom ${alias}`,
       favorite: "Favori",
       favoriteHint: "Toujours en tête du catalogue.",
+      countable: "Se compte à la pièce",
+      countableHint:
+        "Un nombre tapé seul compte des pièces\u00a0: 3\u00a0pommes. Sinon, des portions de la quantité par défaut\u00a0: 2\u00a0beurres → 500\u00a0g.",
       usage: (lines: number, lists: number, recipes: number) =>
         [
           lines === 0

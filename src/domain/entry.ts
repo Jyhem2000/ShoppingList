@@ -313,23 +313,43 @@ export function resolveEntry<A extends ResolvableArticle>(
  * saisie l'emporte toujours. Une quantité ou une unité tapée est simplifiée si le
  * réglage est actif (1200 g → 1,2 kg) ; la quantité par défaut de l'article, jamais
  * (0,5 kg reste 0,5 kg).
+ *
+ * Un nombre tapé seul compte des objets (docs/03 A2) : pour un article au poids, des
+ * pièces s'il se compte à la pièce, sinon N portions de sa quantité par défaut
+ * (« 2 beurres » → 500 g) ; pour les autres unités, N de cette unité.
  */
 export function entryAmount(
   entry: ParsedEntry,
-  article: Pick<Article, "defaultUnitId" | "defaultQuantity">,
+  article: Pick<Article, "defaultUnitId" | "defaultQuantity" | "countable">,
   units: readonly Unit[],
   simplifyQuantities: boolean,
 ): Amount<Unit> | undefined {
   const typed = entry.unitSlug
     ? units.find((u) => u.slug === entry.unitSlug)
     : undefined;
-  const unit = typed ?? units.find((u) => u.id === article.defaultUnitId);
+  const defaultUnit = units.find((u) => u.id === article.defaultUnitId);
+  const unit = typed ?? defaultUnit;
   if (!unit) return undefined;
-  const quantity =
-    entry.quantity ??
+  const defaultQuantity =
     (unit.id === article.defaultUnitId ? article.defaultQuantity : undefined) ??
     Math.max(1, unit.step);
+  if (!typed && entry.quantity !== undefined && unit.dimension === "mass") {
+    const piece = article.countable ? pieceUnit(units) : undefined;
+    const amount = piece
+      ? { quantity: entry.quantity, unit: piece }
+      : { quantity: entry.quantity * defaultQuantity, unit };
+    return simplifyQuantities ? simplify(amount, units) : amount;
+  }
+  const quantity = entry.quantity ?? defaultQuantity;
   const amount = { quantity, unit };
   const entered = entry.quantity !== undefined || entry.unitSlug !== undefined;
   return simplifyQuantities && entered ? simplify(amount, units) : amount;
+}
+
+/** Unité « pièce » (celle du catalogue, même renommée), pour compter des objets. */
+function pieceUnit(units: readonly Unit[]): Unit | undefined {
+  return (
+    units.find((u) => u.catalogKey === "piece") ??
+    units.find((u) => u.slug === "piece")
+  );
 }

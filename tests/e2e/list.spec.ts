@@ -29,16 +29,17 @@ test("2. ajout éclair, article déjà présent, création d'un article inconnu"
 }) => {
   await enterApp(page);
 
+  // Un nombre seul compte des objets : 3 tomates, pas 3 kg (docs/03 A2).
   await addToList(page, "3 tom");
-  await expect(line(page, "Tomates")).toContainText("3 kg");
+  await expect(line(page, "Tomates")).toContainText("× 3");
 
   // Déjà dans la liste : « Ne rien faire » (Entrée) ne change rien.
-  await addToList(page, "tomates");
+  await addToList(page, "2 tomates");
   const sheet = page.getByRole("dialog", { name: "Tomates" });
-  await expect(sheet).toContainText(fr.list.exists.text("3 kilogrammes"));
+  await expect(sheet).toContainText(fr.list.exists.text("3 pièces"));
   await sheet.getByRole("button", { name: fr.list.exists.nothing }).click();
   await expect(sheet).toBeHidden();
-  await expect(line(page, "Tomates")).toContainText("3 kg");
+  await expect(line(page, "Tomates")).toContainText("× 3");
 
   // Article inconnu : fiche rapide, catégorie et unité devinées.
   await addToList(page, "sauce nuoc-mâm");

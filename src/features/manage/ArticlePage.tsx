@@ -172,6 +172,18 @@ function ArticleForm({ article, data }: { article: Article; data: ListData }) {
             {t.quantityHint}
           </p>
         </div>
+        {data.units.find((u) => u.id === article.defaultUnitId)?.dimension ===
+          "mass" && (
+          <Row label={t.countable} hint={t.countableHint}>
+            <Switch
+              checked={article.countable === true}
+              aria-label={t.countable}
+              onCheckedChange={(countable) => {
+                save({ countable });
+              }}
+            />
+          </Row>
+        )}
         <Row label={t.favorite} hint={t.favoriteHint}>
           <Switch
             checked={article.favorite}
