@@ -109,44 +109,44 @@ Décision du 13 novembre 2026, après le premier essai réel : des rayons prére
   4. sinon : les deux catégories les plus achetées dans ce rayon (à égalité : l'ordre où elles y ont été rangées), puis le nombre des autres (« Pain · Café & thé +2 »).
 - La liste complète reste dans la fiche du rayon, avec le repère (« au fond du magasin ») sous le titre.
 
-| Catégorie                     | Nom court   | Famille            |
-| ----------------------------- | ----------- | ------------------ |
-| Fruits                        | Fruits      | Fruits & légumes   |
-| Légumes                       | Légumes     | Fruits & légumes   |
-| Herbes aromatiques            | Herbes      | Fruits & légumes   |
-| Pain & Viennoiseries          | Pain        | Boulangerie        |
-| Viande                        | Viande      | Viandes & poissons |
-| Volaille                      | Volaille    | Viandes & poissons |
-| Poisson & Fruits de mer       | Poisson     | Viandes & poissons |
-| Charcuterie                   | Charcuterie | Frais              |
-| Traiteur & Plats préparés     | Traiteur    | Frais              |
-| Lait, Crème, Beurre & Œufs    | Lait & Œufs | Frais              |
-| Yaourts & Desserts frais      | Yaourts     | Frais              |
-| Fromages                      | Fromages    | Frais              |
-| Pâtes, Riz & Féculents        | Pâtes & riz | Épicerie salée     |
-| Conserves & Bocaux            | Conserves   | Épicerie salée     |
-| Sauces & Condiments           | Sauces      | Épicerie salée     |
-| Sel, Poivre & Épices          | Épices      | Épicerie salée     |
-| Huiles & Vinaigres            | Huiles      | Épicerie salée     |
-| Apéritif                      | Apéro       | Épicerie salée     |
-| Cuisine du monde              | Monde       | Épicerie salée     |
-| Farine, Sucre & Pâtisserie    | Pâtisserie  | Épicerie sucrée    |
-| Céréales & Petit-déjeuner     | Petit-déj   | Épicerie sucrée    |
-| Biscuits & Gâteaux            | Biscuits    | Épicerie sucrée    |
-| Chocolat & Confiserie         | Chocolat    | Épicerie sucrée    |
-| Confitures & Pâtes à tartiner | Confitures  | Épicerie sucrée    |
-| Café & Thé                    | Café & thé  | Épicerie sucrée    |
-| Eaux                          | Eaux        | Boissons           |
-| Jus & Sodas                   | Jus & sodas | Boissons           |
-| Bières, Vins & Alcools        | Alcools     | Boissons           |
-| Surgelés                      | Surgelés    | Surgelés           |
-| Glaces                        | Glaces      | Surgelés           |
-| Hygiène & Beauté              | Hygiène     | Hygiène            |
-| Papier toilette & Mouchoirs   | Papier      | Hygiène            |
-| Bébé                          | Bébé        | Hygiène            |
-| Entretien & Lessive           | Entretien   | Maison             |
-| Cuisine & Maison              | Maison      | Maison             |
-| Animaux                       | Animaux     | Maison             |
+| Catégorie                     | Nom court       | Famille            |
+| ----------------------------- | --------------- | ------------------ |
+| Fruits                        | Fruits          | Fruits & légumes   |
+| Légumes                       | Légumes         | Fruits & légumes   |
+| Herbes aromatiques            | Herbes          | Fruits & légumes   |
+| Pain & Viennoiseries          | Pain            | Boulangerie        |
+| Viande                        | Viande          | Viandes & poissons |
+| Volaille                      | Volaille        | Viandes & poissons |
+| Poisson & Fruits de mer       | Poisson         | Viandes & poissons |
+| Charcuterie                   | Charcuterie     | Frais              |
+| Traiteur & Plats préparés     | Traiteur        | Frais              |
+| Crèmerie & Œufs               | Crèmerie & Œufs | Frais              |
+| Yaourts & Desserts frais      | Yaourts         | Frais              |
+| Fromages                      | Fromages        | Frais              |
+| Pâtes, Riz & Féculents        | Pâtes & riz     | Épicerie salée     |
+| Conserves & Bocaux            | Conserves       | Épicerie salée     |
+| Sauces & Condiments           | Sauces          | Épicerie salée     |
+| Sel, Poivre & Épices          | Épices          | Épicerie salée     |
+| Huiles & Vinaigres            | Huiles          | Épicerie salée     |
+| Apéritif                      | Apéro           | Épicerie salée     |
+| Cuisine du monde              | Monde           | Épicerie salée     |
+| Farine, Sucre & Pâtisserie    | Pâtisserie      | Épicerie sucrée    |
+| Céréales & Petit-déjeuner     | Petit-déj       | Épicerie sucrée    |
+| Biscuits & Gâteaux            | Biscuits        | Épicerie sucrée    |
+| Chocolat & Confiserie         | Chocolat        | Épicerie sucrée    |
+| Confitures & Pâtes à tartiner | Confitures      | Épicerie sucrée    |
+| Café & Thé                    | Café & thé      | Épicerie sucrée    |
+| Eaux                          | Eaux            | Boissons           |
+| Jus & Sodas                   | Jus & sodas     | Boissons           |
+| Bières, Vins & Alcools        | Alcools         | Boissons           |
+| Surgelés                      | Surgelés        | Surgelés           |
+| Glaces                        | Glaces          | Surgelés           |
+| Hygiène & Beauté              | Hygiène         | Hygiène            |
+| Papier toilette & Mouchoirs   | Papier          | Hygiène            |
+| Bébé                          | Bébé            | Hygiène            |
+| Entretien & Lessive           | Entretien       | Maison             |
+| Cuisine & Maison              | Maison          | Maison             |
+| Animaux                       | Animaux         | Maison             |
 
 « Autres » et « Achats ponctuels » (catégories système) n'ont ni nom court ni famille : elles ne sont jamais rangées en entier dans un rayon.
 

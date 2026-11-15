@@ -33,9 +33,9 @@ test("5. modifier un magasin : réordonner les rayons, rendre un rayon principal
   await page.getByRole("link", { name: /Magasins & rayons/ }).click();
   await page.getByRole("link", { name: /^Mon magasin/ }).click();
 
-  // Le rayon du lait tout en haut, au clavier (poignée de glisser-déposer).
+  // Le rayon de la crèmerie tout en haut, au clavier (poignée de glisser-déposer).
   const aisles = page.getByRole("list", { name: "Rayons" });
-  const grip = page.getByRole("button", { name: "Déplacer Rayon Lait" });
+  const grip = page.getByRole("button", { name: "Déplacer Rayon Crèmerie" });
   await grip.focus();
   // Une courte pause entre les touches : dnd-kit mesure les positions à chaque pas.
   await page.keyboard.press("Space");
@@ -45,7 +45,7 @@ test("5. modifier un magasin : réordonner les rayons, rendre un rayon principal
   }
   await page.waitForTimeout(150);
   await page.keyboard.press("Space");
-  await expect(aisles.getByRole("listitem").first()).toContainText("Lait");
+  await expect(aisles.getByRole("listitem").first()).toContainText("Crèmerie");
 
   // Les fruits deviennent principaux au rayon du pain.
   await aisles.getByRole("button", { name: /^Pain/ }).click();
@@ -68,5 +68,5 @@ test("5. modifier un magasin : réordonner les rayons, rendre un rayon principal
   await expect(line(page, "Bananes")).toBeVisible();
   await expect
     .poll(() => aisleNames(page))
-    .toEqual(["Rayon : Lait & Œufs", "Rayon : Pain · Fruits"]);
+    .toEqual(["Rayon : Crèmerie & Œufs", "Rayon : Pain · Fruits"]);
 });
