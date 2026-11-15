@@ -43,7 +43,9 @@ L'unité par défaut doit correspondre à **ce qu'on compte devant le rayon**, e
 2. **Le contenant n'est l'unité que s'il est toujours le même** et que son contenu importe peu : un paquet de pâtes, un pot de moutarde, une bouteille d'huile, une boîte de thon, un pack d'eau de 6.
 3. **Le poids pour le vrac et la coupe** : fruits et légumes vendus au poids, fromage, viande et charcuterie à la coupe.
 4. **Le volume** pour ce qu'on achète en litres (lait, crème liquide) : « Lait 6 L ».
-5. Tout reste modifiable : l'utilisateur change l'unité ou la quantité d'une ligne, et peut changer les valeurs par défaut dans la fiche article.
+5. **Un nombre tapé seul compte des objets** (03 A2) : l'unité par défaut ne sert donc qu'à la saisie sans nombre. Les articles vendus au poids qui se comptent sont marqués **« se compte à la pièce »** (`countable` dans le catalogue) : fruits et légumes qu'on compte (pommes, poires, oranges, clémentines, pêches, nectarines, abricots, prunes, tomates, pommes de terre, carottes, navets, betteraves, panais, topinambours), blancs de poulet, noix de Saint-Jacques… Ce qui ne se compte pas (beurre, fromage à la coupe, cerises, raisin, haricots verts, viande et poisson à la coupe) compte en portions de la quantité par défaut.
+6. **Ce qu'on achète rarement au poids passe à la pièce**, × 1 par défaut, même quand on ne sait pas combien : oignons, échalotes, poireaux, courgettes, endives, patates douces (décision du 16 novembre 2026, plutôt qu'une ligne sans quantité).
+7. Tout reste modifiable : l'utilisateur change l'unité ou la quantité d'une ligne, et peut changer les valeurs par défaut dans la fiche article.
 
 Articles de base (extrait du futur catalogue, phase 3) :
 
@@ -59,9 +61,10 @@ Articles de base (extrait du futur catalogue, phase 3) :
 | Lait                          | L         | 6              | Bouteilles de 1 L, souvent par 6                        |
 | Crème fraîche                 | pièce     | 1              | Un seul article ; types épaisse, liquide…               |
 | Beurre                        | g         | 250            | Plaquettes de 125, 250, 500 g                           |
-| Pommes, oranges, tomates      | kg        | 1              | Vendues au poids                                        |
+| Pommes, oranges, tomates      | kg        | 1              | Vendues au poids ; se comptent (« 3 pommes » → × 3)     |
+| Oignons, échalotes, poireaux  | pièce     | 1              | Rarement achetés au poids                               |
 | Bananes, citrons, avocats     | pièce     | 6 / 3 / 2      | On les compte                                           |
-| Carottes, pommes de terre     | kg        | 1 / 2,5        | Vendues au poids ou en filet                            |
+| Carottes, pommes de terre     | kg        | 1 / 2,5        | Vendues au poids ou en filet ; se comptent              |
 | Cerises, haricots verts…      | g         | 500            | Barquettes ou sachets de 500 g, jamais « 0,5 kg »       |
 | Salade, chou-fleur, concombre | pièce     | 1              | À l'unité                                               |
 | Persil, coriandre, menthe     | botte     | 1              |                                                         |

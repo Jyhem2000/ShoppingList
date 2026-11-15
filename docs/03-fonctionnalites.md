@@ -30,7 +30,7 @@ Barre de saisie fixée en bas de l'écran Liste, accessible au pouce.
 
 | Saisie                                   | Résultat                                                               |
 | ---------------------------------------- | ---------------------------------------------------------------------- |
-| `3 tomates`                              | Tomates, 3, unité par défaut de l'article                              |
+| `3 tomates`                              | Tomates × 3 (un nombre seul compte des objets, voir ci-dessous)        |
 | `tomates x3` / `tomates *3`              | idem                                                                   |
 | `500g farine` / `farine 500 g`           | Farine, 500 g                                                          |
 | `1,5 kg pommes`                          | Pommes, 1,5 kg                                                         |
@@ -43,6 +43,12 @@ Barre de saisie fixée en bas de l'écran Liste, accessible au pouce.
 - Nombres en lettres jusqu'à vingt, « une douzaine », « une demi-douzaine ».
 - Plusieurs articles séparés par `,`, `;`, `et`, `puis`, retour à la ligne, ou un point de fin de phrase suivi d'une majuscule (`Des pommes. Du lait.`, ajouté par la dictée) ; jamais la virgule ou le point d'un nombre (`1,5 kg`) ni le point d'une abréviation (`2 tr. de jambon`). Articles partitifs ignorés (`du`, `de la`, `des`, `d'`).
 - **Suggestions par type** : dès qu'on tape après le nom d'un article le début d'un de ses types (`pommes g`), les suggestions proposent d'abord « Pommes · Gala », « Pommes · Golden »… (puis « Pommes ») ; en toucher une ajoute la ligne avec ce type. Tant qu'on ne tape que le nom, rien ne change (liste courte). Pas de « Créer… » quand la saisie désigne un article et un de ses types.
+- **Un nombre seul compte des objets** (décision du 16 novembre 2026), dans la liste comme dans une recette. Selon l'unité par défaut de l'article :
+  - pièce, contenant (paquet, pot, bouteille…) ou unité de cuisine : le nombre de cette unité (« 6 œufs », « 3 pâtes » → 3 paquets) ;
+  - poids, article qui **se compte à la pièce** (02 § 2) : des pièces (« 3 pommes » → Pommes × 3, « 1 échalote » → × 1) ;
+  - poids, autre article : le nombre de portions, c'est-à-dire **N fois la quantité par défaut** (« 2 beurres » → 500 g, « 2 cerises » → 1 kg), puis simplification ;
+  - volume : le nombre dans cette unité (« 2 laits » → 2 L).
+- Sans nombre, rien ne change : la quantité et l'unité par défaut de l'article (« pommes » → 1 kg). Des pièces ajoutées à une ligne au poids ne se convertissent pas : elles vont en note (02 § 5).
 - Si l'unité saisie est incompatible avec l'unité par défaut de l'article, l'unité saisie l'emporte pour cette ligne.
 
 **Critères** : batterie de tests unitaires couvrant chaque ligne du tableau.
