@@ -47,7 +47,12 @@ const DOZEN = new Set(["douzaine", "douzaines"]);
 const HALF_DOZEN = new Set(["demi-douzaine", "demi-douzaines"]);
 
 /** Segments : `,` (sauf virgule décimale), `;`, `et`, retour à la ligne. */
-const SEPARATORS = /\s*(?:[;\n]|(?<!\d),|,(?!\d)|\s+et\s+)\s*/i;
+// Virgule (jamais dans un nombre : 1,5), point-virgule, retour à la ligne, « et »,
+// « puis » (se dit naturellement entre deux articles), et le point d'une fin de phrase
+// suivi d'une majuscule (« Des pommes. Du lait. », ajouté par la dictée) : pas celui
+// d'une abréviation (« 2 tr. de jambon »).
+const SEPARATORS =
+  /\s*(?:[;\n]|(?<!\d),|,(?!\d)|\.(?=\s+\p{Lu})|\s+(?:[Ee][Tt]|[Pp][Uu][Ii][Ss])\s+)\s*/u;
 /** Partitifs et articles en tête : du, de la, de l', des, d', de, l'. */
 const PARTITIVE = /^(?:(?:de\s+l|d|l)['’]\s*|(?:du|des|de\s+la|de)\s+)/i;
 const NUMBER = /^(\d+(?:[.,]\d+)?)(.*)$/;

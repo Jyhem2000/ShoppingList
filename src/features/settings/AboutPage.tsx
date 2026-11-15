@@ -46,7 +46,7 @@ export function AboutPage() {
         <Row label={t.build}>
           <span className="text-right text-muted-foreground">{buildDate}</span>
         </Row>
-        <div className="flex flex-col gap-2 px-4 py-3">
+        <div className="flex flex-col items-center gap-2 px-4 py-3">
           <Button
             disabled={update === "checking"}
             onClick={() => void runUpdateCheck()}

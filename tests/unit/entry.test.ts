@@ -100,6 +100,22 @@ describe("saisie naturelle : tableau de docs/03 § A2", () => {
     expect(suggested("pommes gol")).toEqual(["Pommes · Golden"]);
   });
 
+  it("dictée : « puis » et les points de fin de phrase séparent aussi les articles", () => {
+    expect(enter("des pommes puis du lait")).toEqual([
+      "Pommes : 1 kg",
+      "Lait : 6 L",
+    ]);
+    expect(enter("Des pommes. Du lait.")).toEqual([
+      "Pommes : 1 kg",
+      "Lait : 6 L",
+    ]);
+    // Ni un nombre, ni une abréviation.
+    expect(enter("1.5 kg de pommes")).toEqual(["Pommes : 1,5 kg"]);
+    expect(enter("2 barq. de champignons")).toEqual([
+      "Champignons : 2 barquettes",
+    ]);
+  });
+
   it("2 baguettes, du beurre et 6 œufs → 3 lignes", () => {
     expect(enter("2 baguettes, du beurre et 6 œufs")).toEqual([
       "Baguette : × 2",

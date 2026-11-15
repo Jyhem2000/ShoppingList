@@ -41,7 +41,7 @@ Barre de saisie fixée en bas de l'écran Liste, accessible au pouce.
 | `2 baguettes, du beurre et 6 œufs`       | 3 lignes                                                               |
 
 - Nombres en lettres jusqu'à vingt, « une douzaine », « une demi-douzaine ».
-- Plusieurs articles séparés par `,`, `;`, `et`, retour à la ligne. Articles partitifs ignorés (`du`, `de la`, `des`, `d'`).
+- Plusieurs articles séparés par `,`, `;`, `et`, `puis`, retour à la ligne, ou un point de fin de phrase suivi d'une majuscule (`Des pommes. Du lait.`, ajouté par la dictée) ; jamais la virgule ou le point d'un nombre (`1,5 kg`) ni le point d'une abréviation (`2 tr. de jambon`). Articles partitifs ignorés (`du`, `de la`, `des`, `d'`).
 - **Suggestions par type** : dès qu'on tape après le nom d'un article le début d'un de ses types (`pommes g`), les suggestions proposent d'abord « Pommes · Gala », « Pommes · Golden »… (puis « Pommes ») ; en toucher une ajoute la ligne avec ce type. Tant qu'on ne tape que le nom, rien ne change (liste courte). Pas de « Créer… » quand la saisie désigne un article et un de ses types.
 - Si l'unité saisie est incompatible avec l'unité par défaut de l'article, l'unité saisie l'emporte pour cette ligne.
 
@@ -77,6 +77,8 @@ En tête du catalogue : les articles les plus achetés (calculés à partir de l
 ### A7. Dictée vocale — _v1.0_
 
 Aucun développement spécifique : le **micro du clavier** (iPhone comme Android) fonctionne dans la barre d'ajout, gratuitement. A2 sait découper « deux baguettes, du beurre et six œufs » en trois lignes.
+
+**Séparer les articles à la voix** (constat du 15 novembre 2026 sur iPhone) : la dictée du clavier n'écrit une virgule que si on dit « virgule » ; sans séparateur, toute la phrase devient un seul article. Il suffit de dire **« et »** (ou « puis », ou « virgule ») entre deux articles : « deux baguettes et du beurre et six œufs ». La dictée d'Android (Gboard) se comporte de même pour la virgule. Deviner les coupures sans séparateur (« deux baguettes trois tomates ») a été écarté : « farine 500 g » met la quantité après le nom, la coupure serait ambiguë. L'écran d'aide le dit (H9).
 
 ### A8. Coller une liste — _v1.1_
 

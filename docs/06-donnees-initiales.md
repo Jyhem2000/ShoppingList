@@ -15,7 +15,7 @@ Fichiers prévus dans `src/data/` : `categories.json`, `units.json`, `store-temp
 | `kg`        | kilogramme / kilogrammes | kg        | masse     | 1000    | 0,5 |
 | `ml`        | millilitre / millilitres | ml        | volume    | 1       | 50  |
 | `cl`        | centilitre / centilitres | cl        | volume    | 10      | 5   |
-| `l`         | litre / litres           | L         | volume    | 1000    | 0,5 |
+| `l`         | litre / litres           | L         | volume    | 1000    | 1   |
 | `pack`      | pack / packs             | pack      | autre     | —       | 1   |
 | `boite`     | boîte / boîtes           | boîte     | autre     | —       | 1   |
 | `bouteille` | bouteille / bouteilles   | bouteille | autre     | —       | 1   |

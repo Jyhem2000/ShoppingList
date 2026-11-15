@@ -32,6 +32,8 @@ export const fr = {
         title: "Remplir la liste",
         points: [
           "Tape «\u00a02 baguettes, du beurre\u00a0» dans la barre du bas : les articles s'ajoutent, rangés par catégorie. Tu peux aussi parcourir le Catalogue.",
+          "Plusieurs articles d'un coup : sépare-les par une virgule ou par «\u00a0et\u00a0». À la dictée (micro du clavier), dis «\u00a0et\u00a0» (ou «\u00a0puis\u00a0», «\u00a0virgule\u00a0») entre deux articles : sinon, tout devient un seul article.",
+          "Une sorte précise ? Tape-la après le nom («\u00a0pommes golden\u00a0») ou choisis-la dans les suggestions. Pour une autre sorte du même article, retouche-le : «\u00a0Une autre sorte\u00a0» ajoute une ligne à part, avec sa propre quantité.",
           "Touche une ligne pour changer sa quantité, sa note ou les types qui te vont ; glisse-la vers la gauche pour la retirer.",
           "Plusieurs listes : touche le nom de la liste en haut. Le menu ⋯ agit sur la liste affichée.",
         ],
