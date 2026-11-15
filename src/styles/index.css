@@ -33,7 +33,7 @@
 
   /* Couleur principale : violet */
   --primary: #a37ef2;
-  --primary-strong: #8a62e2;
+  --primary-strong: #8e67e4;
   --on-primary: #140d22; /* texte sur fond violet */
 
   /* Couleur secondaire : or */
@@ -106,20 +106,20 @@
   --danger: #dc2626;
 
   /* Palette : mêmes teintes, plus soutenues pour rester lisibles sur blanc */
-  --pal-sauge: #2a7d40;
-  --pal-ble: #8f680f;
-  --pal-corail: #c9472a;
-  --pal-canard: #127f8f;
-  --pal-rose: #c23d78;
+  --pal-sauge: #28763c;
+  --pal-ble: #84600e;
+  --pal-corail: #b23f25;
+  --pal-canard: #10717f;
+  --pal-rose: #af376c;
   --pal-creme: #776513;
-  --pal-ambre: #a1580a;
+  --pal-ambre: #9b550a;
   --pal-terre: #8a5a34;
   --pal-prune: #9a3d88;
-  --pal-ciel: #2f63c9;
-  --pal-glacier: #187891;
+  --pal-ciel: #2e61c5;
+  --pal-glacier: #166f86;
   --pal-lilas: #6b4fc9;
   --pal-ardoise: #4f5d78;
-  --pal-gris: #6b6b76;
+  --pal-gris: #676771;
 }
 
 @theme inline {

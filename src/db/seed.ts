@@ -97,9 +97,6 @@ export function buildInitialData(
   };
 
   const settings: Settings = {
-    animations: "auto",
-    compact: false,
-    checkedBehavior: "sink",
     catalogVersion: CATALOG_VERSION,
     currentListId: list.id,
     dismissedSuggestions: [],

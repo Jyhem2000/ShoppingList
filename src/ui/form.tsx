@@ -163,7 +163,7 @@ export function Chip({
       className={cn(
         "min-h-11 rounded-full border px-4 text-sm font-semibold transition-colors",
         selected
-          ? "border-primary bg-primary/20 text-primary"
+          ? "border-primary bg-primary/15 text-primary"
           : "border-border text-muted-foreground active:bg-raised",
         className,
       )}

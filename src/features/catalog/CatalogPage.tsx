@@ -99,8 +99,14 @@ export function CatalogPage() {
                   <ArticleGrid articles={view.usual} data={data} />
                 </Section>
               )}
-              {/* Sans titre : la grille des catégories se suffit à elle-même. */}
+              {/* Titre seulement s'il y a des favoris ou des habituels au-dessus : il les
+                  sépare de la grille ; seule, la grille se suffit à elle-même. */}
               <section className="pt-4">
+                {(view.favorites.length > 0 || view.usual.length > 0) && (
+                  <div className="px-4 pt-2">
+                    <SectionTitle>{t.categories}</SectionTitle>
+                  </div>
+                )}
                 <div className="grid grid-cols-3 gap-2 px-3">
                   {view.categories.map((category) => (
                     <CategoryCard

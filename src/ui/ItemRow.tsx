@@ -82,10 +82,17 @@ export function ItemRow({
             "block truncate font-semibold",
             shopping && "text-lg",
             muted && "text-muted-foreground",
-            checked && "line-through",
           )}
         >
-          {label}
+          {/* Trait barré qui se trace de gauche à droite en cochant (docs/05 § 6). */}
+          <span
+            className={cn(
+              "bg-[linear-gradient(currentColor,currentColor)] bg-[length:0%_2px] bg-[position:0_55%] bg-no-repeat transition-[background-size] duration-300 ease-out motion-reduce:transition-none",
+              checked && "bg-[length:100%_2px]",
+            )}
+          >
+            {label}
+          </span>
         </span>
         {details && (
           <span className="block truncate text-sm text-muted-foreground">

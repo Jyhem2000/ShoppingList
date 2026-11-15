@@ -16,15 +16,16 @@ Numérotation : la version **`0.N.0` sort quand la phase N est validée** ; elle
 
 ### Versions publiées
 
-| Version | Date             | Contenu                                                                                                                                                                                                                                                                              |
-| ------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `0.4.0` | 12 novembre 2026 | Phases 1 à 4 validées ; mode courses (phase 5) en avant-première, à valider par un essai en magasin.                                                                                                                                                                                 |
-| `0.5.0` | 12 novembre 2026 | Phase 5 publiée **avant** l'essai en magasin, à la demande de l'utilisateur (seul utilisateur) : l'essai se fait sur la production ; correctifs en `0.5.x` ou dans la `0.6.0`. Thème clair, recherche du catalogue, retours de test.                                                 |
-| `0.6.0` | 12 novembre 2026 | Phase 6 (tout modifiable : magasins et rayons, articles et doublons, icônes, catégories, unités), publiée pour un essai réel par l'utilisateur ; validation sur la production, correctifs en `0.6.x`.                                                                                |
-| `0.7.2` | 14 novembre 2026 | Phase 7 validée ; ses retours : Réglages organisés en accueil (« Mes données » en tête, sauvegarde à part, préférences regroupées), menu de la liste limité à la liste courante, quantités toujours simplifiées, composants partagés ; corrections de la relecture complète du code. |
-| `0.7.1` | 14 novembre 2026 | Retours d'essai de la `0.7.0` : les articles d'une catégorie qu'on vient de ranger restent dans « À placer » jusqu'à leur coche ; « Rouvrir les courses » le jour même seulement.                                                                                                    |
-| `0.7.0` | 13 novembre 2026 | Phase 7 (magasins construits pendant les courses : « À placer », « Rayon suivant », titres des rayons tirés de leurs catégories, bulles d'aide), sauvegarde par presse-papiers ; publiée pour l'essai réel, validation sur la production, correctifs en `0.7.x`.                     |
-| `0.6.1` | 13 novembre 2026 | Retours du premier essai réel : liste par catégorie (rayons en mode courses), sauvegarde (export, import), catalogue mis à jour sans réinstaller, « où l'as-tu pris ? », quantité modifiable en magasin, « Pas pris ».                                                               |
+| Version | Date             | Contenu                                                                                                                                                                                                                                                                                                                                                                       |
+| ------- | ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `0.4.0` | 12 novembre 2026 | Phases 1 à 4 validées ; mode courses (phase 5) en avant-première, à valider par un essai en magasin.                                                                                                                                                                                                                                                                          |
+| `0.5.0` | 12 novembre 2026 | Phase 5 publiée **avant** l'essai en magasin, à la demande de l'utilisateur (seul utilisateur) : l'essai se fait sur la production ; correctifs en `0.5.x` ou dans la `0.6.0`. Thème clair, recherche du catalogue, retours de test.                                                                                                                                          |
+| `0.6.0` | 12 novembre 2026 | Phase 6 (tout modifiable : magasins et rayons, articles et doublons, icônes, catégories, unités), publiée pour un essai réel par l'utilisateur ; validation sur la production, correctifs en `0.6.x`.                                                                                                                                                                         |
+| `0.8.0` | 15 novembre 2026 | Phase 8 validée : réglages retirés (on décide pour l'utilisateur), copies automatiques des 7 derniers jours, écran d'aide, catalogue complet (428 articles et leurs icônes), finitions (états vides, accessibilité, animations et sons) ; retours d'essai (« À placer » repliable, « Rayon suivant » plus visible, œufs avec la crèmerie) et corrections de la revue de code. |
+| `0.7.2` | 14 novembre 2026 | Phase 7 validée ; ses retours : Réglages organisés en accueil (« Mes données » en tête, sauvegarde à part, préférences regroupées), menu de la liste limité à la liste courante, quantités toujours simplifiées, composants partagés ; corrections de la relecture complète du code.                                                                                          |
+| `0.7.1` | 14 novembre 2026 | Retours d'essai de la `0.7.0` : les articles d'une catégorie qu'on vient de ranger restent dans « À placer » jusqu'à leur coche ; « Rouvrir les courses » le jour même seulement.                                                                                                                                                                                             |
+| `0.7.0` | 13 novembre 2026 | Phase 7 (magasins construits pendant les courses : « À placer », « Rayon suivant », titres des rayons tirés de leurs catégories, bulles d'aide), sauvegarde par presse-papiers ; publiée pour l'essai réel, validation sur la production, correctifs en `0.7.x`.                                                                                                              |
+| `0.6.1` | 13 novembre 2026 | Retours du premier essai réel : liste par catégorie (rayons en mode courses), sauvegarde (export, import), catalogue mis à jour sans réinstaller, « où l'as-tu pris ? », quantité modifiable en magasin, « Pas pris ».                                                                                                                                                        |
 
 Les `0.1.0` et `0.3.0` publiées les 8 et 9 novembre 2026 ont disparu avec la reprise à zéro de l'historique git (12 novembre 2026).
 
@@ -119,8 +120,7 @@ Décision du 13 novembre 2026, après le premier essai réel : des rayons prére
 | Poisson & Fruits de mer       | Poisson     | Viandes & poissons |
 | Charcuterie                   | Charcuterie | Frais              |
 | Traiteur & Plats préparés     | Traiteur    | Frais              |
-| Œufs                          | Œufs        | Frais              |
-| Lait, Crème & Beurre          | Lait        | Frais              |
+| Lait, Crème, Beurre & Œufs    | Lait & Œufs | Frais              |
 | Yaourts & Desserts frais      | Yaourts     | Frais              |
 | Fromages                      | Fromages    | Frais              |
 | Pâtes, Riz & Féculents        | Pâtes & riz | Épicerie salée     |
@@ -177,7 +177,7 @@ Décision du 13 novembre 2026, après le premier essai réel : des rayons prére
 
 ### Phase 8 — Réglages, sauvegarde, finitions
 
-H1 à H6 (H4 avancée en partie dans la `0.6.1` : export et import en remplacement ; restent l'import en fusion, les copies automatiques internes avec « Restaurer une copie », les libellés expliquant export et copies ; le rappel des 30 jours est **à trancher** avant de l'implémenter, 03 H4), H9 et H10 (écran d'aide : mode d'emploi, ce que l'app règle toute seule, conseil de suivre le même parcours pendant l'apprentissage), catalogue complet (~1 000 articles avec alias) **relu par toi catégorie par catégorie**, passe d'animations et de sons, accessibilité, états vides.
+H1 à H6 (plan validé le 14 novembre 2026) : réglages Animations, Affichage compact et Lignes cochées **retirés** (on décide pour l'utilisateur, 03 H1 à H3) ; H4 avancée en partie dans la `0.6.1` (export et import en remplacement), reste les copies automatiques internes avec « Restaurer une copie » et leurs libellés — import en fusion et rappel des 30 jours **abandonnés** (03 H4), H9 et H10 (écran d'aide : mode d'emploi, ce que l'app règle toute seule, conseil de suivre le même parcours pendant l'apprentissage), catalogue complété à **~500 articles** (contre 240 : les catégories maigres passent à 10-20 articles chacune), en lots par famille relus sur une page temporaire de préproduction, avec peu de nouvelles icônes (une par type de produit, ou une icône existante recolorée), passe d'animations et de sons, accessibilité, états vides.
 
 Retours de la validation de la phase 7 (14 novembre 2026) :
 
@@ -185,7 +185,9 @@ Retours de la validation de la phase 7 (14 novembre 2026) :
 - Réglage « Simplifier les quantités » retiré : simplification toujours active, avec « Annuler » (03 H8).
 - Réglages organisés en accueil (04 § 2.7) : « Mes données » en tête, en grandes tuiles avec leur nombre, et la sauvegarde dans un écran à part (quatre actions de même poids) ; les préférences (sons, écran allumé, thème) derrière une seule ligne « Préférences ».
 
-- ✅ _Essai réel en magasin sur les deux téléphones (préproduction)._ → `0.8.0`.
+Retours de l'essai du 15 novembre 2026 : catégories de « À placer » repliables (et les blocs « À placer » et « À récupérer »), « Rayon suivant » en bouton plein, œufs rangés avec la crèmerie (« Lait, Crème, Beurre & Œufs »). Puis revue de code de la phase : copie de sécurité avant chaque remplacement des données, copies complètes à part (schéma 4), ligne qui pulse même dans un groupe replié.
+
+- ✅ _Essai réel en magasin sur les deux téléphones (préproduction) : phase 8 validée le 15 novembre 2026._ → `0.8.0`.
 
 ### Publication 0.9 puis 1.0
 

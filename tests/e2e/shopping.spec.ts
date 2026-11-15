@@ -41,7 +41,7 @@ test("4. mode courses : rayon replié, « À récupérer », clôture, réouvert
   // (rien ne saute ailleurs à l'écran). On pense aux bananes : leur rayon est passé.
   await check(page, "Lait");
   await expect(
-    aisle(page, "Rayon : Lait")
+    aisle(page, "Rayon : Lait & Œufs")
       .getByRole("button", { name: /^Lait/ })
       .and(page.locator("button:not([aria-expanded])")),
   ).toBeVisible();

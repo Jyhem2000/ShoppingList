@@ -1,4 +1,11 @@
-import { ClipboardCopy, ClipboardPaste, Download, Upload } from "lucide-react";
+import {
+  ClipboardCopy,
+  ClipboardPaste,
+  Download,
+  History,
+  Upload,
+} from "lucide-react";
+import { useLiveQuery } from "dexie-react-hooks";
 import { useRef, useState } from "react";
 import { routes } from "@/app/routes";
 import {
@@ -6,9 +13,14 @@ import {
   backupFileName,
   type BackupSummary,
   exportBackup,
-  importBackup,
   readBackup,
 } from "@/db/backup";
+import {
+  type AutoCopy,
+  listCopies,
+  replaceAllData,
+  restoreCopy,
+} from "@/db/copies";
 import { db } from "@/db/database";
 import { useSettings } from "@/db/hooks";
 import { updateSettings } from "@/db/settings";
@@ -17,19 +29,32 @@ import { canCopyText, copyText, pasteText } from "@/platform/clipboard";
 import { shareOrDownload } from "@/platform/share";
 import { Button } from "@/ui/button";
 import { ConfirmActions, Field, TextArea } from "@/ui/form";
-import { PageHeader, Section } from "@/ui/Page";
+import { EmptyHint, PageHeader, Section } from "@/ui/Page";
 import { Sheet } from "@/ui/Sheet";
 import { showToast } from "@/ui/toast";
+import { RowButton } from "@/ui/RowButton";
+import { useNow } from "@/ui/useNow";
 import { daysSince } from "./backupAge";
 
-import { useNow } from "@/ui/useNow";
 const t = fr.manage.backup;
+
+/** Tout l'état de l'app repart des données remplacées. */
+const reloadApp = () => {
+  window.location.reload();
+};
+
+/** Échec (stockage plein, données refusées) : rien n'a changé, on le dit. */
+const replaceFailed = (error: unknown) => {
+  console.error("Remplacement des données impossible", error);
+  showToast(t.replaceFailed, { tone: "error" });
+};
 
 /**
  * Sauvegarde (docs/03 H4, docs/04 § 2.7), dans « Mes données » : garder une copie (fichier
  * par la feuille de partage du téléphone, ou texte dans le presse-papiers) et récupérer
  * une copie (fichier ou texte collé), en remplacement, après confirmation. Les quatre
- * actions ont le même poids : aucune n'est l'action principale de l'écran.
+ * actions ont le même poids : aucune n'est l'action principale de l'écran. En dessous,
+ * les copies automatiques des 7 derniers jours, à restaurer après confirmation.
  */
 export function BackupPage() {
   const settings = useSettings();
@@ -39,6 +64,10 @@ export function BackupPage() {
     summary: BackupSummary;
   } | null>(null);
   const now = useNow();
+  const copies = useLiveQuery(() => listCopies(db));
+  const [restoring, setRestoring] = useState<AutoCopy | null>(null);
+  const longDate = (at: number) =>
+    new Date(at).toLocaleDateString("fr-FR", { dateStyle: "long" });
   const days = daysSince(settings?.lastBackupAt, now);
 
   const exportData = async () => {
@@ -128,7 +157,7 @@ export function BackupPage() {
         </div>
       </Section>
 
-      <Section title={t.restore} className="pb-6">
+      <Section title={t.restore}>
         <div className="flex flex-col gap-3 px-4 py-4">
           <p className="text-sm text-muted-foreground">{t.importHint}</p>
           <Button
@@ -157,6 +186,57 @@ export function BackupPage() {
           />
         </div>
       </Section>
+
+      <Section title={t.copies.section} className="pb-6">
+        <p className="px-4 pt-4 pb-2 text-sm text-muted-foreground">
+          {t.copies.hint}
+        </p>
+        {copies?.length === 0 && <EmptyHint inset>{t.copies.none}</EmptyHint>}
+        {copies?.map((copy) => (
+          <RowButton
+            key={copy.id}
+            icon={<History className="size-5 shrink-0 text-secondary" />}
+            title={t.copies.title(
+              new Date(copy.at).toLocaleDateString("fr-FR", {
+                weekday: "long",
+                day: "numeric",
+                month: "long",
+              }),
+              copy.beforeReplace === true,
+            )}
+            detail={t.copies.summary(
+              copy.summary.articles,
+              copy.summary.lists,
+              copy.summary.stores,
+            )}
+            chevron
+            onClick={() => {
+              setRestoring(copy);
+            }}
+          />
+        ))}
+      </Section>
+      {restoring && (
+        <Sheet
+          open
+          autoFocus={false}
+          onOpenChange={(open) => {
+            if (!open) setRestoring(null);
+          }}
+          title={t.copies.restoreTitle(longDate(restoring.at))}
+          description={t.copies.restoreText}
+        >
+          <ConfirmActions
+            label={t.copies.restoreConfirm}
+            onConfirm={() => {
+              restoreCopy(db, restoring.id).then(reloadApp, replaceFailed);
+            }}
+            onCancel={() => {
+              setRestoring(null);
+            }}
+          />
+        </Sheet>
+      )}
       {pasting && (
         <Sheet
           open
@@ -197,9 +277,7 @@ export function BackupPage() {
           }}
           title={t.importTitle}
           description={t.importText(
-            new Date(pending.summary.exportedAt).toLocaleDateString("fr-FR", {
-              dateStyle: "long",
-            }),
+            longDate(pending.summary.exportedAt),
             pending.summary.articles,
             pending.summary.lists,
             pending.summary.stores,
@@ -208,10 +286,7 @@ export function BackupPage() {
           <ConfirmActions
             label={t.importConfirm}
             onConfirm={() => {
-              void importBackup(db, pending.backup).then(() => {
-                // Tout l'état de l'app repart des données importées.
-                window.location.reload();
-              });
+              replaceAllData(db, pending.backup).then(reloadApp, replaceFailed);
             }}
             onCancel={() => {
               setPending(null);

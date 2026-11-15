@@ -14,6 +14,7 @@ import { Button } from "@/ui/button";
 import { ConfirmActions, Field, MenuItem, TextInput } from "@/ui/form";
 import { Sheet } from "@/ui/Sheet";
 import type { ListData } from "./useListData";
+import { feedback } from "@/feedback";
 
 const t = fr.list.menuSheet;
 
@@ -152,7 +153,10 @@ export function ListMenuSheet({
           onConfirm={() => {
             if (view === "clear")
               onRemoveItems(data.items.map((item) => item.id));
-            else void deleteList(db, data.list.id);
+            else
+              void deleteList(db, data.list.id).then(() => {
+                feedback.remove();
+              });
             onClose();
           }}
           onCancel={onClose}

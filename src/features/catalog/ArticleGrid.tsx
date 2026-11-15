@@ -3,6 +3,7 @@ import { manageArticlePath } from "@/app/routes";
 import type { Article } from "@/domain/model";
 import { fr } from "@/i18n/fr";
 import { CatalogCard } from "@/ui/CatalogCard";
+import { EmptyHint } from "@/ui/Page";
 import { lineQuantity } from "@/features/list/format";
 import type { ListData } from "@/features/list/useListData";
 import { useCatalogPick } from "./useCatalogPick";
@@ -24,11 +25,7 @@ export function ArticleGrid({
   const inList = new Map(data.items.map((item) => [item.articleId, item]));
 
   if (articles.length === 0)
-    return (
-      <p className="px-5 pt-6 text-center text-muted-foreground">
-        {fr.catalog.noResult}
-      </p>
-    );
+    return <EmptyHint inset>{fr.catalog.noResult}</EmptyHint>;
 
   return (
     <>

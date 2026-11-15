@@ -10,7 +10,7 @@ import type { ID } from "@/domain/model";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
 import { Chip, Field, TextInput, FieldLabel } from "@/ui/form";
-import { LinkRow, PageHeader, Section } from "@/ui/Page";
+import { EmptyState, LinkRow, PageHeader, Section } from "@/ui/Page";
 import { Sheet } from "@/ui/Sheet";
 
 const t = fr.manage.stores;
@@ -32,32 +32,46 @@ export function StoresPage() {
     return map;
   });
 
+  const addButton = (
+    <Button
+      variant="outline"
+      className="w-full"
+      onClick={() => {
+        setCreating(true);
+      }}
+    >
+      <Plus />
+      {t.add}
+    </Button>
+  );
+
   return (
     <>
       <PageHeader title={t.title} backTo={routes.settings} />
-      <Section>
-        {stores?.map((store) => (
-          <LinkRow
-            key={store.id}
-            to={manageStorePath(store.id)}
-            icon={<StoreIcon />}
-            label={store.name}
-            hint={t.aisles(counts?.get(store.id) ?? 0)}
-          />
-        ))}
-      </Section>
-      <div className="px-4 pt-4 pb-6">
-        <Button
-          variant="outline"
-          className="w-full"
-          onClick={() => {
-            setCreating(true);
-          }}
+      {stores?.length === 0 ? (
+        <EmptyState
+          icon={<StoreIcon />}
+          title={t.emptyTitle}
+          action={addButton}
         >
-          <Plus />
-          {t.add}
-        </Button>
-      </div>
+          {t.emptyText}
+        </EmptyState>
+      ) : (
+        <>
+          <Section>
+            {stores?.map((store) => (
+              <LinkRow
+                key={store.id}
+                to={manageStorePath(store.id)}
+                icon={<StoreIcon />}
+                label={store.name}
+                hint={t.aisles(counts?.get(store.id) ?? 0)}
+              />
+            ))}
+          </Section>
+          {stores && <div className="px-4 pt-4 pb-6">{addButton}</div>}
+        </>
+      )}
       {creating && (
         <NewStoreSheet
           onClose={() => {

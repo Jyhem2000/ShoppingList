@@ -17,7 +17,6 @@ import type { ListData } from "./useListData";
 
 /** Échec d'enregistrement (rare : stockage plein ou refusé) : on le dit. */
 export function reportSaveError(): void {
-  feedback.error();
   showToast(fr.list.saveError, { tone: "error" });
 }
 

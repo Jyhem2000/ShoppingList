@@ -56,7 +56,7 @@ export function SearchField({
             onValueChange("");
             own.current?.focus();
           }}
-          className="flex size-10 shrink-0 items-center justify-center rounded-full text-muted-foreground active:bg-surface"
+          className="flex size-11 shrink-0 items-center justify-center rounded-full text-muted-foreground active:bg-surface"
         >
           <X className="size-5" aria-hidden />
         </button>

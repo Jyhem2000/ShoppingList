@@ -89,7 +89,7 @@ Sur Android, le geste ou bouton **Retour** du système ferme d'abord le panneau 
 └──────────────────────────────────┘
 ```
 
-- Première course dans un magasin : tout est dans « À placer » ; on coche dans l'ordre du parcours, « Rayon suivant » à chaque changement de rayon (C4). Bulles d'aide la première fois (H12).
+- Première course dans un magasin : tout est dans « À placer » ; on coche dans l'ordre du parcours, « Rayon suivant » à chaque changement de rayon (C4). Bulles d'aide la première fois (H12). « Rayon suivant » est un bouton plein (violet), au-dessus de la barre d'ajout : c'est l'action clé tant qu'il reste des articles à placer (retour d'essai du 15 novembre 2026, il passait inaperçu en contour). Les catégories de « À placer » se replient d'un toucher sur leur intertitre ; les blocs « À placer » et « À récupérer » se replient comme les rayons.
 
 - Tap = cocher · glisser = pas pris · appui long = déplacer de rayon · tap sur la quantité = la changer.
 - `✕` = quitter le mode courses **sans clôturer** (la session reste ouverte, on peut y revenir).
@@ -126,7 +126,7 @@ Mes données       (« Le cœur de l'app… Tout se modifie ici. »)
   Sauvegarde ▸   Dernière sauvegarde : il y a 12 j
 Application
   Préférences ▸   Sons, écran allumé, thème
-  Revoir les conseils      [Revoir]  (H12 : les bulles d'aide reviennent)
+  Aide ▸          mode d'emploi, ce que l'app règle toute seule, « Revoir les conseils » (H10, H12)
   À propos ▸      Version 1.0.0 · Quoi de neuf ▸ · Licences ▸
 ```
 
@@ -136,13 +136,8 @@ Application
 Fonctionnalités   (grisée « Non disponible sur ce téléphone » si besoin)
   Sons .................. Activés ▸  (écran Sons : interrupteur général + un par son, avec écoute)
   Écran allumé pendant les courses ●
-Ressenti
-  Animations ............ Automatique ▸
 Affichage
   Thème ................. Automatique · Sombre · Clair
-  Affichage compact ..... ◯
-Mode courses
-  Lignes cochées ........ Glissent en bas ▸
 ```
 
 **Sauvegarde** : quatre actions de **même poids** (boutons secondaires), aucune n'étant l'action principale de l'écran ; seule la confirmation d'un import est en rouge.
@@ -160,7 +155,7 @@ Copies automatiques (phase 8)
      manipulation ; elles disparaissent avec l'app)
 ```
 
-Plus tard : **Aide ▸** (H10 : mode d'emploi, ce que l'app règle toute seule, avec « Revoir les conseils ») dans « Application » ; **Coller une liste partagée ▸** _(v1.3)_.
+Plus tard : **Coller une liste partagée ▸** _(v1.3)_.
 
 ### 2.8 Magasin
 

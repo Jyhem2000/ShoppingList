@@ -24,6 +24,7 @@ import { Field, Select, TextInput, ConfirmActions } from "@/ui/form";
 import { PageHeader, Section } from "@/ui/Page";
 import { Sheet } from "@/ui/Sheet";
 import { showToast } from "@/ui/toast";
+import { feedback } from "@/feedback";
 
 const t = fr.manage.units;
 const groupLabel = fr.list.unitGroups;
@@ -206,6 +207,7 @@ function UnitSheet({
             disabled={!replacement}
             onConfirm={() => {
               void deleteUnit(db, unit.id, replacement).then(() => {
+                feedback.remove();
                 showToast(t.deleted(unit.singular), { tone: "success" });
               });
               onClose();

@@ -25,6 +25,7 @@ import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
 import { Field, TextInput, FieldLabel, CheckRow, ChoiceMark } from "@/ui/form";
 import { Sheet } from "@/ui/Sheet";
+import { sortableAccessibility } from "@/ui/sortable";
 import { cn } from "@/ui/utils";
 import type { ListData } from "./useListData";
 import { RowButton } from "@/ui/RowButton";
@@ -173,6 +174,10 @@ export function ListsSheet({
             sensors={sensors}
             collisionDetection={closestCenter}
             onDragEnd={onDragEnd}
+            accessibility={sortableAccessibility(
+              order.map((l) => l.id),
+              (id) => order.find((l) => l.id === id)?.name ?? "",
+            )}
           >
             <SortableContext
               items={order.map((l) => l.id)}

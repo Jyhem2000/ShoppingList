@@ -101,7 +101,6 @@ export function useShoppingView(
       passed,
       session,
     );
-    const hide = data.settings.checkedBehavior === "hide";
     const placingId = placingAisle(session.openedAisle, purchases.at(-1));
     const findAisle = (id: ID | undefined) =>
       data.aisles.find((aisle) => aisle.id === id && !aisle.isUnsorted);
@@ -127,7 +126,7 @@ export function useShoppingView(
       return [
         {
           aisle,
-          items: hide ? own.filter((item) => item.status !== "checked") : own,
+          items: own,
           // Le rayon en cours reste ouvert tant qu'on y range.
           done:
             aisle.id !== placing?.id &&

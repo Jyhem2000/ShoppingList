@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <g transform="rotate(-20 12 15)">
+<ellipse cx="12" cy="15" rx="6.4" ry="7.8" fill="#8a5a34"/>
+<path fill="none" stroke="#6a4224" stroke-linecap="round" stroke-linejoin="round" stroke-width=".6" d="M7.4 11.6c1.6 1 2.4 2.6 4 2.4s2.6-2 4.4-1.4M6.4 16.4c1.6-.6 3 .6 4.4 1.6s3.2.6 4.6-.4c.6-.4 1.2-.6 1.8-.4M8.6 21.2c1.4-1 2.6-1.2 3.6-.4s2.6.6 3.6-.6M11.4 14c.2 1.2-.2 2.6-.6 4M15 13c-.4 1.4-.2 3 .4 4.6M9 8.8c.8.6 2 .8 3 .4"/>
+<ellipse cx="10" cy="11" rx="1.6" ry="2.6" fill="#a87650" transform="rotate(20 10 11)"/>
+</g>
+<g transform="rotate(25 21.4 21.2)">
+<path fill="#18181d" stroke="#18181d" stroke-width="1.4" stroke-linejoin="round" d="M15.8 21.2a5.6 6.8 0 1 0 11.2 0a5.6 6.8 0 1 0 -11.2 0z"/>
+<ellipse cx="21.4" cy="21.2" rx="5.6" ry="6.8" fill="#7a4a28"/>
+<ellipse cx="21.4" cy="21.2" rx="4.6" ry="5.8" fill="#e6c48e"/>
+<path fill="none" stroke="#a86a3a" stroke-linecap="round" stroke-width=".7" d="M18 18c1.2.8 1.6 2 1.2 3.4s.4 2.6 1.6 3.2M21.4 15.8c-.4 1.6.4 2.8 1.6 3.4s1.4 2.2.6 3.6M24.6 19c-.8.6-1.2 1.6-.8 2.8M18.4 23.8c.8-.2 1.4.2 1.8.8M22.6 25.4c.6-.6 1.4-.8 2-.4"/>
+</g>
+</svg>

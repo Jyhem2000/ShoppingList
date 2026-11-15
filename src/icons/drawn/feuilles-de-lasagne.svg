@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+<path fill="#18181d" stroke="#18181d" stroke-width="1.4" stroke-linejoin="round" d="M7 6 q1.5-1.5 3 0 t3 0 t3 0 t3 0 t3 0 t3 0 v6.4 q-1.5 1.5-3 0 t-3 0 t-3 0 t-3 0 t-3 0 t-3 0 z"/>
+  <path fill="#f2d68a" d="M7 6 q1.5-1.5 3 0 t3 0 t3 0 t3 0 t3 0 t3 0 v6.4 q-1.5 1.5-3 0 t-3 0 t-3 0 t-3 0 t-3 0 t-3 0 z"/>
+  <path fill="none" stroke="#e0b850" stroke-width="0.6" d="M7.6 7.6h16.8"/>
+  <path fill="#18181d" stroke="#18181d" stroke-width="1.4" stroke-linejoin="round" d="M5 11.6 q1.5-1.5 3 0 t3 0 t3 0 t3 0 t3 0 t3 0 v6.4 q-1.5 1.5-3 0 t-3 0 t-3 0 t-3 0 t-3 0 t-3 0 z"/>
+  <path fill="#f2d68a" d="M5 11.6 q1.5-1.5 3 0 t3 0 t3 0 t3 0 t3 0 t3 0 v6.4 q-1.5 1.5-3 0 t-3 0 t-3 0 t-3 0 t-3 0 t-3 0 z"/>
+  <path fill="none" stroke="#e0b850" stroke-width="0.6" d="M5.6 13.2h16.8"/>
+  <path fill="#18181d" stroke="#18181d" stroke-width="1.4" stroke-linejoin="round" d="M3 17.2 q1.5-1.5 3 0 t3 0 t3 0 t3 0 t3 0 t3 0 v6.4 q-1.5 1.5-3 0 t-3 0 t-3 0 t-3 0 t-3 0 t-3 0 z"/>
+  <path fill="#f2d68a" d="M3 17.2 q1.5-1.5 3 0 t3 0 t3 0 t3 0 t3 0 t3 0 v6.4 q-1.5 1.5-3 0 t-3 0 t-3 0 t-3 0 t-3 0 t-3 0 z"/>
+  <path fill="none" stroke="#e0b850" stroke-width="0.6" d="M3.6 18.8h16.8"/>
+</svg>

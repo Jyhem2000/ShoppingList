@@ -21,7 +21,7 @@ Définis une seule fois dans `src/styles/index.css` ; les composants n'utilisent
 | Texte principal        | `--text`             | `#ededf0` | Libellés, contenu                                                                                                                      |
 | Texte secondaire       | `--text-muted`       | `#a3a3ad` | Descriptions, notes, titres de section                                                                                                 |
 | **Couleur principale** | `--primary`          | `#a37ef2` | **Violet** : tout ce qui s'actionne (boutons, interrupteurs, liens, focus) et les **titres d'écran**                                   |
-|                        | `--primary-strong`   | `#8a62e2` | Violet appuyé (bouton pressé)                                                                                                          |
+|                        | `--primary-strong`   | `#8e67e4` | Violet appuyé (bouton pressé)                                                                                                          |
 |                        | `--on-primary`       | `#140d22` | Texte sur fond violet                                                                                                                  |
 | **Couleur secondaire** | `--secondary`        | `#f5c451` | **Or** : les repères — icônes d'interface, onglet actif (icône, libellé et trait au-dessus), quantités, progression, numéro de version |
 |                        | `--secondary-strong` | `#e0a92e` | Or appuyé                                                                                                                              |
@@ -89,7 +89,7 @@ Couleurs douces, utilisées en pastille, en liseré d'en-tête de rayon et en fo
 | ardoise | `#9aa7bd` | Entretien & Maison         |
 | gris    | `#85858f` | Non classé / Autres        |
 
-> Contrastes à vérifier pendant la phase design (objectif WCAG AA : 4,5:1 pour le texte, 3:1 pour les éléments graphiques).
+> Contrastes vérifiés le 14 novembre 2026 sur tous les écrans, dans les deux thèmes (WCAG AA : 4,5:1 pour le texte, 3:1 pour les éléments graphiques) : les couleurs de la palette en thème clair ont été un peu foncées pour rester lisibles en titre de rayon sur leur fond teinté, et le violet appuyé (`--primary-strong`) un peu éclairci sous le texte des boutons.
 
 ## 3. Typographie
 
@@ -115,6 +115,7 @@ Décision du 9 novembre 2026, après essai dans la maquette : **toutes les icôn
 
 - Source : `src/icons/drawn/<clé de l'article>.svg`. Vite les réunit au build dans le pack (`src/icons/packData.ts`) ; libellé et mots-clés viennent de l'article de même clé (nom, alias, types), et l'entrée garde sa catégorie (`c`).
 - Chaque article pointe sur son icône (`"icon": "framboises"`) ; le dictionnaire de mots-clés (06 § 5) aussi, pour les articles créés par l'utilisateur.
+- Catalogue complet (phase 8, décision du 14 novembre 2026) : pour ne pas multiplier les dessins à relire, un article peut **reprendre** le dessin d'un article proche (Cannelle → Épices, Kit fajitas → Tortillas : `"icon"` désigne alors l'autre clé), ou recevoir une **variante recolorée** d'un dessin existant (huiles, sauces en flacon, pots d'épices…), qui reste son propre fichier. Un même modèle sert à **5 articles au plus** (un peu plus seulement au cas par cas : les conserves, qui se ressemblent en vrai, se distinguent par l'étiquette et la couleur) ; au-delà, un dessin propre (la muscade en noix, l'origan en brins…). Le dessin d'un article générique n'est pas décliné pour un article précis : Poisson et Champagne gardent le leur, la truite, la dorade, le bar, le cidre ou le crémant ont le leur. Chaque dessin porte la clé d'un article. Lots relus sur une page temporaire de la maquette (hors production), retirée une fois le catalogue validé le 14 novembre 2026.
 - Les icônes se relisent dans la maquette (`#/dev/ui`, hors production).
 
 Règles de dessin, tirées des relectures (à appliquer à toute nouvelle icône) :
@@ -178,11 +179,12 @@ Le design system, ce sont aussi des **composants partagés** (`src/ui`), utilis�
 
 Bibliothèque **Motion**.
 
-- Ajout : la ligne apparaît à sa place dans son rayon avec un léger rebond ; la ligne existante « pulse » si l'article était déjà là.
-- Cocher : trait barré animé, puis glissement vers le bas ou disparition.
+- Ajout : la ligne apparaît à sa place dans son rayon avec un léger rebond ; si l'article était déjà là, la ligne existante défile jusqu'à l'écran et « pulse » une fois le panneau « Déjà dans la liste » fermé, quel que soit le choix ; si elle était dans un rayon, une catégorie ou un bloc replié, celui-ci se déplie d'abord.
+- Cocher : le trait barré se trace de gauche à droite, puis la ligne glisse vers le bas.
 - Rayon terminé : repli + coche menthe. Tout rayon se déplie et se replie en douceur.
 - Panneaux : glissement depuis le bas avec ressort.
-- Réglage **Animations** (H1) : _Automatique_ (suit `prefers-reduced-motion` du système) · _Toujours_ (ignore le réglage système) · _Jamais_.
+- Écrans vides (liste, catégorie, magasins…) : apparition en fondu.
+- Animations toujours présentes, sauf si le téléphone demande de les réduire (`prefers-reduced-motion`, H1) ; pas de réglage dans l'app.
 
 ## 7. Sons
 
@@ -198,6 +200,8 @@ Petits sons courts, doux et discrets, **à volume bas** (un son léger, jamais p
 | Courses terminées  | `confirmation_002`       |
 | Suppression        | `close_001`              |
 | Action impossible  | `back_002`               |
+
+« Suppression » accompagne toute suppression faite (ligne, liste, article, catégorie, unité, rayon, magasin) ; « Action impossible », tout refus ou échec signalé par un message d'avertissement ou d'erreur (nom déjà pris, sauvegarde illisible, enregistrement impossible…).
 
 Lecture via la **Web Audio API**. Sur iPhone, le moteur audio peut rester bloqué après un passage en arrière-plan : il est fermé quand l'app est masquée et recréé au son suivant.
 

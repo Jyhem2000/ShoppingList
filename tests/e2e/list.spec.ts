@@ -61,7 +61,7 @@ test("3. liste par catégorie ; la première course construit le magasin, la sui
   expect(await aisleNames(page)).toEqual([
     "Fruits",
     "Pain & Viennoiseries",
-    "Lait, Crème & Beurre",
+    "Lait, Crème, Beurre & Œufs",
   ]);
 
   // Aucun magasin au départ : on le nomme en partant.
@@ -84,7 +84,7 @@ test("3. liste par catégorie ; la première course construit le magasin, la sui
   await check(page, "Lait");
   await expect
     .poll(() => aisleNames(page))
-    .toEqual(["Rayon : Fruits", "Rayon : Pain", "Rayon : Lait"]);
+    .toEqual(["Rayon : Fruits", "Rayon : Pain", "Rayon : Lait & Œufs"]);
   await finishShopping(page);
   const stored = page.getByRole("dialog", {
     name: /Ton magasin est enregistré/,
@@ -95,11 +95,13 @@ test("3. liste par catégorie ; la première course construit le magasin, la sui
 
   // La course suivante : rangée par rayon, dans l'ordre du parcours, rien à placer.
   await addToList(page, "beurre, bananes");
+  // Les deux lignes d'abord : chacune décale « C'est parti », qui raterait le clic.
+  await expect(line(page, "Bananes")).toBeVisible();
   await startShopping(page, "Marché");
   await expect(line(page, "Bananes")).toBeVisible();
   await expect
     .poll(() => aisleNames(page))
-    .toEqual(["Rayon : Fruits", "Rayon : Lait"]);
+    .toEqual(["Rayon : Fruits", "Rayon : Lait & Œufs"]);
   await expect(
     page.getByRole("button", { name: "Rayon suivant" }),
   ).toBeHidden();

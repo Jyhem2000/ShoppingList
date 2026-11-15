@@ -117,25 +117,12 @@
     "icon": "cooking-pot"
   },
   {
-    "key": "oeufs",
-    "name": {
-      "fr": "Œufs"
-    },
-    "short": {
-      "fr": "Œufs"
-    },
-    "family": "frais",
-    "unit": "piece",
-    "color": "creme",
-    "icon": "egg"
-  },
-  {
     "key": "lait-creme-beurre",
     "name": {
-      "fr": "Lait, Crème & Beurre"
+      "fr": "Lait, Crème, Beurre & Œufs"
     },
     "short": {
-      "fr": "Lait"
+      "fr": "Lait & Œufs"
     },
     "family": "frais",
     "unit": "piece",

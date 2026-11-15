@@ -1,4 +1,8 @@
-/** Tous les textes de l'interface (docs : interface en français, textes centralisés). */
+/**
+ * Tous les textes de l'interface (docs : interface en français, textes centralisés).
+ * Guillemets « » toujours avec une espace insécable, écrite `\u00a0`, à l'intérieur :
+ * un guillemet ne se retrouve jamais seul en début ou en fin de ligne.
+ */
 export const fr = {
   appName: "ShoppingList",
   /** Noms donnés aux données créées au premier lancement (docs/04 § 2.11). */
@@ -13,9 +17,52 @@ export const fr = {
     into: (title: string) => `au rayon ${title}`,
     newAisle: "Nouveau rayon",
     unplaced: "À placer",
-    intoUnplaced: "dans « À placer »",
+    intoUnplaced: "dans «\u00a0À placer\u00a0»",
   },
   /** Bulles d'aide montrées une seule fois (docs/03 H12). */
+  help: {
+    title: "Aide",
+    hint: "Mode d'emploi, ce que l'app règle toute seule",
+    advice: {
+      title: "Le conseil pour bien démarrer",
+      text: "Pendant les premières courses dans un magasin, suis le même parcours et coche chaque article au moment où tu le prends, pas tout à la caisse : l'app apprend ton magasin plus vite. Ensuite, tu pourras figer l'ordre s'il te convient.",
+    },
+    sections: [
+      {
+        title: "Remplir la liste",
+        points: [
+          "Tape «\u00a02 baguettes, du beurre\u00a0» dans la barre du bas : les articles s'ajoutent, rangés par catégorie. Tu peux aussi parcourir le Catalogue.",
+          "Touche une ligne pour changer sa quantité, sa note ou les types qui te vont ; glisse-la vers la gauche pour la retirer.",
+          "Plusieurs listes : touche le nom de la liste en haut. Le menu ⋯ agit sur la liste affichée.",
+        ],
+      },
+      {
+        title: "Faire les courses",
+        points: [
+          "«\u00a0C'est parti\u00a0», puis choisis le magasin, ou donne son nom la première fois.",
+          "Touche un article quand il est dans le caddie. Glisse-le s'il n'y en avait pas ; appui long pour le changer de rayon ; touche la quantité pour la corriger.",
+          "Premières courses dans un magasin : tout est «\u00a0À placer\u00a0». Coche dans l'ordre où tu prends, et touche «\u00a0Rayon suivant\u00a0» quand tu changes de rayon : l'app construit ton magasin.",
+          "✕ en haut : tu quittes le mode courses sans les terminer, et tu pourras les reprendre.",
+        ],
+      },
+      {
+        title: "Terminer et rouvrir",
+        points: [
+          "«\u00a0Terminer\u00a0» : les articles pris quittent la liste, ceux qui manquaient y restent pour la prochaine fois.",
+          "Un oubli à la caisse ? «\u00a0Rouvrir les courses\u00a0», le jour même, depuis la liste.",
+        ],
+      },
+      {
+        title: "Ce que l'app règle toute seule",
+        points: [
+          "L'ordre des rayons et des articles, d'après l'ordre de tes coches, magasin par magasin.",
+          "Le rayon d'un article : celui de sa catégorie, sauf si tu l'as rangé ailleurs.",
+          "Tes habitudes : ce que tu achètes souvent remonte dans la recherche et dans «\u00a0Habituels\u00a0» du Catalogue.",
+          "Si l'ordre d'un magasin te convient, fige-le : Réglages → Magasins & rayons → ton magasin → «\u00a0Apprendre l'ordre de mes courses\u00a0».",
+        ],
+      },
+    ],
+  },
   tips: {
     dismiss: "Touche l'écran pour continuer",
     place:
@@ -29,6 +76,18 @@ export const fr = {
     resetDone: "Les conseils reviendront.",
   },
   sheet: { close: "Fermer", back: "Retour" },
+  /** Glisser-déposer annoncé au lecteur d'écran (src/ui/sortable.ts). */
+  sortable: {
+    instructions:
+      "Pour déplacer cet élément, appuie sur Espace ou Entrée, puis sur les flèches haut et bas. Espace ou Entrée pour le poser, Échap pour annuler.",
+    picked: (name: string) => `${name} saisi.`,
+    over: (name: string, position: number, count: number) =>
+      `${name} : position ${position} sur ${count}.`,
+    dropped: (name: string, position: number, count: number) =>
+      `${name} posé en position ${position} sur ${count}.`,
+    cancelled: (name: string) =>
+      `Déplacement annulé : ${name} reste à sa place.`,
+  },
   toast: { close: "Fermer le message" },
   search: { clear: "Effacer la recherche" },
   tabs: {
@@ -41,13 +100,13 @@ export const fr = {
     loading: "Chargement…",
     emptyTitle: "Ta liste est vide",
     emptyText:
-      "Ajoute un article avec la barre du bas (« 2 baguettes, du beurre ») ou parcours le catalogue.",
+      "Ajoute un article avec la barre du bas («\u00a02 baguettes, du beurre\u00a0») ou parcours le catalogue.",
     openCatalog: "Ouvrir le catalogue",
     chooseList: "Changer de liste",
     menu: "Actions sur la liste",
     addPlaceholder: "Ajouter un article…",
     addLabel: "Ajouter",
-    create: (name: string) => `Créer « ${name} »`,
+    create: (name: string) => `Créer «\u00a0${name}\u00a0»`,
     inList: (quantity: string) => `Dans la liste : ${quantity}`,
     typesOne: (type: string) => `${type} uniquement`,
     typesMany: (types: string[]) => types.join(" ou "),
@@ -79,7 +138,7 @@ export const fr = {
       oneOffHint:
         "Pour un achat ponctuel (une friteuse…) : pas besoin de catégorie, il ne s'ajoute pas au catalogue.",
       oneOffOn:
-        "Rangé dans « Achats ponctuels » pour le retrouver plus tard. Tu pourras en faire un article normal en lui donnant une catégorie.",
+        "Rangé dans «\u00a0Achats ponctuels\u00a0» pour le retrouver plus tard. Tu pourras en faire un article normal en lui donnant une catégorie.",
     },
     keepOneOff: {
       hint: "Achat ponctuel. Pour le garder comme article normal, choisis sa catégorie.",
@@ -87,7 +146,7 @@ export const fr = {
       choose: "Choisir une catégorie",
       keep: "Garder dans le catalogue",
       done: (name: string, category: string) =>
-        `« ${name} » rangé dans ${category}`,
+        `«\u00a0${name}\u00a0» rangé dans ${category}`,
     },
     unitGroups: {
       mass: "Poids",
@@ -122,7 +181,7 @@ export const fr = {
       confirmClear: "Vider la liste ?",
       confirmClearText:
         "Toutes les lignes seront retirées. Tu pourras annuler juste après.",
-      confirmDelete: (name: string) => `Supprimer « ${name} » ?`,
+      confirmDelete: (name: string) => `Supprimer «\u00a0${name}\u00a0» ?`,
       confirmDeleteText:
         "La liste et toutes ses lignes seront supprimées définitivement.",
       cancel: "Annuler",
@@ -140,7 +199,7 @@ export const fr = {
       create: "Créer la liste",
     },
     merge: {
-      title: (name: string) => `Compléter « ${name} »`,
+      title: (name: string) => `Compléter «\u00a0${name}\u00a0»`,
       text: "Les articles des listes choisies s'ajoutent à celle-ci ; ceux qu'elle contient déjà voient leur quantité augmenter.",
       sources: "Prendre le contenu de",
       lines: "Lignes",
@@ -165,12 +224,12 @@ export const fr = {
     newStoreName: "Nom du magasin",
     newStorePlaceholder: "Super U, marché du samedi…",
     newStoreHint:
-      "Ses rayons se rangent pendant tes courses : touche un article quand il est dans le caddie, et « Rayon suivant » quand tu changes de rayon.",
+      "Ses rayons se rangent pendant tes courses : touche un article quand il est dans le caddie, et «\u00a0Rayon suivant\u00a0» quand tu changes de rayon.",
     go: "C'est parti",
     nextAisle: "Rayon suivant",
     nextAisleHint: "Les articles cochés ensuite iront dans un nouveau rayon",
     emptyAisle:
-      "Touche un article de « À placer » quand il est dans le caddie : il sera rangé dans ce rayon.",
+      "Touche un article de «\u00a0À placer\u00a0» quand il est dans le caddie : il sera rangé dans ce rayon.",
     quit: "Quitter le mode courses (les courses restent ouvertes)",
     progress: (checked: number, total: number) => `${checked} / ${total}`,
     progressLabel: (checked: number, total: number) =>
@@ -186,7 +245,7 @@ export const fr = {
     cancel: "Continuer les courses",
     pickUp: "À récupérer",
     aislePassed: (label: string) =>
-      `${label} déjà passé : il t'attend dans « À récupérer ».`,
+      `${label} déjà passé : il t'attend dans «\u00a0À récupérer\u00a0».`,
     current: "rayon en cours",
     swipeHint:
       "Glisser vers la gauche : pas pris · appui long : changer de rayon",
@@ -279,10 +338,11 @@ export const fr = {
       exported: "Sauvegarde prête",
       copy: "Copier les données",
       copyHint:
-        "La même sauvegarde, en texte dans le presse-papiers : colle-la dans une note ou un message pour la garder, puis « Coller les données » dans l'app réinstallée.",
+        "La même sauvegarde, en texte dans le presse-papiers : colle-la dans une note ou un message pour la garder, puis «\u00a0Coller les données\u00a0» dans l'app réinstallée.",
       copied:
         "Données copiées dans le presse-papiers : colle-les dans une note ou un message pour les garder",
-      copyFailed: "Copie impossible : utilise plutôt « Exporter un fichier ».",
+      copyFailed:
+        "Copie impossible : utilise plutôt «\u00a0Exporter un fichier\u00a0».",
       paste: "Coller les données",
       pasteTitle: "Coller une sauvegarde",
       pasteText:
@@ -300,12 +360,28 @@ export const fr = {
         lists: number,
         stores: number,
       ) =>
-        `Sauvegarde du ${date} : ${articles} articles, ${lists} liste${lists > 1 ? "s" : ""}, ${stores} magasin${stores > 1 ? "s" : ""}. Tes données actuelles seront remplacées ; exporte-les d'abord si tu veux les garder.`,
+        `Sauvegarde du ${date} : ${articles} articles, ${lists} liste${lists > 1 ? "s" : ""}, ${stores} magasin${stores > 1 ? "s" : ""}. Tes données actuelles seront remplacées ; elles sont d'abord gardées dans les copies automatiques, en bas de cet écran.`,
       importConfirm: "Remplacer mes données",
       invalid: "Ce fichier n'est pas une sauvegarde de ShoppingList.",
       newer:
         "Cette sauvegarde vient d'une version plus récente de l'app : mets l'app à jour d'abord.",
       imported: "Données importées",
+      replaceFailed: "Le remplacement a échoué : tes données n'ont pas changé.",
+      copies: {
+        section: "Copies automatiques",
+        hint: "Chaque jour, l'app garde une copie de tes données dans le téléphone, sur les 7 derniers jours : pour revenir en arrière après une fausse manipulation, un import ou une mise à jour. Elles disparaissent avec l'app : pour changer de téléphone, exporte un fichier.",
+        none: "Aucune copie pour l'instant : la première sera faite au prochain lancement de l'app.",
+        title: (date: string, beforeReplace: boolean) =>
+          date.charAt(0).toLocaleUpperCase("fr") +
+          date.slice(1) +
+          (beforeReplace ? ", avant remplacement" : ""),
+        summary: (articles: number, lists: number, stores: number) =>
+          `${articles} articles · ${lists} liste${lists > 1 ? "s" : ""} · ${stores === 0 ? "aucun magasin" : `${stores} magasin${stores > 1 ? "s" : ""}`}`,
+        restoreTitle: (date: string) => `Revenir à la copie du ${date} ?`,
+        restoreText:
+          "Toutes tes données actuelles (listes, magasins, articles, historique) seront remplacées par celles de cette copie. Elles sont d'abord copiées, et les copies restent : tu pourras revenir en arrière.",
+        restoreConfirm: "Restaurer cette copie",
+      },
     },
     categories: {
       title: "Catégories",
@@ -319,9 +395,9 @@ export const fr = {
       nameTaken: "Une autre catégorie porte déjà ce nom.",
       shortName: "Nom court (facultatif)",
       shortNameHint:
-        "Sert au titre des rayons qui la contiennent (« Pain · Café & thé +2 »).",
+        "Sert au titre des rayons qui la contiennent («\u00a0Pain · Café & thé +2\u00a0»).",
       system:
-        "Catégorie de l'app : elle ne se supprime pas. Ses articles vont dans « Non classé ».",
+        "Catégorie de l'app : elle ne se supprime pas. Ses articles vont dans «\u00a0Non classé\u00a0».",
       newHint:
         "Pense à la ranger dans un rayon de chaque magasin (Magasins & rayons).",
       merge: "Fusionner avec une autre catégorie",
@@ -348,7 +424,7 @@ export const fr = {
       plural: "Pluriel",
       abbr: "Abréviation",
       abbrHint:
-        "Facultative. Sans abréviation : le nom en entier (« 2 bouteilles »).",
+        "Facultative. Sans abréviation : le nom en entier («\u00a02 bouteilles\u00a0»).",
       group: "Type",
       factor: (base: string) => `Valeur en ${base}`,
       factorHint: (base: string) =>
@@ -361,11 +437,11 @@ export const fr = {
       usage: (lines: number, articles: number) =>
         `Utilisée par ${articles} article${articles > 1 ? "s" : ""} et ${lines} ligne${lines > 1 ? "s" : ""}.`,
       delete: "Supprimer l'unité",
-      deleteTitle: (name: string) => `Supprimer « ${name} » ?`,
+      deleteTitle: (name: string) => `Supprimer «\u00a0${name}\u00a0» ?`,
       deleteText:
         "Les articles et les lignes qui l'utilisent passent à l'unité choisie, la quantité convertie quand c'est possible.",
       replaceWith: "Remplacer par",
-      deleted: (name: string) => `Unité « ${name} » supprimée`,
+      deleted: (name: string) => `Unité «\u00a0${name}\u00a0» supprimée`,
     },
     icon: {
       title: "Icône",
@@ -387,7 +463,7 @@ export const fr = {
       category: "Catégorie",
       unit: "Unité",
       create: "Créer l'article",
-      exists: (name: string) => `« ${name} » existe déjà`,
+      exists: (name: string) => `«\u00a0${name}\u00a0» existe déjà`,
       duplicates: "Doublons probables",
       duplicatesHint:
         "Même catégorie, même icône et noms proches. Fusionne-les, ou dis à l'app que ce sont bien deux articles.",
@@ -427,7 +503,7 @@ export const fr = {
       mergeTitle: (name: string) => `Fusionner dans ${name}`,
       mergeSearch: "Article à fusionner",
       mergeText: (keep: string, other: string) =>
-        `${other} disparaît : ses lignes et son historique passent à ${keep}, et « ${other} » devient un autre nom de ${keep}.`,
+        `${other} disparaît : ses lignes et son historique passent à ${keep}, et «\u00a0${other}\u00a0» devient un autre nom de ${keep}.`,
       mergeConfirm: "Fusionner",
       merged: (other: string, keep: string) => `${other} fusionné dans ${keep}`,
       keep: (name: string) => `Garder ${name}`,
@@ -447,13 +523,16 @@ export const fr = {
       aisles: (count: number) =>
         count > 1 ? `${count} rayons` : `${count} rayon`,
       add: "Nouveau magasin",
+      emptyTitle: "Aucun magasin pour l'instant",
+      emptyText:
+        "Le premier se crée au premier «\u00a0C'est parti\u00a0», et ses rayons se rangent pendant tes courses. Tu peux aussi le préparer d'ici.",
       newTitle: "Nouveau magasin",
       name: "Nom du magasin",
       from: "Rayons de départ",
       fromCopy: "Une copie",
       fromEmpty: "Aucun rayon",
       emptyHint:
-        "Ses rayons se rangent pendant tes premières courses : touche un article quand il est dans le caddie, et « Rayon suivant » quand tu changes de rayon.",
+        "Ses rayons se rangent pendant tes premières courses : touche un article quand il est dans le caddie, et «\u00a0Rayon suivant\u00a0» quand tu changes de rayon.",
       copyOf: "Copier les rayons de",
       create: "Créer le magasin",
     },
@@ -476,7 +555,7 @@ export const fr = {
       addAisle: "Nouveau rayon",
       unattached: "Catégories non rattachées",
       unattachedHint:
-        "Leurs articles vont dans « Non classé ». Touche-en une pour la ranger.",
+        "Leurs articles vont dans «\u00a0Non classé\u00a0». Touche-en une pour la ranger.",
       place: (category: string) => `Ranger ${category}`,
       placeHint: "Dans quel rayon ? Elle y sera principale.",
       overrides: "Exceptions",
@@ -486,13 +565,13 @@ export const fr = {
       overrideRemoved: (name: string) =>
         `${name} retourne dans le rayon de sa catégorie`,
       delete: "Supprimer le magasin",
-      deleteTitle: (name: string) => `Supprimer « ${name} » ?`,
+      deleteTitle: (name: string) => `Supprimer «\u00a0${name}\u00a0» ?`,
       deleteText:
         "Ses rayons et ses exceptions seront supprimés. Tes listes et l'historique de tes courses restent.",
 
       deleteShopping:
         "Des courses sont en cours dans ce magasin : termine-les d'abord.",
-      deleted: (name: string) => `« ${name} » supprimé`,
+      deleted: (name: string) => `«\u00a0${name}\u00a0» supprimé`,
       edit: "Modifier ce magasin",
       missing: "Ce magasin n'existe plus.",
     },
@@ -523,7 +602,7 @@ export const fr = {
       delete: "Supprimer le rayon",
       deleteTitle: (name: string) => `Supprimer ${name} ?`,
       deleteText:
-        "Les catégories dont c'est le rayon principal iront dans « Non classé ».",
+        "Les catégories dont c'est le rayon principal iront dans «\u00a0Non classé\u00a0».",
       deletePromote:
         "Ou dans un de leurs rayons secondaires quand elles en ont un",
       deleted: (label: string) => `${label} supprimé`,
@@ -535,7 +614,11 @@ export const fr = {
     search: "Chercher un article",
     favorites: "Favoris",
     usual: "Habituels",
+    categories: "Catégories",
     noResult: "Aucun article trouvé.",
+    emptyCategory: "Aucun article ici",
+    emptyCategoryText:
+      "Tape le nom d'un nouvel article dans la barre d'ajout de la liste pour le créer, ou passe par Réglages → Articles.",
     suggestions: "Articles trouvés",
     added: (name: string) => `${name} ajouté à la liste`,
     showAll: (count: number) => `Voir les ${count} résultats`,
@@ -592,7 +675,7 @@ export const fr = {
       "Le mode silencieux de l'iPhone a toujours le dernier mot : quand il est activé, aucun son n'est joué, même si les sons de l'app sont activés.",
     silentOther:
       "Le volume des sons est celui du multimédia du téléphone : baisse-le pour les rendre plus discrets.",
-    listen: (label: string) => `Écouter « ${label} »`,
+    listen: (label: string) => `Écouter «\u00a0${label}\u00a0»`,
     events: {
       add: "Ajout d'un article",
       check: "Article coché",
@@ -624,7 +707,7 @@ export const fr = {
       checking: "Recherche…",
       upToDate: "L'app est à jour.",
       available:
-        "Une nouvelle version est prête : touche « Mettre à jour » en haut de l'écran.",
+        "Une nouvelle version est prête : touche «\u00a0Mettre à jour\u00a0» en haut de l'écran.",
       failed: "Pas de réponse du serveur. Vérifie ta connexion et réessaie.",
       unavailable:
         "Mises à jour indisponibles dans cette version de développement.",
@@ -663,9 +746,10 @@ export const fr = {
     icons: (count: number) => `Icônes d'articles (${count})`,
     iconsHint:
       "Le pack embarqué dans l'app, disponible hors ligne. Un monogramme remplace les icônes manquantes.",
+    addBar: "Barre d'ajout",
     addPlaceholder: "Ajouter un article…",
     add: "Ajouter",
-    added: (text: string) => `« ${text} » ajouté (maquette)`,
+    added: (text: string) => `«\u00a0${text}\u00a0» ajouté (maquette)`,
   },
   licences: {
     title: "Licences",
@@ -684,33 +768,46 @@ export const fr = {
     version: (version: string) => `Version ${version}`,
     versions: [
       {
+        version: "0.8.0",
+        date: "2026-11-15",
+        items: [
+          "Catalogue complet : 428 articles (contre 240), chacun avec son icône dessinée pour l'app. Les œufs sont rangés avec la crèmerie, dans «\u00a0Lait, Crème, Beurre & Œufs\u00a0».",
+          "Copies automatiques : chaque jour, l'app garde une copie de tes données dans le téléphone, sur 7 jours, et une juste avant chaque restauration ou import. Réglages → Sauvegarde → «\u00a0Copies automatiques\u00a0».",
+          "Nouvel écran Aide (Réglages → Application → Aide) : le mode d'emploi en bref et ce que l'app règle toute seule. «\u00a0Revoir les conseils\u00a0» s'y trouve désormais.",
+          "En magasin : les catégories de «\u00a0À placer\u00a0» se replient d'un toucher, comme les blocs «\u00a0À placer\u00a0» et «\u00a0À récupérer\u00a0» ; «\u00a0Rayon suivant\u00a0» est bien plus visible.",
+          "Un article déjà dans la liste ? Sa ligne se montre et pulse, même si son rayon était replié. En cochant, le trait barré se trace.",
+          "Moins de réglages : les animations suivent le réglage «\u00a0Réduire les animations\u00a0» du téléphone ; l'affichage compact et le choix pour les lignes cochées ont disparu.",
+          "Finitions : écrans vides plus clairs, meilleurs contrastes en thème clair, boutons plus faciles à toucher, sons «\u00a0Suppression\u00a0» et «\u00a0Action impossible\u00a0» partout où ils ont du sens.",
+        ],
+      },
+      {
         version: "0.7.2",
         date: "2026-11-14",
         items: [
-          "Réglages réorganisés : « Mes données » en tête (articles, catégories, magasins, unités), la sauvegarde dans son propre écran, les préférences (sons, écran allumé, thème) regroupées.",
-          "Sauvegarde : « Copier les données » et « Coller les données », quatre boutons de même importance.",
-          "Menu ⋯ de la liste : seulement des actions sur cette liste, dont « Y ajouter le contenu d'une autre liste ». Les autres listes s'ouvrent en touchant son nom.",
-          "Les quantités sont toujours simplifiées (1200 g → 1,2 kg), avec « Annuler » : le réglage a disparu.",
+          "Réglages réorganisés : «\u00a0Mes données\u00a0» en tête (articles, catégories, magasins, unités), la sauvegarde dans son propre écran, les préférences (sons, écran allumé, thème) regroupées.",
+          "Sauvegarde : «\u00a0Copier les données\u00a0» et «\u00a0Coller les données\u00a0», quatre boutons de même importance.",
+          "Menu ⋯ de la liste : seulement des actions sur cette liste, dont «\u00a0Y ajouter le contenu d'une autre liste\u00a0». Les autres listes s'ouvrent en touchant son nom.",
+          "Les quantités sont toujours simplifiées (1200 g → 1,2 kg), avec «\u00a0Annuler\u00a0» : le réglage a disparu.",
           "Titres de parties plus visibles, champs de recherche identiques partout.",
-          "Corrections : un rayon ne peut plus être fusionné dans « À placer » ; après « Rouvrir les courses », les articles se rangent après le dernier rayon et ne sont jamais en double ; supprimer une liste termine ses courses restées ouvertes.",
+          "Corrections : un rayon ne peut plus être fusionné dans «\u00a0À placer\u00a0» ; après «\u00a0Rouvrir les courses\u00a0», les articles se rangent après le dernier rayon et ne sont jamais en double ; supprimer une liste termine ses courses restées ouvertes.",
         ],
       },
       {
         version: "0.7.1",
         date: "2026-11-14",
         items: [
-          "En rangeant ton magasin, rien ne saute plus à l'écran : les autres articles de la catégorie que tu viens de ranger restent dans « À placer » jusqu'à ce que tu les coches.",
-          "« Rouvrir les courses » n'est proposé que le jour même, et plus jamais pour un magasin supprimé.",
+          "En rangeant ton magasin, rien ne saute plus à l'écran : les autres articles de la catégorie que tu viens de ranger restent dans «\u00a0À placer\u00a0» jusqu'à ce que tu les coches.",
+          "«\u00a0Rouvrir les courses\u00a0» n'est proposé que le jour même, et plus jamais pour un magasin supprimé.",
         ],
       },
       {
         version: "0.7.0",
         date: "2026-11-13",
         items: [
-          "Ton magasin se construit pendant tes courses : au premier « C'est parti », donne-lui un nom ; tout est « À placer », rangé par catégorie. Touche un article quand il est dans le caddie : il se range dans le rayon où tu es. « Rayon suivant » quand tu changes de rayon.",
-          "Plus de magasin type ni de rayons préremplis. Pour repartir de zéro, supprime ton magasin (même le dernier) et relance « C'est parti ».",
-          "Les rayons prennent le nom de ce qu'ils contiennent : « Fromages », « Épicerie sucrée », « Pain · Café & thé +2 ». Tu peux toujours les nommer, et ajouter un repère (« au fond du magasin »).",
-          "Bulles d'aide pendant tes premières courses ; « Revoir les conseils » dans les Réglages.",
+          "Ton magasin se construit pendant tes courses : au premier «\u00a0C'est parti\u00a0», donne-lui un nom ; tout est «\u00a0À placer\u00a0», rangé par catégorie. Touche un article quand il est dans le caddie : il se range dans le rayon où tu es. «\u00a0Rayon suivant\u00a0» quand tu changes de rayon.",
+          "Plus de magasin type ni de rayons préremplis. Pour repartir de zéro, supprime ton magasin (même le dernier) et relance «\u00a0C'est parti\u00a0».",
+          "Les rayons prennent le nom de ce qu'ils contiennent : «\u00a0Fromages\u00a0», «\u00a0Épicerie sucrée\u00a0», «\u00a0Pain · Café & thé +2\u00a0». Tu peux toujours les nommer, et ajouter un repère («\u00a0au fond du magasin\u00a0»).",
+          "Bulles d'aide pendant tes premières courses ; «\u00a0Revoir les conseils\u00a0» dans les Réglages.",
           "Sauvegarde : copier toutes tes données dans le presse-papiers (pratique pour réinstaller l'app), et coller une sauvegarde.",
           "Nouvel article : Lait aromatisé (fraise, chocolat, vanille). La litière se compte en paquets.",
           "Liste et courses plus lisibles en thème sombre : plus de fond sous les articles.",
@@ -720,13 +817,13 @@ export const fr = {
         version: "0.6.1",
         date: "2026-11-13",
         items: [
-          "La liste se range par catégorie : elle ne dépend d'aucun magasin. En magasin, elle se range par rayon, marqué « Rayon », dans l'ordre de ton parcours.",
+          "La liste se range par catégorie : elle ne dépend d'aucun magasin. En magasin, elle se range par rayon, marqué «\u00a0Rayon\u00a0», dans l'ordre de ton parcours.",
           "Article pris en passant : l'app demande dans quel rayon tu l'as pris, et s'en souvient pour ce magasin.",
           "Sauvegarde : Réglages → Sauvegarde → exporter toutes tes données dans un fichier, et les réimporter (nouveau téléphone, réinstallation).",
           "Les nouveaux articles du catalogue arrivent avec les mises à jour, sans réinstaller : Brandade de morue, Conserves au choix, Gnocchis, catégorie Sel, Poivre & Épices.",
-          "En magasin, touche la quantité d'un article pour la changer. Un article glissé est « pas pris » (plus besoin, introuvable…) : il reste dans la liste.",
-          "Catalogue : taper le nom d'une catégorie (« animaux ») la propose avec tous ses articles.",
-          "Messages plus courts, à fermer d'un ✕ ou en les poussant vers le haut. Sur iPhone, secouer le téléphone ne propose plus « Annuler la saisie ». Un seul jeu de sons, les plus doux.",
+          "En magasin, touche la quantité d'un article pour la changer. Un article glissé est «\u00a0pas pris\u00a0» (plus besoin, introuvable…) : il reste dans la liste.",
+          "Catalogue : taper le nom d'une catégorie («\u00a0animaux\u00a0») la propose avec tous ses articles.",
+          "Messages plus courts, à fermer d'un ✕ ou en les poussant vers le haut. Sur iPhone, secouer le téléphone ne propose plus «\u00a0Annuler la saisie\u00a0». Un seul jeu de sons, les plus doux.",
         ],
       },
       {
@@ -736,7 +833,7 @@ export const fr = {
           "Tout est modifiable : Réglages → Mes données → Articles, Catégories, Magasins & rayons, Unités.",
           "Magasins : crée-les depuis un modèle, une copie ou à vide ; range les rayons au doigt, choisis leurs catégories, leur icône et leur couleur ; active ou coupe l'apprentissage de l'ordre.",
           "Articles : nom, catégorie, unité et quantité par défaut, types, autres noms, icône et favori. L'app repère les doublons probables et propose de les fusionner.",
-          "Raccourcis : « Modifier l'article » depuis une ligne, appui long sur une carte du catalogue, « Modifier ce magasin » depuis le choix du magasin.",
+          "Raccourcis : «\u00a0Modifier l'article\u00a0» depuis une ligne, appui long sur une carte du catalogue, «\u00a0Modifier ce magasin\u00a0» depuis le choix du magasin.",
         ],
       },
       {
@@ -755,11 +852,11 @@ export const fr = {
         version: "0.4.0",
         date: "2026-11-12",
         items: [
-          "La liste se remplit en un geste : « 2 baguettes, du beurre », le catalogue par catégorie, et elle se range toute seule par rayon, dans l'ordre de ton magasin.",
+          "La liste se remplit en un geste : «\u00a02 baguettes, du beurre\u00a0», le catalogue par catégorie, et elle se range toute seule par rayon, dans l'ordre de ton magasin.",
           "Plusieurs listes, plusieurs magasins, unités claires (500 g, 1 bouteille) et achats ponctuels qui n'encombrent pas le catalogue.",
           "Mode courses, à l'essai : touche un article quand il est dans le caddie, glisse-le s'il est introuvable, appui long pour le changer de rayon ; l'écran reste allumé.",
-          "Un article ajouté en route va dans « À récupérer » si son rayon est passé, ou se coche tout de suite si tu l'as déjà pris.",
-          "À la fin des courses, l'app apprend l'ordre de ton parcours. Un oubli à la caisse ? « Rouvrir les courses ».",
+          "Un article ajouté en route va dans «\u00a0À récupérer\u00a0» si son rayon est passé, ou se coche tout de suite si tu l'as déjà pris.",
+          "À la fin des courses, l'app apprend l'ordre de ton parcours. Un oubli à la caisse ? «\u00a0Rouvrir les courses\u00a0».",
           "Toutes les icônes d'articles sont dessinées pour l'app, et elle a un nouveau logo.",
         ],
       },
@@ -773,17 +870,17 @@ export const fr = {
       "Sur iPhone, l'app installée et le navigateur ne partagent pas leurs données : installe-la avant de commencer.",
     iosChromeSteps: [
       "Touche le bouton Partager dans la barre d'adresse de Chrome.",
-      "Choisis « Ajouter à l'écran d'accueil ».",
-      "Touche « Ajouter », puis ouvre l'app depuis son icône.",
+      "Choisis «\u00a0Ajouter à l'écran d'accueil\u00a0».",
+      "Touche «\u00a0Ajouter\u00a0», puis ouvre l'app depuis son icône.",
     ],
     iosSafariSteps: [
       "Touche le bouton Partager en bas de l'écran.",
-      "Choisis « Sur l'écran d'accueil ».",
-      "Touche « Ajouter », puis ouvre l'app depuis son icône.",
+      "Choisis «\u00a0Sur l'écran d'accueil\u00a0».",
+      "Touche «\u00a0Ajouter\u00a0», puis ouvre l'app depuis son icône.",
     ],
     androidButton: "Installer l'application",
     androidManual:
-      "Si le bouton reste grisé : menu ⋮ de Chrome → « Installer l'application ».",
+      "Si le bouton reste grisé : menu ⋮ de Chrome → «\u00a0Installer l'application\u00a0».",
     otherText:
       "Utilise le menu de ton navigateur pour installer l'application, si elle le permet.",
     continue: "Continuer dans le navigateur",

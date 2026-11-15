@@ -50,6 +50,7 @@ import { GroupIcon } from "@/ui/GroupIcon";
 import { EmptyState, PageHeader, Row, Section } from "@/ui/Page";
 import { palette, paletteColor } from "@/ui/palette";
 import { Sheet } from "@/ui/Sheet";
+import { sortableAccessibility } from "@/ui/sortable";
 import { Switch } from "@/ui/switch";
 import { showToast } from "@/ui/toast";
 import { cn } from "@/ui/utils";
@@ -57,6 +58,7 @@ import { AisleSheet } from "./AisleSheet";
 import { NameField } from "./NameField";
 import { RowButton, RowText } from "@/ui/RowButton";
 import { ConfirmActions } from "@/ui/form";
+import { feedback } from "@/feedback";
 const t = fr.manage.store;
 
 /**
@@ -96,7 +98,7 @@ export function StorePage() {
           title={fr.manage.stores.title}
           backTo={routes.manageStores}
         />
-        <EmptyState icon={<X className="size-10" />} title={t.missing} />
+        <EmptyState icon={<X />} title={t.missing} />
       </>
     );
   if (
@@ -171,6 +173,10 @@ export function StorePage() {
           sensors={sensors}
           collisionDetection={closestCenter}
           onDragEnd={onDragEnd}
+          accessibility={sortableAccessibility(
+            order,
+            (id) => aisleById.get(String(id))?.name ?? "",
+          )}
         >
           <SortableContext items={order} strategy={verticalListSortingStrategy}>
             <ul aria-label={t.aisles} className="flex flex-col py-1">
@@ -357,6 +363,7 @@ export function StorePage() {
               void deleteStore(db, store.id).then((result) => {
                 setConfirmDelete(false);
                 if (result === "deleted") {
+                  feedback.remove();
                   showToast(t.deleted(store.name), { tone: "success" });
                   void navigate(routes.manageStores, {
                     replace: true,

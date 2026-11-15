@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <clipPath id="ls1"><rect width="24" height="17" x="4" y="9.6" rx="2.6"/></clipPath>
+<g clip-path="url(#ls1)">
+<rect width="32" height="32" fill="#e8a840"/>
+<circle cx="9" cy="11.4" r=".7" fill="#c8782a"/><circle cx="14.6" cy="10.8" r=".6" fill="#c8782a"/><circle cx="20" cy="11.8" r=".8" fill="#c8782a"/><circle cx="24.6" cy="10.8" r=".5" fill="#c8782a"/><circle cx="12" cy="12.6" r=".4" fill="#b8682a"/>
+<path fill="#f2d68a" d="M0 13.6 q2 -.7 4 0 t4 0 t4 0 t4 0 t4 0 t4 0 t4 0 t4 0 V32 H0z"/>
+<path fill="#c0402a" d="M0 14.8 q2 -.7 4 0 t4 0 t4 0 t4 0 t4 0 t4 0 t4 0 t4 0 V32 H0z"/>
+<path fill="#fbf0d8" d="M0 16.8 q2 -.7 4 0 t4 0 t4 0 t4 0 t4 0 t4 0 t4 0 t4 0 V32 H0z"/>
+<path fill="#f2d68a" d="M0 17.8 q2 -.7 4 0 t4 0 t4 0 t4 0 t4 0 t4 0 t4 0 t4 0 V32 H0z"/>
+<path fill="#c0402a" d="M0 19 q2 -.7 4 0 t4 0 t4 0 t4 0 t4 0 t4 0 t4 0 t4 0 V32 H0z"/>
+<path fill="#fbf0d8" d="M0 21 q2 -.7 4 0 t4 0 t4 0 t4 0 t4 0 t4 0 t4 0 t4 0 V32 H0z"/>
+<path fill="#f2d68a" d="M0 22 q2 -.7 4 0 t4 0 t4 0 t4 0 t4 0 t4 0 t4 0 t4 0 V32 H0z"/>
+<path fill="#c0402a" d="M0 23.2 q2 -.7 4 0 t4 0 t4 0 t4 0 t4 0 t4 0 t4 0 t4 0 V32 H0z"/>
+<rect width="32" height="13" x="0" y="13.4" fill="#cfe8f2" opacity=".16"/>
+</g>
+<rect width="25.2" height="18.2" x="3.4" y="9" fill="none" stroke="#cfe8f2" stroke-width="1.1" rx="3.2"/>
+<path fill="none" stroke="#cfe8f2" stroke-width=".7" d="M4 13.4h24"/>
+<rect width="1" height="9.6" x="5.4" y="15" fill="#ffffff66" rx=".5"/>
+<rect width="3" height="3.4" x=".8" y="10.6" fill="#cfe8f2" rx="1.2"/>
+<rect width="3" height="3.4" x="28.2" y="10.6" fill="#cfe8f2" rx="1.2"/>
+</svg>

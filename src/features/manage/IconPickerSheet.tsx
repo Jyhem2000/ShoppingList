@@ -7,6 +7,7 @@ import { type PaletteColor } from "@/ui/palette";
 import { ProductIcon } from "@/ui/ProductIcon";
 import { Sheet } from "@/ui/Sheet";
 import { cn } from "@/ui/utils";
+import { EmptyHint } from "@/ui/Page";
 
 const t = fr.manage.icon;
 
@@ -104,9 +105,7 @@ export function IconPickerSheet({
           </button>
         ))}
       </div>
-      {pack && names.length === 0 && (
-        <p className="pt-4 text-center text-muted-foreground">{t.noResult}</p>
-      )}
+      {pack && names.length === 0 && <EmptyHint>{t.noResult}</EmptyHint>}
     </Sheet>
   );
 }

@@ -30,12 +30,17 @@ const tones: Record<ToastTone, { icon: LucideIcon; className: string }> = {
 export function Toaster() {
   const toast = useToast();
   return (
-    <div className="pointer-events-none fixed inset-x-3 top-[calc(env(safe-area-inset-top)+2rem)] z-[60] mx-auto max-w-xl">
+    // Zone annoncée par le lecteur d'écran, toujours présente : un message qui apparaît
+    // en même temps que sa zone n'est pas toujours lu (VoiceOver). Une seule zone, pour
+    // qu'un message ne soit jamais lu deux fois.
+    <div
+      aria-live="polite"
+      className="pointer-events-none fixed inset-x-3 top-[calc(env(safe-area-inset-top)+2rem)] z-[60] mx-auto max-w-xl"
+    >
       <AnimatePresence>
         {toast && (
           <motion.div
             key={toast.id}
-            role={toast.tone === "error" ? "alert" : "status"}
             initial={{ y: -90, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -90, opacity: 0 }}

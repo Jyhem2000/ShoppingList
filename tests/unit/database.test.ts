@@ -66,15 +66,21 @@ describe("données initiales (docs/06)", () => {
     ).toEqual([]);
   });
 
-  it("donne à chaque article du catalogue l'icône de sa clé", () => {
+  it("donne à chaque article du catalogue un dessin : le sien, ou celui d'un article proche", () => {
+    // Le sien quand il existe ; sinon il reprend un dessin existant (Cannelle → Épices).
     expect(
-      catalogData.filter((a) => a.icon !== a.key).map((a) => a.key),
+      catalogData
+        .filter((a) => (a.key in pack ? a.icon !== a.key : !(a.icon ?? "")))
+        .map((a) => a.key),
+    ).toEqual([]);
+    expect(
+      catalogData.filter((a) => !((a.icon ?? "") in pack)).map((a) => a.key),
     ).toEqual([]);
   });
 
-  it("a exactement un dessin par article du catalogue", () => {
-    const keys = catalogData.map((a) => a.key).sort();
-    expect(Object.keys(pack).sort()).toEqual(keys);
+  it("n'a aucun dessin sans article de même clé", () => {
+    const keys = new Set(catalogData.map((a) => a.key));
+    expect(Object.keys(pack).filter((name) => !keys.has(name))).toEqual([]);
   });
 
   it("donne un nom court et une famille connue à chaque catégorie, sauf les catégories système", () => {

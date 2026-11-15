@@ -274,22 +274,24 @@ export function UiPage() {
         </div>
       </Block>
 
-      {/* Barre d'ajout flottante, comme sur l'écran Liste. */}
-      <div className="sticky bottom-0 mt-6 bg-gradient-to-t from-bg via-bg/90 to-transparent px-3 pt-6 pb-3">
-        {lastAdded && (
-          <p role="status" className="pb-2 text-center text-sm text-success">
-            {t.added(lastAdded)}
-          </p>
-        )}
-        <AddBar
-          placeholder={t.addPlaceholder}
-          addLabel={t.add}
-          onSubmit={(text) => {
-            feedback.add();
-            setLastAdded(text);
-          }}
-        />
-      </div>
+      {/* Barre d'ajout de l'écran Liste, en dernier : elle ne masque pas la maquette. */}
+      <Block title={t.addBar}>
+        <div className="px-3 pb-3">
+          {lastAdded && (
+            <p role="status" className="pb-2 text-center text-sm text-success">
+              {t.added(lastAdded)}
+            </p>
+          )}
+          <AddBar
+            placeholder={t.addPlaceholder}
+            addLabel={t.add}
+            onSubmit={(text) => {
+              feedback.add();
+              setLastAdded(text);
+            }}
+          />
+        </div>
+      </Block>
     </>
   );
 }

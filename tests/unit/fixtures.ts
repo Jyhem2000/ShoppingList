@@ -25,7 +25,7 @@ const layout: [string, string[]][] = [
   ["Boucherie", ["viande", "volaille"]],
   ["Poissonnerie", ["poisson-fruits-de-mer"]],
   ["Charcuterie & Traiteur", ["charcuterie", "traiteur", "viande?"]],
-  ["Crèmerie", ["oeufs", "lait-creme-beurre", "yaourts-desserts"]],
+  ["Crèmerie", ["lait-creme-beurre", "yaourts-desserts"]],
   ["Fromages", ["fromages"]],
   [
     "Épicerie salée",
@@ -142,7 +142,7 @@ const definitions: Record<string, TestArticle> = {
   Bœuf: { category: "viande", unit: "g", quantity: 500 },
   Porc: { category: "viande", unit: "g", quantity: 500 },
   "Steaks hachés": { category: "viande", unit: "piece", quantity: 2 },
-  Œufs: { category: "oeufs", unit: "piece", quantity: 6 },
+  Œufs: { category: "lait-creme-beurre", unit: "piece", quantity: 6 },
   Lait: { category: "lait-creme-beurre", unit: "l", quantity: 6 },
   Pâté: { category: "charcuterie", unit: "pot", types: ["de campagne"] },
   Pâtes: { category: "pates-riz-feculents", unit: "paquet" },

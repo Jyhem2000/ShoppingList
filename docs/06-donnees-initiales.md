@@ -92,7 +92,7 @@ Articles de base (extrait du futur catalogue, phase 3) :
 
 ## 2. Catégories (~35)
 
-Volontairement fines pour être regroupées différemment selon les magasins. Unité par défaut suggérée pour les nouveaux articles de la catégorie. Dans un nom double, **chaque partie prend une majuscule** (« Pain & Viennoiseries », « Lait, Crème & Beurre ») : ce sont des étiquettes. Les deux catégories système vont dans « À placer » de chaque magasin.
+Volontairement fines pour être regroupées différemment selon les magasins. Unité par défaut suggérée pour les nouveaux articles de la catégorie. Dans un nom double, **chaque partie prend une majuscule** (« Pain & Viennoiseries », « Lait, Crème, Beurre & Œufs ») : ce sont des étiquettes. Pas de catégorie pour un seul article : les œufs sont rangés avec la crèmerie (retour d'essai du 15 novembre 2026). Les deux catégories système vont dans « À placer » de chaque magasin.
 
 Chaque catégorie (sauf les catégories système) a aussi un **nom court** et une **famille**, qui servent au titre des rayons sans nom (02 § 4). Ils sont dans `src/data/categories.json` (`short`, `family`) et `src/data/families.json` ; le tableau validé le 13 novembre 2026 est dans 09, phase 7. Familles : Fruits & légumes, Boulangerie, Viandes & poissons, Frais, Épicerie salée, Épicerie sucrée, Boissons, Surgelés, Hygiène, Maison.
 
@@ -107,8 +107,7 @@ Chaque catégorie (sauf les catégories système) a aussi un **nom court** et un
 | `charcuterie`             | Charcuterie                         | paquet                    |
 | `poisson-fruits-de-mer`   | Poisson & Fruits de mer             | g                         |
 | `traiteur`                | Traiteur & Plats préparés           | barquette                 |
-| `oeufs`                   | Œufs                                | pièce                     |
-| `lait-creme-beurre`       | Lait, Crème & Beurre                | pièce                     |
+| `lait-creme-beurre`       | Lait, Crème, Beurre & Œufs          | pièce                     |
 | `yaourts-desserts`        | Yaourts & Desserts frais            | pièce                     |
 | `fromages`                | Fromages                            | pièce                     |
 | `pates-riz-feculents`     | Pâtes, Riz & Féculents              | paquet                    |
@@ -147,7 +146,7 @@ Plus de modèles de magasin depuis la phase 7 (13 novembre 2026) : ils regroupai
 
 ## 4. Catalogue de départ
 
-- **~1 000 articles** courants en France, répartis dans toutes les catégories. Un grand catalogue limite les créations manuelles, donc les doublons au moment du partage ([02 § 9](02-modele-metier.md#9-partage-dune-liste)).
+- **~500 articles** courants en France, répartis dans toutes les catégories (objectif ramené de ~1 000 à ~500 le 14 novembre 2026 : 10 à 20 articles par catégorie, davantage pour les fruits et légumes). Un grand catalogue limite les créations manuelles, donc les doublons au moment du partage ([02 § 9](02-modele-metier.md#9-partage-dune-liste)).
 - Format de chaque entrée — les textes sont **par langue**, la v1 ne remplit que `fr` :
   ```json
   {
@@ -175,7 +174,7 @@ Plus de modèles de magasin depuis la phase 7 (13 novembre 2026) : ils regroupai
 - **Même structure pour les catégories et les unités** : `key` sans langue + `name` (et pluriel, abréviation pour les unités) par langue.
 - _Plus tard (D3)_ : `season` pour les fruits et légumes, liste des mois de saison (`[9, 10, 11, 12, 1, 2]`).
 - **Production** : généré par l'agent IA pendant le développement, puis **relu par catégorie** avant validation. C'est la donnée qui fait la qualité perçue de l'app.
-- Livraison progressive : ~150 articles dès la phase données (238 livrés, relus le 9 novembre 2026), le catalogue complet avant la fin de la v1.0.
+- Livraison progressive : ~150 articles dès la phase données (238 livrés, relus le 9 novembre 2026), le catalogue complet en phase 8 : 428 articles, relus et validés le 14 novembre 2026.
 
 ## 5. Dictionnaire de mots-clés
 
@@ -224,8 +223,10 @@ Au lancement, si le catalogue de l'app est plus récent que celui de la base (`s
 
 Les changements apportés à un article existant ne sont pas recopiés, sauf une **correction** listée dans `catalogFixes` (`src/data/catalog.ts`, aujourd'hui l'unité par défaut) : elle ne s'applique qu'à un article que l'utilisateur n'a jamais modifié (date de mise à jour égale à la date de création). Plus besoin de réinstaller l'app pour profiter des nouveautés.
 
-| Version | Ajouts                                                                                         |
-| ------- | ---------------------------------------------------------------------------------------------- |
-| 2       | Catégorie « Sel, Poivre & Épices » ; articles Gnocchis, Brandade de morue, Conserves au choix. |
-| 3       | Article Lait aromatisé (fraise, chocolat, vanille).                                            |
-| 4       | Correction : la litière se compte en paquets (et non en sachets).                              |
+| Version | Ajouts                                                                                                                                                                                                                                                                                                                                                                                        |
+| ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2       | Catégorie « Sel, Poivre & Épices » ; articles Gnocchis, Brandade de morue, Conserves au choix.                                                                                                                                                                                                                                                                                                |
+| 3       | Article Lait aromatisé (fraise, chocolat, vanille).                                                                                                                                                                                                                                                                                                                                           |
+| 4       | Correction : la litière se compte en paquets (et non en sachets).                                                                                                                                                                                                                                                                                                                             |
+| 5       | Lot 1 du catalogue complet (phase 8) : 44 articles d'épicerie salée (pâtes et féculents, conserves, sauces, épices, huiles, apéritif, cuisine du monde).                                                                                                                                                                                                                                      |
+| 6       | Lot 2 du catalogue complet (phase 8) : 145 articles — épicerie sucrée, frais (charcuterie, traiteur, crèmerie, desserts, fromages), viandes et poissons, boulangerie, boissons, surgelés, hygiène, maison, animaux. Catalogue : 428 articles. Autres noms retirés pour éviter les doublons : « granola » (Muesli), « faisselle » (Fromage blanc). Liniment retiré à la relecture (trop rare). |

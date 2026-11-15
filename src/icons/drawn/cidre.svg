@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <path fill="#2f6a2a" d="M14.4 4h3.2v5.4c0 1.6.6 2.6 1.8 3.6c1.4 1.2 2 2.2 2 3.8V28c0 .9-.7 1.6-1.6 1.6h-7.6c-.9 0-1.6-.7-1.6-1.6V16.8c0-1.6.6-2.6 2-3.8c1.2-1 1.8-2 1.8-3.6z"/>
+<clipPath id="ci1"><path d="M14.4 4h3.2v5.4c0 1.6.6 2.6 1.8 3.6c1.4 1.2 2 2.2 2 3.8V28c0 .9-.7 1.6-1.6 1.6h-7.6c-.9 0-1.6-.7-1.6-1.6V16.8c0-1.6.6-2.6 2-3.8c1.2-1 1.8-2 1.8-3.6z"/></clipPath>
+<g clip-path="url(#ci1)"><rect width="6" height="30" x="18.4" y="2" fill="#1f4a1c"/></g>
+<rect width="1" height="10" x="11.8" y="16.4" fill="#ffffff44" rx=".5"/>
+<rect width="2.8" height="2.8" x="14.6" y="1.4" fill="#d8b07a" rx=".9"/>
+<rect width="4" height="1.2" x="14" y="3.4" fill="#c9cdd3" rx=".4"/>
+<path fill="none" stroke="#c9cdd3" stroke-linecap="round" stroke-width=".4" d="M14.6 4.6l-.1 2.4M17.4 4.6l.1 2.4M14.5 7h3"/>
+<rect width="9.4" height="7.6" x="11.3" y="18" fill="#f6ecd2" rx="1.6"/>
+<circle cx="16" cy="22" r="2.2" fill="#d6342b"/>
+<ellipse cx="15.2" cy="21.2" rx=".6" ry=".4" fill="#f07a6a"/>
+<path fill="none" stroke="#6a3a1e" stroke-linecap="round" stroke-width=".5" d="M16 20l.3-1.2"/>
+<path fill="#2e9e3a" d="M16.4 19.4c.6-.8 1.6-.9 2.2-.4c-.6.6-1.4.7-2.2.4z"/>
+</svg>

@@ -2,9 +2,9 @@
 
 PWA de liste de courses, local-first (aucun serveur, aucun compte), triée par rayon selon le magasin. Optimisée pour Chrome : iPhone (dernière version d'iOS, cible principale) et Android récent (cible secondaire).
 
-## Phase actuelle : développement de la v1.0 — phase 8 (réglages, sauvegarde, finitions)
+## Phase actuelle : développement de la v1.0 — publication de la 0.8.0, puis 0.9.0
 
-Version `0.7.2` publiée ; phase 7 (magasins construits pendant les courses) **validée** le 14 novembre 2026. En cours : phase 8 (réglages, sauvegarde, aide, finitions), qui commence par les retours de validation de la phase 7 (menu de la liste, réorganisation des Réglages).
+Phase 8 (réglages, sauvegarde, aide, catalogue complet, finitions) **validée** le 15 novembre 2026 : publication de la `0.8.0`, puis la `0.9.0` (installation définitive de la production sur les deux téléphones, 2-3 semaines d'usage réel avant la `1.0.0`). Avant la `0.9.0`, l'app ne contient que des données d'essai : pas de code de migration de données (docs/07 § 5).
 
 La documentation est **validée** (8 novembre 2026). Suivre le plan de `docs/09-plan-de-developpement.md` phase par phase, en travaillant directement sur `dev` (pas de branche de travail ni de pull request). Pour les phases 3 à 7 et 9, proposer un plan avant d'implémenter. Ne jamais commencer une phase suivante sans validation de la précédente.
 
@@ -31,7 +31,7 @@ Vite · React 19 · TypeScript strict · Tailwind v4 · shadcn/ui · React Route
 - Ne jamais stocker de donnée dérivée ; ne jamais recopier le libellé d'un article dans une ligne, un ingrédient ou l'historique.
 - Toute évolution du schéma Dexie = nouvelle version + migration + test. La version du schéma est indépendante de la version de l'app.
 - Mobile d'abord (390×844), zones de sécurité, cibles tactiles ≥ 44 px (48 px en mode courses).
-- Animations via Motion, en respectant le réglage « Animations » de l'app (auto / toujours / jamais).
+- Animations via Motion, toujours présentes sauf si le téléphone demande de les réduire (`prefers-reduced-motion`) ; pas de réglage dans l'app.
 - Sons uniquement via le module `src/feedback/`. Pas de vibrations (retirées, docs/05 § 7).
 - Version de l'app : source unique `package.json`, injectée au build ; jamais de numéro de version écrit en dur.
 - Composants : le design system, ce sont aussi les composants partagés de `src/ui`. Tout élément d'interface présent à deux endroits (champ de recherche, ligne, case à cocher, boutons de confirmation, titre de section…) est un composant de `src/ui`, utilisé partout ; jamais de classes recopiées d'un écran à l'autre. Un changement de style se fait dans le composant.

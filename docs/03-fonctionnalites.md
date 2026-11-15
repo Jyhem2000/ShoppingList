@@ -126,7 +126,7 @@ Lancé par un bouton bien visible sur la liste ; confirmation du magasin.
 
 ### C2. Cocher — _v1.0_
 
-- Tap sur une ligne = dans le caddie : barrée, puis glisse en fin de rayon ou disparaît (réglage H3), avec un son (H6).
+- Tap sur une ligne = dans le caddie : barrée, puis glisse en fin de rayon (H3), avec un son (H6).
 - Dernière ligne d'un rayon cochée → le rayon se **replie** avec une coche ; le rayon suivant devient le rayon courant (mis en évidence) : le premier rayon qui a encore des articles à prendre, à partir de celui de la dernière coche.
 - Re-tap = décocher.
 
@@ -138,7 +138,7 @@ Glisser une ligne → « Pas pris » : elle passe en bas, grisée, et restera da
 
 **Ranger en cochant** (décision du 13 novembre 2026, phase 7) : un magasin se construit pendant les courses, sans rien régler avant.
 
-- Les articles dont la catégorie n'a pas encore de rayon dans ce magasin sont dans le bloc **« À placer »**, rangé par catégorie avec un intertitre par catégorie (icône, nom, couleur), affiché juste après le rayon en cours (en tête s'il n'y en a pas encore). À la première course dans un magasin, tout y est.
+- Les articles dont la catégorie n'a pas encore de rayon dans ce magasin sont dans le bloc **« À placer »**, rangé par catégorie avec un intertitre par catégorie (icône, nom, couleur, nombre d'articles à prendre) qui la replie ou la déplie d'un toucher (retour d'essai du 15 novembre 2026), affiché juste après le rayon en cours (en tête s'il n'y en a pas encore). À la première course dans un magasin, tout y est.
 - **Cocher** un article de « À placer » le range dans le **rayon en cours** (ouvert à la première coche) : toute sa catégorie y devient principale. Si sa catégorie a déjà un rayon dans ce magasin, ou si c'est « Autres » ou « Achats ponctuels », seul l'article y est rangé (exception par article). Le rayon prend l'icône et la couleur de sa première catégorie.
 - Bouton **« Rayon suivant »**, au-dessus de la barre d'ajout, tant qu'il reste des articles à placer : il ouvre un nouveau rayon juste après le rayon en cours, qui devient le rayon en cours. Le rayon en cours s'affiche même vide, avec une explication. Un rayon ouvert et resté vide n'est jamais doublé, et il disparaît à la fin des courses.
 - Le rayon en cours : celui ouvert par « Rayon suivant », ou celui de la dernière coche si elle est plus récente.
@@ -273,31 +273,31 @@ Depuis toute fiche (article, catégorie, rayon, recette) : grille des icônes du
 
 ### H1. Animations
 
-**Automatique** (suit le réglage d'accessibilité du système) · **Toujours** · **Jamais**. Permet de garder les animations même quand le système les désactive (ex. bureau à distance).
+**Toujours présentes**, sauf si le téléphone demande de réduire les animations (réglage d'accessibilité « Réduire les animations », pour qui les mouvements à l'écran donnent la nausée). Pas de réglage dans l'app (décision du 14 novembre 2026) : les animations de Motion (déplacements, fondus) ne coûtent presque rien, même sur un téléphone modeste.
 
-### H2. Affichage compact
+### H2. ~~Affichage compact~~ — retiré
 
-Masque les icônes dans les listes pour afficher plus de lignes.
+Retiré le 14 novembre 2026 : masquer les icônes ne fait pas gagner de lignes (la hauteur d'une ligne vient de la zone à toucher, 44 px, 48 px en magasin), seulement de la largeur, au prix du repère visuel. Identifiant conservé pour ne pas renuméroter.
 
 ### H3. Lignes cochées en mode courses
 
-Glissent en fin de rayon · disparaissent.
+Elles **glissent en fin de rayon**, sans réglage (décision du 14 novembre 2026) : on voit ce qui est dans le caddie, on rattrape une coche par erreur d'un toucher, et un rayon terminé se replie tout seul. L'option « disparaissent » est abandonnée.
 
 ### H4. Sauvegarde
 
-Export de toutes les données en fichier `.json` (feuille de partage → Fichiers, Drive…) ; import en **remplacement** ou en **fusion**. ~~Rappel discret si aucune sauvegarde depuis 30 jours~~ : à trancher (voir plus bas).
+Export de toutes les données en fichier `.json` (feuille de partage → tes fichiers, ton stockage en ligne…) ; import en **remplacement**. ~~Import en fusion~~ et ~~rappel si aucune sauvegarde depuis 30 jours~~ : **abandonnés** le 14 novembre 2026 (voir plus bas).
 
-Avancé le 13 novembre 2026, après le premier essai réel (Réglages → Sauvegarde) : export, import en **remplacement** (après confirmation, avec le résumé du fichier), date de la dernière sauvegarde. L'import en fusion reste pour la phase 8. Les préférences de l'appareil (sons, thème, écran allumé) ne sont pas dans le fichier.
+Avancé le 13 novembre 2026, après le premier essai réel (Réglages → Sauvegarde) : export, import en **remplacement** (après confirmation, avec le résumé du fichier), date de la dernière sauvegarde. L'import en fusion, prévu pour la phase 8, est abandonné (voir plus bas). Les préférences de l'appareil (sons, thème, écran allumé) ne sont pas dans le fichier.
 
 Ajouté en phase 7 : **« Copier dans le presse-papiers »** (la même sauvegarde, en texte) et **« Coller une sauvegarde »** (lecture du presse-papiers, ou champ où coller le texte si le téléphone ne permet pas de le lire). Pratique pour désinstaller et réinstaller l'app : copier, coller dans une note ou un message, puis coller dans l'app réinstallée. Libellés depuis le 14 novembre 2026 : **« Copier les données »** et **« Coller les données »**. Les textes de l'app restent **génériques** (« une note », « tes fichiers ») et ne nomment pas d'app propre à un téléphone ; seuls les écrans qui détectent le téléphone (installation, mode silencieux des sons) parlent d'iPhone ou d'Android. Le fichier reste disponible : les deux sont utiles. Fonctionnalité de confort pour la copie (bouton absent si le navigateur ne la permet pas), le collage marche partout grâce au champ.
 
-Ajouté pour la phase 8 (décision du 13 novembre 2026) :
+Ajouté pour la phase 8 (décision du 13 novembre 2026, réalisé le 14 novembre : section « Copies automatiques » de l'écran Sauvegarde, une copie faite au lancement et au retour dans l'app, avant la mise à jour du catalogue) :
 
-- **Copies automatiques internes** : une copie par jour, au premier lancement de la journée, en gardant les **7 dernières** ; Réglages → Sauvegarde → **« Restaurer une copie »** (date, résumé, confirmation). Dans la plupart des cas, elles suffisent. Elles protègent contre une fausse manipulation, un import qui écrase tout ou un bug de mise à jour, **pas** contre la suppression de l'app, un changement de téléphone ou un effacement du stockage : elles vivent dans le même stockage que la base (une app web ne peut pas écrire un fichier hors de son stockage sans un geste de l'utilisateur, et un service en ligne contredirait « aucun serveur, aucun compte »). Nouvelle table Dexie → nouvelle version du schéma, migration et test.
+- **Copies automatiques internes** : une copie par jour, au premier lancement de la journée, et une juste **avant chaque remplacement** des données (restauration d'une copie, import d'un fichier ou d'un texte collé : marquée « avant remplacement », rien de ce qui a été fait depuis le matin n'est perdu ; revue de code du 15 novembre 2026), en gardant les **7 dernières** ; un remplacement qui échoue ne change rien et le dit ; Réglages → Sauvegarde → **« Restaurer une copie »** (date, résumé, confirmation). Dans la plupart des cas, elles suffisent. Elles protègent contre une fausse manipulation, un import qui écrase tout ou un bug de mise à jour, **pas** contre la suppression de l'app, un changement de téléphone ou un effacement du stockage : elles vivent dans le même stockage que la base (une app web ne peut pas écrire un fichier hors de son stockage sans un geste de l'utilisateur, et un service en ligne contredirait « aucun serveur, aucun compte »). Nouvelle table Dexie → nouvelle version du schéma, migration et test.
 - **Libellés explicatifs** dans Réglages → Mes données → Sauvegarde, à la place d'un rappel :
   - sous **« Exporter mes données »** : à quoi sert le fichier — changer de téléphone, réinstaller l'app (la supprimer efface ses données, iOS le précise), passer de la préproduction à la production, garder une copie hors du téléphone ;
   - à côté de **« Restaurer une copie »** : le rôle des copies automatiques — revenir sur une fausse manipulation, un import ou une mise à jour, jusqu'à 7 jours en arrière ; elles restent dans le téléphone et disparaissent avec l'app.
-- **À trancher avant de l'implémenter — rappel de sauvegarde** (fichier exporté) après 30 jours sans sauvegarde, prévu à l'origine. Probablement inutile avec les copies automatiques et les libellés : pas de code sans décision explicite.
+- **Abandonnés le 14 novembre 2026** : le **rappel de sauvegarde** après 30 jours (les copies automatiques et les libellés suffisent ; supprimer l'app efface ses données, iOS le dit) et l'**import en fusion** (règles délicates — doublons d'articles, de magasins, de listes — pour un usage rare ; le remplacement, protégé par les copies automatiques, suffit, et le partage de listes arrive en v1.3).
 
 ### H5. Installation, stockage, mises à jour
 
@@ -326,7 +326,7 @@ Réglage **activé par défaut** : en mode courses, l'écran ne se met pas en ve
 
 ### H10. Aide
 
-Réglages → **Aide** : un mode d'emploi court (remplir la liste, faire les courses, terminer, rouvrir) et **ce que l'app règle toute seule** (ordre des rayons et des articles, rayon d'un article, habitudes ; apprentissage activé ou non par magasin).
+Réglages → **Aide** (réalisé le 14 novembre 2026) : le conseil ci-dessous en tête, un mode d'emploi court (remplir la liste, faire les courses, terminer, rouvrir) et **ce que l'app règle toute seule** (ordre des rayons et des articles, rayon d'un article, habitudes ; apprentissage activé ou non par magasin).
 
 Conseil mis en avant : **suivre le même parcours** dans un magasin, au moins pendant les premières courses, le temps que l'app apprenne l'ordre ; cocher les articles **au moment où on les prend**, pas tous à la caisse. Ensuite, on peut désactiver l'apprentissage si l'ordre convient.
 
@@ -342,7 +342,7 @@ Ajouté en phase 7 (guide allégé) : une bulle, montrée **une seule fois**, su
 - Après la première coche, sur « Rayon suivant » : « Tu changes de rayon ? Touche ici : les articles suivants iront dans le nouveau rayon. »
 - Au premier bilan : « Ton magasin est enregistré : la prochaine fois, ta liste suivra ton parcours. »
 
-Mémorisées sur le téléphone (préférences de l'appareil, hors sauvegarde) ; Réglages → **« Revoir les conseils »** les fait revenir. Un **guide de démonstration complet** (parcours pas à pas, flèches sur chaque action) reste pour plus tard.
+Mémorisées sur le téléphone (préférences de l'appareil, hors sauvegarde) ; Réglages → Aide → **« Revoir les conseils »** les fait revenir. Un **guide de démonstration complet** (parcours pas à pas, flèches sur chaque action) reste pour plus tard.
 
 ## Idées non planifiées
 

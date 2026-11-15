@@ -213,9 +213,6 @@ interface Purchase {
 }
 
 interface Settings {
-  animations: "auto" | "always" | "never";
-  compact: boolean;
-  checkedBehavior: "sink" | "hide";
   lastBackupAt?: number;
   lastSeenVersion?: string; // pour afficher « Quoi de neuf »
   catalogVersion: number;
@@ -240,12 +237,14 @@ db.version(1).stores({
   sessions: "id, listId, storeId, status, startedAt",
   purchases: "id, sessionId, storeId, articleId, at",
   meta: "key", // settings, version du catalogue…
+  copies: "id, at", // copies automatiques : date et résumé (version 3), hors fichier de sauvegarde
+  copyBackups: "id", // leurs données complètes (version 4), lues seulement pour restaurer
 });
 ```
 
 - **Préférences de l'appareil** (sons, son par son, écran allumé, thème) : hors de `Settings`, dans `localStorage` (`src/app/preferences.ts`). Elles dépendent du téléphone, ne sont pas exportées et ne sont pas écrasées par l'import d'une sauvegarde venant d'un autre appareil.
 - Unicité « un article par liste » vérifiée par la couche d'accès aux données (les lignes archivées `closedInSessionId` sont exclues).
-- **La version du schéma de données est indépendante de la version de l'app** : elle n'augmente que si la structure change. Toute évolution = nouvelle `version(n)` + fonction `upgrade` + test de migration. Les migrations s'exécutent automatiquement au premier lancement de la nouvelle version. Historique : **version 2** (13 novembre 2026) — mêmes tables, aucune donnée modifiée ; elle a porté en préproduction une migration des noms de rayons, retirée avec la phase 7 (les magasins se construisent pendant les courses), et reste déclarée pour les bases déjà passées en version 2. Champs ajoutés sans index (donc sans nouvelle version) : `Aisle.description`, `Category.shortName`, `ShoppingSession.openedAisle`, `ShoppingSession.placedCategories`.
+- **La version du schéma de données est indépendante de la version de l'app** : elle n'augmente que si la structure change. Toute évolution = nouvelle `version(n)` + fonction `upgrade` + test de migration. Les migrations s'exécutent automatiquement au premier lancement de la nouvelle version. Historique : **version 2** (13 novembre 2026) — mêmes tables, aucune donnée modifiée ; elle a porté en préproduction une migration des noms de rayons, retirée avec la phase 7 (les magasins se construisent pendant les courses), et reste déclarée pour les bases déjà passées en version 2. **Version 3** (14 novembre 2026) — nouvelle table `copies` (copies automatiques internes, 03 H4), vide au départ : rien à migrer, les données existantes restent telles quelles (test de passage de la version 2 à la 3). **Version 4** (15 novembre 2026) — nouvelle table `copyBackups` : les données complètes de chaque copie y passent, `copies` ne garde que la date et le résumé, pour que l'écran Sauvegarde ne lise plus 7 bases entières. Pas de reprise des anciennes copies : avant la `0.9.0` (installation définitive), l'app ne contient que des données d'essai, donc une évolution du schéma se limite à la nouvelle version ; les migrations de données et leurs tests commencent avec la production définitive (décision du 15 novembre 2026). Champs ajoutés sans index (donc sans nouvelle version) : `Aisle.description`, `Category.shortName`, `ShoppingSession.openedAisle`, `ShoppingSession.placedCategories`.
 
 ## 6. App installée, hors ligne et mises à jour
 
@@ -356,9 +355,9 @@ Calculées à la demande à partir des achats des sessions **clôturées**. Pour
 
 `findLikelyDuplicates(articles)` : paires d'articles de même catégorie et même icône dont les clés de recherche sont proches (distance d'édition ≤ 2, ou l'une contient l'autre) ou qui partagent un alias ; paires présentes dans `notDuplicateOf` exclues.
 
-### 7.10 Réglage des animations
+### 7.10 Animations
 
-`<MotionConfig reducedMotion>` : _Automatique_ → `"user"`, _Toujours_ → `"never"`, _Jamais_ → `"always"` + classe CSS globale désactivant transitions et animations CSS.
+`<MotionConfig reducedMotion="user">` : Motion suit `prefers-reduced-motion` du téléphone ; les animations CSS passent par `motion-safe:`. Pas de réglage dans l'app (03 H1).
 
 ### 7.11 Sons
 

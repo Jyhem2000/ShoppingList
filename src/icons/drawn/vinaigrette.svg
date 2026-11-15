@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+<rect width="12" height="18.6" x="10" y="10.4" fill="#eef3f6" rx="3"/>
+  <clipPath id="vg"><rect width="12" height="18.6" x="10" y="10.4" fill="#000" rx="3"/></clipPath>
+  <g clip-path="url(#vg)">
+  <rect width="12" height="15" x="10" y="14" fill="#e6b440"/>
+  <ellipse cx="12.4" cy="16.2" rx="0.7" ry="0.3" fill="#3f7a2a" transform="rotate(-20 12.4 16.2)"/>
+  <ellipse cx="17.6" cy="15.6" rx="0.7" ry="0.3" fill="#3f7a2a" transform="rotate(25 17.6 15.6)"/>
+  <ellipse cx="13.6" cy="26.4" rx="0.7" ry="0.3" fill="#3f7a2a" transform="rotate(15 13.6 26.4)"/>
+  <ellipse cx="18.4" cy="27" rx="0.7" ry="0.3" fill="#3f7a2a" transform="rotate(-30 18.4 27)"/>
+  <rect width="4" height="20" x="18" y="10" fill="#00000018"/>
+  <rect width="12" height="6.4" x="10" y="18.6" fill="#fbf4dc"/>
+  </g>
+  <path fill="#3f8a3a" d="M13.2 21.8c1.6-1.6 4-1.6 5.6 0c-1.6 1.6-4 1.6-5.6 0z"/>
+  <path fill="none" stroke="#7cc47c" stroke-linecap="round" stroke-width="0.5" d="M14 21.8h3.8"/>
+  <rect width="1.1" height="13" x="11" y="12.6" fill="#ffffff88" rx="0.55"/>
+  <path fill="#3f8a3a" d="M11.4 10.6c0-1.6 1.2-2.8 2.8-2.8h3.6c1.6 0 2.8 1.2 2.8 2.8z"/>
+  <rect width="3.2" height="2.6" x="14.4" y="5.4" fill="#3f8a3a" rx="0.8"/>
+  <rect width="3.2" height="0.8" x="14.4" y="5.7" fill="#7cc47c" rx="0.4"/>
+</svg>

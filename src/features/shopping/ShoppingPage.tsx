@@ -37,12 +37,13 @@ import { aisleText, lineDetails, lineQuantity } from "@/features/list/format";
 import { reportSaveError, useAddToList } from "@/features/list/useAddToList";
 import { type ListData, useListData } from "@/features/list/useListData";
 import { fr } from "@/i18n/fr";
-import { AisleSection } from "@/ui/AisleHeader";
+import { AisleSection, AisleSubgroup } from "@/ui/AisleHeader";
 import { Button } from "@/ui/button";
-import { GroupIcon } from "@/ui/GroupIcon";
 import { ItemRow } from "@/ui/ItemRow";
-import { Loading, PageTitle } from "@/ui/Page";
-import { palette, paletteColor } from "@/ui/palette";
+import { EmptyHint, Loading, PageTitle } from "@/ui/Page";
+import { useOnPulse } from "@/ui/pulse";
+import { PulseLine } from "@/ui/PulseLine";
+import { paletteColor } from "@/ui/palette";
 import { Sheet } from "@/ui/Sheet";
 import { SwipeAction } from "@/ui/SwipeToDelete";
 import { Tip } from "@/ui/Tip";
@@ -93,6 +94,10 @@ export function ShoppingPage() {
   return <Shopping session={session} data={data} view={view} />;
 }
 
+/** Clés des blocs repliables qui ne sont pas des rayons. */
+const UNPLACED = "unplaced";
+const PICK_UP = "pick-up";
+
 function Shopping({
   session,
   data,
@@ -106,6 +111,35 @@ function Shopping({
   const navigate = useNavigate();
   const [panel, setPanel] = useState<Panel | null>(null);
   const [expanded, setExpanded] = useState<ReadonlyMap<ID, boolean>>(new Map());
+  // Catégories repliées dans « À placer » (toutes dépliées au départ).
+  const [foldedCategories, setFoldedCategories] = useState<ReadonlySet<ID>>(
+    new Set(),
+  );
+  /** Déplie (ou replie) un bloc : rayon, « À récupérer » ou « À placer ». */
+  const setOpen = (key: string, open: boolean) => {
+    setExpanded((current) => new Map(current).set(key, open));
+  };
+
+  // Une ligne qui doit se montrer (article déjà dans la liste, docs/05 § 6) : son bloc
+  // et sa catégorie de « À placer » se déplient.
+  useOnPulse((id) => {
+    const item = data.items.find((i) => i.id === id);
+    if (!item) return;
+    if (view.unplaced.some((i) => i.id === id)) {
+      setOpen(UNPLACED, true);
+      const categoryId = data.articleById.get(item.articleId)?.categoryId;
+      setFoldedCategories((current) => {
+        if (!categoryId || !current.has(categoryId)) return current;
+        const next = new Set(current);
+        next.delete(categoryId);
+        return next;
+      });
+    } else if (view.pickUp.some((i) => i.id === id)) setOpen(PICK_UP, true);
+    else {
+      const aisle = view.aisleOf.get(id);
+      if (aisle) setOpen(aisle.id, true);
+    }
+  });
   const textOf = (aisle: Aisle) =>
     aisleText(aisle, data.categoryById, data.categoryWeights);
   const close = () => {
@@ -212,20 +246,22 @@ function Shopping({
         layout="position"
         transition={{ duration: 0.25 }}
       >
-        {isUnavailable ? (
-          line
-        ) : (
-          <SwipeAction
-            label={`${article.name} — ${t.swipeHint}`}
-            icon={<Ban />}
-            className="bg-warning/15 text-warning"
-            onSwipe={() => {
-              unavailable(item);
-            }}
-          >
-            {line}
-          </SwipeAction>
-        )}
+        <PulseLine id={item.id}>
+          {isUnavailable ? (
+            line
+          ) : (
+            <SwipeAction
+              label={`${article.name} — ${t.swipeHint}`}
+              icon={<Ban />}
+              className="bg-warning/15 text-warning"
+              onSwipe={() => {
+                unavailable(item);
+              }}
+            >
+              {line}
+            </SwipeAction>
+          )}
+        </PulseLine>
       </motion.div>
     );
   };
@@ -254,27 +290,38 @@ function Shopping({
   });
   const toPlace = view.unplaced.filter((item) => item.status === "todo").length;
   const firstUnplaced = unplacedGroups[0]?.items[0]?.id;
+  const unplacedOpen = expanded.get(UNPLACED) ?? true;
+  const pickUpOpen = expanded.get(PICK_UP) ?? true;
   const unplacedBlock = unplacedGroups.length > 0 && (
     <AisleSection
       label={fr.aisles.unplaced}
       icon="shopping-basket"
       color="gris"
       count={toPlace}
-      expanded
-      onToggle={() => undefined}
+      expanded={unplacedOpen}
+      onToggle={() => {
+        setOpen(UNPLACED, !unplacedOpen);
+      }}
     >
       {unplacedGroups.map(({ category, items }) => {
-        const color = paletteColor(category.color);
+        const folded = foldedCategories.has(category.id);
         return (
-          <Fragment key={category.id}>
-            <p className="flex items-center gap-2 px-4 pt-3 pb-1.5 text-sm font-bold">
-              <GroupIcon
-                name={category.icon}
-                palette={color}
-                className="size-4 shrink-0"
-              />
-              <span className={palette[color].text}>{category.name}</span>
-            </p>
+          <AisleSubgroup
+            key={category.id}
+            label={category.name}
+            icon={category.icon}
+            color={paletteColor(category.color)}
+            count={items.filter((item) => item.status === "todo").length}
+            expanded={!folded}
+            onToggle={() => {
+              setFoldedCategories((current) => {
+                const next = new Set(current);
+                if (folded) next.delete(category.id);
+                else next.add(category.id);
+                return next;
+              });
+            }}
+          >
             {items.map((item) =>
               item.id === firstUnplaced ? (
                 <div key={item.id} data-tip="first-unplaced">
@@ -284,7 +331,7 @@ function Shopping({
                 row(item)
               ),
             )}
-          </Fragment>
+          </AisleSubgroup>
         );
       })}
     </AisleSection>
@@ -322,13 +369,15 @@ function Shopping({
             <X className="size-6" aria-hidden />
           </button>
           <PageTitle className="min-w-0 flex-1">{data.store?.name}</PageTitle>
+          {/* « 3/7 » à l'écran, une phrase entière pour le lecteur d'écran. */}
           <span
             data-testid="shopping-progress"
-            aria-label={t.progressLabel(checked, total)}
+            aria-hidden
             className="shrink-0 pr-2 text-lg font-extrabold text-secondary tabular-nums"
           >
             {t.progress(checked, total)}
           </span>
+          <span className="sr-only">{t.progressLabel(checked, total)}</span>
         </div>
         <div
           aria-hidden
@@ -349,8 +398,10 @@ function Shopping({
             icon="rotate-ccw"
             color="ambre"
             count={view.pickUp.length}
-            expanded
-            onToggle={() => undefined}
+            expanded={pickUpOpen}
+            onToggle={() => {
+              setOpen(PICK_UP, !pickUpOpen);
+            }}
           >
             {view.pickUp.map(row)}
           </AisleSection>
@@ -373,17 +424,13 @@ function Shopping({
                 currentLabel={t.current}
                 kicker={text.kicker}
                 onToggle={() => {
-                  setExpanded((current) =>
-                    new Map(current).set(aisle.id, !open),
-                  );
+                  setOpen(aisle.id, !open);
                 }}
               >
                 {items.length > 0 ? (
                   items.map(row)
                 ) : (
-                  <p className="px-4 py-3 text-sm text-muted-foreground">
-                    {t.emptyAisle}
-                  </p>
+                  <EmptyHint inset>{t.emptyAisle}</EmptyHint>
                 )}
               </AisleSection>
               {aisle.id === view.unplacedAfter && unplacedBlock}
@@ -408,9 +455,8 @@ function Shopping({
         above={
           toPlace > 0 && (
             <Button
-              variant="outline"
               data-tip="next-aisle"
-              className="mb-2 h-12 w-full bg-bg"
+              className="mb-2 h-12 w-full shadow-lg shadow-overlay"
               aria-description={t.nextAisleHint}
               onClick={() => {
                 void openNextAisle(db, session, view.placing?.id).catch(

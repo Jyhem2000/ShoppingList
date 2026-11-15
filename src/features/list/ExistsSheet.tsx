@@ -4,6 +4,7 @@ import { formatQuantity, mergeQuantity } from "@/domain/quantity";
 import { feedback } from "@/feedback";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
+import { pulse } from "@/ui/pulse";
 import { Sheet } from "@/ui/Sheet";
 import { lineQuantity } from "./format";
 import type { PendingAdd } from "./useAddToList";
@@ -34,6 +35,11 @@ export function ExistsSheet({
       )
     : { kind: "incompatible" as const };
   const existing = lineQuantity(item, data.unitById, "long");
+  // Quel que soit le choix, la ligne existante se montre (docs/05 § 6).
+  const done = () => {
+    pulse(item.id);
+    onDone();
+  };
   const added = formatQuantity(amount.quantity, amount.unit, "long");
 
   const apply = async (
@@ -41,14 +47,14 @@ export function ExistsSheet({
   ): Promise<void> => {
     await updateItem(db, item.id, changes);
     feedback.add();
-    onDone();
+    done();
   };
 
   return (
     <Sheet
       open
       onOpenChange={(open) => {
-        if (!open) onDone();
+        if (!open) done();
       }}
       title={article.name}
       description={
@@ -92,7 +98,7 @@ export function ExistsSheet({
             </Button>
           </>
         )}
-        <Button autoFocus onClick={onDone}>
+        <Button autoFocus onClick={done}>
           {merged.kind === "merged" ? t.nothing : t.keep}
         </Button>
       </div>

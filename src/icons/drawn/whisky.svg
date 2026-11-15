@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <path fill="#c8781e" d="M14.2 3.6h3.6v5c0 .6.4 1 1 1.2l3 1c.8.3 1.2.9 1.2 1.7V28c0 .9-.7 1.6-1.6 1.6H10.6c-.9 0-1.6-.7-1.6-1.6V12.5c0-.8.4-1.4 1.2-1.7l3-1c.6-.2 1-.6 1-1.2z"/>
+<clipPath id="wh1"><path d="M14.2 3.6h3.6v5c0 .6.4 1 1 1.2l3 1c.8.3 1.2.9 1.2 1.7V28c0 .9-.7 1.6-1.6 1.6H10.6c-.9 0-1.6-.7-1.6-1.6V12.5c0-.8.4-1.4 1.2-1.7l3-1c.6-.2 1-.6 1-1.2z"/></clipPath>
+<g clip-path="url(#wh1)"><rect width="5" height="30" x="19.6" y="2" fill="#a25c10"/></g>
+<rect width="1" height="12" x="10.4" y="13" fill="#ffffff44" rx=".5"/>
+<rect width="4.4" height="2.6" x="13.8" y="1.6" fill="#c9a23a" rx=".6"/>
+<rect width="3.6" height="1.2" x="14.2" y="6" fill="#c9a23a"/>
+<rect width="11.4" height="9" x="10.3" y="16" fill="#26262c"/>
+<rect width="9.6" height="7.2" x="11.2" y="16.9" fill="none" stroke="#c9a23a" stroke-width=".5"/>
+<path fill="#c9a23a" d="M16 18.6l1.4 1.8-1.4 1.8-1.4-1.8z"/>
+<path fill="none" stroke="#c9a23a" stroke-linecap="round" stroke-width=".5" d="M13 23h6"/>
+</svg>
