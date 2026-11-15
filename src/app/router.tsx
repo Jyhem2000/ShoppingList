@@ -9,6 +9,8 @@ import { StorePage } from "@/features/manage/StorePage";
 import { StoresPage } from "@/features/manage/StoresPage";
 import { UnitsPage } from "@/features/manage/UnitsPage";
 import { ListPage } from "@/features/list/ListPage";
+import { RecipePage } from "@/features/recipes/RecipePage";
+import { RecipesPage } from "@/features/recipes/RecipesPage";
 import { RecapPage } from "@/features/shopping/RecapPage";
 import { ShoppingPage } from "@/features/shopping/ShoppingPage";
 import { AboutPage } from "@/features/settings/AboutPage";
@@ -29,6 +31,8 @@ export const router = createHashRouter([
       { path: routes.list, element: <ListPage /> },
       { path: routes.catalog, element: <CatalogPage /> },
       { path: routes.catalogCategory, element: <CategoryPage /> },
+      { path: routes.recipes, element: <RecipesPage /> },
+      { path: routes.recipe, element: <RecipePage /> },
       { path: routes.settings, element: <SettingsPage /> },
       { path: routes.about, element: <AboutPage /> },
       { path: routes.licences, element: <LicencesPage /> },

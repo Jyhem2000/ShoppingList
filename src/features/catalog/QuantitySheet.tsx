@@ -1,4 +1,4 @@
-import { Minus, Plus, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { db } from "@/db/database";
 import { deleteItems, restoreItems, updateItem } from "@/db/lists";
 import { otherTypes, typesKey } from "@/domain/lines";
@@ -8,6 +8,7 @@ import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
 import { OtherTypes } from "@/ui/OtherTypes";
 import { Sheet } from "@/ui/Sheet";
+import { Stepper, StepperValue } from "@/ui/Stepper";
 import { showToast } from "@/ui/toast";
 import { lineQuantity } from "@/features/list/format";
 import { KeepOneOff } from "@/features/list/KeepOneOff";
@@ -124,44 +125,20 @@ function QuantityRow({
       {label && (
         <span className="min-w-0 flex-1 truncate font-semibold">{label}</span>
       )}
-      <div
-        className={
-          label
-            ? "flex items-center gap-2"
-            : "flex flex-1 items-center justify-center gap-4"
-        }
+      <Stepper
+        className={label ? undefined : "flex-1 justify-center gap-4"}
+        lessDisabled={line.quantity <= step}
+        onLess={() => {
+          set(Math.max(step, line.quantity - step));
+        }}
+        onMore={() => {
+          set(line.quantity + step);
+        }}
       >
-        <Button
-          variant="iconOutline"
-          size="icon"
-          aria-label={fr.list.line.less}
-          disabled={line.quantity <= step}
-          onClick={() => {
-            set(Math.max(step, line.quantity - step));
-          }}
-        >
-          <Minus />
-        </Button>
-        <span
-          className={
-            label
-              ? "min-w-16 text-center text-lg font-extrabold text-secondary tabular-nums"
-              : "min-w-28 text-center text-2xl font-extrabold text-secondary tabular-nums"
-          }
-        >
+        <StepperValue size={label ? "md" : "lg"}>
           {lineQuantity(line, data.unitById)}
-        </span>
-        <Button
-          variant="iconOutline"
-          size="icon"
-          aria-label={fr.list.line.more}
-          onClick={() => {
-            set(line.quantity + step);
-          }}
-        >
-          <Plus />
-        </Button>
-      </div>
+        </StepperValue>
+      </Stepper>
       <Button
         variant="icon"
         size="icon"

@@ -11,7 +11,7 @@ import { Chip, Field, Select, TextInput } from "@/ui/form";
 import { ProductIcon } from "@/ui/ProductIcon";
 import { Sheet } from "@/ui/Sheet";
 import { reportSaveError } from "./useAddToList";
-import { UnitSelect } from "./UnitSelect";
+import { UnitSelect } from "@/ui/UnitSelect";
 import type { ListData } from "./useListData";
 import { paletteColor } from "@/ui/palette";
 const t = fr.list.createSheet;

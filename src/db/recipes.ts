@@ -54,6 +54,74 @@ export async function updateRecipe(
   });
 }
 
+type Ingredient = Recipe["ingredients"][number];
+
+/** Modifie les ingrédients d'une recette à partir de leur état actuel en base. */
+async function editIngredients(
+  database: ShoppingDatabase,
+  recipeId: ID,
+  edit: (ingredients: Ingredient[]) => Ingredient[],
+  now: number,
+): Promise<void> {
+  await database.transaction("rw", database.recipes, async () => {
+    const recipe = await database.recipes.get(recipeId);
+    if (!recipe) return;
+    await database.recipes.update(recipeId, {
+      ingredients: edit([...recipe.ingredients]),
+      updatedAt: now,
+    });
+  });
+}
+
+/** Ajoute un ingrédient en fin de recette (barre d'ajout, docs/03 E1). */
+export async function addIngredient(
+  database: ShoppingDatabase,
+  recipeId: ID,
+  ingredient: Ingredient,
+  now = Date.now(),
+): Promise<void> {
+  await editIngredients(
+    database,
+    recipeId,
+    (ingredients) => [...ingredients, ingredient],
+    now,
+  );
+}
+
+/** Change un ingrédient (quantité, unité, sortes, facultatif, quantité fixe). */
+export async function updateIngredient(
+  database: ShoppingDatabase,
+  recipeId: ID,
+  index: number,
+  changes: Partial<Ingredient>,
+  now = Date.now(),
+): Promise<void> {
+  await editIngredients(
+    database,
+    recipeId,
+    (ingredients) =>
+      ingredients.map((ingredient, i) =>
+        i === index ? { ...ingredient, ...changes } : ingredient,
+      ),
+    now,
+  );
+}
+
+/** Retire un ingrédient de la recette. */
+export async function removeIngredient(
+  database: ShoppingDatabase,
+  recipeId: ID,
+  index: number,
+  now = Date.now(),
+): Promise<void> {
+  await editIngredients(
+    database,
+    recipeId,
+    (ingredients) => ingredients.filter((_, i) => i !== index),
+    now,
+  );
+}
+
 /** Copie complète, sous le nom donné (« Raclette (copie) »). */
 export async function duplicateRecipe(
   database: ShoppingDatabase,

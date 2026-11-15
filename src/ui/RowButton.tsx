@@ -55,22 +55,56 @@ export function RowButton({
   );
 }
 
-/** Titre (en gras) et détail (plus petit, atténué) d'une ligne, coupés s'ils sont trop longs. */
+/**
+ * Titre (en gras) et détail (plus petit, atténué) d'une ligne, coupés s'ils sont trop
+ * longs ; `wrap` : le détail passe à la ligne (explication d'une case à cocher).
+ */
 export function RowText({
   title,
   detail,
+  wrap = false,
 }: {
   title: ReactNode;
   detail?: ReactNode;
+  wrap?: boolean;
 }) {
   return (
     <span className="min-w-0 flex-1">
       <span className="block truncate font-semibold">{title}</span>
       {detail ? (
-        <span className="block truncate text-sm text-muted-foreground">
+        <span
+          className={cn(
+            "block text-sm text-muted-foreground",
+            !wrap && "truncate",
+          )}
+        >
           {detail}
         </span>
       ) : null}
     </span>
+  );
+}
+
+/**
+ * Ligne d'information, mêmes marges que RowButton mais sans action (ingrédient d'une
+ * recette en lecture) : icône, titre et détail, élément à droite.
+ */
+export function InfoRow({
+  icon,
+  title,
+  detail,
+  trailing,
+}: {
+  icon?: ReactNode;
+  title: ReactNode;
+  detail?: ReactNode;
+  trailing?: ReactNode;
+}) {
+  return (
+    <div className={cn(rowClass("section"), "active:bg-transparent")}>
+      {icon}
+      <RowText title={title} detail={detail} />
+      {trailing}
+    </div>
   );
 }

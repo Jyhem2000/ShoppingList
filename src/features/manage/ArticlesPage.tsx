@@ -8,7 +8,7 @@ import { db } from "@/db/database";
 import { findLikelyDuplicates } from "@/domain/duplicates";
 import type { Article, ID } from "@/domain/model";
 import { searchArticles } from "@/domain/search";
-import { UnitSelect } from "@/features/list/UnitSelect";
+import { UnitSelect } from "@/ui/UnitSelect";
 import { type ListData, useListData } from "@/features/list/useListData";
 import { fr } from "@/i18n/fr";
 import { SearchField } from "@/ui/SearchField";

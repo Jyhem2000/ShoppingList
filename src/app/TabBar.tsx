@@ -1,4 +1,4 @@
-import { LayoutGrid, ListChecks, Settings } from "lucide-react";
+import { ChefHat, LayoutGrid, ListChecks, Settings } from "lucide-react";
 import { NavLink } from "react-router";
 import { fr } from "@/i18n/fr";
 import { cn } from "@/ui/utils";
@@ -7,11 +7,12 @@ import { routes } from "./routes";
 const tabs = [
   { to: routes.list, label: fr.tabs.list, icon: ListChecks, end: true },
   { to: routes.catalog, label: fr.tabs.catalog, icon: LayoutGrid, end: false },
+  { to: routes.recipes, label: fr.tabs.recipes, icon: ChefHat, end: false },
   { to: routes.settings, label: fr.tabs.settings, icon: Settings, end: false },
 ];
 
 /**
- * Barre d'onglets du bas (docs/04 § 1). L'onglet Recettes arrivera en v1.1.
+ * Barre d'onglets du bas (docs/04 § 1) : Liste, Catalogue, Recettes, Réglages.
  * Sur iPhone, les deux tiers de la zone de la barre d'accueil sont ajoutés à la
  * hauteur des onglets : icônes et libellés restent centrés sans toucher la barre.
  */

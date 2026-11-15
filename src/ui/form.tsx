@@ -1,4 +1,4 @@
-import { Check, ChevronDown } from "lucide-react";
+import { Check, ChevronDown, Trash2 } from "lucide-react";
 import type { ComponentProps, ReactNode } from "react";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
@@ -126,6 +126,39 @@ export function ConfirmActions({
           {fr.manage.confirmCancel}
         </Button>
       )}
+    </div>
+  );
+}
+
+/**
+ * Bas d'une fiche en panneau (ligne de liste, ingrédient) : « Retirer » en rouge à
+ * gauche, « OK » à droite.
+ */
+export function RemoveDoneActions({
+  removeLabel,
+  doneLabel,
+  onRemove,
+  onDone,
+}: {
+  removeLabel: string;
+  doneLabel: string;
+  onRemove: () => void;
+  onDone: () => void;
+}) {
+  return (
+    <div className="flex gap-2">
+      <Button
+        type="button"
+        variant="dangerOutline"
+        className="flex-1"
+        onClick={onRemove}
+      >
+        <Trash2 />
+        {removeLabel}
+      </Button>
+      <Button type="button" className="flex-1" onClick={onDone}>
+        {doneLabel}
+      </Button>
     </div>
   );
 }

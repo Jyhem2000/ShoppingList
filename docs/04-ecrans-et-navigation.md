@@ -6,12 +6,12 @@ Cible : app installée sur l'écran d'accueil (plein écran, sans barre de navig
 
 Barre d'onglets en bas (masquée en mode courses) :
 
-| Onglet        | Icône (Lucide) | Contenu                                   | Version                                           |
-| ------------- | -------------- | ----------------------------------------- | ------------------------------------------------- |
-| **Liste**     | `list-checks`  | La liste courante (écran d'accueil)       | v1.0                                              |
-| **Catalogue** | `layout-grid`  | Parcourir les articles par catégorie      | v1.0                                              |
-| **Recettes**  | `chef-hat`     | Les recettes                              | v1.0 (hors production seulement jusqu'à la 1.0.0) |
-| **Réglages**  | `settings`     | Réglages, gestion des données, sauvegarde | v1.0                                              |
+| Onglet        | Icône (Lucide) | Contenu                                   | Version |
+| ------------- | -------------- | ----------------------------------------- | ------- |
+| **Liste**     | `list-checks`  | La liste courante (écran d'accueil)       | v1.0    |
+| **Catalogue** | `layout-grid`  | Parcourir les articles par catégorie      | v1.0    |
+| **Recettes**  | `chef-hat`     | Les recettes                              | v1.0    |
+| **Réglages**  | `settings`     | Réglages, gestion des données, sauvegarde | v1.0    |
 
 L'en-tête de chaque écran (titre, et bouton de retour sur une sous-page) **reste visible en haut** quand le contenu défile, avec sa marge haute : le titre ne passe jamais sous le flou qu'iOS 26 pose sous la barre d'état, qu'aucun réglage web ne permet de retirer. Quand le contenu de l'écran dépasse la hauteur disponible, une fine bordure sépare l'en-tête du contenu. Le mode courses suit la même règle (nom du magasin sous le flou corrigé le 13 novembre 2026).
 
@@ -110,8 +110,10 @@ Articles achetés, pas pris (restés dans la liste), durée, éventuellement « 
 ### 2.6 Recettes _(v1.0)_
 
 - Liste des recettes (icône, libellé, rendement), recherche, bouton « Nouvelle recette ».
-- Fiche recette : en-tête (icône, libellé, rendement fixe (« 4 personnes », « 1 cake »)), ingrédients, étapes, bouton **« Ajouter à une liste »** → panneau : liste cible, quantité dans l'unité de rendement, aperçu avec cases à cocher → « Ajouter ». La quantité se règle dans ce panneau (`− 4 personnes +`), jamais sur la fiche.
-- Édition : rendement = nombre + unité (« personnes » par défaut, liste de propositions ou saisie libre). Icône choisie parmi les icônes dessinées des articles, les plats et desserts proposés en premier (décision du 15 novembre 2026).
+- Fiche recette : en-tête (icône, libellé, rendement fixe (« 4 personnes », « 1 cake »)), bouton **« Ajouter à une liste »**, ingrédients, étapes ; « Modifier » en haut à droite ; « Dupliquer » et « Supprimer la recette » en bas.
+- Panneau « Ajouter à une liste » : liste cible (choix seulement s'il y en a plusieurs, la liste courante d'abord ; sinon son nom en sous-titre), quantité dans l'unité de rendement (`− 4 personnes +`), aperçu à cocher : chaque ingrédient avec sa quantité recalculée et ce qui arrivera (« à ajouter », « déjà 1 kg → 1,75 kg »). **Tout est coché, sauf les facultatifs** : on décoche ce qu'on a déjà (20 g de beurre). Rien n'est ajouté avant « Ajouter N ingrédients » (décision du 15 novembre 2026). La quantité se règle dans ce panneau, jamais sur la fiche.
+- Les lignes ajoutées affichent leur origine (« via Cake aux olives »), dans la liste et dans leur fiche.
+- Édition, sur la même fiche : nom, rendement = nombre + unité (« personnes » par défaut, propositions en puces ou saisie libre), ingrédients ajoutés par la barre d'ajout (saisie naturelle, création d'article) puis réglés dans leur fiche (quantité, unité dont les unités de cuisine, sortes, « facultatif », « quantité fixe »), étapes en texte libre. Icône choisie parmi les icônes dessinées des articles, les plats et desserts proposés en premier (décision du 15 novembre 2026).
 
 ### 2.7 Réglages
 

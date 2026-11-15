@@ -12,7 +12,12 @@ import {
 import { seedDatabase } from "@/db/seed";
 import { deleteUnit } from "@/db/units";
 import type { Recipe } from "@/domain/model";
-import { planRecipeAdd, recipeMerge, scaleRecipe } from "@/domain/recipes";
+import {
+  planRecipeAdd,
+  recipeMerge,
+  scaleRecipe,
+  yieldLabel,
+} from "@/domain/recipes";
 import { unit, units } from "./fixtures";
 
 const ingredient = (
@@ -88,6 +93,19 @@ describe("recalcul d'une recette (docs/03 E2)", () => {
       [1, "pot"],
       [2.5, "kg"],
     ]);
+  });
+});
+
+describe("rendement en clair (docs/02 § 7)", () => {
+  it("accorde l'unité au nombre demandé", () => {
+    expect(yieldLabel(4, "personnes")).toBe("4 personnes");
+    expect(yieldLabel(1, "personnes")).toBe("1 personne");
+    expect(yieldLabel(2, "cake")).toBe("2 cakes");
+    expect(yieldLabel(1, "cake")).toBe("1 cake");
+    expect(yieldLabel(12, "gâteau")).toBe("12 gâteaux");
+    expect(yieldLabel(1, "gâteaux")).toBe("1 gâteau");
+    expect(yieldLabel(6, "part de tarte")).toBe("6 parts de tarte");
+    expect(yieldLabel(1.5, "litre")).toBe("1,5 litre");
   });
 });
 

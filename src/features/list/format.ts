@@ -6,6 +6,7 @@ import type {
   Category,
   ID,
   ListItem,
+  Recipe,
   Unit,
 } from "@/domain/model";
 import { aisleContents, aisleTitle } from "@/domain/stores";
@@ -25,6 +26,24 @@ export function lineDetails(
         : undefined;
   const parts = [types, item.note?.trim()].filter(Boolean);
   return parts.length ? parts.join(" · ") : undefined;
+}
+
+/**
+ * Recettes d'où vient une ligne : « via Raclette », « via Raclette, Tartiflette »
+ * (docs/03 E2). Une recette supprimée depuis n'apparaît plus.
+ */
+export function recipeOrigin(
+  item: Pick<ListItem, "fromRecipes">,
+  recipeById: ReadonlyMap<ID, Pick<Recipe, "name">>,
+): string | undefined {
+  const names = [
+    ...new Set(
+      item.fromRecipes
+        .map((from) => recipeById.get(from.recipeId)?.name)
+        .filter((name): name is string => Boolean(name)),
+    ),
+  ];
+  return names.length ? t.via(names) : undefined;
 }
 
 export function lineQuantity(

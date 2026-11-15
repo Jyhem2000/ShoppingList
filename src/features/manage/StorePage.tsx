@@ -281,8 +281,8 @@ export function StorePage() {
 
       <div className="px-4 pt-6 pb-8">
         <Button
-          variant="outline"
-          className="w-full border-danger/50 text-danger"
+          variant="dangerOutline"
+          className="w-full"
           onClick={() => {
             setConfirmDelete(true);
           }}

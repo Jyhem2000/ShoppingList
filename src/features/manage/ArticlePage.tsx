@@ -14,7 +14,7 @@ import type { Article } from "@/domain/model";
 import { formatNumber } from "@/domain/quantity";
 import { searchArticles } from "@/domain/search";
 import { slugify } from "@/domain/slug";
-import { UnitSelect } from "@/features/list/UnitSelect";
+import { UnitSelect } from "@/ui/UnitSelect";
 import { type ListData, useListData } from "@/features/list/useListData";
 import { fr } from "@/i18n/fr";
 import { SearchField } from "@/ui/SearchField";
@@ -22,7 +22,7 @@ import { Button } from "@/ui/button";
 import { useGoBack } from "@/ui/navigation";
 import { Field, Select, TextInput, ConfirmActions } from "@/ui/form";
 import { EmptyState, PageHeader, Row, Section } from "@/ui/Page";
-import { ProductIcon } from "@/ui/ProductIcon";
+import { IconChangeButton } from "@/ui/IconChangeButton";
 import { Sheet } from "@/ui/Sheet";
 import { Switch } from "@/ui/switch";
 import { showToast } from "@/ui/toast";
@@ -107,25 +107,15 @@ function ArticleForm({ article, data }: { article: Article; data: ListData }) {
   return (
     <>
       <PageHeader title={article.name} backTo={routes.manageArticles} />
-      <div className="flex flex-col items-center gap-2 px-4 pt-2 pb-4">
-        <button
-          type="button"
+      <div className="px-4 pt-2 pb-4">
+        <IconChangeButton
+          icon={article.icon}
+          label={article.name}
+          color={color}
           onClick={() => {
             setPanel("icon");
           }}
-          aria-label={fr.manage.icon.change}
-          className="rounded-3xl border border-border p-3 active:bg-raised"
-        >
-          <ProductIcon
-            icon={article.icon}
-            label={article.name}
-            color={color}
-            size={72}
-          />
-        </button>
-        <span className="text-sm font-semibold text-primary">
-          {fr.manage.icon.change}
-        </span>
+        />
       </div>
 
       <Section>
@@ -243,8 +233,7 @@ function ArticleForm({ article, data }: { article: Article; data: ListData }) {
           {t.merge}
         </Button>
         <Button
-          variant="outline"
-          className="border-danger/50 text-danger"
+          variant="dangerOutline"
           onClick={() => {
             setPanel("delete");
           }}

@@ -19,6 +19,7 @@ const MAX_SUGGESTIONS = 5;
  * (donc au-dessus du clavier). Entrée : la saisie entière est analysée ; tap sur
  * une suggestion : cet article, avec son type pour une suggestion par type
  * (« Pommes · Golden », quand on tape `pommes g`). La barre se vide et garde le clavier ouvert.
+ * Sert aussi aux ingrédients d'une recette (docs/03 E1).
  */
 export function AddArticleBar({
   data,
@@ -27,7 +28,15 @@ export function AddArticleBar({
   onCreate,
   trailing,
   above,
+  placeholder = t.addPlaceholder,
+  addLabel = t.addLabel,
+  showInList = true,
 }: {
+  /** Texte du champ vide (« Ajouter un ingrédient… » dans une recette). */
+  placeholder?: string;
+  addLabel?: string;
+  /** Indique ce que la liste courante contient déjà (pas dans une recette). */
+  showInList?: boolean;
   /** À droite de la barre (« Terminer » en mode courses). */
   trailing?: ReactNode;
   /** Au-dessus de la barre, quand il n'y a pas de suggestions (« Rayon suivant »). */
@@ -81,7 +90,7 @@ export function AddArticleBar({
     <div className="absolute inset-x-0 bottom-0 z-30 bg-gradient-to-t from-bg via-bg/90 to-transparent px-3 pt-6 pb-3">
       <div className="mx-auto max-w-xl">
         {entry && (suggestions.length > 0 || canCreate) && (
-          <SuggestionList aria-label={t.addPlaceholder} className="mb-2">
+          <SuggestionList aria-label={placeholder} className="mb-2">
             {suggestions.map(({ article, type }) => {
               const category = data.categoryById.get(article.categoryId);
               const quantity = inList.get(article.id);
@@ -94,7 +103,7 @@ export function AddArticleBar({
                     detail={
                       type
                         ? t.typesOne(type)
-                        : quantity
+                        : quantity && showInList
                           ? t.inList(quantity)
                           : category?.name
                     }
@@ -131,8 +140,8 @@ export function AddArticleBar({
         <div className="flex items-center gap-2">
           <AddBar
             className="min-w-0 flex-1"
-            placeholder={t.addPlaceholder}
-            addLabel={t.addLabel}
+            placeholder={placeholder}
+            addLabel={addLabel}
             value={text}
             onValueChange={setText}
             onSubmit={(value) => {

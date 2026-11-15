@@ -96,6 +96,7 @@ export const fr = {
     navigation: "Navigation principale",
     list: "Liste",
     catalog: "Catalogue",
+    recipes: "Recettes",
     settings: "Réglages",
   },
   list: {
@@ -221,6 +222,7 @@ export const fr = {
         count > 1 ? `${count} lignes ajoutées` : "1 ligne ajoutée",
     },
     unavailableLastTime: "Pas pris la dernière fois",
+    via: (recipes: string[]) => `via ${recipes.join(", ")}`,
   },
   shopping: {
     start: "C'est parti",
@@ -633,6 +635,83 @@ export const fr = {
         "Ou dans un de leurs rayons secondaires quand elles en ont un",
       deleted: (label: string) => `${label} supprimé`,
       done: "Terminé",
+    },
+  },
+  recipes: {
+    title: "Recettes",
+    search: "Rechercher une recette",
+    create: "Nouvelle recette",
+    count: (count: number) =>
+      count > 1 ? `${count} recettes` : count === 1 ? "1 recette" : "Recettes",
+    noResult: "Aucune recette ne correspond.",
+    emptyTitle: "Aucune recette",
+    emptyText:
+      "Note une recette une fois : ses ingrédients s'ajoutent ensuite à ta liste, pour le nombre de personnes voulu.",
+    newTitle: "Nouvelle recette",
+    name: "Nom",
+    namePlaceholder: "Cake aux olives",
+    yield: "Pour",
+    yieldQuantity: "Nombre",
+    yieldUnit: "Unité",
+    yieldHint: "Personnes, parts, cake… : ce que la recette donne.",
+    yieldUnits: ["personnes", "parts", "cake", "tarte", "gâteau", "pièces"],
+    createSubmit: "Créer la recette",
+    missing: "Cette recette n'existe plus.",
+    serves: (amount: string) => `Pour ${amount}`,
+    edit: "Modifier",
+    editDone: "OK",
+    ingredients: "Ingrédients",
+    noIngredients: "Aucun ingrédient pour l'instant.",
+    noIngredientsEdit:
+      "Ajoute les ingrédients avec la barre du bas : «\u00a0200 g de farine, 3 œufs\u00a0».",
+    steps: "Étapes",
+    noSteps: "Aucune étape notée.",
+    stepsPlaceholder: "Préchauffer le four à 180 °C…",
+    optional: "facultatif",
+    fixed: "quantité fixe",
+    addPlaceholder: "Ajouter un ingrédient…",
+    addLabel: "Ajouter l'ingrédient",
+    addToList: "Ajouter à une liste",
+    duplicate: "Dupliquer",
+    copyName: (name: string) => `${name} (copie)`,
+    duplicated: (name: string) => `«\u00a0${name}\u00a0» créée`,
+    delete: "Supprimer la recette",
+    deleteTitle: (name: string) => `Supprimer «\u00a0${name}\u00a0» ?`,
+    deleteText:
+      "Les ingrédients déjà ajoutés à tes listes y restent. La recette, elle, ne se récupère pas.",
+    deleted: (name: string) => `«\u00a0${name}\u00a0» supprimée`,
+    ingredient: {
+      optional: "Facultatif",
+      optionalHint: "Décoché au moment d'ajouter la recette à une liste.",
+      fixed: "Quantité fixe",
+      fixedHint:
+        "Ne change pas avec le nombre de personnes (un pot de crème pour la raclette).",
+      remove: "Retirer",
+      done: "OK",
+    },
+    add: {
+      title: (name: string) => `Ajouter «\u00a0${name}\u00a0»`,
+      into: (list: string) => `Dans la liste «\u00a0${list}\u00a0».`,
+      list: "Dans la liste",
+      amount: "Pour",
+      less: "Moins",
+      more: "Plus",
+      ingredients: "Ingrédients",
+      hint: "Décoche ce que tu as déjà.",
+      isNew: "à ajouter",
+      merged: (before: string, after: string) => `déjà ${before} → ${after}`,
+      note: (before: string) => `déjà ${before}, ajouté en note`,
+      empty: "Cette recette n'a pas encore d'ingrédient.",
+      apply: (count: number) =>
+        count > 1
+          ? `Ajouter ${count} ingrédients`
+          : count === 1
+            ? "Ajouter 1 ingrédient"
+            : "Rien à ajouter",
+      done: (count: number, list: string) =>
+        count > 1
+          ? `${count} ingrédients ajoutés à «\u00a0${list}\u00a0»`
+          : `1 ingrédient ajouté à «\u00a0${list}\u00a0»`,
     },
   },
   catalog: {

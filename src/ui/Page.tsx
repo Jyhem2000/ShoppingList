@@ -11,15 +11,19 @@ import { cn } from "@/ui/utils";
  * avec sa marge haute : le titre ne passe jamais sous le flou qu'iOS 26 pose sous la
  * barre d'état. Une bordure le sépare du contenu quand celui-ci défile (Layout pose
  * `data-scrollable` sur la zone qui défile).
+ * `action` : un bouton à droite du titre.
  * `backTo` : la flèche revient à l'écran précédent ; cet écran-ci seulement si
  * l'on n'en a pas (docs/04 § 1).
  */
 export function PageHeader({
   title,
   backTo,
+  action,
 }: {
   title: string;
   backTo?: string;
+  /** À droite du titre (« Modifier » d'une recette). */
+  action?: ReactNode;
 }) {
   const goBack = useGoBack(backTo ?? "/");
   return (
@@ -40,7 +44,8 @@ export function PageHeader({
           <ChevronLeft className="size-6" />
         </NavButton>
       )}
-      <PageTitle>{title}</PageTitle>
+      <PageTitle className="min-w-0 flex-1">{title}</PageTitle>
+      {action && <div className="-my-1.5 shrink-0">{action}</div>}
     </header>
   );
 }

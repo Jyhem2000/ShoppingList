@@ -8,7 +8,7 @@ import { feedback } from "@/feedback";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
 import { CheckRow, FieldLabel } from "@/ui/form";
-import { RowText } from "@/ui/RowButton";
+import { PreviewRow } from "@/ui/PreviewRow";
 import { Sheet } from "@/ui/Sheet";
 import { showToast } from "@/ui/toast";
 import { lineDetails, lineQuantity } from "./format";
@@ -91,7 +91,7 @@ export function MergeListsSheet({
               if (!article) return null;
               const category = data.categoryById.get(article.categoryId);
               return (
-                <CheckRow
+                <PreviewRow
                   key={lineKey(line)}
                   checked={!excluded.has(lineKey(line))}
                   onCheckedChange={(checked) => {
@@ -102,21 +102,16 @@ export function MergeListsSheet({
                       return next;
                     });
                   }}
-                >
-                  <ArticleIcon article={article} category={category} />
-                  <RowText
-                    title={article.name}
-                    detail={
-                      (line.kind === "new"
-                        ? t.isNew
-                        : t.merged(lineQuantity(line, data.unitById))) +
-                      (lineDetails(line) ? ` · ${lineDetails(line)}` : "")
-                    }
-                  />
-                  <span className="shrink-0 font-bold text-secondary tabular-nums">
-                    {lineQuantity(line, data.unitById)}
-                  </span>
-                </CheckRow>
+                  icon={<ArticleIcon article={article} category={category} />}
+                  title={article.name}
+                  detail={
+                    (line.kind === "new"
+                      ? t.isNew
+                      : t.merged(lineQuantity(line, data.unitById))) +
+                    (lineDetails(line) ? ` · ${lineDetails(line)}` : "")
+                  }
+                  quantity={lineQuantity(line, data.unitById)}
+                />
               );
             })
           )}

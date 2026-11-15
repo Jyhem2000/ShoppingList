@@ -1,7 +1,7 @@
 import { lineKey } from "./lines";
 import { planListMerge, type MergeLine, type MergeSource } from "./listMerge";
 import type { ID, Recipe, Unit } from "./model";
-import { simplify } from "./quantity";
+import { formatNumber, simplify } from "./quantity";
 
 /**
  * Recettes (docs/02 § 7, docs/03 E2) : quantités recalculées pour le rendement demandé,
@@ -145,4 +145,29 @@ export function recipeMerge(
       })),
     units,
   );
+}
+
+/** Accorde le premier mot de l'unité de rendement : « personnes » → « personne », « cake » → « cakes ». */
+function agree(word: string, plural: boolean): string {
+  const lower = word.toLocaleLowerCase("fr");
+  if (plural) {
+    if (/[sxz]$/.test(lower)) return word;
+    if (/(au|eu)$/.test(lower)) return `${word}x`;
+    return `${word}s`;
+  }
+  if (/(eaux|eux)$/.test(lower)) return word.slice(0, -1);
+  if (/[^s]s$/.test(lower)) return word.slice(0, -1);
+  return word;
+}
+
+/**
+ * Rendement en clair, accordé au nombre (docs/02 § 7) : « 4 personnes », « 1 personne »,
+ * « 1 cake », « 2 cakes », « 12 gâteaux ». Seul le premier mot de l'unité s'accorde
+ * (« 2 parts de tarte »). Une unité vide donne le nombre seul.
+ */
+export function yieldLabel(quantity: number, unit: string): string {
+  const [first = "", ...rest] = unit.trim().split(/\s+/);
+  if (!first) return formatNumber(quantity);
+  const words = [agree(first, quantity >= 2), ...rest].join(" ");
+  return `${formatNumber(quantity)} ${words}`;
 }
