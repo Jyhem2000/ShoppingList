@@ -49,11 +49,11 @@ export async function updateArticle(
   });
 }
 
-/** Où l'article est utilisé : lignes à acheter (toutes listes confondues). */
+/** Où l'article est utilisé : lignes à acheter (toutes listes confondues), recettes. */
 export async function articleUsage(
   database: ShoppingDatabase,
   id: ID,
-): Promise<{ lines: number; lists: number }> {
+): Promise<{ lines: number; lists: number; recipes: number }> {
   const items = await database.items
     .where("articleId")
     .equals(id)
@@ -62,12 +62,16 @@ export async function articleUsage(
   return {
     lines: items.length,
     lists: new Set(items.map((item) => item.listId)).size,
+    recipes: await database.recipes
+      .filter((recipe) => recipe.ingredients.some((i) => i.articleId === id))
+      .count(),
   };
 }
 
 /**
- * Supprimer un article et ses lignes dans les listes, ses exceptions de rayon et son
- * ordre appris. L'historique des achats reste (sans libellé, il ne s'affiche plus).
+ * Supprimer un article et ses lignes dans les listes, ses exceptions de rayon, son
+ * ordre appris et les ingrédients qui l'utilisent dans les recettes (docs/02 § 2).
+ * L'historique des achats reste (sans libellé, il ne s'affiche plus).
  */
 export async function deleteArticle(
   database: ShoppingDatabase,
@@ -75,9 +79,21 @@ export async function deleteArticle(
 ): Promise<void> {
   await database.transaction(
     "rw",
-    [database.articles, database.items, database.overrides, database.stores],
+    [
+      database.articles,
+      database.items,
+      database.overrides,
+      database.stores,
+      database.recipes,
+    ],
     async () => {
       await database.items.where("articleId").equals(id).delete();
+      await database.recipes.toCollection().modify((recipe) => {
+        if (recipe.ingredients.some((i) => i.articleId === id))
+          recipe.ingredients = recipe.ingredients.filter(
+            (i) => i.articleId !== id,
+          );
+      });
       await database.overrides.filter((o) => o.articleId === id).delete();
       await database.stores.toCollection().modify((store) => {
         if (store.articleOrder && id in store.articleOrder)
@@ -98,7 +114,8 @@ export async function deleteArticle(
 
 /**
  * Fusionner `removedId` dans `keepId` (docs/02 § 2) : lignes, historique, exceptions et
- * ordre appris passent à l'article gardé ; le nom du second devient un nom alternatif.
+ * ordre appris passent à l'article gardé, comme les ingrédients des recettes ; le nom du
+ * second devient un nom alternatif.
  * Deux lignes du même article avec les mêmes types dans une liste n'en font qu'une (quantités additionnées,
  * ou ajoutées en note si les unités ne se convertissent pas).
  */
@@ -118,6 +135,7 @@ export async function mergeArticles(
       database.overrides,
       database.stores,
       database.units,
+      database.recipes,
     ],
     async () => {
       const [keep, removed] = await database.articles.bulkGet([
@@ -181,6 +199,13 @@ export async function mergeArticles(
         .where("articleId")
         .equals(removedId)
         .modify({ articleId: keepId });
+
+      await database.recipes.toCollection().modify((recipe) => {
+        if (recipe.ingredients.some((i) => i.articleId === removedId))
+          recipe.ingredients = recipe.ingredients.map((i) =>
+            i.articleId === removedId ? { ...i, articleId: keepId } : i,
+          );
+      });
 
       const overrides = await database.overrides.toArray();
       for (const o of overrides.filter((x) => x.articleId === removedId)) {

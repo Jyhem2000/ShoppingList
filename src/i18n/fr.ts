@@ -501,12 +501,21 @@ export const fr = {
       removeAlias: (alias: string) => `Retirer le nom ${alias}`,
       favorite: "Favori",
       favoriteHint: "Toujours en tête du catalogue.",
-      usage: (lines: number, lists: number) =>
-        lines === 0
-          ? "Dans aucune liste pour l'instant."
-          : lists > 1
-            ? `Dans ${lists} listes.`
-            : "Dans une liste.",
+      usage: (lines: number, lists: number, recipes: number) =>
+        [
+          lines === 0
+            ? "Dans aucune liste pour l'instant."
+            : lists > 1
+              ? `Dans ${lists} listes.`
+              : "Dans une liste.",
+          recipes === 0
+            ? ""
+            : recipes > 1
+              ? `Utilisé dans ${recipes} recettes.`
+              : "Utilisé dans une recette.",
+        ]
+          .filter(Boolean)
+          .join(" "),
       merge: "Fusionner avec un autre article",
       mergeTitle: (name: string) => `Fusionner dans ${name}`,
       mergeSearch: "Article à fusionner",
@@ -517,10 +526,19 @@ export const fr = {
       keep: (name: string) => `Garder ${name}`,
       delete: "Supprimer l'article",
       deleteTitle: (name: string) => `Supprimer ${name} ?`,
-      deleteText: (lists: number) =>
-        lists === 0
+      deleteText: (lists: number, recipes: number) => {
+        const where = [
+          lists > 1 ? `des ${lists} listes` : lists === 1 ? "de la liste" : "",
+          recipes > 1
+            ? `des ${recipes} recettes`
+            : recipes === 1
+              ? "de la recette"
+              : "",
+        ].filter(Boolean);
+        return where.length === 0
           ? "Il disparaît du catalogue. L'historique de tes courses reste."
-          : `Il disparaît du catalogue et ${lists > 1 ? `des ${lists} listes` : "de la liste"} où il se trouve. L'historique de tes courses reste.`,
+          : `Il disparaît du catalogue et ${where.join(" et ")} où il se trouve. L'historique de tes courses reste.`;
+      },
       deleted: (name: string) => `${name} supprimé`,
       missing: "Cet article n'existe plus.",
       edit: "Modifier l'article",

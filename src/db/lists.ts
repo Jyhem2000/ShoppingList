@@ -236,13 +236,21 @@ export async function previewListMerge(
   return planListMerge(target, sources, units);
 }
 
-/** Applique les lignes choisies dans l'aperçu. */
+/**
+ * Applique les lignes choisies dans l'aperçu. `recipe` : ajout d'une recette, noté
+ * comme origine de chaque ligne touchée (« via Raclette »).
+ */
 export async function applyListMerge(
   database: ShoppingDatabase,
   targetId: ID,
-  lines: MergeLine[],
+  lines: readonly MergeLine[],
   now = Date.now(),
+  recipe?: ListItem["fromRecipes"][number],
 ): Promise<void> {
+  const withRecipe = (from: ListItem["fromRecipes"]) =>
+    recipe
+      ? [...from.filter((r) => r.recipeId !== recipe.recipeId), recipe]
+      : from;
   await database.transaction("rw", database.items, async () => {
     for (const line of lines) {
       const changes = {
@@ -253,7 +261,11 @@ export async function applyListMerge(
         updatedAt: now,
       };
       if (line.existingId) {
-        await database.items.update(line.existingId, changes);
+        const existing = await database.items.get(line.existingId);
+        await database.items.update(line.existingId, {
+          ...changes,
+          fromRecipes: withRecipe(existing?.fromRecipes ?? []),
+        });
       } else {
         await database.items.add({
           ...changes,
@@ -262,7 +274,7 @@ export async function applyListMerge(
           listId: targetId,
           articleId: line.articleId,
           status: "todo",
-          fromRecipes: [],
+          fromRecipes: withRecipe([]),
         });
       }
     }

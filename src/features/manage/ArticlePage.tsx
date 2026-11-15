@@ -230,7 +230,7 @@ function ArticleForm({ article, data }: { article: Article; data: ListData }) {
       <div className="flex flex-col gap-3 px-4 pt-6 pb-8">
         {usage && (
           <p className="text-center text-sm text-muted-foreground">
-            {t.usage(usage.lines, usage.lists)}
+            {t.usage(usage.lines, usage.lists, usage.recipes)}
           </p>
         )}
         <Button
@@ -284,7 +284,7 @@ function ArticleForm({ article, data }: { article: Article; data: ListData }) {
             if (!open) setPanel(null);
           }}
           title={t.deleteTitle(article.name)}
-          description={t.deleteText(usage?.lists ?? 0)}
+          description={t.deleteText(usage?.lists ?? 0, usage?.recipes ?? 0)}
         >
           <ConfirmActions
             label={t.delete}

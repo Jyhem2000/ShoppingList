@@ -1,4 +1,16 @@
-import { describe, expect, it } from "vitest";
+import "fake-indexeddb/auto";
+import { afterEach, describe, expect, it } from "vitest";
+import { deleteArticle, mergeArticles } from "@/db/articles";
+import { ShoppingDatabase } from "@/db/database";
+import {
+  addRecipeToList,
+  createRecipe,
+  duplicateRecipe,
+  previewRecipeAdd,
+  recipesUsing,
+} from "@/db/recipes";
+import { seedDatabase } from "@/db/seed";
+import { deleteUnit } from "@/db/units";
 import type { Recipe } from "@/domain/model";
 import { planRecipeAdd, recipeMerge, scaleRecipe } from "@/domain/recipes";
 import { unit, units } from "./fixtures";
@@ -172,5 +184,102 @@ describe("aperçu de l'ajout à une liste (docs/02 § 7)", () => {
         kind: "new",
       }),
     ]);
+  });
+});
+
+describe("recettes dans la base (docs/02 § 7)", () => {
+  let database: ShoppingDatabase | undefined;
+  afterEach(async () => {
+    await database?.delete();
+    database = undefined;
+  });
+
+  async function setup() {
+    database = new ShoppingDatabase(`test-${crypto.randomUUID()}`);
+    const db = database;
+    await seedDatabase(db, 0);
+    const list = await db.lists.toCollection().first();
+    const byKey = async (key: string) => {
+      const found = await db.articles.where("catalogKey").equals(key).first();
+      if (!found) throw new Error(key);
+      return found;
+    };
+    const unitId = async (slug: string) => {
+      const found = await db.units.where("slug").equals(slug).first();
+      if (!found) throw new Error(slug);
+      return found.id;
+    };
+    if (!list) throw new Error("liste");
+    const farine = await byKey("farine");
+    const oeufs = await byKey("oeufs");
+    const g = await unitId("g");
+    const kg = await unitId("kg");
+    const piece = await unitId("piece");
+    const recipeId = await createRecipe(db, {
+      name: " Cake ",
+      yield: { quantity: 1, unit: "cake" },
+      ingredients: [
+        { ...ingredient(farine.id, 250, "g"), unitId: g },
+        { ...ingredient(oeufs.id, 3, "piece"), unitId: piece },
+      ],
+    });
+    return { db, list, farine, oeufs, g, kg, piece, recipeId };
+  }
+
+  it("ajouter pour 2 cakes : lignes créées ou complétées, avec la recette pour origine", async () => {
+    const { db, list, farine, oeufs, kg, recipeId } = await setup();
+    await db.items.add({
+      id: "f",
+      createdAt: 0,
+      updatedAt: 0,
+      listId: list.id,
+      articleId: farine.id,
+      quantity: 1,
+      unitId: kg,
+      acceptedTypes: [],
+      status: "todo",
+      fromRecipes: [],
+    });
+    const preview = await previewRecipeAdd(db, recipeId, list.id, 2);
+    expect(await addRecipeToList(db, recipeId, list.id, 2, preview)).toBe(2);
+
+    const items = await db.items.where("listId").equals(list.id).toArray();
+    const flour = items.find((item) => item.articleId === farine.id);
+    const eggs = items.find((item) => item.articleId === oeufs.id);
+    expect(flour).toMatchObject({ quantity: 1.5, unitId: kg });
+    expect(eggs).toMatchObject({ quantity: 6 });
+    for (const item of [flour, eggs])
+      expect(item?.fromRecipes).toEqual([{ recipeId, amount: 2 }]);
+    // La recette ne bouge pas.
+    expect((await db.recipes.get(recipeId))?.name).toBe("Cake");
+  });
+
+  it("dupliquer copie tout ; supprimer un article le retire des recettes, fusionner le remplace", async () => {
+    const { db, farine, oeufs, recipeId } = await setup();
+    const copyId = await duplicateRecipe(db, recipeId, "Cake (copie)");
+    if (!copyId) throw new Error("copie");
+    expect((await db.recipes.get(copyId))?.ingredients).toHaveLength(2);
+    expect(await recipesUsing(db, oeufs.id)).toHaveLength(2);
+
+    await deleteArticle(db, oeufs.id);
+    expect(
+      (await db.recipes.get(recipeId))?.ingredients.map((i) => i.articleId),
+    ).toEqual([farine.id]);
+
+    const other = await db.articles.where("catalogKey").equals("sucre").first();
+    if (!other) throw new Error("sucre");
+    await mergeArticles(db, other.id, farine.id);
+    expect(
+      (await db.recipes.get(copyId))?.ingredients.map((i) => i.articleId),
+    ).toEqual([other.id]);
+  });
+
+  it("supprimer une unité convertit les ingrédients qui l'utilisent", async () => {
+    const { db, g, kg, recipeId } = await setup();
+    await deleteUnit(db, g, kg);
+    expect((await db.recipes.get(recipeId))?.ingredients[0]).toMatchObject({
+      quantity: 0.25,
+      unitId: kg,
+    });
   });
 });
