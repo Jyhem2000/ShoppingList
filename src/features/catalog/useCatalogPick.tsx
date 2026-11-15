@@ -6,7 +6,8 @@ import { QuantitySheet } from "./QuantitySheet";
 
 /**
  * Choisir un article du catalogue (docs/03 A5) : absent de la liste, il est ajouté avec
- * sa quantité par défaut ; déjà présent, le réglage − / + / ✕ s'ouvre au lieu d'ajouter.
+ * sa quantité par défaut ; déjà présent, le réglage − / + / ✕ s'ouvre au lieu d'ajouter
+ * (sur la ligne « peu importe » s'il y en a une, sinon la première de ses lignes).
  * `sheet` : le panneau de réglage, à afficher par l'appelant.
  */
 export function useCatalogPick(data: ListData) {
@@ -17,7 +18,8 @@ export function useCatalogPick(data: ListData) {
     : undefined;
 
   const pick = (article: Article): "added" | "opened" => {
-    const item = data.items.find((i) => i.articleId === article.id);
+    const lines = data.items.filter((i) => i.articleId === article.id);
+    const item = lines.find((i) => i.acceptedTypes.length === 0) ?? lines.at(0);
     if (item) {
       setOpen(item.id);
       return "opened";

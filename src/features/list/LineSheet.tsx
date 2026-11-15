@@ -3,7 +3,7 @@ import { useState } from "react";
 import { addArticleType } from "@/db/catalog";
 import { manageArticlePath } from "@/app/routes";
 import { db } from "@/db/database";
-import { updateItem } from "@/db/lists";
+import { mergeIntoTwin, updateItem } from "@/db/lists";
 import type { ListItem } from "@/domain/model";
 import { changeUnit, formatNumber } from "@/domain/quantity";
 import { fr } from "@/i18n/fr";
@@ -11,6 +11,7 @@ import { Button } from "@/ui/button";
 import { Chip, Field, TextInput, FieldLabel } from "@/ui/form";
 import { NavButton } from "@/ui/NavButton";
 import { Sheet } from "@/ui/Sheet";
+import { showToast } from "@/ui/toast";
 import { KeepOneOff } from "./KeepOneOff";
 import { UnitSelect } from "./UnitSelect";
 import type { ListData } from "./useListData";
@@ -70,9 +71,16 @@ export function LineSheet({
       : [...item.acceptedTypes, type];
     void updateItem(db, item.id, { acceptedTypes });
   };
-  const saveNote = () => {
+  const saveNote = async () => {
     if (note.trim() !== (item.note ?? ""))
-      void updateItem(db, item.id, { note: note.trim() || undefined });
+      await updateItem(db, item.id, { note: note.trim() || undefined });
+  };
+  // Types changés : la ligne rejoint l'autre ligne du même article aux mêmes types
+  // (docs/02 § 6), à la fermeture seulement, pour ne pas fusionner en cours de choix.
+  const close = async () => {
+    await saveNote();
+    if (await mergeIntoTwin(db, item.id))
+      showToast(fr.list.linesJoined, { tone: "info" });
   };
 
   return (
@@ -81,7 +89,7 @@ export function LineSheet({
       autoFocus={false}
       onOpenChange={(open) => {
         if (!open) {
-          saveNote();
+          void close();
           onClose();
         }
       }}
@@ -222,7 +230,7 @@ export function LineSheet({
             onChange={(event) => {
               setNote(event.target.value);
             }}
-            onBlur={saveNote}
+            onBlur={() => void saveNote()}
             placeholder={t.notePlaceholder}
           />
         </Field>
@@ -230,7 +238,7 @@ export function LineSheet({
         <NavButton
           to={manageArticlePath(article.id)}
           onClick={() => {
-            saveNote();
+            void close();
             onClose();
           }}
           className="-my-1 flex min-h-11 items-center justify-center gap-2 text-sm font-semibold text-primary"
@@ -256,7 +264,7 @@ export function LineSheet({
             type="button"
             className="flex-1"
             onClick={() => {
-              saveNote();
+              void close();
               onClose();
             }}
           >

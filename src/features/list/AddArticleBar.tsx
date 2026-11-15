@@ -6,7 +6,7 @@ import { searchArticles } from "@/domain/search";
 import { searchKey } from "@/domain/slug";
 import { fr } from "@/i18n/fr";
 import { AddBar } from "@/ui/AddBar";
-import { lineQuantity } from "./format";
+import { quantitiesInList } from "./format";
 import type { ListData } from "./useListData";
 import { RowButton } from "@/ui/RowButton";
 import { SuggestionList } from "@/ui/SuggestionList";
@@ -58,8 +58,8 @@ export function AddArticleBar({
   }, [text, data]);
 
   const inList = useMemo(
-    () => new Map(data.items.map((item) => [item.articleId, item])),
-    [data.items],
+    () => quantitiesInList(data.items, data.unitById),
+    [data.items, data.unitById],
   );
 
   const done = () => {
@@ -73,18 +73,14 @@ export function AddArticleBar({
           <SuggestionList aria-label={t.addPlaceholder} className="mb-2">
             {suggestions.map(({ article }) => {
               const category = data.categoryById.get(article.categoryId);
-              const item = inList.get(article.id);
+              const quantity = inList.get(article.id);
               return (
                 <li key={article.id}>
                   <RowButton
                     inset="popover"
                     icon={<ArticleIcon article={article} category={category} />}
                     title={article.name}
-                    detail={
-                      item
-                        ? t.inList(lineQuantity(item, data.unitById))
-                        : category?.name
-                    }
+                    detail={quantity ? t.inList(quantity) : category?.name}
                     onClick={() => {
                       onPick(article, entry);
                       done();

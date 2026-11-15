@@ -1,9 +1,11 @@
+import { lineKey } from "./lines";
 import type { ID, ListItem, Unit } from "./model";
 import { formatQuantity, mergeQuantity } from "./quantity";
 
 /**
  * Ajout du contenu d'autres listes à une liste (docs/02 § 6, « Ajouter une liste
- * dans une autre ») : une ligne par article, quantités fusionnées.
+ * dans une autre ») : une ligne par article et par choix de types, quantités
+ * fusionnées.
  */
 export type MergeSource = Pick<
   ListItem,
@@ -22,12 +24,6 @@ export interface MergeLine {
   kind: "new" | "merged" | "note";
 }
 
-/** Types acceptés : « peu importe » (vide) l'emporte, sinon la réunion des deux. */
-function mergeTypes(a: string[], b: string[]): string[] {
-  if (a.length === 0 || b.length === 0) return [];
-  return [...new Set([...a, ...b])];
-}
-
 function mergeNotes(a?: string, b?: string): string | undefined {
   const notes = [a, b].filter((note): note is string => Boolean(note?.trim()));
   return notes.length ? [...new Set(notes)].join(" · ") : undefined;
@@ -43,10 +39,10 @@ export function planListMerge(
   units: readonly Unit[],
 ): MergeLine[] {
   const unitById = new Map(units.map((unit) => [unit.id, unit]));
-  const current = new Map<ID, MergeLine>();
-  const touched = new Set<ID>();
+  const current = new Map<string, MergeLine>();
+  const touched = new Set<string>();
   for (const item of target)
-    current.set(item.articleId, {
+    current.set(lineKey(item), {
       articleId: item.articleId,
       existingId: item.id,
       quantity: item.quantity,
@@ -57,10 +53,11 @@ export function planListMerge(
     });
 
   for (const source of sources) {
-    touched.add(source.articleId);
-    const line = current.get(source.articleId);
+    const key = lineKey(source);
+    touched.add(key);
+    const line = current.get(key);
     if (!line) {
-      current.set(source.articleId, { ...source, kind: "new" });
+      current.set(key, { ...source, kind: "new" });
       continue;
     }
     const existingUnit = unitById.get(line.unitId);
@@ -73,27 +70,24 @@ export function planListMerge(
             units,
           )
         : { kind: "incompatible" as const };
-    const acceptedTypes = mergeTypes(line.acceptedTypes, source.acceptedTypes);
     if (merged.kind === "merged") {
-      current.set(source.articleId, {
+      current.set(key, {
         ...line,
         quantity: merged.quantity,
         unitId: merged.unit.id,
-        acceptedTypes,
         note: mergeNotes(line.note, source.note),
       });
     } else {
       const extra = addedUnit
         ? `+ ${formatQuantity(source.quantity, addedUnit)}`
         : undefined;
-      current.set(source.articleId, {
+      current.set(key, {
         ...line,
-        acceptedTypes,
         note: mergeNotes(mergeNotes(line.note, extra), source.note),
         kind: line.kind === "new" ? "new" : "note",
       });
     }
   }
 
-  return [...current.values()].filter((line) => touched.has(line.articleId));
+  return [...current.values()].filter((line) => touched.has(lineKey(line)));
 }

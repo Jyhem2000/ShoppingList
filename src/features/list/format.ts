@@ -36,6 +36,23 @@ export function lineQuantity(
   return unit ? formatQuantity(item.quantity, unit, style) : "";
 }
 
+/**
+ * Ce que la liste contient déjà de chaque article, pour le catalogue et les suggestions :
+ * « 1 kg », ou « × 2 + × 3 » quand l'article a plusieurs lignes (types différents).
+ */
+export function quantitiesInList(
+  items: readonly Pick<ListItem, "articleId" | "quantity" | "unitId">[],
+  unitById: ReadonlyMap<ID, Unit>,
+): Map<ID, string> {
+  const result = new Map<ID, string>();
+  for (const item of items) {
+    const quantity = lineQuantity(item, unitById);
+    const before = result.get(item.articleId);
+    result.set(item.articleId, before ? `${before} + ${quantity}` : quantity);
+  }
+  return result;
+}
+
 /** Nom court d'une catégorie (docs/02 § 4) : le sien, sinon celui du catalogue, sinon son nom. */
 export function categoryShortName(
   category: Pick<Category, "name" | "shortName" | "catalogKey">,

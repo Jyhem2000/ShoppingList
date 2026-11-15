@@ -50,6 +50,16 @@ test("2. ajout éclair, article déjà présent, création d'un article inconnu"
   await expect(line(page, "Baguette")).toContainText("× 2");
   await expect(line(page, "Beurre")).toBeVisible();
   await expect(line(page, "Œufs")).toContainText("× 6");
+
+  // Un même article avec des types différents : une ligne par choix de types.
+  await addToList(page, "2 pommes golden, 3 pommes granny smith");
+  await expect(line(page, "Pommes")).toHaveCount(2);
+  await expect(
+    line(page, "Pommes").filter({ hasText: "Golden uniquement" }),
+  ).toContainText("2");
+  await expect(
+    line(page, "Pommes").filter({ hasText: "Granny Smith uniquement" }),
+  ).toContainText("3");
 });
 
 test("3. liste par catégorie ; la première course construit le magasin, la suivante suit ce parcours", async ({

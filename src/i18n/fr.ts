@@ -110,6 +110,8 @@ export const fr = {
     inList: (quantity: string) => `Dans la liste : ${quantity}`,
     typesOne: (type: string) => `${type} uniquement`,
     typesMany: (types: string[]) => types.join(" ou "),
+    linesJoined:
+      "Mêmes types qu'une autre ligne : les deux n'en font plus qu'une.",
     removed: (name: string) => `${name} : retiré de la liste`,
     removedMany: (count: number) =>
       count > 1 ? `${count} lignes retirées` : "1 ligne retirée",

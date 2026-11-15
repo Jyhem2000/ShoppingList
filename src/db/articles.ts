@@ -1,4 +1,5 @@
 import { mergedArticleFields } from "@/domain/duplicates";
+import { sameTypes } from "@/domain/lines";
 import type { Article, ID } from "@/domain/model";
 import { formatQuantity, mergeQuantity } from "@/domain/quantity";
 import { slugify } from "@/domain/slug";
@@ -98,7 +99,7 @@ export async function deleteArticle(
 /**
  * Fusionner `removedId` dans `keepId` (docs/02 § 2) : lignes, historique, exceptions et
  * ordre appris passent à l'article gardé ; le nom du second devient un nom alternatif.
- * Deux lignes du même article dans une liste n'en font qu'une (quantités additionnées,
+ * Deux lignes du même article avec les mêmes types dans une liste n'en font qu'une (quantités additionnées,
  * ou ajoutées en note si les unités ne se convertissent pas).
  */
 export async function mergeArticles(
@@ -138,7 +139,10 @@ export async function mergeArticles(
         const twin = line.closedInSessionId
           ? undefined
           : keptLines.find(
-              (k) => k.listId === line.listId && !k.closedInSessionId,
+              (k) =>
+                k.listId === line.listId &&
+                !k.closedInSessionId &&
+                sameTypes(k.acceptedTypes, line.acceptedTypes),
             );
         if (!twin) {
           await database.items.update(line.id, {

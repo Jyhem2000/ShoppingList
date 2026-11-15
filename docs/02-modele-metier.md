@@ -264,14 +264,16 @@ Dimensions : **masse** (base g), **volume** (base ml), **autre** (pièce, pack, 
 
 **Affichage des types acceptés** : vide → rien ; un type → « Gala uniquement » ; plusieurs → « Gala ou Golden ». On peut ajouter un nouveau type à la volée depuis la ligne ; il est alors ajouté aux types de l'article.
 
-### Une seule ligne par article dans une liste
+### Une ligne par article et par choix de types
 
-Quand on ajoute un article **déjà présent** dans la liste, l'app **ne modifie rien d'office** : elle affiche « Déjà dans la liste : 2 kg » avec deux choix :
+Une liste a **une ligne par article et par choix de types** (décision du 15 novembre 2026) : « Pommes · Golden × 2 » et « Pommes · Granny Smith × 3 » sont deux lignes, comme « Sucre · en poudre 1 kg » et « Sucre · glace 250 g ». Les mêmes types, dans n'importe quel ordre, font la même ligne ; « peu importe » (aucun type) est un choix comme un autre, donc « Pommes » et « Pommes · Golden » sont aussi deux lignes. Dans une ligne, les types gardent leur sens « l'un ou l'autre » (« Gala ou Golden »). Les lignes d'un même article restent côte à côte, dans la liste comme en magasin. Quand on change les types d'une ligne pour ceux d'une autre ligne du même article, les deux fusionnent à la fermeture du panneau (quantités additionnées, ou ajoutées en note si les unités ne se convertissent pas).
+
+Quand on ajoute un article **déjà présent avec les mêmes types** dans la liste, l'app **ne modifie rien d'office** : elle affiche « Déjà dans la liste : 2 kg » avec deux choix :
 
 - **Ajouter** une quantité (sélecteur prérempli avec la quantité saisie, ou le pas de l'unité) ;
 - **Ne rien faire** (choix par défaut : `Entrée` ou fermer = ne rien faire).
 
-Fusion des quantités quand on choisit « Ajouter » (ou lors d'un ajout de recette) :
+Fusion des quantités quand on choisit « Ajouter » (ou lors d'un ajout de recette, ligne aux mêmes types seulement) :
 
 - même unité → addition ;
 - unités convertibles → conversion puis addition (300 g + 1 kg = 1,3 kg), puis simplification (§ 5) ;

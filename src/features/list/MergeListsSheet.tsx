@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { db } from "@/db/database";
 import { applyListMerge, previewListMerge } from "@/db/lists";
+import { lineKey } from "@/domain/lines";
 import type { MergeLine } from "@/domain/listMerge";
 import type { ID } from "@/domain/model";
 import { feedback } from "@/feedback";
@@ -10,7 +11,7 @@ import { CheckRow, FieldLabel } from "@/ui/form";
 import { RowText } from "@/ui/RowButton";
 import { Sheet } from "@/ui/Sheet";
 import { showToast } from "@/ui/toast";
-import { lineQuantity } from "./format";
+import { lineDetails, lineQuantity } from "./format";
 import type { ListData } from "./useListData";
 import { ArticleIcon } from "@/ui/ArticleIcon";
 import { EmptyHint } from "@/ui/Page";
@@ -46,7 +47,7 @@ export function MergeListsSheet({
     };
   }, [data.list.id, data.items, sources]);
 
-  const chosen = lines.filter((line) => !excluded.has(line.articleId));
+  const chosen = lines.filter((line) => !excluded.has(lineKey(line)));
 
   return (
     <Sheet
@@ -91,13 +92,13 @@ export function MergeListsSheet({
               const category = data.categoryById.get(article.categoryId);
               return (
                 <CheckRow
-                  key={line.articleId}
-                  checked={!excluded.has(line.articleId)}
+                  key={lineKey(line)}
+                  checked={!excluded.has(lineKey(line))}
                   onCheckedChange={(checked) => {
                     setExcluded((current) => {
                       const next = new Set(current);
-                      if (checked) next.delete(line.articleId);
-                      else next.add(line.articleId);
+                      if (checked) next.delete(lineKey(line));
+                      else next.add(lineKey(line));
                       return next;
                     });
                   }}
@@ -109,7 +110,7 @@ export function MergeListsSheet({
                       (line.kind === "new"
                         ? t.isNew
                         : t.merged(lineQuantity(line, data.unitById))) +
-                      (line.note ? ` · ${line.note}` : "")
+                      (lineDetails(line) ? ` · ${lineDetails(line)}` : "")
                     }
                   />
                   <span className="shrink-0 font-bold text-secondary tabular-nums">

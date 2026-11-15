@@ -6,6 +6,7 @@ import type {
   ItemStatus,
   ListItem,
 } from "./model";
+import { typesKey } from "./lines";
 
 /**
  * Tri de la liste par rayon (docs/02 § 4, docs/07 § 7.4 et 7.5).
@@ -97,7 +98,11 @@ export function groupListForStore<
       return orderA - orderB;
     if (orderA !== undefined && orderB === undefined) return -1;
     if (orderA === undefined && orderB !== undefined) return 1;
-    return collator.compare(name(a), name(b));
+    return (
+      collator.compare(name(a), name(b)) ||
+      // Lignes d'un même article (types différents) : côte à côte, dans un ordre stable.
+      collator.compare(typesKey(a.acceptedTypes), typesKey(b.acceptedTypes))
+    );
   };
 
   return [...groups.values()]

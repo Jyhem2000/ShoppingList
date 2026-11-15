@@ -1,11 +1,13 @@
+import { sameTypes } from "@/domain/lines";
 import { planListMerge, type MergeLine } from "@/domain/listMerge";
+import { formatQuantity, mergeQuantity } from "@/domain/quantity";
 import type { ID, ListItem, ShoppingList } from "@/domain/model";
 import type { ShoppingDatabase } from "./database";
 import { getSettings, updateSettings } from "./settings";
 
 /**
- * Listes et lignes (docs/02 § 6, docs/03 B2 à B6). Une seule ligne par article
- * dans une liste : voir `addListItem` (items.ts).
+ * Listes et lignes (docs/02 § 6, docs/03 B2 à B6). Une seule ligne par article et
+ * par choix de types dans une liste : voir `addListItem` (items.ts).
  */
 const newId = () => crypto.randomUUID();
 
@@ -135,6 +137,66 @@ export async function updateItem(
   >,
 ): Promise<void> {
   await database.items.update(id, { ...changes, updatedAt: Date.now() });
+}
+
+/**
+ * Une ligne dont on vient de changer les types rejoint, s'il y en a une, l'autre ligne
+ * active du même article avec les mêmes types (docs/02 § 6) : quantités additionnées,
+ * ou ajoutées en note si les unités ne se convertissent pas ; les notes sont gardées.
+ * Renvoie l'identifiant de la ligne gardée, ou `undefined` si rien n'a changé.
+ */
+export async function mergeIntoTwin(
+  database: ShoppingDatabase,
+  id: ID,
+  now = Date.now(),
+): Promise<ID | undefined> {
+  return database.transaction(
+    "rw",
+    [database.items, database.units],
+    async () => {
+      const item = await database.items.get(id);
+      if (!item || item.closedInSessionId) return undefined;
+      const twin = await database.items
+        .where("articleId")
+        .equals(item.articleId)
+        .filter(
+          (other) =>
+            other.id !== item.id &&
+            other.listId === item.listId &&
+            !other.closedInSessionId &&
+            sameTypes(other.acceptedTypes, item.acceptedTypes),
+        )
+        .first();
+      if (!twin) return undefined;
+      const units = await database.units.toArray();
+      const a = units.find((unit) => unit.id === twin.unitId);
+      const b = units.find((unit) => unit.id === item.unitId);
+      const merged =
+        a && b
+          ? mergeQuantity(
+              { quantity: twin.quantity, unit: a },
+              { quantity: item.quantity, unit: b },
+              units,
+            )
+          : undefined;
+      const extra =
+        merged?.kind !== "merged" && b
+          ? `+ ${formatQuantity(item.quantity, b, "long")}`
+          : undefined;
+      const notes = [twin.note, extra, item.note].filter(
+        (note): note is string => Boolean(note?.trim()),
+      );
+      await database.items.update(twin.id, {
+        ...(merged?.kind === "merged"
+          ? { quantity: merged.quantity, unitId: merged.unit.id }
+          : {}),
+        note: notes.length ? [...new Set(notes)].join(" · ") : undefined,
+        updatedAt: now,
+      });
+      await database.items.delete(item.id);
+      return twin.id;
+    },
+  );
 }
 
 /** Supprime des lignes et les renvoie, pour pouvoir les rétablir (« Annuler »). */

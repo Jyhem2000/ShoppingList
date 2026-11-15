@@ -47,7 +47,7 @@ Barre de saisie fixée en bas de l'écran Liste, accessible au pouce.
 
 ### A3. Article déjà dans la liste — _v1.0_
 
-Voir [02 § 6](02-modele-metier.md#une-seule-ligne-par-article-dans-une-liste). Un panneau léger (non bloquant) affiche « Déjà dans la liste : 2 kg » et propose **Ajouter [quantité]** ou **Ne rien faire** (par défaut).
+Voir [02 § 6](02-modele-metier.md#une-ligne-par-article-et-par-choix-de-types) : seulement pour une ligne du même article **avec les mêmes types** ; avec d'autres types (`3 pommes granny` quand la liste a des Golden), c'est une nouvelle ligne. Un panneau léger (non bloquant) affiche « Déjà dans la liste : 2 kg » et propose **Ajouter [quantité]** ou **Ne rien faire** (par défaut).
 
 **Critères** : ajouter _Pommes_ déjà présent puis `Entrée` → quantité inchangée ; choisir « Ajouter 1 kg » → 3 kg.
 
