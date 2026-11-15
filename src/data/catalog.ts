@@ -22,7 +22,7 @@ export interface CatalogArticleData {
 }
 
 /** Version du catalogue embarqué : augmente quand il s'enrichit ou se corrige. */
-export const CATALOG_VERSION = 7;
+export const CATALOG_VERSION = 6;
 
 /**
  * Corrections d'articles déjà livrés (docs/06 § 7) : appliquées à la mise à jour du
@@ -38,36 +38,6 @@ export interface CatalogFix {
 
 export const catalogFixes: CatalogFix[] = [
   { since: 4, key: "litiere", unit: "paquet" },
-];
-
-/**
- * Catégories du catalogue fondues dans une autre (docs/06 § 7) : à la mise à jour, la
- * catégorie `from` disparaît dans `into`, si l'utilisateur ne l'a jamais modifiée. Ses
- * articles gardent, dans chaque magasin, le rayon où ils étaient rangés.
- */
-export interface CategoryMerge {
-  since: number;
-  from: string;
-  into: string;
-}
-
-export const categoryMerges: CategoryMerge[] = [
-  // Une catégorie pour un seul article : les œufs rejoignent la crèmerie.
-  { since: 7, from: "oeufs", into: "lait-creme-beurre" },
-];
-
-/**
- * Catégories renommées dans le catalogue (docs/06 § 7) : le nouveau nom (celui des
- * données initiales) remplace `previous` seulement si l'utilisateur ne l'a pas changé.
- */
-export interface CategoryRename {
-  since: number;
-  key: string;
-  previous: string;
-}
-
-export const categoryRenames: CategoryRename[] = [
-  { since: 7, key: "lait-creme-beurre", previous: "Lait, Crème & Beurre" },
 ];
 
 export const catalogData = catalogJson as CatalogArticleData[];
