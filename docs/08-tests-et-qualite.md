@@ -79,6 +79,10 @@ Chaque scénario tourne sur deux configurations : **WebKit + iPhone émulé** (c
 - scénario 3 : « C'est parti » touché pendant que la deuxième ligne s'ajoutait au-dessus et le décalait. Le test attend désormais que les lignes soient là ;
 - scénario 5 : WebKit (sous Windows) cesse un moment de redessiner la page ; Playwright attend alors en vain qu'un bouton soit immobile. Rien dans l'app : la page répond toujours et aucune animation n'est en cours. Les scénarios iPhone sont donc rejoués une fois en cas d'échec (`retries: 1` dans `playwright.config.ts`) : un scénario qui passe au second essai est signalé « flaky » dans le rapport sans bloquer `npm run e2e` ni `npm run release` ; s'il échoue deux fois, c'est un vrai problème. Un scénario souvent « flaky » mérite d'être examiné.
 
+Repris le 15 novembre 2026 : le scénario 5 échouait au premier essai presque à chaque fois sur iPhone (4 sur 4). Deux causes : un toucher perdu parce que la ligne visée bouge juste après que Playwright l'a jugée immobile (une ligne qui change de rayon, un rayon qui s'ouvre), et des pauses de WebKit allant jusqu'à une dizaine de secondes (une simple saisie). Les gestes du mode courses qu'un second toucher ne défait pas (cocher, « Rayon suivant », « Terminer », « Retour à la liste ») sont donc rejoués tant que leur effet n'est pas visible (`tapUntil` dans `tests/e2e/app.ts`), et un scénario iPhone a 60 s au lieu de 30. Le scénario 5 rejoué 6 fois passe alors du premier coup.
+
+Les textes attendus à l'écran sont lus dans `src/i18n/fr.ts` et `src/data/categories.json` (`tests/e2e/texts.ts`), jamais recopiés : retoucher un texte ne casse pas les scénarios. Seul ce que l'on tape (noms d'articles, de magasins) reste écrit dans les scénarios.
+
 ## 4. Qualité du code
 
 - TypeScript strict, aucun `any` implicite.

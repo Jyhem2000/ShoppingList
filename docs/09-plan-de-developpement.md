@@ -194,7 +194,7 @@ Retours de l'essai du 15 novembre 2026 : catégories de « À placer » repliabl
 - 🚀 **`npm run release -- 0.9.0`** : installation définitive de la production sur les deux téléphones. _Publiée le 15 novembre 2026 ; la phase 9 (recettes) avance en parallèle sur `dev`._
 - 2-3 semaines d'usage réel ; correctifs publiés en `0.9.1`, `0.9.2`…
 
-### Phase 9 — Recettes _(plan validé le 15 novembre 2026, pas encore commencé)_
+### Phase 9 — Recettes _(plan validé le 15 novembre 2026, en cours)_
 
 E1, E2 : onglet Recettes, fiche recette avec rendement fixe (personnes ou unité libre), ajout à une liste avec recalcul, arrondi, simplification et fusion des quantités. Développée sur `dev` pendant l'usage réel de la 0.9 ; l'onglet n'apparaît que hors production jusqu'à la `1.0.0`, pour que les correctifs `0.9.x` restent publiables.
 
@@ -202,7 +202,7 @@ E1, E2 : onglet Recettes, fiche recette avec rendement fixe (personnes ou unité
 
 Plan (pas de migration de données : au besoin, on réinstalle l'app, 07 § 5) :
 
-0. **Tests E2E** : leurs textes sont lus dans `src/i18n/fr.ts` et `src/data/categories.json` au lieu d'être recopiés ; correction du scénario 5 instable sur iPhone.
+0. ✅ **Tests E2E** : leurs textes sont lus dans `src/i18n/fr.ts` et `src/data/categories.json` au lieu d'être recopiés ; correction du scénario 5 instable sur iPhone.
 1. **Calculs** (`src/domain/recipes.ts`, fonctions pures) : `scaleRecipe` (quantités fixes inchangées, sinon `q × demandé ÷ rendement`, arrondi au pas supérieur, simplification) ; `planRecipeAdd` (aperçu : facultatifs décochés, quantité déjà dans la liste, fusion par `mergeQuantity`, quantité en note si les unités ne se convertissent pas). Tests unitaires sur les critères de 03 E2.
 2. **Données** (`src/db/recipes.ts`) : créer, modifier, dupliquer, supprimer une recette ; l'ajouter à une liste (`fromRecipes`, origine « via Raclette », jamais de libellé recopié). Ce qui arrive ensuite aux lignes ne touche jamais la recette. Seule la suppression d'un article du catalogue la concerne : « utilisé dans N recettes », retirer l'ingrédient ou annuler (02 § 2) ; fusion d'articles et suppression d'unité reportées sur les ingrédients.
 3. **Écrans** : onglet Recettes (`chef-hat`, hors production seulement jusqu'à la `1.0.0`) ; liste avec recherche, « Nouvelle recette », état vide ; fiche avec rendement fixe, ingrédients, étapes, dupliquer et supprimer en bas ; édition sur la même fiche (ingrédients par la barre d'ajout, cases « facultatif » et « quantité fixe », unités de cuisine, rendement nombre + unité, icône). Tout élément présent à deux endroits devient un composant de `src/ui` (aperçu à cocher partagé avec « Y ajouter le contenu d'une autre liste »).
