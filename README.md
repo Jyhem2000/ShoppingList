@@ -11,9 +11,9 @@ Fini les allers-retours au rayon frais parce que tu avais oublié le beurre : l'
 - 🧠 **Apprend l'ordre des rayons** à partir de l'ordre dans lequel tu coches tes articles.
 - 🛒 **Mode courses** : grosses lignes, rayons qui se replient une fois terminés, écran qui reste allumé, alerte si tu ajoutes un article d'un rayon déjà passé, clôture des courses (et réouverture en cas d'oubli à la caisse).
 - ✏️ **Tout est modifiable** : articles, catégories, rayons, magasins, unités.
-- 🍲 **Recettes** _(v1.1)_ : ajoute une recette pour 6 personnes ou 2 cakes, les ingrédients sont recalculés et ajoutés à ta liste.
+- 🍲 **Recettes** _(v1.0)_ : ajoute une recette pour 6 personnes ou 2 cakes, les ingrédients sont recalculés et ajoutés à ta liste.
+- 📤 **Partage** _(v1.1)_ : envoie ta liste à quelqu'un qui l'importe dans son app.
 - 💡 **Anti-oubli** _(v1.2)_ : l'app te rappelle ce que tu achètes d'habitude.
-- 📤 **Partage** _(v1.3)_ : envoie ta liste à quelqu'un qui l'importe dans son app.
 - 🔒 **Sans compte, sans serveur, sans pub, gratuit.** Tes données restent sur ton téléphone et l'app marche hors ligne.
 
 ## Mode d'emploi

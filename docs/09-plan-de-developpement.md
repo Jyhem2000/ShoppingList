@@ -2,15 +2,14 @@
 
 Développement confié à un agent IA, par **phases courtes et vérifiables**. Chaque phase se termine par : tests verts, app déployée en préproduction, checklist téléphone ([08 § 5](08-tests-et-qualite.md#5-checklist-manuelle-sur-téléphone-fin-de-chaque-phase)) validée par toi.
 
-| Version                                                                  | Phases                                                                                                                                                                   |
-| ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| —                                                                        | 0. Validation de la doc ✅                                                                                                                                               |
-| **v1.0 — Cœur** (0.N.0 à chaque phase N validée, puis 0.9 en usage réel) | 1. Socle · 2. Maquette visuelle · 3. Données et logique · 4. Liste · 5. Mode courses · 6. Tout modifiable · 7. Magasins construits en magasin · 8. Réglages et finitions |
-| **v1.1 — Recettes**                                                      | 9. Recettes                                                                                                                                                              |
-| **v1.2 — Anti-oubli**                                                    | 10. Anti-oubli                                                                                                                                                           |
-| **v1.3 — Partage**                                                       | 11. Partage                                                                                                                                                              |
+| Version                                                                              | Phases                                                                                                                                                                                 |
+| ------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| —                                                                                    | 0. Validation de la doc ✅                                                                                                                                                             |
+| **v1.0 — Cœur et recettes** (0.N.0 à chaque phase N validée, puis 0.9 en usage réel) | 1. Socle · 2. Maquette visuelle · 3. Données et logique · 4. Liste · 5. Mode courses · 6. Tout modifiable · 7. Magasins construits en magasin · 8. Réglages et finitions · 9. Recettes |
+| **v1.1 — Partage**                                                                   | 10. Partage                                                                                                                                                                            |
+| **v1.2 — Anti-oubli**                                                                | 11. Anti-oubli                                                                                                                                                                         |
 
-Le 13 novembre 2026, une phase 7 a été insérée (magasins construits pendant les courses, après le premier essai réel) : les anciennes phases 7 à 10 sont devenues 8 à 11.
+Le 13 novembre 2026, une phase 7 a été insérée (magasins construits pendant les courses, après le premier essai réel) : les anciennes phases 7 à 10 sont devenues 8 à 11. Le 15 novembre 2026, les recettes ont rejoint la v1.0 (développées pendant l'usage réel de la 0.9, visibles seulement hors production jusqu'à la `1.0.0`) et le partage passe avant l'anti-oubli : partage en v1.1 (phase 10), anti-oubli en v1.2 (phase 11).
 
 Numérotation : la version **`0.N.0` sort quand la phase N est validée** ; elle peut contenir en avant-première le travail de la phase suivante. Correctifs entre deux : `0.N.1`, `0.N.2`… Détails et déploiements : [07 § 9 — Cycle des versions](07-architecture-technique.md#cycle-des-versions).
 
@@ -194,33 +193,33 @@ Retours de l'essai du 15 novembre 2026 : catégories de « À placer » repliabl
 
 - 🚀 **`npm run release -- 0.9.0`** : installation définitive de la production sur les deux téléphones. _Publiée le 15 novembre 2026 ; la phase 9 (recettes) avance en parallèle sur `dev`._
 - 2-3 semaines d'usage réel ; correctifs publiés en `0.9.1`, `0.9.2`…
-- 🎉 _**Validation → `npm run release -- 1.0.0`** (même code). Les données restent en place._
-
-## v1.1 — Recettes
 
 ### Phase 9 — Recettes
 
-E1, E2 : onglet Recettes, fiche recette avec rendement (personnes ou unité libre), ajout à une liste avec recalcul, arrondi, simplification et fusion des quantités.
+E1, E2 : onglet Recettes, fiche recette avec rendement fixe (personnes ou unité libre), ajout à une liste avec recalcul, arrondi, simplification et fusion des quantités. Développée sur `dev` pendant l'usage réel de la 0.9 ; l'onglet n'apparaît que hors production jusqu'à la `1.0.0`, pour que les correctifs `0.9.x` restent publiables.
 
-- ✅ _Tests unitaires `scaleRecipe` / `mergeQuantity` verts ; scénario E2E 7 vert._
-- 🎉 _**Publication v1.1.0.**_
+- ✅ _Tests unitaires `scaleRecipe` / `mergeQuantity` verts ; scénario E2E 7 vert ; validation en préproduction._
 
-## v1.2 — Anti-oubli
+### Publication 1.0
 
-### Phase 10 — Anti-oubli
+- 🎉 _**Validation de la 0.9 et des recettes → `npm run release -- 1.0.0`**, avec l'onglet Recettes visible en production et des nouveautés réécrites : une seule entrée « 1.0.0 » remplace celles des versions `0.x` (07 § 9). Les données restent en place._
 
-D1, D2 : suggestions basées sur la fréquence d'achat, revue rapide par catégorie.
+## v1.1 — Partage
 
-- 🎉 _**Publication v1.2.0.**_
-
-## v1.3 — Partage
-
-### Phase 11 — Partage
+### Phase 10 — Partage
 
 F1, F2, A8 : envoyer une liste, l'importer (lien sur Android, « Coller une liste partagée » sur iPhone), aperçu d'import avec « C'est le même que… », coller une liste en texte.
 
 - ✅ _Scénario E2E 8 vert ; essai réel iPhone → Android et Android → iPhone._
-- 🎉 _**Publication v1.3.0.**_
+- 🎉 _**Publication v1.1.0.**_
+
+## v1.2 — Anti-oubli
+
+### Phase 11 — Anti-oubli
+
+D1, D2 : suggestions basées sur la fréquence d'achat, revue rapide par catégorie.
+
+- 🎉 _**Publication v1.2.0.**_
 
 ## Plus tard et idées
 

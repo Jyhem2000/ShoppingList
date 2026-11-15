@@ -6,12 +6,12 @@ Cible : app installée sur l'écran d'accueil (plein écran, sans barre de navig
 
 Barre d'onglets en bas (masquée en mode courses) :
 
-| Onglet        | Icône (Lucide) | Contenu                                   | Version                    |
-| ------------- | -------------- | ----------------------------------------- | -------------------------- |
-| **Liste**     | `list-checks`  | La liste courante (écran d'accueil)       | v1.0                       |
-| **Catalogue** | `layout-grid`  | Parcourir les articles par catégorie      | v1.0                       |
-| **Recettes**  | `chef-hat`     | Les recettes                              | v1.1 (onglet absent avant) |
-| **Réglages**  | `settings`     | Réglages, gestion des données, sauvegarde | v1.0                       |
+| Onglet        | Icône (Lucide) | Contenu                                   | Version                                           |
+| ------------- | -------------- | ----------------------------------------- | ------------------------------------------------- |
+| **Liste**     | `list-checks`  | La liste courante (écran d'accueil)       | v1.0                                              |
+| **Catalogue** | `layout-grid`  | Parcourir les articles par catégorie      | v1.0                                              |
+| **Recettes**  | `chef-hat`     | Les recettes                              | v1.0 (hors production seulement jusqu'à la 1.0.0) |
+| **Réglages**  | `settings`     | Réglages, gestion des données, sauvegarde | v1.0                                              |
 
 L'en-tête de chaque écran (titre, et bouton de retour sur une sous-page) **reste visible en haut** quand le contenu défile, avec sa marge haute : le titre ne passe jamais sous le flou qu'iOS 26 pose sous la barre d'état, qu'aucun réglage web ne permet de retirer. Quand le contenu de l'écran dépasse la hauteur disponible, une fine bordure sépare l'en-tête du contenu. Le mode courses suit la même règle (nom du magasin sous le flou corrigé le 13 novembre 2026).
 
@@ -50,7 +50,7 @@ Sur Android, le geste ou bouton **Retour** du système ferme d'abord le panneau 
 └──────────────────────────────────┘
 ```
 
-- Menu `⋯` : **seulement des actions sur la liste courante** (« Actions sur cette liste ») — renommer, dupliquer, « Y ajouter le contenu d'une autre liste » (panneau « Compléter « Liste 1 » »), partager _(v1.3)_, coller une liste _(v1.3)_, retirer les cochés, vider, supprimer la liste. Les autres listes s'ouvrent en touchant le nom de la liste (14 novembre 2026 : « Toutes mes listes » retiré du menu, qui semblait mélanger cette liste et les autres).
+- Menu `⋯` : **seulement des actions sur la liste courante** (« Actions sur cette liste ») — renommer, dupliquer, « Y ajouter le contenu d'une autre liste » (panneau « Compléter « Liste 1 » »), partager _(v1.1)_, coller une liste _(v1.1)_, retirer les cochés, vider, supprimer la liste. Les autres listes s'ouvrent en touchant le nom de la liste (14 novembre 2026 : « Toutes mes listes » retiré du menu, qui semblait mélanger cette liste et les autres).
 - Tap sur le nom de la liste → **Mes listes** : changer de liste, réordonner (poignée), créer une liste en y ajoutant le contenu d'autres listes.
 - La liste est rangée **par catégorie** (03 B1) ; le magasin se choisit au départ des courses (« C'est parti »), et les magasins se gèrent dans Réglages → Magasins & rayons.
 - Tap sur une ligne → **fiche ligne** (B3). Glisser à gauche → supprimer (B4), avec « Annuler » pendant 5 secondes.
@@ -107,11 +107,11 @@ Articles achetés, pas pris (restés dans la liste), durée, éventuellement « 
 - Grille de catégories (icône, libellé, couleur) → grille d'articles (grande icône, libellé, pastille de quantité si déjà dans la liste courante, pastille « de saison » _plus tard_).
 - Appui long sur un article → fiche article (G1).
 
-### 2.6 Recettes _(v1.1)_
+### 2.6 Recettes _(v1.0)_
 
 - Liste des recettes (icône, libellé, rendement), recherche, bouton « Nouvelle recette ».
-- Fiche recette : en-tête (icône, libellé, rendement réglable `− 4 personnes +` ou `− 1 cake +`), ingrédients, étapes, bouton **« Ajouter à une liste »** → panneau : liste cible, quantité dans l'unité de rendement, aperçu avec cases à cocher → « Ajouter ».
-- Édition : rendement = nombre + unité (« personnes » par défaut, liste de propositions ou saisie libre).
+- Fiche recette : en-tête (icône, libellé, rendement fixe (« 4 personnes », « 1 cake »)), ingrédients, étapes, bouton **« Ajouter à une liste »** → panneau : liste cible, quantité dans l'unité de rendement, aperçu avec cases à cocher → « Ajouter ». La quantité se règle dans ce panneau (`− 4 personnes +`), jamais sur la fiche.
+- Édition : rendement = nombre + unité (« personnes » par défaut, liste de propositions ou saisie libre). Icône choisie parmi les icônes dessinées des articles, les plats et desserts proposés en premier (décision du 15 novembre 2026).
 
 ### 2.7 Réglages
 
@@ -155,7 +155,7 @@ Copies automatiques (phase 8)
      manipulation ; elles disparaissent avec l'app)
 ```
 
-Plus tard : **Coller une liste partagée ▸** _(v1.3)_.
+Plus tard : **Coller une liste partagée ▸** _(v1.1)_.
 
 ### 2.8 Magasin
 
@@ -169,7 +169,7 @@ Plus tard : **Coller une liste partagée ▸** _(v1.3)_.
 
 Articles, catégories, unités : liste + recherche → fiche d'édition. Actions destructrices (supprimer, fusionner) en bas, en rouge, avec confirmation qui décrit les conséquences (« 3 listes et 1 recette utilisent cet article »).
 
-### 2.10 Aperçu d'import _(v1.3)_
+### 2.10 Aperçu d'import _(v1.1)_
 
 Résumé (« 12 reconnus · 1 à confirmer · 2 non reconnus »), choix nouvelle liste / fusion dans une liste existante. Pour chaque proposition : confirmer ou refuser. Pour chaque article non reconnu :
 
@@ -212,9 +212,9 @@ Tap sur un candidat = « C'est celui-là ». Bouton « Importer ».
 
 **Corriger un rayon en magasin** : appui long sur _Steak haché_ → Déplacer vers « Frais libre-service » → « Seulement cet article dans ce magasin ».
 
-**Ajouter une recette** _(v1.1)_ : Recettes → _Cake aux olives_ → « Ajouter à une liste » → « 2 cakes » → décocher la farine (déjà à la maison) → Ajouter.
+**Ajouter une recette** _(v1.0)_ : Recettes → _Cake aux olives_ → « Ajouter à une liste » → « 2 cakes » → décocher la farine (déjà à la maison) → Ajouter.
 
-**Envoyer la liste au conjoint** _(v1.3)_ : Liste → `⋯` → Partager → Messages / WhatsApp.
+**Envoyer la liste au conjoint** _(v1.1)_ : Liste → `⋯` → Partager → Messages / WhatsApp.
 
 - Destinataire sur **Android** : tap sur le lien → l'app s'ouvre sur l'aperçu → Importer.
 - Destinataire sur **iPhone** : copier le message → ouvrir l'app → `⋯` → « Coller une liste partagée » → aperçu → Importer.

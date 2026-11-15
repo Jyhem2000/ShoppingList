@@ -2,14 +2,13 @@
 
 Chaque fonctionnalité a un identifiant (`A1`, `B2`…) réutilisé dans le plan de développement et les tests, et une version cible :
 
-| Version                  | Thème            | Fonctionnalités                        |
-| ------------------------ | ---------------- | -------------------------------------- |
-| **v1.0**                 | Cœur             | A1-A7 · B1-B6 · C1-C8 · G1-G5 · H1-H11 |
-| **v1.1**                 | Recettes         | E1-E2                                  |
-| **v1.2**                 | Anti-oubli       | D1-D2                                  |
-| **v1.3**                 | Partage          | F1-F2 · A8                             |
-| **Plus tard**            | —                | D3 · E3                                |
-| **Idées non planifiées** | Peut-être jamais | I1 · I2 · I3                           |
+| Version                  | Thème            | Fonctionnalités                                |
+| ------------------------ | ---------------- | ---------------------------------------------- |
+| **v1.0**                 | Cœur et recettes | A1-A7 · B1-B6 · C1-C8 · E1-E2 · G1-G5 · H1-H11 |
+| **v1.1**                 | Partage          | F1-F2 · A8                                     |
+| **v1.2**                 | Anti-oubli       | D1-D2                                          |
+| **Plus tard**            | —                | D3 · E3                                        |
+| **Idées non planifiées** | Peut-être jamais | I1 · I2 · I3                                   |
 
 L'ordre des versions après la v1.0 pourra être réévalué après quelques semaines d'usage réel. Les règles métier citées sont détaillées dans [02](02-modele-metier.md).
 
@@ -77,7 +76,7 @@ En tête du catalogue : les articles les plus achetés (calculés à partir de l
 
 Aucun développement spécifique : le **micro du clavier** (iPhone comme Android) fonctionne dans la barre d'ajout, gratuitement. A2 sait découper « deux baguettes, du beurre et six œufs » en trois lignes.
 
-### A8. Coller une liste — _v1.3_
+### A8. Coller une liste — _v1.1_
 
 « Coller du texte » : chaque ligne d'un texte (SMS, note, recette trouvée sur le web) est analysée avec A2 ; aperçu avant ajout.
 
@@ -197,16 +196,16 @@ Mode « Tour de la cuisine » : un écran par catégorie présentant ses article
 
 ---
 
-## E. Recettes — _v1.1_
+## E. Recettes — _v1.0_
 
-### E1. Gérer les recettes — _v1.1_
+### E1. Gérer les recettes — _v1.0_
 
 Onglet **Recettes** : liste avec recherche ; créer, éditer, dupliquer, supprimer.
 Fiche recette : libellé, icône, **rendement** (« 4 personnes » par défaut, ou unité libre : « 1 cake », « 24 cookies », voir [02 § 7](02-modele-metier.md#7-recette)), ingrédients (ajoutés avec la même barre d'ajout que les listes, donc saisie naturelle A2 et création d'article A4), ingrédients facultatifs, ingrédients à **quantité fixe** (non recalculés selon le nombre de personnes : un pot de crème pour la raclette), étapes en texte libre.
 
-### E2. Ajouter une recette à une liste — _v1.1_
+### E2. Ajouter une recette à une liste — _v1.0_
 
-Choix de la liste, puis « Pour combien de personnes ? » ou « Combien de cakes ? », aperçu des quantités recalculées, arrondies et simplifiées, cases à cocher, fusion avec les lignes existantes. Les lignes indiquent leur origine (« via Raclette »).
+Le rendement de la fiche est **fixe** (« 4 personnes », « 1 cake ») : on choisit la quantité voulue seulement au moment de l'ajout. Choix de la liste, puis « Pour combien de personnes ? » ou « Combien de cakes ? », aperçu des quantités recalculées, arrondies et simplifiées, cases à cocher, fusion avec les lignes existantes. Les lignes indiquent leur origine (« via Raclette »). Ce qui arrive ensuite à ces lignes (décochées dans l'aperçu, retirées de la liste, pas prises en magasin) **ne touche jamais la recette**.
 
 **Critères** : recette pour 4 avec 2 oignons et 500 g de farine, ajoutée pour 6 → 3 oignons et 750 g de farine ; si la liste contient déjà 1 kg de farine → 1,75 kg après fusion. Recette « 1 cake » avec 3 œufs, demandée pour 2 cakes → 6 œufs. Raclette pour 4 avec 1 pot de crème à quantité fixe, ajoutée pour 10 → toujours 1 pot.
 
@@ -216,18 +215,18 @@ Même mécanisme que F1.
 
 ---
 
-## F. Partage — _v1.3_
+## F. Partage — _v1.1_
 
 Le partage fonctionne entre iPhone et Android dans les deux sens.
 
-### F1. Envoyer une liste — _v1.3_
+### F1. Envoyer une liste — _v1.1_
 
 Bouton « Partager » → feuille de partage du téléphone (Messages, WhatsApp, Mail…). Le message contient :
 
 - la liste **lisible**, groupée par catégorie (lisible même sans l'app) ;
 - un **lien d'import** contenant les données complètes de la liste (compressées dans l'URL, sans serveur).
 
-### F2. Importer une liste — _v1.3_
+### F2. Importer une liste — _v1.1_
 
 Trois manières, toutes aboutissant à l'écran d'aperçu décrit en [02 § 9](02-modele-metier.md#9-partage-dune-liste) : correspondances automatiques (clé catalogue, slug, alias, catalogue utilisé comme dictionnaire), puis pour les articles non reconnus des **candidats proposés** (même icône, même catégorie), « C'est celui-là » mémorisé en alias, ou « Créer » avec libellé modifiable :
 
@@ -297,7 +296,7 @@ Ajouté pour la phase 8 (décision du 13 novembre 2026, réalisé le 14 novembre
 - **Libellés explicatifs** dans Réglages → Mes données → Sauvegarde, à la place d'un rappel :
   - sous **« Exporter mes données »** : à quoi sert le fichier — changer de téléphone, réinstaller l'app (la supprimer efface ses données, iOS le précise), passer de la préproduction à la production, garder une copie hors du téléphone ;
   - à côté de **« Restaurer une copie »** : le rôle des copies automatiques — revenir sur une fausse manipulation, un import ou une mise à jour, jusqu'à 7 jours en arrière ; elles restent dans le téléphone et disparaissent avec l'app.
-- **Abandonnés le 14 novembre 2026** : le **rappel de sauvegarde** après 30 jours (les copies automatiques et les libellés suffisent ; supprimer l'app efface ses données, iOS le dit) et l'**import en fusion** (règles délicates — doublons d'articles, de magasins, de listes — pour un usage rare ; le remplacement, protégé par les copies automatiques, suffit, et le partage de listes arrive en v1.3).
+- **Abandonnés le 14 novembre 2026** : le **rappel de sauvegarde** après 30 jours (les copies automatiques et les libellés suffisent ; supprimer l'app efface ses données, iOS le dit) et l'**import en fusion** (règles délicates — doublons d'articles, de magasins, de listes — pour un usage rare ; le remplacement, protégé par les copies automatiques, suffit, et le partage de listes arrive en v1.1).
 
 ### H5. Installation, stockage, mises à jour
 

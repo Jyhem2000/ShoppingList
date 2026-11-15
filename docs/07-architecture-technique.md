@@ -24,7 +24,7 @@
 | Sons                           | **Web Audio API** (native) + sons CC0                                                                             | —                | Voir 05 § 7                                                                                         |
 | Icônes interface               | **lucide-react**                                                                                                  | ISC              | —                                                                                                   |
 | Icônes articles                | **Dessinées pour l'app** (`src/icons/drawn`, une par article)                                                     | —                | Pack réuni au build (05 § 4)                                                                        |
-| Compression du lien de partage | **lz-string**                                                                                                     | MIT              | Données de la liste dans l'URL (v1.3)                                                               |
+| Compression du lien de partage | **lz-string**                                                                                                     | MIT              | Données de la liste dans l'URL (v1.1)                                                               |
 | PWA                            | **vite-plugin-pwa** (Workbox)                                                                                     | MIT              | Manifest, service worker, cache hors ligne, mises à jour (§ 6)                                      |
 | Police                         | **Plus Jakarta Sans** via `@fontsource-variable/plus-jakarta-sans`                                                | OFL              | Embarquée, hors ligne                                                                               |
 | Tests                          | **Vitest**, **Playwright**                                                                                        | MIT / Apache 2.0 | Voir [08](08-tests-et-qualite.md)                                                                   |
@@ -47,7 +47,7 @@ Rappel ([01](01-vision.md#plateformes-cibles)) : sur iPhone, **tous les navigate
 | Web Audio                          | Sons (H6)                               | ✅ (après un premier geste)          | ✅               | Confort          | Utilisée                                                                                |
 | Audio Session API                  | Suivre le mode silencieux (H6)          | ✅ (iOS 17+)                         | ❌               | Confort          | Utilisée sur iPhone (`type = "ambient"`)                                                |
 | Web Share                          | Export de sauvegarde (H4), partage (F1) | ✅ texte, lien, fichiers             | ✅               | Essentiel        | Utilisée                                                                                |
-| Clipboard                          | « Coller une liste partagée » (F2)      | ✅ sur geste de l'utilisateur        | ✅               | Essentiel (v1.3) | Utilisée                                                                                |
+| Clipboard                          | « Coller une liste partagée » (F2)      | ✅ sur geste de l'utilisateur        | ✅               | Essentiel (v1.1) | Utilisée                                                                                |
 | `navigator.storage.persist()`      | Limiter l'effacement des données        | ✅                                   | ✅               | Confort          | Demandée automatiquement au démarrage de l'app installée, sans rien afficher            |
 | Vibration                          | Retour haptique (H7)                    | ❌                                   | ✅               | —                | **Non retenue** : absente sur iPhone, l'astuce haptique n'y fonctionne pas (H7 retirée) |
 | `beforeinstallprompt`              | Bouton « Installer » (H5)               | ❌ (installation manuelle expliquée) | ✅               | Confort          | Utilisée sur Android                                                                    |
@@ -338,7 +338,7 @@ Calculées à la demande à partir des achats des sessions **clôturées**. Pour
 - `scaleRecipe(recipe, amount)` : quantités fixes inchangées ; les autres `q × amount ÷ recipe.yield.quantity`, arrondi **au pas supérieur** : `ceil(q / step − 1e-9) × step`, puis `simplify`.
 - Affichage : virgule décimale, zéros inutiles supprimés (`1,5 kg`, `× 3`, `2 boîtes`).
 
-### 7.9 Partage (v1.3)
+### 7.9 Partage (v1.1)
 
 - Format : `{ v: 1, kind: "list", lang: "fr", name, items: [{ article: { key?, slug, name, aliases, icon, types, category: { key?, slug, name, color }, unit: { key?, slug, singular, plural, abbr, dimension, factor, step } }, quantity, unitSlug, acceptedTypes, note }] }`.
 - Encodage : JSON → `lz-string` (`compressToEncodedURIComponent`) → `https://<adresse>/#/import?d=…`. Les données sont dans le fragment `#`, jamais envoyé au serveur d'hébergement.
@@ -380,9 +380,9 @@ ShoppingList/
 │  │  ├─ list/                # liste, lignes, barre d'ajout, fiche ligne
 │  │  ├─ shopping/            # mode courses, wake lock, clôture, réouverture
 │  │  ├─ catalog/             # grille catégories / articles, habituels
-│  │  ├─ recipes/             # recettes, ajout à une liste (v1.1)
+│  │  ├─ recipes/             # recettes, ajout à une liste (v1.0)
 │  │  ├─ suggestions/         # anti-oubli (v1.2)
-│  │  ├─ share/               # partage, import, aperçu (v1.3)
+│  │  ├─ share/               # partage, import, aperçu (v1.1)
 │  │  ├─ manage/              # articles, catégories, magasins/rayons, unités
 │  │  ├─ settings/            # réglages, fonctionnalités, sons, sauvegarde, premier lancement, à propos
 │  │  └─ dev/                 # maquette des composants #/dev/ui (hors production)
@@ -419,14 +419,14 @@ Il n'y a pas d'autre branche : pas de branche de travail ni de pull request. Seu
 
 ### Numéro de version
 
-- Format **SemVer** `MAJEUR.MINEUR.CORRECTIF` : `1.0.0`, `1.1.0` (recettes), `1.0.1` (correctif).
+- Format **SemVer** `MAJEUR.MINEUR.CORRECTIF` : `1.0.0`, `1.1.0` (partage), `1.0.1` (correctif).
 - **Source unique : `version` dans `package.json`.** Au build, Vite injecte des constantes (`define`) lues par `src/version.ts` : version, empreinte du commit, date, canal (`production` / `preprod` / `preview` / `dev`). Hors production, l'app affiche par exemple `1.1.0 · préproduction · a1b2c3d`.
 - **Calcul automatique** à partir des messages de commit (Conventional Commits) depuis la version précédente : un `feat:` → version mineure ; uniquement des `fix:`, `docs:`, `chore:`… → correctif ; `feat!:` ou « BREAKING CHANGE » → majeure (mineure tant qu'on est en 0.x). On peut toujours imposer la version (`npm run release -- 0.9.0`).
 - Le build génère aussi `licences.json` (bibliothèques incluses et texte de leur licence), affiché dans Réglages → À propos → Licences.
 
 ### Nouveautés
 
-L'historique git sert aux développeurs ; ses messages sont trop techniques pour l'utilisateur. Les **nouveautés** de chaque version sont donc écrites pour l'utilisateur dans `src/i18n/fr.ts` (`releaseNotes`), affichées dans Réglages → À propos → Nouveautés, et reprises par l'écran « Quoi de neuf » après une mise à jour (H5). `npm run release` refuse de publier une version dont les nouveautés ne sont pas écrites. On peut les écrire à l'avance : l'écran n'affiche que les versions égales ou antérieures à celle de l'app.
+L'historique git sert aux développeurs ; ses messages sont trop techniques pour l'utilisateur. Les **nouveautés** de chaque version sont donc écrites pour l'utilisateur dans `src/i18n/fr.ts` (`releaseNotes`), affichées dans Réglages → À propos → Nouveautés, et reprises par l'écran « Quoi de neuf » après une mise à jour (H5). `npm run release` refuse de publier une version dont les nouveautés ne sont pas écrites. On peut les écrire à l'avance : l'écran n'affiche que les versions égales ou antérieures à celle de l'app. À la `1.0.0`, les nouveautés des versions `0.x` (itérations de développement) sont **remplacées** par une seule entrée « 1.0.0 » qui présente l'app ; ensuite, une entrée par version publiée (décision du 15 novembre 2026).
 
 ### Cycle des versions
 
@@ -435,7 +435,7 @@ L'historique git sert aux développeurs ; ses messages sont trop techniques pour
 | Validation de chaque phase de la v1.0 (1 à 8) | `0.N.0` = phase N validée (`0.4.0` … `0.8.0`), publiées par `npm run release` ; correctifs entre deux : `0.N.1`, `0.N.2`…                                                                 | Production, pour les essais (pas encore d'installation définitive) |
 | Fin de la phase 8                             | **`0.9.0`** — candidate à la v1.0 (`npm run release -- 0.9.0`)                                                                                                                            | **Production** : installation définitive sur les téléphones        |
 | Usage réel (2-3 semaines)                     | `0.9.1`, `0.9.2`… correctifs                                                                                                                                                              | Production                                                         |
-| Validation de la 0.9                          | **`1.0.0`** — même code (`npm run release -- 1.0.0`)                                                                                                                                      | Production (les données restent en place)                          |
+| Validation de la 0.9                          | **`1.0.0`** — la 0.9 validée et les recettes (phase 9, développées en parallèle sur `dev` et visibles seulement hors production jusque-là) (`npm run release -- 1.0.0`)                   | Production (les données restent en place)                          |
 | Versions suivantes                            | Développement sur `dev`, testé en préproduction avec une **copie des vraies données** (export de sauvegarde de la production → import en préproduction), puis `1.1.0`, correctifs `1.1.x` | Production                                                         |
 
 **Règle de numérotation pendant la v1.0** : la version `0.N.0` sort quand la **phase N est validée** (critères de 09 et checklist téléphone). Elle peut contenir en avant-première le travail de la phase suivante, encore en essai : la `0.4.0` (phases 1 à 4 validées) contient déjà le mode courses de la phase 5, qui deviendra la `0.5.0` après l'essai en magasin. Le calcul automatique donne le bon numéro tant que la version contient un `feat:` ; sinon, l'imposer (`npm run release -- 0.5.0`).

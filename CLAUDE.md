@@ -4,7 +4,7 @@ PWA de liste de courses, local-first (aucun serveur, aucun compte), triée par r
 
 ## Phase actuelle : 0.9.0 en usage réel, phase 9 (recettes) en préparation
 
-Phase 8 **validée** le 15 novembre 2026 (`0.8.0`). La `0.9.0` est publiée le 15 novembre 2026 : installation définitive de la production sur les deux téléphones, 2-3 semaines d’usage réel avant la `1.0.0`, correctifs en `0.9.x`. **Depuis la `0.9.0`, les données sont réelles** : toute évolution du schéma ou des données livrées doit préserver l’existant (migration + test, docs/07 § 5). La phase 9 (recettes, v1.1) se prépare en parallèle sur `dev`.
+Phase 8 **validée** le 15 novembre 2026 (`0.8.0`). La `0.9.0` est publiée le 15 novembre 2026 : installation définitive de la production sur les deux téléphones, 2-3 semaines d’usage réel avant la `1.0.0`, correctifs en `0.9.x`. **Depuis la `0.9.0`, les données sont réelles** : toute évolution du schéma ou des données livrées doit préserver l’existant (migration + test, docs/07 § 5). La phase 9 (recettes) se développe en parallèle sur `dev` et fera partie de la `1.0.0` : onglet Recettes visible **seulement hors production** d'ici là, pour que les correctifs `0.9.x` restent publiables. À la `1.0.0`, une seule entrée de nouveautés remplace celles des `0.x` (docs/07 § 9). Ensuite : `1.1.0` partage, `1.2.0` anti-oubli.
 
 La documentation est **validée** (8 novembre 2026). Suivre le plan de `docs/09-plan-de-developpement.md` phase par phase, en travaillant directement sur `dev` (pas de branche de travail ni de pull request). Pour les phases 3 à 7 et 9, proposer un plan avant d'implémenter. Ne jamais commencer une phase suivante sans validation de la précédente.
 
@@ -51,7 +51,7 @@ Vite · React 19 · TypeScript strict · Tailwind v4 · shadcn/ui · React Route
 - Messages en français, format Conventional Commits (`feat:`, `fix:`, `docs:`, `test:`, `chore:`).
 - On travaille **directement sur `dev`** : commits poussés sur `dev` (préproduction, déployée automatiquement), sans branche de travail ni pull request.
 - **Jamais de travail ni de push direct sur `main`** : elle n'avance que par `npm run release` (mise en production, manuelle).
-- Publication d'une version : `npm run release` depuis `dev` (calcule la version depuis les commits, vérifie que ses nouveautés sont écrites dans `src/i18n/fr.ts` → `releaseNotes`, lance tous les contrôles, tague, avance `main` ; Cloudflare déploie). Numérotation : **`0.N.0` = phase N validée** (peut contenir en avant-première la phase suivante), correctifs `0.N.x` ; puis `0.9.0` (installation définitive), correctifs `0.9.x`, `1.0.0` après validation (docs/07 § 9, tableau des versions publiées dans docs/09). **Ne jamais publier sans demande explicite.**
+- Publication d'une version : `npm run release` depuis `dev` (calcule la version depuis les commits, vérifie que ses nouveautés sont écrites dans `src/i18n/fr.ts` → `releaseNotes`, lance tous les contrôles, tague, avance `main` ; Cloudflare déploie). Numérotation : **`0.N.0` = phase N validée** (peut contenir en avant-première la phase suivante), correctifs `0.N.x` ; puis `0.9.0` (installation définitive), correctifs `0.9.x`, `1.0.0` après validation de la 0.9 et des recettes (docs/07 § 9, tableau des versions publiées dans docs/09). **Ne jamais publier sans demande explicite.**
 
 ## Outils locaux de l'agent (non versionnés)
 

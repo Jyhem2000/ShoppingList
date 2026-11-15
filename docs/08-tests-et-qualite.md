@@ -71,8 +71,8 @@ Chaque scénario tourne sur deux configurations : **WebKit + iPhone émulé** (c
 4. Mode courses (premières courses dans un nouveau magasin) : cocher un rayon entier → repli ; ajout d'un article d'un rayon passé → « À récupérer » ; terminer les courses → lignes cochées retirées ; rouvrir → elles réapparaissent cochées ; terminer à nouveau.
 5. Modifier un magasin : réordonner les rayons, déplacer une catégorie, rendre un rayon principal pour une catégorie → la liste suit. Le magasin est d'abord construit par une course.
 6. Rechargement de la page → les données sont toujours là.
-7. _(v1.1)_ Recette ajoutée pour un autre rendement (personnes et « cakes ») → quantités correctes dans la liste.
-8. _(v1.3)_ Partage puis import dans un profil vierge → aperçu correct, association « C'est le même que… » mémorisée, articles créés.
+7. _(v1.0)_ Recette ajoutée pour un autre rendement (personnes et « cakes ») → quantités correctes dans la liste.
+8. _(v1.1)_ Partage puis import dans un profil vierge → aperçu correct, association « C'est le même que… » mémorisée, articles créés.
 
 Échecs intermittents recherchés le 14 novembre 2026 (suite rejouée 12 fois : 2 échecs sur 216 passages, tous sur iPhone) :
 
@@ -89,7 +89,7 @@ Chaque scénario tourne sur deux configurations : **WebKit + iPhone émulé** (c
 
 ## 5. Checklist manuelle sur téléphone (fin de chaque phase)
 
-Sur la préproduction (`dev`), app installée sur l'écran d'accueil de l'iPhone (via Chrome). À refaire sur le téléphone Android au moins à la fin de la phase 1, avant chaque version publiée, et pour la v1.3 (partage dans les deux sens).
+Sur la préproduction (`dev`), app installée sur l'écran d'accueil de l'iPhone (via Chrome). À refaire sur le téléphone Android au moins à la fin de la phase 1, avant chaque version publiée, et pour la v1.1 (partage dans les deux sens).
 
 - [ ] L'app s'ouvre en plein écran, sans barre de navigateur, et hors ligne (mode avion).
 - [ ] Rien n'est masqué par l'encoche ou la barre d'accueil.
