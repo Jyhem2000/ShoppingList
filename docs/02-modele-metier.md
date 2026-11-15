@@ -303,7 +303,7 @@ Le rendement « personnes » convient aux plats ; un rendement libre convient au
 ### Ajouter une recette à une liste
 
 1. Choisir la liste, puis la quantité voulue dans l'unité de rendement : **« Pour combien de personnes ? »** ou **« Combien de cakes ? »** (prérempli avec le rendement de la recette, nombres entiers).
-2. Les quantités sont recalculées, sauf les quantités fixes : `quantité × demandé ÷ rendement de référence`, puis **arrondies au pas supérieur de l'unité** (3 personnes au lieu de 4 pour 2 oignons → 1,5 → 2 oignons ; 375 g de farine avec un pas de 50 g → 400 g), puis simplifiées (§ 5).
+2. Les quantités sont recalculées, sauf les quantités fixes : `quantité × demandé ÷ rendement de référence`, puis **arrondies au pas supérieur de l'unité** (3 personnes au lieu de 4 pour 2 oignons → 1,5 → 2 oignons ; 375 g de farine avec un pas de 50 g → 400 g), puis simplifiées (§ 5). Pour le rendement de la fiche lui-même, les quantités restent celles de la fiche, sans arrondi (20 g de beurre pour 4 restent 20 g).
 3. Aperçu des ingrédients avec cases à cocher (on décoche ce qu'on a déjà ; les ingrédients facultatifs sont décochés par défaut) et indication des articles déjà présents dans la liste.
 4. Validation → ajout ou fusion des lignes (§ 6), avec l'origine « via recette ».
 
