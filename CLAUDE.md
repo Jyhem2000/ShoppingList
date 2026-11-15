@@ -2,9 +2,9 @@
 
 PWA de liste de courses, local-first (aucun serveur, aucun compte), triée par rayon selon le magasin. Optimisée pour Chrome : iPhone (dernière version d'iOS, cible principale) et Android récent (cible secondaire).
 
-## Phase actuelle : développement de la v1.0 — publication de la 0.8.0, puis 0.9.0
+## Phase actuelle : 0.9.0 en usage réel, phase 9 (recettes) en préparation
 
-Phase 8 (réglages, sauvegarde, aide, catalogue complet, finitions) **validée** le 15 novembre 2026 : publication de la `0.8.0`, puis la `0.9.0` (installation définitive de la production sur les deux téléphones, 2-3 semaines d'usage réel avant la `1.0.0`). Avant la `0.9.0`, l'app ne contient que des données d'essai : pas de code de migration de données (docs/07 § 5).
+Phase 8 **validée** le 15 novembre 2026 (`0.8.0`). La `0.9.0` est publiée le 15 novembre 2026 : installation définitive de la production sur les deux téléphones, 2-3 semaines d’usage réel avant la `1.0.0`, correctifs en `0.9.x`. **Depuis la `0.9.0`, les données sont réelles** : toute évolution du schéma ou des données livrées doit préserver l’existant (migration + test, docs/07 § 5). La phase 9 (recettes, v1.1) se prépare en parallèle sur `dev`.
 
 La documentation est **validée** (8 novembre 2026). Suivre le plan de `docs/09-plan-de-developpement.md` phase par phase, en travaillant directement sur `dev` (pas de branche de travail ni de pull request). Pour les phases 3 à 7 et 9, proposer un plan avant d'implémenter. Ne jamais commencer une phase suivante sans validation de la précédente.
 

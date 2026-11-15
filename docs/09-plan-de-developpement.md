@@ -21,6 +21,7 @@ Numérotation : la version **`0.N.0` sort quand la phase N est validée** ; elle
 | `0.4.0` | 12 novembre 2026 | Phases 1 à 4 validées ; mode courses (phase 5) en avant-première, à valider par un essai en magasin.                                                                                                                                                                                                                                                                          |
 | `0.5.0` | 12 novembre 2026 | Phase 5 publiée **avant** l'essai en magasin, à la demande de l'utilisateur (seul utilisateur) : l'essai se fait sur la production ; correctifs en `0.5.x` ou dans la `0.6.0`. Thème clair, recherche du catalogue, retours de test.                                                                                                                                          |
 | `0.6.0` | 12 novembre 2026 | Phase 6 (tout modifiable : magasins et rayons, articles et doublons, icônes, catégories, unités), publiée pour un essai réel par l'utilisateur ; validation sur la production, correctifs en `0.6.x`.                                                                                                                                                                         |
+| `0.9.0` | 15 novembre 2026 | Installation définitive de la production sur les deux téléphones : les données sont désormais conservées (migrations obligatoires). Catégorie « Crèmerie & Œufs ». Début des 2-3 semaines d’usage réel avant la `1.0.0`.                                                                                                                                                      |
 | `0.8.0` | 15 novembre 2026 | Phase 8 validée : réglages retirés (on décide pour l'utilisateur), copies automatiques des 7 derniers jours, écran d'aide, catalogue complet (428 articles et leurs icônes), finitions (états vides, accessibilité, animations et sons) ; retours d'essai (« À placer » repliable, « Rayon suivant » plus visible, œufs avec la crèmerie) et corrections de la revue de code. |
 | `0.7.2` | 14 novembre 2026 | Phase 7 validée ; ses retours : Réglages organisés en accueil (« Mes données » en tête, sauvegarde à part, préférences regroupées), menu de la liste limité à la liste courante, quantités toujours simplifiées, composants partagés ; corrections de la relecture complète du code.                                                                                          |
 | `0.7.1` | 14 novembre 2026 | Retours d'essai de la `0.7.0` : les articles d'une catégorie qu'on vient de ranger restent dans « À placer » jusqu'à leur coche ; « Rouvrir les courses » le jour même seulement.                                                                                                                                                                                             |
@@ -109,44 +110,44 @@ Décision du 13 novembre 2026, après le premier essai réel : des rayons prére
   4. sinon : les deux catégories les plus achetées dans ce rayon (à égalité : l'ordre où elles y ont été rangées), puis le nombre des autres (« Pain · Café & thé +2 »).
 - La liste complète reste dans la fiche du rayon, avec le repère (« au fond du magasin ») sous le titre.
 
-| Catégorie                     | Nom court   | Famille            |
-| ----------------------------- | ----------- | ------------------ |
-| Fruits                        | Fruits      | Fruits & légumes   |
-| Légumes                       | Légumes     | Fruits & légumes   |
-| Herbes aromatiques            | Herbes      | Fruits & légumes   |
-| Pain & Viennoiseries          | Pain        | Boulangerie        |
-| Viande                        | Viande      | Viandes & poissons |
-| Volaille                      | Volaille    | Viandes & poissons |
-| Poisson & Fruits de mer       | Poisson     | Viandes & poissons |
-| Charcuterie                   | Charcuterie | Frais              |
-| Traiteur & Plats préparés     | Traiteur    | Frais              |
-| Lait, Crème, Beurre & Œufs    | Lait & Œufs | Frais              |
-| Yaourts & Desserts frais      | Yaourts     | Frais              |
-| Fromages                      | Fromages    | Frais              |
-| Pâtes, Riz & Féculents        | Pâtes & riz | Épicerie salée     |
-| Conserves & Bocaux            | Conserves   | Épicerie salée     |
-| Sauces & Condiments           | Sauces      | Épicerie salée     |
-| Sel, Poivre & Épices          | Épices      | Épicerie salée     |
-| Huiles & Vinaigres            | Huiles      | Épicerie salée     |
-| Apéritif                      | Apéro       | Épicerie salée     |
-| Cuisine du monde              | Monde       | Épicerie salée     |
-| Farine, Sucre & Pâtisserie    | Pâtisserie  | Épicerie sucrée    |
-| Céréales & Petit-déjeuner     | Petit-déj   | Épicerie sucrée    |
-| Biscuits & Gâteaux            | Biscuits    | Épicerie sucrée    |
-| Chocolat & Confiserie         | Chocolat    | Épicerie sucrée    |
-| Confitures & Pâtes à tartiner | Confitures  | Épicerie sucrée    |
-| Café & Thé                    | Café & thé  | Épicerie sucrée    |
-| Eaux                          | Eaux        | Boissons           |
-| Jus & Sodas                   | Jus & sodas | Boissons           |
-| Bières, Vins & Alcools        | Alcools     | Boissons           |
-| Surgelés                      | Surgelés    | Surgelés           |
-| Glaces                        | Glaces      | Surgelés           |
-| Hygiène & Beauté              | Hygiène     | Hygiène            |
-| Papier toilette & Mouchoirs   | Papier      | Hygiène            |
-| Bébé                          | Bébé        | Hygiène            |
-| Entretien & Lessive           | Entretien   | Maison             |
-| Cuisine & Maison              | Maison      | Maison             |
-| Animaux                       | Animaux     | Maison             |
+| Catégorie                     | Nom court       | Famille            |
+| ----------------------------- | --------------- | ------------------ |
+| Fruits                        | Fruits          | Fruits & légumes   |
+| Légumes                       | Légumes         | Fruits & légumes   |
+| Herbes aromatiques            | Herbes          | Fruits & légumes   |
+| Pain & Viennoiseries          | Pain            | Boulangerie        |
+| Viande                        | Viande          | Viandes & poissons |
+| Volaille                      | Volaille        | Viandes & poissons |
+| Poisson & Fruits de mer       | Poisson         | Viandes & poissons |
+| Charcuterie                   | Charcuterie     | Frais              |
+| Traiteur & Plats préparés     | Traiteur        | Frais              |
+| Crèmerie & Œufs               | Crèmerie & Œufs | Frais              |
+| Yaourts & Desserts frais      | Yaourts         | Frais              |
+| Fromages                      | Fromages        | Frais              |
+| Pâtes, Riz & Féculents        | Pâtes & riz     | Épicerie salée     |
+| Conserves & Bocaux            | Conserves       | Épicerie salée     |
+| Sauces & Condiments           | Sauces          | Épicerie salée     |
+| Sel, Poivre & Épices          | Épices          | Épicerie salée     |
+| Huiles & Vinaigres            | Huiles          | Épicerie salée     |
+| Apéritif                      | Apéro           | Épicerie salée     |
+| Cuisine du monde              | Monde           | Épicerie salée     |
+| Farine, Sucre & Pâtisserie    | Pâtisserie      | Épicerie sucrée    |
+| Céréales & Petit-déjeuner     | Petit-déj       | Épicerie sucrée    |
+| Biscuits & Gâteaux            | Biscuits        | Épicerie sucrée    |
+| Chocolat & Confiserie         | Chocolat        | Épicerie sucrée    |
+| Confitures & Pâtes à tartiner | Confitures      | Épicerie sucrée    |
+| Café & Thé                    | Café & thé      | Épicerie sucrée    |
+| Eaux                          | Eaux            | Boissons           |
+| Jus & Sodas                   | Jus & sodas     | Boissons           |
+| Bières, Vins & Alcools        | Alcools         | Boissons           |
+| Surgelés                      | Surgelés        | Surgelés           |
+| Glaces                        | Glaces          | Surgelés           |
+| Hygiène & Beauté              | Hygiène         | Hygiène            |
+| Papier toilette & Mouchoirs   | Papier          | Hygiène            |
+| Bébé                          | Bébé            | Hygiène            |
+| Entretien & Lessive           | Entretien       | Maison             |
+| Cuisine & Maison              | Maison          | Maison             |
+| Animaux                       | Animaux         | Maison             |
 
 « Autres » et « Achats ponctuels » (catégories système) n'ont ni nom court ni famille : elles ne sont jamais rangées en entier dans un rayon.
 
@@ -191,7 +192,7 @@ Retours de l'essai du 15 novembre 2026 : catégories de « À placer » repliabl
 
 ### Publication 0.9 puis 1.0
 
-- 🚀 **`npm run release -- 0.9.0`** : installation définitive de la production sur les deux téléphones.
+- 🚀 **`npm run release -- 0.9.0`** : installation définitive de la production sur les deux téléphones. _Publiée le 15 novembre 2026 ; la phase 9 (recettes) avance en parallèle sur `dev`._
 - 2-3 semaines d'usage réel ; correctifs publiés en `0.9.1`, `0.9.2`…
 - 🎉 _**Validation → `npm run release -- 1.0.0`** (même code). Les données restent en place._
 

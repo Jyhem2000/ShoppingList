@@ -92,7 +92,7 @@ Articles de base (extrait du futur catalogue, phase 3) :
 
 ## 2. Catégories (~35)
 
-Volontairement fines pour être regroupées différemment selon les magasins. Unité par défaut suggérée pour les nouveaux articles de la catégorie. Dans un nom double, **chaque partie prend une majuscule** (« Pain & Viennoiseries », « Lait, Crème, Beurre & Œufs ») : ce sont des étiquettes. Pas de catégorie pour un seul article : les œufs sont rangés avec la crèmerie (retour d'essai du 15 novembre 2026). Les deux catégories système vont dans « À placer » de chaque magasin.
+Volontairement fines pour être regroupées différemment selon les magasins. Unité par défaut suggérée pour les nouveaux articles de la catégorie. Dans un nom double, **chaque partie prend une majuscule** (« Pain & Viennoiseries », « Crèmerie & Œufs ») : ce sont des étiquettes. Pas de catégorie pour un seul article : les œufs sont rangés avec la crèmerie (retour d'essai du 15 novembre 2026). Les deux catégories système vont dans « À placer » de chaque magasin.
 
 Chaque catégorie (sauf les catégories système) a aussi un **nom court** et une **famille**, qui servent au titre des rayons sans nom (02 § 4). Ils sont dans `src/data/categories.json` (`short`, `family`) et `src/data/families.json` ; le tableau validé le 13 novembre 2026 est dans 09, phase 7. Familles : Fruits & légumes, Boulangerie, Viandes & poissons, Frais, Épicerie salée, Épicerie sucrée, Boissons, Surgelés, Hygiène, Maison.
 
@@ -107,7 +107,7 @@ Chaque catégorie (sauf les catégories système) a aussi un **nom court** et un
 | `charcuterie`             | Charcuterie                         | paquet                    |
 | `poisson-fruits-de-mer`   | Poisson & Fruits de mer             | g                         |
 | `traiteur`                | Traiteur & Plats préparés           | barquette                 |
-| `lait-creme-beurre`       | Lait, Crème, Beurre & Œufs          | pièce                     |
+| `lait-creme-beurre`       | Crèmerie & Œufs                     | pièce                     |
 | `yaourts-desserts`        | Yaourts & Desserts frais            | pièce                     |
 | `fromages`                | Fromages                            | pièce                     |
 | `pates-riz-feculents`     | Pâtes, Riz & Féculents              | paquet                    |

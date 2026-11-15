@@ -119,10 +119,10 @@
   {
     "key": "lait-creme-beurre",
     "name": {
-      "fr": "Lait, Crème, Beurre & Œufs"
+      "fr": "Crèmerie & Œufs"
     },
     "short": {
-      "fr": "Lait & Œufs"
+      "fr": "Crèmerie & Œufs"
     },
     "family": "frais",
     "unit": "piece",
