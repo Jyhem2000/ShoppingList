@@ -64,7 +64,7 @@ export function QuantityInput({
         onBlur={() => {
           setText(formatNumber(value));
         }}
-        className="text-center font-bold tabular-nums"
+        className="min-w-0 px-1 text-center font-bold tabular-nums"
         aria-label={fr.list.line.quantity}
       />
     </Stepper>

@@ -110,10 +110,10 @@ Articles achetés, pas pris (restés dans la liste), durée, éventuellement « 
 ### 2.6 Recettes _(v1.0)_
 
 - Liste des recettes (icône, libellé, rendement), recherche, bouton « Nouvelle recette ».
-- Fiche recette : en-tête (icône, libellé, rendement fixe (« 4 personnes », « 1 cake »)), bouton **« Ajouter à une liste »**, ingrédients, étapes ; « Modifier » en haut à droite ; « Dupliquer » et « Supprimer la recette » en bas.
+- Fiche recette : en-tête (icône, libellé, rendement fixe (« 4 personnes », « 1 cake »)), ingrédients, étapes mises en forme ; « Modifier » en haut à droite ; en bas, le bouton principal **« Ajouter à une liste »**, puis « Dupliquer » et « Supprimer la recette » (décision du 15 novembre 2026 : on lit la recette avant de l'ajouter). L'écran reste allumé (réglage Écran allumé).
 - Panneau « Ajouter à une liste » : liste cible (choix seulement s'il y en a plusieurs, la liste courante d'abord ; sinon son nom en sous-titre), quantité dans l'unité de rendement (`− 4 personnes +`), aperçu à cocher : chaque ingrédient avec sa quantité recalculée et ce qui arrivera (« à ajouter », « déjà 1 kg → 1,75 kg »). **Tout est coché, sauf les facultatifs** : on décoche ce qu'on a déjà (20 g de beurre). Rien n'est ajouté avant « Ajouter N ingrédients » (décision du 15 novembre 2026). La quantité se règle dans ce panneau, jamais sur la fiche.
 - Les lignes ajoutées affichent leur origine (« via Cake aux olives »), dans la liste et dans leur fiche.
-- Édition, sur la même fiche : nom, rendement = nombre + unité (« personnes » par défaut, propositions en puces ou saisie libre), ingrédients ajoutés par la barre d'ajout (saisie naturelle, création d'article) puis réglés dans leur fiche (quantité, unité dont les unités de cuisine, sortes, « facultatif », « quantité fixe »), étapes en texte libre. Icône choisie parmi les icônes dessinées des articles, les plats et desserts proposés en premier (décision du 15 novembre 2026).
+- Édition, sur la même fiche : nom, rendement = nombre + unité (« personnes » par défaut, propositions en puces ou saisie libre), ingrédients ajoutés par la barre d'ajout (saisie naturelle, création d'article) puis réglés dans leur fiche (quantité, unité dont les unités de cuisine, sortes, « facultatif », « quantité fixe », chacun avec son explication sur la même ligne), étapes avec une barre de mise en forme (gras, titre, puces, numéros ; un retour à la ligne dans une liste ajoute la puce ou le numéro suivant). Icône choisie parmi les icônes dessinées des articles, les plats et desserts proposés en premier (décision du 15 novembre 2026).
 
 ### 2.7 Réglages
 
@@ -137,7 +137,7 @@ Application
 ```
 Fonctionnalités   (grisée « Non disponible sur ce téléphone » si besoin)
   Sons .................. Activés ▸  (écran Sons : interrupteur général + un par son, avec écoute)
-  Écran allumé pendant les courses ●
+  Écran allumé                     ●
 Affichage
   Thème ................. Automatique · Sombre · Clair
 ```

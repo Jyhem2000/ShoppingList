@@ -86,6 +86,42 @@ export function CheckRow({
   );
 }
 
+/**
+ * Option à cocher avec son explication, à la suite sur la même ligne (« Facultatif
+ * Décoché au moment… ») : si le texte passe à la ligne, la case reste en face de la
+ * première ligne. Toute la ligne la coche.
+ */
+export function CheckOption({
+  checked,
+  onCheckedChange,
+  title,
+  hint,
+}: {
+  checked: boolean;
+  onCheckedChange: (checked: boolean) => void;
+  title: ReactNode;
+  hint?: ReactNode;
+}) {
+  return (
+    <label className="flex items-start gap-3 py-3">
+      <input
+        type="checkbox"
+        className="mt-0.5 size-5 shrink-0 accent-primary"
+        checked={checked}
+        onChange={(event) => {
+          onCheckedChange(event.target.checked);
+        }}
+      />
+      <span className="min-w-0 flex-1">
+        <span className="font-semibold">{title}</span>
+        {hint ? (
+          <span className="text-sm text-muted-foreground"> {hint}</span>
+        ) : null}
+      </span>
+    </label>
+  );
+}
+
 /** Repère d'un choix dans une liste : une coche s'il est choisi, sinon son icône. */
 export function ChoiceMark({
   selected,

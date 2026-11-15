@@ -2,6 +2,7 @@ import { Copy, ListPlus, Pencil, Trash2, X } from "lucide-react";
 import { useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router";
 import { recipePath, routes } from "@/app/routes";
+import { useWakeLock } from "@/app/useWakeLock";
 import { db } from "@/db/database";
 import { useRecipe } from "@/db/hooks";
 import {
@@ -30,8 +31,9 @@ import { fr } from "@/i18n/fr";
 import { RECIPE_ICON_CATEGORIES } from "@/icons/pack";
 import { ArticleIcon } from "@/ui/ArticleIcon";
 import { Button } from "@/ui/button";
-import { ConfirmActions, TextArea } from "@/ui/form";
+import { ConfirmActions } from "@/ui/form";
 import { IconChangeButton } from "@/ui/IconChangeButton";
+import { MarkdownField, MarkdownText } from "@/ui/Markdown";
 import { useGoBack } from "@/ui/navigation";
 import { EmptyHint, EmptyState, PageHeader, Section } from "@/ui/Page";
 import { QuantityText } from "@/ui/PreviewRow";
@@ -55,7 +57,7 @@ type Panel =
 
 /**
  * Fiche recette (docs/04 § 2.6) : en lecture, le rendement fixe, les ingrédients, les
- * étapes et « Ajouter à une liste » ; « Modifier » ouvre l'édition sur la même fiche
+ * étapes, puis « Ajouter à une liste » en bas ; « Modifier » ouvre l'édition sur la même fiche
  * (nom, rendement, icône, ingrédients par la barre d'ajout, étapes). Dupliquer et
  * supprimer en bas.
  */
@@ -81,6 +83,8 @@ function RecipeView({ recipe, data }: { recipe: Recipe; data: ListData }) {
   const [params, setParams] = useSearchParams();
   const editing = params.has(EDIT);
   const [panel, setPanel] = useState<Panel | null>(null);
+  // On cuisine la recette sous les yeux : l'écran reste allumé (réglage Écran allumé).
+  useWakeLock();
   const close = () => {
     setPanel(null);
   };
@@ -199,19 +203,6 @@ function RecipeView({ recipe, data }: { recipe: Recipe; data: ListData }) {
               {t.serves(yieldLabel(recipe.yield.quantity, recipe.yield.unit))}
             </p>
           </div>
-          <div className="px-4 pt-4">
-            <Button
-              size="lg"
-              className="w-full"
-              disabled={recipe.ingredients.length === 0}
-              onClick={() => {
-                setPanel({ kind: "add" });
-              }}
-            >
-              <ListPlus />
-              {t.addToList}
-            </Button>
-          </div>
         </>
       )}
 
@@ -233,13 +224,25 @@ function RecipeView({ recipe, data }: { recipe: Recipe; data: ListData }) {
             <StepsEditor recipe={recipe} onSave={save} />
           </div>
         ) : recipe.steps?.trim() ? (
-          <p className="px-4 py-3 whitespace-pre-line">{recipe.steps}</p>
+          <MarkdownText text={recipe.steps} className="px-4 py-3" />
         ) : (
           <EmptyHint inset>{t.noSteps}</EmptyHint>
         )}
       </Section>
 
       <div className="flex flex-col gap-3 px-4 pt-6 pb-8">
+        {!editing && (
+          <Button
+            size="lg"
+            disabled={recipe.ingredients.length === 0}
+            onClick={() => {
+              setPanel({ kind: "add" });
+            }}
+          >
+            <ListPlus />
+            {t.addToList}
+          </Button>
+        )}
         <Button
           variant="outline"
           onClick={() => {
@@ -352,7 +355,7 @@ function YieldEditor({
   );
 }
 
-/** Étapes en texte libre, enregistrées en quittant le champ. */
+/** Étapes mises en forme (Markdown), enregistrées en quittant le champ. */
 function StepsEditor({
   recipe,
   onSave,
@@ -362,14 +365,12 @@ function StepsEditor({
 }) {
   const [steps, setSteps] = useState(recipe.steps ?? "");
   return (
-    <TextArea
+    <MarkdownField
       aria-label={t.steps}
       value={steps}
       placeholder={t.stepsPlaceholder}
-      className="h-48 font-sans text-base"
-      onChange={(event) => {
-        setSteps(event.target.value);
-      }}
+      className="h-56 font-sans text-base"
+      onValueChange={setSteps}
       onBlur={() => {
         const clean = steps.trim();
         if (clean !== (recipe.steps ?? ""))

@@ -7,7 +7,8 @@ import { UnitSelect } from "@/ui/UnitSelect";
 const t = fr.list.line;
 
 /**
- * Quantité et unité d'une ligne ou d'un ingrédient, côte à côte, puis les unités
+ * Quantité et unité d'une ligne ou d'un ingrédient, côte à côte (la quantité, un nombre
+ * court, au plus juste ; l'unité, au nom parfois long, prend le reste), puis les unités
  * habituelles de l'article en puces (s'il y en a plusieurs). `kitchen` : propose aussi
  * les unités de cuisine (recettes).
  */
@@ -31,14 +32,14 @@ export function AmountFields({
   return (
     <>
       <div className="flex gap-3">
-        <Field label={t.quantity} className="flex-1">
+        <Field label={t.quantity} className="w-40 shrink-0">
           <QuantityInput
             value={quantity}
             step={unit.step}
             onChange={onQuantity}
           />
         </Field>
-        <Field label={t.unit} className="w-40">
+        <Field label={t.unit} className="min-w-0 flex-1">
           <UnitSelect
             units={units}
             value={unit.id}

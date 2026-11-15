@@ -20,7 +20,7 @@ export function YieldFields({
   return (
     <div className="flex flex-col gap-3">
       <div className="flex gap-3">
-        <Field label={t.yield} className="w-44 shrink-0">
+        <Field label={t.yield} className="w-40 shrink-0">
           <QuantityInput
             value={value.quantity}
             step={1}

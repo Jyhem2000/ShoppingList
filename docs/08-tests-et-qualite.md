@@ -52,6 +52,7 @@ Principe : **tester ce qui peut casser silencieusement et ce qui fait la valeur 
 | Rangement en cochant, « Rayon suivant », titre d'un rayon           | Le magasin se construit pendant les courses (03 C4, 02 § 4) : bonne catégorie au bon rayon, jamais deux rayons vides, titres courts |
 | Clôture, apprentissage, réouverture                                 | Logique statistique ; jamais de double comptage après réouverture                                                                   |
 | `convert`, `changeUnit`, `simplify`, `mergeQuantity`, `scaleRecipe` | Calculs, conversions et arrondis (y compris rendements « 1 cake »)                                                                  |
+| `parseMarkdown`, `toggleBold`, `toggleLineStyle`, `continueList`    | Étapes mises en forme : titres, listes, gras, un ancien texte simple lu tel quel ; boutons de la barre et suite d'une liste         |
 | Suggestions anti-oubli                                              | Logique statistique                                                                                                                 |
 | `slugify` sur d'autres alphabets                                    | Jamais de slug vide (cyrillique, chinois…)                                                                                          |
 | `resolveImport`, `suggestCandidates`                                | Partage entre deux catalogues différents : clé, alias, dictionnaire du catalogue, candidats par icône/catégorie                     |

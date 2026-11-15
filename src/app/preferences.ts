@@ -29,7 +29,7 @@ export interface DevicePreferences {
   sounds: boolean;
   /** Chaque son, activable séparément (pris en compte seulement si `sounds`). */
   soundEvents: Record<SoundEvent, boolean>;
-  /** Garder l'écran allumé pendant les courses. */
+  /** Garder l'écran allumé pendant les courses et sur une recette. */
   keepScreenOn: boolean;
   theme: ThemePreference;
   /** Bulles d'aide déjà montrées (docs/03 H12), une seule fois chacune. */

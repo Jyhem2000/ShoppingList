@@ -52,7 +52,7 @@ import { AddedInStoreSheet } from "./AddedInStoreSheet";
 import { MoveAisleSheet } from "./MoveAisleSheet";
 import { StaleSessionPrompt } from "./StaleSessionPrompt";
 import { type ShoppingView, useShoppingView } from "./useShoppingView";
-import { useWakeLock } from "./useWakeLock";
+import { useWakeLock } from "@/app/useWakeLock";
 
 const t = fr.shopping;
 

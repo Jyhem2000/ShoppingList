@@ -6,8 +6,7 @@ import { changeUnit } from "@/domain/quantity";
 import type { ListData } from "@/features/list/useListData";
 import { fr } from "@/i18n/fr";
 import { AmountFields } from "@/ui/AmountFields";
-import { CheckRow, RemoveDoneActions } from "@/ui/form";
-import { RowText } from "@/ui/RowButton";
+import { CheckOption, RemoveDoneActions } from "@/ui/form";
 import { Sheet } from "@/ui/Sheet";
 import { TypesPicker } from "@/ui/TypesPicker";
 
@@ -85,22 +84,22 @@ export function IngredientSheet({
         />
 
         <div>
-          <CheckRow
+          <CheckOption
             checked={ingredient.optional}
             onCheckedChange={(optional) => {
               update({ optional });
             }}
-          >
-            <RowText title={t.optional} detail={t.optionalHint} wrap />
-          </CheckRow>
-          <CheckRow
+            title={t.optional}
+            hint={t.optionalHint}
+          />
+          <CheckOption
             checked={ingredient.fixed}
             onCheckedChange={(fixed) => {
               update({ fixed });
             }}
-          >
-            <RowText title={t.fixed} detail={t.fixedHint} wrap />
-          </CheckRow>
+            title={t.fixed}
+            hint={t.fixedHint}
+          />
         </div>
 
         <RemoveDoneActions

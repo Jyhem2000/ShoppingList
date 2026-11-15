@@ -205,7 +205,7 @@ Mode « Tour de la cuisine » : un écran par catégorie présentant ses article
 ### E1. Gérer les recettes — _v1.0_
 
 Onglet **Recettes** : liste avec recherche ; créer, éditer, dupliquer, supprimer.
-Fiche recette : libellé, icône, **rendement** (« 4 personnes » par défaut, ou unité libre : « 1 cake », « 24 cookies », voir [02 § 7](02-modele-metier.md#7-recette)), ingrédients (ajoutés avec la même barre d'ajout que les listes, donc saisie naturelle A2 et création d'article A4), ingrédients facultatifs, ingrédients à **quantité fixe** (non recalculés selon le nombre de personnes : un pot de crème pour la raclette), étapes en texte libre.
+Fiche recette : libellé, icône, **rendement** (« 4 personnes » par défaut, ou unité libre : « 1 cake », « 24 cookies », voir [02 § 7](02-modele-metier.md#7-recette)), ingrédients (ajoutés avec la même barre d'ajout que les listes, donc saisie naturelle A2 et création d'article A4), ingrédients facultatifs, ingrédients à **quantité fixe** (non recalculés selon le nombre de personnes : un pot de crème pour la raclette), étapes mises en forme : gras, titres, listes à puces ou numérotées, par une petite barre au-dessus du champ (enregistrées en Markdown, décision du 15 novembre 2026). La fiche garde l'écran allumé (H9).
 
 ### E2. Ajouter une recette à une liste — _v1.0_
 
@@ -323,9 +323,9 @@ Retirée le 8 novembre 2026 : l'API Vibration n'existe pas sur iPhone, et l'astu
 
 ---
 
-### H9. Écran allumé pendant les courses
+### H9. Écran allumé
 
-Réglage **activé par défaut** : en mode courses, l'écran ne se met pas en veille (Screen Wake Lock, C1). Grisé si le téléphone ne le permet pas.
+Réglage **activé par défaut** : en mode courses, l'écran ne se met pas en veille (Screen Wake Lock, C1) ; sur la fiche d'une recette non plus, pour cuisiner en la lisant (décision du 15 novembre 2026). Grisé si le téléphone ne le permet pas.
 
 ### H10. Aide
 
