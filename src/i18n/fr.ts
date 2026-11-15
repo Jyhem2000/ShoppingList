@@ -768,6 +768,19 @@ export const fr = {
     version: (version: string) => `Version ${version}`,
     versions: [
       {
+        version: "0.8.0",
+        date: "2026-11-15",
+        items: [
+          "Catalogue complet : 428 articles (contre 240), chacun avec son icône dessinée pour l'app. Les œufs sont rangés avec la crèmerie, dans «\u00a0Lait, Crème, Beurre & Œufs\u00a0».",
+          "Copies automatiques : chaque jour, l'app garde une copie de tes données dans le téléphone, sur 7 jours, et une juste avant chaque restauration ou import. Réglages → Sauvegarde → «\u00a0Copies automatiques\u00a0».",
+          "Nouvel écran Aide (Réglages → Application → Aide) : le mode d'emploi en bref et ce que l'app règle toute seule. «\u00a0Revoir les conseils\u00a0» s'y trouve désormais.",
+          "En magasin : les catégories de «\u00a0À placer\u00a0» se replient d'un toucher, comme les blocs «\u00a0À placer\u00a0» et «\u00a0À récupérer\u00a0» ; «\u00a0Rayon suivant\u00a0» est bien plus visible.",
+          "Un article déjà dans la liste ? Sa ligne se montre et pulse, même si son rayon était replié. En cochant, le trait barré se trace.",
+          "Moins de réglages : les animations suivent le réglage «\u00a0Réduire les animations\u00a0» du téléphone ; l'affichage compact et le choix pour les lignes cochées ont disparu.",
+          "Finitions : écrans vides plus clairs, meilleurs contrastes en thème clair, boutons plus faciles à toucher, sons «\u00a0Suppression\u00a0» et «\u00a0Action impossible\u00a0» partout où ils ont du sens.",
+        ],
+      },
+      {
         version: "0.7.2",
         date: "2026-11-14",
         items: [
