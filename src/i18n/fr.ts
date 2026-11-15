@@ -901,6 +901,18 @@ export const fr = {
     version: (version: string) => `Version ${version}`,
     versions: [
       {
+        version: "1.0.0",
+        date: "2026-11-15",
+        items: [
+          "Ta liste de courses, rangée par catégorie à la maison et par rayon en magasin, dans l'ordre de ton parcours.",
+          "Ajout éclair : «\u00a03 tomates, du beurre et 6 œufs\u00a0», au clavier ou en dictée.",
+          "483 articles, chacun avec son icône dessinée pour l'app. Tout se modifie : articles, catégories, rayons, magasins, unités.",
+          "Chaque magasin se construit pendant tes courses : coche dans l'ordre, «\u00a0Rayon suivant\u00a0» quand tu changes de rayon. La fois suivante, la liste suit ce parcours.",
+          "Recettes : note une recette une fois, puis ajoute ses ingrédients à ta liste pour le nombre de personnes voulu. Les quantités sont recalculées et s'ajoutent à celles déjà dans la liste.",
+          "Plusieurs listes, sauvegarde et copies automatiques dans le téléphone, thème sombre ou clair, et l'app marche sans connexion.",
+        ],
+      },
+      {
         version: "0.9.0",
         date: "2026-11-15",
         items: [
