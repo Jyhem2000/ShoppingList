@@ -130,6 +130,8 @@ export const fr = {
       keep: "Garder l'existant",
       replace: (quantity: string) => `Remplacer par ${quantity}`,
       asNote: "Ajouter en note",
+      otherType: (quantity: string) =>
+        `Ou ajouter ${quantity} d'une autre sorte, sur une ligne à part`,
     },
     createSheet: {
       title: "Nouvel article",
@@ -630,6 +632,9 @@ export const fr = {
       `Catégorie · ${count > 1 ? `ses ${count} articles` : "son article"}`,
     back: "Catalogue",
     quantityTitle: (name: string) => name,
+    otherType: "Ajouter une autre sorte",
+    removeLine: (label?: string) =>
+      label ? `Retirer la ligne «\u00a0${label}\u00a0»` : "Retirer de la liste",
     remove: "Retirer de la liste",
     done: "Terminé",
     count: (count: number) =>

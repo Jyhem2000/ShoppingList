@@ -353,6 +353,8 @@ function Shopping({
     panel?.kind === "quantity"
       ? data.items.find((item) => item.id === panel.itemId)
       : undefined;
+  const quantityArticle =
+    quantityItem && data.articleById.get(quantityItem.articleId);
 
   return (
     <>
@@ -590,16 +592,14 @@ function Shopping({
           onClose={close}
         />
       )}
-      {panel?.kind === "quantity" && quantityItem && (
+      {panel?.kind === "quantity" && quantityItem && quantityArticle && (
         <QuantitySheet
           key={quantityItem.id}
-          item={quantityItem}
+          article={quantityArticle}
           data={data}
           onClose={close}
           onAddType={(type) => {
-            const article = data.articleById.get(quantityItem.articleId);
-            close();
-            if (article) void adding.addType(article, type);
+            void adding.addType(quantityArticle, type);
           }}
         />
       )}

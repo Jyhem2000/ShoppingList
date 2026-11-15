@@ -1,10 +1,10 @@
 import { Minus, Plus, Trash2 } from "lucide-react";
 import { db } from "@/db/database";
 import { deleteItems, restoreItems, updateItem } from "@/db/lists";
-import type { ListItem } from "@/domain/model";
+import { otherTypes, typesKey } from "@/domain/lines";
+import type { Article, ListItem } from "@/domain/model";
 import { feedback } from "@/feedback";
 import { fr } from "@/i18n/fr";
-import { otherTypes } from "@/domain/lines";
 import { Button } from "@/ui/button";
 import { OtherTypes } from "@/ui/OtherTypes";
 import { Sheet } from "@/ui/Sheet";
@@ -16,27 +16,46 @@ import type { ListData } from "@/features/list/useListData";
 const t = fr.catalog;
 
 /**
- * Réglage rapide de la quantité d'un article déjà dans la liste (docs/03 A5), et
- * « Une autre sorte » pour une ligne à part d'un de ses types (docs/02 § 6).
+ * Réglage rapide d'un article déjà dans la liste (docs/03 A5) : **toutes ses lignes**,
+ * chacune avec sa sorte (« Peu importe », « Entier »), ses − / + et sa corbeille, puis
+ * « Une autre sorte » (docs/02 § 6). Une sorte touchée ajoute sa ligne ici même, avec
+ * la quantité par défaut de l'article, à régler sur place ; le panneau reste ouvert.
+ * Il se ferme quand l'article n'a plus de ligne.
  */
 export function QuantitySheet({
-  item,
+  article,
   data,
   onClose,
   onAddType,
 }: {
-  item: ListItem;
+  article: Article;
   data: ListData;
   onClose: () => void;
   onAddType: (type: string) => void;
 }) {
-  const article = data.articleById.get(item.articleId);
-  const unit = data.unitById.get(item.unitId);
-  if (!article || !unit) return null;
-  const step = unit.step > 0 ? unit.step : 1;
-  const set = (quantity: number) => {
-    void updateItem(db, item.id, {
-      quantity: Math.round(quantity * 1000) / 1000,
+  const lines = data.items
+    .filter((item) => item.articleId === article.id)
+    .sort(
+      (a, b) =>
+        a.acceptedTypes.length - b.acceptedTypes.length ||
+        typesKey(a.acceptedTypes).localeCompare(typesKey(b.acceptedTypes)) ||
+        a.createdAt - b.createdAt,
+    );
+  // Une seule ligne « peu importe » : pas d'étiquette, le panneau d'avant.
+  const labelled = lines.some((line) => line.acceptedTypes.length > 0);
+
+  const remove = (line: ListItem) => {
+    if (lines.length === 1) onClose();
+    void deleteItems(db, [line.id]).then((removed) => {
+      feedback.remove();
+      showToast(fr.list.removed(article.name), {
+        action: {
+          label: fr.list.undo,
+          run: () => {
+            void restoreItems(db, removed);
+          },
+        },
+      });
     });
   };
 
@@ -50,64 +69,108 @@ export function QuantitySheet({
       title={t.quantityTitle(article.name)}
     >
       <div className="flex flex-col gap-4">
-        <div className="flex items-center justify-center gap-4">
-          <Button
-            variant="iconOutline"
-            size="icon"
-            aria-label={fr.list.line.less}
-            disabled={item.quantity <= step}
-            onClick={() => {
-              set(Math.max(step, item.quantity - step));
-            }}
-          >
-            <Minus />
-          </Button>
-          <span className="min-w-28 text-center text-2xl font-extrabold text-secondary tabular-nums">
-            {lineQuantity(item, data.unitById)}
-          </span>
-          <Button
-            variant="iconOutline"
-            size="icon"
-            aria-label={fr.list.line.more}
-            onClick={() => {
-              set(item.quantity + step);
-            }}
-          >
-            <Plus />
-          </Button>
-        </div>
+        <ul className="flex flex-col gap-2">
+          {lines.map((line) => (
+            <QuantityRow
+              key={line.id}
+              line={line}
+              data={data}
+              label={
+                labelled
+                  ? line.acceptedTypes.length
+                    ? fr.list.typesMany(line.acceptedTypes)
+                    : fr.list.line.anyType
+                  : undefined
+              }
+              onRemove={() => {
+                remove(line);
+              }}
+            />
+          ))}
+        </ul>
         <OtherTypes
           types={otherTypes(article, data.items)}
           onPick={onAddType}
+          label={t.otherType}
         />
         <KeepOneOff article={article} data={data} />
-        <div className="flex gap-2">
-          <Button
-            variant="outline"
-            className="flex-1 border-danger/50 text-danger"
-            onClick={() => {
-              void deleteItems(db, [item.id]).then((removed) => {
-                feedback.remove();
-                showToast(fr.list.removed(article.name), {
-                  action: {
-                    label: fr.list.undo,
-                    run: () => {
-                      void restoreItems(db, removed);
-                    },
-                  },
-                });
-              });
-              onClose();
-            }}
-          >
-            <Trash2 />
-            {t.remove}
-          </Button>
-          <Button className="flex-1" onClick={onClose}>
-            {t.done}
-          </Button>
-        </div>
+        <Button onClick={onClose}>{t.done}</Button>
       </div>
     </Sheet>
+  );
+}
+
+function QuantityRow({
+  line,
+  data,
+  label,
+  onRemove,
+}: {
+  line: ListItem;
+  data: ListData;
+  label?: string;
+  onRemove: () => void;
+}) {
+  const unit = data.unitById.get(line.unitId);
+  if (!unit) return null;
+  const step = unit.step > 0 ? unit.step : 1;
+  const set = (quantity: number) => {
+    void updateItem(db, line.id, {
+      quantity: Math.round(quantity * 1000) / 1000,
+    });
+  };
+  return (
+    <li className="flex items-center gap-2">
+      {label && (
+        <span className="min-w-0 flex-1 truncate font-semibold">{label}</span>
+      )}
+      <div
+        className={
+          label
+            ? "flex items-center gap-2"
+            : "flex flex-1 items-center justify-center gap-4"
+        }
+      >
+        <Button
+          variant="iconOutline"
+          size="icon"
+          aria-label={fr.list.line.less}
+          disabled={line.quantity <= step}
+          onClick={() => {
+            set(Math.max(step, line.quantity - step));
+          }}
+        >
+          <Minus />
+        </Button>
+        <span
+          className={
+            label
+              ? "min-w-16 text-center text-lg font-extrabold text-secondary tabular-nums"
+              : "min-w-28 text-center text-2xl font-extrabold text-secondary tabular-nums"
+          }
+        >
+          {lineQuantity(line, data.unitById)}
+        </span>
+        <Button
+          variant="iconOutline"
+          size="icon"
+          aria-label={fr.list.line.more}
+          onClick={() => {
+            set(line.quantity + step);
+          }}
+        >
+          <Plus />
+        </Button>
+      </div>
+      <Button
+        variant="icon"
+        size="icon"
+        className="text-danger"
+        aria-label={t.removeLine(label)}
+        onClick={onRemove}
+      >
+        <Trash2 />
+      </Button>
+    </li>
   );
 }

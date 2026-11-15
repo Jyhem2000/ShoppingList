@@ -6,40 +6,36 @@ import { QuantitySheet } from "./QuantitySheet";
 
 /**
  * Choisir un article du catalogue (docs/03 A5) : absent de la liste, il est ajouté avec
- * sa quantité par défaut ; déjà présent, le réglage − / + / ✕ s'ouvre au lieu d'ajouter
- * (sur la ligne « peu importe » s'il y en a une, sinon la première de ses lignes).
+ * sa quantité par défaut ; déjà présent, le réglage de toutes ses lignes s'ouvre au
+ * lieu d'ajouter.
  * `sheet` : le panneau de réglage, à afficher par l'appelant.
  */
 export function useCatalogPick(data: ListData) {
   const adding = useAddToList(data);
   const [open, setOpen] = useState<string | null>(null);
-  const openItem = open
-    ? data.items.find((item) => item.id === open)
-    : undefined;
+  const openArticle = open ? data.articleById.get(open) : undefined;
+  const inList = (article: Article) =>
+    data.items.some((item) => item.articleId === article.id);
 
   const pick = (article: Article): "added" | "opened" => {
-    const lines = data.items.filter((i) => i.articleId === article.id);
-    const item = lines.find((i) => i.acceptedTypes.length === 0) ?? lines.at(0);
-    if (item) {
-      setOpen(item.id);
+    if (inList(article)) {
+      setOpen(article.id);
       return "opened";
     }
     void adding.pick(article);
     return "added";
   };
 
-  const sheet = openItem && (
+  const sheet = openArticle && inList(openArticle) && (
     <QuantitySheet
-      key={openItem.id}
-      item={openItem}
+      key={openArticle.id}
+      article={openArticle}
       data={data}
       onClose={() => {
         setOpen(null);
       }}
       onAddType={(type) => {
-        const article = data.articleById.get(openItem.articleId);
-        setOpen(null);
-        if (article) void adding.addType(article, type);
+        void adding.addType(openArticle, type);
       }}
     />
   );

@@ -49,7 +49,7 @@ Barre de saisie fixée en bas de l'écran Liste, accessible au pouce.
 
 ### A3. Article déjà dans la liste — _v1.0_
 
-Voir [02 § 6](02-modele-metier.md#une-ligne-par-article-et-par-choix-de-types) : seulement pour une ligne du même article **avec les mêmes types** ; avec d'autres types (`3 pommes granny` quand la liste a des Golden), c'est une nouvelle ligne. Si l'article a des types, le panneau propose aussi « Une autre sorte, sur une ligne à part » (02 § 6). Un panneau léger (non bloquant) affiche « Déjà dans la liste : 2 kg » et propose **Ajouter [quantité]** ou **Ne rien faire** (par défaut).
+Voir [02 § 6](02-modele-metier.md#une-ligne-par-article-et-par-choix-de-types) : seulement pour une ligne du même article **avec les mêmes types** ; avec d'autres types (`3 pommes granny` quand la liste a des Golden), c'est une nouvelle ligne. Si l'article a des types, le panneau propose aussi « Ou ajouter [quantité] d'une autre sorte, sur une ligne à part » : la quantité dite est celle tapée (ou celle de l'article) (02 § 6). Un panneau léger (non bloquant) affiche « Déjà dans la liste : 2 kg » et propose **Ajouter [quantité]** ou **Ne rien faire** (par défaut).
 
 **Critères** : ajouter _Pommes_ déjà présent puis `Entrée` → quantité inchangée ; choisir « Ajouter 1 kg » → 3 kg.
 
@@ -67,7 +67,7 @@ Si aucun article ni alias ne correspond : suggestion « Créer _Sauce nuoc-mâm_
 Grille de catégories (icône + libellé) → grille d'articles (grande icône + libellé).
 
 - Tap sur un article absent de la liste = ajout avec la quantité par défaut.
-- Article déjà présent : pastille de quantité (plusieurs lignes : additionnées par unité) ; un tap ouvre le sélecteur de quantité (`−` / `+` / ✕) de sa ligne « peu importe » (sinon de la première), avec « Une autre sorte, sur une ligne à part » si l'article a des types.
+- Article déjà présent : pastille de quantité (plusieurs lignes : additionnées par unité) ; un tap ouvre le réglage de **toutes ses lignes** : une rangée par ligne, étiquetée par sa sorte (« Peu importe », « entier ») quand il y en a plusieurs, avec `−` / `+` et 🗑, puis « Ajouter une autre sorte » si l'article a des types. Une sorte touchée ajoute sa ligne dans le panneau, avec la quantité par défaut de l'article, réglable sur place ; « Terminé » ferme (décision du 15 novembre 2026, après essai : une quantité sans étiquette au-dessus des sortes faisait croire qu'elle s'appliquait à la nouvelle sorte).
 - Recherche en haut du catalogue, avec **suggestions dès la première lettre** (nom, alias, sans tenir compte des accents ; la partie tapée en gras ; quantité si l'article est déjà dans la liste). Tap ou Entrée sur la première = même effet qu'un tap sur la carte ; au-delà de 8 suggestions, « Voir les N résultats » ouvre la grille complète.
 
 ### A6. Habituels et favoris — _v1.0_

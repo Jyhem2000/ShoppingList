@@ -110,6 +110,7 @@ export function ExistsSheet({
           <OtherTypes
             types={otherTypes(article, data.items)}
             onPick={onAddType}
+            label={t.otherType(added)}
           />
         </div>
       </div>

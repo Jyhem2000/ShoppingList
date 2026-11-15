@@ -8,14 +8,17 @@ import { Chip, FieldLabel } from "@/ui/form";
 export function OtherTypes({
   types,
   onPick,
+  label = fr.list.otherType,
 }: {
   types: readonly string[];
   onPick: (type: string) => void;
+  /** Ce que fait le toucher (« Ou ajouter 1 litre d'une autre sorte… »). */
+  label?: string;
 }) {
   if (types.length === 0) return null;
   return (
     <div>
-      <FieldLabel>{fr.list.otherType}</FieldLabel>
+      <FieldLabel>{label}</FieldLabel>
       <div className="flex flex-wrap gap-2">
         {types.map((type) => (
           <Chip

@@ -70,13 +70,26 @@ test("2. ajout éclair, article déjà présent, création d'un article inconnu"
     line(page, "Pommes").filter({ hasText: "Gala uniquement" }),
   ).toBeVisible();
 
-  // Catalogue : toucher un article déjà présent propose une autre sorte, sur une ligne à part.
+  // Catalogue : toucher un article déjà présent montre toutes ses lignes ; une autre sorte
+  // s'y ajoute avec la quantité par défaut, réglable sur place.
   await page.getByRole("link", { name: "Catalogue" }).click();
   await page.getByRole("button", { name: /^Fruits/ }).click();
   const apples = page.getByRole("button", { name: /Pommes$/ });
-  await apples.click();
   const quantity = page.getByRole("dialog", { name: "Pommes" });
+  // L'écran de la catégorie arrive en animation : un toucher trop tôt peut se perdre
+  // (WebKit) ; l'article est déjà dans la liste, retoucher ne fait qu'ouvrir le panneau.
+  await expect(async () => {
+    if (!(await quantity.isVisible())) await apples.click();
+    await expect(quantity).toBeVisible({ timeout: 1000 });
+  }).toPass();
   await quantity.getByRole("button", { name: "Pink Lady" }).click();
+  const pinkLady = quantity
+    .getByRole("listitem")
+    .filter({ hasText: "Pink Lady" });
+  await expect(pinkLady).toContainText("1 kg");
+  await pinkLady.getByRole("button", { name: "Augmenter" }).click();
+  await expect(pinkLady).toContainText("1,5 kg");
+  await quantity.getByRole("button", { name: "Terminé" }).click();
   await expect(quantity).toBeHidden();
 
   // Appui long → fiche de l'article ; la flèche revient au catalogue, pas aux réglages.
