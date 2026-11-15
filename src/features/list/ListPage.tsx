@@ -179,7 +179,9 @@ export function ListPage() {
       <AddArticleBar
         data={data}
         onSubmit={(text) => void adding.submit(text)}
-        onPick={(article, entry) => void adding.pick(article, entry)}
+        onPick={(article, entry, types) =>
+          void adding.pick(article, entry, types)
+        }
         onCreate={adding.create}
       />
 
@@ -189,6 +191,10 @@ export function ListPage() {
           pending={pending}
           data={data}
           onDone={adding.next}
+          onAddType={(type) => {
+            adding.next();
+            void adding.addType(pending.article, type, pending.entry);
+          }}
         />
       )}
       {pending?.kind === "create" && (

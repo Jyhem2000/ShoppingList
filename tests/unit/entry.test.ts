@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { entryAmount, parseEntry, resolveEntry } from "@/domain/entry";
+import {
+  entryAmount,
+  parseEntry,
+  resolveEntry,
+  typeSuggestions,
+} from "@/domain/entry";
 import { formatQuantity } from "@/domain/quantity";
 import { articles, units } from "./fixtures";
 
@@ -71,6 +76,28 @@ describe("saisie naturelle : tableau de docs/03 § A2", () => {
     expect(enter("pommes gala ou golden")).toEqual([
       "Pommes : 1 kg (Gala, Golden)",
     ]);
+  });
+
+  it("un début de type sans ambiguïté vaut le type entier", () => {
+    expect(enter("3 pommes gol")).toEqual(["Pommes : 3 kg (Golden)"]);
+    expect(enter("pommes granny")).toEqual(["Pommes : 1 kg (Granny Smith)"]);
+    // « g » : Gala, Golden ou Granny Smith, on ne choisit pas à la place de l'utilisateur.
+    expect(enter("pommes g")).toEqual(["Pommes : 1 kg"]);
+  });
+
+  it("suggestions par type, seulement après le nom de l'article", () => {
+    const suggested = (text: string) =>
+      typeSuggestions(text, articles).map(
+        ({ article, type }) => `${article.name} · ${type}`,
+      );
+    expect(suggested("pom")).toEqual([]);
+    expect(suggested("pommes")).toEqual([]);
+    expect(suggested("pommes g")).toEqual([
+      "Pommes · Gala",
+      "Pommes · Golden",
+      "Pommes · Granny Smith",
+    ]);
+    expect(suggested("pommes gol")).toEqual(["Pommes · Golden"]);
   });
 
   it("2 baguettes, du beurre et 6 œufs → 3 lignes", () => {

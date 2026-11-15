@@ -198,7 +198,7 @@ Retours de l'essai du 15 novembre 2026 : catégories de « À placer » repliabl
 
 E1, E2 : onglet Recettes, fiche recette avec rendement fixe (personnes ou unité libre), ajout à une liste avec recalcul, arrondi, simplification et fusion des quantités. Développée sur `dev` pendant l'usage réel de la 0.9 ; l'onglet n'apparaît que hors production jusqu'à la `1.0.0`, pour que les correctifs `0.9.x` restent publiables.
 
-**Préalable, fait le 15 novembre 2026** : une ligne par article **et par choix de types** (02 § 6) — sucre en poudre et sucre glace, 2 Golden et 3 Granny Smith sont deux lignes ; une recette ne fusionne un ingrédient qu'avec la ligne aux mêmes types. Poussé en préproduction pour un essai réel avant de commencer la phase 9.
+**Préalable, fait le 15 novembre 2026** : une ligne par article **et par choix de types** (02 § 6) — sucre en poudre et sucre glace, 2 Golden et 3 Granny Smith sont deux lignes ; une recette ne fusionne un ingrédient qu'avec la ligne aux mêmes types. Retours d'essai du même jour, faits aussi : « Une autre sorte, sur une ligne à part » au deuxième ajout, suggestions par type (`pommes g` → « Pommes · Golden ») et début de type reconnu, bouton ‹ qui revient à l'écran d'où l'on vient. En préproduction pour un essai réel avant de commencer la phase 9.
 
 Plan (pas de migration de données : au besoin, on réinstalle l'app, 07 § 5) :
 

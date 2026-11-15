@@ -1,7 +1,7 @@
 import { useLiveQuery } from "dexie-react-hooks";
 import { GitMerge, Plus, Trash2, X } from "lucide-react";
 import { useMemo, useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import { routes } from "@/app/routes";
 import {
   articleUsage,
@@ -19,7 +19,7 @@ import { type ListData, useListData } from "@/features/list/useListData";
 import { fr } from "@/i18n/fr";
 import { SearchField } from "@/ui/SearchField";
 import { Button } from "@/ui/button";
-import { backState } from "@/ui/navigation";
+import { useGoBack } from "@/ui/navigation";
 import { Field, Select, TextInput, ConfirmActions } from "@/ui/form";
 import { EmptyState, PageHeader, Row, Section } from "@/ui/Page";
 import { ProductIcon } from "@/ui/ProductIcon";
@@ -62,7 +62,7 @@ export function ArticlePage() {
 }
 
 function ArticleForm({ article, data }: { article: Article; data: ListData }) {
-  const navigate = useNavigate();
+  const goBack = useGoBack(routes.manageArticles);
   const [panel, setPanel] = useState<"icon" | "merge" | "delete" | null>(null);
   const [quantity, setQuantity] = useState(
     article.defaultQuantity === undefined
@@ -292,10 +292,7 @@ function ArticleForm({ article, data }: { article: Article; data: ListData }) {
               void deleteArticle(db, article.id).then(() => {
                 feedback.remove();
                 showToast(t.deleted(article.name), { tone: "success" });
-                void navigate(routes.manageArticles, {
-                  replace: true,
-                  state: backState,
-                });
+                goBack();
               });
             }}
             onCancel={() => {

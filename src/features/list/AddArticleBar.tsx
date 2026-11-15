@@ -1,6 +1,6 @@
 import { Plus } from "lucide-react";
 import { type ReactNode, useMemo, useState } from "react";
-import { parseEntry, type ParsedEntry } from "@/domain/entry";
+import { parseEntry, typeSuggestions, type ParsedEntry } from "@/domain/entry";
 import type { Article } from "@/domain/model";
 import { searchArticles } from "@/domain/search";
 import { searchKey } from "@/domain/slug";
@@ -17,7 +17,8 @@ const MAX_SUGGESTIONS = 5;
 /**
  * Barre d'ajout éclair (docs/03 A1, A2) et ses suggestions, affichées au-dessus
  * (donc au-dessus du clavier). Entrée : la saisie entière est analysée ; tap sur
- * une suggestion : cet article. La barre se vide et garde le clavier ouvert.
+ * une suggestion : cet article, avec son type pour une suggestion par type
+ * (« Pommes · Golden », quand on tape `pommes g`). La barre se vide et garde le clavier ouvert.
  */
 export function AddArticleBar({
   data,
@@ -33,7 +34,11 @@ export function AddArticleBar({
   above?: ReactNode;
   data: ListData;
   onSubmit: (text: string) => void;
-  onPick: (article: Article, entry: ParsedEntry) => void;
+  onPick: (
+    article: Article,
+    entry: ParsedEntry,
+    acceptedTypes: string[],
+  ) => void;
   onCreate: (entry: ParsedEntry) => void;
 }) {
   const [text, setText] = useState("");
@@ -43,18 +48,24 @@ export function AddArticleBar({
     const [first] = entries;
     if (!first || entries.length > 1)
       return { entry: undefined, suggestions: [], canCreate: false };
-    const results = searchArticles(
-      first.text,
-      data.articles,
-      data.purchaseCounts,
-    ).slice(0, MAX_SUGGESTIONS);
+    const byType = typeSuggestions(first.text, data.articles);
+    const results = [
+      ...byType,
+      ...searchArticles(first.text, data.articles, data.purchaseCounts).map(
+        ({ article }) => ({ article, type: undefined }),
+      ),
+    ].slice(0, MAX_SUGGESTIONS);
     const key = searchKey(first.text);
     const exact = results.some(
       (r) =>
         searchKey(r.article.name) === key ||
         r.article.aliases.some((alias) => searchKey(alias) === key),
     );
-    return { entry: first, suggestions: results, canCreate: !exact };
+    return {
+      entry: first,
+      suggestions: results,
+      canCreate: !exact && byType.length === 0,
+    };
   }, [text, data]);
 
   const inList = useMemo(
@@ -71,18 +82,24 @@ export function AddArticleBar({
       <div className="mx-auto max-w-xl">
         {entry && (suggestions.length > 0 || canCreate) && (
           <SuggestionList aria-label={t.addPlaceholder} className="mb-2">
-            {suggestions.map(({ article }) => {
+            {suggestions.map(({ article, type }) => {
               const category = data.categoryById.get(article.categoryId);
               const quantity = inList.get(article.id);
               return (
-                <li key={article.id}>
+                <li key={`${article.id}#${type ?? ""}`}>
                   <RowButton
                     inset="popover"
                     icon={<ArticleIcon article={article} category={category} />}
-                    title={article.name}
-                    detail={quantity ? t.inList(quantity) : category?.name}
+                    title={type ? t.withType(article.name, type) : article.name}
+                    detail={
+                      type
+                        ? t.typesOne(type)
+                        : quantity
+                          ? t.inList(quantity)
+                          : category?.name
+                    }
                     onClick={() => {
-                      onPick(article, entry);
+                      onPick(article, entry, type ? [type] : []);
                       done();
                     }}
                   />

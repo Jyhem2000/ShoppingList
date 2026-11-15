@@ -38,18 +38,29 @@ export function lineQuantity(
 
 /**
  * Ce que la liste contient déjà de chaque article, pour le catalogue et les suggestions :
- * « 1 kg », ou « × 2 + × 3 » quand l'article a plusieurs lignes (types différents).
+ * « 1 kg » ; plusieurs lignes (types différents) s'additionnent par unité (« 7 kg »,
+ * « 7 kg + × 2 »).
  */
 export function quantitiesInList(
   items: readonly Pick<ListItem, "articleId" | "quantity" | "unitId">[],
   unitById: ReadonlyMap<ID, Unit>,
 ): Map<ID, string> {
-  const result = new Map<ID, string>();
+  const sums = new Map<ID, Map<ID, number>>();
   for (const item of items) {
-    const quantity = lineQuantity(item, unitById);
-    const before = result.get(item.articleId);
-    result.set(item.articleId, before ? `${before} + ${quantity}` : quantity);
+    const byUnit = sums.get(item.articleId) ?? new Map<ID, number>();
+    byUnit.set(item.unitId, (byUnit.get(item.unitId) ?? 0) + item.quantity);
+    sums.set(item.articleId, byUnit);
   }
+  const result = new Map<ID, string>();
+  for (const [articleId, byUnit] of sums)
+    result.set(
+      articleId,
+      [...byUnit]
+        .map(([unitId, quantity]) =>
+          lineQuantity({ quantity, unitId }, unitById),
+        )
+        .join(" + "),
+    );
   return result;
 }
 

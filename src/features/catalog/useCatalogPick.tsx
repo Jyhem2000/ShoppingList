@@ -36,6 +36,11 @@ export function useCatalogPick(data: ListData) {
       onClose={() => {
         setOpen(null);
       }}
+      onAddType={(type) => {
+        const article = data.articleById.get(openItem.articleId);
+        setOpen(null);
+        if (article) void adding.addType(article, type);
+      }}
     />
   );
 

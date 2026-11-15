@@ -37,17 +37,19 @@ Barre de saisie fixée en bas de l'écran Liste, accessible au pouce.
 | `1200 g boeuf`                           | Bœuf, 1,2 kg (simplification, 02 § 5)                                  |
 | `deux baguettes` / `une douzaine d'œufs` | Baguette × 2 / Œufs × 12                                               |
 | `pommes gala`                            | Pommes, type accepté _Gala_ (si _Gala_ est un type connu de l'article) |
+| `pommes gol`                             | Pommes, type accepté _Golden_ (début de type sans ambiguïté)           |
 | `2 baguettes, du beurre et 6 œufs`       | 3 lignes                                                               |
 
 - Nombres en lettres jusqu'à vingt, « une douzaine », « une demi-douzaine ».
 - Plusieurs articles séparés par `,`, `;`, `et`, retour à la ligne. Articles partitifs ignorés (`du`, `de la`, `des`, `d'`).
+- **Suggestions par type** : dès qu'on tape après le nom d'un article le début d'un de ses types (`pommes g`), les suggestions proposent d'abord « Pommes · Gala », « Pommes · Golden »… (puis « Pommes ») ; en toucher une ajoute la ligne avec ce type. Tant qu'on ne tape que le nom, rien ne change (liste courte). Pas de « Créer… » quand la saisie désigne un article et un de ses types.
 - Si l'unité saisie est incompatible avec l'unité par défaut de l'article, l'unité saisie l'emporte pour cette ligne.
 
 **Critères** : batterie de tests unitaires couvrant chaque ligne du tableau.
 
 ### A3. Article déjà dans la liste — _v1.0_
 
-Voir [02 § 6](02-modele-metier.md#une-ligne-par-article-et-par-choix-de-types) : seulement pour une ligne du même article **avec les mêmes types** ; avec d'autres types (`3 pommes granny` quand la liste a des Golden), c'est une nouvelle ligne. Un panneau léger (non bloquant) affiche « Déjà dans la liste : 2 kg » et propose **Ajouter [quantité]** ou **Ne rien faire** (par défaut).
+Voir [02 § 6](02-modele-metier.md#une-ligne-par-article-et-par-choix-de-types) : seulement pour une ligne du même article **avec les mêmes types** ; avec d'autres types (`3 pommes granny` quand la liste a des Golden), c'est une nouvelle ligne. Si l'article a des types, le panneau propose aussi « Une autre sorte, sur une ligne à part » (02 § 6). Un panneau léger (non bloquant) affiche « Déjà dans la liste : 2 kg » et propose **Ajouter [quantité]** ou **Ne rien faire** (par défaut).
 
 **Critères** : ajouter _Pommes_ déjà présent puis `Entrée` → quantité inchangée ; choisir « Ajouter 1 kg » → 3 kg.
 
@@ -65,7 +67,7 @@ Si aucun article ni alias ne correspond : suggestion « Créer _Sauce nuoc-mâm_
 Grille de catégories (icône + libellé) → grille d'articles (grande icône + libellé).
 
 - Tap sur un article absent de la liste = ajout avec la quantité par défaut.
-- Article déjà présent : pastille de quantité ; un tap ouvre le sélecteur de quantité (`−` / `+` / ✕) au lieu d'ajouter d'office.
+- Article déjà présent : pastille de quantité (plusieurs lignes : additionnées par unité) ; un tap ouvre le sélecteur de quantité (`−` / `+` / ✕) de sa ligne « peu importe » (sinon de la première), avec « Une autre sorte, sur une ligne à part » si l'article a des types.
 - Recherche en haut du catalogue, avec **suggestions dès la première lettre** (nom, alias, sans tenir compte des accents ; la partie tapée en gras ; quantité si l'article est déjà dans la liste). Tap ou Entrée sur la première = même effet qu'un tap sur la carte ; au-delà de 8 suggestions, « Voir les N résultats » ouvre la grille complète.
 
 ### A6. Habituels et favoris — _v1.0_

@@ -187,17 +187,71 @@ export interface ResolvedEntry<A extends ResolvableArticle> {
   acceptedTypes: string[];
 }
 
-/** Les mots restants désignent-ils des types de l'article ? (`gala` → « Gala ») */
+/** Clé d'un type pour la saisie : mots significatifs de sa clé de recherche. */
+function typeKey(type: string): string {
+  return coreWords(searchKey(type)).join("-");
+}
+
+/**
+ * Les mots restants désignent-ils des types de l'article ? (`gala` → « Gala ») ; un
+ * début de type reconnu sans ambiguïté vaut le type entier (`gol` → « Golden »).
+ */
 function matchTypes(rest: string[], types: string[]): string[] | undefined {
-  const byKey = new Map(
-    types.map((type) => [coreWords(searchKey(type)).join("-"), type]),
-  );
+  const byKey = new Map(types.map((type) => [typeKey(type), type]));
   const words = coreWords(rest.join("-"));
   if (words.length === 0) return undefined;
   const whole = byKey.get(words.join("-"));
   if (whole) return [whole];
   const matched = words.map((word) => byKey.get(word));
-  return matched.every((type) => type !== undefined) ? matched : undefined;
+  if (matched.every((type) => type !== undefined)) return matched;
+  const typed = words.join("-");
+  const started = types.filter((type) => typeKey(type).startsWith(typed));
+  return started.length === 1 ? started : undefined;
+}
+
+/** Libellés et alias exacts (clé de recherche) → articles qui les portent. */
+function labelIndex<A extends ResolvableArticle>(
+  articles: readonly A[],
+): Map<string, { article: A; label: string }[]> {
+  const exact = new Map<string, { article: A; label: string }[]>();
+  for (const article of articles) {
+    for (const label of [article.name, ...article.aliases]) {
+      const key = searchKey(label);
+      const found = exact.get(key) ?? [];
+      if (!found.some((f) => f.article === article))
+        found.push({ article, label });
+      exact.set(key, found);
+    }
+  }
+  return exact;
+}
+
+/**
+ * Suggestions par type (docs/03 A2) : quand la saisie commence par le nom d'un article
+ * et continue par le début d'un de ses types (`pommes g`), les types qui conviennent
+ * (« Pommes · Gala », « Pommes · Golden »). Rien tant que l'on ne tape que le nom :
+ * la liste des suggestions reste courte.
+ */
+export function typeSuggestions<A extends ResolvableArticle>(
+  text: string,
+  articles: readonly A[],
+): { article: A; type: string }[] {
+  const words = searchKey(text).split("-").filter(Boolean);
+  if (words.length < 2) return [];
+  const exact = labelIndex(articles);
+  for (let length = words.length - 1; length > 0; length--) {
+    const found = exact.get(words.slice(0, length).join("-"));
+    if (!found) continue;
+    const typed = coreWords(words.slice(length).join("-")).join("-");
+    if (!typed) continue;
+    const result = found.flatMap(({ article }) =>
+      article.types
+        .filter((type) => typeKey(type).startsWith(typed))
+        .map((type) => ({ article, type })),
+    );
+    if (result.length) return result;
+  }
+  return [];
 }
 
 /**
@@ -211,16 +265,7 @@ export function resolveEntry<A extends ResolvableArticle>(
 ): ResolvedEntry<A> {
   const words = searchKey(text).split("-").filter(Boolean);
   if (words.length === 0) return { acceptedTypes: [] };
-  const exact = new Map<string, { article: A; label: string }[]>();
-  for (const article of articles) {
-    for (const label of [article.name, ...article.aliases]) {
-      const key = searchKey(label);
-      const found = exact.get(key) ?? [];
-      if (!found.some((f) => f.article === article))
-        found.push({ article, label });
-      exact.set(key, found);
-    }
-  }
+  const exact = labelIndex(articles);
   // Libellés qui ne diffèrent que par les accents ou le pluriel (« pâté », « pâtes ») :
   // la saisie exacte, puis le pluriel tapé, puis les accents tapés ; sinon le premier
   // résultat de la recherche.

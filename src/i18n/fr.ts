@@ -110,6 +110,8 @@ export const fr = {
     inList: (quantity: string) => `Dans la liste : ${quantity}`,
     typesOne: (type: string) => `${type} uniquement`,
     typesMany: (types: string[]) => types.join(" ou "),
+    withType: (name: string, type: string) => `${name} · ${type}`,
+    otherType: "Une autre sorte, sur une ligne à part",
     linesJoined:
       "Mêmes types qu'une autre ligne : les deux n'en font plus qu'une.",
     removed: (name: string) => `${name} : retiré de la liste`,

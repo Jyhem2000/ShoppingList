@@ -23,3 +23,19 @@ export function lineKey(line: {
 }): string {
   return `${line.articleId}#${typesKey(line.acceptedTypes)}`;
 }
+
+/**
+ * « Une autre sorte » (docs/02 § 6) : les types de l'article qui n'ont pas encore leur
+ * propre ligne (ce type seul) parmi les lignes actives de la liste.
+ */
+export function otherTypes(
+  article: { id: ID; types: readonly string[] },
+  lines: readonly { articleId: ID; acceptedTypes: readonly string[] }[],
+): string[] {
+  const taken = new Set(
+    lines
+      .filter((line) => line.articleId === article.id)
+      .map((line) => typesKey(line.acceptedTypes)),
+  );
+  return article.types.filter((type) => !taken.has(typesKey([type])));
+}

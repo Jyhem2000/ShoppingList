@@ -3,7 +3,9 @@ import { updateItem } from "@/db/lists";
 import { formatQuantity, mergeQuantity } from "@/domain/quantity";
 import { feedback } from "@/feedback";
 import { fr } from "@/i18n/fr";
+import { otherTypes } from "@/domain/lines";
 import { Button } from "@/ui/button";
+import { OtherTypes } from "@/ui/OtherTypes";
 import { pulse } from "@/ui/pulse";
 import { Sheet } from "@/ui/Sheet";
 import { lineQuantity } from "./format";
@@ -14,16 +16,19 @@ const t = fr.list.exists;
 
 /**
  * Article déjà dans la liste (docs/03 A3) : rien n'est modifié d'office. « Ne rien
- * faire » est le choix par défaut (Entrée ou fermer).
+ * faire » est le choix par défaut (Entrée ou fermer). « Une autre sorte » ajoute une
+ * ligne à part pour un type de l'article (docs/02 § 6).
  */
 export function ExistsSheet({
   pending,
   data,
   onDone,
+  onAddType,
 }: {
   pending: Extract<PendingAdd, { kind: "exists" }>;
   data: ListData;
   onDone: () => void;
+  onAddType: (type: string) => void;
 }) {
   const { item, article, amount } = pending;
   const existingUnit = data.unitById.get(item.unitId);
@@ -101,6 +106,12 @@ export function ExistsSheet({
         <Button autoFocus onClick={done}>
           {merged.kind === "merged" ? t.nothing : t.keep}
         </Button>
+        <div className="mt-2">
+          <OtherTypes
+            types={otherTypes(article, data.items)}
+            onPick={onAddType}
+          />
+        </div>
       </div>
     </Sheet>
   );

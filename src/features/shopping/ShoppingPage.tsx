@@ -450,7 +450,9 @@ function Shopping({
       <AddArticleBar
         data={data}
         onSubmit={(text) => void adding.submit(text)}
-        onPick={(article, entry) => void adding.pick(article, entry)}
+        onPick={(article, entry, types) =>
+          void adding.pick(article, entry, types)
+        }
         onCreate={adding.create}
         above={
           toPlace > 0 && (
@@ -504,6 +506,10 @@ function Shopping({
           pending={pending}
           data={data}
           onDone={adding.next}
+          onAddType={(type) => {
+            adding.next();
+            void adding.addType(pending.article, type, pending.entry);
+          }}
         />
       )}
       {pending?.kind === "create" && (
@@ -590,6 +596,11 @@ function Shopping({
           item={quantityItem}
           data={data}
           onClose={close}
+          onAddType={(type) => {
+            const article = data.articleById.get(quantityItem.articleId);
+            close();
+            if (article) void adding.addType(article, type);
+          }}
         />
       )}
       {panel?.kind === "finish" && (

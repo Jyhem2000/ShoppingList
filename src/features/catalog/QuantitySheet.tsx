@@ -4,7 +4,9 @@ import { deleteItems, restoreItems, updateItem } from "@/db/lists";
 import type { ListItem } from "@/domain/model";
 import { feedback } from "@/feedback";
 import { fr } from "@/i18n/fr";
+import { otherTypes } from "@/domain/lines";
 import { Button } from "@/ui/button";
+import { OtherTypes } from "@/ui/OtherTypes";
 import { Sheet } from "@/ui/Sheet";
 import { showToast } from "@/ui/toast";
 import { lineQuantity } from "@/features/list/format";
@@ -13,15 +15,20 @@ import type { ListData } from "@/features/list/useListData";
 
 const t = fr.catalog;
 
-/** Réglage rapide de la quantité d'un article déjà dans la liste (docs/03 A5). */
+/**
+ * Réglage rapide de la quantité d'un article déjà dans la liste (docs/03 A5), et
+ * « Une autre sorte » pour une ligne à part d'un de ses types (docs/02 § 6).
+ */
 export function QuantitySheet({
   item,
   data,
   onClose,
+  onAddType,
 }: {
   item: ListItem;
   data: ListData;
   onClose: () => void;
+  onAddType: (type: string) => void;
 }) {
   const article = data.articleById.get(item.articleId);
   const unit = data.unitById.get(item.unitId);
@@ -69,6 +76,10 @@ export function QuantitySheet({
             <Plus />
           </Button>
         </div>
+        <OtherTypes
+          types={otherTypes(article, data.items)}
+          onPick={onAddType}
+        />
         <KeepOneOff article={article} data={data} />
         <div className="flex gap-2">
           <Button

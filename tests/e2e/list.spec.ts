@@ -60,6 +60,36 @@ test("2. ajout éclair, article déjà présent, création d'un article inconnu"
   await expect(
     line(page, "Pommes").filter({ hasText: "Granny Smith uniquement" }),
   ).toContainText("3");
+
+  // Suggestion par type : « pommes gal » propose « Pommes · Gala ».
+  await page
+    .getByRole("textbox", { name: "Ajouter un article…" })
+    .fill("pommes gal");
+  await page.getByRole("button", { name: /^Pommes · Gala/ }).click();
+  await expect(
+    line(page, "Pommes").filter({ hasText: "Gala uniquement" }),
+  ).toBeVisible();
+
+  // Catalogue : toucher un article déjà présent propose une autre sorte, sur une ligne à part.
+  await page.getByRole("link", { name: "Catalogue" }).click();
+  await page.getByRole("button", { name: /^Fruits/ }).click();
+  const apples = page.getByRole("button", { name: /Pommes$/ });
+  await apples.click();
+  const quantity = page.getByRole("dialog", { name: "Pommes" });
+  await quantity.getByRole("button", { name: "Pink Lady" }).click();
+  await expect(quantity).toBeHidden();
+
+  // Appui long → fiche de l'article ; la flèche revient au catalogue, pas aux réglages.
+  await apples.hover();
+  await page.mouse.down();
+  await page.waitForTimeout(700);
+  await page.mouse.up();
+  await expect(page.getByRole("heading", { name: "Pommes" })).toBeVisible();
+  await page.getByRole("link", { name: "Retour" }).click();
+  await expect(page.getByRole("heading", { name: "Fruits" })).toBeVisible();
+
+  await page.getByRole("link", { name: "Liste" }).click();
+  await expect(line(page, "Pommes")).toHaveCount(4);
 });
 
 test("3. liste par catégorie ; la première course construit le magasin, la suivante suit ce parcours", async ({
