@@ -87,8 +87,8 @@ export function CheckRow({
 }
 
 /**
- * Option à cocher avec son explication, à la suite sur la même ligne (« Facultatif
- * Décoché au moment… ») : si le texte passe à la ligne, la case reste en face de la
+ * Option à cocher suivie de son explication entre parenthèses, sur la même ligne
+ * (« Facultatif (décoché au moment…) ») : si le texte passe à la ligne, la case reste en face de la
  * première ligne. Toute la ligne la coche.
  */
 export function CheckOption({
@@ -115,7 +115,7 @@ export function CheckOption({
       <span className="min-w-0 flex-1">
         <span className="font-semibold">{title}</span>
         {hint ? (
-          <span className="text-sm text-muted-foreground"> {hint}</span>
+          <span className="ml-2 text-sm text-muted-foreground">({hint})</span>
         ) : null}
       </span>
     </label>

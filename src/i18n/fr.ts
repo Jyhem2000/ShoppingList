@@ -707,10 +707,10 @@ export const fr = {
     } as Record<string, { label: string; keywords: string[] } | undefined>,
     ingredient: {
       optional: "Facultatif",
-      optionalHint: "Décoché au moment d'ajouter la recette à une liste.",
+      optionalHint: "décoché au moment d'ajouter la recette à une liste",
       fixed: "Quantité fixe",
       fixedHint:
-        "Ne change pas avec le nombre de personnes (un pot de crème pour la raclette).",
+        "ne change pas avec le nombre de personnes : un pot de crème pour la raclette",
       remove: "Retirer",
       done: "OK",
     },
@@ -798,7 +798,7 @@ export const fr = {
     },
     keepScreenOn: {
       title: "Écran allumé",
-      hint: "L'écran ne se met pas en veille en mode courses, ni sur une recette.",
+      hint: "Seulement sur deux écrans : le mode courses et la fiche d'une recette. Ailleurs, le téléphone se met en veille comme d'habitude.",
     },
   },
   soundsPage: {
