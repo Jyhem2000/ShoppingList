@@ -9,7 +9,7 @@ import {
   restoreCopy,
   takeDailyCopy,
 } from "@/db/copies";
-import { SCHEMA_V1, SCHEMA_V3, ShoppingDatabase } from "@/db/database";
+import { SCHEMA_V1, ShoppingDatabase } from "@/db/database";
 import { Dexie } from "dexie";
 import { addListItem } from "@/db/items";
 import { seedDatabase } from "@/db/seed";
@@ -197,32 +197,6 @@ describe("copies automatiques internes (docs/03 H4)", () => {
     await expect(replaceAllData(database, backup, noon(0))).rejects.toThrow();
     expect(await exportBackup(database, noon(0))).toEqual(before);
     expect(await database.copies.count()).toBe(1);
-  });
-
-  it("le passage au schéma 4 met à part les données complètes des copies", async () => {
-    const name = `test-${crypto.randomUUID()}`;
-    const old = new Dexie(name);
-    old.version(3).stores(SCHEMA_V3);
-    await old.open();
-    await old.table("copies").add({
-      id: "c1",
-      at: 1,
-      day: "2026-11-14",
-      summary: { exportedAt: 1, articles: 2, lists: 1, stores: 0 },
-      backup: { app: "ShoppingList", tables: {} },
-    });
-    old.close();
-
-    const database = new ShoppingDatabase(name);
-    databases.push(database);
-    expect(await database.copies.get("c1")).not.toHaveProperty("backup");
-    expect(await database.copies.get("c1")).toMatchObject({
-      summary: { articles: 2 },
-    });
-    expect((await database.copyBackups.get("c1"))?.backup).toMatchObject({
-      app: "ShoppingList",
-    });
-    expect(database.verno).toBe(4);
   });
 
   it("le passage au schéma 3 garde les données de la version 2", async () => {

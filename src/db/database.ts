@@ -76,21 +76,9 @@ export class ShoppingDatabase extends Dexie {
     // Version 3 : table des copies automatiques (docs/03 H4). Nouvelle table vide, rien à
     // migrer : les données existantes restent telles quelles.
     this.version(3).stores(SCHEMA_V3);
-    // Version 4 : chaque copie est coupée en deux (résumé / données complètes).
-    this.version(4)
-      .stores(SCHEMA_V4)
-      .upgrade(async (tx) => {
-        const copies = tx.table<AutoCopy & { backup?: CopyBackup["backup"] }>(
-          "copies",
-        );
-        for (const { backup, ...copy } of await copies.toArray()) {
-          if (!backup) continue;
-          await tx
-            .table<CopyBackup>("copyBackups")
-            .put({ id: copy.id, backup });
-          await copies.put(copy);
-        }
-      });
+    // Version 4 : nouvelle table des données complètes des copies. Pas de reprise des
+    // anciennes copies : seulement des données d'essai avant la 0.9.0 (docs/07 § 5).
+    this.version(4).stores(SCHEMA_V4);
   }
 }
 
