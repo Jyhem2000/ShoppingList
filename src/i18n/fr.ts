@@ -360,23 +360,26 @@ export const fr = {
         lists: number,
         stores: number,
       ) =>
-        `Sauvegarde du ${date} : ${articles} articles, ${lists} liste${lists > 1 ? "s" : ""}, ${stores} magasin${stores > 1 ? "s" : ""}. Tes données actuelles seront remplacées ; exporte-les d'abord si tu veux les garder.`,
+        `Sauvegarde du ${date} : ${articles} articles, ${lists} liste${lists > 1 ? "s" : ""}, ${stores} magasin${stores > 1 ? "s" : ""}. Tes données actuelles seront remplacées ; elles sont d'abord gardées dans les copies automatiques, en bas de cet écran.`,
       importConfirm: "Remplacer mes données",
       invalid: "Ce fichier n'est pas une sauvegarde de ShoppingList.",
       newer:
         "Cette sauvegarde vient d'une version plus récente de l'app : mets l'app à jour d'abord.",
       imported: "Données importées",
+      replaceFailed: "Le remplacement a échoué : tes données n'ont pas changé.",
       copies: {
         section: "Copies automatiques",
         hint: "Chaque jour, l'app garde une copie de tes données dans le téléphone, sur les 7 derniers jours : pour revenir en arrière après une fausse manipulation, un import ou une mise à jour. Elles disparaissent avec l'app : pour changer de téléphone, exporte un fichier.",
         none: "Aucune copie pour l'instant : la première sera faite au prochain lancement de l'app.",
-        title: (date: string) =>
-          date.charAt(0).toLocaleUpperCase("fr") + date.slice(1),
+        title: (date: string, beforeReplace: boolean) =>
+          date.charAt(0).toLocaleUpperCase("fr") +
+          date.slice(1) +
+          (beforeReplace ? ", avant remplacement" : ""),
         summary: (articles: number, lists: number, stores: number) =>
           `${articles} articles · ${lists} liste${lists > 1 ? "s" : ""} · ${stores === 0 ? "aucun magasin" : `${stores} magasin${stores > 1 ? "s" : ""}`}`,
         restoreTitle: (date: string) => `Revenir à la copie du ${date} ?`,
         restoreText:
-          "Toutes tes données actuelles (listes, magasins, articles, historique) seront remplacées par celles de cette copie. Les copies, elles, restent : tu pourras revenir à une autre.",
+          "Toutes tes données actuelles (listes, magasins, articles, historique) seront remplacées par celles de cette copie. Elles sont d'abord copiées, et les copies restent : tu pourras revenir en arrière.",
         restoreConfirm: "Restaurer cette copie",
       },
     },

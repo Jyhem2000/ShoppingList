@@ -13,10 +13,14 @@ import {
   backupFileName,
   type BackupSummary,
   exportBackup,
-  importBackup,
   readBackup,
 } from "@/db/backup";
-import { type AutoCopy, listCopies, restoreCopy } from "@/db/copies";
+import {
+  type AutoCopy,
+  listCopies,
+  replaceAllData,
+  restoreCopy,
+} from "@/db/copies";
 import { db } from "@/db/database";
 import { useSettings } from "@/db/hooks";
 import { updateSettings } from "@/db/settings";
@@ -33,6 +37,17 @@ import { useNow } from "@/ui/useNow";
 import { daysSince } from "./backupAge";
 
 const t = fr.manage.backup;
+
+/** Tout l'état de l'app repart des données remplacées. */
+const reloadApp = () => {
+  window.location.reload();
+};
+
+/** Échec (stockage plein, données refusées) : rien n'a changé, on le dit. */
+const replaceFailed = (error: unknown) => {
+  console.error("Remplacement des données impossible", error);
+  showToast(t.replaceFailed, { tone: "error" });
+};
 
 /**
  * Sauvegarde (docs/03 H4, docs/04 § 2.7), dans « Mes données » : garder une copie (fichier
@@ -187,6 +202,7 @@ export function BackupPage() {
                 day: "numeric",
                 month: "long",
               }),
+              copy.beforeReplace === true,
             )}
             detail={t.copies.summary(
               copy.summary.articles,
@@ -213,10 +229,7 @@ export function BackupPage() {
           <ConfirmActions
             label={t.copies.restoreConfirm}
             onConfirm={() => {
-              void restoreCopy(db, restoring.id).then(() => {
-                // Tout l'état de l'app repart des données restaurées.
-                window.location.reload();
-              });
+              restoreCopy(db, restoring.id).then(reloadApp, replaceFailed);
             }}
             onCancel={() => {
               setRestoring(null);
@@ -273,10 +286,7 @@ export function BackupPage() {
           <ConfirmActions
             label={t.importConfirm}
             onConfirm={() => {
-              void importBackup(db, pending.backup).then(() => {
-                // Tout l'état de l'app repart des données importées.
-                window.location.reload();
-              });
+              replaceAllData(db, pending.backup).then(reloadApp, replaceFailed);
             }}
             onCancel={() => {
               setPending(null);

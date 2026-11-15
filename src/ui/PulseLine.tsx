@@ -1,10 +1,11 @@
 import { useAnimate, useReducedMotion } from "motion/react";
-import { type ReactNode, useEffect, useRef } from "react";
-import { usePulse } from "@/ui/pulse";
+import { type ReactNode, useEffect } from "react";
+import { takePulse, usePulse } from "@/ui/pulse";
 
 /**
  * Enveloppe une ligne de liste : quand `pulse(id)` la désigne, elle défile jusqu'à
- * l'écran et grossit un instant (docs/05 § 6).
+ * l'écran et grossit un instant (docs/05 § 6) — tout de suite si elle est affichée,
+ * sinon dès que l'écran a déplié son groupe.
  */
 export function PulseLine({
   id,
@@ -15,13 +16,10 @@ export function PulseLine({
 }) {
   const [scope, animate] = useAnimate<HTMLDivElement>();
   const reduced = useReducedMotion();
-  const count = usePulse(id);
-  // Un signal déjà passé quand la ligne apparaît (retour sur l'écran) ne compte pas.
-  const seen = useRef(count);
+  const signal = usePulse();
 
   useEffect(() => {
-    if (count === 0 || count === seen.current) return;
-    seen.current = count;
+    if (!takePulse(signal, id)) return;
     const element = scope.current;
     element.scrollIntoView({
       block: "nearest",
@@ -34,7 +32,7 @@ export function PulseLine({
       { scale: [1, 1.04, 1] },
       { duration: 0.45, delay: 0.25, ease: "easeInOut" },
     );
-  }, [count, animate, scope, reduced]);
+  }, [signal, id, animate, scope, reduced]);
 
   return <div ref={scope}>{children}</div>;
 }

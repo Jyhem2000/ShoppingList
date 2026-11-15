@@ -115,9 +115,14 @@ export async function importBackup(
   });
 }
 
-/** Nom du fichier : shoppinglist-2026-11-13.json */
-export function backupFileName(at: number): string {
+/** Jour local (le téléphone), pas UTC : AAAA-MM-JJ. */
+export function dayKey(at: number): string {
   const date = new Date(at);
   const pad = (n: number) => String(n).padStart(2, "0");
-  return `shoppinglist-${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}.json`;
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+}
+
+/** Nom du fichier : shoppinglist-2026-11-13.json */
+export function backupFileName(at: number): string {
+  return `shoppinglist-${dayKey(at)}.json`;
 }

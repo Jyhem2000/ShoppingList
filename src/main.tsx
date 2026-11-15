@@ -39,7 +39,7 @@ if (currentInstallEnvironment().standalone && "storage" in navigator) {
 // nouveautés du catalogue, sans réinstaller (docs/06 § 7).
 const dailyCopy = () =>
   import("@/db/copies").then(({ takeDailyCopy }) => takeDailyCopy(db));
-void import("@/db/seed")
+const ready = import("@/db/seed")
   .then(({ seedDatabase }) => seedDatabase(db))
   .then(dailyCopy)
   .then(() => import("@/db/catalogUpdate"))
@@ -48,10 +48,12 @@ void import("@/db/seed")
     console.error("Initialisation des données impossible", error);
   });
 
-// Une app installée reste souvent ouverte plusieurs jours : copie du jour au retour.
+// Une app installée reste souvent ouverte plusieurs jours : copie du jour au retour,
+// jamais avant la fin de l'initialisation (sinon, au premier lancement, la copie du
+// jour pourrait être celle d'une base encore vide).
 document.addEventListener("visibilitychange", () => {
   if (document.visibilityState === "visible")
-    dailyCopy().catch((error: unknown) => {
+    ready.then(dailyCopy).catch((error: unknown) => {
       console.error("Copie automatique impossible", error);
     });
 });

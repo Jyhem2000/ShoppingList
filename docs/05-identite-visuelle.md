@@ -179,7 +179,7 @@ Le design system, ce sont aussi des **composants partagés** (`src/ui`), utilis�
 
 Bibliothèque **Motion**.
 
-- Ajout : la ligne apparaît à sa place dans son rayon avec un léger rebond ; si l'article était déjà là, la ligne existante défile jusqu'à l'écran et « pulse » une fois le panneau « Déjà dans la liste » fermé, quel que soit le choix.
+- Ajout : la ligne apparaît à sa place dans son rayon avec un léger rebond ; si l'article était déjà là, la ligne existante défile jusqu'à l'écran et « pulse » une fois le panneau « Déjà dans la liste » fermé, quel que soit le choix ; si elle était dans un rayon, une catégorie ou un bloc replié, celui-ci se déplie d'abord.
 - Cocher : le trait barré se trace de gauche à droite, puis la ligne glisse vers le bas.
 - Rayon terminé : repli + coche menthe. Tout rayon se déplie et se replie en douceur.
 - Panneaux : glissement depuis le bas avec ressort.

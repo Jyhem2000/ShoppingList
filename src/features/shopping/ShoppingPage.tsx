@@ -41,6 +41,7 @@ import { AisleSection, AisleSubgroup } from "@/ui/AisleHeader";
 import { Button } from "@/ui/button";
 import { ItemRow } from "@/ui/ItemRow";
 import { EmptyHint, Loading, PageTitle } from "@/ui/Page";
+import { useOnPulse } from "@/ui/pulse";
 import { PulseLine } from "@/ui/PulseLine";
 import { paletteColor } from "@/ui/palette";
 import { Sheet } from "@/ui/Sheet";
@@ -93,6 +94,10 @@ export function ShoppingPage() {
   return <Shopping session={session} data={data} view={view} />;
 }
 
+/** Clés des blocs repliables qui ne sont pas des rayons. */
+const UNPLACED = "unplaced";
+const PICK_UP = "pick-up";
+
 function Shopping({
   session,
   data,
@@ -110,6 +115,31 @@ function Shopping({
   const [foldedCategories, setFoldedCategories] = useState<ReadonlySet<ID>>(
     new Set(),
   );
+  /** Déplie (ou replie) un bloc : rayon, « À récupérer » ou « À placer ». */
+  const setOpen = (key: string, open: boolean) => {
+    setExpanded((current) => new Map(current).set(key, open));
+  };
+
+  // Une ligne qui doit se montrer (article déjà dans la liste, docs/05 § 6) : son bloc
+  // et sa catégorie de « À placer » se déplient.
+  useOnPulse((id) => {
+    const item = data.items.find((i) => i.id === id);
+    if (!item) return;
+    if (view.unplaced.some((i) => i.id === id)) {
+      setOpen(UNPLACED, true);
+      const categoryId = data.articleById.get(item.articleId)?.categoryId;
+      setFoldedCategories((current) => {
+        if (!categoryId || !current.has(categoryId)) return current;
+        const next = new Set(current);
+        next.delete(categoryId);
+        return next;
+      });
+    } else if (view.pickUp.some((i) => i.id === id)) setOpen(PICK_UP, true);
+    else {
+      const aisle = view.aisleOf.get(id);
+      if (aisle) setOpen(aisle.id, true);
+    }
+  });
   const textOf = (aisle: Aisle) =>
     aisleText(aisle, data.categoryById, data.categoryWeights);
   const close = () => {
@@ -260,14 +290,18 @@ function Shopping({
   });
   const toPlace = view.unplaced.filter((item) => item.status === "todo").length;
   const firstUnplaced = unplacedGroups[0]?.items[0]?.id;
+  const unplacedOpen = expanded.get(UNPLACED) ?? true;
+  const pickUpOpen = expanded.get(PICK_UP) ?? true;
   const unplacedBlock = unplacedGroups.length > 0 && (
     <AisleSection
       label={fr.aisles.unplaced}
       icon="shopping-basket"
       color="gris"
       count={toPlace}
-      expanded
-      onToggle={() => undefined}
+      expanded={unplacedOpen}
+      onToggle={() => {
+        setOpen(UNPLACED, !unplacedOpen);
+      }}
     >
       {unplacedGroups.map(({ category, items }) => {
         const folded = foldedCategories.has(category.id);
@@ -364,8 +398,10 @@ function Shopping({
             icon="rotate-ccw"
             color="ambre"
             count={view.pickUp.length}
-            expanded
-            onToggle={() => undefined}
+            expanded={pickUpOpen}
+            onToggle={() => {
+              setOpen(PICK_UP, !pickUpOpen);
+            }}
           >
             {view.pickUp.map(row)}
           </AisleSection>
@@ -388,9 +424,7 @@ function Shopping({
                 currentLabel={t.current}
                 kicker={text.kicker}
                 onToggle={() => {
-                  setExpanded((current) =>
-                    new Map(current).set(aisle.id, !open),
-                  );
+                  setOpen(aisle.id, !open);
                 }}
               >
                 {items.length > 0 ? (

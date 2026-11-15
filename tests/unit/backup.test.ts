@@ -5,10 +5,11 @@ import { updateCatalog } from "@/db/catalogUpdate";
 import {
   COPIES_KEPT,
   listCopies,
+  replaceAllData,
   restoreCopy,
   takeDailyCopy,
 } from "@/db/copies";
-import { SCHEMA_V1, ShoppingDatabase } from "@/db/database";
+import { SCHEMA_V1, SCHEMA_V3, ShoppingDatabase } from "@/db/database";
 import { Dexie } from "dexie";
 import { addListItem } from "@/db/items";
 import { seedDatabase } from "@/db/seed";
@@ -155,10 +156,18 @@ describe("copies automatiques internes (docs/03 H4)", () => {
     const [copy] = await listCopies(database);
     if (!copy) throw new Error("copie");
     expect(copy.summary.lists).toBe(1);
-    expect(await restoreCopy(database, copy.id)).toBe(true);
+    expect(
+      await restoreCopy(database, copy.id, noon(0) + 4 * 60 * 60 * 1000),
+    ).toBe(true);
     expect(await database.lists.toArray()).toEqual(before);
-    // Les copies, elles, restent après une restauration.
-    expect(await database.copies.count()).toBe(1);
+    // Les copies restent, et l'état d'avant la restauration est gardé dans une nouvelle.
+    const [safety] = await listCopies(database);
+    expect(await database.copies.count()).toBe(2);
+    expect(safety?.beforeReplace).toBe(true);
+    const saved = await database.copyBackups.get(safety?.id ?? "");
+    expect(saved?.backup.tables.lists).toContainEqual(
+      expect.objectContaining({ name: "Effacée par erreur" }),
+    );
 
     for (let day = 1; day <= 9; day++)
       await takeDailyCopy(database, noon(0) + day * DAY);
@@ -167,10 +176,53 @@ describe("copies automatiques internes (docs/03 H4)", () => {
     // Les plus récentes d'abord ; les plus anciennes ont disparu.
     expect(kept[0]?.at).toBe(noon(0) + 9 * DAY);
     expect(kept.at(-1)?.at).toBe(noon(0) + 3 * DAY);
+    // Les données complètes suivent : rien ne reste des copies effacées.
+    expect(await database.copyBackups.count()).toBe(COPIES_KEPT);
     // Le fichier exporté ne contient jamais les copies.
     expect(Object.keys((await exportBackup(database)).tables)).not.toContain(
       "copies",
     );
+  });
+
+  it("un remplacement qui échoue ne change rien, pas même les copies", async () => {
+    const database = open();
+    await seedDatabase(database, 0);
+    await takeDailyCopy(database, noon(0));
+    const backup = await exportBackup(database, noon(0));
+    const [list] = backup.tables.lists;
+    // Deux listes de même identifiant : l'import échoue en cours de route.
+    backup.tables.lists = [list, list];
+    const before = await exportBackup(database, noon(0));
+
+    await expect(replaceAllData(database, backup, noon(0))).rejects.toThrow();
+    expect(await exportBackup(database, noon(0))).toEqual(before);
+    expect(await database.copies.count()).toBe(1);
+  });
+
+  it("le passage au schéma 4 met à part les données complètes des copies", async () => {
+    const name = `test-${crypto.randomUUID()}`;
+    const old = new Dexie(name);
+    old.version(3).stores(SCHEMA_V3);
+    await old.open();
+    await old.table("copies").add({
+      id: "c1",
+      at: 1,
+      day: "2026-11-14",
+      summary: { exportedAt: 1, articles: 2, lists: 1, stores: 0 },
+      backup: { app: "ShoppingList", tables: {} },
+    });
+    old.close();
+
+    const database = new ShoppingDatabase(name);
+    databases.push(database);
+    expect(await database.copies.get("c1")).not.toHaveProperty("backup");
+    expect(await database.copies.get("c1")).toMatchObject({
+      summary: { articles: 2 },
+    });
+    expect((await database.copyBackups.get("c1"))?.backup).toMatchObject({
+      app: "ShoppingList",
+    });
+    expect(database.verno).toBe(4);
   });
 
   it("le passage au schéma 3 garde les données de la version 2", async () => {
@@ -185,6 +237,6 @@ describe("copies automatiques internes (docs/03 H4)", () => {
     databases.push(database);
     expect(await database.lists.get("l1")).toMatchObject({ name: "Liste 1" });
     expect(await database.copies.count()).toBe(0);
-    expect(database.verno).toBe(3);
+    expect(database.verno).toBe(4);
   });
 });

@@ -100,33 +100,13 @@ export function AisleSection({
         {done ? (
           <Check className="size-5 text-success" strokeWidth={3} aria-hidden />
         ) : (
-          <span className="rounded-full bg-bg/60 px-2 py-0.5 text-xs font-bold text-muted-foreground tabular-nums">
-            {count}
-          </span>
+          <CountBadge count={count} />
         )}
-        <ChevronDown
-          aria-hidden
-          className={cn(
-            "size-5 shrink-0 text-muted-foreground transition-transform duration-200 motion-reduce:transition-none",
-            !expanded && "-rotate-90",
-          )}
-        />
+        <FoldChevron expanded={expanded} className="size-5" />
       </button>
-      {/* Dépliage animé (docs/05 § 6), sauf si le téléphone demande de réduire les animations. */}
-      <AnimatePresence initial={false}>
-        {expanded && (
-          <motion.div
-            key="lines"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.22, ease: [0.2, 0.9, 0.3, 1] }}
-            className="overflow-hidden"
-          >
-            <div className="divide-y divide-border/50">{children}</div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <Fold expanded={expanded}>
+        <div className="divide-y divide-border/50">{children}</div>
+      </Fold>
     </section>
   );
 }
@@ -165,31 +145,65 @@ export function AisleSubgroup({
         <span className={cn("min-w-0 flex-1 truncate", palette[color].text)}>
           {label}
         </span>
-        <span className="rounded-full bg-raised px-2 py-0.5 text-xs text-muted-foreground tabular-nums">
-          {count}
-        </span>
-        <ChevronDown
-          aria-hidden
-          className={cn(
-            "size-4 shrink-0 text-muted-foreground transition-transform duration-200 motion-reduce:transition-none",
-            !expanded && "-rotate-90",
-          )}
-        />
+        <CountBadge count={count} />
+        <FoldChevron expanded={expanded} className="size-4" />
       </button>
-      <AnimatePresence initial={false}>
-        {expanded && (
-          <motion.div
-            key="lines"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.22, ease: [0.2, 0.9, 0.3, 1] }}
-            className="overflow-hidden"
-          >
-            {children}
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <Fold expanded={expanded}>{children}</Fold>
     </div>
+  );
+}
+
+/** Nombre d'articles encore à prendre, en pastille (en-tête de rayon ou de catégorie). */
+function CountBadge({ count }: { count: number }) {
+  return (
+    <span className="rounded-full bg-raised px-2 py-0.5 text-xs font-bold text-muted-foreground tabular-nums">
+      {count}
+    </span>
+  );
+}
+
+/** Chevron d'un groupe repliable : vers le bas déplié, vers la droite replié. */
+function FoldChevron({
+  expanded,
+  className,
+}: {
+  expanded: boolean;
+  className: string;
+}) {
+  return (
+    <ChevronDown
+      aria-hidden
+      className={cn(
+        "shrink-0 text-muted-foreground transition-transform duration-200 motion-reduce:transition-none",
+        className,
+        !expanded && "-rotate-90",
+      )}
+    />
+  );
+}
+
+/** Contenu d'un groupe repliable : dépliage animé (docs/05 § 6), sauf si le téléphone demande de réduire les animations. */
+function Fold({
+  expanded,
+  children,
+}: {
+  expanded: boolean;
+  children: ReactNode;
+}) {
+  return (
+    <AnimatePresence initial={false}>
+      {expanded && (
+        <motion.div
+          key="lines"
+          initial={{ height: 0, opacity: 0 }}
+          animate={{ height: "auto", opacity: 1 }}
+          exit={{ height: 0, opacity: 0 }}
+          transition={{ duration: 0.22, ease: [0.2, 0.9, 0.3, 1] }}
+          className="overflow-hidden"
+        >
+          {children}
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }

@@ -13,7 +13,7 @@ import type {
   Store,
   Unit,
 } from "@/domain/model";
-import type { AutoCopy } from "./copies";
+import type { AutoCopy, CopyBackup } from "./copies";
 
 /** Tables et index du schéma (version 1). */
 export const SCHEMA_V1 = {
@@ -33,6 +33,12 @@ export const SCHEMA_V1 = {
 
 /** Version 3 : + copies automatiques internes (une par jour, 7 gardées). */
 export const SCHEMA_V3 = { ...SCHEMA_V1, copies: "id, at" } as const;
+
+/**
+ * Version 4 : les données complètes des copies passent dans `copyBackups` ; `copies`
+ * ne garde que la date et le résumé (l'écran Sauvegarde ne lit plus 7 bases entières).
+ */
+export const SCHEMA_V4 = { ...SCHEMA_V3, copyBackups: "id" } as const;
 
 /** Ligne de la table `meta` : réglages, version du catalogue… */
 export interface MetaRow {
@@ -58,6 +64,7 @@ export class ShoppingDatabase extends Dexie {
   purchases!: EntityTable<Purchase, "id">;
   meta!: Table<MetaRow, string>;
   copies!: EntityTable<AutoCopy, "id">;
+  copyBackups!: EntityTable<CopyBackup, "id">;
 
   constructor(name = "shoppinglist") {
     super(name);
@@ -69,6 +76,21 @@ export class ShoppingDatabase extends Dexie {
     // Version 3 : table des copies automatiques (docs/03 H4). Nouvelle table vide, rien à
     // migrer : les données existantes restent telles quelles.
     this.version(3).stores(SCHEMA_V3);
+    // Version 4 : chaque copie est coupée en deux (résumé / données complètes).
+    this.version(4)
+      .stores(SCHEMA_V4)
+      .upgrade(async (tx) => {
+        const copies = tx.table<AutoCopy & { backup?: CopyBackup["backup"] }>(
+          "copies",
+        );
+        for (const { backup, ...copy } of await copies.toArray()) {
+          if (!backup) continue;
+          await tx
+            .table<CopyBackup>("copyBackups")
+            .put({ id: copy.id, backup });
+          await copies.put(copy);
+        }
+      });
   }
 }
 
