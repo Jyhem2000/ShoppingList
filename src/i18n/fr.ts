@@ -771,7 +771,7 @@ export const fr = {
         version: "0.9.0",
         date: "2026-11-15",
         items: [
-          "Version d'installation définitive : à partir de maintenant, tes listes, articles et magasins sont conservés à chaque mise à jour.",
+          "Version d'installation définitive sur le téléphone.",
           "La catégorie des œufs s'appelle «\u00a0Crèmerie & Œufs\u00a0».",
         ],
       },

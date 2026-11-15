@@ -4,7 +4,7 @@ PWA de liste de courses, local-first (aucun serveur, aucun compte), triée par r
 
 ## Phase actuelle : 0.9.0 en usage réel, phase 9 (recettes) en préparation
 
-Phase 8 **validée** le 15 novembre 2026 (`0.8.0`). La `0.9.0` est publiée le 15 novembre 2026 : installation définitive de la production sur les deux téléphones, 2-3 semaines d’usage réel avant la `1.0.0`, correctifs en `0.9.x`. **Depuis la `0.9.0`, les données sont réelles** : toute évolution du schéma ou des données livrées doit préserver l’existant (migration + test, docs/07 § 5). La phase 9 (recettes) se développe en parallèle sur `dev` et fera partie de la `1.0.0` : onglet Recettes visible **seulement hors production** d'ici là, pour que les correctifs `0.9.x` restent publiables. À la `1.0.0`, une seule entrée de nouveautés remplace celles des `0.x` (docs/07 § 9). Ensuite : `1.1.0` partage, `1.2.0` anti-oubli.
+Phase 8 **validée** le 15 novembre 2026 (`0.8.0`). La `0.9.0` est publiée le 15 novembre 2026 : installation définitive de la production sur les deux téléphones, 2-3 semaines d’usage réel avant la `1.0.0`, correctifs en `0.9.x`. **Pas de migration de données tant que l’app n’a pas d’autres utilisateurs** (« vraie production », peut-être après la `1.0.0`) : si un changement casse les données existantes, on efface les données de l’app ou on la réinstalle (docs/07 § 5). On jugera au cas par cas quand l’app sera utilisée par d’autres. La phase 9 (recettes) se développe en parallèle sur `dev` et fera partie de la `1.0.0` : onglet Recettes visible **seulement hors production** d'ici là, pour que les correctifs `0.9.x` restent publiables. À la `1.0.0`, une seule entrée de nouveautés remplace celles des `0.x` (docs/07 § 9). Ensuite : `1.1.0` partage, `1.2.0` anti-oubli.
 
 La documentation est **validée** (8 novembre 2026). Suivre le plan de `docs/09-plan-de-developpement.md` phase par phase, en travaillant directement sur `dev` (pas de branche de travail ni de pull request). Pour les phases 3 à 7 et 9, proposer un plan avant d'implémenter. Ne jamais commencer une phase suivante sans validation de la précédente.
 
@@ -29,7 +29,7 @@ Vite · React 19 · TypeScript strict · Tailwind v4 · shadcn/ui · React Route
 - Logique métier dans `src/domain/` : fonctions pures, sans React ni Dexie.
 - IDs : `crypto.randomUUID()`. Libellé ≠ identifiant ≠ slug ; slugs via `slugify` (docs/02 § 1).
 - Ne jamais stocker de donnée dérivée ; ne jamais recopier le libellé d'un article dans une ligne, un ingrédient ou l'historique.
-- Toute évolution du schéma Dexie = nouvelle version + migration + test. La version du schéma est indépendante de la version de l'app.
+- Toute évolution du schéma Dexie = nouvelle version déclarée ; migration et test de migration seulement une fois l’app utilisée par d’autres (voir « Phase actuelle »). La version du schéma est indépendante de la version de l'app.
 - Mobile d'abord (390×844), zones de sécurité, cibles tactiles ≥ 44 px (48 px en mode courses).
 - Animations via Motion, toujours présentes sauf si le téléphone demande de les réduire (`prefers-reduced-motion`) ; pas de réglage dans l'app.
 - Sons uniquement via le module `src/feedback/`. Pas de vibrations (retirées, docs/05 § 7).
