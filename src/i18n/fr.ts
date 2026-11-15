@@ -459,6 +459,8 @@ export const fr = {
       none: "Aucune (initiales)",
       noResult: "Aucune icône ne correspond.",
       change: "Changer l'icône",
+      featured: "Plats et desserts",
+      others: "Toutes les icônes",
     },
     articles: {
       title: "Articles",
@@ -680,6 +682,21 @@ export const fr = {
     deleteText:
       "Les ingrédients déjà ajoutés à tes listes y restent. La recette, elle, ne se récupère pas.",
     deleted: (name: string) => `«\u00a0${name}\u00a0» supprimée`,
+    /** Icônes de plats (`src/icons/dishes`) : libellé et mots-clés pour la recherche. */
+    dishes: {
+      soupe: { label: "Soupe", keywords: ["velouté", "potage", "bouillon"] },
+      cake: { label: "Cake", keywords: ["cake salé", "cake sucré"] },
+      tarte: { label: "Tarte", keywords: ["tarte aux pommes", "tarte sucrée"] },
+      gateau: {
+        label: "Gâteau",
+        keywords: ["gâteau au chocolat", "anniversaire", "layer cake"],
+      },
+      gratin: { label: "Gratin", keywords: ["gratin dauphinois", "four"] },
+      "salade-composee": {
+        label: "Salade composée",
+        keywords: ["salade", "crudités"],
+      },
+    } as Record<string, { label: string; keywords: string[] } | undefined>,
     ingredient: {
       optional: "Facultatif",
       optionalHint: "Décoché au moment d'ajouter la recette à une liste.",
@@ -851,6 +868,104 @@ export const fr = {
     sheetNothing: "Ne rien faire",
     sounds: "Sons",
     soundsHint: "Les sons de l'app, à écouter un par un.",
+    // Temporaire (phase 9) : relecture d'un lot du catalogue, retirée une fois validé.
+    review: {
+      title: "Catalogue : lot à relire",
+      intro:
+        "Nouveaux articles du catalogue (version 7), icônes redessinées et icônes de plats des recettes : icône en grand et à la taille d'une ligne, nom, catégorie, unité. La note dit si le dessin est nouveau, recoloré ou repris d'un autre article. Touche Refaire sur une icône pour dire ce qui ne va pas, puis copie les remarques en bas pour les coller dans la conversation.",
+      batch: "Recettes — ingrédients de cuisine et plats",
+      dish: "Icône de plat (recettes)",
+      redo: "Refaire",
+      onlyRedo: (count: number) => `Refaire uniquement (${count})`,
+      remark: (name: string) => `Ce qui ne va pas : ${name}`,
+      remarkPlaceholder: "Ce qui ne va pas (forme, couleur, détail…)",
+      copy: (count: number) =>
+        count > 1
+          ? `Copier les ${count} remarques`
+          : count === 1
+            ? "Copier la remarque"
+            : "Aucune icône à refaire",
+      copyTitle: (batch: string) => `${batch} : icônes à refaire`,
+      copied: (count: number) =>
+        count > 1 ? `${count} remarques copiées` : "Remarque copiée",
+      copyFailed: "Copie impossible sur ce téléphone",
+      notes: {
+        cassonade: "refait : petit tas aux flancs droits",
+        cacao: "refait : cabosse centrée",
+        noisettes: "nouveau : trois noisettes",
+        "amandes-effilees": "nouveau : tas de lamelles",
+        "pate-d-amande": "nouveau : bloc ivoire et une amande",
+        "fleur-d-oranger": "nouveau : flacon bleu, fleur blanche",
+        "fruits-confits": "refait : des dés seulement, en tas irrégulier",
+        "gousses-de-vanille": "nouveau : trois gousses",
+        pruneaux: "nouveau : trois pruneaux",
+        "abricots-secs": "nouveau : trois oreillons séchés",
+        dattes: "nouveau : trois dattes",
+        pignons: "nouveau : petit tas de pignons",
+        graines: "nouveau : courge, tournesol, lin, sésame",
+        chapelure: "refait : le tas seul",
+        "noix-de-pecan": "nouveau : trois cerneaux de pécan",
+        pralin: "nouveau : éclats de nougatine aux amandes",
+        "sucre-perle": "refait : grains en tas irrégulier",
+        "agar-agar": "sachet du sucre vanillé, autre produit (algue rouge)",
+        "colorants-alimentaires": "refait : épaules arrondies, sans décroché",
+        chataignes: "nouveau : deux châtaignes",
+        "feuilles-de-brick": "nouveau : feuilles fines au bord ondulé",
+        "clous-de-girofle":
+          "refait : tige longue, bouton bosselé, posés au hasard",
+        genievre: "nouveau : cinq baies",
+        safran: "refait : petit pot de verre, pistils dedans",
+        "quatre-epices":
+          "ancien pot du curcuma (le curcuma est redessiné), recoloré",
+        "ras-el-hanout":
+          "ancien pot du piment d'Espelette (le piment est redessiné), recoloré",
+        cardamome: "nouveau : trois gousses vertes",
+        badiane: "nouveau : étoile à huit branches",
+        cerfeuil: "nouveau : feuillage fin et clair",
+        sauge: "nouveau : feuilles veloutées gris-vert",
+        marjolaine: "refait : tiges nettes, feuilles opposées, épis",
+        citronnelle: "refait : feuilles attachées aux tiges",
+        miso: "refait : bande qui suit la courbure",
+        tahini: "pot des câpres, autre contenu (pâte et huile)",
+        "creme-de-coco": "nouveau : boîte fermée, demi-noix de coco",
+        "sauce-worcestershire": "refait : papier au bord net sous les épaules",
+        "haricots-blancs": "boîte des haricots rouges, recolorée",
+        anchois: "nouveau : boîte plate ouverte, filets",
+        "confit-de-canard": "refait : cuisse centrée sur l'étiquette",
+        "tomates-sechees": "pot des câpres, autre contenu",
+        vermicelles: "refait : filaments en désordre",
+        choucroute: "refait : le contenu suit l'ouverture du bol",
+        cognac:
+          "refait : flasque (modèle partagé avec calvados et kirsch), col plus large",
+        beaufort:
+          "ancienne pointe de la tomme (la tomme est redessinée), recolorée",
+        "fromage-a-fondue": "nouveau : caquelon de fromage fondu",
+        "mont-d-or": "refait : boîte en épicéa, croûte blanche ondulée",
+        gorgonzola: "pointe du roquefort, pâte crème et croûte",
+        burrata: "nouveau : boule nouée",
+        blettes: "nouveau : deux feuilles à côte blanche",
+        topinambours: "nouveau : deux tubercules",
+        "foies-de-volaille": "nouveau : deux foies",
+        gesiers: "nouveau : trois gésiers",
+        calvados: "refait : flasque dorée, pomme verte",
+        madere: "bouteille du porto, recolorée",
+        kirsch: "refait : flasque en verre clair, cerises",
+        "piment-d-espelette":
+          "redessiné : un piment séché (son pot passe au ras el hanout)",
+        curcuma:
+          "redessiné : rhizome du gingembre recoloré, chair orange et rondelle (son pot passe au quatre-épices)",
+        tomme:
+          "redessiné : tomme ronde à croûte grise, entaillée (sa pointe passe au beaufort)",
+        "plat-soupe": "nouveau : bol à oreilles",
+        "plat-cake":
+          "refait : cake entier de trois quarts, bout coupé aux fruits",
+        "plat-tarte": "nouveau : tarte aux pommes",
+        "plat-gateau": "nouveau : gâteau au chocolat entamé",
+        "plat-gratin": "nouveau : plat ovale gratiné",
+        "plat-salade-composee":
+          "refait : le contenu suit l'ouverture du saladier",
+      } as Record<string, string | undefined>,
+    },
     icons: (count: number) => `Icônes d'articles (${count})`,
     iconsHint:
       "Le pack embarqué dans l'app, disponible hors ligne. Un monogramme remplace les icônes manquantes.",

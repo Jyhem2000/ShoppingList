@@ -9,6 +9,7 @@ import { buildInitialData, seedDatabase } from "@/db/seed";
 import { buildEmptyStore } from "@/db/stores";
 import { accentKey } from "@/domain/slug";
 import pack from "@/icons/packData";
+import { DISH_PREFIX } from "@/icons/pack";
 import { groupIcons } from "@/icons/lucide";
 
 let database: ShoppingDatabase | undefined;
@@ -79,9 +80,13 @@ describe("données initiales (docs/06)", () => {
     ).toEqual([]);
   });
 
-  it("n'a aucun dessin sans article de même clé", () => {
+  it("n'a aucun dessin sans article de même clé, hors icônes de plats", () => {
     const keys = new Set(catalogData.map((a) => a.key));
-    expect(Object.keys(pack).filter((name) => !keys.has(name))).toEqual([]);
+    expect(
+      Object.keys(pack).filter(
+        (name) => !keys.has(name) && !name.startsWith(DISH_PREFIX),
+      ),
+    ).toEqual([]);
   });
 
   it("donne un nom court et une famille connue à chaque catégorie, sauf les catégories système", () => {

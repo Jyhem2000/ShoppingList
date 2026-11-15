@@ -1,5 +1,6 @@
 import { catalogData } from "@/data/catalog";
-import type { IconPack } from "./pack";
+import { fr } from "@/i18n/fr";
+import { DISH_CATEGORY, DISH_PREFIX, type IconPack } from "./pack";
 
 /**
  * Pack d'icônes d'articles (docs/05 § 4), assemblé par Vite au build à partir des
@@ -47,27 +48,64 @@ const themeGap = (body: string) =>
     return cleaned.replace(/^<(\w+)/, `<$1 style="${styles.join(";")}"`);
   });
 
+/** Icônes de plats, pour les recettes : elles ne correspondent à aucun article. */
+const dishDrawings = import.meta.glob<string>("./dishes/*.svg", {
+  query: "?raw",
+  import: "default",
+  eager: true,
+});
+
 const pack: IconPack = {};
+
+function addIcon(
+  name: string,
+  path: string,
+  svg: string,
+  label: string,
+  texts: string[],
+  category: string,
+) {
+  const body = /<svg[^>]*>([\s\S]*)<\/svg>/.exec(svg)?.[1];
+  if (!body) throw new Error(`${path} : SVG illisible`);
+  const keywords = new Set(texts.flatMap(words));
+  pack[name] = {
+    b: themeGap(prefixIds(body.replace(/>\s+</g, "><").trim(), name)),
+    l: label.toLocaleLowerCase("fr"),
+    k: [...keywords].sort((a, b) => a.localeCompare(b, "fr")),
+    c: category,
+  };
+}
 
 for (const [path, svg] of Object.entries(drawings)) {
   const name = path.slice("./drawn/".length, -".svg".length);
   const article = catalogData.find((a) => a.key === name);
   if (!article) throw new Error(`${path} : aucun article n'a cette clé`);
-  const body = /<svg[^>]*>([\s\S]*)<\/svg>/.exec(svg)?.[1];
-  if (!body) throw new Error(`${path} : SVG illisible`);
-  const keywords = new Set(
+  addIcon(
+    name,
+    path,
+    svg,
+    article.name.fr,
     [
       article.name.fr,
       ...(article.aliases?.fr ?? []),
       ...(article.types?.fr ?? []),
-    ].flatMap(words),
+    ],
+    article.category,
   );
-  pack[name] = {
-    b: themeGap(prefixIds(body.replace(/>\s+</g, "><").trim(), name)),
-    l: article.name.fr.toLocaleLowerCase("fr"),
-    k: [...keywords].sort((a, b) => a.localeCompare(b, "fr")),
-    c: article.category,
-  };
+}
+
+for (const [path, svg] of Object.entries(dishDrawings)) {
+  const name = path.slice("./dishes/".length, -".svg".length);
+  const dish = fr.recipes.dishes[name];
+  if (!dish) throw new Error(`${path} : aucun libellé dans fr.recipes.dishes`);
+  addIcon(
+    `${DISH_PREFIX}${name}`,
+    path,
+    svg,
+    dish.label,
+    [dish.label, ...dish.keywords],
+    DISH_CATEGORY,
+  );
 }
 
 export default pack;

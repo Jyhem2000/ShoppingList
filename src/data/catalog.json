@@ -735,6 +735,23 @@
     "icon": "gingembre"
   },
   {
+    "key": "blettes",
+    "name": { "fr": "Blettes" },
+    "aliases": { "fr": ["bettes", "côtes de blettes"] },
+    "category": "legumes",
+    "unit": "botte",
+    "icon": "blettes",
+    "since": 7
+  },
+  {
+    "key": "topinambours",
+    "name": { "fr": "Topinambours" },
+    "category": "legumes",
+    "unit": "kg",
+    "icon": "topinambours",
+    "since": 7
+  },
+  {
     "key": "persil",
     "name": {
       "fr": "Persil"
@@ -838,6 +855,39 @@
     "category": "herbes-aromatiques",
     "unit": "piece",
     "icon": "bouquet-garni"
+  },
+  {
+    "key": "cerfeuil",
+    "name": { "fr": "Cerfeuil" },
+    "category": "herbes-aromatiques",
+    "unit": "botte",
+    "icon": "cerfeuil",
+    "since": 7
+  },
+  {
+    "key": "sauge",
+    "name": { "fr": "Sauge" },
+    "category": "herbes-aromatiques",
+    "unit": "botte",
+    "icon": "sauge",
+    "since": 7
+  },
+  {
+    "key": "marjolaine",
+    "name": { "fr": "Marjolaine" },
+    "category": "herbes-aromatiques",
+    "unit": "botte",
+    "icon": "marjolaine",
+    "since": 7
+  },
+  {
+    "key": "citronnelle",
+    "name": { "fr": "Citronnelle" },
+    "aliases": { "fr": ["lemongrass"] },
+    "category": "herbes-aromatiques",
+    "unit": "botte",
+    "icon": "citronnelle",
+    "since": 7
   },
   {
     "key": "baguette",
@@ -2036,7 +2086,7 @@
       "fr": "Sucre"
     },
     "types": {
-      "fr": ["en poudre", "en morceaux", "roux", "glace"]
+      "fr": ["en poudre", "en morceaux", "glace"]
     },
     "category": "farine-sucre-patisserie",
     "unit": "paquet",
@@ -2228,7 +2278,7 @@
       "fr": "Chocolat en poudre"
     },
     "aliases": {
-      "fr": ["cacao", "chocolat chaud"]
+      "fr": ["chocolat chaud"]
     },
     "category": "cafe-the",
     "unit": "paquet",
@@ -2903,6 +2953,15 @@
     "since": 5
   },
   {
+    "key": "vermicelles",
+    "name": { "fr": "Vermicelles" },
+    "aliases": { "fr": ["cheveux d'ange"] },
+    "category": "pates-riz-feculents",
+    "unit": "paquet",
+    "icon": "vermicelles",
+    "since": 7
+  },
+  {
     "key": "petits-pois-carottes",
     "name": { "fr": "Petits pois-carottes" },
     "category": "conserves-bocaux",
@@ -2971,6 +3030,49 @@
     "since": 5
   },
   {
+    "key": "chataignes",
+    "name": { "fr": "Châtaignes" },
+    "aliases": { "fr": ["marrons", "marrons entiers"] },
+    "category": "conserves-bocaux",
+    "unit": "boite",
+    "icon": "chataignes",
+    "since": 7
+  },
+  {
+    "key": "haricots-blancs",
+    "name": { "fr": "Haricots blancs" },
+    "aliases": { "fr": ["lingots", "cocos"] },
+    "category": "conserves-bocaux",
+    "unit": "boite",
+    "icon": "haricots-blancs",
+    "since": 7
+  },
+  {
+    "key": "anchois",
+    "name": { "fr": "Anchois" },
+    "category": "conserves-bocaux",
+    "unit": "boite",
+    "icon": "anchois",
+    "since": 7
+  },
+  {
+    "key": "confit-de-canard",
+    "name": { "fr": "Confit de canard" },
+    "aliases": { "fr": ["cuisses de canard confites"] },
+    "category": "conserves-bocaux",
+    "unit": "boite",
+    "icon": "confit-de-canard",
+    "since": 7
+  },
+  {
+    "key": "tomates-sechees",
+    "name": { "fr": "Tomates séchées" },
+    "category": "conserves-bocaux",
+    "unit": "pot",
+    "icon": "tomates-sechees",
+    "since": 7
+  },
+  {
     "key": "vinaigrette",
     "name": { "fr": "Vinaigrette" },
     "category": "sauces-condiments",
@@ -3030,6 +3132,15 @@
     "unit": "bouteille",
     "icon": "tabasco",
     "since": 5
+  },
+  {
+    "key": "sauce-worcestershire",
+    "name": { "fr": "Sauce Worcestershire" },
+    "aliases": { "fr": ["worcester"] },
+    "category": "sauces-condiments",
+    "unit": "bouteille",
+    "icon": "sauce-worcestershire",
+    "since": 7
   },
   {
     "key": "cumin",
@@ -3104,6 +3215,65 @@
     "unit": "pot",
     "icon": "origan",
     "since": 5
+  },
+  {
+    "key": "clous-de-girofle",
+    "name": { "fr": "Clous de girofle" },
+    "aliases": { "fr": ["girofle"] },
+    "category": "epices",
+    "unit": "pot",
+    "icon": "clous-de-girofle",
+    "since": 7
+  },
+  {
+    "key": "genievre",
+    "name": { "fr": "Baies de genièvre" },
+    "aliases": { "fr": ["genièvre"] },
+    "category": "epices",
+    "unit": "pot",
+    "icon": "genievre",
+    "since": 7
+  },
+  {
+    "key": "safran",
+    "name": { "fr": "Safran" },
+    "category": "epices",
+    "unit": "piece",
+    "icon": "safran",
+    "since": 7
+  },
+  {
+    "key": "quatre-epices",
+    "name": { "fr": "Quatre-épices" },
+    "category": "epices",
+    "unit": "pot",
+    "icon": "quatre-epices",
+    "since": 7
+  },
+  {
+    "key": "ras-el-hanout",
+    "name": { "fr": "Ras el hanout" },
+    "category": "epices",
+    "unit": "pot",
+    "icon": "ras-el-hanout",
+    "since": 7
+  },
+  {
+    "key": "cardamome",
+    "name": { "fr": "Cardamome" },
+    "category": "epices",
+    "unit": "pot",
+    "icon": "cardamome",
+    "since": 7
+  },
+  {
+    "key": "badiane",
+    "name": { "fr": "Badiane" },
+    "aliases": { "fr": ["anis étoilé", "anis"] },
+    "category": "epices",
+    "unit": "pot",
+    "icon": "badiane",
+    "since": 7
   },
   {
     "key": "huile-de-colza",
@@ -3233,6 +3403,32 @@
     "since": 5
   },
   {
+    "key": "miso",
+    "name": { "fr": "Miso" },
+    "aliases": { "fr": ["pâte de miso"] },
+    "category": "cuisine-du-monde",
+    "unit": "pot",
+    "icon": "miso",
+    "since": 7
+  },
+  {
+    "key": "tahini",
+    "name": { "fr": "Tahini" },
+    "aliases": { "fr": ["tahin", "crème de sésame", "purée de sésame"] },
+    "category": "cuisine-du-monde",
+    "unit": "pot",
+    "icon": "tahini",
+    "since": 7
+  },
+  {
+    "key": "creme-de-coco",
+    "name": { "fr": "Crème de coco" },
+    "category": "cuisine-du-monde",
+    "unit": "boite",
+    "icon": "creme-de-coco",
+    "since": 7
+  },
+  {
     "key": "maizena",
     "name": { "fr": "Maïzena" },
     "aliases": { "fr": ["fécule de maïs"] },
@@ -3308,6 +3504,174 @@
     "unit": "sachet",
     "icon": "cerneaux-de-noix",
     "since": 6
+  },
+  {
+    "key": "cassonade",
+    "name": { "fr": "Cassonade" },
+    "aliases": { "fr": ["sucre roux", "vergeoise"] },
+    "category": "farine-sucre-patisserie",
+    "unit": "paquet",
+    "icon": "cassonade",
+    "since": 7
+  },
+  {
+    "key": "cacao",
+    "name": { "fr": "Cacao non sucré" },
+    "aliases": { "fr": ["cacao en poudre", "cacao amer"] },
+    "category": "farine-sucre-patisserie",
+    "unit": "boite",
+    "icon": "cacao",
+    "since": 7
+  },
+  {
+    "key": "noisettes",
+    "name": { "fr": "Noisettes" },
+    "types": { "fr": ["entières", "en poudre", "concassées"] },
+    "category": "farine-sucre-patisserie",
+    "unit": "sachet",
+    "icon": "noisettes",
+    "since": 7
+  },
+  {
+    "key": "amandes-effilees",
+    "name": { "fr": "Amandes effilées" },
+    "category": "farine-sucre-patisserie",
+    "unit": "sachet",
+    "icon": "amandes-effilees",
+    "since": 7
+  },
+  {
+    "key": "pate-d-amande",
+    "name": { "fr": "Pâte d'amande" },
+    "aliases": { "fr": ["massepain"] },
+    "category": "farine-sucre-patisserie",
+    "unit": "paquet",
+    "icon": "pate-d-amande",
+    "since": 7
+  },
+  {
+    "key": "fleur-d-oranger",
+    "name": { "fr": "Fleur d'oranger" },
+    "aliases": { "fr": ["eau de fleur d'oranger"] },
+    "category": "farine-sucre-patisserie",
+    "unit": "bouteille",
+    "icon": "fleur-d-oranger",
+    "since": 7
+  },
+  {
+    "key": "fruits-confits",
+    "name": { "fr": "Fruits confits" },
+    "aliases": { "fr": ["bigarreaux confits", "écorces d'orange confites"] },
+    "category": "farine-sucre-patisserie",
+    "unit": "sachet",
+    "icon": "fruits-confits",
+    "since": 7
+  },
+  {
+    "key": "gousses-de-vanille",
+    "name": { "fr": "Gousses de vanille" },
+    "aliases": { "fr": ["vanille en gousse"] },
+    "category": "farine-sucre-patisserie",
+    "unit": "piece",
+    "icon": "gousses-de-vanille",
+    "since": 7
+  },
+  {
+    "key": "pruneaux",
+    "name": { "fr": "Pruneaux" },
+    "category": "farine-sucre-patisserie",
+    "unit": "sachet",
+    "icon": "pruneaux",
+    "since": 7
+  },
+  {
+    "key": "abricots-secs",
+    "name": { "fr": "Abricots secs" },
+    "category": "farine-sucre-patisserie",
+    "unit": "sachet",
+    "icon": "abricots-secs",
+    "since": 7
+  },
+  {
+    "key": "dattes",
+    "name": { "fr": "Dattes" },
+    "category": "farine-sucre-patisserie",
+    "unit": "paquet",
+    "icon": "dattes",
+    "since": 7
+  },
+  {
+    "key": "pignons",
+    "name": { "fr": "Pignons de pin" },
+    "aliases": { "fr": ["pignons"] },
+    "category": "farine-sucre-patisserie",
+    "unit": "sachet",
+    "icon": "pignons",
+    "since": 7
+  },
+  {
+    "key": "graines",
+    "name": { "fr": "Graines" },
+    "types": {
+      "fr": ["courge", "tournesol", "lin", "sésame", "chia", "pavot"]
+    },
+    "category": "farine-sucre-patisserie",
+    "unit": "sachet",
+    "icon": "graines",
+    "since": 7
+  },
+  {
+    "key": "chapelure",
+    "name": { "fr": "Chapelure" },
+    "aliases": { "fr": ["panure"] },
+    "category": "farine-sucre-patisserie",
+    "unit": "paquet",
+    "icon": "chapelure",
+    "since": 7
+  },
+  {
+    "key": "noix-de-pecan",
+    "name": { "fr": "Noix de pécan" },
+    "aliases": { "fr": ["pécan"] },
+    "category": "farine-sucre-patisserie",
+    "unit": "sachet",
+    "icon": "noix-de-pecan",
+    "since": 7
+  },
+  {
+    "key": "pralin",
+    "name": { "fr": "Pralin" },
+    "category": "farine-sucre-patisserie",
+    "unit": "sachet",
+    "icon": "pralin",
+    "since": 7
+  },
+  {
+    "key": "sucre-perle",
+    "name": { "fr": "Sucre perlé" },
+    "aliases": { "fr": ["sucre en grains"] },
+    "category": "farine-sucre-patisserie",
+    "unit": "paquet",
+    "icon": "sucre-perle",
+    "since": 7
+  },
+  {
+    "key": "agar-agar",
+    "name": { "fr": "Agar-agar" },
+    "aliases": { "fr": ["agar"] },
+    "category": "farine-sucre-patisserie",
+    "unit": "sachet",
+    "icon": "agar-agar",
+    "since": 7
+  },
+  {
+    "key": "colorants-alimentaires",
+    "name": { "fr": "Colorants alimentaires" },
+    "aliases": { "fr": ["colorant"] },
+    "category": "farine-sucre-patisserie",
+    "unit": "piece",
+    "icon": "colorants-alimentaires",
+    "since": 7
   },
   {
     "key": "flocons-d-avoine",
@@ -3605,6 +3969,24 @@
     "since": 6
   },
   {
+    "key": "feuilles-de-brick",
+    "name": { "fr": "Feuilles de brick" },
+    "aliases": { "fr": ["brick", "pâte filo", "feuilles de filo"] },
+    "category": "traiteur",
+    "unit": "paquet",
+    "icon": "feuilles-de-brick",
+    "since": 7
+  },
+  {
+    "key": "choucroute",
+    "name": { "fr": "Choucroute" },
+    "category": "traiteur",
+    "unit": "g",
+    "quantity": 500,
+    "icon": "choucroute",
+    "since": 7
+  },
+  {
     "key": "boisson-vegetale",
     "name": { "fr": "Boisson végétale" },
     "aliases": { "fr": ["lait végétal", "lait de soja", "lait d'amande"] },
@@ -3797,6 +4179,50 @@
     "since": 6
   },
   {
+    "key": "beaufort",
+    "name": { "fr": "Beaufort" },
+    "category": "fromages",
+    "unit": "g",
+    "quantity": 250,
+    "icon": "beaufort",
+    "since": 7
+  },
+  {
+    "key": "fromage-a-fondue",
+    "name": { "fr": "Fromage à fondue" },
+    "aliases": { "fr": ["fondue savoyarde"] },
+    "category": "fromages",
+    "unit": "paquet",
+    "icon": "fromage-a-fondue",
+    "since": 7
+  },
+  {
+    "key": "mont-d-or",
+    "name": { "fr": "Mont-d'or" },
+    "aliases": { "fr": ["vacherin"] },
+    "category": "fromages",
+    "unit": "piece",
+    "icon": "mont-d-or",
+    "since": 7
+  },
+  {
+    "key": "gorgonzola",
+    "name": { "fr": "Gorgonzola" },
+    "category": "fromages",
+    "unit": "g",
+    "quantity": 200,
+    "icon": "gorgonzola",
+    "since": 7
+  },
+  {
+    "key": "burrata",
+    "name": { "fr": "Burrata" },
+    "category": "fromages",
+    "unit": "piece",
+    "icon": "burrata",
+    "since": 7
+  },
+  {
     "key": "lapin",
     "name": { "fr": "Lapin" },
     "category": "viande",
@@ -3823,7 +4249,7 @@
   {
     "key": "canard",
     "name": { "fr": "Canard" },
-    "types": { "fr": ["magret", "cuisses", "confit"] },
+    "types": { "fr": ["magret", "cuisses"] },
     "category": "volaille",
     "unit": "piece",
     "icon": "canard",
@@ -3852,6 +4278,24 @@
     "unit": "g",
     "icon": "aiguillettes-de-poulet",
     "since": 6
+  },
+  {
+    "key": "foies-de-volaille",
+    "name": { "fr": "Foies de volaille" },
+    "aliases": { "fr": ["foies de poulet"] },
+    "category": "volaille",
+    "unit": "barquette",
+    "icon": "foies-de-volaille",
+    "since": 7
+  },
+  {
+    "key": "gesiers",
+    "name": { "fr": "Gésiers" },
+    "aliases": { "fr": ["gésiers confits"] },
+    "category": "volaille",
+    "unit": "barquette",
+    "icon": "gesiers",
+    "since": 7
   },
   {
     "key": "truite",
@@ -4078,6 +4522,39 @@
     "unit": "bouteille",
     "icon": "porto",
     "since": 6
+  },
+  {
+    "key": "cognac",
+    "name": { "fr": "Cognac" },
+    "aliases": { "fr": ["armagnac"] },
+    "category": "alcools",
+    "unit": "bouteille",
+    "icon": "cognac",
+    "since": 7
+  },
+  {
+    "key": "calvados",
+    "name": { "fr": "Calvados" },
+    "category": "alcools",
+    "unit": "bouteille",
+    "icon": "calvados",
+    "since": 7
+  },
+  {
+    "key": "madere",
+    "name": { "fr": "Madère" },
+    "category": "alcools",
+    "unit": "bouteille",
+    "icon": "madere",
+    "since": 7
+  },
+  {
+    "key": "kirsch",
+    "name": { "fr": "Kirsch" },
+    "category": "alcools",
+    "unit": "bouteille",
+    "icon": "kirsch",
+    "since": 7
   },
   {
     "key": "glacons",

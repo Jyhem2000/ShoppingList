@@ -27,6 +27,7 @@ import { type ListData, useListData } from "@/features/list/useListData";
 import { IconPickerSheet } from "@/features/manage/IconPickerSheet";
 import { NameField } from "@/features/manage/NameField";
 import { fr } from "@/i18n/fr";
+import { RECIPE_ICON_CATEGORIES } from "@/icons/pack";
 import { ArticleIcon } from "@/ui/ArticleIcon";
 import { Button } from "@/ui/button";
 import { ConfirmActions, TextArea } from "@/ui/form";
@@ -284,6 +285,7 @@ function RecipeView({ recipe, data }: { recipe: Recipe; data: ListData }) {
           label={recipe.name}
           color={RECIPE_COLOR}
           value={recipe.icon}
+          featuredCategories={RECIPE_ICON_CATEGORIES}
           onPick={(icon) => {
             save({ icon });
           }}
