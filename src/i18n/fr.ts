@@ -919,6 +919,13 @@ export const fr = {
     version: (version: string) => `Version ${version}`,
     versions: [
       {
+        version: "1.0.1",
+        date: "2026-11-16",
+        items: [
+          "Corrections de bugs et améliorations de l'expérience utilisateur.",
+        ],
+      },
+      {
         version: "1.0.0",
         date: "2026-11-16",
         items: [
