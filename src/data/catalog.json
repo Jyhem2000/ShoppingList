@@ -1487,7 +1487,7 @@
       "fr": ["fraise", "chocolat", "vanille"]
     },
     "category": "lait-creme-beurre",
-    "unit": "bouteille",
+    "unit": "pack",
     "icon": "lait-aromatise",
     "since": 3
   },
@@ -2116,7 +2116,7 @@
       "fr": ["chimique", "de boulanger"]
     },
     "category": "farine-sucre-patisserie",
-    "unit": "sachet",
+    "unit": "paquet",
     "icon": "levure"
   },
   {
@@ -2125,7 +2125,7 @@
       "fr": "Sucre vanillé"
     },
     "category": "farine-sucre-patisserie",
-    "unit": "sachet",
+    "unit": "paquet",
     "icon": "sucre-vanille"
   },
   {
@@ -2600,7 +2600,7 @@
       "fr": ["disques de coton"]
     },
     "category": "hygiene-beaute",
-    "unit": "piece",
+    "unit": "sachet",
     "icon": "cotons"
   },
   {
@@ -2609,7 +2609,7 @@
       "fr": "Cotons-tiges"
     },
     "category": "hygiene-beaute",
-    "unit": "piece",
+    "unit": "boite",
     "icon": "cotons-tiges"
   },
   {
@@ -2621,7 +2621,7 @@
       "fr": ["lames de rasoir"]
     },
     "category": "hygiene-beaute",
-    "unit": "piece",
+    "unit": "paquet",
     "icon": "rasoirs"
   },
   {
@@ -3805,7 +3805,7 @@
     "key": "barres-chocolatees",
     "name": { "fr": "Barres chocolatées" },
     "category": "chocolat-confiserie",
-    "unit": "piece",
+    "unit": "paquet",
     "icon": "barres-chocolatees",
     "since": 6
   },
@@ -3897,7 +3897,7 @@
     "key": "mortadelle",
     "name": { "fr": "Mortadelle" },
     "category": "charcuterie",
-    "unit": "tranche",
+    "unit": "paquet",
     "icon": "mortadelle",
     "since": 6
   },
@@ -3914,6 +3914,7 @@
     "name": { "fr": "Blanc de dinde" },
     "category": "charcuterie",
     "unit": "tranche",
+    "quantity": 4,
     "icon": "blanc-de-dinde",
     "since": 6
   },
@@ -4066,6 +4067,7 @@
     "name": { "fr": "Mousse au chocolat" },
     "category": "yaourts-desserts",
     "unit": "piece",
+    "quantity": 4,
     "icon": "mousse-au-chocolat",
     "since": 6
   },
@@ -4074,6 +4076,7 @@
     "name": { "fr": "Riz au lait" },
     "category": "yaourts-desserts",
     "unit": "piece",
+    "quantity": 4,
     "icon": "riz-au-lait",
     "since": 6
   },
@@ -4083,6 +4086,7 @@
     "aliases": { "fr": ["crème caramel"] },
     "category": "yaourts-desserts",
     "unit": "piece",
+    "quantity": 4,
     "icon": "flan",
     "since": 6
   },
@@ -4099,6 +4103,7 @@
     "name": { "fr": "Brie" },
     "category": "fromages",
     "unit": "g",
+    "quantity": 250,
     "icon": "brie",
     "since": 6
   },
@@ -4108,6 +4113,7 @@
     "aliases": { "fr": ["bleu", "fromage bleu"] },
     "category": "fromages",
     "unit": "g",
+    "quantity": 150,
     "icon": "roquefort",
     "since": 6
   },
@@ -4125,6 +4131,7 @@
     "aliases": { "fr": ["raclette"] },
     "category": "fromages",
     "unit": "g",
+    "quantity": 400,
     "icon": "raclette",
     "since": 6
   },
@@ -4166,6 +4173,7 @@
     "name": { "fr": "Cantal" },
     "category": "fromages",
     "unit": "g",
+    "quantity": 250,
     "icon": "cantal",
     "since": 6
   },
@@ -4174,6 +4182,7 @@
     "name": { "fr": "Tomme" },
     "category": "fromages",
     "unit": "g",
+    "quantity": 250,
     "icon": "tomme",
     "since": 6
   },
@@ -4190,6 +4199,7 @@
     "name": { "fr": "Mimolette" },
     "category": "fromages",
     "unit": "g",
+    "quantity": 250,
     "icon": "mimolette",
     "since": 6
   },
@@ -4291,6 +4301,7 @@
     "name": { "fr": "Aiguillettes de poulet" },
     "category": "volaille",
     "unit": "g",
+    "quantity": 500,
     "icon": "aiguillettes-de-poulet",
     "since": 6
   },
@@ -4327,6 +4338,7 @@
     "aliases": { "fr": ["lieu"] },
     "category": "poisson-fruits-de-mer",
     "unit": "g",
+    "quantity": 500,
     "icon": "colin",
     "since": 6
   },
@@ -4353,6 +4365,7 @@
     "aliases": { "fr": ["coquilles Saint-Jacques"] },
     "category": "poisson-fruits-de-mer",
     "unit": "g",
+    "quantity": 250,
     "countable": true,
     "icon": "saint-jacques",
     "since": 6
@@ -4362,6 +4375,7 @@
     "name": { "fr": "Huîtres" },
     "category": "poisson-fruits-de-mer",
     "unit": "piece",
+    "quantity": 12,
     "icon": "huitres",
     "since": 6
   },
@@ -4371,6 +4385,7 @@
     "aliases": { "fr": ["encornets"] },
     "category": "poisson-fruits-de-mer",
     "unit": "g",
+    "quantity": 500,
     "icon": "calamars",
     "since": 6
   },
@@ -4428,7 +4443,7 @@
     "key": "eau-aromatisee",
     "name": { "fr": "Eau aromatisée" },
     "category": "eaux",
-    "unit": "bouteille",
+    "unit": "pack",
     "icon": "eau-aromatisee",
     "since": 6
   },
