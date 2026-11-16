@@ -349,7 +349,9 @@ Simple, sans serveur : on **envoie** une liste à quelqu'un (conjoint), qui l'**
 
 ### Contenu envoyé
 
-Le partage est **autonome** : chaque ligne embarque la description complète de son article (libellé, slug, alias, clé catalogue éventuelle, icône, types), **sa catégorie et son unité avec leur clé catalogue éventuelle**, la quantité, les types acceptés et la note, ainsi que la **langue** de l'expéditeur. **Aucun magasin n'est inclus** : le destinataire choisit le sien.
+Le partage est **autonome** : chaque ligne embarque de quoi retrouver ou recréer son article, la quantité et son unité, les types acceptés et la note, ainsi que la **langue** de l'expéditeur. **Aucun magasin n'est inclus** : le destinataire choisit le sien. Seules les lignes encore à acheter partent (pas les cochées).
+
+**Liens courts** (décision du 16 novembre 2026) : un article du **catalogue** ne voyage qu'avec sa **clé** (et son libellé s'il a été renommé) : le destinataire a le même catalogue embarqué, il y retrouve libellé, icône, catégorie et unité, même s'il a supprimé l'article. Un article **créé à la main** voyage avec sa description complète (libellé, alias, icône, types, catégorie et unité par défaut) ; une catégorie ou une unité créée à la main est décrite aussi, les autres se désignent par leur clé catalogue. Une liste de 30 articles du catalogue tient ainsi en un lien d'environ 700 caractères.
 
 ### Import chez le destinataire
 

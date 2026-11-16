@@ -50,7 +50,7 @@ Sur Android, le geste ou bouton **Retour** du système ferme d'abord le panneau 
 └──────────────────────────────────┘
 ```
 
-- Menu `⋯` : **seulement des actions sur la liste courante** (« Actions sur cette liste ») — renommer, dupliquer, « Y ajouter le contenu d'une autre liste » (panneau « Compléter « Liste 1 » »), partager _(v1.1)_, coller une liste _(v1.1)_, retirer les cochés, vider, supprimer la liste. Les autres listes s'ouvrent en touchant le nom de la liste (14 novembre 2026 : « Toutes mes listes » retiré du menu, qui semblait mélanger cette liste et les autres).
+- Menu `⋯` : **seulement des actions sur la liste courante** (« Actions sur cette liste ») — renommer, dupliquer, « Y ajouter le contenu d'une autre liste » (panneau « Compléter « Liste 1 » »), « Partager la liste » _(v1.1)_, « Coller une liste » _(v1.1)_, retirer les cochés, vider, supprimer la liste. Les autres listes s'ouvrent en touchant le nom de la liste (14 novembre 2026 : « Toutes mes listes » retiré du menu, qui semblait mélanger cette liste et les autres).
 - Tap sur le nom de la liste → **Mes listes** : changer de liste, réordonner (poignée), créer une liste en y ajoutant le contenu d'autres listes.
 - La liste est rangée **par catégorie** (03 B1) ; le magasin se choisit au départ des courses (« C'est parti »), et les magasins se gèrent dans Réglages → Magasins & rayons.
 - Tap sur une ligne → **fiche ligne** (B3). Glisser à gauche → supprimer (B4), avec « Annuler » pendant 4 secondes.
@@ -157,7 +157,7 @@ Copies automatiques (phase 8)
      manipulation ; elles disparaissent avec l'app)
 ```
 
-Plus tard : **Coller une liste partagée ▸** _(v1.1)_.
+« Coller une liste » _(v1.1)_ n'est pas ici mais dans le menu `⋯` de la liste : on colle dans une liste.
 
 ### 2.8 Magasin
 
@@ -173,7 +173,7 @@ Articles, catégories, unités : liste + recherche → fiche d'édition. La fich
 
 ### 2.10 Aperçu d'import _(v1.1)_
 
-Résumé (« 12 reconnus · 1 à confirmer · 2 non reconnus »), choix nouvelle liste / fusion dans une liste existante. Pour chaque proposition : confirmer ou refuser. Pour chaque article non reconnu :
+Écran « Liste reçue » (lien) ou « Liste collée » (texte), route `#/import`. Résumé (« 12 reconnus, 1 à confirmer, 2 non reconnus »), puis « Ajouter à » : une nouvelle liste au nom reçu, ou une liste existante. Lignes en deux sections, **À vérifier** (à confirmer et non reconnus) puis **Reconnus**, chacune avec sa case (décochée : pas ajoutée), son icône, ce qu'elle deviendra (« reçu : « Tomatess », à confirmer », « nouvel article, Légumes ») et sa quantité. Toucher une ligne ouvre le choix de son article :
 
 ```
 ┌──────────────────────────────────┐
@@ -187,7 +187,7 @@ Résumé (« 12 reconnus · 1 à confirmer · 2 non reconnus »), choix nouvelle
 └──────────────────────────────────┘
 ```
 
-Tap sur un candidat = « C'est celui-là ». Bouton « Importer ».
+Tap sur un candidat = « C'est celui-là ». Bouton « Ajouter N lignes ». Dans le navigateur de l'iPhone, un lien ouvre d'abord une explication : « Copier le lien » (puis `⋯` → « Coller une liste » dans l'app) ou « Ajouter la liste ici quand même ».
 
 ### 2.11 Premier lancement
 
@@ -216,7 +216,7 @@ Tap sur un candidat = « C'est celui-là ». Bouton « Importer ».
 
 **Ajouter une recette** _(v1.0)_ : Recettes → _Cake aux olives_ → « Ajouter à une liste » → « 2 cakes » → décocher la farine (déjà à la maison) → Ajouter.
 
-**Envoyer la liste au conjoint** _(v1.1)_ : Liste → `⋯` → Partager → Messages / WhatsApp.
+**Envoyer la liste au conjoint** _(v1.1)_ : Liste → `⋯` → « Partager la liste » → Messages / WhatsApp.
 
-- Destinataire sur **Android** : tap sur le lien → l'app s'ouvre sur l'aperçu → Importer.
-- Destinataire sur **iPhone** : copier le message → ouvrir l'app → `⋯` → « Coller une liste partagée » → aperçu → Importer.
+- Destinataire sur **Android** : tap sur le lien → l'app s'ouvre sur l'aperçu → « Ajouter ».
+- Destinataire sur **iPhone** : copier le message (ou le lien) → ouvrir l'app → `⋯` → « Coller une liste » → aperçu → « Ajouter ».

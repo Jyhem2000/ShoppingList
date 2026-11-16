@@ -231,9 +231,16 @@ Plan (pas de migration de données : au besoin, on réinstalle l'app, 07 § 5) :
 
 ### Phase 10 — Partage
 
-F1, F2, A8 : envoyer une liste, l'importer (lien sur Android, « Coller une liste partagée » sur iPhone), aperçu d'import avec « C'est le même que… », coller une liste en texte.
+F1, F2, A8 : envoyer une liste, l'importer (lien sur Android, « Coller une liste » sur iPhone), aperçu d'import avec « C'est le même que… », coller une liste en texte.
 
-- ✅ _Scénario E2E 8 vert ; essai réel iPhone → Android et Android → iPhone._
+1. ✅ **Domaine** (`src/domain/share.ts`) : format du lien (version 1, lz-string), **liens courts** (décision du 16 novembre 2026, 02 § 9 : un article du catalogue ne voyage qu'avec sa clé), reconnaissance (`resolveImport`, `suggestCandidates`), texte collé (`textImportLines`) ; tests unitaires `tests/unit/share.test.ts`.
+2. ✅ **Envoyer** : `⋯` → « Partager la liste » : feuille de partage du téléphone (Messages, WhatsApp…), liste lisible par catégorie puis lien ; sans feuille de partage, message copié.
+3. ✅ **Importer** : écran `#/import` ; `⋯` → « Coller une liste » (presse-papiers, sinon champ à remplir) ; dans le navigateur de l'iPhone, explication d'abord (« Copier le lien » ou « Ajouter la liste ici quand même »), jamais l'écran d'installation devant un lien.
+4. ✅ **Aperçu** : décompte, liste cible (nouvelle ou existante), « À vérifier » puis « Reconnus » à cocher, choix d'un article (candidats, toute la catégorie, recherche, « Créer » avec libellé modifiable), import en une transaction avec association mémorisée.
+5. ✅ **Coller du texte (A8)** : lignes lues comme la saisie naturelle, lignes à puces seulement s'il y en a (le message de partage se relit).
+6. ⏳ **Vérifications** : `npm run check` vert, scénario E2E 8 (`tests/e2e/share.spec.ts`) vert sur les deux téléphones, contrôle en taille téléphone (16 novembre 2026). Reste : l'essai réel, les nouveautés `1.1.0`, la validation. Import d'un fichier `.json` (03 F2, 3e manière) **pas fait**, à rediscuter.
+
+- ⏳ _Scénario E2E 8 vert ; essai réel iPhone → Android et Android → iPhone._
 - 🎉 _**Publication v1.1.0.**_
 
 ## v1.2 — Anti-oubli

@@ -229,6 +229,11 @@ export function ListPage() {
             setPanel({ kind: "merge", sources: [] });
           }}
           onRemoveItems={removeItems}
+          onPaste={(text) => {
+            void navigate(routes.import, {
+              state: { text, listId: data.list.id },
+            });
+          }}
         />
       )}
       {panel?.kind === "lists" && (

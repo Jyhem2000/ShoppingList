@@ -48,7 +48,7 @@ Rappel ([01](01-vision.md#plateformes-cibles)) : sur iPhone, **tous les navigate
 | Web Audio                          | Sons (H6)                               | ✅ (après un premier geste)          | ✅               | Confort          | Utilisée                                                                                |
 | Audio Session API                  | Suivre le mode silencieux (H6)          | ✅ (iOS 17+)                         | ❌               | Confort          | Utilisée sur iPhone (`type = "ambient"`)                                                |
 | Web Share                          | Export de sauvegarde (H4), partage (F1) | ✅ texte, lien, fichiers             | ✅               | Essentiel        | Utilisée                                                                                |
-| Clipboard                          | « Coller une liste partagée » (F2)      | ✅ sur geste de l'utilisateur        | ✅               | Essentiel (v1.1) | Utilisée                                                                                |
+| Clipboard                          | « Coller une liste » (F2)               | ✅ sur geste de l'utilisateur        | ✅               | Essentiel (v1.1) | Utilisée                                                                                |
 | `navigator.storage.persist()`      | Limiter l'effacement des données        | ✅                                   | ✅               | Confort          | Demandée automatiquement au démarrage de l'app installée, sans rien afficher            |
 | Vibration                          | Retour haptique (H7)                    | ❌                                   | ✅               | —                | **Non retenue** : absente sur iPhone, l'astuce haptique n'y fonctionne pas (H7 retirée) |
 | `beforeinstallprompt`              | Bouton « Installer » (H5)               | ❌ (installation manuelle expliquée) | ✅               | Confort          | Utilisée sur Android                                                                    |
@@ -342,8 +342,9 @@ Calculées à la demande à partir des achats des sessions **clôturées**. Pour
 
 ### 7.9 Partage (v1.1)
 
-- Format : `{ v: 1, kind: "list", lang: "fr", name, items: [{ article: { key?, slug, name, aliases, icon, types, category: { key?, slug, name, color }, unit: { key?, slug, singular, plural, abbr, dimension, factor, step } }, quantity, unitSlug, acceptedTypes, note }] }`.
-- Encodage : JSON → `lz-string` (`compressToEncodedURIComponent`) → `https://<adresse>/#/import?d=…`. Les données sont dans le fragment `#`, jamais envoyé au serveur d'hébergement.
+- Code : `src/domain/share.ts` (format, reconnaissance, texte collé), `src/db/share.ts` (`applyImport`), `src/features/share/` (message, écran d'aperçu, choix d'un article).
+- Format, version 1, noms courts (ils se répètent à chaque ligne) : `{ v: 1, l: "fr", n: nom, i: [{ k?: clé catalogue, n?: libellé, a?: { c: catégorie, u: unité par défaut, i?: icône, al?: alias, ty?: types }, q: quantité, u: unité, t?: types acceptés, o?: note }], c?: [{ r: slug, n, co: couleur, i? }], u?: [{ r: slug, s, p, ab?, d, g?, f?, st }] }`. Une catégorie ou une unité se désigne par sa clé catalogue, ou par son slug si elle a été créée à la main (décrite alors dans `c` ou `u`). Article du catalogue : `k` seul, plus `n` s'il a été renommé (slug du libellé ≠ clé) ; article créé à la main : `n` et `a` (liens courts, [02 § 9](02-modele-metier.md#9-partage-dune-liste)).
+- Encodage : JSON → `lz-string` (`compressToEncodedURIComponent`) → `https://<adresse>/#/import?d=…`. Les données sont dans le fragment `#`, jamais envoyé au serveur d'hébergement. `findSharedList(texte)` retrouve le lien dans n'importe quel texte (le message entier collé) et relit les données en écartant ce qui est mal formé.
 - Import : `resolveImport(payload, userData, catalog)` → décision par article, dans l'ordre de [02 § 9](02-modele-metier.md#import-chez-le-destinataire) :
   1. clé catalogue ;
   2. slug ;
@@ -351,7 +352,11 @@ Calculées à la demande à partir des achats des sessions **clôturées**. Pour
   4. **dictionnaire du catalogue** : index `slug → clé catalogue` construit sur tous les libellés et alias du catalogue embarqué, **toutes langues** ; si le libellé reçu y figure, on cherche l'article du destinataire portant cette clé ;
   5. recherche floue → « à confirmer » ;
   6. sinon « non reconnu » avec `suggestCandidates(article, userArticles, stats)` : même icône + même catégorie, puis même icône, puis même catégorie triée par fréquence d'achat (5 candidats max).
-- Application en une transaction ; une association manuelle ajoute le libellé reçu aux alias de l'article choisi ; une création utilise le libellé saisi par le destinataire et garde le libellé reçu en alias.
+
+  Les étapes 2 et 3 (slug, alias croisés) passent par `resolveEntry` (libellés et alias par clé de recherche, types reconnus : « Pommes Gala » → _Pommes_, type Gala) ; l'étape 5 par sa recherche. Deux articles du catalogue de clés différentes ne sont jamais proposés l'un pour l'autre (_Tomates_ ≠ _Tomates concassées_). Un article reçu introuvable mais présent au catalogue (supprimé chez le destinataire, ou trouvé par le dictionnaire) se recrée tel que le catalogue le décrit, avec sa clé.
+
+- Texte collé (A8) : `textImportLines(texte, …)` lit chaque ligne avec `parseEntry` (lignes à puces seulement s'il y en a) ; un article inconnu prend catégorie, unité et icône du dictionnaire de mots-clés ; sa quantité se calcule selon l'article finalement choisi (`entryAmount`).
+- Application en une transaction (`applyImport`) ; une association manuelle ou confirmée ajoute le libellé reçu aux alias de l'article choisi ; une création utilise le libellé saisi par le destinataire et garde le libellé reçu en alias ; catégories et unités inconnues créées ; types acceptés absents ajoutés à l'article ; lignes ajoutées par `planListMerge` (quantités fusionnées avec la liste cible).
 
 ### 7.12 Doublons probables (G1)
 

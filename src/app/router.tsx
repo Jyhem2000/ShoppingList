@@ -9,6 +9,7 @@ import { StorePage } from "@/features/manage/StorePage";
 import { StoresPage } from "@/features/manage/StoresPage";
 import { UnitsPage } from "@/features/manage/UnitsPage";
 import { ListPage } from "@/features/list/ListPage";
+import { ImportPage } from "@/features/share/ImportPage";
 import { RecipePage } from "@/features/recipes/RecipePage";
 import { RecipesPage } from "@/features/recipes/RecipesPage";
 import { RecapPage } from "@/features/shopping/RecapPage";
@@ -49,6 +50,7 @@ export const router = createHashRouter([
       { path: routes.manageUnits, element: <UnitsPage /> },
       { path: routes.manageStores, element: <StoresPage /> },
       { path: routes.manageStore, element: <StorePage /> },
+      { path: routes.import, element: <ImportPage /> },
       { path: routes.devUi, element: <UiPage /> },
       { path: "*", element: <ListPage /> },
     ],

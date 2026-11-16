@@ -7,6 +7,7 @@ import {
 } from "@/platform/install";
 import { UpdateWatcher } from "./pwa/UpdateBanner";
 import { router } from "./router";
+import { routes } from "./routes";
 
 const SKIP_INSTALL_KEY = "shoppinglist.skipInstall";
 
@@ -27,8 +28,13 @@ export function App() {
     detectInstallContext(currentInstallEnvironment()),
   );
   const [skipped, setSkipped] = useState(readSkip);
+  // Lien d'une liste partagée (docs/03 F2) : son aperçu d'abord, jamais l'écran
+  // d'installation (sur iPhone, il explique comment l'ouvrir dans l'app).
+  const [importing] = useState(() =>
+    window.location.hash.startsWith("#" + routes.import),
+  );
 
-  const showInstall = context.kind !== "installed" && !skipped;
+  const showInstall = context.kind !== "installed" && !skipped && !importing;
 
   return (
     // Cadre plein écran fixe (dans la page au lancement sur iPhone, voir platform/viewport) :

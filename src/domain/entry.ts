@@ -190,6 +190,8 @@ export interface ResolvedEntry<A extends ResolvableArticle> {
   /** Absent : article inconnu, à créer. */
   article?: A;
   acceptedTypes: string[];
+  /** Libellé ou alias exact ; faux : meilleur résultat de la recherche. */
+  exact: boolean;
 }
 
 /** Clé d'un type pour la saisie : mots significatifs de sa clé de recherche. */
@@ -269,7 +271,7 @@ export function resolveEntry<A extends ResolvableArticle>(
   articles: readonly A[],
 ): ResolvedEntry<A> {
   const words = searchKey(text).split("-").filter(Boolean);
-  if (words.length === 0) return { acceptedTypes: [] };
+  if (words.length === 0) return { acceptedTypes: [], exact: false };
   const exact = labelIndex(articles);
   // Libellés qui ne diffèrent que par les accents ou le pluriel (« pâté », « pâtes ») :
   // la saisie exacte, puis le pluriel tapé, puis les accents tapés ; sinon le premier
@@ -297,14 +299,14 @@ export function resolveEntry<A extends ResolvableArticle>(
     const article = pick(found, typedWords.slice(0, length).join(" "));
     if (!article) continue;
     const rest = words.slice(length);
-    if (rest.length === 0) return { article, acceptedTypes: [] };
+    if (rest.length === 0) return { article, acceptedTypes: [], exact: true };
     const types = matchTypes(rest, article.types);
-    if (types) return { article, acceptedTypes: types };
+    if (types) return { article, acceptedTypes: types, exact: true };
   }
   const [best] = searchArticles(text, articles);
   return best
-    ? { article: best.article, acceptedTypes: [] }
-    : { acceptedTypes: [] };
+    ? { article: best.article, acceptedTypes: [], exact: false }
+    : { acceptedTypes: [], exact: false };
 }
 
 /**

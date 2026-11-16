@@ -14,6 +14,9 @@ import { fr } from "@/i18n/fr";
 
 const t = fr.list;
 
+/** Ordre des catégories du catalogue de départ (docs/06 § 2). */
+export const catalogOrder = categoriesData.map((c) => c.key);
+
 /** « Gala uniquement », « Gala ou Golden », puis la note (docs/02 § 6). */
 export function lineDetails(
   item: Pick<ListItem, "acceptedTypes" | "note">,

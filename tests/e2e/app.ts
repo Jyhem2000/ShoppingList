@@ -65,7 +65,7 @@ export async function aisleNames(page: Page): Promise<string[]> {
  * de rayon, un rayon qui s'ouvre), ou la page cesse un moment de se redessiner (docs/08
  * § 3). À réserver aux actions qu'un second toucher ne défait pas.
  */
-async function tapUntil(
+export async function tapUntil(
   tap: () => Promise<unknown>,
   done: (timeout: number) => Promise<unknown>,
 ) {

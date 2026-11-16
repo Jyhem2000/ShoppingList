@@ -1,6 +1,5 @@
 import { AnimatePresence, motion } from "motion/react";
 import { useMemo, useState } from "react";
-import { categoriesData } from "@/data";
 import { groupListByCategory } from "@/domain/categories";
 import type { ID, ListItem } from "@/domain/model";
 import { fr } from "@/i18n/fr";
@@ -9,11 +8,14 @@ import { ItemRow } from "@/ui/ItemRow";
 import { useOnPulse } from "@/ui/pulse";
 import { PulseLine } from "@/ui/PulseLine";
 import { SwipeToDelete } from "@/ui/SwipeToDelete";
-import { lineDetails, lineQuantity, recipeOrigin } from "./format";
+import {
+  catalogOrder,
+  lineDetails,
+  lineQuantity,
+  recipeOrigin,
+} from "./format";
 import type { ListData } from "./useListData";
 import { paletteColor } from "@/ui/palette";
-/** Ordre des catégories du catalogue de départ (docs/06 § 2). */
-const catalogOrder = categoriesData.map((c) => c.key);
 
 /**
  * Lignes de la liste groupées par catégorie (docs/03 B1) : une liste ne dépend d'aucun

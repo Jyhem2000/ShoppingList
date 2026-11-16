@@ -88,7 +88,7 @@ Aucun développement spécifique : le **micro du clavier** (iPhone comme Android
 
 ### A8. Coller une liste — _v1.1_
 
-« Coller du texte » : chaque ligne d'un texte (SMS, note, recette trouvée sur le web) est analysée avec A2 ; aperçu avant ajout.
+Liste → `⋯` → « Coller une liste » (avec F2) : chaque ligne d'un texte (SMS, note, recette trouvée sur le web) est analysée avec A2 ; aperçu avant ajout (le même que pour une liste reçue). Si certaines lignes commencent par une puce (•, -, *, case à cocher, numéro), seules celles-là comptent : les autres sont des titres ou des phrases. C'est ainsi que le message de partage (F1) se relit même sans son lien. Une précision entre parenthèses en fin de ligne est ignorée.
 
 ---
 
@@ -231,20 +231,24 @@ Le partage fonctionne entre iPhone et Android dans les deux sens.
 
 ### F1. Envoyer une liste — _v1.1_
 
-Bouton « Partager » → feuille de partage du téléphone (Messages, WhatsApp, Mail…). Le message contient :
+Liste → `⋯` → « Partager la liste » → feuille de partage du téléphone (Messages, WhatsApp, Mail…). Le message contient :
 
-- la liste **lisible**, groupée par catégorie (lisible même sans l'app) ;
-- un **lien d'import** contenant les données complètes de la liste (compressées dans l'URL, sans serveur).
+- la liste **lisible**, groupée par catégorie, une puce par article avec sa quantité, ses types et sa note (lisible même sans l'app) ;
+- un **lien d'import** contenant les données de la liste (compressées dans l'URL, sans serveur ; liens courts, voir [02 § 9](02-modele-metier.md#9-partage-dune-liste)).
+
+Seules les lignes encore à acheter partent. Sans feuille de partage (rare), le message est copié, à coller dans la messagerie.
 
 ### F2. Importer une liste — _v1.1_
 
 Trois manières, toutes aboutissant à l'écran d'aperçu décrit en [02 § 9](02-modele-metier.md#9-partage-dune-liste) : correspondances automatiques (clé catalogue, slug, alias, catalogue utilisé comme dictionnaire), puis pour les articles non reconnus des **candidats proposés** (même icône, même catégorie), « C'est celui-là » mémorisé en alias, ou « Créer » avec libellé modifiable :
 
-1. **« Coller une liste partagée »** dans l'app : lit le presse-papier, reconnaît le lien d'import ou, à défaut, analyse le texte ligne par ligne (A2). _Méthode principale sur iPhone_ (voir encadré).
+1. **Liste → `⋯` → « Coller une liste »** dans l'app : lit le presse-papier (sur iPhone, une bulle « Coller » à toucher), reconnaît le lien d'import ou, à défaut, analyse le texte ligne par ligne (A8). Si la lecture est refusée, un champ où coller à la main. _Méthode principale sur iPhone_ (voir encadré).
 2. Ouvrir le lien d'import. _Méthode principale sur Android._
-3. Importer un fichier `.json` exporté.
+3. ~~Importer un fichier `.json` exporté~~ : **pas fait** en phase 10 (16 novembre 2026) ; le lien et le texte suffisent, et le fichier de sauvegarde (H4) remplace toutes les données. À rediscuter si le besoin apparaît.
 
-> **iPhone** : un lien ouvert depuis Messages s'ouvre dans le navigateur (Chrome), **pas** dans l'app installée, et les deux n'ont pas les mêmes données. La page ouverte dans le navigateur affiche donc un bouton « Copier et ouvrir l'app » qui copie le lien, puis invite à faire « Coller une liste partagée » dans l'app.
+L'aperçu propose d'ajouter les lignes à une **nouvelle liste** (au nom reçu) ou à une liste existante (« Coller une liste » propose la liste courante) ; les quantités s'additionnent à celles déjà présentes, comme pour « Y ajouter le contenu d'une autre liste ».
+
+> **iPhone** : un lien ouvert depuis Messages s'ouvre dans le navigateur (Chrome), **pas** dans l'app installée, et les deux n'ont pas les mêmes données. La page ouverte dans le navigateur l'explique donc d'abord, avec « Copier le lien » (puis, dans l'app, `⋯` → « Coller une liste ») et « Ajouter la liste ici quand même » (pour qui utilise l'app dans le navigateur). L'écran d'installation ne s'affiche jamais devant un lien d'import.
 >
 > **Android** : une app installée depuis Chrome partage ses données avec Chrome, et les liens de son adresse s'ouvrent généralement directement dans l'app. Ouvrir le lien suffit donc le plus souvent.
 
