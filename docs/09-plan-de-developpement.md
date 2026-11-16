@@ -221,7 +221,8 @@ Plan (pas de migration de données : au besoin, on réinstalle l'app, 07 § 5) :
 ### Correctifs 1.0.x
 
 - ✅ _Sur `dev`, 16 novembre 2026_ : lectures liées à une liste, un magasin, une session ou une recette (`src/db/hooks.ts`) qui rendaient un instant le résultat d'une autre ; un toucher dans le catalogue pouvait ajouter une ligne en double ou montrer présent un article d'une autre liste (test E2E 2 instable sur iPhone).
-- **Audit complet du code avant la `1.0.1`** (demande du 16 novembre 2026, première version livrable) : tout `src/` (environ 160 fichiers, 20 000 lignes), plus `scripts/` et `tests/`, à tous points de vue (exactitude, données, iPhone/WebKit, accessibilité, performances, règles de `CLAUDE.md` : composants partagés, tokens, textes dans `fr.ts`, logique pure dans `src/domain`). Avec `/code-review` par dossier (`src/domain`, `src/db`, `src/features`, `src/ui`, le reste) puis `/simplify`. Corriger, puis `npm run check`, `npm run e2e`, contrôle en taille téléphone, commit sur `dev`.
+- ✅ _16 novembre 2026_ : **audit complet du code avant la `1.0.1`** (tout `src/`, `scripts/`, `tests/`, par `/code-review` dossier par dossier). Constats et corrections proposées : [audit-1.0.1.md](audit-1.0.1.md) (16 bugs dont un sur les achats de deux lignes d'un même article, 2 d'accessibilité, 5 de nettoyage, 1 écart avec la doc, 2 de tests).
+- **Corrections de l'audit** (suivi dans [audit-1.0.1.md](audit-1.0.1.md), cases à cocher) : A puis B, C, D, E ; puis `npm run check`, `npm run e2e`, contrôle en taille téléphone, commit sur `dev`. Décision en attente : durée du message « Annuler » (point 24).
 - Puis **`npm run release -- 1.0.1`**, après avoir écrit ses nouveautés (entrée « 1.0.1 » dans `src/i18n/fr.ts` → `releaseNotes`).
 
 ## v1.1 — Partage
