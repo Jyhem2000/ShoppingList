@@ -1,24 +1,14 @@
-import { Bold, Heading, List, ListOrdered } from "lucide-react";
-import { type ComponentProps, type ReactNode, useRef } from "react";
-import {
-  continueList,
-  type Inline,
-  type LineStyle,
-  parseMarkdown,
-  type TextEdit,
-  toggleBold,
-  toggleLineStyle,
-} from "@/domain/markdown";
-import { fr } from "@/i18n/fr";
-import { TextArea } from "./form";
+import { lazy, type ReactNode, Suspense } from "react";
+import { type Inline, parseMarkdown } from "@/domain/markdown";
+import { control } from "./form";
+import type { MarkdownFieldProps } from "./MarkdownEditor";
+import { markdownClass } from "./markdownStyles";
 import { cn } from "./utils";
-
-const t = fr.markdown;
 
 function InlineText({ parts }: { parts: Inline[] }) {
   return parts.map((part, index) =>
     part.bold ? (
-      <strong key={index} className="font-bold">
+      <strong key={index} className={markdownClass.bold}>
         {part.text}
       </strong>
     ) : (
@@ -36,24 +26,18 @@ export function MarkdownText({
   className?: string;
 }) {
   return (
-    <div className={cn("flex flex-col gap-2", className)}>
+    <div className={cn(markdownClass.root, className)}>
       {parseMarkdown(text).map((block, index): ReactNode => {
         switch (block.kind) {
           case "heading":
             return (
-              <h3
-                key={index}
-                className="pt-1 text-lg font-bold tracking-tight text-text"
-              >
+              <h3 key={index} className={markdownClass.heading}>
                 <InlineText parts={block.content} />
               </h3>
             );
           case "bullets":
             return (
-              <ul
-                key={index}
-                className="flex list-disc flex-col gap-1 pl-5 marker:text-secondary"
-              >
+              <ul key={index} className={markdownClass.bullets}>
                 {block.items.map((item, i) => (
                   <li key={i}>
                     <InlineText parts={item} />
@@ -66,7 +50,7 @@ export function MarkdownText({
               <ol
                 key={index}
                 start={block.start}
-                className="flex list-decimal flex-col gap-1 pl-6 marker:font-bold marker:text-secondary"
+                className={markdownClass.numbers}
               >
                 {block.items.map((item, i) => (
                   <li key={i}>
@@ -92,95 +76,25 @@ export function MarkdownText({
   );
 }
 
-const lineStyle = (style: LineStyle) => (current: TextEdit) =>
-  toggleLineStyle(current, style);
-
-/** Boutons de la barre, dans l'ordre. */
-const tools: {
-  label: string;
-  icon: ReactNode;
-  edit: (current: TextEdit) => TextEdit;
-}[] = [
-  { label: t.bold, icon: <Bold />, edit: toggleBold },
-  { label: t.heading, icon: <Heading />, edit: lineStyle("heading") },
-  { label: t.bullets, icon: <List />, edit: lineStyle("bullet") },
-  { label: t.numbers, icon: <ListOrdered />, edit: lineStyle("number") },
-];
+// L'éditeur (TipTap) n'est chargé qu'à la modification d'une recette.
+const MarkdownEditor = lazy(() =>
+  import("./MarkdownEditor").then((module) => ({
+    default: module.MarkdownEditor,
+  })),
+);
 
 /**
- * Champ de texte avec une barre de mise en forme (gras, titre, puces, numéros), qui
- * écrit le Markdown à la place de l'utilisateur ; un retour à la ligne dans une liste
- * ajoute la puce ou le numéro suivant.
+ * Champ des étapes : barre de mise en forme (gras, titre, puces, numéros) et texte
+ * mis en forme pendant qu'on l'écrit, enregistré en Markdown.
  */
-export function MarkdownField({
-  value,
-  onValueChange,
-  className,
-  ...props
-}: Omit<ComponentProps<"textarea">, "value" | "onChange"> & {
-  value: string;
-  onValueChange: (value: string) => void;
-}) {
-  const ref = useRef<HTMLTextAreaElement>(null);
-
-  const apply = (edit: (current: TextEdit) => TextEdit | null) => {
-    const field = ref.current;
-    if (!field) return false;
-    const next = edit({
-      text: value,
-      start: field.selectionStart,
-      end: field.selectionEnd,
-    });
-    if (!next) return false;
-    onValueChange(next.text);
-    // Le texte change au prochain rendu : la sélection se replace ensuite.
-    requestAnimationFrame(() => {
-      field.focus();
-      field.setSelectionRange(next.start, next.end);
-    });
-    return true;
-  };
-
+export function MarkdownField(props: MarkdownFieldProps) {
   return (
-    <div className="flex flex-col gap-1">
-      <div role="toolbar" aria-label={t.toolbar} className="flex gap-1">
-        {tools.map((tool) => (
-          <button
-            key={tool.label}
-            type="button"
-            aria-label={tool.label}
-            title={tool.label}
-            // Garde le curseur dans le champ (sur ordinateur, le clic le ferait sortir).
-            onMouseDown={(event) => {
-              event.preventDefault();
-            }}
-            onClick={() => {
-              apply(tool.edit);
-            }}
-            className="flex size-11 items-center justify-center rounded-xl text-text active:bg-raised [&_svg]:size-5"
-          >
-            {tool.icon}
-          </button>
-        ))}
-      </div>
-      <TextArea
-        {...props}
-        ref={ref}
-        value={value}
-        className={className}
-        onChange={(event) => {
-          onValueChange(event.target.value);
-        }}
-        onKeyDown={(event) => {
-          if (
-            event.key === "Enter" &&
-            !event.shiftKey &&
-            !event.nativeEvent.isComposing &&
-            apply(continueList)
-          )
-            event.preventDefault();
-        }}
-      />
-    </div>
+    <Suspense
+      fallback={
+        <div className={cn(control, "mt-12 h-auto", props.className)} />
+      }
+    >
+      <MarkdownEditor {...props} />
+    </Suspense>
   );
 }

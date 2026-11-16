@@ -211,7 +211,7 @@ Mode « Tour de la cuisine » : un écran par catégorie présentant ses article
 ### E1. Gérer les recettes — _v1.0_
 
 Onglet **Recettes** : liste avec recherche ; créer, éditer, dupliquer, supprimer.
-Fiche recette : libellé, icône, **rendement** (« 4 personnes » par défaut, ou unité libre : « 1 cake », « 24 cookies », voir [02 § 7](02-modele-metier.md#7-recette)), ingrédients (ajoutés avec la même barre d'ajout que les listes, donc saisie naturelle A2 et création d'article A4), ingrédients facultatifs, ingrédients à **quantité fixe** (non recalculés selon le nombre de personnes : un pot de crème pour la raclette), étapes mises en forme : gras, titres, listes à puces ou numérotées, par une petite barre au-dessus du champ (enregistrées en Markdown, décision du 15 novembre 2026). La fiche garde l'écran allumé (H9).
+Fiche recette : libellé, icône, **rendement** (« 4 personnes » par défaut, ou unité libre : « 1 cake », « 24 cookies », voir [02 § 7](02-modele-metier.md#7-recette)), ingrédients (ajoutés avec la même barre d'ajout que les listes, donc saisie naturelle A2 et création d'article A4), ingrédients facultatifs, ingrédients à **quantité fixe** (non recalculés selon le nombre de personnes : un pot de crème pour la raclette), étapes mises en forme : gras, titres, listes à puces ou numérotées, par une petite barre au-dessus du champ (enregistrées en Markdown, décision du 15 novembre 2026). Le champ montre le texte mis en forme pendant qu'on l'écrit, comme à la lecture, jamais le Markdown (éditeur TipTap, décision du 16 novembre 2026). La fiche garde l'écran allumé (H9).
 
 ### E2. Ajouter une recette à une liste — _v1.0_
 

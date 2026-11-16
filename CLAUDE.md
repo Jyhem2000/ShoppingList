@@ -22,7 +22,7 @@ La documentation est **validée** (8 novembre 2026). Suivre le plan de `docs/09-
 
 ## Stack (une fois le code démarré)
 
-Vite · React 19 · TypeScript strict · Tailwind v4 · shadcn/ui · React Router 8 (hash) · Dexie · Motion · dnd-kit · lucide-react · icônes d'articles dessinées pour l'app (`src/icons/drawn`) · Web Audio · lz-string · vite-plugin-pwa · ESLint + Prettier · Vitest · Playwright (WebKit/iPhone + Chromium/Android) · Cloudflare Pages connecté au dépôt (pas de GitHub Actions).
+Vite · React 19 · TypeScript strict · Tailwind v4 · shadcn/ui · React Router 8 (hash) · Dexie · Motion · dnd-kit · lucide-react · icônes d'articles dessinées pour l'app (`src/icons/drawn`) · Web Audio · TipTap (étapes de recette) · lz-string · vite-plugin-pwa · ESLint + Prettier · Vitest · Playwright (WebKit/iPhone + Chromium/Android) · Cloudflare Pages connecté au dépôt (pas de GitHub Actions).
 
 ## Règles de code
 

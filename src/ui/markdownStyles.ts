@@ -1,0 +1,12 @@
+/**
+ * Mise en forme des étapes, la même à la lecture (`MarkdownText`) et dans l'éditeur
+ * (`MarkdownEditor`) : ce qu'on écrit est ce qu'on lira.
+ */
+export const markdownClass = {
+  root: "flex flex-col gap-2",
+  heading: "pt-1 text-lg font-bold tracking-tight text-text",
+  bullets: "flex list-disc flex-col gap-1 pl-5 marker:text-secondary",
+  numbers:
+    "flex list-decimal flex-col gap-1 pl-6 marker:font-bold marker:text-secondary",
+  bold: "font-bold",
+};

@@ -74,98 +74,124 @@ export function parseMarkdown(text: string): MarkdownBlock[] {
   );
 }
 
-/** Texte et sélection d'un champ, avant ou après une mise en forme. */
-export interface TextEdit {
-  text: string;
-  start: number;
-  end: number;
-}
-
-/** Met en gras la sélection, ou l'enlève ; sans sélection, prépare `****` et place le curseur au milieu. */
-export function toggleBold({ text, start, end }: TextEdit): TextEdit {
-  const before = text.slice(0, start);
-  const selected = text.slice(start, end);
-  const after = text.slice(end);
-  if (before.endsWith("**") && after.startsWith("**"))
-    return {
-      text: before.slice(0, -2) + selected + after.slice(2),
-      start: start - 2,
-      end: end - 2,
-    };
-  return {
-    text: `${before}**${selected}**${after}`,
-    start: start + 2,
-    end: end + 2,
-  };
-}
-
-export type LineStyle = "heading" | "bullet" | "number";
-
-const PREFIX = /^\s*(#{1,6}\s+|[-*•]\s+|\d+[.)]\s+)/;
-const STYLE: Record<LineStyle, RegExp> = {
-  heading: HEADING,
-  bullet: BULLET,
-  number: NUMBER,
-};
-const prefix = (style: LineStyle, rank: number) =>
-  style === "heading" ? "## " : style === "bullet" ? "- " : `${rank}. `;
-
 /**
- * Applique un style aux lignes de la sélection (titre, puce, numéro), ou l'enlève si
- * toutes l'ont déjà ; un autre style déjà présent est remplacé.
+ * Nœud du document de l'éditeur (format JSON de ProseMirror, celui de TipTap) : les
+ * étapes s'éditent mises en forme et restent enregistrées en Markdown.
  */
-export function toggleLineStyle(
-  { text, start, end }: TextEdit,
-  style: LineStyle,
-): TextEdit {
-  const lineStart = text.lastIndexOf("\n", start - 1) + 1;
-  const found = text.indexOf("\n", end);
-  const lineEnd = found === -1 ? text.length : found;
-  const lines = text.slice(lineStart, lineEnd).split("\n");
-  const filled = lines.filter((line) => line.trim());
-  const remove =
-    filled.length > 0 && filled.every((line) => STYLE[style].test(line));
-  let rank = 0;
-  const next = lines.map((line) => {
-    const bare = line.replace(PREFIX, "");
-    if (remove) return bare;
-    if (!line.trim() && lines.length > 1) return line;
-    rank += 1;
-    return prefix(style, rank) + bare;
+export interface DocNode {
+  type?: string;
+  attrs?: Record<string, unknown>;
+  content?: DocNode[];
+  text?: string;
+  marks?: { type: string }[];
+}
+
+const textNodes = (parts: Inline[]): DocNode[] =>
+  parts.map((part) =>
+    part.bold
+      ? { type: "text", text: part.text, marks: [{ type: "bold" }] }
+      : { type: "text", text: part.text },
+  );
+
+const paragraphNode = (parts: Inline[]): DocNode =>
+  parts.length
+    ? { type: "paragraph", content: textNodes(parts) }
+    : { type: "paragraph" };
+
+const itemNodes = (items: Inline[][]): DocNode[] =>
+  items.map((item) => ({ type: "listItem", content: [paragraphNode(item)] }));
+
+/** Markdown enregistré → document de l'éditeur. */
+export function markdownToDoc(text: string): DocNode {
+  const content = parseMarkdown(text).map((block): DocNode => {
+    switch (block.kind) {
+      case "heading": {
+        const node: DocNode = { type: "heading", attrs: { level: 3 } };
+        return block.content.length
+          ? { ...node, content: textNodes(block.content) }
+          : node;
+      }
+      case "bullets":
+        return { type: "bulletList", content: itemNodes(block.items) };
+      case "numbers":
+        return {
+          type: "orderedList",
+          attrs: { start: block.start },
+          content: itemNodes(block.items),
+        };
+      case "paragraph": {
+        const lines = block.lines.flatMap((line, index) => [
+          ...(index > 0 ? [{ type: "hardBreak" }] : []),
+          ...textNodes(line),
+        ]);
+        return lines.length
+          ? { type: "paragraph", content: lines }
+          : { type: "paragraph" };
+      }
+    }
   });
-  const block = next.join("\n");
-  const cursor = lineStart + block.length;
   return {
-    text: text.slice(0, lineStart) + block + text.slice(lineEnd),
-    start: start === end ? cursor : lineStart,
-    end: cursor,
+    type: "doc",
+    content: content.length ? content : [paragraphNode([])],
   };
 }
 
-/**
- * Retour à la ligne dans une liste : la ligne suivante reçoit la même puce (ou le numéro
- * suivant) ; sur un élément vide, la puce s'en va et la liste s'arrête. `null` hors liste.
- */
-export function continueList({ text, start, end }: TextEdit): TextEdit | null {
-  if (start !== end) return null;
-  const lineStart = text.lastIndexOf("\n", start - 1) + 1;
-  const line = text.slice(lineStart, start);
-  const bullet = /^(\s*[-*•]\s+)(.*)$/.exec(line);
-  const number = /^(\s*)(\d+)([.)]\s+)(.*)$/.exec(line);
-  if (!bullet && !number) return null;
-  const content = bullet ? bullet[2] : number?.[4];
-  if (!content?.trim()) {
-    const cleared = text.slice(0, lineStart) + text.slice(start);
-    return { text: cleared, start: lineStart, end: lineStart };
-  }
-  const nextPrefix = bullet
-    ? (bullet[1] ?? "- ")
-    : `${number?.[1] ?? ""}${Number(number?.[2]) + 1}${number?.[3] ?? ". "}`;
-  const insert = `\n${nextPrefix}`;
-  const cursor = start + insert.length;
-  return {
-    text: text.slice(0, start) + insert + text.slice(start),
-    start: cursor,
-    end: cursor,
-  };
+/** Texte d'un bloc, gras entre `**` ; un retour à la ligne devient `lineBreak`. */
+function inlineMarkdown(node: DocNode, lineBreak: string): string {
+  return (node.content ?? [])
+    .map((child) => {
+      if (child.type === "hardBreak") return lineBreak;
+      const text = child.text ?? "";
+      return child.marks?.some((mark) => mark.type === "bold") && text.trim()
+        ? `**${text}**`
+        : text;
+    })
+    .join("");
+}
+
+/** Éléments d'une liste, à plat : le format n'a pas de liste dans une liste. */
+function listItems(list: DocNode): string[] {
+  return (list.content ?? []).flatMap((item) => {
+    const own = (item.content ?? [])
+      .filter((child) => !isList(child))
+      .map((child) => inlineMarkdown(child, " ").trim())
+      .filter(Boolean)
+      .join(" ");
+    const nested = (item.content ?? []).filter(isList).flatMap(listItems);
+    return own ? [own, ...nested] : nested;
+  });
+}
+
+const isList = (node: DocNode) =>
+  node.type === "bulletList" || node.type === "orderedList";
+
+/** Document de l'éditeur → Markdown enregistré (blocs séparés par une ligne vide). */
+export function docToMarkdown(doc: DocNode): string {
+  return (doc.content ?? [])
+    .map((block) => {
+      switch (block.type) {
+        case "heading": {
+          const text = inlineMarkdown(block, " ").trim();
+          return text && `## ${text}`;
+        }
+        case "bulletList":
+          return listItems(block)
+            .map((item) => `- ${item}`)
+            .join("\n");
+        case "orderedList": {
+          const start = Number(block.attrs?.start ?? 1) || 1;
+          return listItems(block)
+            .map((item, index) => `${start + index}. ${item}`)
+            .join("\n");
+        }
+        default:
+          return inlineMarkdown(block, "\n")
+            .split("\n")
+            .map((line) => line.trim())
+            .filter(Boolean)
+            .join("\n");
+      }
+    })
+    .filter(Boolean)
+    .join("\n\n");
 }

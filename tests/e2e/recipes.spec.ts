@@ -93,11 +93,31 @@ test("7. recette ajoutée pour un autre rendement (personnes et cakes)", async (
   await createRecipe(page, "Cake", { quantity: 1, unit: "cake" });
   await addIngredients(page, "3 œufs");
   await expect(ingredient(page, "Œufs")).toBeVisible();
+
+  // Étapes mises en forme pendant qu'on les écrit, par la barre.
+  const steps = page.getByRole("textbox", { name: t.steps });
+  const toolbar = page.getByRole("toolbar", { name: fr.markdown.toolbar });
+  await steps.click();
+  await toolbar.getByRole("button", { name: fr.markdown.numbers }).click();
+  await steps.pressSequentially("Battre les œufs");
+  await steps.press("Enter");
+  await steps.pressSequentially("Cuire ");
+  await toolbar.getByRole("button", { name: fr.markdown.bold }).click();
+  await steps.pressSequentially("40 min");
+  await expect(steps.locator("ol > li")).toHaveCount(2);
+  await expect(steps.locator("strong")).toHaveText("40 min");
+
   const cake = await openAddSheet(page, "Cake");
   await cake.getByRole("button", { name: t.add.more }).click();
   await expect(cake).toContainText("2 cakes");
   await cake.getByRole("button", { name: t.add.apply(1) }).click();
   await expect(cake).toBeHidden();
+  // Enregistrées (en Markdown) et relues mises en forme sur la fiche.
+  await expect(page.locator("main ol > li")).toHaveText([
+    "Battre les œufs",
+    "Cuire 40 min",
+  ]);
+  await expect(page.locator("main ol strong")).toHaveText("40 min");
 
   await backToList(page);
   await expect(line(page, "Oignons")).toContainText("× 3");

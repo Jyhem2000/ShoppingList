@@ -369,7 +369,7 @@ function StepsEditor({
       aria-label={t.steps}
       value={steps}
       placeholder={t.stepsPlaceholder}
-      className="h-56 font-sans text-base"
+      className="min-h-56"
       onValueChange={setSteps}
       onBlur={() => {
         const clean = steps.trim();

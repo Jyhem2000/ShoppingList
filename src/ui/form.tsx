@@ -42,7 +42,7 @@ export function FieldLabel({
 }
 
 // En thème clair, champ blanc bordé : le violet clair (--raised) reste aux éléments surélevés.
-const control =
+export const control =
   "h-12 w-full rounded-xl border border-border bg-raised px-3 text-base outline-none focus:border-primary light:bg-bg";
 
 export function TextInput({ className, ...props }: ComponentProps<"input">) {

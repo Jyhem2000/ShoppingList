@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
 import {
-  continueList,
+  type DocNode,
+  docToMarkdown,
+  markdownToDoc,
   parseInline,
   parseMarkdown,
-  toggleBold,
-  toggleLineStyle,
 } from "@/domain/markdown";
 
 describe("étapes mises en forme (docs/03 E1)", () => {
@@ -40,42 +40,61 @@ describe("étapes mises en forme (docs/03 E1)", () => {
     ]);
   });
 
-  it("met en gras la sélection, ou l'enlève", () => {
-    const bold = toggleBold({ text: "Cuire 20 min", start: 6, end: 12 });
-    expect(bold).toEqual({ text: "Cuire **20 min**", start: 8, end: 14 });
-    expect(toggleBold(bold)).toEqual({
-      text: "Cuire 20 min",
-      start: 6,
-      end: 12,
+  it("relit dans l'éditeur ce qui est enregistré, et l'enregistre à l'identique", () => {
+    const steps = [
+      "## Pâte",
+      "1. Mélanger la **farine** et le beurre\n2. Laisser reposer",
+      "## Garniture",
+      "- 3 oignons\n- **200 g** de lardons",
+      "Cuire 30 min.\nServir chaud.",
+    ].join("\n\n");
+    expect(docToMarkdown(markdownToDoc(steps))).toBe(steps);
+    expect(markdownToDoc("")).toEqual({
+      type: "doc",
+      content: [{ type: "paragraph" }],
     });
   });
 
-  it("numérote les lignes sélectionnées, remplace une puce, ou enlève le style", () => {
-    const text = "Mélanger\n- Cuire";
-    const numbered = toggleLineStyle(
-      { text, start: 0, end: text.length },
-      "number",
+  it("convertit le document de l'éditeur : retours à la ligne, numéros, listes imbriquées", () => {
+    const text = (value: string, bold = false): DocNode => ({
+      type: "text",
+      text: value,
+      ...(bold && { marks: [{ type: "bold" }] }),
+    });
+    const item = (...content: DocNode[]): DocNode => ({
+      type: "listItem",
+      content,
+    });
+    const paragraph = (...content: DocNode[]): DocNode => ({
+      type: "paragraph",
+      content,
+    });
+    const doc: DocNode = {
+      type: "doc",
+      content: [
+        { type: "heading", attrs: { level: 3 }, content: [text("Sauce")] },
+        paragraph(
+          text("Fondre "),
+          text("le beurre", true),
+          { type: "hardBreak" },
+          text("puis saler"),
+        ),
+        { type: "paragraph" },
+        {
+          type: "orderedList",
+          attrs: { start: 3 },
+          content: [
+            item(paragraph(text("Fouetter"))),
+            item(paragraph(text("Ajouter")), {
+              type: "bulletList",
+              content: [item(paragraph(text("le lait")))],
+            }),
+          ],
+        },
+      ],
+    };
+    expect(docToMarkdown(doc)).toBe(
+      "## Sauce\n\nFondre **le beurre**\npuis saler\n\n3. Fouetter\n4. Ajouter\n5. le lait",
     );
-    expect(numbered.text).toBe("1. Mélanger\n2. Cuire");
-    expect(
-      toggleLineStyle(
-        { text: numbered.text, start: 0, end: numbered.text.length },
-        "number",
-      ).text,
-    ).toBe("Mélanger\nCuire");
-  });
-
-  it("continue une liste au retour à la ligne, et l'arrête sur un élément vide", () => {
-    expect(continueList({ text: "1. Mélanger", start: 11, end: 11 })).toEqual({
-      text: "1. Mélanger\n2. ",
-      start: 15,
-      end: 15,
-    });
-    expect(continueList({ text: "- a\n- ", start: 6, end: 6 })).toEqual({
-      text: "- a\n",
-      start: 4,
-      end: 4,
-    });
-    expect(continueList({ text: "Mélanger", start: 8, end: 8 })).toBeNull();
   });
 });
