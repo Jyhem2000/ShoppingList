@@ -408,7 +408,7 @@ ShoppingList/
 
 **Cloudflare Pages** (gratuit), **connecté directement au dépôt GitHub** `Jyhem2000/ShoppingList` (privé pour l'instant ; le site publié, lui, est public). Cloudflare construit et met en ligne l'app à chaque push : aucun jeton ni secret à gérer, aucun workflow GitHub Actions. Mise en place : [guide](deploiement-cloudflare.md).
 
-Projet Cloudflare Pages : `shoppinglist-app`.
+Projet Cloudflare Pages : `shoppinglist-app`. Version de Node : **`.node-version`** à la racine (`26`), seule source, lue par Cloudflare au build et par les gestionnaires de versions de Node en local ; `engines` de `package.json` la rappelle.
 
 Commande de build côté Cloudflare : `npm run build:checked` (format, lint, types, tests unitaires, puis build). **Si un contrôle échoue, rien n'est mis en ligne.** Les tests E2E (navigateurs émulés) tournent sur le poste de développement : avant chaque commit et dans `npm run release`.
 

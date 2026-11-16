@@ -40,7 +40,7 @@ _Facultatif_ : **Settings** → **Rules** → **Rulesets** → **New branch rule
    | Build command          | **`npm run build:checked`**                                                                      |
    | Build output directory | **`dist`**                                                                                       |
 
-5. **Environment variables (advanced)** → ajouter `NODE_VERSION` = `26`.
+5. **Environment variables (advanced)** : rien à ajouter. La version de Node vient du fichier `.node-version` du dépôt (`26`), que Cloudflare lit au build ; ne pas définir `NODE_VERSION`, qui ferait une seconde source.
 6. **Save and Deploy**. Le premier déploiement construit `main`, qui ne contient encore que la doc : il peut échouer, c'est normal tant qu'aucune version n'est publiée.
 
 ## 4. Cloudflare : construire seulement `dev` en plus de `main`
