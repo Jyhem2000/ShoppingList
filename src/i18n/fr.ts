@@ -913,7 +913,7 @@ export const fr = {
     versions: [
       {
         version: "1.0.0",
-        date: "2026-11-15",
+        date: "2026-11-16",
         items: [
           "Ta liste de courses, rangée par catégorie à la maison et par rayon en magasin, dans l'ordre de ton parcours.",
           "Ajout éclair : «\u00a03 tomates, du beurre et 6 œufs\u00a0», au clavier ou en dictée.",
@@ -921,107 +921,6 @@ export const fr = {
           "Chaque magasin se construit pendant tes courses : coche dans l'ordre, «\u00a0Rayon suivant\u00a0» quand tu changes de rayon. La fois suivante, la liste suit ce parcours.",
           "Recettes : note une recette une fois, puis ajoute ses ingrédients à ta liste pour le nombre de personnes voulu. Les quantités sont recalculées et s'ajoutent à celles déjà dans la liste.",
           "Plusieurs listes, sauvegarde et copies automatiques dans le téléphone, thème sombre ou clair, et l'app marche sans connexion.",
-        ],
-      },
-      {
-        version: "0.9.0",
-        date: "2026-11-15",
-        items: [
-          "Version d'installation définitive sur le téléphone.",
-          "La catégorie des œufs s'appelle «\u00a0Crèmerie & Œufs\u00a0».",
-        ],
-      },
-      {
-        version: "0.8.0",
-        date: "2026-11-15",
-        items: [
-          "Catalogue complet : 428 articles (contre 240), chacun avec son icône dessinée pour l'app. Les œufs sont rangés avec la crèmerie, dans «\u00a0Lait, Crème, Beurre & Œufs\u00a0».",
-          "Copies automatiques : chaque jour, l'app garde une copie de tes données dans le téléphone, sur 7 jours, et une juste avant chaque restauration ou import. Réglages → Sauvegarde → «\u00a0Copies automatiques\u00a0».",
-          "Nouvel écran Aide (Réglages → Application → Aide) : le mode d'emploi en bref et ce que l'app règle toute seule. «\u00a0Revoir les conseils\u00a0» s'y trouve désormais.",
-          "En magasin : les catégories de «\u00a0À placer\u00a0» se replient d'un toucher, comme les blocs «\u00a0À placer\u00a0» et «\u00a0À récupérer\u00a0» ; «\u00a0Rayon suivant\u00a0» est bien plus visible.",
-          "Un article déjà dans la liste ? Sa ligne se montre et pulse, même si son rayon était replié. En cochant, le trait barré se trace.",
-          "Moins de réglages : les animations suivent le réglage «\u00a0Réduire les animations\u00a0» du téléphone ; l'affichage compact et le choix pour les lignes cochées ont disparu.",
-          "Finitions : écrans vides plus clairs, meilleurs contrastes en thème clair, boutons plus faciles à toucher, sons «\u00a0Suppression\u00a0» et «\u00a0Action impossible\u00a0» partout où ils ont du sens.",
-        ],
-      },
-      {
-        version: "0.7.2",
-        date: "2026-11-14",
-        items: [
-          "Réglages réorganisés : «\u00a0Mes données\u00a0» en tête (articles, catégories, magasins, unités), la sauvegarde dans son propre écran, les préférences (sons, écran allumé, thème) regroupées.",
-          "Sauvegarde : «\u00a0Copier les données\u00a0» et «\u00a0Coller les données\u00a0», quatre boutons de même importance.",
-          "Menu ⋯ de la liste : seulement des actions sur cette liste, dont «\u00a0Y ajouter le contenu d'une autre liste\u00a0». Les autres listes s'ouvrent en touchant son nom.",
-          "Les quantités sont toujours simplifiées (1200 g → 1,2 kg), avec «\u00a0Annuler\u00a0» : le réglage a disparu.",
-          "Titres de parties plus visibles, champs de recherche identiques partout.",
-          "Corrections : un rayon ne peut plus être fusionné dans «\u00a0À placer\u00a0» ; après «\u00a0Rouvrir les courses\u00a0», les articles se rangent après le dernier rayon et ne sont jamais en double ; supprimer une liste termine ses courses restées ouvertes.",
-        ],
-      },
-      {
-        version: "0.7.1",
-        date: "2026-11-14",
-        items: [
-          "En rangeant ton magasin, rien ne saute plus à l'écran : les autres articles de la catégorie que tu viens de ranger restent dans «\u00a0À placer\u00a0» jusqu'à ce que tu les coches.",
-          "«\u00a0Rouvrir les courses\u00a0» n'est proposé que le jour même, et plus jamais pour un magasin supprimé.",
-        ],
-      },
-      {
-        version: "0.7.0",
-        date: "2026-11-13",
-        items: [
-          "Ton magasin se construit pendant tes courses : au premier «\u00a0C'est parti\u00a0», donne-lui un nom ; tout est «\u00a0À placer\u00a0», rangé par catégorie. Touche un article quand il est dans le caddie : il se range dans le rayon où tu es. «\u00a0Rayon suivant\u00a0» quand tu changes de rayon.",
-          "Plus de magasin type ni de rayons préremplis. Pour repartir de zéro, supprime ton magasin (même le dernier) et relance «\u00a0C'est parti\u00a0».",
-          "Les rayons prennent le nom de ce qu'ils contiennent : «\u00a0Fromages\u00a0», «\u00a0Épicerie sucrée\u00a0», «\u00a0Pain · Café & thé +2\u00a0». Tu peux toujours les nommer, et ajouter un repère («\u00a0au fond du magasin\u00a0»).",
-          "Bulles d'aide pendant tes premières courses ; «\u00a0Revoir les conseils\u00a0» dans les Réglages.",
-          "Sauvegarde : copier toutes tes données dans le presse-papiers (pratique pour réinstaller l'app), et coller une sauvegarde.",
-          "Nouvel article : Lait aromatisé (fraise, chocolat, vanille). La litière se compte en paquets.",
-          "Liste et courses plus lisibles en thème sombre : plus de fond sous les articles.",
-        ],
-      },
-      {
-        version: "0.6.1",
-        date: "2026-11-13",
-        items: [
-          "La liste se range par catégorie : elle ne dépend d'aucun magasin. En magasin, elle se range par rayon, marqué «\u00a0Rayon\u00a0», dans l'ordre de ton parcours.",
-          "Article pris en passant : l'app demande dans quel rayon tu l'as pris, et s'en souvient pour ce magasin.",
-          "Sauvegarde : Réglages → Sauvegarde → exporter toutes tes données dans un fichier, et les réimporter (nouveau téléphone, réinstallation).",
-          "Les nouveaux articles du catalogue arrivent avec les mises à jour, sans réinstaller : Brandade de morue, Conserves au choix, Gnocchis, catégorie Sel, Poivre & Épices.",
-          "En magasin, touche la quantité d'un article pour la changer. Un article glissé est «\u00a0pas pris\u00a0» (plus besoin, introuvable…) : il reste dans la liste.",
-          "Catalogue : taper le nom d'une catégorie («\u00a0animaux\u00a0») la propose avec tous ses articles.",
-          "Messages plus courts, à fermer d'un ✕ ou en les poussant vers le haut. Sur iPhone, secouer le téléphone ne propose plus «\u00a0Annuler la saisie\u00a0». Un seul jeu de sons, les plus doux.",
-        ],
-      },
-      {
-        version: "0.6.0",
-        date: "2026-11-12",
-        items: [
-          "Tout est modifiable : Réglages → Mes données → Articles, Catégories, Magasins & rayons, Unités.",
-          "Magasins : crée-les depuis un modèle, une copie ou à vide ; range les rayons au doigt, choisis leurs catégories, leur icône et leur couleur ; active ou coupe l'apprentissage de l'ordre.",
-          "Articles : nom, catégorie, unité et quantité par défaut, types, autres noms, icône et favori. L'app repère les doublons probables et propose de les fusionner.",
-          "Raccourcis : «\u00a0Modifier l'article\u00a0» depuis une ligne, appui long sur une carte du catalogue, «\u00a0Modifier ce magasin\u00a0» depuis le choix du magasin.",
-        ],
-      },
-      {
-        version: "0.5.0",
-        date: "2026-11-12",
-        items: [
-          "Thème clair au choix : Réglages → Affichage → Thème (automatique, sombre ou clair).",
-          "Le catalogue propose les articles dès la première lettre tapée ; Entrée ajoute le premier.",
-          "Panneaux plus simples à fermer : bouton ✕ toujours visible, ou glisser vers le bas. Les messages s'affichent en haut, bien visibles.",
-          "Changer un article de rayon en magasin : le rayon où tu es est proposé en premier, chaque choix est expliqué, et on peut revenir en arrière.",
-          "Rayons qui se déplient en douceur, nouvelles lignes animées, fonds plus contrastés et barre d'ajout plus visible.",
-          "Nouveaux types courants (jambon, steaks hachés 5 %, fromage blanc, couches, croquettes…), l'article Gnocchis et la catégorie Sel, Poivre & Épices. Les unités proposées ne changent plus d'ordre.",
-        ],
-      },
-      {
-        version: "0.4.0",
-        date: "2026-11-12",
-        items: [
-          "La liste se remplit en un geste : «\u00a02 baguettes, du beurre\u00a0», le catalogue par catégorie, et elle se range toute seule par rayon, dans l'ordre de ton magasin.",
-          "Plusieurs listes, plusieurs magasins, unités claires (500 g, 1 bouteille) et achats ponctuels qui n'encombrent pas le catalogue.",
-          "Mode courses, à l'essai : touche un article quand il est dans le caddie, glisse-le s'il est introuvable, appui long pour le changer de rayon ; l'écran reste allumé.",
-          "Un article ajouté en route va dans «\u00a0À récupérer\u00a0» si son rayon est passé, ou se coche tout de suite si tu l'as déjà pris.",
-          "À la fin des courses, l'app apprend l'ordre de ton parcours. Un oubli à la caisse ? «\u00a0Rouvrir les courses\u00a0».",
-          "Toutes les icônes d'articles sont dessinées pour l'app, et elle a un nouveau logo.",
         ],
       },
     ],

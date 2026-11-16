@@ -2,11 +2,11 @@
 
 PWA de liste de courses, local-first (aucun serveur, aucun compte), triée par rayon selon le magasin. Optimisée pour Chrome : iPhone (dernière version d'iOS, cible principale) et Android récent (cible secondaire).
 
-## Phase actuelle : 0.9.0 en usage réel, phase 9 (recettes) validée, `1.0.0` à venir
+## Phase actuelle : 1.0.0 en production, phase 10 (partage) à venir
 
-Phase 8 **validée** le 15 novembre 2026 (`0.8.0`). Phase 9 (recettes) **validée** le 16 novembre 2026 en préproduction ; la `1.0.0` attend la fin de l'usage réel de la 0.9 et une demande explicite de publication. La `0.9.0` est publiée le 15 novembre 2026 : installation définitive de la production sur les deux téléphones, 2-3 semaines d’usage réel avant la `1.0.0`, correctifs en `0.9.x`. **Pas de migration de données tant que l’app n’a pas d’autres utilisateurs** (« vraie production », peut-être après la `1.0.0`) : si un changement casse les données existantes, on efface les données de l’app ou on la réinstalle (docs/07 § 5). On jugera au cas par cas quand l’app sera utilisée par d’autres. La phase 9 (recettes) se développe en parallèle sur `dev` et fera partie de la `1.0.0` : onglet Recettes visible dès son arrivée sur `dev` ; on ne publie plus qu'une fois les recettes finies, testées et validées (décision du 15 novembre 2026) : d'ici là, pas de correctif `0.9.x` publié depuis `dev`. À la `1.0.0`, une seule entrée de nouveautés remplace celles des `0.x` (docs/07 § 9). Ensuite : `1.1.0` partage, `1.2.0` anti-oubli.
+Phase 9 (recettes) **validée** le 16 novembre 2026 ; la `1.0.0` est publiée le même jour (avec les recettes, une seule entrée de nouveautés « 1.0.0 »). Usage réel en cours, correctifs en `1.0.x`. **Pas de migration de données tant que l’app n’a pas d’autres utilisateurs** (« vraie production ») : si un changement casse les données existantes, on efface les données de l’app ou on la réinstalle (docs/07 § 5). On jugera au cas par cas quand l’app sera utilisée par d’autres. Ensuite : `1.1.0` partage (phase 10), `1.2.0` anti-oubli (phase 11).
 
-La documentation est **validée** (8 novembre 2026). Suivre le plan de `docs/09-plan-de-developpement.md` phase par phase, en travaillant directement sur `dev` (pas de branche de travail ni de pull request). Pour les phases 3 à 7 et 9, proposer un plan avant d'implémenter. Ne jamais commencer une phase suivante sans validation de la précédente.
+La documentation est **validée** (8 novembre 2026). Suivre le plan de `docs/09-plan-de-developpement.md` phase par phase, en travaillant directement sur `dev` (pas de branche de travail ni de pull request). Pour les phases 3 à 7 et 9 à 11, proposer un plan avant d'implémenter. Ne jamais commencer une phase suivante sans validation de la précédente.
 
 ## Documentation de référence
 
