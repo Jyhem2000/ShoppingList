@@ -106,6 +106,7 @@ interface TestArticle {
   aliases?: string[];
   types?: string[];
   generic?: boolean;
+  countable?: boolean;
 }
 
 const definitions: Record<string, TestArticle> = {
@@ -113,6 +114,7 @@ const definitions: Record<string, TestArticle> = {
     category: "fruits",
     unit: "kg",
     types: ["Gala", "Golden", "Granny Smith"],
+    countable: true,
   },
   "Fruits au choix": { category: "fruits", unit: "piece", generic: true },
   Bananes: { category: "fruits", unit: "piece", quantity: 6 },
@@ -123,9 +125,20 @@ const definitions: Record<string, TestArticle> = {
     quantity: 3,
     types: ["jaunes", "verts"],
   },
-  Tomates: { category: "legumes", unit: "kg", types: ["cerises", "grappe"] },
-  Carottes: { category: "legumes", unit: "kg" },
-  "Pommes de terre": { category: "legumes", unit: "kg", aliases: ["pdt"] },
+  Tomates: {
+    category: "legumes",
+    unit: "kg",
+    types: ["cerises", "grappe"],
+    countable: true,
+  },
+  Carottes: { category: "legumes", unit: "kg", countable: true },
+  "Pommes de terre": {
+    category: "legumes",
+    unit: "kg",
+    aliases: ["pdt"],
+    countable: true,
+  },
+  Oignons: { category: "legumes", unit: "piece" },
   Champignons: {
     category: "legumes",
     unit: "barquette",
@@ -220,6 +233,7 @@ export const articles: Article[] = Object.entries(definitions).map(
     defaultUnitId: idOf(units, (u) => u.slug === a.unit, a.unit),
     defaultQuantity: a.quantity,
     generic: a.generic,
+    countable: a.countable,
     types: a.types ?? [],
     aliases: (a.aliases ?? []).map(slugify),
     favorite: false,

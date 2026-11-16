@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { entryAmount, parseEntry, resolveEntry } from "@/domain/entry";
+import {
+  entryAmount,
+  parseEntry,
+  resolveEntry,
+  typeSuggestions,
+} from "@/domain/entry";
 import { formatQuantity } from "@/domain/quantity";
 import { articles, units } from "./fixtures";
 
@@ -17,15 +22,43 @@ function enter(text: string, simplify = true): string[] {
   });
 }
 
+describe("un nombre seul compte des objets (docs/03 A2)", () => {
+  it("pièce, contenant ou volume : N de l'unité par défaut", () => {
+    expect(enter("2 oignons")).toEqual(["Oignons : × 2"]);
+    expect(enter("6 œufs")).toEqual(["Œufs : × 6"]);
+    expect(enter("3 pâtes")).toEqual(["Pâtes : 3 paquets"]);
+    expect(enter("2 laits")).toEqual(["Lait : 2 L"]);
+  });
+
+  it("poids, article qui se compte à la pièce : des pièces", () => {
+    expect(enter("3 pommes")).toEqual(["Pommes : × 3"]);
+    expect(enter("1 pomme de terre")).toEqual(["Pommes de terre : × 1"]);
+  });
+
+  it("poids, autre article : N portions de la quantité par défaut", () => {
+    expect(enter("2 beurres")).toEqual(["Beurre : 500 g"]);
+    expect(enter("2 cerises")).toEqual(["Cerises : 1 kg"]);
+    expect(enter("3 boeuf")).toEqual(["Bœuf : 1,5 kg"]);
+    expect(enter("3 boeuf", false)).toEqual(["Bœuf : 1 500 g"]);
+  });
+
+  it("sans nombre ou avec une unité, rien ne change", () => {
+    expect(enter("pommes")).toEqual(["Pommes : 1 kg"]);
+    expect(enter("oignons")).toEqual(["Oignons : × 1"]);
+    expect(enter("2 kg pommes")).toEqual(["Pommes : 2 kg"]);
+    expect(enter("200 g beurre")).toEqual(["Beurre : 200 g"]);
+  });
+});
+
 describe("saisie naturelle : tableau de docs/03 § A2", () => {
-  it("3 tomates → quantité 3, unité par défaut de l'article", () => {
-    expect(enter("3 tomates")).toEqual(["Tomates : 3 kg"]);
+  it("3 tomates → Tomates × 3 (un nombre seul compte des objets)", () => {
+    expect(enter("3 tomates")).toEqual(["Tomates : × 3"]);
   });
 
   it("tomates x3 / tomates *3", () => {
-    expect(enter("tomates x3")).toEqual(["Tomates : 3 kg"]);
-    expect(enter("tomates *3")).toEqual(["Tomates : 3 kg"]);
-    expect(enter("tomates x 3")).toEqual(["Tomates : 3 kg"]);
+    expect(enter("tomates x3")).toEqual(["Tomates : × 3"]);
+    expect(enter("tomates *3")).toEqual(["Tomates : × 3"]);
+    expect(enter("tomates x 3")).toEqual(["Tomates : × 3"]);
   });
 
   it("500g farine / farine 500 g", () => {
@@ -70,6 +103,44 @@ describe("saisie naturelle : tableau de docs/03 § A2", () => {
     expect(enter("compote de pomme")).toEqual(["Compotes : × 4 (pomme)"]);
     expect(enter("pommes gala ou golden")).toEqual([
       "Pommes : 1 kg (Gala, Golden)",
+    ]);
+  });
+
+  it("un début de type sans ambiguïté vaut le type entier", () => {
+    expect(enter("3 pommes gol")).toEqual(["Pommes : × 3 (Golden)"]);
+    expect(enter("pommes granny")).toEqual(["Pommes : 1 kg (Granny Smith)"]);
+    // « g » : Gala, Golden ou Granny Smith, on ne choisit pas à la place de l'utilisateur.
+    expect(enter("pommes g")).toEqual(["Pommes : 1 kg"]);
+  });
+
+  it("suggestions par type, seulement après le nom de l'article", () => {
+    const suggested = (text: string) =>
+      typeSuggestions(text, articles).map(
+        ({ article, type }) => `${article.name} · ${type}`,
+      );
+    expect(suggested("pom")).toEqual([]);
+    expect(suggested("pommes")).toEqual([]);
+    expect(suggested("pommes g")).toEqual([
+      "Pommes · Gala",
+      "Pommes · Golden",
+      "Pommes · Granny Smith",
+    ]);
+    expect(suggested("pommes gol")).toEqual(["Pommes · Golden"]);
+  });
+
+  it("dictée : « puis » et les points de fin de phrase séparent aussi les articles", () => {
+    expect(enter("des pommes puis du lait")).toEqual([
+      "Pommes : 1 kg",
+      "Lait : 6 L",
+    ]);
+    expect(enter("Des pommes. Du lait.")).toEqual([
+      "Pommes : 1 kg",
+      "Lait : 6 L",
+    ]);
+    // Ni un nombre, ni une abréviation.
+    expect(enter("1.5 kg de pommes")).toEqual(["Pommes : 1,5 kg"]);
+    expect(enter("2 barq. de champignons")).toEqual([
+      "Champignons : 2 barquettes",
     ]);
   });
 

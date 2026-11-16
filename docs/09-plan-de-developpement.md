@@ -2,15 +2,14 @@
 
 Développement confié à un agent IA, par **phases courtes et vérifiables**. Chaque phase se termine par : tests verts, app déployée en préproduction, checklist téléphone ([08 § 5](08-tests-et-qualite.md#5-checklist-manuelle-sur-téléphone-fin-de-chaque-phase)) validée par toi.
 
-| Version                                                                  | Phases                                                                                                                                                                   |
-| ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| —                                                                        | 0. Validation de la doc ✅                                                                                                                                               |
-| **v1.0 — Cœur** (0.N.0 à chaque phase N validée, puis 0.9 en usage réel) | 1. Socle · 2. Maquette visuelle · 3. Données et logique · 4. Liste · 5. Mode courses · 6. Tout modifiable · 7. Magasins construits en magasin · 8. Réglages et finitions |
-| **v1.1 — Recettes**                                                      | 9. Recettes                                                                                                                                                              |
-| **v1.2 — Anti-oubli**                                                    | 10. Anti-oubli                                                                                                                                                           |
-| **v1.3 — Partage**                                                       | 11. Partage                                                                                                                                                              |
+| Version                                                                              | Phases                                                                                                                                                                                 |
+| ------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| —                                                                                    | 0. Validation de la doc ✅                                                                                                                                                             |
+| **v1.0 — Cœur et recettes** (0.N.0 à chaque phase N validée, puis 0.9 en usage réel) | 1. Socle · 2. Maquette visuelle · 3. Données et logique · 4. Liste · 5. Mode courses · 6. Tout modifiable · 7. Magasins construits en magasin · 8. Réglages et finitions · 9. Recettes |
+| **v1.1 — Partage**                                                                   | 10. Partage                                                                                                                                                                            |
+| **v1.2 — Anti-oubli**                                                                | 11. Anti-oubli                                                                                                                                                                         |
 
-Le 13 novembre 2026, une phase 7 a été insérée (magasins construits pendant les courses, après le premier essai réel) : les anciennes phases 7 à 10 sont devenues 8 à 11.
+Le 13 novembre 2026, une phase 7 a été insérée (magasins construits pendant les courses, après le premier essai réel) : les anciennes phases 7 à 10 sont devenues 8 à 11. Le 15 novembre 2026, les recettes ont rejoint la v1.0 (développées pendant l'usage réel de la 0.9, visibles dès leur arrivée sur `dev` ; on ne publie qu'une fois les recettes finies, testées et validées) et le partage passe avant l'anti-oubli : partage en v1.1 (phase 10), anti-oubli en v1.2 (phase 11).
 
 Numérotation : la version **`0.N.0` sort quand la phase N est validée** ; elle peut contenir en avant-première le travail de la phase suivante. Correctifs entre deux : `0.N.1`, `0.N.2`… Détails et déploiements : [07 § 9 — Cycle des versions](07-architecture-technique.md#cycle-des-versions).
 
@@ -21,7 +20,8 @@ Numérotation : la version **`0.N.0` sort quand la phase N est validée** ; elle
 | `0.4.0` | 12 novembre 2026 | Phases 1 à 4 validées ; mode courses (phase 5) en avant-première, à valider par un essai en magasin.                                                                                                                                                                                                                                                                          |
 | `0.5.0` | 12 novembre 2026 | Phase 5 publiée **avant** l'essai en magasin, à la demande de l'utilisateur (seul utilisateur) : l'essai se fait sur la production ; correctifs en `0.5.x` ou dans la `0.6.0`. Thème clair, recherche du catalogue, retours de test.                                                                                                                                          |
 | `0.6.0` | 12 novembre 2026 | Phase 6 (tout modifiable : magasins et rayons, articles et doublons, icônes, catégories, unités), publiée pour un essai réel par l'utilisateur ; validation sur la production, correctifs en `0.6.x`.                                                                                                                                                                         |
-| `0.9.0` | 15 novembre 2026 | Installation définitive de la production sur les deux téléphones : les données sont désormais conservées (migrations obligatoires). Catégorie « Crèmerie & Œufs ». Début des 2-3 semaines d’usage réel avant la `1.0.0`.                                                                                                                                                      |
+| `1.0.0` | 16 novembre 2026 | Phase 9 (recettes) validée ; publiée à la demande de l'utilisateur sans attendre la fin des 2-3 semaines d'usage réel de la 0.9. Onglet Recettes en production ; une seule entrée de nouveautés « 1.0.0 » remplace celles des `0.x`. Données en place, toujours sans migration tant que l'app n'a pas d'autres utilisateurs.                                                  |
+| `0.9.0` | 15 novembre 2026 | Installation définitive de la production sur les deux téléphones (toujours sans migration de données tant que l'app n'a pas d'autres utilisateurs : au besoin, on réinstalle). Catégorie « Crèmerie & Œufs ». Début des 2-3 semaines d’usage réel avant la `1.0.0`.                                                                                                           |
 | `0.8.0` | 15 novembre 2026 | Phase 8 validée : réglages retirés (on décide pour l'utilisateur), copies automatiques des 7 derniers jours, écran d'aide, catalogue complet (428 articles et leurs icônes), finitions (états vides, accessibilité, animations et sons) ; retours d'essai (« À placer » repliable, « Rayon suivant » plus visible, œufs avec la crèmerie) et corrections de la revue de code. |
 | `0.7.2` | 14 novembre 2026 | Phase 7 validée ; ses retours : Réglages organisés en accueil (« Mes données » en tête, sauvegarde à part, préférences regroupées), menu de la liste limité à la liste courante, quantités toujours simplifiées, composants partagés ; corrections de la relecture complète du code.                                                                                          |
 | `0.7.1` | 14 novembre 2026 | Retours d'essai de la `0.7.0` : les articles d'une catégorie qu'on vient de ranger restent dans « À placer » jusqu'à leur coche ; « Rouvrir les courses » le jour même seulement.                                                                                                                                                                                             |
@@ -193,34 +193,47 @@ Retours de l'essai du 15 novembre 2026 : catégories de « À placer » repliabl
 ### Publication 0.9 puis 1.0
 
 - 🚀 **`npm run release -- 0.9.0`** : installation définitive de la production sur les deux téléphones. _Publiée le 15 novembre 2026 ; la phase 9 (recettes) avance en parallèle sur `dev`._
-- 2-3 semaines d'usage réel ; correctifs publiés en `0.9.1`, `0.9.2`…
-- 🎉 _**Validation → `npm run release -- 1.0.0`** (même code). Les données restent en place._
+- Usage réel de la 0.9, écourté : la `1.0.0` est publiée le 16 novembre 2026 ; correctifs ensuite en `1.0.x`.
 
-## v1.1 — Recettes
+### Phase 9 — Recettes _(plan validé le 15 novembre 2026, phase validée le 16 novembre 2026)_
 
-### Phase 9 — Recettes
+E1, E2 : onglet Recettes, fiche recette avec rendement fixe (personnes ou unité libre), ajout à une liste avec recalcul, arrondi, simplification et fusion des quantités. Développée sur `dev` pendant l'usage réel de la 0.9 ; l'onglet est visible partout (décision du 15 novembre 2026, plutôt que masqué en production) : on ne publie plus de `0.9.x` depuis `dev` avant la `1.0.0`.
 
-E1, E2 : onglet Recettes, fiche recette avec rendement (personnes ou unité libre), ajout à une liste avec recalcul, arrondi, simplification et fusion des quantités.
+**Préalable, fait le 15 novembre 2026** : une ligne par article **et par choix de types** (02 § 6) — sucre en poudre et sucre glace, 2 Golden et 3 Granny Smith sont deux lignes ; une recette ne fusionne un ingrédient qu'avec la ligne aux mêmes types. Retours d'essai du même jour, faits aussi : « Une autre sorte, sur une ligne à part » au deuxième ajout, suggestions par type (`pommes g` → « Pommes · Golden ») et début de type reconnu, bouton ‹ qui revient à l'écran d'où l'on vient. Puis : réglage du catalogue avec toutes les lignes de l'article (chacune avec sa sorte), pas du litre à 1 L, « puis » et le point de fin de phrase comme séparateurs pour la dictée, aide mise à jour (sortes, dictée). En préproduction pour un essai réel avant de commencer la phase 9.
 
-- ✅ _Tests unitaires `scaleRecipe` / `mergeQuantity` verts ; scénario E2E 7 vert._
-- 🎉 _**Publication v1.1.0.**_
+Plan (pas de migration de données : au besoin, on réinstalle l'app, 07 § 5) :
 
-## v1.2 — Anti-oubli
+0. ✅ **Tests E2E** : leurs textes sont lus dans `src/i18n/fr.ts` et `src/data/categories.json` au lieu d'être recopiés ; correction du scénario 5 instable sur iPhone.
+1. ✅ **Calculs** (`src/domain/recipes.ts`, fonctions pures) : `scaleRecipe` (quantités fixes inchangées, sinon `q × demandé ÷ rendement`, arrondi au pas supérieur, simplification) ; `planRecipeAdd` (aperçu : facultatifs décochés, quantité déjà dans la liste, fusion par `mergeQuantity`, quantité en note si les unités ne se convertissent pas). Tests unitaires sur les critères de 03 E2.
+2. ✅ **Données** (`src/db/recipes.ts`) : créer, modifier, dupliquer, supprimer une recette ; l'ajouter à une liste (`fromRecipes`, origine « via Raclette », jamais de libellé recopié). Ce qui arrive ensuite aux lignes ne touche jamais la recette. Seule la suppression d'un article du catalogue la concerne : « utilisé dans N recettes », retirer l'ingrédient ou annuler (02 § 2) ; fusion d'articles et suppression d'unité reportées sur les ingrédients.
+3. ✅ **Écrans** : onglet Recettes (`chef-hat`) ; liste avec recherche, « Nouvelle recette », état vide ; fiche avec rendement fixe, ingrédients, étapes, dupliquer et supprimer en bas ; édition sur la même fiche (ingrédients par la barre d'ajout, cases « facultatif » et « quantité fixe », unités de cuisine, rendement nombre + unité, icône). Tout élément présent à deux endroits devient un composant de `src/ui` (aperçu à cocher partagé avec « Y ajouter le contenu d'une autre liste »).
+4. ✅ **« Ajouter à une liste »** : panneau avec la liste cible (choix seulement s'il y en a plusieurs), `− 4 personnes +` ou `− 1 cake +`, aperçu à cocher (tout coché sauf les facultatifs, on décoche ce qu'on a déjà), « Ajouter » ; origine « via … » sur les lignes. Composants partagés ajoutés dans `src/ui` : `Stepper`, `QuantityInput`, `AmountFields`, `TypesPicker`, `PreviewRow`, `RemoveDoneActions`, `IconChangeButton`, bouton `dangerOutline`, `UnitSelect` (déplacé).
+5. ✅ **Catalogue** : ~55 ingrédients de cuisine et de pâtisserie manquants (cassonade, cacao non sucré, noisettes, amandes effilées, pâte d'amande, fleur d'oranger, fruits confits, gousses de vanille, pruneaux, abricots secs, dattes, pignons, graines, chapelure, feuilles de brick, vermicelles, haricots blancs, anchois, confit de canard, choucroute, sauce Worcestershire, miso, tahini, crème de coco, girofle, genièvre, safran, quatre-épices, ras el hanout, cerfeuil, sauge, marjolaine, citronnelle, cognac, calvados, madère, **kirsch**, beaufort, fromage à fondue, mont-d'or, gorgonzola, burrata, blettes, topinambours, foies de volaille, gésiers…), chacun avec son icône dessinée, en lots relus ; six icônes de plats (soupe, cake, tarte, gâteau, gratin, salade composée). Pour l'icône d'une recette, plats et desserts du pack proposés en premier. (Harissa : déjà au catalogue.) Validé le 15 novembre 2026 après deux relectures sur une page temporaire de la maquette, retirée ensuite : 55 articles (catalogue version 7), trois dessins réattribués au lieu d'ajouter des pots (piment d'Espelette → ras el hanout, curcuma → quatre-épices, tomme → beaufort ; piment, curcuma et tomme redessinés sous leur vraie forme), six icônes de plats. Retours d'essai du même jour, faits aussi : « Ajouter à une liste » en bas de la fiche, au-dessus de « Dupliquer » ; « Facultatif » et « Quantité fixe » avec leur explication sur la même ligne ; écran allumé sur une recette ; étapes mises en forme (gras, titre, puces, numéros, en Markdown) ; quantité plus étroite et unité plus large dans les fiches.
+6. ✅ **Vérifications** : scénario E2E 7, `npm run check`, `npm run e2e`, contrôle en taille téléphone, doc et nouveautés, puis validation en préproduction. _Fait le 15 novembre 2026 ; validation en préproduction le 16 novembre 2026 :_ scénario 7 écrit (`tests/e2e/recipes.spec.ts`, vert sur les deux téléphones) ; contrôle en taille téléphone : les quantités de l'aperçu « Ajouter à une liste » sortaient de l'écran quand un détail était long (un `fieldset` s'élargit à son contenu), corrigé pour tous les `fieldset` dans `src/styles/index.css` ; nouveautés « 1.0.0 » écrites (elles présentent l'app). À la publication (16 novembre 2026) : entrées `0.x` des nouveautés retirées, entrée « 1.0.0 » datée du jour.
+7. ✅ **Unités de la saisie** (retour de l'étape 6, décisions du 16 novembre 2026 ; 03 A2, 06 § 1) : « 2 oignons » donnait 2 kg et « 1 échalote » 1 g, dans la liste comme dans une recette. Un nombre seul compte désormais des objets : des pièces pour un article au poids qui « se compte à la pièce » (nouvel interrupteur de la fiche article, affiché pour un article au poids ; `countable` dans le catalogue), N portions de la quantité par défaut pour le reste du poids (« 2 beurres » → 500 g). Oignons, échalotes, poireaux, courgettes, endives et patates douces passent à la pièce. Correction du catalogue par `catalogFixes`, tests unitaires de `parseEntry`/`entryAmount`, scénario 7 de nouveau avec « 2 oignons ». _Fait le 16 novembre 2026_ : catalogue version 8 (17 articles qui se comptent, 6 passés à la pièce, corrections appliquées aux articles jamais modifiés) ; scénario 2 adapté (« 3 tom » → × 3). Même jour, retour d'essai : les étapes s'écrivent directement mises en forme (éditeur TipTap, chargé seulement à la modification d'une recette), plus de Markdown visible ; scénario 7 complété par des étapes écrites avec la barre. Retours d'essai du mode courses, même jour : le rayon en cours porte « Tu es ici » (pastille or) au lieu d'un cadre violet pris pour un focus ; « Rayon suivant » se confirme (son, message, défilement jusqu'au rayon, rebond) ; scénario 4 complété. Même jour aussi : unités par défaut du catalogue revues (lots, quantités au poids, 06 § 1).
 
-### Phase 10 — Anti-oubli
+- ✅ _Tests unitaires `scaleRecipe` / `mergeQuantity` verts ; scénario E2E 7 vert ; phase 9 validée en préproduction le 16 novembre 2026._
 
-D1, D2 : suggestions basées sur la fréquence d'achat, revue rapide par catégorie.
+### Publication 1.0
 
-- 🎉 _**Publication v1.2.0.**_
+- 🎉 _**`npm run release -- 1.0.0`, publiée le 16 novembre 2026**, à la demande de l'utilisateur sans attendre la fin de l'usage réel de la 0.9 ;, avec l'onglet Recettes visible en production et des nouveautés réécrites : une seule entrée « 1.0.0 » remplace celles des versions `0.x` (07 § 9). Les données restent en place._
 
-## v1.3 — Partage
+## v1.1 — Partage
 
-### Phase 11 — Partage
+### Phase 10 — Partage
 
 F1, F2, A8 : envoyer une liste, l'importer (lien sur Android, « Coller une liste partagée » sur iPhone), aperçu d'import avec « C'est le même que… », coller une liste en texte.
 
 - ✅ _Scénario E2E 8 vert ; essai réel iPhone → Android et Android → iPhone._
-- 🎉 _**Publication v1.3.0.**_
+- 🎉 _**Publication v1.1.0.**_
+
+## v1.2 — Anti-oubli
+
+### Phase 11 — Anti-oubli
+
+D1, D2 : suggestions basées sur la fréquence d'achat, revue rapide par catégorie.
+
+- 🎉 _**Publication v1.2.0.**_
 
 ## Plus tard et idées
 

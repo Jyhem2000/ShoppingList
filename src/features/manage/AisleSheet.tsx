@@ -287,8 +287,7 @@ export function AisleSheet({
                 {t.merge}
               </Button>
               <Button
-                variant="outline"
-                className="border-danger/50 text-danger"
+                variant="dangerOutline"
                 onClick={() => {
                   setStep("delete");
                 }}

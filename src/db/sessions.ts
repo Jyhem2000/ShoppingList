@@ -6,6 +6,7 @@ import type {
   Purchase,
   ShoppingSession,
 } from "@/domain/model";
+import { lineKey } from "@/domain/lines";
 import { learnAislePositions, learnArticleOrder } from "@/domain/shopping";
 import { insertAisleAfter, placementScope } from "@/domain/stores";
 import type { ShoppingDatabase } from "./database";
@@ -458,8 +459,8 @@ export async function reopenSession(
           articleOrder: snapshot.articleOrder,
         });
       }
-      // Une seule ligne par article : un achat remis dans la liste depuis (une nouvelle
-      // ligne à prendre) l'emporte, la ligne achetée reste archivée.
+      // Une seule ligne par article et par types : un achat remis dans la liste depuis
+      // (une nouvelle ligne à prendre) l'emporte, la ligne achetée reste archivée.
       const active = new Set(
         (
           await database.items
@@ -467,12 +468,12 @@ export async function reopenSession(
             .equals(session.listId)
             .filter((item) => !item.closedInSessionId)
             .toArray()
-        ).map((item) => item.articleId),
+        ).map(lineKey),
       );
       await database.items
         .where("closedInSessionId")
         .equals(sessionId)
-        .filter((item) => !active.has(item.articleId))
+        .filter((item) => !active.has(lineKey(item)))
         .modify((item) => {
           delete item.closedInSessionId;
         });

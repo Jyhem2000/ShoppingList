@@ -52,6 +52,7 @@ Principe : **tester ce qui peut casser silencieusement et ce qui fait la valeur 
 | Rangement en cochant, « Rayon suivant », titre d'un rayon           | Le magasin se construit pendant les courses (03 C4, 02 § 4) : bonne catégorie au bon rayon, jamais deux rayons vides, titres courts |
 | Clôture, apprentissage, réouverture                                 | Logique statistique ; jamais de double comptage après réouverture                                                                   |
 | `convert`, `changeUnit`, `simplify`, `mergeQuantity`, `scaleRecipe` | Calculs, conversions et arrondis (y compris rendements « 1 cake »)                                                                  |
+| `parseMarkdown`, `toggleBold`, `toggleLineStyle`, `continueList`    | Étapes mises en forme : titres, listes, gras, un ancien texte simple lu tel quel ; boutons de la barre et suite d'une liste         |
 | Suggestions anti-oubli                                              | Logique statistique                                                                                                                 |
 | `slugify` sur d'autres alphabets                                    | Jamais de slug vide (cyrillique, chinois…)                                                                                          |
 | `resolveImport`, `suggestCandidates`                                | Partage entre deux catalogues différents : clé, alias, dictionnaire du catalogue, candidats par icône/catégorie                     |
@@ -71,13 +72,17 @@ Chaque scénario tourne sur deux configurations : **WebKit + iPhone émulé** (c
 4. Mode courses (premières courses dans un nouveau magasin) : cocher un rayon entier → repli ; ajout d'un article d'un rayon passé → « À récupérer » ; terminer les courses → lignes cochées retirées ; rouvrir → elles réapparaissent cochées ; terminer à nouveau.
 5. Modifier un magasin : réordonner les rayons, déplacer une catégorie, rendre un rayon principal pour une catégorie → la liste suit. Le magasin est d'abord construit par une course.
 6. Rechargement de la page → les données sont toujours là.
-7. _(v1.1)_ Recette ajoutée pour un autre rendement (personnes et « cakes ») → quantités correctes dans la liste.
-8. _(v1.3)_ Partage puis import dans un profil vierge → aperçu correct, association « C'est le même que… » mémorisée, articles créés.
+7. _(v1.0)_ Recette ajoutée pour un autre rendement (personnes et « cakes ») → quantités correctes dans la liste : fusion avec la farine déjà présente, quantité fixe inchangée, origine « via … » sur les lignes.
+8. _(v1.1)_ Partage puis import dans un profil vierge → aperçu correct, association « C'est le même que… » mémorisée, articles créés.
 
 Échecs intermittents recherchés le 14 novembre 2026 (suite rejouée 12 fois : 2 échecs sur 216 passages, tous sur iPhone) :
 
 - scénario 3 : « C'est parti » touché pendant que la deuxième ligne s'ajoutait au-dessus et le décalait. Le test attend désormais que les lignes soient là ;
 - scénario 5 : WebKit (sous Windows) cesse un moment de redessiner la page ; Playwright attend alors en vain qu'un bouton soit immobile. Rien dans l'app : la page répond toujours et aucune animation n'est en cours. Les scénarios iPhone sont donc rejoués une fois en cas d'échec (`retries: 1` dans `playwright.config.ts`) : un scénario qui passe au second essai est signalé « flaky » dans le rapport sans bloquer `npm run e2e` ni `npm run release` ; s'il échoue deux fois, c'est un vrai problème. Un scénario souvent « flaky » mérite d'être examiné.
+
+Repris le 15 novembre 2026 : le scénario 5 échouait au premier essai presque à chaque fois sur iPhone (4 sur 4). Deux causes : un toucher perdu parce que la ligne visée bouge juste après que Playwright l'a jugée immobile (une ligne qui change de rayon, un rayon qui s'ouvre), et des pauses de WebKit allant jusqu'à une dizaine de secondes (une simple saisie). Les gestes du mode courses qu'un second toucher ne défait pas (cocher, « Rayon suivant », « Terminer », « Retour à la liste ») sont donc rejoués tant que leur effet n'est pas visible (`tapUntil` dans `tests/e2e/app.ts`), et un scénario iPhone a 60 s au lieu de 30. Le scénario 5 rejoué 6 fois passe alors du premier coup.
+
+Les textes attendus à l'écran sont lus dans `src/i18n/fr.ts` et `src/data/categories.json` (`tests/e2e/texts.ts`), jamais recopiés : retoucher un texte ne casse pas les scénarios. Seul ce que l'on tape (noms d'articles, de magasins) reste écrit dans les scénarios.
 
 ## 4. Qualité du code
 
@@ -89,7 +94,7 @@ Chaque scénario tourne sur deux configurations : **WebKit + iPhone émulé** (c
 
 ## 5. Checklist manuelle sur téléphone (fin de chaque phase)
 
-Sur la préproduction (`dev`), app installée sur l'écran d'accueil de l'iPhone (via Chrome). À refaire sur le téléphone Android au moins à la fin de la phase 1, avant chaque version publiée, et pour la v1.3 (partage dans les deux sens).
+Sur la préproduction (`dev`), app installée sur l'écran d'accueil de l'iPhone (via Chrome). À refaire sur le téléphone Android au moins à la fin de la phase 1, avant chaque version publiée, et pour la v1.1 (partage dans les deux sens).
 
 - [ ] L'app s'ouvre en plein écran, sans barre de navigateur, et hors ligne (mode avion).
 - [ ] Rien n'est masqué par l'encoche ou la barre d'accueil.

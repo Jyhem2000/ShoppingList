@@ -1,4 +1,4 @@
-import { Check, ChevronDown } from "lucide-react";
+import { Check, ChevronDown, Trash2 } from "lucide-react";
 import type { ComponentProps, ReactNode } from "react";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
@@ -42,7 +42,7 @@ export function FieldLabel({
 }
 
 // En thème clair, champ blanc bordé : le violet clair (--raised) reste aux éléments surélevés.
-const control =
+export const control =
   "h-12 w-full rounded-xl border border-border bg-raised px-3 text-base outline-none focus:border-primary light:bg-bg";
 
 export function TextInput({ className, ...props }: ComponentProps<"input">) {
@@ -82,6 +82,42 @@ export function CheckRow({
         }}
       />
       {children}
+    </label>
+  );
+}
+
+/**
+ * Option à cocher suivie de son explication entre parenthèses, sur la même ligne
+ * (« Facultatif (décoché au moment…) ») : si le texte passe à la ligne, la case reste en face de la
+ * première ligne. Toute la ligne la coche.
+ */
+export function CheckOption({
+  checked,
+  onCheckedChange,
+  title,
+  hint,
+}: {
+  checked: boolean;
+  onCheckedChange: (checked: boolean) => void;
+  title: ReactNode;
+  hint?: ReactNode;
+}) {
+  return (
+    <label className="flex items-start gap-3 py-3">
+      <input
+        type="checkbox"
+        className="mt-0.5 size-5 shrink-0 accent-primary"
+        checked={checked}
+        onChange={(event) => {
+          onCheckedChange(event.target.checked);
+        }}
+      />
+      <span className="min-w-0 flex-1">
+        <span className="font-semibold">{title}</span>
+        {hint ? (
+          <span className="ml-2 text-sm text-muted-foreground">({hint})</span>
+        ) : null}
+      </span>
     </label>
   );
 }
@@ -126,6 +162,39 @@ export function ConfirmActions({
           {fr.manage.confirmCancel}
         </Button>
       )}
+    </div>
+  );
+}
+
+/**
+ * Bas d'une fiche en panneau (ligne de liste, ingrédient) : « Retirer » en rouge à
+ * gauche, « OK » à droite.
+ */
+export function RemoveDoneActions({
+  removeLabel,
+  doneLabel,
+  onRemove,
+  onDone,
+}: {
+  removeLabel: string;
+  doneLabel: string;
+  onRemove: () => void;
+  onDone: () => void;
+}) {
+  return (
+    <div className="flex gap-2">
+      <Button
+        type="button"
+        variant="dangerOutline"
+        className="flex-1"
+        onClick={onRemove}
+      >
+        <Trash2 />
+        {removeLabel}
+      </Button>
+      <Button type="button" className="flex-1" onClick={onDone}>
+        {doneLabel}
+      </Button>
     </div>
   );
 }

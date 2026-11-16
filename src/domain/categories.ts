@@ -1,4 +1,5 @@
 import type { Article, Category, ID, ItemStatus, ListItem } from "./model";
+import { typesKey } from "./lines";
 
 /**
  * Regroupement par catégorie (docs/03 B1) : la liste est indépendante de tout magasin,
@@ -76,7 +77,12 @@ export function groupListByCategory<
           (a, b) =>
             STATUS_ORDER[a.status] - STATUS_ORDER[b.status] ||
             Number(generic(b)) - Number(generic(a)) ||
-            collator.compare(name(a), name(b)),
+            collator.compare(name(a), name(b)) ||
+            // Lignes d'un même article (types différents) : côte à côte, dans un ordre stable.
+            collator.compare(
+              typesKey(a.acceptedTypes),
+              typesKey(b.acceptedTypes),
+            ),
         ),
       },
     ];

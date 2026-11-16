@@ -5,7 +5,7 @@
   </clipPath>
   <g clip-path="url(#gl15)">
   <rect width="10" height="32" x="20.6" y="0" fill="#d8dde4" rx="0"/>
-  <rect width="32" height="5.4" x="0" y="17" fill="#f29a2a" rx="0"/>
+  <path fill="#f29a2a" d="M5 16.6A11 2.8 0 0 0 27 16.6V22A11 2.8 0 0 1 5 22z"/>
   </g>
   <ellipse cx="16" cy="12" rx="10.4" ry="3" fill="#e3e6ea"/>
   <ellipse cx="16" cy="12" rx="9.4" ry="2.4" fill="#f6e26a"/>

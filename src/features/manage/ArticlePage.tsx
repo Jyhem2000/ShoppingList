@@ -1,7 +1,7 @@
 import { useLiveQuery } from "dexie-react-hooks";
 import { GitMerge, Plus, Trash2, X } from "lucide-react";
 import { useMemo, useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import { routes } from "@/app/routes";
 import {
   articleUsage,
@@ -14,15 +14,15 @@ import type { Article } from "@/domain/model";
 import { formatNumber } from "@/domain/quantity";
 import { searchArticles } from "@/domain/search";
 import { slugify } from "@/domain/slug";
-import { UnitSelect } from "@/features/list/UnitSelect";
+import { UnitSelect } from "@/ui/UnitSelect";
 import { type ListData, useListData } from "@/features/list/useListData";
 import { fr } from "@/i18n/fr";
 import { SearchField } from "@/ui/SearchField";
 import { Button } from "@/ui/button";
-import { backState } from "@/ui/navigation";
+import { useGoBack } from "@/ui/navigation";
 import { Field, Select, TextInput, ConfirmActions } from "@/ui/form";
 import { EmptyState, PageHeader, Row, Section } from "@/ui/Page";
-import { ProductIcon } from "@/ui/ProductIcon";
+import { IconChangeButton } from "@/ui/IconChangeButton";
 import { Sheet } from "@/ui/Sheet";
 import { Switch } from "@/ui/switch";
 import { showToast } from "@/ui/toast";
@@ -62,7 +62,7 @@ export function ArticlePage() {
 }
 
 function ArticleForm({ article, data }: { article: Article; data: ListData }) {
-  const navigate = useNavigate();
+  const goBack = useGoBack(routes.manageArticles);
   const [panel, setPanel] = useState<"icon" | "merge" | "delete" | null>(null);
   const [quantity, setQuantity] = useState(
     article.defaultQuantity === undefined
@@ -107,25 +107,15 @@ function ArticleForm({ article, data }: { article: Article; data: ListData }) {
   return (
     <>
       <PageHeader title={article.name} backTo={routes.manageArticles} />
-      <div className="flex flex-col items-center gap-2 px-4 pt-2 pb-4">
-        <button
-          type="button"
+      <div className="px-4 pt-2 pb-4">
+        <IconChangeButton
+          icon={article.icon}
+          label={article.name}
+          color={color}
           onClick={() => {
             setPanel("icon");
           }}
-          aria-label={fr.manage.icon.change}
-          className="rounded-3xl border border-border p-3 active:bg-raised"
-        >
-          <ProductIcon
-            icon={article.icon}
-            label={article.name}
-            color={color}
-            size={72}
-          />
-        </button>
-        <span className="text-sm font-semibold text-primary">
-          {fr.manage.icon.change}
-        </span>
+        />
       </div>
 
       <Section>
@@ -182,6 +172,18 @@ function ArticleForm({ article, data }: { article: Article; data: ListData }) {
             {t.quantityHint}
           </p>
         </div>
+        {data.units.find((u) => u.id === article.defaultUnitId)?.dimension ===
+          "mass" && (
+          <Row label={t.countable} hint={t.countableHint}>
+            <Switch
+              checked={article.countable === true}
+              aria-label={t.countable}
+              onCheckedChange={(countable) => {
+                save({ countable });
+              }}
+            />
+          </Row>
+        )}
         <Row label={t.favorite} hint={t.favoriteHint}>
           <Switch
             checked={article.favorite}
@@ -230,7 +232,7 @@ function ArticleForm({ article, data }: { article: Article; data: ListData }) {
       <div className="flex flex-col gap-3 px-4 pt-6 pb-8">
         {usage && (
           <p className="text-center text-sm text-muted-foreground">
-            {t.usage(usage.lines, usage.lists)}
+            {t.usage(usage.lines, usage.lists, usage.recipes)}
           </p>
         )}
         <Button
@@ -243,8 +245,7 @@ function ArticleForm({ article, data }: { article: Article; data: ListData }) {
           {t.merge}
         </Button>
         <Button
-          variant="outline"
-          className="border-danger/50 text-danger"
+          variant="dangerOutline"
           onClick={() => {
             setPanel("delete");
           }}
@@ -284,7 +285,7 @@ function ArticleForm({ article, data }: { article: Article; data: ListData }) {
             if (!open) setPanel(null);
           }}
           title={t.deleteTitle(article.name)}
-          description={t.deleteText(usage?.lists ?? 0)}
+          description={t.deleteText(usage?.lists ?? 0, usage?.recipes ?? 0)}
         >
           <ConfirmActions
             label={t.delete}
@@ -292,10 +293,7 @@ function ArticleForm({ article, data }: { article: Article; data: ListData }) {
               void deleteArticle(db, article.id).then(() => {
                 feedback.remove();
                 showToast(t.deleted(article.name), { tone: "success" });
-                void navigate(routes.manageArticles, {
-                  replace: true,
-                  state: backState,
-                });
+                goBack();
               });
             }}
             onCancel={() => {

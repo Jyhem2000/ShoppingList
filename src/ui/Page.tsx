@@ -3,6 +3,7 @@ import { motion } from "motion/react";
 import type { ReactNode } from "react";
 import { fr } from "@/i18n/fr";
 import { NavButton } from "@/ui/NavButton";
+import { useGoBack } from "@/ui/navigation";
 import { cn } from "@/ui/utils";
 
 /**
@@ -10,14 +11,21 @@ import { cn } from "@/ui/utils";
  * avec sa marge haute : le titre ne passe jamais sous le flou qu'iOS 26 pose sous la
  * barre d'état. Une bordure le sépare du contenu quand celui-ci défile (Layout pose
  * `data-scrollable` sur la zone qui défile).
+ * `action` : un bouton à droite du titre.
+ * `backTo` : la flèche revient à l'écran précédent ; cet écran-ci seulement si
+ * l'on n'en a pas (docs/04 § 1).
  */
 export function PageHeader({
   title,
   backTo,
+  action,
 }: {
   title: string;
   backTo?: string;
+  /** À droite du titre (« Modifier » d'une recette). */
+  action?: ReactNode;
 }) {
+  const goBack = useGoBack(backTo ?? "/");
   return (
     <header className="sticky top-0 z-20 mb-2 flex items-center gap-2 border-b border-transparent bg-bg px-4 pt-7 pb-2 group-data-[scrollable]/main:border-border">
       {backTo && (
@@ -25,6 +33,10 @@ export function PageHeader({
           to={backTo}
           back
           aria-label={fr.sheet.back}
+          onClick={(event) => {
+            event.preventDefault();
+            goBack();
+          }}
           // Cible de 44 px, mais occupe la hauteur d'une ligne de titre (32 px) :
           // le titre reste au même niveau, avec ou sans bouton de retour.
           className="-my-1.5 -ml-2 flex size-11 items-center justify-center rounded-xl text-primary hover:bg-raised"
@@ -32,7 +44,8 @@ export function PageHeader({
           <ChevronLeft className="size-6" />
         </NavButton>
       )}
-      <PageTitle>{title}</PageTitle>
+      <PageTitle className="min-w-0 flex-1">{title}</PageTitle>
+      {action && <div className="-my-1.5 shrink-0">{action}</div>}
     </header>
   );
 }

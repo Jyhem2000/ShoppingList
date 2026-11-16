@@ -9,7 +9,7 @@ import { ItemRow } from "@/ui/ItemRow";
 import { useOnPulse } from "@/ui/pulse";
 import { PulseLine } from "@/ui/PulseLine";
 import { SwipeToDelete } from "@/ui/SwipeToDelete";
-import { lineDetails, lineQuantity } from "./format";
+import { lineDetails, lineQuantity, recipeOrigin } from "./format";
 import type { ListData } from "./useListData";
 import { paletteColor } from "@/ui/palette";
 /** Ordre des catégories du catalogue de départ (docs/06 § 2). */
@@ -101,13 +101,15 @@ export function ListLines({
                           label={article.name}
                           icon={article.icon}
                           color={paletteColor(category.color)}
-                          details={
+                          details={[
                             item.status === "unavailable"
-                              ? [fr.list.unavailableLastTime, lineDetails(item)]
-                                  .filter(Boolean)
-                                  .join(" · ")
-                              : lineDetails(item)
-                          }
+                              ? fr.list.unavailableLastTime
+                              : undefined,
+                            lineDetails(item),
+                            recipeOrigin(item, data.recipeById),
+                          ]
+                            .filter(Boolean)
+                            .join(" · ")}
                           quantity={lineQuantity(item, data.unitById)}
                           checked={item.status === "checked"}
                           onClick={() => {

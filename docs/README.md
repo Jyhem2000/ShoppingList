@@ -24,14 +24,13 @@ Statuts : 📝 À valider · 🔁 En révision · ✅ Validé
 
 ## Versions prévues
 
-| Version                                                                  | Contenu                                                                                                                                             |
-| ------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **v1.0 — Cœur** (0.N.0 à chaque phase N validée, puis 0.9 en usage réel) | Ajout éclair, catalogue, liste triée par rayon, mode courses avec clôture/réouverture et apprentissage, tout modifiable, réglages, sons, sauvegarde |
-| **v1.1 — Recettes**                                                      | Recettes avec rendement (personnes ou « 1 cake »), ajout à une liste avec recalcul des quantités                                                    |
-| **v1.2 — Anti-oubli**                                                    | Suggestions d'articles habituels, revue rapide par catégorie                                                                                        |
-| **v1.3 — Partage**                                                       | Envoyer / importer une liste (iPhone ↔ Android), coller une liste en texte                                                                          |
-| Plus tard                                                                | Saisonnalité des fruits et légumes, partage de recettes                                                                                             |
-| Idées non planifiées                                                     | Scan de code-barres, convertisseur d'unités, multilingue (peut-être jamais)                                                                         |
+| Version                                                                              | Contenu                                                                                                                                                                                                                                                |
+| ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **v1.0 — Cœur et recettes** (0.N.0 à chaque phase N validée, puis 0.9 en usage réel) | Ajout éclair, catalogue, liste triée par rayon, mode courses avec clôture/réouverture et apprentissage, tout modifiable, réglages, sons, sauvegarde ; recettes avec rendement (personnes ou « 1 cake »), ajout à une liste avec recalcul des quantités |
+| **v1.1 — Partage**                                                                   | Envoyer / importer une liste (iPhone ↔ Android), coller une liste en texte                                                                                                                                                                             |
+| **v1.2 — Anti-oubli**                                                                | Suggestions d'articles habituels, revue rapide par catégorie                                                                                                                                                                                           |
+| Plus tard                                                                            | Saisonnalité des fruits et légumes, partage de recettes                                                                                                                                                                                                |
+| Idées non planifiées                                                                 | Scan de code-barres, convertisseur d'unités, multilingue (peut-être jamais)                                                                                                                                                                            |
 
 Détail : [03 § Versions](03-fonctionnalites.md) et [09](09-plan-de-developpement.md).
 
@@ -55,7 +54,7 @@ Détail : [03 § Versions](03-fonctionnalites.md) et [09](09-plan-de-developpeme
 - **Plateformes** : app web installée, **optimisée pour Chrome**, sur iPhone (dernière version d'iOS, cible principale) et Android récent (cible secondaire). Sur iPhone, tous les navigateurs utilisent le moteur WebKit : ses limites s'appliquent quel que soit le navigateur ([01](01-vision.md#plateformes-cibles)).
 - **Fonctionnalités du navigateur** : essentielles = marchent sur les deux téléphones ; confort (bouton « Installer » d'Android…) = au moins un, sans rien casser ailleurs.
 - **Hébergement** : **Cloudflare Pages** connecté au dépôt GitHub ; préproduction sur `dev`, production sur `main`, qui n'avance que par `npm run release` ([07 § 9](07-architecture-technique.md#9-hébergement-versions-et-déploiement)).
-- **Versions** : v1.0 cœur, v1.1 recettes, v1.2 anti-oubli, v1.3 partage.
+- **Versions** : v1.0 cœur et recettes, v1.1 partage, v1.2 anti-oubli.
 
 ## Questions ouvertes
 

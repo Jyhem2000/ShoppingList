@@ -3,6 +3,8 @@ export const routes = {
   list: "/",
   catalog: "/catalogue",
   catalogCategory: "/catalogue/:categoryId",
+  recipes: "/recettes",
+  recipe: "/recettes/:recipeId",
   settings: "/reglages",
   about: "/reglages/a-propos",
   licences: "/reglages/a-propos/licences",
@@ -40,4 +42,11 @@ export function shoppingRecapPath(sessionId: string): string {
 /** Chemin des articles d'une catégorie du catalogue. */
 export function catalogCategoryPath(categoryId: string): string {
   return routes.catalogCategory.replace(":categoryId", categoryId);
+}
+
+/** Fiche d'une recette ; `edit` : ouverte en modification (nouvelle recette). */
+export function recipePath(recipeId: string, edit = false): string {
+  return (
+    routes.recipe.replace(":recipeId", recipeId) + (edit ? "?modifier" : "")
+  );
 }

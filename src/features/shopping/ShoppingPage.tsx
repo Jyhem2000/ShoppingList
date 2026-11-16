@@ -1,6 +1,6 @@
 import { ArrowDown, Ban, Check, X } from "lucide-react";
-import { motion } from "motion/react";
-import { Fragment, useCallback, useState } from "react";
+import { motion, useReducedMotion } from "motion/react";
+import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import { Navigate, useNavigate } from "react-router";
 import { routes, shoppingRecapPath } from "@/app/routes";
 import { db } from "@/db/database";
@@ -52,9 +52,11 @@ import { AddedInStoreSheet } from "./AddedInStoreSheet";
 import { MoveAisleSheet } from "./MoveAisleSheet";
 import { StaleSessionPrompt } from "./StaleSessionPrompt";
 import { type ShoppingView, useShoppingView } from "./useShoppingView";
-import { useWakeLock } from "./useWakeLock";
+import { useWakeLock } from "@/app/useWakeLock";
 
 const t = fr.shopping;
+/** Identifiant du bloc d'un rayon dans la page, pour y faire défiler l'écran. */
+const aisleElementId = (id: ID) => `aisle-${id}`;
 
 type Panel =
   | { kind: "added"; itemId: ID; articleId: ID }
@@ -139,6 +141,21 @@ function Shopping({
       const aisle = view.aisleOf.get(id);
       if (aisle) setOpen(aisle.id, true);
     }
+  });
+  // Après « Rayon suivant », l'écran va au rayon en cours dès qu'il est affiché, déplié.
+  const scrollToAisle = useRef<ID | undefined>(undefined);
+  const reduceMotion = useReducedMotion();
+  const revealAisle = (id: ID) => {
+    setOpen(id, true);
+  };
+  useEffect(() => {
+    const id = scrollToAisle.current;
+    if (!id || id !== view.current) return;
+    scrollToAisle.current = undefined;
+    document.getElementById(aisleElementId(id))?.scrollIntoView({
+      block: "center",
+      behavior: reduceMotion ? "auto" : "smooth",
+    });
   });
   const textOf = (aisle: Aisle) =>
     aisleText(aisle, data.categoryById, data.categoryWeights);
@@ -353,6 +370,8 @@ function Shopping({
     panel?.kind === "quantity"
       ? data.items.find((item) => item.id === panel.itemId)
       : undefined;
+  const quantityArticle =
+    quantityItem && data.articleById.get(quantityItem.articleId);
 
   return (
     <>
@@ -420,6 +439,7 @@ function Shopping({
                 count={items.filter((i) => i.status === "todo").length}
                 expanded={open}
                 done={done}
+                id={aisleElementId(aisle.id)}
                 current={aisle.id === view.current}
                 currentLabel={t.current}
                 kicker={text.kicker}
@@ -449,8 +469,11 @@ function Shopping({
 
       <AddArticleBar
         data={data}
+        placeholder={t.addPlaceholder}
         onSubmit={(text) => void adding.submit(text)}
-        onPick={(article, entry) => void adding.pick(article, entry)}
+        onPick={(article, entry, types) =>
+          void adding.pick(article, entry, types)
+        }
         onCreate={adding.create}
         above={
           toPlace > 0 && (
@@ -459,9 +482,19 @@ function Shopping({
               className="mb-2 h-12 w-full shadow-lg shadow-overlay"
               aria-description={t.nextAisleHint}
               onClick={() => {
-                void openNextAisle(db, session, view.placing?.id).catch(
-                  reportSaveError,
-                );
+                const before = view.placing?.id;
+                void openNextAisle(db, session, before)
+                  .then((aisle) => {
+                    // Que le changement se voie : message, et l'écran va au rayon.
+                    feedback.add();
+                    showToast(
+                      aisle.id === before ? t.aisleStillEmpty : t.aisleOpened,
+                      { tone: "info" },
+                    );
+                    scrollToAisle.current = aisle.id;
+                    revealAisle(aisle.id);
+                  })
+                  .catch(reportSaveError);
               }}
             >
               <ArrowDown />
@@ -504,6 +537,10 @@ function Shopping({
           pending={pending}
           data={data}
           onDone={adding.next}
+          onAddType={(type) => {
+            adding.next();
+            void adding.addType(pending.article, type, pending.entry);
+          }}
         />
       )}
       {pending?.kind === "create" && (
@@ -584,12 +621,15 @@ function Shopping({
           onClose={close}
         />
       )}
-      {panel?.kind === "quantity" && quantityItem && (
+      {panel?.kind === "quantity" && quantityItem && quantityArticle && (
         <QuantitySheet
           key={quantityItem.id}
-          item={quantityItem}
+          article={quantityArticle}
           data={data}
           onClose={close}
+          onAddType={(type) => {
+            void adding.addType(quantityArticle, type);
+          }}
         />
       )}
       {panel?.kind === "finish" && (

@@ -80,19 +80,20 @@ Pour la recherche, on utilise en plus une **clé de recherche** plus tolérante 
 
 Un produit que l'on achète.
 
-| Propriété           | Obligatoire  | Description                                                                                                                    |
-| ------------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------ |
-| Libellé             | ✅           | « Pommes »                                                                                                                     |
-| Slug                | ✅ (calculé) | `pommes`                                                                                                                       |
-| Catégorie           | ✅           | « Fruits ». Par défaut « Autres » si l'app ne devine pas                                                                       |
-| Unité par défaut    | ✅           | « kg ». Devinée à la création (voir 06), modifiable                                                                            |
-| Quantité par défaut | —            | Quantité ajoutée quand on n'en précise pas : **6** pour les œufs (unité « pièce »), 1 sinon (ou le pas de l'unité). Modifiable |
-| Types               | —            | Liste des variétés possibles, **vide par défaut** : `Gala`, `Golden`, `Granny Smith`                                           |
-| Alias               | —            | Autres noms : synonymes, abréviations, marques passées dans le langage courant, variantes régionales (voir ci-dessous)         |
-| Icône               | —            | Icône choisie ; si absente, l'app en déduit une ou affiche un monogramme (voir 05)                                             |
-| Favori              | —            | Épinglé dans les « Habituels »                                                                                                 |
-| Mois de saison      | —            | _Plus tard_ — fruits et légumes uniquement : mois où l'article est de saison (D3)                                              |
-| Clé catalogue       | —            | Présente si l'article vient du catalogue de départ (§ 10) ; ne change jamais                                                   |
+| Propriété            | Obligatoire  | Description                                                                                                                                                                                   |
+| -------------------- | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Libellé              | ✅           | « Pommes »                                                                                                                                                                                    |
+| Slug                 | ✅ (calculé) | `pommes`                                                                                                                                                                                      |
+| Catégorie            | ✅           | « Fruits ». Par défaut « Autres » si l'app ne devine pas                                                                                                                                      |
+| Unité par défaut     | ✅           | « kg ». Devinée à la création (voir 06), modifiable                                                                                                                                           |
+| Quantité par défaut  | —            | Quantité ajoutée quand on n'en précise pas : **6** pour les œufs (unité « pièce »), 1 sinon (ou le pas de l'unité). Modifiable                                                                |
+| Se compte à la pièce | —            | Pour un article vendu au poids qui se compte (pommes, échalotes, blancs de poulet) : un nombre tapé seul compte des pièces (« 3 pommes » → × 3), voir 03 A2. Modifiable dans la fiche article |
+| Types                | —            | Liste des variétés possibles, **vide par défaut** : `Gala`, `Golden`, `Granny Smith`                                                                                                          |
+| Alias                | —            | Autres noms : synonymes, abréviations, marques passées dans le langage courant, variantes régionales (voir ci-dessous)                                                                        |
+| Icône                | —            | Icône choisie ; si absente, l'app en déduit une ou affiche un monogramme (voir 05)                                                                                                            |
+| Favori               | —            | Épinglé dans les « Habituels »                                                                                                                                                                |
+| Mois de saison       | —            | _Plus tard_ — fruits et légumes uniquement : mois où l'article est de saison (D3)                                                                                                             |
+| Clé catalogue        | —            | Présente si l'article vient du catalogue de départ (§ 10) ; ne change jamais                                                                                                                  |
 
 ### Alias
 
@@ -264,14 +265,16 @@ Dimensions : **masse** (base g), **volume** (base ml), **autre** (pièce, pack, 
 
 **Affichage des types acceptés** : vide → rien ; un type → « Gala uniquement » ; plusieurs → « Gala ou Golden ». On peut ajouter un nouveau type à la volée depuis la ligne ; il est alors ajouté aux types de l'article.
 
-### Une seule ligne par article dans une liste
+### Une ligne par article et par choix de types
 
-Quand on ajoute un article **déjà présent** dans la liste, l'app **ne modifie rien d'office** : elle affiche « Déjà dans la liste : 2 kg » avec deux choix :
+Une liste a **une ligne par article et par choix de types** (décision du 15 novembre 2026) : « Pommes · Golden × 2 » et « Pommes · Granny Smith × 3 » sont deux lignes, comme « Sucre · en poudre 1 kg » et « Sucre · glace 250 g ». Les mêmes types, dans n'importe quel ordre, font la même ligne ; « peu importe » (aucun type) est un choix comme un autre, donc « Pommes » et « Pommes · Golden » sont aussi deux lignes. Dans une ligne, les types gardent leur sens « l'un ou l'autre » (« Gala ou Golden »). Les lignes d'un même article restent côte à côte, dans la liste comme en magasin. Le premier ajout d'un article (catalogue, suggestion, saisie sans type) est toujours « peu importe » : dans la plupart des cas, on choisit la sorte en magasin. Pour une autre sorte, le panneau qui s'ouvre au deuxième ajout (« Déjà dans la liste », réglage du catalogue) propose **une autre sorte** : les types de l'article qui n'ont pas encore leur propre ligne ; en toucher un ajoute cette ligne (dans le catalogue, elle apparaît dans le panneau, réglable sur place ; voir 03 A3 et A5). Préciser la sorte d'une ligne existante se fait dans son panneau (types acceptés), ou d'emblée en tapant `pommes golden` (décisions du 15 novembre 2026). Quand on change les types d'une ligne pour ceux d'une autre ligne du même article, les deux fusionnent à la fermeture du panneau (quantités additionnées, ou ajoutées en note si les unités ne se convertissent pas).
+
+Quand on ajoute un article **déjà présent avec les mêmes types** dans la liste, l'app **ne modifie rien d'office** : elle affiche « Déjà dans la liste : 2 kg » avec deux choix :
 
 - **Ajouter** une quantité (sélecteur prérempli avec la quantité saisie, ou le pas de l'unité) ;
 - **Ne rien faire** (choix par défaut : `Entrée` ou fermer = ne rien faire).
 
-Fusion des quantités quand on choisit « Ajouter » (ou lors d'un ajout de recette) :
+Fusion des quantités quand on choisit « Ajouter » (ou lors d'un ajout de recette, ligne aux mêmes types seulement) :
 
 - même unité → addition ;
 - unités convertibles → conversion puis addition (300 g + 1 kg = 1,3 kg), puis simplification (§ 5) ;
@@ -301,7 +304,7 @@ Le rendement « personnes » convient aux plats ; un rendement libre convient au
 ### Ajouter une recette à une liste
 
 1. Choisir la liste, puis la quantité voulue dans l'unité de rendement : **« Pour combien de personnes ? »** ou **« Combien de cakes ? »** (prérempli avec le rendement de la recette, nombres entiers).
-2. Les quantités sont recalculées, sauf les quantités fixes : `quantité × demandé ÷ rendement de référence`, puis **arrondies au pas supérieur de l'unité** (3 personnes au lieu de 4 pour 2 oignons → 1,5 → 2 oignons ; 375 g de farine avec un pas de 50 g → 400 g), puis simplifiées (§ 5).
+2. Les quantités sont recalculées, sauf les quantités fixes : `quantité × demandé ÷ rendement de référence`, puis **arrondies au pas supérieur de l'unité** (3 personnes au lieu de 4 pour 2 oignons → 1,5 → 2 oignons ; 375 g de farine avec un pas de 50 g → 400 g), puis simplifiées (§ 5). Pour le rendement de la fiche lui-même, les quantités restent celles de la fiche, sans arrondi (20 g de beurre pour 4 restent 20 g).
 3. Aperçu des ingrédients avec cases à cocher (on décoche ce qu'on a déjà ; les ingrédients facultatifs sont décochés par défaut) et indication des articles déjà présents dans la liste.
 4. Validation → ajout ou fusion des lignes (§ 6), avec l'origine « via recette ».
 

@@ -1,4 +1,5 @@
 import { expect, type Page } from "@playwright/test";
+import { fr } from "./texts";
 
 /**
  * Passe l'écran d'installation, comme le ferait « Continuer dans le navigateur ».
@@ -26,17 +27,22 @@ export async function enterApp(page: Page, { tips = false } = {}) {
       localStorage.setItem(key, JSON.stringify(preferences));
     });
   await page.goto("/");
-  await page
-    .getByRole("button", { name: "Continuer dans le navigateur" })
-    .click();
+  await page.getByRole("button", { name: fr.install.continue }).click();
   await expect(
-    page.getByRole("navigation", { name: "Navigation principale" }),
+    page.getByRole("navigation", { name: fr.tabs.navigation }),
   ).toBeVisible();
 }
 
-/** Saisie dans la barre d'ajout de la liste, validée par Entrée. */
-export async function addToList(page: Page, text: string) {
-  const input = page.getByRole("textbox", { name: "Ajouter un article…" });
+/**
+ * Saisie dans la barre d'ajout de la liste, validée par Entrée. En mode courses, le
+ * champ porte un libellé plus court (`fr.shopping.addPlaceholder`).
+ */
+export async function addToList(
+  page: Page,
+  text: string,
+  label: string = fr.list.addPlaceholder,
+) {
+  const input = page.getByRole("textbox", { name: label });
   await input.fill(text);
   await input.press("Enter");
 }
@@ -54,6 +60,32 @@ export async function aisleNames(page: Page): Promise<string[]> {
 }
 
 /**
+ * Toucher jusqu'à obtenir l'effet attendu. Sous WebKit, un toucher peut se perdre : la
+ * ligne visée bouge juste après que Playwright l'a jugée immobile (une ligne qui change
+ * de rayon, un rayon qui s'ouvre), ou la page cesse un moment de se redessiner (docs/08
+ * § 3). À réserver aux actions qu'un second toucher ne défait pas.
+ */
+async function tapUntil(
+  tap: () => Promise<unknown>,
+  done: (timeout: number) => Promise<unknown>,
+) {
+  let first = true;
+  await expect(async () => {
+    if (!first)
+      try {
+        // Le toucher précédent a peut-être fini par porter : ne pas le défaire.
+        await done(500);
+        return;
+      } catch {
+        // Toujours rien : on retouche.
+      }
+    first = false;
+    await tap();
+    await done(2000);
+  }).toPass({ intervals: [250, 500, 1000] });
+}
+
+/**
  * « C'est parti » dans ce magasin ; `create` : un nouveau magasin, vide (ses rayons se
  * rangent pendant les courses).
  */
@@ -62,36 +94,65 @@ export async function startShopping(
   store: string,
   { create = false } = {},
 ) {
-  await page.getByRole("button", { name: "C'est parti" }).click();
-  const sheet = page.getByRole("dialog", { name: "Faire les courses" });
+  await page.getByRole("button", { name: fr.shopping.start }).click();
+  const sheet = page.getByRole("dialog", { name: fr.shopping.startTitle });
   if (create) {
-    const other = sheet.getByRole("radio", { name: "Un autre magasin" });
+    const other = sheet.getByRole("radio", { name: fr.shopping.newStore });
     if (await other.isVisible()) await other.click();
-    await sheet.getByRole("textbox", { name: "Nom du magasin" }).fill(store);
+    await sheet
+      .getByRole("textbox", { name: fr.shopping.newStoreName })
+      .fill(store);
   } else await sheet.getByRole("radio", { name: store, exact: true }).click();
-  await sheet.getByRole("button", { name: "C'est parti" }).click();
+  await sheet.getByRole("button", { name: fr.shopping.go }).click();
   await expect(page.getByTestId("shopping-progress")).toBeVisible();
 }
 
-/** « Rayon suivant » : les articles cochés ensuite iront dans un nouveau rayon. */
+/**
+ * « Rayon suivant » : les articles cochés ensuite iront dans un nouveau rayon. Le
+ * retoucher sur un rayon neuf et vide ne fait rien de plus (src/db/sessions.ts).
+ */
 export async function nextAisle(page: Page) {
-  await page.getByRole("button", { name: "Rayon suivant" }).click();
-  // Le nouveau rayon, encore vide, s'affiche avec son explication.
-  await expect(
-    page.getByText("Touche un article de « À placer » quand il est"),
-  ).toBeVisible();
+  await tapUntil(
+    () =>
+      page
+        .getByRole("button", { name: fr.shopping.nextAisle })
+        .click({ timeout: 3000 }),
+    // Le nouveau rayon, encore vide, s'affiche avec son explication.
+    (timeout) =>
+      expect(page.getByText(fr.shopping.emptyAisle)).toBeVisible({ timeout }),
+  );
 }
 
 /** « Terminer » puis confirmer : le bilan s'affiche. */
 export async function finishShopping(page: Page) {
-  await page.getByRole("button", { name: "Terminer les courses" }).click();
-  await page
-    .getByRole("dialog", { name: "Terminer les courses ?" })
-    .getByRole("button", { name: "Terminer", exact: true })
+  const confirm = page.getByRole("dialog", {
+    name: fr.shopping.finishTitle,
+  });
+  await tapUntil(
+    () =>
+      page
+        .getByRole("button", { name: fr.shopping.finishLong })
+        .click({ timeout: 3000 }),
+    (timeout) => expect(confirm).toBeVisible({ timeout }),
+  );
+  await confirm
+    .getByRole("button", { name: fr.shopping.finishConfirm, exact: true })
     .click();
   await expect(
-    page.getByRole("heading", { name: "Courses terminées" }),
+    page.getByRole("heading", { name: fr.shopping.recap.title }),
   ).toBeVisible();
+}
+
+/** Bilan des courses → « Retour à la liste ». */
+export async function backToList(page: Page) {
+  const add = page.getByRole("textbox", { name: fr.list.addPlaceholder });
+  await tapUntil(
+    () =>
+      page
+        .getByRole("button", { name: fr.shopping.recap.back })
+        .click({ timeout: 3000 }),
+    (timeout) => expect(add).toBeVisible({ timeout }),
+  );
 }
 
 /** Ligne d'un article dans la liste (pas l'en-tête d'une catégorie au nom voisin). */
@@ -104,6 +165,11 @@ export function line(page: Page, name: string) {
 
 /** En mode courses : toucher un article et attendre qu'il soit coché (enregistré). */
 export async function check(page: Page, name: string) {
-  await line(page, name).click();
-  await expect(line(page, name)).toHaveAttribute("aria-pressed", "true");
+  await tapUntil(
+    () => line(page, name).click({ timeout: 3000 }),
+    (timeout) =>
+      expect(line(page, name)).toHaveAttribute("aria-pressed", "true", {
+        timeout,
+      }),
+  );
 }

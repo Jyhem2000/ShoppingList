@@ -70,7 +70,7 @@ export async function unitUsage(
 }
 
 /**
- * Supprimer une unité : lignes, articles et historique passent à l'unité de
+ * Supprimer une unité : lignes, articles, ingrédients et historique passent à l'unité de
  * remplacement, la quantité convertie quand c'est possible (g → kg), gardée sinon.
  */
 export async function deleteUnit(
@@ -82,7 +82,13 @@ export async function deleteUnit(
   if (id === replacementId) return;
   await database.transaction(
     "rw",
-    [database.units, database.items, database.articles, database.purchases],
+    [
+      database.units,
+      database.items,
+      database.articles,
+      database.purchases,
+      database.recipes,
+    ],
     async () => {
       const [unit, replacement] = await database.units.bulkGet([
         id,
@@ -112,6 +118,14 @@ export async function deleteUnit(
           a.defaultUnitId = replacementId;
           a.updatedAt = now;
         });
+      await database.recipes.toCollection().modify((recipe) => {
+        if (recipe.ingredients.some((i) => i.unitId === id))
+          recipe.ingredients = recipe.ingredients.map((i) =>
+            i.unitId === id
+              ? { ...i, quantity: convert(i.quantity), unitId: replacementId }
+              : i,
+          );
+      });
       await database.units.delete(id);
     },
   );

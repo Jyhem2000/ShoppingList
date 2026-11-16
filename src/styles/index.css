@@ -201,6 +201,24 @@
     border-color: var(--border);
   }
 
+  /* Texte indicatif de l'éditeur des étapes vide (TipTap, src/ui/MarkdownEditor.tsx). */
+  .tiptap p.is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
+    color: var(--color-muted-foreground);
+  }
+
+  /*
+   * Un fieldset s'élargit par défaut jusqu'à son contenu le plus long (min-content) :
+   * un détail long dans un aperçu à cocher poussait les quantités hors de l'écran au lieu
+   * d'être tronqué.
+   */
+  fieldset {
+    min-width: 0;
+  }
+
   /*
    * Le fond de la page prend la couleur de la barre d'onglets : si l'iPhone affiche
    * au lancement une bande sous la coquille de l'app (bug connu des apps installées),

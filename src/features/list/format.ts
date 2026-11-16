@@ -6,6 +6,7 @@ import type {
   Category,
   ID,
   ListItem,
+  Recipe,
   Unit,
 } from "@/domain/model";
 import { aisleContents, aisleTitle } from "@/domain/stores";
@@ -27,6 +28,24 @@ export function lineDetails(
   return parts.length ? parts.join(" · ") : undefined;
 }
 
+/**
+ * Recettes d'où vient une ligne : « via Raclette », « via Raclette, Tartiflette »
+ * (docs/03 E2). Une recette supprimée depuis n'apparaît plus.
+ */
+export function recipeOrigin(
+  item: Pick<ListItem, "fromRecipes">,
+  recipeById: ReadonlyMap<ID, Pick<Recipe, "name">>,
+): string | undefined {
+  const names = [
+    ...new Set(
+      item.fromRecipes
+        .map((from) => recipeById.get(from.recipeId)?.name)
+        .filter((name): name is string => Boolean(name)),
+    ),
+  ];
+  return names.length ? t.via(names) : undefined;
+}
+
 export function lineQuantity(
   item: Pick<ListItem, "quantity" | "unitId">,
   unitById: ReadonlyMap<ID, Unit>,
@@ -34,6 +53,34 @@ export function lineQuantity(
 ): string {
   const unit = unitById.get(item.unitId);
   return unit ? formatQuantity(item.quantity, unit, style) : "";
+}
+
+/**
+ * Ce que la liste contient déjà de chaque article, pour le catalogue et les suggestions :
+ * « 1 kg » ; plusieurs lignes (types différents) s'additionnent par unité (« 7 kg »,
+ * « 7 kg + × 2 »).
+ */
+export function quantitiesInList(
+  items: readonly Pick<ListItem, "articleId" | "quantity" | "unitId">[],
+  unitById: ReadonlyMap<ID, Unit>,
+): Map<ID, string> {
+  const sums = new Map<ID, Map<ID, number>>();
+  for (const item of items) {
+    const byUnit = sums.get(item.articleId) ?? new Map<ID, number>();
+    byUnit.set(item.unitId, (byUnit.get(item.unitId) ?? 0) + item.quantity);
+    sums.set(item.articleId, byUnit);
+  }
+  const result = new Map<ID, string>();
+  for (const [articleId, byUnit] of sums)
+    result.set(
+      articleId,
+      [...byUnit]
+        .map(([unitId, quantity]) =>
+          lineQuantity({ quantity, unitId }, unitById),
+        )
+        .join(" + "),
+    );
+  return result;
 }
 
 /** Nom court d'une catégorie (docs/02 § 4) : le sien, sinon celui du catalogue, sinon son nom. */

@@ -5,8 +5,8 @@ import { keepScreenOn } from "@/platform/wakeLock";
 import { showToast } from "@/ui/toast";
 
 /**
- * Écran allumé pendant les courses (docs/03 C1, H9), si le réglage est actif. Si le
- * téléphone refuse, un message discret le dit, une fois.
+ * Écran allumé pendant les courses et sur une recette (docs/03 C1, H9), si le réglage
+ * est actif. Si le téléphone refuse, un message discret le dit, une fois.
  */
 export function useWakeLock(): void {
   const { keepScreenOn: wanted } = usePreferences();

@@ -17,7 +17,7 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { ChevronRight, GripVertical, Plus, Trash2, X } from "lucide-react";
 import { useMemo, useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import { routes } from "@/app/routes";
 import { db } from "@/db/database";
 import {
@@ -45,7 +45,7 @@ import {
 } from "@/features/list/format";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
-import { backState } from "@/ui/navigation";
+import { useGoBack } from "@/ui/navigation";
 import { GroupIcon } from "@/ui/GroupIcon";
 import { EmptyState, PageHeader, Row, Section } from "@/ui/Page";
 import { palette, paletteColor } from "@/ui/palette";
@@ -68,7 +68,7 @@ const t = fr.manage.store;
  */
 export function StorePage() {
   const { storeId } = useParams();
-  const navigate = useNavigate();
+  const goBack = useGoBack(routes.manageStores);
   const stores = useStores();
   const store = stores?.find((s) => s.id === storeId);
   const aisles = useAisles(storeId);
@@ -281,8 +281,8 @@ export function StorePage() {
 
       <div className="px-4 pt-6 pb-8">
         <Button
-          variant="outline"
-          className="w-full border-danger/50 text-danger"
+          variant="dangerOutline"
+          className="w-full"
           onClick={() => {
             setConfirmDelete(true);
           }}
@@ -365,10 +365,7 @@ export function StorePage() {
                 if (result === "deleted") {
                   feedback.remove();
                   showToast(t.deleted(store.name), { tone: "success" });
-                  void navigate(routes.manageStores, {
-                    replace: true,
-                    state: backState,
-                  });
+                  goBack();
                 } else showToast(t.deleteShopping, { tone: "warning" });
               });
             }}

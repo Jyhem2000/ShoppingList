@@ -29,6 +29,22 @@ export function useListItems(listId: ID | undefined) {
   );
 }
 
+/** Recettes, par ordre alphabétique. */
+export function useRecipes() {
+  return useLiveQuery(async () =>
+    (await db.recipes.toArray()).sort((a, b) =>
+      a.name.localeCompare(b.name, "fr"),
+    ),
+  );
+}
+
+export function useRecipe(recipeId: ID | undefined) {
+  return useLiveQuery(
+    async () => (recipeId ? ((await db.recipes.get(recipeId)) ?? null) : null),
+    [recipeId],
+  );
+}
+
 export function useArticles() {
   return useLiveQuery(() => db.articles.toArray());
 }

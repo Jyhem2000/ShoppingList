@@ -295,8 +295,7 @@ function UnitSheet({
           {unit && (
             <Button
               type="button"
-              variant="outline"
-              className="border-danger/50 text-danger"
+              variant="dangerOutline"
               onClick={() => {
                 setDeleting(true);
               }}

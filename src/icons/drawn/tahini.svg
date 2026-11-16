@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+<rect width="14" height="18.6" x="9" y="10.4" fill="#d6be90" rx="3"/>
+  <clipPath id="bc"><rect width="14" height="18.6" x="9" y="10.4" fill="#000" rx="3"/></clipPath>
+  <g clip-path="url(#bc)"><rect width="14" height="20" x="9" y="10" fill="#d6be90"/><rect width="4" height="20" x="19" y="10" fill="#00000018"/>
+  <rect width="14" height="1.6" x="9" y="10.4" fill="#e6edf2"/>
+  </g>
+  <rect width="1.2" height="13" x="10.2" y="13" fill="#ffffff66" rx="0.6"/>
+  <rect width="15.4" height="4.6" x="8.3" y="6.2" fill="#2a2a30" rx="1.4"/>
+  <rect width="15.4" height="1.1" x="8.3" y="6.6" fill="#4a4a52" rx="0.55"/>
+<rect width="10.4" height="6.4" x="10.8" y="17.8" fill="#fbf8f0" rx=".8" stroke="#8a6a3a" stroke-width=".5"/><ellipse cx="13" cy="20.2" rx="0.55" ry="0.32" fill="#b88a4a"/><ellipse cx="15.4" cy="21.8" rx="0.55" ry="0.32" fill="#b88a4a"/><ellipse cx="17.6" cy="20" rx="0.55" ry="0.32" fill="#b88a4a"/><ellipse cx="19.2" cy="22" rx="0.55" ry="0.32" fill="#b88a4a"/><ellipse cx="14" cy="22.6" rx="0.55" ry="0.32" fill="#b88a4a"/><ellipse cx="17" cy="22.8" rx="0.55" ry="0.32" fill="#b88a4a"/>
+</svg>

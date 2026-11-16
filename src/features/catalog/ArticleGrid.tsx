@@ -4,7 +4,7 @@ import type { Article } from "@/domain/model";
 import { fr } from "@/i18n/fr";
 import { CatalogCard } from "@/ui/CatalogCard";
 import { EmptyHint } from "@/ui/Page";
-import { lineQuantity } from "@/features/list/format";
+import { quantitiesInList } from "@/features/list/format";
 import type { ListData } from "@/features/list/useListData";
 import { useCatalogPick } from "./useCatalogPick";
 import { paletteColor } from "@/ui/palette";
@@ -22,7 +22,7 @@ export function ArticleGrid({
 }) {
   const { pick, sheet } = useCatalogPick(data);
   const navigate = useNavigate();
-  const inList = new Map(data.items.map((item) => [item.articleId, item]));
+  const inList = quantitiesInList(data.items, data.unitById);
 
   if (articles.length === 0)
     return <EmptyHint inset>{fr.catalog.noResult}</EmptyHint>;
@@ -31,7 +31,7 @@ export function ArticleGrid({
     <>
       <div className="grid grid-cols-3 gap-2 px-3">
         {articles.map((article) => {
-          const item = inList.get(article.id);
+          const quantity = inList.get(article.id);
           const category = data.categoryById.get(article.categoryId);
           return (
             <CatalogCard
@@ -39,7 +39,7 @@ export function ArticleGrid({
               label={article.name}
               icon={article.icon}
               color={paletteColor(category?.color)}
-              quantity={item ? lineQuantity(item, data.unitById) : undefined}
+              quantity={quantity}
               onClick={() => {
                 pick(article);
               }}

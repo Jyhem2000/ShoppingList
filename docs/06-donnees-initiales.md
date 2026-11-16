@@ -15,7 +15,7 @@ Fichiers prévus dans `src/data/` : `categories.json`, `units.json`, `store-temp
 | `kg`        | kilogramme / kilogrammes | kg        | masse     | 1000    | 0,5 |
 | `ml`        | millilitre / millilitres | ml        | volume    | 1       | 50  |
 | `cl`        | centilitre / centilitres | cl        | volume    | 10      | 5   |
-| `l`         | litre / litres           | L         | volume    | 1000    | 0,5 |
+| `l`         | litre / litres           | L         | volume    | 1000    | 1   |
 | `pack`      | pack / packs             | pack      | autre     | —       | 1   |
 | `boite`     | boîte / boîtes           | boîte     | autre     | —       | 1   |
 | `bouteille` | bouteille / bouteilles   | bouteille | autre     | —       | 1   |
@@ -40,10 +40,12 @@ Pour les recettes, de petites unités sont utiles : `c-a-s` (cuillère à soupe)
 L'unité par défaut doit correspondre à **ce qu'on compte devant le rayon**, et la quantité par défaut à **ce qu'on achète le plus souvent**.
 
 1. **On compte les objets quand la taille des lots varie** : éponges (par 2, 3, 6), piles (4, 8), yaourts (4, 8, 12), œufs (6, 12), rouleaux de papier toilette (6, 9, 12…). Unité `pièce` et une quantité par défaut : « Éponges × 3 », « Papier toilette × 6 », jamais « 1 paquet d'éponges ». Il n'y a pas d'unité « rouleau » (retirée le 12 novembre 2026 : c'était une pièce sous un autre nom) ; le mot reste compris à la saisie (« 12 rouleaux de PQ »).
-2. **Le contenant n'est l'unité que s'il est toujours le même** et que son contenu importe peu : un paquet de pâtes, un pot de moutarde, une bouteille d'huile, une boîte de thon, un pack d'eau de 6.
-3. **Le poids pour le vrac et la coupe** : fruits et légumes vendus au poids, fromage, viande et charcuterie à la coupe.
+2. **Le contenant n'est l'unité que s'il est toujours le même** et que son contenu importe peu : un paquet de pâtes, un pot de moutarde, une bouteille d'huile, une boîte de thon, un pack d'eau de 6. Ce qu'on prend toujours **en lot** prend le lot pour unité : un pack de berlingots de lait aromatisé, un paquet de sachets de levure ou de barres chocolatées (revu le 16 novembre 2026).
+3. **Le poids pour le vrac et la coupe** : fruits et légumes vendus au poids, fromage, viande et charcuterie à la coupe. Un article au poids a **toujours une quantité par défaut** (250 g de fromage, 500 g de viande ou de poisson…) : sans elle, la saisie prendrait le pas de l'unité, soit 50 g.
 4. **Le volume** pour ce qu'on achète en litres (lait, crème liquide) : « Lait 6 L ».
-5. Tout reste modifiable : l'utilisateur change l'unité ou la quantité d'une ligne, et peut changer les valeurs par défaut dans la fiche article.
+5. **Un nombre tapé seul compte des objets** (03 A2) : l'unité par défaut ne sert donc qu'à la saisie sans nombre. Les articles vendus au poids qui se comptent sont marqués **« se compte à la pièce »** (`countable` dans le catalogue) : fruits et légumes qu'on compte (pommes, poires, oranges, clémentines, pêches, nectarines, abricots, prunes, tomates, pommes de terre, carottes, navets, betteraves, panais, topinambours), blancs de poulet, noix de Saint-Jacques… Ce qui ne se compte pas (beurre, fromage à la coupe, cerises, raisin, haricots verts, viande et poisson à la coupe) compte en portions de la quantité par défaut.
+6. **Ce qu'on achète rarement au poids passe à la pièce**, × 1 par défaut, même quand on ne sait pas combien : oignons, échalotes, poireaux, courgettes, endives, patates douces (décision du 16 novembre 2026, plutôt qu'une ligne sans quantité).
+7. Tout reste modifiable : l'utilisateur change l'unité ou la quantité d'une ligne, et peut changer les valeurs par défaut dans la fiche article.
 
 Articles de base (extrait du futur catalogue, phase 3) :
 
@@ -59,9 +61,10 @@ Articles de base (extrait du futur catalogue, phase 3) :
 | Lait                          | L         | 6              | Bouteilles de 1 L, souvent par 6                        |
 | Crème fraîche                 | pièce     | 1              | Un seul article ; types épaisse, liquide…               |
 | Beurre                        | g         | 250            | Plaquettes de 125, 250, 500 g                           |
-| Pommes, oranges, tomates      | kg        | 1              | Vendues au poids                                        |
+| Pommes, oranges, tomates      | kg        | 1              | Vendues au poids ; se comptent (« 3 pommes » → × 3)     |
+| Oignons, échalotes, poireaux  | pièce     | 1              | Rarement achetés au poids                               |
 | Bananes, citrons, avocats     | pièce     | 6 / 3 / 2      | On les compte                                           |
-| Carottes, pommes de terre     | kg        | 1 / 2,5        | Vendues au poids ou en filet                            |
+| Carottes, pommes de terre     | kg        | 1 / 2,5        | Vendues au poids ou en filet ; se comptent              |
 | Cerises, haricots verts…      | g         | 500            | Barquettes ou sachets de 500 g, jamais « 0,5 kg »       |
 | Salade, chou-fleur, concombre | pièce     | 1              | À l'unité                                               |
 | Persil, coriandre, menthe     | botte     | 1              |                                                         |
@@ -69,13 +72,14 @@ Articles de base (extrait du futur catalogue, phase 3) :
 | Croissants, pains au chocolat | pièce     | 1              | À l'unité ; en supermarché, passer la ligne en `paquet` |
 | Pain de mie                   | paquet    | 1              | Contenant toujours le même                              |
 | Viande, poisson à la coupe    | g         | 500            |                                                         |
-| Jambon                        | tranche   | 4              | Paquets de 2, 4, 6, 8 tranches                          |
+| Jambon, blanc de dinde        | tranche   | 4              | Paquets de 2, 4, 6, 8 tranches                          |
 | Fromage à la coupe (comté…)   | g         | 250            |                                                         |
 | Pâtes, riz, farine, sucre     | paquet    | 1              | Contenant toujours le même                              |
 | Huile, vinaigre               | bouteille | 1              |                                                         |
 | Conserves (thon, maïs…)       | boîte     | 1              |                                                         |
 | Moutarde, confiture           | pot       | 1              |                                                         |
-| Eau                           | pack      | 1              | Pack de 6 bouteilles                                    |
+| Eau, eau aromatisée           | pack      | 1              | Pack de 6 bouteilles                                    |
+| Lait aromatisé                | pack      | 1              | Packs de petits berlingots                              |
 | Jus, sodas                    | bouteille | 1              |                                                         |
 | Café                          | paquet    | 1              |                                                         |
 | Lessive, liquide vaisselle    | bouteille | 1              |                                                         |
@@ -174,7 +178,7 @@ Plus de modèles de magasin depuis la phase 7 (13 novembre 2026) : ils regroupai
 - **Même structure pour les catégories et les unités** : `key` sans langue + `name` (et pluriel, abréviation pour les unités) par langue.
 - _Plus tard (D3)_ : `season` pour les fruits et légumes, liste des mois de saison (`[9, 10, 11, 12, 1, 2]`).
 - **Production** : généré par l'agent IA pendant le développement, puis **relu par catégorie** avant validation. C'est la donnée qui fait la qualité perçue de l'app.
-- Livraison progressive : ~150 articles dès la phase données (238 livrés, relus le 9 novembre 2026), le catalogue complet en phase 8 : 428 articles, relus et validés le 14 novembre 2026.
+- Livraison progressive : ~150 articles dès la phase données (238 livrés, relus le 9 novembre 2026), le catalogue complet en phase 8 : 428 articles, relus et validés le 14 novembre 2026. Phase 9 (recettes) : 55 ingrédients de cuisine et de pâtisserie en plus, soit 483 articles, relus et validés le 15 novembre 2026.
 
 ## 5. Dictionnaire de mots-clés
 
@@ -221,12 +225,14 @@ Au lancement, si le catalogue de l'app est plus récent que celui de la base (`s
 - rien de ce que l'utilisateur a créé, modifié ou supprimé n'est touché : un article du catalogue qu'il a supprimé ne revient pas ;
 - une nouvelle catégorie n'est rangée dans aucun rayon : elle apparaît dans les « Catégories non rattachées » de chaque magasin (G3).
 
-Les changements apportés à un article existant ne sont pas recopiés, sauf une **correction** listée dans `catalogFixes` (`src/data/catalog.ts`, aujourd'hui l'unité par défaut) : elle ne s'applique qu'à un article que l'utilisateur n'a jamais modifié (date de mise à jour égale à la date de création). Plus besoin de réinstaller l'app pour profiter des nouveautés.
+Les changements apportés à un article existant ne sont pas recopiés, sauf une **correction** listée dans `catalogFixes` (`src/data/catalog.ts` : unité par défaut, quantité par défaut, « se compte à la pièce ») : elle ne s'applique qu'à un article que l'utilisateur n'a jamais modifié (date de mise à jour égale à la date de création). Plus besoin de réinstaller l'app pour profiter des nouveautés.
 
-| Version | Ajouts                                                                                                                                                                                                                                                                                                                                                                                        |
-| ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 2       | Catégorie « Sel, Poivre & Épices » ; articles Gnocchis, Brandade de morue, Conserves au choix.                                                                                                                                                                                                                                                                                                |
-| 3       | Article Lait aromatisé (fraise, chocolat, vanille).                                                                                                                                                                                                                                                                                                                                           |
-| 4       | Correction : la litière se compte en paquets (et non en sachets).                                                                                                                                                                                                                                                                                                                             |
-| 5       | Lot 1 du catalogue complet (phase 8) : 44 articles d'épicerie salée (pâtes et féculents, conserves, sauces, épices, huiles, apéritif, cuisine du monde).                                                                                                                                                                                                                                      |
-| 6       | Lot 2 du catalogue complet (phase 8) : 145 articles — épicerie sucrée, frais (charcuterie, traiteur, crèmerie, desserts, fromages), viandes et poissons, boulangerie, boissons, surgelés, hygiène, maison, animaux. Catalogue : 428 articles. Autres noms retirés pour éviter les doublons : « granola » (Muesli), « faisselle » (Fromage blanc). Liniment retiré à la relecture (trop rare). |
+| Version | Ajouts                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 2       | Catégorie « Sel, Poivre & Épices » ; articles Gnocchis, Brandade de morue, Conserves au choix.                                                                                                                                                                                                                                                                                                                           |
+| 3       | Article Lait aromatisé (fraise, chocolat, vanille).                                                                                                                                                                                                                                                                                                                                                                      |
+| 4       | Correction : la litière se compte en paquets (et non en sachets).                                                                                                                                                                                                                                                                                                                                                        |
+| 5       | Lot 1 du catalogue complet (phase 8) : 44 articles d'épicerie salée (pâtes et féculents, conserves, sauces, épices, huiles, apéritif, cuisine du monde).                                                                                                                                                                                                                                                                 |
+| 6       | Lot 2 du catalogue complet (phase 8) : 145 articles — épicerie sucrée, frais (charcuterie, traiteur, crèmerie, desserts, fromages), viandes et poissons, boulangerie, boissons, surgelés, hygiène, maison, animaux. Catalogue : 428 articles. Autres noms retirés pour éviter les doublons : « granola » (Muesli), « faisselle » (Fromage blanc). Liniment retiré à la relecture (trop rare).                            |
+| 7       | Phase 9 (recettes) : 55 ingrédients de cuisine et de pâtisserie (fruits secs, épices, herbes, alcools de cuisine, fromages, abats de volaille…). Catalogue : 483 articles. Retirés pour éviter les doublons : l'autre nom « cacao » (Chocolat en poudre, au profit de Cacao non sucré), la sorte « roux » du Sucre (« sucre roux » devient un autre nom de Cassonade), la sorte « confit » du Canard (Confit de canard). |
+| 8       | Corrections (phase 9, un nombre seul compte des objets) : 17 articles au poids se comptent à la pièce (pommes, tomates, carottes, blancs de poulet…) ; oignons, échalotes, poireaux, courgettes, endives et patates douces passent à la pièce × 1.                                                                                                                                                                       |

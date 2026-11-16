@@ -32,6 +32,8 @@ export const fr = {
         title: "Remplir la liste",
         points: [
           "Tape «\u00a02 baguettes, du beurre\u00a0» dans la barre du bas : les articles s'ajoutent, rangés par catégorie. Tu peux aussi parcourir le Catalogue.",
+          "Plusieurs articles d'un coup : sépare-les par une virgule ou par «\u00a0et\u00a0». À la dictée (micro du clavier), dis «\u00a0et\u00a0» (ou «\u00a0puis\u00a0», «\u00a0virgule\u00a0») entre deux articles : sinon, tout devient un seul article.",
+          "Une sorte précise ? Tape-la après le nom («\u00a0pommes golden\u00a0») ou choisis-la dans les suggestions. Pour une autre sorte du même article, retouche-le : «\u00a0Une autre sorte\u00a0» ajoute une ligne à part, avec sa propre quantité.",
           "Touche une ligne pour changer sa quantité, sa note ou les types qui te vont ; glisse-la vers la gauche pour la retirer.",
           "Plusieurs listes : touche le nom de la liste en haut. Le menu ⋯ agit sur la liste affichée.",
         ],
@@ -90,10 +92,19 @@ export const fr = {
   },
   toast: { close: "Fermer le message" },
   search: { clear: "Effacer la recherche" },
+  /** Barre de mise en forme d'un texte (src/ui/Markdown.tsx). */
+  markdown: {
+    toolbar: "Mise en forme",
+    bold: "Gras",
+    heading: "Titre",
+    bullets: "Liste à puces",
+    numbers: "Liste numérotée",
+  },
   tabs: {
     navigation: "Navigation principale",
     list: "Liste",
     catalog: "Catalogue",
+    recipes: "Recettes",
     settings: "Réglages",
   },
   list: {
@@ -104,12 +115,16 @@ export const fr = {
     openCatalog: "Ouvrir le catalogue",
     chooseList: "Changer de liste",
     menu: "Actions sur la liste",
-    addPlaceholder: "Ajouter un article…",
+    addPlaceholder: "Ajouter un ou plusieurs articles…",
     addLabel: "Ajouter",
     create: (name: string) => `Créer «\u00a0${name}\u00a0»`,
     inList: (quantity: string) => `Dans la liste : ${quantity}`,
     typesOne: (type: string) => `${type} uniquement`,
     typesMany: (types: string[]) => types.join(" ou "),
+    withType: (name: string, type: string) => `${name} · ${type}`,
+    otherType: "Une autre sorte, sur une ligne à part",
+    linesJoined:
+      "Mêmes types qu'une autre ligne : les deux n'en font plus qu'une.",
     removed: (name: string) => `${name} : retiré de la liste`,
     removedMany: (count: number) =>
       count > 1 ? `${count} lignes retirées` : "1 ligne retirée",
@@ -126,6 +141,8 @@ export const fr = {
       keep: "Garder l'existant",
       replace: (quantity: string) => `Remplacer par ${quantity}`,
       asNote: "Ajouter en note",
+      otherType: (quantity: string) =>
+        `Ou ajouter ${quantity} d'une autre sorte, sur une ligne à part`,
     },
     createSheet: {
       title: "Nouvel article",
@@ -213,8 +230,11 @@ export const fr = {
         count > 1 ? `${count} lignes ajoutées` : "1 ligne ajoutée",
     },
     unavailableLastTime: "Pas pris la dernière fois",
+    via: (recipes: string[]) => `via ${recipes.join(", ")}`,
   },
   shopping: {
+    /** Champ d'ajout, à côté de « Terminer » : la place manque pour le libellé de la liste. */
+    addPlaceholder: "Ajouter…",
     start: "C'est parti",
     resume: "Reprendre les courses",
     reopen: (time: string) => `Rouvrir les courses (${time})`,
@@ -246,7 +266,11 @@ export const fr = {
     pickUp: "À récupérer",
     aislePassed: (label: string) =>
       `${label} déjà passé : il t'attend dans «\u00a0À récupérer\u00a0».`,
-    current: "rayon en cours",
+    current: "Tu es ici",
+    aisleOpened:
+      "Nouveau rayon\u00a0: les articles cochés ensuite y seront rangés.",
+    aisleStillEmpty:
+      "Tu es déjà dans un nouveau rayon, encore vide\u00a0: coche un article de «\u00a0À placer\u00a0» pour le remplir.",
     swipeHint:
       "Glisser vers la gauche : pas pris · appui long : changer de rayon",
     unavailable: "Pas pris",
@@ -449,6 +473,8 @@ export const fr = {
       none: "Aucune (initiales)",
       noResult: "Aucune icône ne correspond.",
       change: "Changer l'icône",
+      featured: "Plats et desserts",
+      others: "Toutes les icônes",
     },
     articles: {
       title: "Articles",
@@ -493,12 +519,24 @@ export const fr = {
       removeAlias: (alias: string) => `Retirer le nom ${alias}`,
       favorite: "Favori",
       favoriteHint: "Toujours en tête du catalogue.",
-      usage: (lines: number, lists: number) =>
-        lines === 0
-          ? "Dans aucune liste pour l'instant."
-          : lists > 1
-            ? `Dans ${lists} listes.`
-            : "Dans une liste.",
+      countable: "Se compte à la pièce",
+      countableHint:
+        "Un nombre tapé seul compte des pièces\u00a0: 3\u00a0pommes. Sinon, des portions de la quantité par défaut\u00a0: 2\u00a0beurres → 500\u00a0g.",
+      usage: (lines: number, lists: number, recipes: number) =>
+        [
+          lines === 0
+            ? "Dans aucune liste pour l'instant."
+            : lists > 1
+              ? `Dans ${lists} listes.`
+              : "Dans une liste.",
+          recipes === 0
+            ? ""
+            : recipes > 1
+              ? `Utilisé dans ${recipes} recettes.`
+              : "Utilisé dans une recette.",
+        ]
+          .filter(Boolean)
+          .join(" "),
       merge: "Fusionner avec un autre article",
       mergeTitle: (name: string) => `Fusionner dans ${name}`,
       mergeSearch: "Article à fusionner",
@@ -509,10 +547,19 @@ export const fr = {
       keep: (name: string) => `Garder ${name}`,
       delete: "Supprimer l'article",
       deleteTitle: (name: string) => `Supprimer ${name} ?`,
-      deleteText: (lists: number) =>
-        lists === 0
+      deleteText: (lists: number, recipes: number) => {
+        const where = [
+          lists > 1 ? `des ${lists} listes` : lists === 1 ? "de la liste" : "",
+          recipes > 1
+            ? `des ${recipes} recettes`
+            : recipes === 1
+              ? "de la recette"
+              : "",
+        ].filter(Boolean);
+        return where.length === 0
           ? "Il disparaît du catalogue. L'historique de tes courses reste."
-          : `Il disparaît du catalogue et ${lists > 1 ? `des ${lists} listes` : "de la liste"} où il se trouve. L'historique de tes courses reste.`,
+          : `Il disparaît du catalogue et ${where.join(" et ")} où il se trouve. L'historique de tes courses reste.`;
+      },
       deleted: (name: string) => `${name} supprimé`,
       missing: "Cet article n'existe plus.",
       edit: "Modifier l'article",
@@ -609,6 +656,100 @@ export const fr = {
       done: "Terminé",
     },
   },
+  recipes: {
+    title: "Recettes",
+    search: "Rechercher une recette",
+    create: "Nouvelle recette",
+    count: (count: number) =>
+      count > 1 ? `${count} recettes` : count === 1 ? "1 recette" : "Recettes",
+    noResult: "Aucune recette ne correspond.",
+    emptyTitle: "Aucune recette",
+    emptyText:
+      "Note une recette une fois : ses ingrédients s'ajoutent ensuite à ta liste, pour le nombre de personnes voulu.",
+    newTitle: "Nouvelle recette",
+    name: "Nom",
+    namePlaceholder: "Cake aux olives",
+    yield: "Pour",
+    yieldQuantity: "Nombre",
+    yieldUnit: "Unité",
+    yieldHint: "Personnes, parts, cake… : ce que la recette donne.",
+    yieldUnits: ["personnes", "parts", "cake", "tarte", "gâteau", "pièces"],
+    createSubmit: "Créer la recette",
+    missing: "Cette recette n'existe plus.",
+    serves: (amount: string) => `Pour ${amount}`,
+    edit: "Modifier",
+    editDone: "OK",
+    ingredients: "Ingrédients",
+    noIngredients: "Aucun ingrédient pour l'instant.",
+    noIngredientsEdit:
+      "Ajoute les ingrédients avec la barre du bas : «\u00a0200 g de farine, 3 œufs\u00a0».",
+    steps: "Étapes",
+    noSteps: "Aucune étape notée.",
+    stepsPlaceholder: "1. Préchauffer le four à 180 °C…",
+    optional: "facultatif",
+    fixed: "quantité fixe",
+    addPlaceholder: "Ajouter un ingrédient…",
+    addLabel: "Ajouter l'ingrédient",
+    addToList: "Ajouter à une liste",
+    duplicate: "Dupliquer",
+    duplicateTitle: (name: string) => `Dupliquer «\u00a0${name}\u00a0»`,
+    duplicateName: "Nom de la nouvelle recette",
+    duplicateSubmit: "Créer la copie",
+    duplicated: (name: string) => `«\u00a0${name}\u00a0» créée`,
+    delete: "Supprimer la recette",
+    deleteTitle: (name: string) => `Supprimer «\u00a0${name}\u00a0» ?`,
+    deleteText:
+      "Les ingrédients déjà ajoutés à tes listes y restent. La recette, elle, ne se récupère pas.",
+    deleted: (name: string) => `«\u00a0${name}\u00a0» supprimée`,
+    /** Icônes de plats (`src/icons/dishes`) : libellé et mots-clés pour la recherche. */
+    dishes: {
+      soupe: { label: "Soupe", keywords: ["velouté", "potage", "bouillon"] },
+      cake: { label: "Cake", keywords: ["cake salé", "cake sucré"] },
+      tarte: { label: "Tarte", keywords: ["tarte aux pommes", "tarte sucrée"] },
+      gateau: {
+        label: "Gâteau",
+        keywords: ["gâteau au chocolat", "anniversaire", "layer cake"],
+      },
+      gratin: { label: "Gratin", keywords: ["gratin dauphinois", "four"] },
+      "salade-composee": {
+        label: "Salade composée",
+        keywords: ["salade", "crudités"],
+      },
+    } as Record<string, { label: string; keywords: string[] } | undefined>,
+    ingredient: {
+      optional: "Facultatif",
+      optionalHint: "décoché au moment d'ajouter la recette à une liste",
+      fixed: "Quantité fixe",
+      fixedHint:
+        "ne change pas avec le nombre de personnes : un pot de crème pour la raclette",
+      remove: "Retirer",
+      done: "OK",
+    },
+    add: {
+      title: (name: string) => `Ajouter «\u00a0${name}\u00a0»`,
+      into: (list: string) => `Dans la liste «\u00a0${list}\u00a0».`,
+      list: "Dans la liste",
+      amount: "Pour",
+      less: "Moins",
+      more: "Plus",
+      ingredients: "Ingrédients",
+      hint: "Décoche ce que tu as déjà.",
+      isNew: "à ajouter",
+      merged: (before: string, after: string) => `déjà ${before} → ${after}`,
+      note: (before: string) => `déjà ${before}, ajouté en note`,
+      empty: "Cette recette n'a pas encore d'ingrédient.",
+      apply: (count: number) =>
+        count > 1
+          ? `Ajouter ${count} ingrédients`
+          : count === 1
+            ? "Ajouter 1 ingrédient"
+            : "Rien à ajouter",
+      done: (count: number, list: string) =>
+        count > 1
+          ? `${count} ingrédients ajoutés à «\u00a0${list}\u00a0»`
+          : `1 ingrédient ajouté à «\u00a0${list}\u00a0»`,
+    },
+  },
   catalog: {
     title: "Catalogue",
     search: "Chercher un article",
@@ -626,6 +767,9 @@ export const fr = {
       `Catégorie · ${count > 1 ? `ses ${count} articles` : "son article"}`,
     back: "Catalogue",
     quantityTitle: (name: string) => name,
+    otherType: "Ajouter une autre sorte",
+    removeLine: (label?: string) =>
+      label ? `Retirer la ligne «\u00a0${label}\u00a0»` : "Retirer de la liste",
     remove: "Retirer de la liste",
     done: "Terminé",
     count: (count: number) =>
@@ -664,8 +808,8 @@ export const fr = {
       stateSome: (on: number, total: number) => `${on} sons sur ${total}`,
     },
     keepScreenOn: {
-      title: "Écran allumé pendant les courses",
-      hint: "L'écran ne se met pas en veille en mode courses.",
+      title: "Écran allumé",
+      hint: "Seulement sur deux écrans : le mode courses et la fiche d'une recette. Ailleurs, le téléphone se met en veille comme d'habitude.",
     },
   },
   soundsPage: {
@@ -747,7 +891,7 @@ export const fr = {
     iconsHint:
       "Le pack embarqué dans l'app, disponible hors ligne. Un monogramme remplace les icônes manquantes.",
     addBar: "Barre d'ajout",
-    addPlaceholder: "Ajouter un article…",
+    addPlaceholder: "Ajouter un ou plusieurs articles…",
     add: "Ajouter",
     added: (text: string) => `«\u00a0${text}\u00a0» ajouté (maquette)`,
   },
@@ -768,104 +912,15 @@ export const fr = {
     version: (version: string) => `Version ${version}`,
     versions: [
       {
-        version: "0.9.0",
-        date: "2026-11-15",
+        version: "1.0.0",
+        date: "2026-11-16",
         items: [
-          "Version d'installation définitive : à partir de maintenant, tes listes, articles et magasins sont conservés à chaque mise à jour.",
-          "La catégorie des œufs s'appelle «\u00a0Crèmerie & Œufs\u00a0».",
-        ],
-      },
-      {
-        version: "0.8.0",
-        date: "2026-11-15",
-        items: [
-          "Catalogue complet : 428 articles (contre 240), chacun avec son icône dessinée pour l'app. Les œufs sont rangés avec la crèmerie, dans «\u00a0Lait, Crème, Beurre & Œufs\u00a0».",
-          "Copies automatiques : chaque jour, l'app garde une copie de tes données dans le téléphone, sur 7 jours, et une juste avant chaque restauration ou import. Réglages → Sauvegarde → «\u00a0Copies automatiques\u00a0».",
-          "Nouvel écran Aide (Réglages → Application → Aide) : le mode d'emploi en bref et ce que l'app règle toute seule. «\u00a0Revoir les conseils\u00a0» s'y trouve désormais.",
-          "En magasin : les catégories de «\u00a0À placer\u00a0» se replient d'un toucher, comme les blocs «\u00a0À placer\u00a0» et «\u00a0À récupérer\u00a0» ; «\u00a0Rayon suivant\u00a0» est bien plus visible.",
-          "Un article déjà dans la liste ? Sa ligne se montre et pulse, même si son rayon était replié. En cochant, le trait barré se trace.",
-          "Moins de réglages : les animations suivent le réglage «\u00a0Réduire les animations\u00a0» du téléphone ; l'affichage compact et le choix pour les lignes cochées ont disparu.",
-          "Finitions : écrans vides plus clairs, meilleurs contrastes en thème clair, boutons plus faciles à toucher, sons «\u00a0Suppression\u00a0» et «\u00a0Action impossible\u00a0» partout où ils ont du sens.",
-        ],
-      },
-      {
-        version: "0.7.2",
-        date: "2026-11-14",
-        items: [
-          "Réglages réorganisés : «\u00a0Mes données\u00a0» en tête (articles, catégories, magasins, unités), la sauvegarde dans son propre écran, les préférences (sons, écran allumé, thème) regroupées.",
-          "Sauvegarde : «\u00a0Copier les données\u00a0» et «\u00a0Coller les données\u00a0», quatre boutons de même importance.",
-          "Menu ⋯ de la liste : seulement des actions sur cette liste, dont «\u00a0Y ajouter le contenu d'une autre liste\u00a0». Les autres listes s'ouvrent en touchant son nom.",
-          "Les quantités sont toujours simplifiées (1200 g → 1,2 kg), avec «\u00a0Annuler\u00a0» : le réglage a disparu.",
-          "Titres de parties plus visibles, champs de recherche identiques partout.",
-          "Corrections : un rayon ne peut plus être fusionné dans «\u00a0À placer\u00a0» ; après «\u00a0Rouvrir les courses\u00a0», les articles se rangent après le dernier rayon et ne sont jamais en double ; supprimer une liste termine ses courses restées ouvertes.",
-        ],
-      },
-      {
-        version: "0.7.1",
-        date: "2026-11-14",
-        items: [
-          "En rangeant ton magasin, rien ne saute plus à l'écran : les autres articles de la catégorie que tu viens de ranger restent dans «\u00a0À placer\u00a0» jusqu'à ce que tu les coches.",
-          "«\u00a0Rouvrir les courses\u00a0» n'est proposé que le jour même, et plus jamais pour un magasin supprimé.",
-        ],
-      },
-      {
-        version: "0.7.0",
-        date: "2026-11-13",
-        items: [
-          "Ton magasin se construit pendant tes courses : au premier «\u00a0C'est parti\u00a0», donne-lui un nom ; tout est «\u00a0À placer\u00a0», rangé par catégorie. Touche un article quand il est dans le caddie : il se range dans le rayon où tu es. «\u00a0Rayon suivant\u00a0» quand tu changes de rayon.",
-          "Plus de magasin type ni de rayons préremplis. Pour repartir de zéro, supprime ton magasin (même le dernier) et relance «\u00a0C'est parti\u00a0».",
-          "Les rayons prennent le nom de ce qu'ils contiennent : «\u00a0Fromages\u00a0», «\u00a0Épicerie sucrée\u00a0», «\u00a0Pain · Café & thé +2\u00a0». Tu peux toujours les nommer, et ajouter un repère («\u00a0au fond du magasin\u00a0»).",
-          "Bulles d'aide pendant tes premières courses ; «\u00a0Revoir les conseils\u00a0» dans les Réglages.",
-          "Sauvegarde : copier toutes tes données dans le presse-papiers (pratique pour réinstaller l'app), et coller une sauvegarde.",
-          "Nouvel article : Lait aromatisé (fraise, chocolat, vanille). La litière se compte en paquets.",
-          "Liste et courses plus lisibles en thème sombre : plus de fond sous les articles.",
-        ],
-      },
-      {
-        version: "0.6.1",
-        date: "2026-11-13",
-        items: [
-          "La liste se range par catégorie : elle ne dépend d'aucun magasin. En magasin, elle se range par rayon, marqué «\u00a0Rayon\u00a0», dans l'ordre de ton parcours.",
-          "Article pris en passant : l'app demande dans quel rayon tu l'as pris, et s'en souvient pour ce magasin.",
-          "Sauvegarde : Réglages → Sauvegarde → exporter toutes tes données dans un fichier, et les réimporter (nouveau téléphone, réinstallation).",
-          "Les nouveaux articles du catalogue arrivent avec les mises à jour, sans réinstaller : Brandade de morue, Conserves au choix, Gnocchis, catégorie Sel, Poivre & Épices.",
-          "En magasin, touche la quantité d'un article pour la changer. Un article glissé est «\u00a0pas pris\u00a0» (plus besoin, introuvable…) : il reste dans la liste.",
-          "Catalogue : taper le nom d'une catégorie («\u00a0animaux\u00a0») la propose avec tous ses articles.",
-          "Messages plus courts, à fermer d'un ✕ ou en les poussant vers le haut. Sur iPhone, secouer le téléphone ne propose plus «\u00a0Annuler la saisie\u00a0». Un seul jeu de sons, les plus doux.",
-        ],
-      },
-      {
-        version: "0.6.0",
-        date: "2026-11-12",
-        items: [
-          "Tout est modifiable : Réglages → Mes données → Articles, Catégories, Magasins & rayons, Unités.",
-          "Magasins : crée-les depuis un modèle, une copie ou à vide ; range les rayons au doigt, choisis leurs catégories, leur icône et leur couleur ; active ou coupe l'apprentissage de l'ordre.",
-          "Articles : nom, catégorie, unité et quantité par défaut, types, autres noms, icône et favori. L'app repère les doublons probables et propose de les fusionner.",
-          "Raccourcis : «\u00a0Modifier l'article\u00a0» depuis une ligne, appui long sur une carte du catalogue, «\u00a0Modifier ce magasin\u00a0» depuis le choix du magasin.",
-        ],
-      },
-      {
-        version: "0.5.0",
-        date: "2026-11-12",
-        items: [
-          "Thème clair au choix : Réglages → Affichage → Thème (automatique, sombre ou clair).",
-          "Le catalogue propose les articles dès la première lettre tapée ; Entrée ajoute le premier.",
-          "Panneaux plus simples à fermer : bouton ✕ toujours visible, ou glisser vers le bas. Les messages s'affichent en haut, bien visibles.",
-          "Changer un article de rayon en magasin : le rayon où tu es est proposé en premier, chaque choix est expliqué, et on peut revenir en arrière.",
-          "Rayons qui se déplient en douceur, nouvelles lignes animées, fonds plus contrastés et barre d'ajout plus visible.",
-          "Nouveaux types courants (jambon, steaks hachés 5 %, fromage blanc, couches, croquettes…), l'article Gnocchis et la catégorie Sel, Poivre & Épices. Les unités proposées ne changent plus d'ordre.",
-        ],
-      },
-      {
-        version: "0.4.0",
-        date: "2026-11-12",
-        items: [
-          "La liste se remplit en un geste : «\u00a02 baguettes, du beurre\u00a0», le catalogue par catégorie, et elle se range toute seule par rayon, dans l'ordre de ton magasin.",
-          "Plusieurs listes, plusieurs magasins, unités claires (500 g, 1 bouteille) et achats ponctuels qui n'encombrent pas le catalogue.",
-          "Mode courses, à l'essai : touche un article quand il est dans le caddie, glisse-le s'il est introuvable, appui long pour le changer de rayon ; l'écran reste allumé.",
-          "Un article ajouté en route va dans «\u00a0À récupérer\u00a0» si son rayon est passé, ou se coche tout de suite si tu l'as déjà pris.",
-          "À la fin des courses, l'app apprend l'ordre de ton parcours. Un oubli à la caisse ? «\u00a0Rouvrir les courses\u00a0».",
-          "Toutes les icônes d'articles sont dessinées pour l'app, et elle a un nouveau logo.",
+          "Ta liste de courses, rangée par catégorie à la maison et par rayon en magasin, dans l'ordre de ton parcours.",
+          "Ajout éclair : «\u00a03 tomates, du beurre et 6 œufs\u00a0», au clavier ou en dictée.",
+          "483 articles, chacun avec son icône dessinée pour l'app. Tout se modifie : articles, catégories, rayons, magasins, unités.",
+          "Chaque magasin se construit pendant tes courses : coche dans l'ordre, «\u00a0Rayon suivant\u00a0» quand tu changes de rayon. La fois suivante, la liste suit ce parcours.",
+          "Recettes : note une recette une fois, puis ajoute ses ingrédients à ta liste pour le nombre de personnes voulu. Les quantités sont recalculées et s'ajoutent à celles déjà dans la liste.",
+          "Plusieurs listes, sauvegarde et copies automatiques dans le téléphone, thème sombre ou clair, et l'app marche sans connexion.",
         ],
       },
     ],

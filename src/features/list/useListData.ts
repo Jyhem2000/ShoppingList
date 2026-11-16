@@ -7,6 +7,7 @@ import {
   useLists,
   useOverrides,
   usePurchaseCounts,
+  useRecipes,
   useSettings,
   useStores,
   useUnits,
@@ -18,6 +19,7 @@ import type {
   Category,
   ID,
   ListItem,
+  Recipe,
   Settings,
   ShoppingList,
   Store,
@@ -41,6 +43,9 @@ export interface ListData {
   aisles: Aisle[];
   overrides: ArticleAisleOverride[];
   purchaseCounts: Map<ID, number>;
+  recipes: Recipe[];
+  /** Origine « via Raclette » des lignes (docs/03 E2). */
+  recipeById: Map<ID, Recipe>;
   /** Achats par catégorie : titre des rayons sans nom (docs/02 § 4). */
   categoryWeights: Map<ID, number>;
 }
@@ -65,6 +70,7 @@ export function useListData(storeId?: ID): ListData | undefined {
   const aisles = useAisles(store?.id);
   const overrides = useOverrides();
   const purchaseCounts = usePurchaseCounts();
+  const recipes = useRecipes();
 
   return useMemo(() => {
     if (
@@ -78,7 +84,8 @@ export function useListData(storeId?: ID): ListData | undefined {
       !stores ||
       !aisles ||
       !overrides ||
-      !purchaseCounts
+      !purchaseCounts ||
+      !recipes
     )
       return undefined;
     return {
@@ -97,6 +104,8 @@ export function useListData(storeId?: ID): ListData | undefined {
       aisles,
       overrides,
       purchaseCounts,
+      recipes,
+      recipeById: new Map(recipes.map((r) => [r.id, r])),
       categoryWeights: categoryWeights(articles, purchaseCounts),
     };
   }, [
@@ -112,5 +121,6 @@ export function useListData(storeId?: ID): ListData | undefined {
     aisles,
     overrides,
     purchaseCounts,
+    recipes,
   ]);
 }

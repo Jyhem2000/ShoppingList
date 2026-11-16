@@ -2,11 +2,11 @@
 
 PWA de liste de courses, local-first (aucun serveur, aucun compte), triée par rayon selon le magasin. Optimisée pour Chrome : iPhone (dernière version d'iOS, cible principale) et Android récent (cible secondaire).
 
-## Phase actuelle : 0.9.0 en usage réel, phase 9 (recettes) en préparation
+## Phase actuelle : 1.0.0 en production, phase 10 (partage) à venir
 
-Phase 8 **validée** le 15 novembre 2026 (`0.8.0`). La `0.9.0` est publiée le 15 novembre 2026 : installation définitive de la production sur les deux téléphones, 2-3 semaines d’usage réel avant la `1.0.0`, correctifs en `0.9.x`. **Depuis la `0.9.0`, les données sont réelles** : toute évolution du schéma ou des données livrées doit préserver l’existant (migration + test, docs/07 § 5). La phase 9 (recettes, v1.1) se prépare en parallèle sur `dev`.
+Phase 9 (recettes) **validée** le 16 novembre 2026 ; la `1.0.0` est publiée le même jour (avec les recettes, une seule entrée de nouveautés « 1.0.0 »). Usage réel en cours, correctifs en `1.0.x`. **Pas de migration de données tant que l’app n’a pas d’autres utilisateurs** (« vraie production ») : si un changement casse les données existantes, on efface les données de l’app ou on la réinstalle (docs/07 § 5). On jugera au cas par cas quand l’app sera utilisée par d’autres. Ensuite : `1.1.0` partage (phase 10), `1.2.0` anti-oubli (phase 11).
 
-La documentation est **validée** (8 novembre 2026). Suivre le plan de `docs/09-plan-de-developpement.md` phase par phase, en travaillant directement sur `dev` (pas de branche de travail ni de pull request). Pour les phases 3 à 7 et 9, proposer un plan avant d'implémenter. Ne jamais commencer une phase suivante sans validation de la précédente.
+La documentation est **validée** (8 novembre 2026). Suivre le plan de `docs/09-plan-de-developpement.md` phase par phase, en travaillant directement sur `dev` (pas de branche de travail ni de pull request). Pour les phases 3 à 7 et 9 à 11, proposer un plan avant d'implémenter. Ne jamais commencer une phase suivante sans validation de la précédente.
 
 ## Documentation de référence
 
@@ -22,14 +22,14 @@ La documentation est **validée** (8 novembre 2026). Suivre le plan de `docs/09-
 
 ## Stack (une fois le code démarré)
 
-Vite · React 19 · TypeScript strict · Tailwind v4 · shadcn/ui · React Router 8 (hash) · Dexie · Motion · dnd-kit · lucide-react · icônes d'articles dessinées pour l'app (`src/icons/drawn`) · Web Audio · lz-string · vite-plugin-pwa · ESLint + Prettier · Vitest · Playwright (WebKit/iPhone + Chromium/Android) · Cloudflare Pages connecté au dépôt (pas de GitHub Actions).
+Vite · React 19 · TypeScript strict · Tailwind v4 · shadcn/ui · React Router 8 (hash) · Dexie · Motion · dnd-kit · lucide-react · icônes d'articles dessinées pour l'app (`src/icons/drawn`) · Web Audio · TipTap (étapes de recette) · lz-string · vite-plugin-pwa · ESLint + Prettier · Vitest · Playwright (WebKit/iPhone + Chromium/Android) · Cloudflare Pages connecté au dépôt (pas de GitHub Actions).
 
 ## Règles de code
 
 - Logique métier dans `src/domain/` : fonctions pures, sans React ni Dexie.
 - IDs : `crypto.randomUUID()`. Libellé ≠ identifiant ≠ slug ; slugs via `slugify` (docs/02 § 1).
 - Ne jamais stocker de donnée dérivée ; ne jamais recopier le libellé d'un article dans une ligne, un ingrédient ou l'historique.
-- Toute évolution du schéma Dexie = nouvelle version + migration + test. La version du schéma est indépendante de la version de l'app.
+- Toute évolution du schéma Dexie = nouvelle version déclarée ; migration et test de migration seulement une fois l’app utilisée par d’autres (voir « Phase actuelle »). La version du schéma est indépendante de la version de l'app.
 - Mobile d'abord (390×844), zones de sécurité, cibles tactiles ≥ 44 px (48 px en mode courses).
 - Animations via Motion, toujours présentes sauf si le téléphone demande de les réduire (`prefers-reduced-motion`) ; pas de réglage dans l'app.
 - Sons uniquement via le module `src/feedback/`. Pas de vibrations (retirées, docs/05 § 7).
@@ -51,7 +51,7 @@ Vite · React 19 · TypeScript strict · Tailwind v4 · shadcn/ui · React Route
 - Messages en français, format Conventional Commits (`feat:`, `fix:`, `docs:`, `test:`, `chore:`).
 - On travaille **directement sur `dev`** : commits poussés sur `dev` (préproduction, déployée automatiquement), sans branche de travail ni pull request.
 - **Jamais de travail ni de push direct sur `main`** : elle n'avance que par `npm run release` (mise en production, manuelle).
-- Publication d'une version : `npm run release` depuis `dev` (calcule la version depuis les commits, vérifie que ses nouveautés sont écrites dans `src/i18n/fr.ts` → `releaseNotes`, lance tous les contrôles, tague, avance `main` ; Cloudflare déploie). Numérotation : **`0.N.0` = phase N validée** (peut contenir en avant-première la phase suivante), correctifs `0.N.x` ; puis `0.9.0` (installation définitive), correctifs `0.9.x`, `1.0.0` après validation (docs/07 § 9, tableau des versions publiées dans docs/09). **Ne jamais publier sans demande explicite.**
+- Publication d'une version : `npm run release` depuis `dev` (calcule la version depuis les commits, vérifie que ses nouveautés sont écrites dans `src/i18n/fr.ts` → `releaseNotes`, lance tous les contrôles, tague, avance `main` ; Cloudflare déploie). Numérotation : **`0.N.0` = phase N validée** (peut contenir en avant-première la phase suivante), correctifs `0.N.x` ; puis `0.9.0` (installation définitive), correctifs `0.9.x`, `1.0.0` après validation de la 0.9 et des recettes (docs/07 § 9, tableau des versions publiées dans docs/09). **Ne jamais publier sans demande explicite.**
 
 ## Outils locaux de l'agent (non versionnés)
 

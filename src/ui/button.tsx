@@ -22,6 +22,9 @@ const buttonVariants = cva(
         outline:
           "border border-primary/50 bg-transparent text-primary hover:bg-primary/10 active:bg-primary/20",
         destructive: "bg-danger text-bg hover:bg-danger/90 active:bg-danger/80",
+        // Action destructrice qui ouvre sa confirmation (Supprimer, Retirer) : rouge en contour.
+        dangerOutline:
+          "border border-danger/50 bg-transparent text-danger hover:bg-danger/10 active:bg-danger/20",
         // « Terminer les courses » (docs/04 § 2.3) : le seul bouton plein en or.
         gold: "bg-secondary-fill text-on-secondary hover:bg-secondary-fill-strong active:bg-secondary-fill-strong",
         link: "text-primary underline-offset-4 hover:underline",

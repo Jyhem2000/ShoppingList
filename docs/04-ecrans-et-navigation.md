@@ -6,16 +6,16 @@ Cible : app installée sur l'écran d'accueil (plein écran, sans barre de navig
 
 Barre d'onglets en bas (masquée en mode courses) :
 
-| Onglet        | Icône (Lucide) | Contenu                                   | Version                    |
-| ------------- | -------------- | ----------------------------------------- | -------------------------- |
-| **Liste**     | `list-checks`  | La liste courante (écran d'accueil)       | v1.0                       |
-| **Catalogue** | `layout-grid`  | Parcourir les articles par catégorie      | v1.0                       |
-| **Recettes**  | `chef-hat`     | Les recettes                              | v1.1 (onglet absent avant) |
-| **Réglages**  | `settings`     | Réglages, gestion des données, sauvegarde | v1.0                       |
+| Onglet        | Icône (Lucide) | Contenu                                   | Version |
+| ------------- | -------------- | ----------------------------------------- | ------- |
+| **Liste**     | `list-checks`  | La liste courante (écran d'accueil)       | v1.0    |
+| **Catalogue** | `layout-grid`  | Parcourir les articles par catégorie      | v1.0    |
+| **Recettes**  | `chef-hat`     | Les recettes                              | v1.0    |
+| **Réglages**  | `settings`     | Réglages, gestion des données, sauvegarde | v1.0    |
 
 L'en-tête de chaque écran (titre, et bouton de retour sur une sous-page) **reste visible en haut** quand le contenu défile, avec sa marge haute : le titre ne passe jamais sous le flou qu'iOS 26 pose sous la barre d'état, qu'aucun réglage web ne permet de retirer. Quand le contenu de l'écran dépasse la hauteur disponible, une fine bordure sépare l'en-tête du contenu. Le mode courses suit la même règle (nom du magasin sous le flou corrigé le 13 novembre 2026).
 
-Un écran s'ouvre en haut ; au **retour** (bouton ‹ de l'en-tête, retour d'Android), il retrouve la position où on l'avait laissé. Les lignes qui mènent à un autre écran (Réglages, liste des articles) sont des boutons, pas des liens : un appui long ne les fait pas glisser et n'ouvre pas l'aperçu d'iOS.
+Un écran s'ouvre en haut ; au **retour** (bouton ‹ de l'en-tête, retour d'Android), il retrouve la position où on l'avait laissé. Le bouton ‹ revient à **l'écran d'où l'on vient** (fiche d'article ouverte depuis le catalogue → catalogue), comme le retour d'Android ; sans écran précédent dans l'app (lien direct, app rouverte sur cet écran), il mène à l'écran parent (Réglages → Articles). Après la suppression d'un article ou d'un magasin, même retour (décision du 15 novembre 2026). Les lignes qui mènent à un autre écran (Réglages, liste des articles) sont des boutons, pas des liens : un appui long ne les fait pas glisser et n'ouvre pas l'aperçu d'iOS.
 
 Les fiches d'édition s'ouvrent en **panneaux glissants depuis le bas** (bottom sheets), refermables d'un glissement vers le bas.
 
@@ -44,13 +44,13 @@ Sur Android, le geste ou bouton **Retour** du système ferme d'abord le panneau 
 │                                  │
 │        [ 🛒 C'est parti ]        │
 ├──────────────────────────────────┤
-│ 🔍 Ajouter un article…           │  ← A1 (micro = celui du clavier)
+│ 🔍 Ajouter un ou plusieurs arti… │  ← A1 (micro = celui du clavier)
 ├──────────────────────────────────┤
 │  Liste   Catalogue  Recettes  ⚙  │
 └──────────────────────────────────┘
 ```
 
-- Menu `⋯` : **seulement des actions sur la liste courante** (« Actions sur cette liste ») — renommer, dupliquer, « Y ajouter le contenu d'une autre liste » (panneau « Compléter « Liste 1 » »), partager _(v1.3)_, coller une liste _(v1.3)_, retirer les cochés, vider, supprimer la liste. Les autres listes s'ouvrent en touchant le nom de la liste (14 novembre 2026 : « Toutes mes listes » retiré du menu, qui semblait mélanger cette liste et les autres).
+- Menu `⋯` : **seulement des actions sur la liste courante** (« Actions sur cette liste ») — renommer, dupliquer, « Y ajouter le contenu d'une autre liste » (panneau « Compléter « Liste 1 » »), partager _(v1.1)_, coller une liste _(v1.1)_, retirer les cochés, vider, supprimer la liste. Les autres listes s'ouvrent en touchant le nom de la liste (14 novembre 2026 : « Toutes mes listes » retiré du menu, qui semblait mélanger cette liste et les autres).
 - Tap sur le nom de la liste → **Mes listes** : changer de liste, réordonner (poignée), créer une liste en y ajoutant le contenu d'autres listes.
 - La liste est rangée **par catégorie** (03 B1) ; le magasin se choisit au départ des courses (« C'est parti »), et les magasins se gèrent dans Réglages → Magasins & rayons.
 - Tap sur une ligne → **fiche ligne** (B3). Glisser à gauche → supprimer (B4), avec « Annuler » pendant 5 secondes.
@@ -107,11 +107,13 @@ Articles achetés, pas pris (restés dans la liste), durée, éventuellement « 
 - Grille de catégories (icône, libellé, couleur) → grille d'articles (grande icône, libellé, pastille de quantité si déjà dans la liste courante, pastille « de saison » _plus tard_).
 - Appui long sur un article → fiche article (G1).
 
-### 2.6 Recettes _(v1.1)_
+### 2.6 Recettes _(v1.0)_
 
 - Liste des recettes (icône, libellé, rendement), recherche, bouton « Nouvelle recette ».
-- Fiche recette : en-tête (icône, libellé, rendement réglable `− 4 personnes +` ou `− 1 cake +`), ingrédients, étapes, bouton **« Ajouter à une liste »** → panneau : liste cible, quantité dans l'unité de rendement, aperçu avec cases à cocher → « Ajouter ».
-- Édition : rendement = nombre + unité (« personnes » par défaut, liste de propositions ou saisie libre).
+- Fiche recette : en-tête (icône, libellé, rendement fixe (« 4 personnes », « 1 cake »)), ingrédients, étapes mises en forme ; « Modifier » en haut à droite ; en bas, le bouton principal **« Ajouter à une liste »**, puis « Dupliquer » et « Supprimer la recette » (décision du 15 novembre 2026 : on lit la recette avant de l'ajouter). « Dupliquer » demande d'abord le nom de la nouvelle recette, puis l'ouvre à la place de l'originale : le retour mène à l'écran d'avant, pas à l'originale (décision du 16 novembre 2026). L'écran reste allumé (réglage Écran allumé).
+- Panneau « Ajouter à une liste » : liste cible (choix seulement s'il y en a plusieurs, la liste courante d'abord ; sinon son nom en sous-titre), quantité dans l'unité de rendement (`− 4 personnes +`), aperçu à cocher : chaque ingrédient avec sa quantité recalculée et ce qui arrivera (« à ajouter », « déjà 1 kg → 1,75 kg »). **Tout est coché, sauf les facultatifs** : on décoche ce qu'on a déjà (20 g de beurre). Rien n'est ajouté avant « Ajouter N ingrédients » (décision du 15 novembre 2026). La quantité se règle dans ce panneau, jamais sur la fiche.
+- Les lignes ajoutées affichent leur origine (« via Cake aux olives »), dans la liste et dans leur fiche.
+- Édition, sur la même fiche : nom, rendement = nombre + unité (« personnes » par défaut, propositions en puces ou saisie libre), ingrédients ajoutés par la barre d'ajout (saisie naturelle, création d'article) puis réglés dans leur fiche (quantité, unité dont les unités de cuisine, sortes, « facultatif », « quantité fixe », chacun suivi de son explication entre parenthèses, sur la même ligne), étapes avec une barre de mise en forme (« Titre » et « Gras » écrits en toutes lettres, puis les icônes des puces et des numéros ; un retour à la ligne dans une liste ajoute la puce ou le numéro suivant), écrites directement mises en forme, telles qu'on les lira (pas de Markdown visible). Icône choisie parmi les icônes dessinées des articles, les plats et desserts proposés en premier (décision du 15 novembre 2026).
 
 ### 2.7 Réglages
 
@@ -135,7 +137,7 @@ Application
 ```
 Fonctionnalités   (grisée « Non disponible sur ce téléphone » si besoin)
   Sons .................. Activés ▸  (écran Sons : interrupteur général + un par son, avec écoute)
-  Écran allumé pendant les courses ●
+  Écran allumé                     ●  (« Seulement sur deux écrans : le mode courses et la fiche d'une recette… »)
 Affichage
   Thème ................. Automatique · Sombre · Clair
 ```
@@ -155,7 +157,7 @@ Copies automatiques (phase 8)
      manipulation ; elles disparaissent avec l'app)
 ```
 
-Plus tard : **Coller une liste partagée ▸** _(v1.3)_.
+Plus tard : **Coller une liste partagée ▸** _(v1.1)_.
 
 ### 2.8 Magasin
 
@@ -167,9 +169,9 @@ Plus tard : **Coller une liste partagée ▸** _(v1.3)_.
 
 ### 2.9 Fiches de gestion
 
-Articles, catégories, unités : liste + recherche → fiche d'édition. Actions destructrices (supprimer, fusionner) en bas, en rouge, avec confirmation qui décrit les conséquences (« 3 listes et 1 recette utilisent cet article »).
+Articles, catégories, unités : liste + recherche → fiche d'édition. La fiche d'un article au poids a l'interrupteur « Se compte à la pièce » (02 § 2, 03 A2). Actions destructrices (supprimer, fusionner) en bas, en rouge, avec confirmation qui décrit les conséquences (« 3 listes et 1 recette utilisent cet article »).
 
-### 2.10 Aperçu d'import _(v1.3)_
+### 2.10 Aperçu d'import _(v1.1)_
 
 Résumé (« 12 reconnus · 1 à confirmer · 2 non reconnus »), choix nouvelle liste / fusion dans une liste existante. Pour chaque proposition : confirmer ou refuser. Pour chaque article non reconnu :
 
@@ -212,9 +214,9 @@ Tap sur un candidat = « C'est celui-là ». Bouton « Importer ».
 
 **Corriger un rayon en magasin** : appui long sur _Steak haché_ → Déplacer vers « Frais libre-service » → « Seulement cet article dans ce magasin ».
 
-**Ajouter une recette** _(v1.1)_ : Recettes → _Cake aux olives_ → « Ajouter à une liste » → « 2 cakes » → décocher la farine (déjà à la maison) → Ajouter.
+**Ajouter une recette** _(v1.0)_ : Recettes → _Cake aux olives_ → « Ajouter à une liste » → « 2 cakes » → décocher la farine (déjà à la maison) → Ajouter.
 
-**Envoyer la liste au conjoint** _(v1.3)_ : Liste → `⋯` → Partager → Messages / WhatsApp.
+**Envoyer la liste au conjoint** _(v1.1)_ : Liste → `⋯` → Partager → Messages / WhatsApp.
 
 - Destinataire sur **Android** : tap sur le lien → l'app s'ouvre sur l'aperçu → Importer.
 - Destinataire sur **iPhone** : copier le message → ouvrir l'app → `⋯` → « Coller une liste partagée » → aperçu → Importer.

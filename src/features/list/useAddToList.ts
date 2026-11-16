@@ -26,6 +26,7 @@ export type PendingAdd =
       kind: "exists";
       item: ListItem;
       article: Article;
+      entry: ParsedEntry;
       amount: Amount<Unit>;
       acceptedTypes: string[];
     }
@@ -69,6 +70,7 @@ export function useAddToList(
           kind: "exists",
           item: result.item,
           article,
+          entry,
           amount,
           acceptedTypes,
         };
@@ -127,9 +129,29 @@ export function useAddToList(
 
   /** Ajout d'un article choisi (suggestion, catalogue). */
   const pick = useCallback(
-    async (article: Article, entry?: ParsedEntry) => {
+    async (
+      article: Article,
+      entry?: ParsedEntry,
+      acceptedTypes: string[] = [],
+    ) => {
       try {
-        const waiting = await addArticle(article, entry);
+        const waiting = await addArticle(article, entry, acceptedTypes);
+        if (waiting) setQueue((current) => [...current, waiting]);
+      } catch {
+        reportSaveError();
+      }
+    },
+    [addArticle],
+  );
+
+  /**
+   * « Une autre sorte » (docs/02 § 6) : ligne à part pour ce type, avec la quantité
+   * demandée (ou celle de l'article).
+   */
+  const addType = useCallback(
+    async (article: Article, type: string, entry?: ParsedEntry) => {
+      try {
+        const waiting = await addArticle(article, entry, [type]);
         if (waiting) setQueue((current) => [...current, waiting]);
       } catch {
         reportSaveError();
@@ -147,5 +169,13 @@ export function useAddToList(
     setQueue((current) => current.slice(1));
   }, []);
 
-  return { submit, pick, create, addArticle, pending: queue[0], next };
+  return {
+    submit,
+    pick,
+    create,
+    addArticle,
+    addType,
+    pending: queue[0],
+    next,
+  };
 }

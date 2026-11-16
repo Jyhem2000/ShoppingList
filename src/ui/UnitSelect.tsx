@@ -7,24 +7,28 @@ import { Select } from "@/ui/form";
 /**
  * Sélecteur d'unité (docs/06 § 1) : unités rangées par groupe (poids, volume,
  * contenants, à l'unité), nommées en clair (« gramme (g) », « barquette »). Les
- * unités de cuisine (cuillère, pincée) ne servent qu'aux recettes : elles n'y
- * figurent que si la ligne en utilise déjà une.
+ * unités de cuisine (cuillère, pincée) servent aux recettes (`kitchen`) : ailleurs,
+ * elles n'y figurent que si la ligne en utilise déjà une.
  */
 export function UnitSelect({
   units,
   value,
   onChange,
   ariaLabel,
+  kitchen = false,
 }: {
   units: readonly Unit[];
   value: string;
   onChange: (event: ChangeEvent<HTMLSelectElement>) => void;
   ariaLabel?: string;
+  kitchen?: boolean;
 }) {
   const current = units.find((u) => u.id === value);
   const groups = UNIT_GROUPS.filter(
     (group) =>
-      group !== "kitchen" || (current && unitGroup(current) === "kitchen"),
+      group !== "kitchen" ||
+      kitchen ||
+      (current && unitGroup(current) === "kitchen"),
   );
   return (
     <Select value={value} onChange={onChange} aria-label={ariaLabel}>

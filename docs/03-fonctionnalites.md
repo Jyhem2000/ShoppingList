@@ -2,14 +2,13 @@
 
 Chaque fonctionnalité a un identifiant (`A1`, `B2`…) réutilisé dans le plan de développement et les tests, et une version cible :
 
-| Version                  | Thème            | Fonctionnalités                        |
-| ------------------------ | ---------------- | -------------------------------------- |
-| **v1.0**                 | Cœur             | A1-A7 · B1-B6 · C1-C8 · G1-G5 · H1-H11 |
-| **v1.1**                 | Recettes         | E1-E2                                  |
-| **v1.2**                 | Anti-oubli       | D1-D2                                  |
-| **v1.3**                 | Partage          | F1-F2 · A8                             |
-| **Plus tard**            | —                | D3 · E3                                |
-| **Idées non planifiées** | Peut-être jamais | I1 · I2 · I3                           |
+| Version                  | Thème            | Fonctionnalités                                |
+| ------------------------ | ---------------- | ---------------------------------------------- |
+| **v1.0**                 | Cœur et recettes | A1-A7 · B1-B6 · C1-C8 · E1-E2 · G1-G5 · H1-H11 |
+| **v1.1**                 | Partage          | F1-F2 · A8                                     |
+| **v1.2**                 | Anti-oubli       | D1-D2                                          |
+| **Plus tard**            | —                | D3 · E3                                        |
+| **Idées non planifiées** | Peut-être jamais | I1 · I2 · I3                                   |
 
 L'ordre des versions après la v1.0 pourra être réévalué après quelques semaines d'usage réel. Les règles métier citées sont détaillées dans [02](02-modele-metier.md).
 
@@ -19,7 +18,7 @@ L'ordre des versions après la v1.0 pourra être réévalué après quelques sem
 
 ### A1. Barre d'ajout éclair — _v1.0_
 
-Barre de saisie fixée en bas de l'écran Liste, accessible au pouce.
+Barre de saisie fixée en bas de l'écran Liste, accessible au pouce. Son libellé, « Ajouter un ou plusieurs articles… », rappelle qu'on peut en saisir plusieurs, séparés par des virgules (A2) ; en mode courses, à côté de « Terminer », la place manque : « Ajouter… » (décision du 16 novembre 2026).
 
 - Recherche dès la 1ʳᵉ lettre dans les libellés **et alias**, insensible aux accents, à la casse et au pluriel (`oeuf` → _Œufs_, `coca` → _Coca-Cola_).
 - Suggestions (5 max) : icône, libellé, catégorie ; classées par pertinence puis fréquence d'achat. Un article déjà dans la liste est marqué de sa quantité.
@@ -31,24 +30,32 @@ Barre de saisie fixée en bas de l'écran Liste, accessible au pouce.
 
 | Saisie                                   | Résultat                                                               |
 | ---------------------------------------- | ---------------------------------------------------------------------- |
-| `3 tomates`                              | Tomates, 3, unité par défaut de l'article                              |
+| `3 tomates`                              | Tomates × 3 (un nombre seul compte des objets, voir ci-dessous)        |
 | `tomates x3` / `tomates *3`              | idem                                                                   |
 | `500g farine` / `farine 500 g`           | Farine, 500 g                                                          |
 | `1,5 kg pommes`                          | Pommes, 1,5 kg                                                         |
 | `1200 g boeuf`                           | Bœuf, 1,2 kg (simplification, 02 § 5)                                  |
 | `deux baguettes` / `une douzaine d'œufs` | Baguette × 2 / Œufs × 12                                               |
 | `pommes gala`                            | Pommes, type accepté _Gala_ (si _Gala_ est un type connu de l'article) |
+| `pommes gol`                             | Pommes, type accepté _Golden_ (début de type sans ambiguïté)           |
 | `2 baguettes, du beurre et 6 œufs`       | 3 lignes                                                               |
 
 - Nombres en lettres jusqu'à vingt, « une douzaine », « une demi-douzaine ».
-- Plusieurs articles séparés par `,`, `;`, `et`, retour à la ligne. Articles partitifs ignorés (`du`, `de la`, `des`, `d'`).
+- Plusieurs articles séparés par `,`, `;`, `et`, `puis`, retour à la ligne, ou un point de fin de phrase suivi d'une majuscule (`Des pommes. Du lait.`, ajouté par la dictée) ; jamais la virgule ou le point d'un nombre (`1,5 kg`) ni le point d'une abréviation (`2 tr. de jambon`). Articles partitifs ignorés (`du`, `de la`, `des`, `d'`).
+- **Suggestions par type** : dès qu'on tape après le nom d'un article le début d'un de ses types (`pommes g`), les suggestions proposent d'abord « Pommes · Gala », « Pommes · Golden »… (puis « Pommes ») ; en toucher une ajoute la ligne avec ce type. Tant qu'on ne tape que le nom, rien ne change (liste courte). Pas de « Créer… » quand la saisie désigne un article et un de ses types.
+- **Un nombre seul compte des objets** (décision du 16 novembre 2026), dans la liste comme dans une recette. Selon l'unité par défaut de l'article :
+  - pièce, contenant (paquet, pot, bouteille…) ou unité de cuisine : le nombre de cette unité (« 6 œufs », « 3 pâtes » → 3 paquets) ;
+  - poids, article qui **se compte à la pièce** (02 § 2) : des pièces (« 3 pommes » → Pommes × 3, « 1 échalote » → × 1) ;
+  - poids, autre article : le nombre de portions, c'est-à-dire **N fois la quantité par défaut** (« 2 beurres » → 500 g, « 2 cerises » → 1 kg), puis simplification ;
+  - volume : le nombre dans cette unité (« 2 laits » → 2 L).
+- Sans nombre, rien ne change : la quantité et l'unité par défaut de l'article (« pommes » → 1 kg). Des pièces ajoutées à une ligne au poids ne se convertissent pas : elles vont en note (02 § 5).
 - Si l'unité saisie est incompatible avec l'unité par défaut de l'article, l'unité saisie l'emporte pour cette ligne.
 
 **Critères** : batterie de tests unitaires couvrant chaque ligne du tableau.
 
 ### A3. Article déjà dans la liste — _v1.0_
 
-Voir [02 § 6](02-modele-metier.md#une-seule-ligne-par-article-dans-une-liste). Un panneau léger (non bloquant) affiche « Déjà dans la liste : 2 kg » et propose **Ajouter [quantité]** ou **Ne rien faire** (par défaut).
+Voir [02 § 6](02-modele-metier.md#une-ligne-par-article-et-par-choix-de-types) : seulement pour une ligne du même article **avec les mêmes types** ; avec d'autres types (`3 pommes granny` quand la liste a des Golden), c'est une nouvelle ligne. Si l'article a des types, le panneau propose aussi « Ou ajouter [quantité] d'une autre sorte, sur une ligne à part » : la quantité dite est celle tapée (ou celle de l'article) (02 § 6). Un panneau léger (non bloquant) affiche « Déjà dans la liste : 2 kg » et propose **Ajouter [quantité]** ou **Ne rien faire** (par défaut).
 
 **Critères** : ajouter _Pommes_ déjà présent puis `Entrée` → quantité inchangée ; choisir « Ajouter 1 kg » → 3 kg.
 
@@ -66,7 +73,7 @@ Si aucun article ni alias ne correspond : suggestion « Créer _Sauce nuoc-mâm_
 Grille de catégories (icône + libellé) → grille d'articles (grande icône + libellé).
 
 - Tap sur un article absent de la liste = ajout avec la quantité par défaut.
-- Article déjà présent : pastille de quantité ; un tap ouvre le sélecteur de quantité (`−` / `+` / ✕) au lieu d'ajouter d'office.
+- Article déjà présent : pastille de quantité (plusieurs lignes : additionnées par unité) ; un tap ouvre le réglage de **toutes ses lignes** : une rangée par ligne, étiquetée par sa sorte (« Peu importe », « entier ») quand il y en a plusieurs, avec `−` / `+` et 🗑, puis « Ajouter une autre sorte » si l'article a des types. Une sorte touchée ajoute sa ligne dans le panneau, avec la quantité par défaut de l'article, réglable sur place ; « Terminé » ferme (décision du 15 novembre 2026, après essai : une quantité sans étiquette au-dessus des sortes faisait croire qu'elle s'appliquait à la nouvelle sorte).
 - Recherche en haut du catalogue, avec **suggestions dès la première lettre** (nom, alias, sans tenir compte des accents ; la partie tapée en gras ; quantité si l'article est déjà dans la liste). Tap ou Entrée sur la première = même effet qu'un tap sur la carte ; au-delà de 8 suggestions, « Voir les N résultats » ouvre la grille complète.
 
 ### A6. Habituels et favoris — _v1.0_
@@ -77,7 +84,9 @@ En tête du catalogue : les articles les plus achetés (calculés à partir de l
 
 Aucun développement spécifique : le **micro du clavier** (iPhone comme Android) fonctionne dans la barre d'ajout, gratuitement. A2 sait découper « deux baguettes, du beurre et six œufs » en trois lignes.
 
-### A8. Coller une liste — _v1.3_
+**Séparer les articles à la voix** (constat du 15 novembre 2026 sur iPhone) : la dictée du clavier n'écrit une virgule que si on dit « virgule » ; sans séparateur, toute la phrase devient un seul article. Il suffit de dire **« et »** (ou « puis », ou « virgule ») entre deux articles : « deux baguettes et du beurre et six œufs ». La dictée d'Android (Gboard) se comporte de même pour la virgule. Deviner les coupures sans séparateur (« deux baguettes trois tomates ») a été écarté : « farine 500 g » met la quantité après le nom, la coupure serait ambiguë. L'écran d'aide le dit (H9).
+
+### A8. Coller une liste — _v1.1_
 
 « Coller du texte » : chaque ligne d'un texte (SMS, note, recette trouvée sur le web) est analysée avec A2 ; aperçu avant ajout.
 
@@ -141,7 +150,7 @@ Glisser une ligne → « Pas pris » : elle passe en bas, grisée, et restera da
 - Les articles dont la catégorie n'a pas encore de rayon dans ce magasin sont dans le bloc **« À placer »**, rangé par catégorie avec un intertitre par catégorie (icône, nom, couleur, nombre d'articles à prendre) qui la replie ou la déplie d'un toucher (retour d'essai du 15 novembre 2026), affiché juste après le rayon en cours (en tête s'il n'y en a pas encore). À la première course dans un magasin, tout y est.
 - **Cocher** un article de « À placer » le range dans le **rayon en cours** (ouvert à la première coche) : toute sa catégorie y devient principale. Si sa catégorie a déjà un rayon dans ce magasin, ou si c'est « Autres » ou « Achats ponctuels », seul l'article y est rangé (exception par article). Le rayon prend l'icône et la couleur de sa première catégorie.
 - Bouton **« Rayon suivant »**, au-dessus de la barre d'ajout, tant qu'il reste des articles à placer : il ouvre un nouveau rayon juste après le rayon en cours, qui devient le rayon en cours. Le rayon en cours s'affiche même vide, avec une explication. Un rayon ouvert et resté vide n'est jamais doublé, et il disparaît à la fin des courses.
-- Le rayon en cours : celui ouvert par « Rayon suivant », ou celui de la dernière coche si elle est plus récente.
+- Le rayon en cours : celui ouvert par « Rayon suivant », ou celui de la dernière coche si elle est plus récente. Il porte l'étiquette or **« Tu es ici »** et rebondit quand il le devient (retour d'essai du 16 novembre 2026 : l'ancien cadre violet ressemblait à un focus). « Rayon suivant » se confirme : son, message « Nouveau rayon : les articles cochés ensuite y seront rangés. », et l'écran va au nouveau rayon ; retouché sur un rayon neuf encore vide, il le dit au lieu de ne rien faire.
 - Rien ne saute à l'écran (retour d'essai du 13 novembre 2026) : quand une catégorie est rangée en cochant un de ses articles, ses **autres articles déjà dans la liste**, encore à prendre, **restent dans « À placer »** jusqu'à ce qu'on les coche (ils vont alors dans le rayon en cours, sans exception s'il s'agit du rayon de leur catégorie). Un article ajouté ensuite va directement dans son rayon (ou « À récupérer » s'il est passé). Aux courses suivantes, tous sont dans le rayon de leur catégorie.
 
 **Ajouter pendant les courses** : la barre d'ajout reste disponible. Si le rayon de l'article ajouté est **déjà passé** (on y a coché quelque chose, puis coché ailleurs), l'app l'indique (« Rayon Crèmerie déjà passé ») et place la ligne dans un groupe **« À récupérer »** affiché en haut.
@@ -197,16 +206,16 @@ Mode « Tour de la cuisine » : un écran par catégorie présentant ses article
 
 ---
 
-## E. Recettes — _v1.1_
+## E. Recettes — _v1.0_
 
-### E1. Gérer les recettes — _v1.1_
+### E1. Gérer les recettes — _v1.0_
 
 Onglet **Recettes** : liste avec recherche ; créer, éditer, dupliquer, supprimer.
-Fiche recette : libellé, icône, **rendement** (« 4 personnes » par défaut, ou unité libre : « 1 cake », « 24 cookies », voir [02 § 7](02-modele-metier.md#7-recette)), ingrédients (ajoutés avec la même barre d'ajout que les listes, donc saisie naturelle A2 et création d'article A4), ingrédients facultatifs, ingrédients à **quantité fixe** (non recalculés selon le nombre de personnes : un pot de crème pour la raclette), étapes en texte libre.
+Fiche recette : libellé, icône, **rendement** (« 4 personnes » par défaut, ou unité libre : « 1 cake », « 24 cookies », voir [02 § 7](02-modele-metier.md#7-recette)), ingrédients (ajoutés avec la même barre d'ajout que les listes, donc saisie naturelle A2 et création d'article A4), ingrédients facultatifs, ingrédients à **quantité fixe** (non recalculés selon le nombre de personnes : un pot de crème pour la raclette), étapes mises en forme : gras, titres, listes à puces ou numérotées, par une petite barre au-dessus du champ (enregistrées en Markdown, décision du 15 novembre 2026). Le champ montre le texte mis en forme pendant qu'on l'écrit, comme à la lecture, jamais le Markdown (éditeur TipTap, décision du 16 novembre 2026). La fiche garde l'écran allumé (H9).
 
-### E2. Ajouter une recette à une liste — _v1.1_
+### E2. Ajouter une recette à une liste — _v1.0_
 
-Choix de la liste, puis « Pour combien de personnes ? » ou « Combien de cakes ? », aperçu des quantités recalculées, arrondies et simplifiées, cases à cocher, fusion avec les lignes existantes. Les lignes indiquent leur origine (« via Raclette »).
+Le rendement de la fiche est **fixe** (« 4 personnes », « 1 cake ») : on choisit la quantité voulue seulement au moment de l'ajout. Choix de la liste, puis « Pour combien de personnes ? » ou « Combien de cakes ? », aperçu des quantités recalculées, arrondies et simplifiées, cases à cocher, fusion avec les lignes existantes. Les lignes indiquent leur origine (« via Raclette »). Ce qui arrive ensuite à ces lignes (décochées dans l'aperçu, retirées de la liste, pas prises en magasin) **ne touche jamais la recette**.
 
 **Critères** : recette pour 4 avec 2 oignons et 500 g de farine, ajoutée pour 6 → 3 oignons et 750 g de farine ; si la liste contient déjà 1 kg de farine → 1,75 kg après fusion. Recette « 1 cake » avec 3 œufs, demandée pour 2 cakes → 6 œufs. Raclette pour 4 avec 1 pot de crème à quantité fixe, ajoutée pour 10 → toujours 1 pot.
 
@@ -216,18 +225,18 @@ Même mécanisme que F1.
 
 ---
 
-## F. Partage — _v1.3_
+## F. Partage — _v1.1_
 
 Le partage fonctionne entre iPhone et Android dans les deux sens.
 
-### F1. Envoyer une liste — _v1.3_
+### F1. Envoyer une liste — _v1.1_
 
 Bouton « Partager » → feuille de partage du téléphone (Messages, WhatsApp, Mail…). Le message contient :
 
 - la liste **lisible**, groupée par catégorie (lisible même sans l'app) ;
 - un **lien d'import** contenant les données complètes de la liste (compressées dans l'URL, sans serveur).
 
-### F2. Importer une liste — _v1.3_
+### F2. Importer une liste — _v1.1_
 
 Trois manières, toutes aboutissant à l'écran d'aperçu décrit en [02 § 9](02-modele-metier.md#9-partage-dune-liste) : correspondances automatiques (clé catalogue, slug, alias, catalogue utilisé comme dictionnaire), puis pour les articles non reconnus des **candidats proposés** (même icône, même catégorie), « C'est celui-là » mémorisé en alias, ou « Créer » avec libellé modifiable :
 
@@ -297,7 +306,7 @@ Ajouté pour la phase 8 (décision du 13 novembre 2026, réalisé le 14 novembre
 - **Libellés explicatifs** dans Réglages → Mes données → Sauvegarde, à la place d'un rappel :
   - sous **« Exporter mes données »** : à quoi sert le fichier — changer de téléphone, réinstaller l'app (la supprimer efface ses données, iOS le précise), passer de la préproduction à la production, garder une copie hors du téléphone ;
   - à côté de **« Restaurer une copie »** : le rôle des copies automatiques — revenir sur une fausse manipulation, un import ou une mise à jour, jusqu'à 7 jours en arrière ; elles restent dans le téléphone et disparaissent avec l'app.
-- **Abandonnés le 14 novembre 2026** : le **rappel de sauvegarde** après 30 jours (les copies automatiques et les libellés suffisent ; supprimer l'app efface ses données, iOS le dit) et l'**import en fusion** (règles délicates — doublons d'articles, de magasins, de listes — pour un usage rare ; le remplacement, protégé par les copies automatiques, suffit, et le partage de listes arrive en v1.3).
+- **Abandonnés le 14 novembre 2026** : le **rappel de sauvegarde** après 30 jours (les copies automatiques et les libellés suffisent ; supprimer l'app efface ses données, iOS le dit) et l'**import en fusion** (règles délicates — doublons d'articles, de magasins, de listes — pour un usage rare ; le remplacement, protégé par les copies automatiques, suffit, et le partage de listes arrive en v1.1).
 
 ### H5. Installation, stockage, mises à jour
 
@@ -320,9 +329,9 @@ Retirée le 8 novembre 2026 : l'API Vibration n'existe pas sur iPhone, et l'astu
 
 ---
 
-### H9. Écran allumé pendant les courses
+### H9. Écran allumé
 
-Réglage **activé par défaut** : en mode courses, l'écran ne se met pas en veille (Screen Wake Lock, C1). Grisé si le téléphone ne le permet pas.
+Réglage **activé par défaut** : en mode courses, l'écran ne se met pas en veille (Screen Wake Lock, C1) ; sur la fiche d'une recette non plus, pour cuisiner en la lisant (décision du 15 novembre 2026). Grisé si le téléphone ne le permet pas.
 
 ### H10. Aide
 

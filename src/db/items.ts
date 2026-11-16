@@ -1,9 +1,10 @@
+import { sameTypes } from "@/domain/lines";
 import type { ID, ListItem } from "@/domain/model";
 import type { ShoppingDatabase } from "./database";
 
 /**
- * Lignes d'une liste (docs/02 § 6). Une seule ligne par article dans une liste,
- * hors lignes archivées (clôturées) : cette règle est garantie ici.
+ * Lignes d'une liste (docs/02 § 6). Une seule ligne par article et par choix de types
+ * dans une liste, hors lignes archivées (clôturées) : cette règle est garantie ici.
  */
 export type NewListItem = Pick<
   ListItem,
@@ -16,16 +17,22 @@ export type AddItemResult =
   /** Déjà dans la liste : rien n'est modifié, l'interface propose d'ajouter. */
   | { kind: "exists"; item: ListItem };
 
-/** Ligne active (non archivée) de cet article dans la liste. */
+/** Ligne active (non archivée) de cet article avec ces types dans la liste. */
 export async function findActiveItem(
   database: ShoppingDatabase,
   listId: ID,
   articleId: ID,
+  acceptedTypes: readonly string[] = [],
 ): Promise<ListItem | undefined> {
   return database.items
     .where("articleId")
     .equals(articleId)
-    .filter((item) => item.listId === listId && !item.closedInSessionId)
+    .filter(
+      (item) =>
+        item.listId === listId &&
+        !item.closedInSessionId &&
+        sameTypes(item.acceptedTypes, acceptedTypes),
+    )
     .first();
 }
 
@@ -39,6 +46,7 @@ export async function addListItem(
       database,
       input.listId,
       input.articleId,
+      input.acceptedTypes,
     );
     if (existing) return { kind: "exists", item: existing };
     const item: ListItem = {

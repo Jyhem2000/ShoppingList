@@ -4,7 +4,7 @@ import { catalogCategoryPath } from "@/app/routes";
 import type { Article } from "@/domain/model";
 import { searchKey } from "@/domain/slug";
 import { searchArticles } from "@/domain/search";
-import { lineQuantity } from "@/features/list/format";
+import { quantitiesInList } from "@/features/list/format";
 import type { ListData } from "@/features/list/useListData";
 import { fr } from "@/i18n/fr";
 import { GroupIcon } from "@/ui/GroupIcon";
@@ -95,7 +95,7 @@ export function CatalogSearch({
         : [],
     [query, data],
   );
-  const inList = new Map(data.items.map((item) => [item.articleId, item]));
+  const inList = quantitiesInList(data.items, data.unitById);
   const suggestions = results.slice(0, MAX_SUGGESTIONS);
   const open = query.trim() !== "" && !showAll;
 
@@ -163,7 +163,7 @@ export function CatalogSearch({
           )}
           {suggestions.map((article) => {
             const category = data.categoryById.get(article.categoryId);
-            const item = inList.get(article.id);
+            const quantity = inList.get(article.id);
             return (
               <li key={article.id} role="option" aria-selected={false}>
                 <RowButton
@@ -172,9 +172,9 @@ export function CatalogSearch({
                   title={highlight(article.name, query)}
                   detail={category?.name}
                   trailing={
-                    item && (
+                    quantity && (
                       <span className="shrink-0 text-sm font-bold text-secondary tabular-nums">
-                        {lineQuantity(item, data.unitById)}
+                        {quantity}
                       </span>
                     )
                   }

@@ -4,10 +4,12 @@ import { categoriesData, familiesData, keywordRules } from "@/data";
 import { catalogData } from "@/data/catalog";
 import { ShoppingDatabase } from "@/db/database";
 import { addListItem } from "@/db/items";
+import { mergeIntoTwin, updateItem } from "@/db/lists";
 import { buildInitialData, seedDatabase } from "@/db/seed";
 import { buildEmptyStore } from "@/db/stores";
 import { accentKey } from "@/domain/slug";
 import pack from "@/icons/packData";
+import { DISH_PREFIX } from "@/icons/pack";
 import { groupIcons } from "@/icons/lucide";
 
 let database: ShoppingDatabase | undefined;
@@ -78,9 +80,13 @@ describe("données initiales (docs/06)", () => {
     ).toEqual([]);
   });
 
-  it("n'a aucun dessin sans article de même clé", () => {
+  it("n'a aucun dessin sans article de même clé, hors icônes de plats", () => {
     const keys = new Set(catalogData.map((a) => a.key));
-    expect(Object.keys(pack).filter((name) => !keys.has(name))).toEqual([]);
+    expect(
+      Object.keys(pack).filter(
+        (name) => !keys.has(name) && !name.startsWith(DISH_PREFIX),
+      ),
+    ).toEqual([]);
   });
 
   it("donne un nom court et une famille connue à chaque catégorie, sauf les catégories système", () => {
@@ -132,7 +138,7 @@ describe("premier lancement", () => {
   });
 });
 
-describe("une seule ligne par article dans une liste (docs/02 § 6)", () => {
+describe("une seule ligne par article et par choix de types dans une liste (docs/02 § 6)", () => {
   it("n'ajoute pas un article déjà présent et renvoie la ligne existante", async () => {
     const db = open();
     await seedDatabase(db);
@@ -166,6 +172,60 @@ describe("une seule ligne par article dans une liste (docs/02 § 6)", () => {
     const first = await addListItem(db, input);
     await db.items.update(first.item.id, { closedInSessionId: "session" });
     expect((await addListItem(db, input)).kind).toBe("added");
+  });
+
+  it("types différents : une ligne à part ; mêmes types : « déjà dans la liste »", async () => {
+    const db = open();
+    await seedDatabase(db);
+    const list = await db.lists.toCollection().first();
+    const sugar = await db.articles.where("slug").equals("sucre").first();
+    const input = {
+      listId: list?.id ?? "",
+      articleId: sugar?.id ?? "",
+      quantity: 1,
+      unitId: sugar?.defaultUnitId ?? "",
+    };
+    const powder = { ...input, acceptedTypes: ["en poudre"] };
+    expect((await addListItem(db, powder)).kind).toBe("added");
+    expect(
+      (await addListItem(db, { ...input, acceptedTypes: ["glace"] })).kind,
+    ).toBe("added");
+    expect((await addListItem(db, input)).kind).toBe("added");
+    expect(
+      (await addListItem(db, { ...input, acceptedTypes: ["En poudre"] })).kind,
+    ).toBe("exists");
+    expect(await db.items.count()).toBe(3);
+  });
+
+  it("une ligne dont les types rejoignent ceux d'une autre fusionne avec elle", async () => {
+    const db = open();
+    await seedDatabase(db);
+    const list = await db.lists.toCollection().first();
+    const apples = await db.articles.where("slug").equals("pommes").first();
+    const piece = await db.units.where("slug").equals("piece").first();
+    const input = {
+      listId: list?.id ?? "",
+      articleId: apples?.id ?? "",
+      unitId: piece?.id ?? "",
+    };
+    const golden = await addListItem(db, {
+      ...input,
+      quantity: 2,
+      acceptedTypes: ["Golden"],
+    });
+    const granny = await addListItem(db, {
+      ...input,
+      quantity: 3,
+      acceptedTypes: ["Granny Smith"],
+      note: "pour la tarte",
+    });
+    expect(await mergeIntoTwin(db, granny.item.id)).toBeUndefined();
+    await updateItem(db, granny.item.id, { acceptedTypes: ["Golden"] });
+    expect(await mergeIntoTwin(db, granny.item.id)).toBe(golden.item.id);
+    const kept = await db.items.get(golden.item.id);
+    expect(kept?.quantity).toBe(5);
+    expect(kept?.note).toBe("pour la tarte");
+    expect(await db.items.count()).toBe(1);
   });
 
   it("autorise le même article dans deux listes différentes", async () => {

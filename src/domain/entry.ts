@@ -47,7 +47,12 @@ const DOZEN = new Set(["douzaine", "douzaines"]);
 const HALF_DOZEN = new Set(["demi-douzaine", "demi-douzaines"]);
 
 /** Segments : `,` (sauf virgule décimale), `;`, `et`, retour à la ligne. */
-const SEPARATORS = /\s*(?:[;\n]|(?<!\d),|,(?!\d)|\s+et\s+)\s*/i;
+// Virgule (jamais dans un nombre : 1,5), point-virgule, retour à la ligne, « et »,
+// « puis » (se dit naturellement entre deux articles), et le point d'une fin de phrase
+// suivi d'une majuscule (« Des pommes. Du lait. », ajouté par la dictée) : pas celui
+// d'une abréviation (« 2 tr. de jambon »).
+const SEPARATORS =
+  /\s*(?:[;\n]|(?<!\d),|,(?!\d)|\.(?=\s+\p{Lu})|\s+(?:[Ee][Tt]|[Pp][Uu][Ii][Ss])\s+)\s*/u;
 /** Partitifs et articles en tête : du, de la, de l', des, d', de, l'. */
 const PARTITIVE = /^(?:(?:de\s+l|d|l)['’]\s*|(?:du|des|de\s+la|de)\s+)/i;
 const NUMBER = /^(\d+(?:[.,]\d+)?)(.*)$/;
@@ -187,17 +192,71 @@ export interface ResolvedEntry<A extends ResolvableArticle> {
   acceptedTypes: string[];
 }
 
-/** Les mots restants désignent-ils des types de l'article ? (`gala` → « Gala ») */
+/** Clé d'un type pour la saisie : mots significatifs de sa clé de recherche. */
+function typeKey(type: string): string {
+  return coreWords(searchKey(type)).join("-");
+}
+
+/**
+ * Les mots restants désignent-ils des types de l'article ? (`gala` → « Gala ») ; un
+ * début de type reconnu sans ambiguïté vaut le type entier (`gol` → « Golden »).
+ */
 function matchTypes(rest: string[], types: string[]): string[] | undefined {
-  const byKey = new Map(
-    types.map((type) => [coreWords(searchKey(type)).join("-"), type]),
-  );
+  const byKey = new Map(types.map((type) => [typeKey(type), type]));
   const words = coreWords(rest.join("-"));
   if (words.length === 0) return undefined;
   const whole = byKey.get(words.join("-"));
   if (whole) return [whole];
   const matched = words.map((word) => byKey.get(word));
-  return matched.every((type) => type !== undefined) ? matched : undefined;
+  if (matched.every((type) => type !== undefined)) return matched;
+  const typed = words.join("-");
+  const started = types.filter((type) => typeKey(type).startsWith(typed));
+  return started.length === 1 ? started : undefined;
+}
+
+/** Libellés et alias exacts (clé de recherche) → articles qui les portent. */
+function labelIndex<A extends ResolvableArticle>(
+  articles: readonly A[],
+): Map<string, { article: A; label: string }[]> {
+  const exact = new Map<string, { article: A; label: string }[]>();
+  for (const article of articles) {
+    for (const label of [article.name, ...article.aliases]) {
+      const key = searchKey(label);
+      const found = exact.get(key) ?? [];
+      if (!found.some((f) => f.article === article))
+        found.push({ article, label });
+      exact.set(key, found);
+    }
+  }
+  return exact;
+}
+
+/**
+ * Suggestions par type (docs/03 A2) : quand la saisie commence par le nom d'un article
+ * et continue par le début d'un de ses types (`pommes g`), les types qui conviennent
+ * (« Pommes · Gala », « Pommes · Golden »). Rien tant que l'on ne tape que le nom :
+ * la liste des suggestions reste courte.
+ */
+export function typeSuggestions<A extends ResolvableArticle>(
+  text: string,
+  articles: readonly A[],
+): { article: A; type: string }[] {
+  const words = searchKey(text).split("-").filter(Boolean);
+  if (words.length < 2) return [];
+  const exact = labelIndex(articles);
+  for (let length = words.length - 1; length > 0; length--) {
+    const found = exact.get(words.slice(0, length).join("-"));
+    if (!found) continue;
+    const typed = coreWords(words.slice(length).join("-")).join("-");
+    if (!typed) continue;
+    const result = found.flatMap(({ article }) =>
+      article.types
+        .filter((type) => typeKey(type).startsWith(typed))
+        .map((type) => ({ article, type })),
+    );
+    if (result.length) return result;
+  }
+  return [];
 }
 
 /**
@@ -211,16 +270,7 @@ export function resolveEntry<A extends ResolvableArticle>(
 ): ResolvedEntry<A> {
   const words = searchKey(text).split("-").filter(Boolean);
   if (words.length === 0) return { acceptedTypes: [] };
-  const exact = new Map<string, { article: A; label: string }[]>();
-  for (const article of articles) {
-    for (const label of [article.name, ...article.aliases]) {
-      const key = searchKey(label);
-      const found = exact.get(key) ?? [];
-      if (!found.some((f) => f.article === article))
-        found.push({ article, label });
-      exact.set(key, found);
-    }
-  }
+  const exact = labelIndex(articles);
   // Libellés qui ne diffèrent que par les accents ou le pluriel (« pâté », « pâtes ») :
   // la saisie exacte, puis le pluriel tapé, puis les accents tapés ; sinon le premier
   // résultat de la recherche.
@@ -263,23 +313,43 @@ export function resolveEntry<A extends ResolvableArticle>(
  * saisie l'emporte toujours. Une quantité ou une unité tapée est simplifiée si le
  * réglage est actif (1200 g → 1,2 kg) ; la quantité par défaut de l'article, jamais
  * (0,5 kg reste 0,5 kg).
+ *
+ * Un nombre tapé seul compte des objets (docs/03 A2) : pour un article au poids, des
+ * pièces s'il se compte à la pièce, sinon N portions de sa quantité par défaut
+ * (« 2 beurres » → 500 g) ; pour les autres unités, N de cette unité.
  */
 export function entryAmount(
   entry: ParsedEntry,
-  article: Pick<Article, "defaultUnitId" | "defaultQuantity">,
+  article: Pick<Article, "defaultUnitId" | "defaultQuantity" | "countable">,
   units: readonly Unit[],
   simplifyQuantities: boolean,
 ): Amount<Unit> | undefined {
   const typed = entry.unitSlug
     ? units.find((u) => u.slug === entry.unitSlug)
     : undefined;
-  const unit = typed ?? units.find((u) => u.id === article.defaultUnitId);
+  const defaultUnit = units.find((u) => u.id === article.defaultUnitId);
+  const unit = typed ?? defaultUnit;
   if (!unit) return undefined;
-  const quantity =
-    entry.quantity ??
+  const defaultQuantity =
     (unit.id === article.defaultUnitId ? article.defaultQuantity : undefined) ??
     Math.max(1, unit.step);
+  if (!typed && entry.quantity !== undefined && unit.dimension === "mass") {
+    const piece = article.countable ? pieceUnit(units) : undefined;
+    const amount = piece
+      ? { quantity: entry.quantity, unit: piece }
+      : { quantity: entry.quantity * defaultQuantity, unit };
+    return simplifyQuantities ? simplify(amount, units) : amount;
+  }
+  const quantity = entry.quantity ?? defaultQuantity;
   const amount = { quantity, unit };
   const entered = entry.quantity !== undefined || entry.unitSlug !== undefined;
   return simplifyQuantities && entered ? simplify(amount, units) : amount;
+}
+
+/** Unité « pièce » (celle du catalogue, même renommée), pour compter des objets. */
+function pieceUnit(units: readonly Unit[]): Unit | undefined {
+  return (
+    units.find((u) => u.catalogKey === "piece") ??
+    units.find((u) => u.slug === "piece")
+  );
 }
