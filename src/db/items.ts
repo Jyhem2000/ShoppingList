@@ -17,18 +17,23 @@ export type AddItemResult =
   /** Déjà dans la liste : rien n'est modifié, l'interface propose d'ajouter. */
   | { kind: "exists"; item: ListItem };
 
-/** Ligne active (non archivée) de cet article avec ces types dans la liste. */
+/**
+ * Ligne active (non archivée) de cet article avec ces types dans la liste, hors la
+ * ligne `exceptId` (sa jumelle, quand elle change de types ou d'article).
+ */
 export async function findActiveItem(
   database: ShoppingDatabase,
   listId: ID,
   articleId: ID,
   acceptedTypes: readonly string[] = [],
+  exceptId?: ID,
 ): Promise<ListItem | undefined> {
   return database.items
     .where("articleId")
     .equals(articleId)
     .filter(
       (item) =>
+        item.id !== exceptId &&
         item.listId === listId &&
         !item.closedInSessionId &&
         sameTypes(item.acceptedTypes, acceptedTypes),

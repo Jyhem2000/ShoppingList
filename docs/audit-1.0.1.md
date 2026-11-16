@@ -58,4 +58,15 @@ Tout est corrigé sur `dev`, sauf le n° 18 (non fondé). Choix faits en corrige
 - n° 17 : « Pas pris » et « Changer de rayon » dans le panneau de quantité du mode courses ; le conteneur du glissement devient un groupe nommé.
 - n° 24 : on garde 4 s, docs/03 B4 et docs/04 § 2.1 corrigées.
 
+### Relecture des corrections
+
+Une relecture (`/code-review`) des corrections a trouvé 8 points, tous corrigés :
+
+- deux lignes cochées réunies (types changés, articles fusionnés) comptaient l'achat deux fois : `mergeLineInto` n'en garde qu'un, avec la quantité réunie ;
+- rayon supprimé pendant les courses : ses achats passent au nouveau rayon de leur article ;
+- « Annuler » après la fin des courses : la ligne revient « à acheter », sans achat ;
+- un achat d'avant la 1.0.1 (sans `itemId`) suit encore sa ligne (suppression, quantité, fusion) : `isPurchaseOf` (`src/domain/lines.ts`) ;
+- un nom saisi puis enregistré en quittant un article ou une catégorie fusionnés ou supprimés ne fait plus rien (au lieu de « nom déjà pris ») ;
+- nettoyage : une seule recherche de ligne jumelle (`findActiveItem`), tri de « À placer » créé une fois.
+
 Ensuite : les nouveautés « 1.0.1 » dans `fr.ts` et `npm run release -- 1.0.1` sur demande.

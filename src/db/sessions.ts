@@ -6,7 +6,7 @@ import type {
   Purchase,
   ShoppingSession,
 } from "@/domain/model";
-import { lineKey } from "@/domain/lines";
+import { isPurchaseOf, lineKey } from "@/domain/lines";
 import { learnAislePositions, learnArticleOrder } from "@/domain/shopping";
 import {
   insertAisleAfter,
@@ -357,10 +357,7 @@ export async function markUnavailable(
   );
 }
 
-/**
- * Retire l'achat de cette ligne dans la session (les achats d'avant la 1.0.1, sans
- * `itemId`, sont reconnus à leur article).
- */
+/** Retire l'achat de cette ligne dans la session (`isPurchaseOf`). */
 export async function removePurchases(
   database: ShoppingDatabase,
   sessionId: ID,
@@ -369,11 +366,7 @@ export async function removePurchases(
   await database.purchases
     .where("sessionId")
     .equals(sessionId)
-    .filter((purchase) =>
-      purchase.itemId === undefined
-        ? purchase.articleId === item.articleId
-        : purchase.itemId === item.id,
-    )
+    .filter(isPurchaseOf(item))
     .delete();
 }
 

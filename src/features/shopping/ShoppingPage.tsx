@@ -290,13 +290,14 @@ function Shopping({
     data.categoryById.get(
       data.articleById.get(item.articleId)?.categoryId ?? "",
     );
+  const byLine = compareLines(data.articleById);
   const unplacedGroups = sortCategories(
     data.categories,
     categoriesData.map((c) => c.key),
   ).flatMap((category) => {
     const items = view.unplaced
       .filter((item) => categoryOf(item)?.id === category.id)
-      .sort(compareLines(data.articleById));
+      .sort(byLine);
     return items.length ? [{ category, items }] : [];
   });
   const toPlace = view.unplaced.filter((item) => item.status === "todo").length;

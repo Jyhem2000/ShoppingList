@@ -20,6 +20,7 @@ import {
   createList,
   deleteItems,
   deleteList,
+  mergeIntoTwin,
   restoreItems,
   updateItem,
 } from "@/db/lists";
@@ -461,6 +462,78 @@ describe("deux lignes d'un même article (types différents)", () => {
     expect(await bought()).toEqual(["golden:3"]);
   });
 
+  it("deux lignes cochées réunies : un seul achat, quantité réunie", async () => {
+    const { db, list, store, article, aisleOf } = await setup();
+    const pommes = await article("pommes");
+    const line = async (types: string[], quantity: number) =>
+      (
+        await addListItem(db, {
+          listId: list.id,
+          articleId: pommes.id,
+          quantity,
+          unitId: pommes.defaultUnitId,
+          acceptedTypes: types,
+        })
+      ).item;
+    const golden = await line(["Golden"], 1);
+    const gala = await line(["Gala"], 2);
+    const session = await startSession(db, list.id, store.id, 1000);
+    const aisle = await aisleOf("Fruits & Légumes");
+    await checkItem(db, session, golden, aisle.id, 2000);
+    await checkItem(db, session, gala, aisle.id, 3000);
+
+    // « Gala » devient « Golden » : la ligne rejoint l'autre.
+    await updateItem(db, gala.id, { acceptedTypes: ["Golden"] });
+    expect(await mergeIntoTwin(db, gala.id, 4000)).toBe(golden.id);
+    const purchases = await db.purchases
+      .where("sessionId")
+      .equals(session.id)
+      .toArray();
+    expect(purchases.map((p) => [p.itemId, p.quantity])).toEqual([
+      [golden.id, 3],
+    ]);
+    expect((await db.items.get(golden.id))?.quantity).toBe(3);
+  });
+
+  it("un achat d'avant la 1.0.1 (sans ligne) suit encore la sienne", async () => {
+    const { db, list, store, article, aisleOf } = await setup();
+    const lait = await article("lait");
+    const { item } = await addListItem(db, {
+      listId: list.id,
+      articleId: lait.id,
+      quantity: 1,
+      unitId: lait.defaultUnitId,
+    });
+    const session = await startSession(db, list.id, store.id, 1000);
+    await checkItem(db, session, item, (await aisleOf("Crèmerie")).id, 2000);
+    await db.purchases.toCollection().modify((p) => {
+      delete p.itemId;
+    });
+    await updateItem(db, item.id, { quantity: 2 });
+    expect((await db.purchases.toArray()).map((p) => p.quantity)).toEqual([2]);
+    await deleteItems(db, [item.id]);
+    expect(await db.purchases.count()).toBe(0);
+  });
+
+  it("« Annuler » après la fin des courses : la ligne revient à acheter, sans achat", async () => {
+    const { db, list, article, shop } = await setup();
+    const session = await shop(["lait"], ["Crèmerie"], 1000);
+    const lait = await article("lait");
+    const line = await db.items.where("articleId").equals(lait.id).first();
+    if (!line) throw new Error("lait");
+    const removed = await deleteItems(db, [line.id]);
+    expect(removed.purchases).toHaveLength(1);
+    await closeSession(db, session.id, 5000);
+    await restoreItems(db, removed);
+    expect(
+      await db.purchases.where("sessionId").equals(session.id).count(),
+    ).toBe(0);
+    const restored = await db.items.get(line.id);
+    expect(restored?.status).toBe("todo");
+    expect(restored?.closedInSessionId).toBeUndefined();
+    expect(restored?.listId).toBe(list.id);
+  });
+
   it("« Annuler » après avoir remis le même article : une seule ligne", async () => {
     const { db, list, article } = await setup();
     const lait = await article("lait");
@@ -518,6 +591,15 @@ describe("rayons modifiés pendant les courses", () => {
     const opened = await openNextAisle(db, session, epicerie.id, 4000);
     await deleteAisle(db, opened.id, false, 5000);
     expect((await db.sessions.get(session.id))?.openedAisle).toBeUndefined();
+
+    // Rayon supprimé : l'achat passe au nouveau rayon de l'article (« Non classé »).
+    await deleteAisle(db, epicerie.id, false, 6000);
+    const unsorted = (
+      await db.aisles.where("storeId").equals(store.id).toArray()
+    ).find((a) => a.isUnsorted);
+    expect((await db.purchases.get(purchase?.id ?? ""))?.aisleId).toBe(
+      unsorted?.id,
+    );
   });
 });
 

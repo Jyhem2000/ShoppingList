@@ -42,8 +42,10 @@ export async function updateCategory(
   id: ID,
   changes: Partial<Pick<Category, "name" | "shortName" | "icon" | "color">>,
   now = Date.now(),
-): Promise<"saved" | "nameTaken"> {
+): Promise<"saved" | "nameTaken" | "missing"> {
   return database.transaction("rw", database.categories, async () => {
+    // Fusionnée ou supprimée entre-temps (saisie enregistrée en quittant) : rien.
+    if (!(await database.categories.get(id))) return "missing";
     const next: Partial<Category> = { ...changes, updatedAt: now };
     if (changes.name !== undefined) {
       const name = changes.name.trim();

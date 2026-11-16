@@ -1,3 +1,4 @@
+import { effectiveAisle } from "@/domain/aisles";
 import type { Aisle, Category, ID, Store } from "@/domain/model";
 import {
   type CategoryRole,
@@ -273,7 +274,6 @@ export async function setAisleCategoryRole(
   });
 }
 
-/** Supprimer un rayon (pas « Non classé ») ; ses exceptions par article disparaissent. */
 /**
  * Courses en cours dans le magasin de ce rayon, qui va disparaître : il cesse d'être
  * leur rayon en cours. Renvoie les identifiants de ces sessions.
@@ -293,6 +293,11 @@ async function forgetOpenedAisle(
   return open.map((session) => session.id);
 }
 
+/**
+ * Supprimer un rayon (pas « Non classé ») ; ses exceptions par article disparaissent.
+ * Les achats des courses en cours qui y étaient passent au nouveau rayon de leur
+ * article.
+ */
 export async function deleteAisle(
   database: ShoppingDatabase,
   aisleId: ID,
@@ -301,11 +306,17 @@ export async function deleteAisle(
 ): Promise<void> {
   await database.transaction(
     "rw",
-    [database.aisles, database.overrides, database.sessions],
+    [
+      database.aisles,
+      database.overrides,
+      database.sessions,
+      database.purchases,
+      database.articles,
+    ],
     async () => {
       const aisle = await database.aisles.get(aisleId);
       if (!aisle || aisle.isUnsorted) return;
-      await forgetOpenedAisle(database, aisle);
+      const sessionIds = await forgetOpenedAisle(database, aisle);
       const aisles = await database.aisles
         .where("storeId")
         .equals(aisle.storeId)
@@ -317,6 +328,26 @@ export async function deleteAisle(
         });
       await database.overrides.filter((o) => o.aisleId === aisleId).delete();
       await database.aisles.delete(aisleId);
+      const rest = await database.aisles
+        .where("storeId")
+        .equals(aisle.storeId)
+        .toArray();
+      const overrides = await database.overrides
+        .filter((o) => o.storeId === aisle.storeId)
+        .toArray();
+      for (const purchase of await database.purchases
+        .where("sessionId")
+        .anyOf(sessionIds)
+        .filter((p) => p.aisleId === aisleId)
+        .toArray()) {
+        const article = await database.articles.get(purchase.articleId);
+        const target =
+          (article &&
+            effectiveAisle(article, aisle.storeId, rest, overrides)) ??
+          rest.find((a) => a.isUnsorted);
+        if (target)
+          await database.purchases.update(purchase.id, { aisleId: target.id });
+      }
     },
   );
 }

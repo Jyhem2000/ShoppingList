@@ -1,8 +1,8 @@
 import { mergedArticleFields } from "@/domain/duplicates";
-import { sameTypes } from "@/domain/lines";
 import type { Article, ID } from "@/domain/model";
 import { slugify } from "@/domain/slug";
 import type { ShoppingDatabase } from "./database";
+import { findActiveItem } from "./items";
 import { mergeLineInto } from "./lists";
 
 /**
@@ -26,9 +26,12 @@ export type ArticleChanges = Partial<
   >
 >;
 
-export type UpdateArticleResult = "saved" | "nameTaken";
+export type UpdateArticleResult = "saved" | "nameTaken" | "missing";
 
-/** Renommer recalcule le slug, qui reste unique (docs/02 § 1). */
+/**
+ * Renommer recalcule le slug, qui reste unique (docs/02 § 1). Article fusionné ou
+ * supprimé entre-temps (saisie enregistrée en quittant la page) : rien ne change.
+ */
 export async function updateArticle(
   database: ShoppingDatabase,
   id: ID,
@@ -36,6 +39,7 @@ export async function updateArticle(
   now = Date.now(),
 ): Promise<UpdateArticleResult> {
   return database.transaction("rw", database.articles, async () => {
+    if (!(await database.articles.get(id))) return "missing";
     const next: Partial<Article> = { ...changes, updatedAt: now };
     if (changes.name !== undefined) {
       const name = changes.name.trim();
@@ -147,32 +151,24 @@ export async function mergeArticles(
       if (!keep || !removed) return;
       const units = await database.units.toArray();
 
-      const keptLines = await database.items
-        .where("articleId")
-        .equals(keepId)
-        .toArray();
       for (const line of await database.items
         .where("articleId")
         .equals(removedId)
         .toArray()) {
         const twin = line.closedInSessionId
           ? undefined
-          : keptLines.find(
-              (k) =>
-                k.listId === line.listId &&
-                !k.closedInSessionId &&
-                sameTypes(k.acceptedTypes, line.acceptedTypes),
+          : await findActiveItem(
+              database,
+              line.listId,
+              keepId,
+              line.acceptedTypes,
             );
-        if (!twin) {
+        if (twin) await mergeLineInto(database, twin, line, units, now);
+        else
           await database.items.update(line.id, {
             articleId: keepId,
             updatedAt: now,
           });
-          continue;
-        }
-        // Relue : une ligne précédente a pu déjà la modifier.
-        const current = await database.items.get(twin.id);
-        if (current) await mergeLineInto(database, current, line, units, now);
       }
 
       await database.purchases

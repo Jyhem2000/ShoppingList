@@ -1,4 +1,4 @@
-import type { Article, ID, ItemStatus, ListItem } from "./model";
+import type { Article, ID, ItemStatus, ListItem, Purchase } from "./model";
 
 /**
  * Une ligne par article **et par choix de types** dans une liste (docs/02 § 6) :
@@ -23,6 +23,17 @@ export function lineKey(line: {
 }): string {
   return `${line.articleId}#${typesKey(line.acceptedTypes)}`;
 }
+
+/**
+ * Achat de cette ligne cochée. Les achats d'avant la 1.0.1, sans `itemId`, sont
+ * reconnus à leur article.
+ */
+export const isPurchaseOf =
+  (item: Pick<ListItem, "id" | "articleId">) =>
+  (purchase: Pick<Purchase, "itemId" | "articleId">): boolean =>
+    purchase.itemId === undefined
+      ? purchase.articleId === item.articleId
+      : purchase.itemId === item.id;
 
 /**
  * « Une autre sorte » (docs/02 § 6) : les types de l'article qui n'ont pas encore leur
