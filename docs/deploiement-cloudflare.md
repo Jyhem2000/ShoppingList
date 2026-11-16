@@ -72,6 +72,8 @@ Aucune adresse n'est écrite en dur dans le code : le manifeste (`id`, `start_ur
 
 ## 7. Rediriger `shoppinglist-app.pages.dev` vers le domaine
 
+_En place depuis le 16 novembre 2026 : téléphones réinstallés depuis le domaine, redirection active (vérifiée par l'étape 4). La marche à suivre reste ici pour mémoire._
+
 > **Les données ne suivent pas l'adresse.** La base (IndexedDB : listes, articles, magasins, recettes) et les préférences de l'appareil (`localStorage` : thème, sons, écran allumé) appartiennent à l'adresse d'origine. Sur le nouveau domaine, l'app démarre vide. **Avant d'activer la redirection**, sur chaque téléphone : dans l'app installée depuis `shoppinglist-app.pages.dev`, **Réglages → Sauvegarde → Exporter mes données** ; installer l'app depuis `https://shoppinglist.jyhem.cloud` ; **Importer une sauvegarde** ; refaire les préférences de l'appareil (elles ne sont pas dans la sauvegarde) ; supprimer l'ancienne icône. Après la redirection, l'ancienne app installée ne se met plus à jour.
 
 Redirection par **Bulk Redirects** (gratuit, sans code). Elle ne vise que le nom exact `shoppinglist-app.pages.dev` : la préproduction (`dev.shoppinglist-app.pages.dev`) et les aperçus de déploiement (`<empreinte>.shoppinglist-app.pages.dev`) ne sont pas redirigés.
