@@ -111,6 +111,10 @@ describe("fiche article (docs/03 G1)", () => {
     expect((await db.articles.get(pommes.id))?.aliases).toContain(
       "pomme-rouge",
     );
+    // Nom en cours de saisie enregistré en quittant la page de l'article fusionné.
+    expect(
+      await updateArticle(db, created.article.id, { name: "Pommes" }),
+    ).toBe("missing");
   });
 
   it("renommer garde un nom unique ; supprimer retire l'article de la liste", async () => {

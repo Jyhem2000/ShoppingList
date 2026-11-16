@@ -50,7 +50,9 @@ export function findLikelyDuplicates<A extends DuplicateCandidate>(
   for (const article of articles) {
     if (!article.icon) continue;
     const key = `${article.categoryId}|${article.icon}`;
-    groups.set(key, [...(groups.get(key) ?? []), article]);
+    const group = groups.get(key);
+    if (group) group.push(article);
+    else groups.set(key, [article]);
   }
   const pairs: [A, A][] = [];
   for (const group of groups.values())

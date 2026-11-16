@@ -52,18 +52,19 @@ export function ListPage() {
 
   if (!data) return <Loading>{t.loading}</Loading>;
 
-  /** Retire des lignes, avec « Annuler » pendant 5 secondes (docs/03 B4). */
+  /** Retire des lignes, avec « Annuler » pendant 4 secondes (docs/03 B4). */
   const removeItems = (ids: ID[]) => {
     void deleteItems(db, ids).then((removed) => {
-      if (removed.length === 0) return;
+      const { items } = removed;
+      if (items.length === 0) return;
       feedback.remove();
-      const [first] = removed;
+      const [first] = items;
       const name =
-        removed.length === 1 && first
+        items.length === 1 && first
           ? (data.articleById.get(first.articleId)?.name ?? "")
           : "";
       showToast(
-        removed.length === 1 ? t.removed(name) : t.removedMany(removed.length),
+        items.length === 1 ? t.removed(name) : t.removedMany(items.length),
         {
           action: {
             label: t.undo,

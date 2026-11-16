@@ -105,7 +105,7 @@ function leadingQuantity(
     return { quantity: 6, length: 1 };
   } else if (DOZEN.has(firstKey)) {
     return { quantity: 12, length: 1 };
-  } else if (firstKey in NUMBER_WORDS) {
+  } else if (Object.hasOwn(NUMBER_WORDS, firstKey)) {
     result = { quantity: NUMBER_WORDS[firstKey] ?? 1, length: 1 };
   } else {
     return undefined;

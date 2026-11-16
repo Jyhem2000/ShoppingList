@@ -31,6 +31,7 @@ import { NameField } from "./NameField";
 import { RowButton } from "@/ui/RowButton";
 import { ArticleIcon } from "@/ui/ArticleIcon";
 import { paletteColor } from "@/ui/palette";
+import { usePendingSave } from "@/ui/usePendingSave";
 import { feedback } from "@/feedback";
 const t = fr.manage.article;
 
@@ -91,6 +92,8 @@ function ArticleForm({ article, data }: { article: Article; data: ListData }) {
           : formatNumber(article.defaultQuantity),
       );
   };
+  const { edited: quantityEdited, commit: commitQuantity } =
+    usePendingSave(saveQuantity);
   const addType = () => {
     const clean = newType.trim();
     if (clean && !article.types.some((x) => slugify(x) === slugify(clean)))
@@ -163,8 +166,9 @@ function ArticleForm({ article, data }: { article: Article; data: ListData }) {
                 placeholder="1"
                 onChange={(event) => {
                   setQuantity(event.target.value);
+                  quantityEdited();
                 }}
-                onBlur={saveQuantity}
+                onBlur={() => void commitQuantity()}
               />
             </Field>
           </div>

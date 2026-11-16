@@ -42,10 +42,12 @@ export { dayKey };
 /** Jour de la dernière copie connue, par base : évite de rouvrir la base à chaque retour dans l'app. */
 const copiedDay = new Map<string, string>();
 
+/** `keep` : copie qu'on restaure, gardée même si c'est la plus ancienne. */
 async function addCopy(
   database: ShoppingDatabase,
   now: number,
   beforeReplace: boolean,
+  keep?: ID,
 ): Promise<void> {
   const backup = await exportBackup(database, now);
   const id = crypto.randomUUID();
@@ -57,9 +59,10 @@ async function addCopy(
     ...(beforeReplace && { beforeReplace }),
   });
   await database.copyBackups.add({ id, backup });
-  const extra = (
-    await database.copies.orderBy("at").reverse().primaryKeys()
-  ).slice(COPIES_KEPT);
+  const ids = await database.copies.orderBy("at").reverse().primaryKeys();
+  const extra = ids
+    .filter((other) => other !== keep)
+    .slice(keep && ids.includes(keep) ? COPIES_KEPT - 1 : COPIES_KEPT);
   await database.copies.bulkDelete(extra);
   await database.copyBackups.bulkDelete(extra);
 }
@@ -97,9 +100,10 @@ export async function replaceAllData(
   database: ShoppingDatabase,
   backup: Backup,
   now = Date.now(),
+  keep?: ID,
 ): Promise<void> {
   await database.transaction("rw", database.tables, async () => {
-    await addCopy(database, now, true);
+    await addCopy(database, now, true, keep);
     await importBackup(database, backup);
   });
 }
@@ -112,6 +116,6 @@ export async function restoreCopy(
 ): Promise<boolean> {
   const copy = await database.copyBackups.get(id);
   if (!copy) return false;
-  await replaceAllData(database, copy.backup, now);
+  await replaceAllData(database, copy.backup, now, id);
   return true;
 }

@@ -6,10 +6,16 @@ import type {
   Purchase,
   ShoppingSession,
 } from "@/domain/model";
-import { lineKey } from "@/domain/lines";
+import { isPurchaseOf, lineKey } from "@/domain/lines";
 import { learnAislePositions, learnArticleOrder } from "@/domain/shopping";
-import { insertAisleAfter, placementScope } from "@/domain/stores";
+import {
+  insertAisleAfter,
+  placementScope,
+  setCategoryRole,
+} from "@/domain/stores";
 import type { ShoppingDatabase } from "./database";
+import { updateSettings } from "./settings";
+import { ensureUnsortedAisle } from "./stores";
 
 /**
  * Courses : session, coches, clôture, apprentissage et réouverture (docs/02 § 8,
@@ -53,8 +59,16 @@ export async function startSession(
 ): Promise<ShoppingSession> {
   return database.transaction(
     "rw",
-    [database.sessions, database.items, database.lists, database.stores],
+    [
+      database.sessions,
+      database.items,
+      database.lists,
+      database.stores,
+      database.aisles,
+      database.categories,
+    ],
     async () => {
+      await ensureUnsortedAisle(database, storeId, now);
       const open = await openSession(database, listId);
       if (open) return open;
       const items = await database.items
@@ -102,7 +116,7 @@ export async function checkItem(
     database.items,
     database.purchases,
     async () => {
-      await removePurchases(database, session.id, item.articleId);
+      await removePurchases(database, session.id, item);
       await database.items.update(item.id, {
         status: "checked",
         checkedAt: now,
@@ -113,6 +127,7 @@ export async function checkItem(
         sessionId: session.id,
         storeId: session.storeId,
         articleId: item.articleId,
+        itemId: item.id,
         aisleId,
         quantity: item.quantity,
         unitId: item.unitId,
@@ -137,13 +152,17 @@ async function aislesWithOverrides(
   return new Set(overrides.map((o) => o.aisleId));
 }
 
-/** Rayon ouvert pendant ces courses, encore vide : ni catégorie, ni exception. */
+/**
+ * Rayon ouvert par « Rayon suivant » pendant ces courses, encore vide : ni nom, ni
+ * repère, ni catégorie, ni exception. Un rayon créé ou nommé dans Gérer est gardé.
+ */
 function isFreshEmptyAisle(
   aisle: Aisle,
   session: Pick<ShoppingSession, "startedAt">,
   withOverrides: ReadonlySet<ID>,
 ): boolean {
   if (aisle.isUnsorted || aisle.categories.length > 0) return false;
+  if (aisle.name.trim() || aisle.description?.trim()) return false;
   if (aisle.createdAt < session.startedAt) return false;
   return !withOverrides.has(aisle.id);
 }
@@ -306,7 +325,7 @@ export async function uncheckItem(
     database.items,
     database.purchases,
     async () => {
-      await removePurchases(database, sessionId, item.articleId);
+      await removePurchases(database, sessionId, item);
       await database.items.update(item.id, {
         status: "todo",
         checkedAt: undefined,
@@ -328,7 +347,7 @@ export async function markUnavailable(
     database.items,
     database.purchases,
     async () => {
-      await removePurchases(database, sessionId, item.articleId);
+      await removePurchases(database, sessionId, item);
       await database.items.update(item.id, {
         status: "unavailable",
         checkedAt: undefined,
@@ -338,15 +357,16 @@ export async function markUnavailable(
   );
 }
 
-async function removePurchases(
+/** Retire l'achat de cette ligne dans la session (`isPurchaseOf`). */
+export async function removePurchases(
   database: ShoppingDatabase,
   sessionId: ID,
-  articleId: ID,
+  item: Pick<ListItem, "id" | "articleId">,
 ): Promise<void> {
   await database.purchases
     .where("sessionId")
     .equals(sessionId)
-    .filter((purchase) => purchase.articleId === articleId)
+    .filter(isPurchaseOf(item))
     .delete();
 }
 
@@ -435,7 +455,8 @@ export async function closeSession(
 /**
  * Rouvrir les courses (C8), tant qu'aucune nouvelle session n'a démarré : l'ordre
  * d'avant la clôture est rétabli et les articles achetés réapparaissent cochés. La
- * clôture suivante recalcule tout : rien n'est jamais compté deux fois.
+ * clôture suivante recalcule tout : rien n'est jamais compté deux fois. Sa liste
+ * devient la liste courante : le mode courses l'affiche, pas une autre.
  */
 export async function reopenSession(
   database: ShoppingDatabase,
@@ -443,7 +464,13 @@ export async function reopenSession(
 ): Promise<boolean> {
   return database.transaction(
     "rw",
-    [database.sessions, database.aisles, database.stores, database.items],
+    [
+      database.sessions,
+      database.aisles,
+      database.stores,
+      database.items,
+      database.meta,
+    ],
     async () => {
       const session = await database.sessions.get(sessionId);
       if (session?.status !== "closed") return false;
@@ -482,6 +509,7 @@ export async function reopenSession(
         closedAt: undefined,
         learningSnapshot: undefined,
       });
+      await updateSettings(database, { currentListId: session.listId });
       return true;
     },
   );
@@ -539,28 +567,16 @@ export async function moveArticle(
           .where("storeId")
           .equals(storeId)
           .toArray();
-        for (const aisle of aisles) {
-          const others = aisle.categories.filter(
-            (c) => c.categoryId !== article.categoryId,
-          );
-          const had = aisle.categories.find(
-            (c) => c.categoryId === article.categoryId,
-          );
-          const categories =
-            aisle.id === aisleId
-              ? [...others, { categoryId: article.categoryId, primary: true }]
-              : had
-                ? [
-                    ...others,
-                    { categoryId: article.categoryId, primary: false },
-                  ]
-                : aisle.categories;
-          if (categories !== aisle.categories)
-            await database.aisles.update(aisle.id, {
-              categories,
-              updatedAt: now,
-            });
-        }
+        for (const changed of setCategoryRole(
+          aisles,
+          aisleId,
+          article.categoryId,
+          "primary",
+        ))
+          await database.aisles.update(changed.id, {
+            categories: changed.categories,
+            updatedAt: now,
+          });
       }
       if (sessionId)
         await database.purchases

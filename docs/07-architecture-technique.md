@@ -207,6 +207,7 @@ interface Purchase {
   sessionId: ID;
   storeId: ID;
   articleId: ID;
+  itemId?: ID; // la ligne cochée (deux lignes d'un même article : deux achats) ; non indexé, absent avant la 1.0.1
   aisleId: ID;
   quantity: number;
   unitId: ID;
@@ -407,14 +408,16 @@ ShoppingList/
 
 **Cloudflare Pages** (gratuit), **connecté directement au dépôt GitHub** `Jyhem2000/ShoppingList` (privé pour l'instant ; le site publié, lui, est public). Cloudflare construit et met en ligne l'app à chaque push : aucun jeton ni secret à gérer, aucun workflow GitHub Actions. Mise en place : [guide](deploiement-cloudflare.md).
 
+Projet Cloudflare Pages : `shoppinglist-app`. Version de Node : **`.node-version`** à la racine (`26`), seule source, lue par Cloudflare au build et par les gestionnaires de versions de Node en local ; `engines` de `package.json` la rappelle.
+
 Commande de build côté Cloudflare : `npm run build:checked` (format, lint, types, tests unitaires, puis build). **Si un contrôle échoue, rien n'est mis en ligne.** Les tests E2E (navigateurs émulés) tournent sur le poste de développement : avant chaque commit et dans `npm run release`.
 
 ### Branches et environnements
 
-| Branche                    | Rôle                                                                                        | Environnement     | Adresse                                           |
-| -------------------------- | ------------------------------------------------------------------------------------------- | ----------------- | ------------------------------------------------- |
-| `dev` (branche par défaut) | **Travail quotidien** : on y commite et pousse directement ; tout ce qui n'est pas publié   | **Préproduction** | `dev.<projet>.pages.dev`                          |
-| `main`                     | **Uniquement les versions publiées** : n'avance que par `npm run release`, jamais à la main | **Production**    | `<projet>.pages.dev` (ou domaine perso plus tard) |
+| Branche                    | Rôle                                                                                        | Environnement     | Adresse                                                                              |
+| -------------------------- | ------------------------------------------------------------------------------------------- | ----------------- | ------------------------------------------------------------------------------------ |
+| `dev` (branche par défaut) | **Travail quotidien** : on y commite et pousse directement ; tout ce qui n'est pas publié   | **Préproduction** | `dev.shoppinglist-app.pages.dev`                                                     |
+| `main`                     | **Uniquement les versions publiées** : n'avance que par `npm run release`, jamais à la main | **Production**    | `shoppinglist.jyhem.cloud` (domaine perso ; `shoppinglist-app.pages.dev` y redirige) |
 
 Il n'y a pas d'autre branche : pas de branche de travail ni de pull request. Seules `dev` et `main` sont construites par Cloudflare (réglage « Custom branches ») ; les essais sur téléphone se font en préproduction. On ne travaille jamais directement sur `main`. Le canal affiché dans l'app (§ 6) est déduit de la branche construite (`CF_PAGES_BRANCH`). Hors production, l'app installée s'appelle **« ShoppingList DEV »** (manifeste et titre), pour distinguer les deux apps installées côte à côte sur le téléphone.
 

@@ -62,7 +62,9 @@ export function learnAislePositions(
   const ranks = new Map<ID, number[]>();
   for (const { aisleId, rank } of ranked(purchases)) {
     if (!sortable.has(aisleId)) continue;
-    ranks.set(aisleId, [...(ranks.get(aisleId) ?? []), rank]);
+    const list = ranks.get(aisleId);
+    if (list) list.push(rank);
+    else ranks.set(aisleId, [rank]);
   }
   const current = new Map(
     [...ranks.keys()].map((id) => [id, sortable.get(id) ?? 0]),
@@ -87,7 +89,9 @@ export function learnArticleOrder(
   const byAisle = new Map<ID, Map<ID, number[]>>();
   for (const { aisleId, articleId, rank } of ranked(purchases)) {
     const ranks = byAisle.get(aisleId) ?? new Map<ID, number[]>();
-    ranks.set(articleId, [...(ranks.get(articleId) ?? []), rank]);
+    const list = ranks.get(articleId);
+    if (list) list.push(rank);
+    else ranks.set(articleId, [rank]);
     byAisle.set(aisleId, ranks);
   }
   const result: Record<ID, number> = { ...order };

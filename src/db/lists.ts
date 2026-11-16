@@ -1,8 +1,15 @@
-import { sameTypes } from "@/domain/lines";
+import { isPurchaseOf } from "@/domain/lines";
 import { planListMerge, type MergeLine } from "@/domain/listMerge";
-import { formatQuantity, mergeQuantity } from "@/domain/quantity";
-import type { ID, ListItem, ShoppingList } from "@/domain/model";
+import type {
+  ID,
+  ListItem,
+  Purchase,
+  ShoppingList,
+  Unit,
+} from "@/domain/model";
 import type { ShoppingDatabase } from "./database";
+import { findActiveItem } from "./items";
+import { openSession } from "./sessions";
 import { getSettings, updateSettings } from "./settings";
 
 /**
@@ -136,14 +143,111 @@ export async function updateItem(
     Pick<ListItem, "quantity" | "unitId" | "acceptedTypes" | "note" | "status">
   >,
 ): Promise<void> {
-  await database.items.update(id, { ...changes, updatedAt: Date.now() });
+  await database.transaction(
+    "rw",
+    [database.items, database.purchases, database.sessions],
+    async () => {
+      await database.items.update(id, { ...changes, updatedAt: Date.now() });
+      // Ligne déjà cochée : son achat suit la quantité (bilan, historique).
+      const item = await database.items.get(id);
+      if (
+        item &&
+        (changes.quantity !== undefined || changes.unitId !== undefined)
+      )
+        for (const purchase of await linePurchases(database, item))
+          await database.purchases.update(purchase.id, {
+            quantity: item.quantity,
+            unitId: item.unitId,
+          });
+    },
+  );
 }
 
 /**
+ * Fusionne `line` dans `twin`, l'autre ligne active du même article avec les mêmes
+ * types (docs/02 § 6), comme l'ajout d'une liste dans une autre (`planListMerge`) :
+ * quantités additionnées, ou ajoutées en note si les unités ne se convertissent pas ;
+ * notes et recettes d'origine réunies. `line` disparaît ; la ligne réunie garde l'état
+ * de `twin` et, cochée, un seul achat avec la quantité réunie.
+ * À appeler dans une transaction sur `items`, `purchases` et `sessions`.
+ */
+export async function mergeLineInto(
+  database: ShoppingDatabase,
+  twin: ListItem,
+  line: ListItem,
+  units: readonly Unit[],
+  now: number,
+): Promise<void> {
+  const [plan] = planListMerge(
+    [twin],
+    [{ ...line, articleId: twin.articleId, acceptedTypes: twin.acceptedTypes }],
+    units,
+  );
+  const merged = plan
+    ? { quantity: plan.quantity, unitId: plan.unitId, note: plan.note }
+    : { quantity: twin.quantity, unitId: twin.unitId, note: twin.note };
+  // Lus avant les changements : un achat d'avant la 1.0.1 se reconnaît à l'article.
+  const purchases = new Map(
+    [
+      ...(await linePurchases(database, twin)),
+      ...(await linePurchases(database, line)),
+    ].map((purchase) => [purchase.id, purchase]),
+  );
+  const known = new Set(twin.fromRecipes.map((r) => r.recipeId));
+  await database.items.update(twin.id, {
+    ...merged,
+    fromRecipes: [
+      ...twin.fromRecipes,
+      ...line.fromRecipes.filter((r) => !known.has(r.recipeId)),
+    ],
+    updatedAt: now,
+  });
+  await database.items.delete(line.id);
+  const [kept, ...others] = [...purchases.values()];
+  if (kept && twin.status === "checked") {
+    await database.purchases.update(kept.id, {
+      itemId: twin.id,
+      articleId: twin.articleId,
+      quantity: merged.quantity,
+      unitId: merged.unitId,
+    });
+    await database.purchases.bulkDelete(others.map((p) => p.id));
+  } else await database.purchases.bulkDelete([...purchases.keys()]);
+}
+
+/** Achats d'une ligne cochée dans les courses en cours de sa liste (`isPurchaseOf`). */
+async function linePurchases(
+  database: ShoppingDatabase,
+  item: Pick<ListItem, "id" | "listId" | "articleId" | "status">,
+): Promise<Purchase[]> {
+  if (item.status !== "checked") return [];
+  const open = await openSession(database, item.listId);
+  return open
+    ? database.purchases
+        .where("sessionId")
+        .equals(open.id)
+        .filter(isPurchaseOf(item))
+        .toArray()
+    : [];
+}
+
+/** Autre ligne active de la liste avec le même article et les mêmes types. */
+const findTwin = (
+  database: ShoppingDatabase,
+  line: Pick<ListItem, "id" | "listId" | "articleId" | "acceptedTypes">,
+) =>
+  findActiveItem(
+    database,
+    line.listId,
+    line.articleId,
+    line.acceptedTypes,
+    line.id,
+  );
+
+/**
  * Une ligne dont on vient de changer les types rejoint, s'il y en a une, l'autre ligne
- * active du même article avec les mêmes types (docs/02 § 6) : quantités additionnées,
- * ou ajoutées en note si les unités ne se convertissent pas ; les notes sont gardées.
- * Renvoie l'identifiant de la ligne gardée, ou `undefined` si rien n'a changé.
+ * active du même article avec les mêmes types (`mergeLineInto`). Renvoie
+ * l'identifiant de la ligne gardée, ou `undefined` si rien n'a changé.
  */
 export async function mergeIntoTwin(
   database: ShoppingDatabase,
@@ -152,72 +256,97 @@ export async function mergeIntoTwin(
 ): Promise<ID | undefined> {
   return database.transaction(
     "rw",
-    [database.items, database.units],
+    [database.items, database.units, database.purchases, database.sessions],
     async () => {
       const item = await database.items.get(id);
       if (!item || item.closedInSessionId) return undefined;
-      const twin = await database.items
-        .where("articleId")
-        .equals(item.articleId)
-        .filter(
-          (other) =>
-            other.id !== item.id &&
-            other.listId === item.listId &&
-            !other.closedInSessionId &&
-            sameTypes(other.acceptedTypes, item.acceptedTypes),
-        )
-        .first();
+      const twin = await findTwin(database, item);
       if (!twin) return undefined;
-      const units = await database.units.toArray();
-      const a = units.find((unit) => unit.id === twin.unitId);
-      const b = units.find((unit) => unit.id === item.unitId);
-      const merged =
-        a && b
-          ? mergeQuantity(
-              { quantity: twin.quantity, unit: a },
-              { quantity: item.quantity, unit: b },
-              units,
-            )
-          : undefined;
-      const extra =
-        merged?.kind !== "merged" && b
-          ? `+ ${formatQuantity(item.quantity, b, "long")}`
-          : undefined;
-      const notes = [twin.note, extra, item.note].filter(
-        (note): note is string => Boolean(note?.trim()),
+      await mergeLineInto(
+        database,
+        twin,
+        item,
+        await database.units.toArray(),
+        now,
       );
-      await database.items.update(twin.id, {
-        ...(merged?.kind === "merged"
-          ? { quantity: merged.quantity, unitId: merged.unit.id }
-          : {}),
-        note: notes.length ? [...new Set(notes)].join(" · ") : undefined,
-        updatedAt: now,
-      });
-      await database.items.delete(item.id);
       return twin.id;
     },
   );
 }
 
-/** Supprime des lignes et les renvoie, pour pouvoir les rétablir (« Annuler »). */
+/** Lignes supprimées et leurs achats des courses en cours, pour « Annuler ». */
+export interface RemovedItems {
+  items: ListItem[];
+  purchases: Purchase[];
+}
+
+/**
+ * Supprime des lignes et les renvoie, pour pouvoir les rétablir (« Annuler »). Une
+ * ligne cochée pendant des courses en cours perd aussi son achat : le bilan et
+ * l'historique ne la comptent plus.
+ */
 export async function deleteItems(
   database: ShoppingDatabase,
   ids: ID[],
-): Promise<ListItem[]> {
-  return database.transaction("rw", database.items, async () => {
-    const items = (await database.items.bulkGet(ids)).filter(
-      (item) => item !== undefined,
-    );
-    await database.items.bulkDelete(ids);
-    return items;
-  });
+): Promise<RemovedItems> {
+  return database.transaction(
+    "rw",
+    [database.items, database.purchases, database.sessions],
+    async () => {
+      const items = (await database.items.bulkGet(ids)).filter(
+        (item) => item !== undefined,
+      );
+      const purchases = new Map<ID, Purchase>();
+      for (const item of items)
+        for (const purchase of await linePurchases(database, item))
+          purchases.set(purchase.id, purchase);
+      await database.items.bulkDelete(ids);
+      await database.purchases.bulkDelete([...purchases.keys()]);
+      return { items, purchases: [...purchases.values()] };
+    },
+  );
 }
 
+/**
+ * « Annuler » une suppression : les lignes reviennent avec leurs achats. Une ligne
+ * remise entre-temps (même article, mêmes types) n'est pas doublée : la ligne
+ * rétablie la rejoint (`mergeLineInto`). Courses terminées entre-temps : leurs achats
+ * ne reviennent pas, et une ligne cochée revient « à acheter ».
+ */
 export async function restoreItems(
   database: ShoppingDatabase,
-  items: ListItem[],
+  removed: RemovedItems,
+  now = Date.now(),
 ): Promise<void> {
-  await database.items.bulkPut(items);
+  await database.transaction(
+    "rw",
+    [database.items, database.units, database.purchases, database.sessions],
+    async () => {
+      const sessions = await database.sessions.bulkGet([
+        ...new Set(removed.purchases.map((purchase) => purchase.sessionId)),
+      ]);
+      const open = new Set(
+        sessions.filter((s) => s?.status === "open").map((s) => s?.id),
+      );
+      await database.purchases.bulkPut(
+        removed.purchases.filter((purchase) => open.has(purchase.sessionId)),
+      );
+      const units = await database.units.toArray();
+      for (const removedItem of removed.items) {
+        const item: ListItem =
+          removedItem.status === "checked" &&
+          !removedItem.closedInSessionId &&
+          !(await openSession(database, removedItem.listId))
+            ? { ...removedItem, status: "todo", checkedAt: undefined }
+            : removedItem;
+        const twin = item.closedInSessionId
+          ? undefined
+          : await findTwin(database, item);
+        if (twin) await mergeLineInto(database, twin, item, units, now);
+        else await database.items.put(item);
+      }
+    },
+  );
 }
 
 /** Lignes que l'ajout d'autres listes créerait ou modifierait (aperçu). */

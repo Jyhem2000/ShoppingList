@@ -216,7 +216,15 @@ Plan (pas de migration de données : au besoin, on réinstalle l'app, 07 § 5) :
 
 ### Publication 1.0
 
-- 🎉 _**`npm run release -- 1.0.0`, publiée le 16 novembre 2026**, à la demande de l'utilisateur sans attendre la fin de l'usage réel de la 0.9 ;, avec l'onglet Recettes visible en production et des nouveautés réécrites : une seule entrée « 1.0.0 » remplace celles des versions `0.x` (07 § 9). Les données restent en place._
+- 🎉 _**`npm run release -- 1.0.0`, publiée le 16 novembre 2026**, à la demande de l'utilisateur sans attendre la fin de l'usage réel de la 0.9, avec l'onglet Recettes visible en production et des nouveautés réécrites : une seule entrée « 1.0.0 » remplace celles des versions `0.x` (07 § 9). Les données restent en place._
+
+### Correctifs 1.0.x
+
+- ✅ _Sur `dev`, 16 novembre 2026_ : lectures liées à une liste, un magasin, une session ou une recette (`src/db/hooks.ts`) qui rendaient un instant le résultat d'une autre ; un toucher dans le catalogue pouvait ajouter une ligne en double ou montrer présent un article d'une autre liste (test E2E 2 instable sur iPhone).
+- ✅ _16 novembre 2026_ : **audit complet du code avant la `1.0.1`** (tout `src/`, `scripts/`, `tests/`, par `/code-review` dossier par dossier). Constats et corrections proposées : [audit-1.0.1.md](audit-1.0.1.md) (16 bugs dont un sur les achats de deux lignes d'un même article, 2 d'accessibilité, 5 de nettoyage, 1 écart avec la doc, 2 de tests).
+- ✅ _Sur `dev`, 16 novembre 2026_ : **corrections de l'audit** (bilan dans [audit-1.0.1.md](audit-1.0.1.md)) : toutes faites sauf le n° 18, non fondé. Message « Annuler » : 4 s gardées, doc corrigée. Relecture des corrections : 8 points de plus, corrigés (dont un achat compté deux fois quand deux lignes cochées se réunissent).
+- ✅ _Sur `dev`, 16 novembre 2026_ : **domaine `shoppinglist.jyhem.cloud`** pour la production (vérifié : HTTPS, même page et même `version.json` que `shoppinglist-app.pages.dev`) et **Node 26** déclaré dans `.node-version` (contrôles, build et E2E verts sous Node 26.13). Aucune adresse en dur dans le code. Reste à faire dans Cloudflare : supprimer `NODE_VERSION`, puis rediriger `shoppinglist-app.pages.dev` vers le domaine (Bulk Redirects) **après** avoir déplacé les données de chaque téléphone par sauvegarde et import ([guide § 7](deploiement-cloudflare.md#7-rediriger-shoppinglist-apppagesdev-vers-le-domaine)).
+- Puis **`npm run release -- 1.0.1`**, après avoir écrit ses nouveautés (entrée « 1.0.1 » dans `src/i18n/fr.ts` → `releaseNotes`).
 
 ## v1.1 — Partage
 

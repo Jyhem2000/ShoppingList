@@ -21,6 +21,21 @@ const HEADING = /^\s*#{1,6}\s+(.*)$/;
 const BULLET = /^\s*[-*•]\s+(.*)$/;
 const NUMBER = /^\s*(\d+)[.)]\s+(.*)$/;
 
+/** Ligne de texte qui ressemble à un titre ou à un élément de liste. */
+const looksLikeBlock = (line: string) =>
+  HEADING.test(line) || BULLET.test(line) || NUMBER.test(line);
+
+/**
+ * Une telle ligne écrite dans un paragraphe est enregistrée précédée de `\`, pour
+ * rester du texte à la relecture ; le `\` ne s'affiche pas.
+ */
+function unescapeLine(line: string): string | undefined {
+  const rest = line.trimStart();
+  return rest.startsWith("\\") && looksLikeBlock(rest.slice(1))
+    ? rest.slice(1).trim()
+    : undefined;
+}
+
 /** Le gras entre `**` ; un `**` sans son pendant reste écrit tel quel. */
 export function parseInline(text: string): Inline[] {
   let parts = text.split("**");
@@ -43,6 +58,12 @@ export function parseMarkdown(text: string): MarkdownBlock[] {
       // Une ligne vide clôt le bloc en cours.
       if (last && last.kind !== "heading")
         blocks.push({ kind: "paragraph", lines: [] });
+      continue;
+    }
+    const escaped = unescapeLine(line);
+    if (escaped !== undefined) {
+      if (last?.kind === "paragraph") last.lines.push(parseInline(escaped));
+      else blocks.push({ kind: "paragraph", lines: [parseInline(escaped)] });
       continue;
     }
     const heading = HEADING.exec(line);
@@ -189,6 +210,7 @@ export function docToMarkdown(doc: DocNode): string {
             .split("\n")
             .map((line) => line.trim())
             .filter(Boolean)
+            .map((line) => (looksLikeBlock(line) ? `\\${line}` : line))
             .join("\n");
       }
     })

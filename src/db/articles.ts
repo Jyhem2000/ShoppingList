@@ -1,9 +1,9 @@
 import { mergedArticleFields } from "@/domain/duplicates";
-import { sameTypes } from "@/domain/lines";
 import type { Article, ID } from "@/domain/model";
-import { formatQuantity, mergeQuantity } from "@/domain/quantity";
 import { slugify } from "@/domain/slug";
 import type { ShoppingDatabase } from "./database";
+import { findActiveItem } from "./items";
+import { mergeLineInto } from "./lists";
 
 /**
  * Fiche article (docs/02 § 2, docs/03 G1) : modification, suppression, fusion, doublons.
@@ -26,9 +26,12 @@ export type ArticleChanges = Partial<
   >
 >;
 
-export type UpdateArticleResult = "saved" | "nameTaken";
+export type UpdateArticleResult = "saved" | "nameTaken" | "missing";
 
-/** Renommer recalcule le slug, qui reste unique (docs/02 § 1). */
+/**
+ * Renommer recalcule le slug, qui reste unique (docs/02 § 1). Article fusionné ou
+ * supprimé entre-temps (saisie enregistrée en quittant la page) : rien ne change.
+ */
 export async function updateArticle(
   database: ShoppingDatabase,
   id: ID,
@@ -36,6 +39,7 @@ export async function updateArticle(
   now = Date.now(),
 ): Promise<UpdateArticleResult> {
   return database.transaction("rw", database.articles, async () => {
+    if (!(await database.articles.get(id))) return "missing";
     const next: Partial<Article> = { ...changes, updatedAt: now };
     if (changes.name !== undefined) {
       const name = changes.name.trim();
@@ -117,8 +121,8 @@ export async function deleteArticle(
  * Fusionner `removedId` dans `keepId` (docs/02 § 2) : lignes, historique, exceptions et
  * ordre appris passent à l'article gardé, comme les ingrédients des recettes ; le nom du
  * second devient un nom alternatif.
- * Deux lignes du même article avec les mêmes types dans une liste n'en font qu'une (quantités additionnées,
- * ou ajoutées en note si les unités ne se convertissent pas).
+ * Deux lignes du même article avec les mêmes types dans une liste n'en font qu'une
+ * (`mergeLineInto` : quantités, notes et recettes d'origine réunies).
  */
 export async function mergeArticles(
   database: ShoppingDatabase,
@@ -137,6 +141,7 @@ export async function mergeArticles(
       database.stores,
       database.units,
       database.recipes,
+      database.sessions,
     ],
     async () => {
       const [keep, removed] = await database.articles.bulkGet([
@@ -145,55 +150,25 @@ export async function mergeArticles(
       ]);
       if (!keep || !removed) return;
       const units = await database.units.toArray();
-      const unitById = new Map(units.map((u) => [u.id, u]));
 
-      const keptLines = await database.items
-        .where("articleId")
-        .equals(keepId)
-        .toArray();
       for (const line of await database.items
         .where("articleId")
         .equals(removedId)
         .toArray()) {
         const twin = line.closedInSessionId
           ? undefined
-          : keptLines.find(
-              (k) =>
-                k.listId === line.listId &&
-                !k.closedInSessionId &&
-                sameTypes(k.acceptedTypes, line.acceptedTypes),
+          : await findActiveItem(
+              database,
+              line.listId,
+              keepId,
+              line.acceptedTypes,
             );
-        if (!twin) {
+        if (twin) await mergeLineInto(database, twin, line, units, now);
+        else
           await database.items.update(line.id, {
             articleId: keepId,
             updatedAt: now,
           });
-          continue;
-        }
-        const a = unitById.get(twin.unitId);
-        const b = unitById.get(line.unitId);
-        const merged =
-          a && b
-            ? mergeQuantity(
-                { quantity: twin.quantity, unit: a },
-                { quantity: line.quantity, unit: b },
-                units,
-              )
-            : undefined;
-        if (merged?.kind === "merged")
-          await database.items.update(twin.id, {
-            quantity: merged.quantity,
-            unitId: merged.unit.id,
-            updatedAt: now,
-          });
-        else if (b) {
-          const extra = `+ ${formatQuantity(line.quantity, b, "long")}`;
-          await database.items.update(twin.id, {
-            note: twin.note ? `${twin.note} · ${extra}` : extra,
-            updatedAt: now,
-          });
-        }
-        await database.items.delete(line.id);
       }
 
       await database.purchases

@@ -16,6 +16,7 @@ import { TypesPicker } from "@/ui/TypesPicker";
 import { recipeOrigin } from "./format";
 import { KeepOneOff } from "./KeepOneOff";
 import type { ListData } from "./useListData";
+import { usePendingSave } from "@/ui/usePendingSave";
 import { useUsualUnits } from "./useUsualUnits";
 
 const t = fr.list.line;
@@ -40,6 +41,10 @@ export function LineSheet({
   const unit = data.unitById.get(item.unitId);
   const [note, setNote] = useState(item.note ?? "");
   const usualUnits = useUsualUnits(article, data, item.id);
+  const { edited, commit: saveNote } = usePendingSave(async () => {
+    if (note.trim() !== (item.note ?? ""))
+      await updateItem(db, item.id, { note: note.trim() || undefined });
+  });
   if (!article || !unit) return null;
 
   const setUnit = (unitId: string) => {
@@ -47,10 +52,6 @@ export function LineSheet({
     if (!next || next.id === item.unitId) return;
     const quantity = changeUnit(item.quantity, unit, next);
     void updateItem(db, item.id, { unitId: next.id, quantity });
-  };
-  const saveNote = async () => {
-    if (note.trim() !== (item.note ?? ""))
-      await updateItem(db, item.id, { note: note.trim() || undefined });
   };
   // Types changés : la ligne rejoint l'autre ligne du même article aux mêmes types
   // (docs/02 § 6), à la fermeture seulement, pour ne pas fusionner en cours de choix.
@@ -106,6 +107,7 @@ export function LineSheet({
             value={note}
             onChange={(event) => {
               setNote(event.target.value);
+              edited();
             }}
             onBlur={() => void saveNote()}
             placeholder={t.notePlaceholder}

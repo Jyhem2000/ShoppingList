@@ -1,3 +1,4 @@
+import { effectiveAisle } from "@/domain/aisles";
 import type { Aisle, Category, ID, Store } from "@/domain/model";
 import {
   type CategoryRole,
@@ -49,6 +50,33 @@ export function buildEmptyStore(
       },
     ],
   };
+}
+
+/**
+ * Recrée le rayon « Non classé » d'un magasin s'il manque (sauvegarde abîmée) : sans
+ * lui, les articles sans rayon ne s'afficheraient pas en courses. Il reçoit les
+ * catégories système qui n'ont pas déjà un rayon principal.
+ */
+export async function ensureUnsortedAisle(
+  database: ShoppingDatabase,
+  storeId: ID,
+  now = Date.now(),
+): Promise<void> {
+  const aisles = await database.aisles
+    .where("storeId")
+    .equals(storeId)
+    .toArray();
+  if (aisles.some((aisle) => aisle.isUnsorted)) return;
+  const taken = new Set(
+    aisles.flatMap((aisle) =>
+      aisle.categories.filter((c) => c.primary).map((c) => c.categoryId),
+    ),
+  );
+  const categories = (await database.categories.toArray()).filter(
+    (category) => !taken.has(category.id),
+  );
+  const [unsorted] = buildEmptyStore("", categories, now).aisles;
+  if (unsorted) await database.aisles.add({ ...unsorted, storeId });
 }
 
 export async function createEmptyStore(
@@ -246,7 +274,30 @@ export async function setAisleCategoryRole(
   });
 }
 
-/** Supprimer un rayon (pas « Non classé ») ; ses exceptions par article disparaissent. */
+/**
+ * Courses en cours dans le magasin de ce rayon, qui va disparaître : il cesse d'être
+ * leur rayon en cours. Renvoie les identifiants de ces sessions.
+ */
+async function forgetOpenedAisle(
+  database: ShoppingDatabase,
+  aisle: Pick<Aisle, "id" | "storeId">,
+): Promise<ID[]> {
+  const open = await database.sessions
+    .where("storeId")
+    .equals(aisle.storeId)
+    .filter((session) => session.status === "open")
+    .toArray();
+  for (const session of open)
+    if (session.openedAisle?.aisleId === aisle.id)
+      await database.sessions.update(session.id, { openedAisle: undefined });
+  return open.map((session) => session.id);
+}
+
+/**
+ * Supprimer un rayon (pas « Non classé ») ; ses exceptions par article disparaissent.
+ * Les achats des courses en cours qui y étaient passent au nouveau rayon de leur
+ * article.
+ */
 export async function deleteAisle(
   database: ShoppingDatabase,
   aisleId: ID,
@@ -255,10 +306,17 @@ export async function deleteAisle(
 ): Promise<void> {
   await database.transaction(
     "rw",
-    [database.aisles, database.overrides],
+    [
+      database.aisles,
+      database.overrides,
+      database.sessions,
+      database.purchases,
+      database.articles,
+    ],
     async () => {
       const aisle = await database.aisles.get(aisleId);
       if (!aisle || aisle.isUnsorted) return;
+      const sessionIds = await forgetOpenedAisle(database, aisle);
       const aisles = await database.aisles
         .where("storeId")
         .equals(aisle.storeId)
@@ -270,6 +328,26 @@ export async function deleteAisle(
         });
       await database.overrides.filter((o) => o.aisleId === aisleId).delete();
       await database.aisles.delete(aisleId);
+      const rest = await database.aisles
+        .where("storeId")
+        .equals(aisle.storeId)
+        .toArray();
+      const overrides = await database.overrides
+        .filter((o) => o.storeId === aisle.storeId)
+        .toArray();
+      for (const purchase of await database.purchases
+        .where("sessionId")
+        .anyOf(sessionIds)
+        .filter((p) => p.aisleId === aisleId)
+        .toArray()) {
+        const article = await database.articles.get(purchase.articleId);
+        const target =
+          (article &&
+            effectiveAisle(article, aisle.storeId, rest, overrides)) ??
+          rest.find((a) => a.isUnsorted);
+        if (target)
+          await database.purchases.update(purchase.id, { aisleId: target.id });
+      }
     },
   );
 }
@@ -283,7 +361,12 @@ export async function mergeAisleInto(
 ): Promise<void> {
   await database.transaction(
     "rw",
-    [database.aisles, database.overrides],
+    [
+      database.aisles,
+      database.overrides,
+      database.sessions,
+      database.purchases,
+    ],
     async () => {
       const [source, target] = await database.aisles.bulkGet([
         sourceId,
@@ -306,6 +389,13 @@ export async function mergeAisleInto(
         updatedAt: now,
       });
       await database.overrides.bulkPut(merged.overrides);
+      // Courses en cours dans ce magasin : leurs achats suivent le rayon gardé.
+      for (const id of await forgetOpenedAisle(database, source))
+        await database.purchases
+          .where("sessionId")
+          .equals(id)
+          .filter((purchase) => purchase.aisleId === source.id)
+          .modify({ aisleId: target.id });
       await database.aisles.delete(source.id);
     },
   );

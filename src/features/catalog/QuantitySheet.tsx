@@ -1,4 +1,5 @@
 import { Trash2 } from "lucide-react";
+import type { ReactNode } from "react";
 import { db } from "@/db/database";
 import { deleteItems, restoreItems, updateItem } from "@/db/lists";
 import { otherTypes, typesKey } from "@/domain/lines";
@@ -21,18 +22,21 @@ const t = fr.catalog;
  * chacune avec sa sorte (« Peu importe », « Entier »), ses − / + et sa corbeille, puis
  * « Une autre sorte » (docs/02 § 6). Une sorte touchée ajoute sa ligne ici même, avec
  * la quantité par défaut de l'article, à régler sur place ; le panneau reste ouvert.
- * Il se ferme quand l'article n'a plus de ligne.
+ * Il se ferme quand l'article n'a plus de ligne. `actions` : boutons propres à l'écran
+ * appelant (en courses : « Pas pris », « Changer de rayon », équivalents des gestes).
  */
 export function QuantitySheet({
   article,
   data,
   onClose,
   onAddType,
+  actions,
 }: {
   article: Article;
   data: ListData;
   onClose: () => void;
   onAddType: (type: string) => void;
+  actions?: ReactNode;
 }) {
   const lines = data.items
     .filter((item) => item.articleId === article.id)
@@ -95,6 +99,7 @@ export function QuantitySheet({
           label={t.otherType}
         />
         <KeepOneOff article={article} data={data} />
+        {actions}
         <Button onClick={onClose}>{t.done}</Button>
       </div>
     </Sheet>
