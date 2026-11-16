@@ -69,4 +69,4 @@ Une relecture (`/code-review`) des corrections a trouvé 8 points, tous corrigé
 - un nom saisi puis enregistré en quittant un article ou une catégorie fusionnés ou supprimés ne fait plus rien (au lieu de « nom déjà pris ») ;
 - nettoyage : une seule recherche de ligne jumelle (`findActiveItem`), tri de « À placer » créé une fois.
 
-Ensuite : les nouveautés « 1.0.1 » dans `fr.ts` et `npm run release -- 1.0.1` sur demande.
+Publié dans la `1.0.1` le 16 novembre 2026.
