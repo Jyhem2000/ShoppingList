@@ -43,6 +43,7 @@ import { showToast } from "@/ui/toast";
 import { IngredientSheet } from "./IngredientSheet";
 import { RecipeAddSheet } from "./RecipeAddSheet";
 import { RECIPE_COLOR, RecipeIcon } from "./RecipeIcon";
+import { usePendingSave } from "@/ui/usePendingSave";
 import { YieldFields } from "./YieldFields";
 
 const t = fr.recipes;
@@ -368,18 +369,21 @@ function StepsEditor({
   onSave: (changes: Partial<Recipe>) => void;
 }) {
   const [steps, setSteps] = useState(recipe.steps ?? "");
+  const { edited, commit } = usePendingSave(() => {
+    const clean = steps.trim();
+    if (clean !== (recipe.steps ?? "")) onSave({ steps: clean || undefined });
+  });
   return (
     <MarkdownField
       aria-label={t.steps}
       value={steps}
       placeholder={t.stepsPlaceholder}
       className="min-h-56"
-      onValueChange={setSteps}
-      onBlur={() => {
-        const clean = steps.trim();
-        if (clean !== (recipe.steps ?? ""))
-          onSave({ steps: clean || undefined });
+      onValueChange={(value) => {
+        setSteps(value);
+        edited();
       }}
+      onBlur={() => void commit()}
     />
   );
 }

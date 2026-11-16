@@ -10,6 +10,7 @@
  */
 import { execSync } from "node:child_process";
 import { readFileSync } from "node:fs";
+import { fr } from "../src/i18n/fr.ts";
 import { nextVersion } from "./versioning.ts";
 
 const args = process.argv.slice(2);
@@ -82,7 +83,7 @@ console.log(
 );
 
 // 3. Nouveautés
-if (!readFileSync("src/i18n/fr.ts", "utf8").includes(`version: "${version}"`))
+if (!fr.releaseNotes.versions.some((notes) => notes.version === version))
   fail(
     `Écris d'abord les nouveautés de la version ${version} dans src/i18n/fr.ts (releaseNotes).`,
   );

@@ -1,5 +1,5 @@
-import type { Article, Category, ID, ItemStatus, ListItem } from "./model";
-import { typesKey } from "./lines";
+import type { Article, Category, ID, ListItem } from "./model";
+import { compareLines } from "./lines";
 
 /**
  * Regroupement par catégorie (docs/03 B1) : la liste est indépendante de tout magasin,
@@ -34,12 +34,6 @@ export interface CategoryGroup<C, I> {
   items: I[];
 }
 
-const STATUS_ORDER: Record<ItemStatus, number> = {
-  todo: 0,
-  checked: 1,
-  unavailable: 2,
-};
-
 /**
  * Lignes groupées par catégorie, catégories dans l'ordre de `sortCategories`,
  * catégories vides omises ; dans un groupe : à acheter, puis cochées, puis pas prises,
@@ -60,31 +54,13 @@ export function groupListByCategory<
     if (item.closedInSessionId) continue;
     const article = articles.get(item.articleId);
     if (!article) continue;
-    byCategory.set(article.categoryId, [
-      ...(byCategory.get(article.categoryId) ?? []),
-      item,
-    ]);
+    const lines = byCategory.get(article.categoryId);
+    if (lines) lines.push(item);
+    else byCategory.set(article.categoryId, [item]);
   }
-  const name = (item: I) => articles.get(item.articleId)?.name ?? "";
-  const generic = (item: I) => articles.get(item.articleId)?.generic === true;
+  const byLine = compareLines<I>(articles);
   return sortCategories(categories, catalogOrder).flatMap((category) => {
     const lines = byCategory.get(category.id);
-    if (!lines) return [];
-    return [
-      {
-        category,
-        items: [...lines].sort(
-          (a, b) =>
-            STATUS_ORDER[a.status] - STATUS_ORDER[b.status] ||
-            Number(generic(b)) - Number(generic(a)) ||
-            collator.compare(name(a), name(b)) ||
-            // Lignes d'un même article (types différents) : côte à côte, dans un ordre stable.
-            collator.compare(
-              typesKey(a.acceptedTypes),
-              typesKey(b.acceptedTypes),
-            ),
-        ),
-      },
-    ];
+    return lines ? [{ category, items: lines.sort(byLine) }] : [];
   });
 }

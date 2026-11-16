@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Field, TextInput } from "@/ui/form";
+import { usePendingSave } from "@/ui/usePendingSave";
 
 /**
- * Nom modifiable, enregistré en quittant le champ ou par Entrée ; vide = on garde
+ * Nom modifiable, enregistré en quittant le champ (même sans `blur` : `usePendingSave`)
+ * ou par Entrée ; vide = on garde
  * l'ancien, sauf si le champ est `optional` (vide = pas de nom). À poser avec
  * `key={value}` : le champ suit les changements venus d'ailleurs.
  */
@@ -27,6 +29,7 @@ export function NameField({
     if ((clean || optional) && clean !== value) onSave(clean);
     else setName(value);
   };
+  const { edited, commit } = usePendingSave(save);
   return (
     <div>
       <Field label={label}>
@@ -35,8 +38,9 @@ export function NameField({
           placeholder={placeholder}
           onChange={(event) => {
             setName(event.target.value);
+            edited();
           }}
-          onBlur={save}
+          onBlur={() => void commit()}
           onKeyDown={(event) => {
             if (event.key === "Enter") event.currentTarget.blur();
           }}

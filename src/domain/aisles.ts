@@ -3,10 +3,9 @@ import type {
   Article,
   ArticleAisleOverride,
   ID,
-  ItemStatus,
   ListItem,
 } from "./model";
-import { typesKey } from "./lines";
+import { compareLines } from "./lines";
 
 /**
  * Tri de la liste par rayon (docs/02 § 4, docs/07 § 7.4 et 7.5).
@@ -43,14 +42,6 @@ export interface AisleGroup<A extends Aisle, I extends ListItem> {
   items: I[];
 }
 
-const STATUS_ORDER: Record<ItemStatus, number> = {
-  todo: 0,
-  checked: 1,
-  unavailable: 2,
-};
-
-const collator = new Intl.Collator("fr");
-
 /**
  * Lignes groupées par rayon effectif, rayons dans l'ordre du parcours (« Non classé »
  * en dernier). Dans un rayon : à acheter, puis cochées, puis introuvables ; chacune
@@ -85,25 +76,7 @@ export function groupListForStore<
     group.items.push(item);
   }
 
-  const name = (item: I) => articles.get(item.articleId)?.name ?? "";
-  const isGeneric = (item: I) => articles.get(item.articleId)?.generic === true;
-  const byItem = (a: I, b: I) => {
-    const status = STATUS_ORDER[a.status] - STATUS_ORDER[b.status];
-    if (status) return status;
-    const generic = Number(isGeneric(b)) - Number(isGeneric(a));
-    if (generic) return generic;
-    const orderA = articleOrder[a.articleId];
-    const orderB = articleOrder[b.articleId];
-    if (orderA !== undefined && orderB !== undefined && orderA !== orderB)
-      return orderA - orderB;
-    if (orderA !== undefined && orderB === undefined) return -1;
-    if (orderA === undefined && orderB !== undefined) return 1;
-    return (
-      collator.compare(name(a), name(b)) ||
-      // Lignes d'un même article (types différents) : côte à côte, dans un ordre stable.
-      collator.compare(typesKey(a.acceptedTypes), typesKey(b.acceptedTypes))
-    );
-  };
+  const byItem = compareLines<I>(articles, articleOrder);
 
   return [...groups.values()]
     .sort(

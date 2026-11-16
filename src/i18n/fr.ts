@@ -91,6 +91,12 @@ export const fr = {
       `Déplacement annulé : ${name} reste à sa place.`,
   },
   toast: { close: "Fermer le message" },
+  /** Base de données impossible à ouvrir au démarrage (src/app/StartupError.tsx). */
+  startup: {
+    title: "Impossible d'ouvrir tes données",
+    text: "Le stockage du téléphone est peut-être plein, ou la navigation privée l'empêche. Libère de la place ou ouvre l'app normalement, puis recharge.",
+    reload: "Recharger",
+  },
   search: { clear: "Effacer la recherche" },
   /** Barre de mise en forme d'un texte (src/ui/Markdown.tsx). */
   markdown: {
@@ -274,6 +280,7 @@ export const fr = {
     swipeHint:
       "Glisser vers la gauche : pas pris · appui long : changer de rayon",
     unavailable: "Pas pris",
+    moveAisle: "Changer de rayon",
     changeQuantity: (name: string) => `Changer la quantité de ${name}`,
     unavailableToast: (name: string) => `${name} : pas pris`,
     screenOnFailed:

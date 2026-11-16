@@ -1,4 +1,5 @@
 import type { ShoppingDatabase } from "./database";
+import { ensureUnsortedAisle } from "./stores";
 
 /**
  * Sauvegarde (docs/03 H4, docs/07 § 5) : toutes les données de l'app dans un fichier
@@ -25,6 +26,25 @@ const TABLES = [
   "meta",
 ] as const;
 type TableName = (typeof TABLES)[number];
+
+/** Champs tableau sans lesquels les écrans cassent : vérifiés à la lecture. */
+const ARRAY_FIELDS: Partial<Record<TableName, readonly string[]>> = {
+  units: ["aliases"],
+  articles: ["types", "aliases", "barcodes", "notDuplicateOf"],
+  aisles: ["categories"],
+  items: ["acceptedTypes", "fromRecipes"],
+  recipes: ["ingredients"],
+};
+
+/** Forme minimale d'un enregistrement : un objet avec sa clé et ses tableaux. */
+function wellFormed(name: TableName, record: unknown): boolean {
+  if (!record || typeof record !== "object") return false;
+  const fields = record as Record<string, unknown>;
+  if (typeof fields[name === "meta" ? "key" : "id"] !== "string") return false;
+  return (ARRAY_FIELDS[name] ?? []).every((field) =>
+    Array.isArray(fields[field]),
+  );
+}
 
 export interface Backup {
   app: "ShoppingList";
@@ -81,7 +101,13 @@ export function readBackup(text: string, schema: number): ReadBackupResult {
     typeof backup.format !== "number" ||
     typeof backup.schema !== "number" ||
     !backup.tables ||
-    !TABLES.every((name) => Array.isArray(backup.tables?.[name]))
+    !TABLES.every((name) => {
+      const records = backup.tables?.[name];
+      return (
+        Array.isArray(records) &&
+        records.every((record) => wellFormed(name, record))
+      );
+    })
   )
     return { kind: "invalid" };
   // Fichier venant d'une version plus récente de l'app : on ne sait pas le lire.
@@ -101,7 +127,10 @@ export function summarizeBackup(backup: Backup): BackupSummary {
   };
 }
 
-/** Remplace toutes les données par celles de la sauvegarde. */
+/**
+ * Remplace toutes les données par celles de la sauvegarde. Un magasin sans rayon
+ * « Non classé » (fichier abîmé) le retrouve.
+ */
 export async function importBackup(
   database: ShoppingDatabase,
   backup: Backup,
@@ -112,6 +141,8 @@ export async function importBackup(
       await table.clear();
       await table.bulkAdd(backup.tables[name]);
     }
+    for (const id of await database.stores.toCollection().primaryKeys())
+      await ensureUnsortedAisle(database, id);
   });
 }
 

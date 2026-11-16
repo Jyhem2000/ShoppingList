@@ -49,6 +49,19 @@ describe("étapes mises en forme (docs/03 E1)", () => {
       "Cuire 30 min.\nServir chaud.",
     ].join("\n\n");
     expect(docToMarkdown(markdownToDoc(steps))).toBe(steps);
+    // Une ligne de texte qui commence comme une liste ou un titre reste du texte.
+    const plain = {
+      type: "doc",
+      content: [
+        {
+          type: "paragraph",
+          content: [{ type: "text", text: "1. pas une liste" }],
+        },
+      ],
+    };
+    const saved = docToMarkdown(plain);
+    expect(saved).toBe("\\1. pas une liste");
+    expect(markdownToDoc(saved)).toEqual(plain);
     expect(markdownToDoc("")).toEqual({
       type: "doc",
       content: [{ type: "paragraph" }],

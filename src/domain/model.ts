@@ -197,6 +197,11 @@ export interface Purchase {
   sessionId: ID;
   storeId: ID;
   articleId: ID;
+  /**
+   * Ligne cochée : deux lignes d'un même article (types différents) ont chacune leur
+   * achat. Absent des achats enregistrés avant la 1.0.1 (non indexé).
+   */
+  itemId?: ID;
   aisleId: ID;
   quantity: number;
   unitId: ID;

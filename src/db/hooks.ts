@@ -93,17 +93,27 @@ export function useOverrides() {
   return useLiveQuery(() => db.overrides.toArray());
 }
 
-/** Nombre d'achats par article (sessions clôturées), pour la recherche et les habituels. */
+/**
+ * Nombre d'achats par article (sessions clôturées), pour la recherche et les habituels.
+ * Lus par l'index `sessionId` : une coche pendant les courses (achat d'une session
+ * ouverte) ne fait pas tout relire.
+ */
 export function usePurchaseCounts() {
   return useLiveQuery(async () => {
-    const closed = new Set(
-      await db.sessions.where("status").equals("closed").primaryKeys(),
-    );
+    const closed = await db.sessions
+      .where("status")
+      .equals("closed")
+      .primaryKeys();
     const counts = new Map<ID, number>();
-    await db.purchases.each((purchase) => {
-      if (!closed.has(purchase.sessionId)) return;
-      counts.set(purchase.articleId, (counts.get(purchase.articleId) ?? 0) + 1);
-    });
+    await db.purchases
+      .where("sessionId")
+      .anyOf(closed)
+      .each((purchase) => {
+        counts.set(
+          purchase.articleId,
+          (counts.get(purchase.articleId) ?? 0) + 1,
+        );
+      });
     return counts;
   });
 }

@@ -207,6 +207,7 @@ interface Purchase {
   sessionId: ID;
   storeId: ID;
   articleId: ID;
+  itemId?: ID; // la ligne cochée (deux lignes d'un même article : deux achats) ; non indexé, absent avant la 1.0.1
   aisleId: ID;
   quantity: number;
   unitId: ID;

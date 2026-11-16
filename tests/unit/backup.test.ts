@@ -14,6 +14,7 @@ import { Dexie } from "dexie";
 import { addListItem } from "@/db/items";
 import { seedDatabase } from "@/db/seed";
 import { updateSettings } from "@/db/settings";
+import { createEmptyStore } from "@/db/stores";
 
 const databases: ShoppingDatabase[] = [];
 function open(): ShoppingDatabase {
@@ -86,6 +87,13 @@ describe("sauvegarde (docs/03 H4)", () => {
       tables,
     };
     expect(readBackup(JSON.stringify(future), 1).kind).toBe("newer");
+    // Enregistrement abîmé (ligne sans ses tableaux) : refusé avant d'importer.
+    const broken = {
+      ...future,
+      schema: 1,
+      tables: { ...tables, items: [{ id: "x", listId: "l" }] },
+    };
+    expect(readBackup(JSON.stringify(broken), 1).kind).toBe("invalid");
   });
 });
 
@@ -219,6 +227,39 @@ describe("copies automatiques internes (docs/03 H4)", () => {
     expect(Object.keys((await exportBackup(database)).tables)).not.toContain(
       "copies",
     );
+  });
+
+  it("restaurer la plus ancienne des 7 copies la garde", async () => {
+    const database = open();
+    await seedDatabase(database, 0);
+    for (let day = 0; day < COPIES_KEPT; day++)
+      await takeDailyCopy(database, noon(0) + day * DAY);
+    const oldest = (await listCopies(database)).at(-1);
+    if (!oldest) throw new Error("copie");
+    await restoreCopy(database, oldest.id, noon(0) + 8 * DAY);
+    const kept = await listCopies(database);
+    expect(kept).toHaveLength(COPIES_KEPT);
+    expect(kept.map((copy) => copy.id)).toContain(oldest.id);
+  });
+
+  it("un magasin sans rayon « Non classé » le retrouve à l'import", async () => {
+    const database = open();
+    await seedDatabase(database, 0);
+    await createEmptyStore(database, "Marché", 0);
+    expect(await database.stores.count()).toBeGreaterThan(0);
+    const backup = await exportBackup(database, noon(0));
+    backup.tables.aisles = (
+      backup.tables.aisles as { isUnsorted: boolean }[]
+    ).filter((aisle) => !aisle.isUnsorted);
+    await replaceAllData(database, backup, noon(0));
+    for (const store of await database.stores.toArray())
+      expect(
+        await database.aisles
+          .where("storeId")
+          .equals(store.id)
+          .filter((aisle) => aisle.isUnsorted)
+          .count(),
+      ).toBe(1);
   });
 
   it("un remplacement qui échoue ne change rien, pas même les copies", async () => {

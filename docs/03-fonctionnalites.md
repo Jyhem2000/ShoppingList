@@ -111,7 +111,7 @@ Tap sur une ligne → fiche : quantité (boutons `−`/`+` selon le pas de l'uni
 
 ### B4. Supprimer une ligne — _v1.0_
 
-Glisser vers la gauche ou bouton dans la fiche ; message « Annuler » pendant 5 secondes.
+Glisser vers la gauche ou bouton dans la fiche ; message « Annuler » pendant 4 secondes.
 
 ### B5. Choisir le magasin — _v1.0_
 

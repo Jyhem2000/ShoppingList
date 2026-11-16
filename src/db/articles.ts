@@ -1,9 +1,9 @@
 import { mergedArticleFields } from "@/domain/duplicates";
 import { sameTypes } from "@/domain/lines";
 import type { Article, ID } from "@/domain/model";
-import { formatQuantity, mergeQuantity } from "@/domain/quantity";
 import { slugify } from "@/domain/slug";
 import type { ShoppingDatabase } from "./database";
+import { mergeLineInto } from "./lists";
 
 /**
  * Fiche article (docs/02 § 2, docs/03 G1) : modification, suppression, fusion, doublons.
@@ -117,8 +117,8 @@ export async function deleteArticle(
  * Fusionner `removedId` dans `keepId` (docs/02 § 2) : lignes, historique, exceptions et
  * ordre appris passent à l'article gardé, comme les ingrédients des recettes ; le nom du
  * second devient un nom alternatif.
- * Deux lignes du même article avec les mêmes types dans une liste n'en font qu'une (quantités additionnées,
- * ou ajoutées en note si les unités ne se convertissent pas).
+ * Deux lignes du même article avec les mêmes types dans une liste n'en font qu'une
+ * (`mergeLineInto` : quantités, notes et recettes d'origine réunies).
  */
 export async function mergeArticles(
   database: ShoppingDatabase,
@@ -137,6 +137,7 @@ export async function mergeArticles(
       database.stores,
       database.units,
       database.recipes,
+      database.sessions,
     ],
     async () => {
       const [keep, removed] = await database.articles.bulkGet([
@@ -145,7 +146,6 @@ export async function mergeArticles(
       ]);
       if (!keep || !removed) return;
       const units = await database.units.toArray();
-      const unitById = new Map(units.map((u) => [u.id, u]));
 
       const keptLines = await database.items
         .where("articleId")
@@ -170,30 +170,9 @@ export async function mergeArticles(
           });
           continue;
         }
-        const a = unitById.get(twin.unitId);
-        const b = unitById.get(line.unitId);
-        const merged =
-          a && b
-            ? mergeQuantity(
-                { quantity: twin.quantity, unit: a },
-                { quantity: line.quantity, unit: b },
-                units,
-              )
-            : undefined;
-        if (merged?.kind === "merged")
-          await database.items.update(twin.id, {
-            quantity: merged.quantity,
-            unitId: merged.unit.id,
-            updatedAt: now,
-          });
-        else if (b) {
-          const extra = `+ ${formatQuantity(line.quantity, b, "long")}`;
-          await database.items.update(twin.id, {
-            note: twin.note ? `${twin.note} · ${extra}` : extra,
-            updatedAt: now,
-          });
-        }
-        await database.items.delete(line.id);
+        // Relue : une ligne précédente a pu déjà la modifier.
+        const current = await database.items.get(twin.id);
+        if (current) await mergeLineInto(database, current, line, units, now);
       }
 
       await database.purchases

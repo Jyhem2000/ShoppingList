@@ -1,7 +1,7 @@
 import { lineKey } from "./lines";
 import { planListMerge, type MergeLine, type MergeSource } from "./listMerge";
 import type { ID, Recipe, Unit } from "./model";
-import { formatNumber, simplify } from "./quantity";
+import { clean, formatNumber, simplify } from "./quantity";
 
 /**
  * Recettes (docs/02 § 7, docs/03 E2) : quantités recalculées pour le rendement demandé,
@@ -13,11 +13,6 @@ export type ScalingUnit = Pick<
   Unit,
   "id" | "dimension" | "factor" | "singular" | "plural" | "abbr" | "step"
 >;
-
-/** Corrige les erreurs d'arrondi des nombres à virgule (0,1 + 0,2). */
-function clean(value: number): number {
-  return Math.round(value * 1e9) / 1e9;
-}
 
 /** Arrondi au pas supérieur de l'unité : 1,5 oignon → 2 ; 375 g (pas de 50 g) → 400 g. */
 function roundUpToStep(quantity: number, step: number): number {

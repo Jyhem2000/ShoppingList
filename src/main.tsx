@@ -1,8 +1,11 @@
+import { Dexie } from "dexie";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { App } from "@/app/App";
+import { StartupError } from "@/app/StartupError";
 import { trackTheme } from "@/app/theme";
 import { db } from "@/db/database";
+import { reportSaveError } from "@/features/list/useAddToList";
 import { loadIconPack } from "@/icons/pack";
 import {
   captureInstallPrompt,
@@ -12,6 +15,10 @@ import { trackAppHeight } from "@/platform/viewport";
 import "@/styles/index.css";
 
 trackTheme();
+
+const root = document.getElementById("root");
+if (!root) throw new Error("Élément #root introuvable");
+const reactRoot = createRoot(root);
 
 // iPhone : un champ qui garde le focus en arrière-plan fait proposer « Annuler la
 // saisie » quand on secoue le téléphone en le reprenant. On rend le focus en partant.
@@ -46,7 +53,15 @@ const ready = import("@/db/seed")
   .then(({ updateCatalog }) => updateCatalog(db))
   .catch((error: unknown) => {
     console.error("Initialisation des données impossible", error);
+    // Base fermée ou inaccessible : un écran clair plutôt que « Chargement… » sans fin.
+    if (!db.isOpen()) reactRoot.render(<StartupError />);
   });
+
+// Une écriture en base qui échoue sans être attendue (`void écriture(…)`) : un seul
+// message pour toutes, plutôt qu'un `catch` à chaque appel.
+window.addEventListener("unhandledrejection", (event) => {
+  if (event.reason instanceof Dexie.DexieError) reportSaveError();
+});
 
 // Une app installée reste souvent ouverte plusieurs jours : copie du jour au retour,
 // jamais avant la fin de l'initialisation (sinon, au premier lancement, la copie du
@@ -58,10 +73,7 @@ document.addEventListener("visibilitychange", () => {
     });
 });
 
-const root = document.getElementById("root");
-if (!root) throw new Error("Élément #root introuvable");
-
-createRoot(root).render(
+reactRoot.render(
   <StrictMode>
     <App />
   </StrictMode>,

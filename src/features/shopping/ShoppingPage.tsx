@@ -1,4 +1,4 @@
-import { ArrowDown, Ban, Check, X } from "lucide-react";
+import { ArrowDown, ArrowRightLeft, Ban, Check, X } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import { Navigate, useNavigate } from "react-router";
@@ -21,6 +21,7 @@ import {
 } from "@/db/sessions";
 import { categoriesData } from "@/data";
 import { sortCategories } from "@/domain/categories";
+import { compareLines } from "@/domain/lines";
 import type {
   Aisle,
   Article,
@@ -284,7 +285,7 @@ function Shopping({
   };
 
   // « À placer » : rangé par catégorie (ordre du catalogue), un intertitre par
-  // catégorie pour s'y retrouver ; dans une catégorie, à prendre d'abord, puis par nom.
+  // catégorie pour s'y retrouver ; dans une catégorie, l'ordre habituel des lignes.
   const categoryOf = (item: ListItem) =>
     data.categoryById.get(
       data.articleById.get(item.articleId)?.categoryId ?? "",
@@ -295,14 +296,7 @@ function Shopping({
   ).flatMap((category) => {
     const items = view.unplaced
       .filter((item) => categoryOf(item)?.id === category.id)
-      .sort(
-        (a, b) =>
-          Number(a.status !== "todo") - Number(b.status !== "todo") ||
-          (data.articleById.get(a.articleId)?.name ?? "").localeCompare(
-            data.articleById.get(b.articleId)?.name ?? "",
-            "fr",
-          ),
-      );
+      .sort(compareLines(data.articleById));
     return items.length ? [{ category, items }] : [];
   });
   const toPlace = view.unplaced.filter((item) => item.status === "todo").length;
@@ -630,6 +624,38 @@ function Shopping({
           onAddType={(type) => {
             void adding.addType(quantityArticle, type);
           }}
+          actions={
+            // Les gestes de la ligne (glisser, appui long), en boutons (VoiceOver).
+            <div className="flex gap-2">
+              {quantityItem.status !== "unavailable" && (
+                <Button
+                  variant="outline"
+                  className="flex-1"
+                  onClick={() => {
+                    close();
+                    unavailable(quantityItem);
+                  }}
+                >
+                  <Ban />
+                  {t.unavailable}
+                </Button>
+              )}
+              <Button
+                variant="outline"
+                className="flex-1"
+                onClick={() => {
+                  setPanel({
+                    kind: "move",
+                    articleId: quantityArticle.id,
+                    aisleId: view.aisleOf.get(quantityItem.id)?.id,
+                  });
+                }}
+              >
+                <ArrowRightLeft />
+                {t.moveAisle}
+              </Button>
+            </div>
+          }
         />
       )}
       {panel?.kind === "finish" && (

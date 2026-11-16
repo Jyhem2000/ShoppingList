@@ -15,7 +15,7 @@ export interface Amount<U extends QuantityUnit = QuantityUnit> {
 }
 
 /** Corrige les erreurs d'arrondi des nombres à virgule (0,1 + 0,2). */
-function clean(value: number): number {
+export function clean(value: number): number {
   return Math.round(value * 1e9) / 1e9;
 }
 

@@ -84,6 +84,11 @@ describe("saisie naturelle : tableau de docs/03 § A2", () => {
     expect(enter("dix-huit oeufs")).toEqual(["Œufs : × 18"]);
   });
 
+  it("un mot hérité d'Object n'est pas un nombre (« constructor »)", () => {
+    for (const entry of parseEntry("constructor baguette", units))
+      expect(typeof (entry.quantity ?? 1)).toBe("number");
+  });
+
   it("pommes gala → type accepté Gala", () => {
     expect(enter("pommes gala")).toEqual(["Pommes : 1 kg (Gala)"]);
     expect(enter("2 kg pommes granny smith")).toEqual([

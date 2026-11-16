@@ -60,6 +60,9 @@ export function SwipeAction({
           event.preventDefault();
           event.stopPropagation();
         }}
+        // Un `div` n'a pas de nom pour VoiceOver : groupe nommé (le geste a son
+        // équivalent en bouton dans le panneau de la ligne).
+        role="group"
         aria-label={label}
         // Fond opaque qui cache l'action ; celui du bloc parent (`--row-bg`), sinon --surface.
         className="relative bg-(--row-bg,var(--surface))"
