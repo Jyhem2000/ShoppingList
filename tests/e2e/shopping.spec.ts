@@ -38,6 +38,15 @@ test("4. mode courses : rayon replié, « À récupérer », clôture, réouvert
   await expect(
     aisle(page, aisleTitle("fruits")).getByRole("button", { expanded: false }),
   ).toBeVisible();
+  // Le changement se voit : message, et « Tu es ici » sur le nouveau rayon, vide.
+  await expect(page.getByText(fr.shopping.aisleOpened)).toBeVisible();
+  const here = page.locator("main section[aria-current]");
+  await expect(here).toHaveCount(1);
+  await expect(here).toContainText(fr.shopping.current);
+  await expect(here).toContainText(fr.shopping.emptyAisle);
+  // Retoucher « Rayon suivant » sur ce rayon encore vide : on le dit.
+  await page.getByRole("button", { name: fr.shopping.nextAisle }).click();
+  await expect(page.getByText(fr.shopping.aisleStillEmpty)).toBeVisible();
 
   // Au rayon du lait : le beurre, même catégorie, reste « À placer » jusqu'à sa coche
   // (rien ne saute ailleurs à l'écran). On pense aux bananes : leur rayon est passé.

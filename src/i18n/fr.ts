@@ -264,7 +264,11 @@ export const fr = {
     pickUp: "À récupérer",
     aislePassed: (label: string) =>
       `${label} déjà passé : il t'attend dans «\u00a0À récupérer\u00a0».`,
-    current: "rayon en cours",
+    current: "Tu es ici",
+    aisleOpened:
+      "Nouveau rayon\u00a0: les articles cochés ensuite y seront rangés.",
+    aisleStillEmpty:
+      "Tu es déjà dans un nouveau rayon, encore vide\u00a0: coche un article de «\u00a0À placer\u00a0» pour le remplir.",
     swipeHint:
       "Glisser vers la gauche : pas pris · appui long : changer de rayon",
     unavailable: "Pas pris",

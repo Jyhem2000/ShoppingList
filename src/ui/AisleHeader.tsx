@@ -1,6 +1,11 @@
-import { Check, ChevronDown } from "lucide-react";
-import { AnimatePresence, motion } from "motion/react";
-import type { ReactNode } from "react";
+import { Check, ChevronDown, MapPin } from "lucide-react";
+import {
+  AnimatePresence,
+  motion,
+  useAnimate,
+  useReducedMotion,
+} from "motion/react";
+import { type ReactNode, useEffect, useRef } from "react";
 import { GroupIcon } from "@/ui/GroupIcon";
 import { palette, type PaletteColor } from "@/ui/palette";
 import { cn } from "@/ui/utils";
@@ -9,10 +14,12 @@ import { cn } from "@/ui/utils";
  * Bloc d'un rayon (docs/05 § 5.2) : la couleur du rayon forme la bordure gauche de
  * tout le bloc ; icône Lucide du rayon dans sa couleur ; l'en-tête teinté (icône · libellé · compteur, repliable) est plus
  * grand que les articles, indentés en dessous. `done` : rayon terminé en mode courses ;
- * `current` : rayon en cours (mis en évidence). Dans la liste comme en mode courses, et
- * dans les deux thèmes : pas de fond sous les articles, une bordure fine de sa couleur.
+ * `current` : rayon en cours, avec l'étiquette or « Tu es ici » (`currentLabel`) et un
+ * rebond quand il le devient. Dans la liste comme en mode courses, et dans les deux
+ * thèmes : pas de fond sous les articles, une bordure fine de sa couleur.
  */
 export function AisleSection({
+  id,
   label,
   icon,
   color,
@@ -26,6 +33,8 @@ export function AisleSection({
   onToggle,
   children,
 }: {
+  /** Pour y faire défiler l'écran. */
+  id?: string;
   label: string;
   icon?: string;
   color: PaletteColor;
@@ -33,7 +42,7 @@ export function AisleSection({
   expanded: boolean;
   done?: boolean;
   current?: boolean;
-  /** Mention lue par les lecteurs d'écran sur le rayon en cours. */
+  /** Étiquette du rayon en cours (« Tu es ici »), aussi lue par les lecteurs d'écran. */
   currentLabel?: string;
   /** Au-dessus du nom : « Rayon 3 », pour ne pas confondre avec une catégorie. */
   kicker?: string;
@@ -42,8 +51,34 @@ export function AisleSection({
   onToggle: () => void;
   children: ReactNode;
 }) {
+  // Rebond quand le rayon devient celui en cours (pas à l'ouverture de l'écran).
+  const [scope, animate] = useAnimate<HTMLElement>();
+  const reduceMotion = useReducedMotion();
+  const wasCurrent = useRef(current);
+  useEffect(() => {
+    if (current && !wasCurrent.current && !reduceMotion)
+      void animate(
+        scope.current,
+        { scale: [1, 1.03, 1] },
+        { duration: 0.45, ease: "easeOut" },
+      );
+    wasCurrent.current = current;
+  }, [current, reduceMotion, animate, scope]);
+
+  const badge = current && currentLabel !== undefined && (
+    <span
+      aria-hidden
+      className="inline-flex items-center gap-1 rounded-full bg-secondary-fill px-2 py-0.5 text-xs font-extrabold tracking-wide text-on-secondary uppercase"
+    >
+      <MapPin className="size-3.5" strokeWidth={2.5} />
+      {currentLabel}
+    </span>
+  );
+
   return (
     <section
+      ref={scope}
+      id={id}
       aria-label={[
         kicker ? `${kicker} : ${label}` : label,
         current && currentLabel,
@@ -54,7 +89,6 @@ export function AisleSection({
       className={cn(
         "overflow-hidden rounded-2xl border-l-4 transition-shadow",
         palette[color].border,
-        current && "ring-2 ring-primary",
         // Liste comme courses, dans les deux thèmes : pas de fond sous les articles.
         "border border-l-4 [--row-bg:var(--bg)]",
       )}
@@ -75,12 +109,17 @@ export function AisleSection({
           strokeWidth={2}
         />
         <span className="min-w-0 flex-1">
-          {kicker && (
-            <span
-              aria-hidden
-              className="block text-sm leading-tight font-bold tracking-widest text-muted-foreground uppercase"
-            >
-              {kicker}
+          {(kicker !== undefined || badge !== false) && (
+            <span className="flex items-center gap-2">
+              {kicker && (
+                <span
+                  aria-hidden
+                  className="text-sm leading-tight font-bold tracking-widest text-muted-foreground uppercase"
+                >
+                  {kicker}
+                </span>
+              )}
+              {badge}
             </span>
           )}
           <span
