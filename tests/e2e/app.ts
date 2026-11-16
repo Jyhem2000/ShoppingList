@@ -33,9 +33,16 @@ export async function enterApp(page: Page, { tips = false } = {}) {
   ).toBeVisible();
 }
 
-/** Saisie dans la barre d'ajout de la liste, validée par Entrée. */
-export async function addToList(page: Page, text: string) {
-  const input = page.getByRole("textbox", { name: fr.list.addPlaceholder });
+/**
+ * Saisie dans la barre d'ajout de la liste, validée par Entrée. En mode courses, le
+ * champ porte un libellé plus court (`fr.shopping.addPlaceholder`).
+ */
+export async function addToList(
+  page: Page,
+  text: string,
+  label: string = fr.list.addPlaceholder,
+) {
+  const input = page.getByRole("textbox", { name: label });
   await input.fill(text);
   await input.press("Enter");
 }

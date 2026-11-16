@@ -166,6 +166,7 @@ Le design system, ce sont aussi des **composants partagés** (`src/ui`), utilis�
 
 - **Voile et ombres** : tokens `--overlay` (voile sous les panneaux et les bulles d'aide) et `--shadow` (ombre des éléments flottants), jamais de noir écrit en dur. La barre d'état prend la valeur de `--bg` du thème posé (seuls `index.html` et le manifeste, lus avant les styles, la répètent en dur).
 - **Titre d'écran** (`PageTitle`) : 24 px, extra-gras, violet — Liste, Catalogue, Réglages, nom du magasin en mode courses.
+- **Étapes de recette** (`markdownStyles`) : titre 20 px gras en `--secondary` (or en sombre, violet en clair), pour le distinguer d'un mot en gras (couleur du texte).
 - **Sous-titre** (`SectionTitle`) : 16 px gras, couleur du texte, précédé d'un **trait vertical or** de 20 px (`--secondary-fill`, or dans les deux thèmes) — « Mes données », « Application », « Favoris »… Plus de petites majuscules grises, trop discrètes.
 - **Champ de recherche** (`SearchField`) : pilule bordée de 2 px (`--field-border`), sans fond propre, loupe, bouton pour effacer.
 - **Ligne touchable** (`RowButton`) : icône, titre et détail sur une ligne chacun, élément à droite, chevron si elle mène à un autre écran ; la même dans une section d'écran, un panneau ou une liste de suggestions (`SuggestionList`).

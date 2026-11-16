@@ -31,7 +31,7 @@ import { fr } from "@/i18n/fr";
 import { RECIPE_ICON_CATEGORIES } from "@/icons/pack";
 import { ArticleIcon } from "@/ui/ArticleIcon";
 import { Button } from "@/ui/button";
-import { ConfirmActions } from "@/ui/form";
+import { ConfirmActions, Field, TextInput } from "@/ui/form";
 import { IconChangeButton } from "@/ui/IconChangeButton";
 import { MarkdownField, MarkdownText } from "@/ui/Markdown";
 import { useGoBack } from "@/ui/navigation";
@@ -52,14 +52,15 @@ const EDIT = "modifier";
 type Panel =
   | { kind: "add" }
   | { kind: "icon" }
+  | { kind: "duplicate" }
   | { kind: "delete" }
   | { kind: "ingredient"; index: number };
 
 /**
  * Fiche recette (docs/04 § 2.6) : en lecture, le rendement fixe, les ingrédients, les
  * étapes, puis « Ajouter à une liste » en bas ; « Modifier » ouvre l'édition sur la même fiche
- * (nom, rendement, icône, ingrédients par la barre d'ajout, étapes). Dupliquer et
- * supprimer en bas.
+ * (nom, rendement, icône, ingrédients par la barre d'ajout, étapes). Dupliquer (sous un
+ * nom demandé tout de suite) et supprimer en bas.
  */
 export function RecipePage() {
   const { recipeId } = useParams();
@@ -246,16 +247,7 @@ function RecipeView({ recipe, data }: { recipe: Recipe; data: ListData }) {
         <Button
           variant="outline"
           onClick={() => {
-            duplicateRecipe(db, recipe.id, t.copyName(recipe.name)).then(
-              (id) => {
-                if (!id) return;
-                showToast(t.duplicated(t.copyName(recipe.name)), {
-                  tone: "success",
-                });
-                void navigate(recipePath(id));
-              },
-              reportSaveError,
-            );
+            setPanel({ kind: "duplicate" });
           }}
         >
           <Copy />
@@ -303,6 +295,18 @@ function RecipeView({ recipe, data }: { recipe: Recipe; data: ListData }) {
           ingredient={panelIngredient}
           data={data}
           onClose={close}
+        />
+      )}
+      {panel?.kind === "duplicate" && (
+        <DuplicateSheet
+          recipe={recipe}
+          onClose={close}
+          onDone={(id) => {
+            close();
+            // La copie remplace l'originale dans l'historique : le retour mène à
+            // l'écran d'où l'on venait (les recettes), pas à l'originale.
+            void navigate(recipePath(id), { replace: true });
+          }}
         />
       )}
       {panel?.kind === "delete" && (
@@ -454,5 +458,56 @@ function IngredientBar({ recipe, data }: { recipe: Recipe; data: ListData }) {
         />
       )}
     </>
+  );
+}
+
+/** Nom de la copie, demandé avant de la créer ; la copie s'ouvre ensuite. */
+function DuplicateSheet({
+  recipe,
+  onClose,
+  onDone,
+}: {
+  recipe: Recipe;
+  onClose: () => void;
+  onDone: (id: string) => void;
+}) {
+  const [name, setName] = useState("");
+  return (
+    <Sheet
+      open
+      onOpenChange={(open) => {
+        if (!open) onClose();
+      }}
+      title={t.duplicateTitle(recipe.name)}
+    >
+      <form
+        className="flex flex-col gap-4"
+        onSubmit={(event) => {
+          event.preventDefault();
+          const copyName = name.trim();
+          if (!copyName) return;
+          duplicateRecipe(db, recipe.id, copyName).then((id) => {
+            if (!id) return;
+            showToast(t.duplicated(copyName), { tone: "success" });
+            onDone(id);
+          }, reportSaveError);
+        }}
+      >
+        <Field label={t.duplicateName}>
+          <TextInput
+            autoFocus
+            value={name}
+            placeholder={recipe.name}
+            onChange={(event) => {
+              setName(event.target.value);
+            }}
+          />
+        </Field>
+        <Button type="submit" disabled={!name.trim()}>
+          <Copy />
+          {t.duplicateSubmit}
+        </Button>
+      </form>
+    </Sheet>
   );
 }

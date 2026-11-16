@@ -469,6 +469,7 @@ function Shopping({
 
       <AddArticleBar
         data={data}
+        placeholder={t.addPlaceholder}
         onSubmit={(text) => void adding.submit(text)}
         onPick={(article, entry, types) =>
           void adding.pick(article, entry, types)

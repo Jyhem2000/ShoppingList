@@ -75,7 +75,7 @@ export function AddBar({
         enterKeyHint="done"
         autoComplete="off"
         autoCorrect="off"
-        className="h-11 min-w-0 flex-1 bg-transparent text-base outline-none placeholder:text-muted-foreground"
+        className="h-11 min-w-0 flex-1 bg-transparent text-base text-ellipsis outline-none placeholder:text-muted-foreground"
       />
       <button
         type="submit"

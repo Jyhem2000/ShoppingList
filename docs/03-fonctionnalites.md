@@ -18,7 +18,7 @@ L'ordre des versions après la v1.0 pourra être réévalué après quelques sem
 
 ### A1. Barre d'ajout éclair — _v1.0_
 
-Barre de saisie fixée en bas de l'écran Liste, accessible au pouce.
+Barre de saisie fixée en bas de l'écran Liste, accessible au pouce. Son libellé, « Ajouter un ou plusieurs articles… », rappelle qu'on peut en saisir plusieurs, séparés par des virgules (A2) ; en mode courses, à côté de « Terminer », la place manque : « Ajouter… » (décision du 16 novembre 2026).
 
 - Recherche dès la 1ʳᵉ lettre dans les libellés **et alias**, insensible aux accents, à la casse et au pluriel (`oeuf` → _Œufs_, `coca` → _Coca-Cola_).
 - Suggestions (5 max) : icône, libellé, catégorie ; classées par pertinence puis fréquence d'achat. Un article déjà dans la liste est marqué de sa quantité.

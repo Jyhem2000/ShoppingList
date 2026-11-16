@@ -59,7 +59,7 @@ test("4. mode courses : rayon replié, « À récupérer », clôture, réouvert
   await expect(
     aisle(page, fr.aisles.unplaced).getByRole("button", { name: /^Beurre/ }),
   ).toBeVisible();
-  await addToList(page, "bananes");
+  await addToList(page, "bananes", fr.shopping.addPlaceholder);
   const added = page.getByRole("dialog", {
     name: fr.shopping.added.title("Bananes"),
   });

@@ -115,7 +115,7 @@ export const fr = {
     openCatalog: "Ouvrir le catalogue",
     chooseList: "Changer de liste",
     menu: "Actions sur la liste",
-    addPlaceholder: "Ajouter un article…",
+    addPlaceholder: "Ajouter un ou plusieurs articles…",
     addLabel: "Ajouter",
     create: (name: string) => `Créer «\u00a0${name}\u00a0»`,
     inList: (quantity: string) => `Dans la liste : ${quantity}`,
@@ -233,6 +233,8 @@ export const fr = {
     via: (recipes: string[]) => `via ${recipes.join(", ")}`,
   },
   shopping: {
+    /** Champ d'ajout, à côté de « Terminer » : la place manque pour le libellé de la liste. */
+    addPlaceholder: "Ajouter…",
     start: "C'est parti",
     resume: "Reprendre les courses",
     reopen: (time: string) => `Rouvrir les courses (${time})`,
@@ -690,7 +692,9 @@ export const fr = {
     addLabel: "Ajouter l'ingrédient",
     addToList: "Ajouter à une liste",
     duplicate: "Dupliquer",
-    copyName: (name: string) => `${name} (copie)`,
+    duplicateTitle: (name: string) => `Dupliquer «\u00a0${name}\u00a0»`,
+    duplicateName: "Nom de la nouvelle recette",
+    duplicateSubmit: "Créer la copie",
     duplicated: (name: string) => `«\u00a0${name}\u00a0» créée`,
     delete: "Supprimer la recette",
     deleteTitle: (name: string) => `Supprimer «\u00a0${name}\u00a0» ?`,
@@ -887,7 +891,7 @@ export const fr = {
     iconsHint:
       "Le pack embarqué dans l'app, disponible hors ligne. Un monogramme remplace les icônes manquantes.",
     addBar: "Barre d'ajout",
-    addPlaceholder: "Ajouter un article…",
+    addPlaceholder: "Ajouter un ou plusieurs articles…",
     add: "Ajouter",
     added: (text: string) => `«\u00a0${text}\u00a0» ajouté (maquette)`,
   },

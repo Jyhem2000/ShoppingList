@@ -12,12 +12,7 @@ import {
   useEditor,
   useEditorState,
 } from "@tiptap/react";
-import {
-  Bold as BoldIcon,
-  Heading as HeadingIcon,
-  List,
-  ListOrdered,
-} from "lucide-react";
+import { List, ListOrdered } from "lucide-react";
 import { type ReactNode, useEffect, useRef } from "react";
 import { docToMarkdown, markdownToDoc } from "@/domain/markdown";
 import { fr } from "@/i18n/fr";
@@ -37,24 +32,26 @@ export interface MarkdownFieldProps {
   className?: string;
 }
 
-/** Boutons de la barre, dans l'ordre : action et état (actif ou non). */
+/**
+ * Boutons de la barre, dans l'ordre : action et état (actif ou non). Titre et gras
+ * s'écrivent en toutes lettres (un « H » ou un « B » ne disent rien en français), les
+ * listes gardent leur icône.
+ */
 const tools: {
   label: string;
-  icon: ReactNode;
+  icon?: ReactNode;
   name: string;
   run: (editor: Editor) => void;
 }[] = [
   {
-    label: t.bold,
-    icon: <BoldIcon />,
-    name: "bold",
-    run: (editor) => editor.chain().focus().toggleBold().run(),
-  },
-  {
     label: t.heading,
-    icon: <HeadingIcon />,
     name: "heading",
     run: (editor) => editor.chain().focus().toggleHeading({ level: 3 }).run(),
+  },
+  {
+    label: t.bold,
+    name: "bold",
+    run: (editor) => editor.chain().focus().toggleBold().run(),
   },
   {
     label: t.bullets,
@@ -151,9 +148,13 @@ export function MarkdownEditor({
             onClick={() => {
               tool.run(editor);
             }}
-            className="flex size-11 items-center justify-center rounded-xl text-text active:bg-raised aria-pressed:bg-raised aria-pressed:text-primary [&_svg]:size-5"
+            className={cn(
+              "flex h-11 items-center justify-center rounded-xl text-text active:bg-raised aria-pressed:bg-raised aria-pressed:text-primary [&_svg]:size-5",
+              tool.icon ? "w-11" : "px-3 text-sm font-semibold",
+              tool.name === "bold" && "font-extrabold",
+            )}
           >
-            {tool.icon}
+            {tool.icon ?? tool.label}
           </button>
         ))}
       </div>

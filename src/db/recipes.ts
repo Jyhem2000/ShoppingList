@@ -122,7 +122,7 @@ export async function removeIngredient(
   );
 }
 
-/** Copie complète, sous le nom donné (« Raclette (copie) »). */
+/** Copie complète, sous le nom donné (demandé à la duplication). */
 export async function duplicateRecipe(
   database: ShoppingDatabase,
   id: ID,
