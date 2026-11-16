@@ -42,7 +42,7 @@ Chaque magasin a son propre ordre : apprendre l'un ne change pas les autres. Cou
 
 ## Installation
 
-Optimisée pour **Chrome** sur iPhone et Android. Adresse : _disponible à la première mise en ligne_.
+Optimisée pour **Chrome** sur iPhone et Android. Adresse : **https://shoppinglist.jyhem.cloud**.
 
 **iPhone (Chrome)**
 
@@ -59,7 +59,7 @@ Optimisée pour **Chrome** sur iPhone et Android. Adresse : _disponible à la pr
 
 ## État du projet
 
-🚧 **Développement de la v1.0 en cours.** Version publiée : **0.7.1** (liste, catalogue, mode courses, tout modifiable, magasins construits pendant les courses ; en essai réel). Chaque étape validée du plan donne une version : 0.5.0 (mode courses), 0.6.0 (tout modifiable), 0.7.0 (magasins construits pendant les courses), 0.8.0 (réglages, sauvegarde, aide), puis une 0.9 utilisée en conditions réelles avant de devenir la 1.0. Spécification dans [`docs/`](docs/README.md).
+Version publiée : **1.0.0** (liste, catalogue, mode courses, magasins construits pendant les courses, recettes). À venir : 1.1 (partage), 1.2 (anti-oubli). Spécification dans [`docs/`](docs/README.md).
 
 ## Pour les développeurs
 
