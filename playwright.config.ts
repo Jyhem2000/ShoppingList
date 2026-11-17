@@ -12,9 +12,9 @@ export default defineConfig({
   // Résultats rangés avec les tests (ignorés par git).
   outputDir: "tests/e2e/.results",
   fullyParallel: true,
-  // Le premier lancement copie le catalogue dans IndexedDB : environ 5 s avec le
-  // WebKit de Playwright sous Windows (quelques millisecondes sous Chromium, et
-  // moins de 0,2 s aux lancements suivants). 10 s laissent de la marge.
+  // Le premier lancement copie le catalogue dans IndexedDB : environ 11 s avec le
+  // WebKit de Playwright sous Windows. `enterApp` (tests/e2e/app.ts) l'attend avec
+  // son propre délai ; ensuite, 10 s suffisent largement.
   expect: { timeout: 10_000 },
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 1 : 0,

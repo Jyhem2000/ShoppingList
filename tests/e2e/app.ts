@@ -31,7 +31,20 @@ export async function enterApp(page: Page, { tips = false } = {}) {
   await expect(
     page.getByRole("navigation", { name: fr.tabs.navigation }),
   ).toBeVisible();
+  // La barre d'ajout n'apparaît qu'une fois les données de départ créées.
+  await expect(
+    page.getByRole("textbox", { name: fr.list.addPlaceholder }),
+  ).toBeVisible({ timeout: FIRST_LAUNCH_TIMEOUT });
 }
+
+/**
+ * Premier lancement : une écriture IndexedDB par unité, catégorie et article (environ
+ * 540). Le WebKit de Playwright sous Windows met environ 15,6 ms par écriture, un tic
+ * de l'horloge de Windows, quelle que soit la taille de l'objet : environ 8,5 s
+ * d'écritures, 11 s en tout, au-delà des 10 s d'une attente ordinaire (docs/08 § 3).
+ * Quelques millisecondes sous Chromium. 30 s laissent de la marge au catalogue.
+ */
+const FIRST_LAUNCH_TIMEOUT = 30_000;
 
 /**
  * Saisie dans la barre d'ajout de la liste, validée par Entrée. En mode courses, le
