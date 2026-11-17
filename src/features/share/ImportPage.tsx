@@ -2,12 +2,7 @@ import { Link2Off, Smartphone } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { routes } from "@/app/routes";
-import {
-  categoriesData,
-  keywordRules,
-  ONE_OFF_CATEGORY,
-  unitsData,
-} from "@/data";
+import { categoriesData, keywordRules, unitsData } from "@/data";
 import { db } from "@/db/database";
 import {
   useArticles,
@@ -22,11 +17,12 @@ import { formatQuantity } from "@/domain/quantity";
 import {
   buildImportCatalog,
   defaultChoice,
-  findCategory,
+  defaultOneOff,
   findSharedList,
   findUnit,
   importAmount,
   importSummary,
+  newArticleCategory,
   resolveImport,
   textImportLines,
   type ImportCatalog,
@@ -222,11 +218,14 @@ export function ImportPage() {
     );
 
   const { lines } = preview;
-  const oneOffCategory = categories.find(
-    (category) => category.catalogKey === ONE_OFF_CATEGORY,
-  );
-  const choiceOf = (index: number, line: ImportLine) =>
-    choices.get(index) ?? defaultChoice(line);
+  /** Choix de la ligne ; un article choisi puis supprimé entre-temps : le choix par défaut. */
+  const choiceOf = (index: number, line: ImportLine): ImportChoice => {
+    const chosen = choices.get(index);
+    return chosen &&
+      (chosen.kind !== "use" || articleById.has(chosen.articleId))
+      ? chosen
+      : defaultChoice(line);
+  };
 
   /** Ce que la ligne deviendra : article, catégorie, détail et quantité. */
   const display = (line: ImportLine, choice: ImportChoice) => {
@@ -255,10 +254,12 @@ export function ImportPage() {
       };
     }
     const name = choice.kind === "create" ? choice.name : received.name;
-    const oneOff = choice.kind !== "create" || choice.oneOff;
-    const category =
-      (oneOff ? oneOffCategory : undefined) ??
-      findCategory(received.category, categories);
+    const { existing, desc } = newArticleCategory(
+      line,
+      choice.kind === "create" ? choice.oneOff : defaultOneOff(line),
+      categories,
+    );
+    const category = existing ?? desc;
     const amount = importAmount(
       line,
       {
@@ -270,8 +271,8 @@ export function ImportPage() {
     );
     return {
       article: { name, icon: received.icon },
-      category: category ?? received.category,
-      detail: t.willCreate(category?.name ?? received.category.name),
+      category,
+      detail: t.willCreate(category.name),
       quantity: amount
         ? formatQuantity(amount.quantity, amount.unit)
         : fallback,

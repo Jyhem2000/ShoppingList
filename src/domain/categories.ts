@@ -10,6 +10,26 @@ import { compareLines } from "./lines";
 const collator = new Intl.Collator("fr");
 
 /**
+ * Catégorie système des achats ponctuels (docs/03 A4) : un article qu'on n'achète
+ * qu'une fois (une friteuse) y est rangé sans encombrer le catalogue ; il passe en
+ * article normal en recevant une vraie catégorie.
+ */
+export const ONE_OFF_CATEGORY = "achats-ponctuels";
+
+export function isOneOff(
+  category: Pick<Category, "catalogKey"> | undefined,
+): boolean {
+  return category?.catalogKey === ONE_OFF_CATEGORY;
+}
+
+/** La catégorie « Achats ponctuels » de l'utilisateur. */
+export function oneOffCategory<C extends Pick<Category, "catalogKey">>(
+  categories: readonly C[],
+): C | undefined {
+  return categories.find(isOneOff);
+}
+
+/**
  * Ordre des catégories : celui du catalogue de départ (`catalogOrder`, clés), puis les
  * catégories créées par l'utilisateur par ordre alphabétique ; les catégories système
  * (« Autres », « Achats ponctuels ») en dernier.

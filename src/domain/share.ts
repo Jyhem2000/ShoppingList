@@ -9,6 +9,7 @@ import {
   resolveEntry,
   type ParsedEntry,
 } from "./entry";
+import { isOneOff, oneOffCategory } from "./categories";
 import { guessFromKeywords, type KeywordGuess } from "./keywords";
 import type {
   Article,
@@ -823,12 +824,52 @@ export type ImportChoice =
 
 /**
  * Par défaut : l'article reconnu ou proposé, sinon « Créer » avec le libellé du
- * catalogue, juste cette fois : une longue liste reçue n'encombre pas le catalogue.
+ * catalogue.
  */
 export function defaultChoice(line: ImportLine): ImportChoice {
   return line.match.kind === "unknown"
-    ? { kind: "create", name: line.received.name, oneOff: true }
+    ? { kind: "create", name: line.received.name, oneOff: defaultOneOff(line) }
     : { kind: "use", articleId: line.match.articleId };
+}
+
+/**
+ * Créé « juste cette fois » par défaut (docs/02 § 9) : un article créé à la main ou
+ * tapé, pour qu'une longue liste reçue n'encombre pas le catalogue. Un article décrit
+ * par le catalogue (supprimé chez le destinataire, ou retrouvé par son dictionnaire)
+ * reprend sa vraie catégorie.
+ */
+export function defaultOneOff(line: ImportLine): boolean {
+  return line.received.catalogKey === undefined;
+}
+
+/**
+ * Peut-on le garder dans le catalogue depuis l'import ? Pas s'il était déjà un achat
+ * ponctuel chez l'expéditeur : la catégorie reçue est « Achats ponctuels », il faudra
+ * lui en choisir une vraie plus tard (« Garder dans le catalogue »).
+ */
+export function canKeep(line: ImportLine): boolean {
+  return !isOneOff(line.received.category);
+}
+
+/**
+ * Catégorie d'un article créé à l'import : « Achats ponctuels » juste cette fois,
+ * sinon celle reçue ; `existing` : celle du destinataire qui convient, sinon `desc`
+ * sera créée. L'aperçu et l'import l'appellent tous les deux.
+ */
+export function newArticleCategory<
+  C extends Pick<Category, "slug" | "catalogKey">,
+>(
+  line: ImportLine,
+  oneOff: boolean,
+  categories: readonly C[],
+): { existing?: C; desc: CategoryDesc } {
+  const desc = line.received.category;
+  return {
+    existing:
+      (oneOff ? oneOffCategory(categories) : undefined) ??
+      findCategory(desc, categories),
+    desc,
+  };
 }
 
 /** Décompte de l'aperçu : « 12 reconnus, 1 à confirmer, 2 non reconnus ». */

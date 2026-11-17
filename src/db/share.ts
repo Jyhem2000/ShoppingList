@@ -1,4 +1,3 @@
-import { ONE_OFF_CATEGORY } from "@/data";
 import { planListMerge, type MergeSource } from "@/domain/listMerge";
 import type { Article, Category, ID, Unit } from "@/domain/model";
 import {
@@ -6,6 +5,7 @@ import {
   findCategory,
   findUnit,
   importAmount,
+  newArticleCategory,
   type CategoryDesc,
   type ImportChoice,
   type ImportLine,
@@ -130,11 +130,12 @@ export async function applyImport(
           .first();
         if (existing) return complete(existing, line, true);
         // Juste cette fois : « Achats ponctuels », la catégorie reçue n'est pas créée.
-        const oneOffCategory = oneOff
-          ? categories.find((c) => c.catalogKey === ONE_OFF_CATEGORY)
-          : undefined;
-        const category =
-          oneOffCategory ?? (await ensureCategory(received.category));
+        const { existing: found, desc } = newArticleCategory(
+          line,
+          oneOff,
+          categories,
+        );
+        const category = found ?? (await ensureCategory(desc));
         const unit = await ensureUnit(received.unit);
         const keyTaken =
           received.catalogKey !== undefined &&

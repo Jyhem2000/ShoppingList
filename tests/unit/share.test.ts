@@ -11,6 +11,8 @@ import type { Article, Category, ID, ListItem, Unit } from "@/domain/model";
 import {
   buildImportCatalog,
   buildSharedList,
+  canKeep,
+  defaultChoice,
   findSharedList,
   resolveImport,
   shareLink,
@@ -294,9 +296,43 @@ describe("resolveImport (docs/02 § 9)", () => {
       listId: (await recipient.lists.toArray())[0]?.id ?? "",
     });
     const [line] = await activeItems(recipient, listId);
+    const created = await recipient.articles.get(line?.articleId ?? "");
+    expect(created?.catalogKey).toBe("tomates");
+    // Sa vraie catégorie, pas « Achats ponctuels ».
     expect(
-      (await recipient.articles.get(line?.articleId ?? ""))?.catalogKey,
-    ).toBe("tomates");
+      (await recipient.categories.get(created?.categoryId ?? ""))?.catalogKey,
+    ).toBe(catalog.articles.get("tomates")?.category.catalogKey);
+  });
+
+  it("un achat ponctuel de l'expéditeur reste un achat ponctuel chez le destinataire", async () => {
+    const recipient = await seeded();
+    const shared: SharedList = {
+      v: 1,
+      l: "fr",
+      n: "Courses",
+      i: [
+        {
+          n: "Friteuse",
+          a: { c: "achats-ponctuels", u: "piece" },
+          q: 1,
+          u: "piece",
+        },
+      ],
+    };
+    const lines = resolveImport(shared, await context(recipient));
+    const [line] = lines;
+    if (!line) throw new Error("ligne");
+    expect(canKeep(line)).toBe(false);
+    expect(defaultChoice(line)).toMatchObject({ kind: "create", oneOff: true });
+    const { listId } = await applyImport(recipient, lines, [], {
+      kind: "new",
+      name: shared.n,
+    });
+    const [item] = await activeItems(recipient, listId);
+    const created = await recipient.articles.get(item?.articleId ?? "");
+    expect(
+      (await recipient.categories.get(created?.categoryId ?? ""))?.catalogKey,
+    ).toBe("achats-ponctuels");
   });
 
   it("une faute de frappe est proposée, à confirmer", async () => {

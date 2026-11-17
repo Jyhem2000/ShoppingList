@@ -173,21 +173,20 @@ export function SectionTitle({
   children: ReactNode;
   action?: ReactNode;
 }) {
-  if (action)
-    return (
-      <div className="flex items-center justify-between gap-2">
-        <SectionTitle>{children}</SectionTitle>
-        <div className="-mt-2.5">{action}</div>
-      </div>
-    );
-  return (
-    <h2 className="flex items-center gap-2 px-1 pb-2.5 text-base font-bold tracking-tight text-text">
+  const title = (
+    <h2 className="flex items-center gap-2 text-base font-bold tracking-tight text-text">
       <span
         aria-hidden
         className="h-5 w-1 shrink-0 rounded-full bg-secondary-fill"
       />
       {children}
     </h2>
+  );
+  return (
+    <div className="flex items-center justify-between gap-2 px-1 pb-2.5">
+      {title}
+      {action}
+    </div>
   );
 }
 

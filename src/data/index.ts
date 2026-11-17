@@ -58,11 +58,4 @@ export const unitsData = unitsJson as UnitData[];
 export const categoriesData = categoriesJson as CategoryData[];
 export const familiesData = familiesJson as FamilyData[];
 
-/**
- * Catégorie système des achats ponctuels (docs/03 A4) : un article qu'on n'achète
- * qu'une fois (une friteuse) y est rangé sans encombrer le catalogue ; il passe en
- * article normal en recevant une vraie catégorie.
- */
-export const ONE_OFF_CATEGORY = "achats-ponctuels";
-
 export const keywordRules = keywordsJson as KeywordRule[];

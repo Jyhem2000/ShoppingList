@@ -2,6 +2,8 @@ import { useMemo, useState } from "react";
 import type { Article, Category, ID } from "@/domain/model";
 import { searchArticles } from "@/domain/search";
 import {
+  canKeep,
+  defaultOneOff,
   existingArticle,
   findCategory,
   type ImportChoice,
@@ -58,8 +60,9 @@ export function ImportChoiceSheet({
   const [name, setName] = useState(
     choice.kind === "create" ? choice.name : received.name,
   );
+  const keepable = canKeep(line);
   const [oneOff, setOneOff] = useState(
-    choice.kind !== "create" || choice.oneOff,
+    choice.kind === "create" ? choice.oneOff : defaultOneOff(line),
   );
   const articleById = useMemo(
     () => new Map(articles.map((article) => [article.id, article])),
@@ -163,7 +166,7 @@ export function ImportChoiceSheet({
             onChoose(
               same
                 ? { kind: "use", articleId: same.id }
-                : { kind: "create", name: typed, oneOff },
+                : { kind: "create", name: typed, oneOff: oneOff || !keepable },
             );
           }}
         >
@@ -177,18 +180,24 @@ export function ImportChoiceSheet({
               }}
             />
           </Field>
-          <ChipChoice
-            selected={oneOff}
-            onToggle={() => {
-              setOneOff(!oneOff);
-            }}
-            label={fr.list.createSheet.oneOff}
-            hint={
-              oneOff
-                ? fr.list.createSheet.oneOffOn
-                : t.inCategory(category?.name ?? received.category.name)
-            }
-          />
+          {keepable ? (
+            <ChipChoice
+              selected={oneOff}
+              onToggle={() => {
+                setOneOff(!oneOff);
+              }}
+              label={fr.list.createSheet.oneOff}
+              hint={
+                oneOff
+                  ? fr.list.createSheet.oneOffOn
+                  : t.inCategory(category?.name ?? received.category.name)
+              }
+            />
+          ) : (
+            <p className="text-sm text-muted-foreground">
+              {fr.list.createSheet.oneOffOn}
+            </p>
+          )}
           <Button
             type="submit"
             variant={choice.kind === "create" ? "default" : "outline"}

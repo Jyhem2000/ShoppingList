@@ -1,5 +1,9 @@
 import { useMemo, useState } from "react";
-import { categoriesData, keywordRules, ONE_OFF_CATEGORY } from "@/data";
+import { categoriesData, keywordRules } from "@/data";
+import {
+  isOneOff,
+  oneOffCategory as findOneOffCategory,
+} from "@/domain/categories";
 import { createArticle } from "@/db/catalog";
 import { db } from "@/db/database";
 import type { ParsedEntry } from "@/domain/entry";
@@ -51,7 +55,7 @@ export function CreateArticleSheet({
   const byKey = (key: string | undefined) =>
     data.categories.find((c) => c.catalogKey === key);
   const others = byKey("autres");
-  const oneOffCategory = byKey(ONE_OFF_CATEGORY);
+  const oneOffCategory = findOneOffCategory(data.categories);
   const initialCategory = byKey(guess?.category) ?? others;
   const unitBySlug = (slug: string) => data.units.find((u) => u.slug === slug);
 
@@ -71,7 +75,7 @@ export function CreateArticleSheet({
   const categories = useMemo(
     () =>
       data.categories
-        .filter((c) => c.catalogKey !== ONE_OFF_CATEGORY)
+        .filter((c) => !isOneOff(c))
         .sort((a, b) => collator.compare(a.name, b.name)),
     [data.categories],
   );

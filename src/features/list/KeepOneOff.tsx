@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { ONE_OFF_CATEGORY } from "@/data";
+import { isOneOff } from "@/domain/categories";
 import { setArticleCategory } from "@/db/catalog";
 import { db } from "@/db/database";
 import type { Article } from "@/domain/model";
@@ -28,14 +28,11 @@ export function KeepOneOff({
   const categories = useMemo(
     () =>
       data.categories
-        .filter((c) => c.catalogKey !== ONE_OFF_CATEGORY)
+        .filter((c) => !isOneOff(c))
         .sort((a, b) => collator.compare(a.name, b.name)),
     [data.categories],
   );
-  if (
-    data.categoryById.get(article.categoryId)?.catalogKey !== ONE_OFF_CATEGORY
-  )
-    return null;
+  if (!isOneOff(data.categoryById.get(article.categoryId))) return null;
 
   return (
     <div className="rounded-2xl border border-border p-3">
