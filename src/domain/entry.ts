@@ -217,10 +217,19 @@ function matchTypes(rest: string[], types: string[]): string[] | undefined {
 }
 
 /** Libellés et alias exacts (clé de recherche) → articles qui les portent. */
+/** Index par tableau d'articles : une liste importée le consulte à chaque ligne. */
+const labelIndexes = new WeakMap<
+  readonly ResolvableArticle[],
+  Map<string, { article: ResolvableArticle; label: string }[]>
+>();
+
 function labelIndex<A extends ResolvableArticle>(
   articles: readonly A[],
 ): Map<string, { article: A; label: string }[]> {
+  const cached = labelIndexes.get(articles);
+  if (cached) return cached as Map<string, { article: A; label: string }[]>;
   const exact = new Map<string, { article: A; label: string }[]>();
+  labelIndexes.set(articles, exact);
   for (const article of articles) {
     for (const label of [article.name, ...article.aliases]) {
       const key = searchKey(label);
@@ -270,8 +279,21 @@ export function resolveEntry<A extends ResolvableArticle>(
   text: string,
   articles: readonly A[],
 ): ResolvedEntry<A> {
+  const found = exactEntry(text, articles);
+  if (found) return { ...found, exact: true };
+  const [best] = searchArticles(text, articles);
+  return best
+    ? { article: best.article, acceptedTypes: [], exact: false }
+    : { acceptedTypes: [], exact: false };
+}
+
+/** Libellé ou alias exact (avec ses types), sans recherche ; `undefined` sinon. */
+export function exactEntry<A extends ResolvableArticle>(
+  text: string,
+  articles: readonly A[],
+): { article: A; acceptedTypes: string[] } | undefined {
   const words = searchKey(text).split("-").filter(Boolean);
-  if (words.length === 0) return { acceptedTypes: [], exact: false };
+  if (words.length === 0) return undefined;
   const exact = labelIndex(articles);
   // Libellés qui ne diffèrent que par les accents ou le pluriel (« pâté », « pâtes ») :
   // la saisie exacte, puis le pluriel tapé, puis les accents tapés ; sinon le premier
@@ -299,14 +321,11 @@ export function resolveEntry<A extends ResolvableArticle>(
     const article = pick(found, typedWords.slice(0, length).join(" "));
     if (!article) continue;
     const rest = words.slice(length);
-    if (rest.length === 0) return { article, acceptedTypes: [], exact: true };
+    if (rest.length === 0) return { article, acceptedTypes: [] };
     const types = matchTypes(rest, article.types);
-    if (types) return { article, acceptedTypes: types, exact: true };
+    if (types) return { article, acceptedTypes: types };
   }
-  const [best] = searchArticles(text, articles);
-  return best
-    ? { article: best.article, acceptedTypes: [], exact: false }
-    : { acceptedTypes: [], exact: false };
+  return undefined;
 }
 
 /**

@@ -88,7 +88,7 @@ Aucun développement spécifique : le **micro du clavier** (iPhone comme Android
 
 ### A8. Coller une liste — _v1.1_
 
-Liste → `⋯` → « Coller une liste » (avec F2) : chaque ligne d'un texte (SMS, note, recette trouvée sur le web) est analysée avec A2 ; aperçu avant ajout (le même que pour une liste reçue). Si certaines lignes commencent par une puce (•, -, *, case à cocher, numéro), seules celles-là comptent : les autres sont des titres ou des phrases. C'est ainsi que le message de partage (F1) se relit même sans son lien. Une précision entre parenthèses en fin de ligne est ignorée.
+Liste → `⋯` → « Coller une liste » (avec F2) : chaque ligne d'un texte (SMS, note, recette trouvée sur le web) est analysée avec A2 ; aperçu avant ajout (le même que pour une liste reçue). Le texte est d'abord nettoyé : la mise en forme d'une messagerie autour des mots (`*gras*`, `_italique_`, `~barré~` de WhatsApp) est retirée, et les lignes sans lettre ni chiffre (séparateurs `-----`) sont ignorées. Si certaines lignes commencent par une puce (•, -, *, case à cocher, numéro), seules celles-là comptent : les autres sont des titres ou des phrases. C'est ainsi que le message de partage (F1) se relit même sans son lien. Une précision entre parenthèses en fin de ligne est ignorée.
 
 ---
 

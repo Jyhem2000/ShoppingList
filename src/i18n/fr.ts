@@ -259,6 +259,10 @@ export const fr = {
     broken:
       "Ce lien est incomplet ou abîmé. Demande à la personne de te renvoyer la liste.",
     empty: "Rien à ajouter dans ce texte.",
+    catalogError:
+      "Le catalogue de l'app n'a pas pu être chargé. Reviens à ta liste, puis réessaie.",
+    outdated:
+      "Certains articles viennent d'une version plus récente de l'app. Ferme-la puis rouvre-la pour la mettre à jour.",
     backToList: "Revenir à ma liste",
     summary: (known: number, probable: number, unknown: number) =>
       [

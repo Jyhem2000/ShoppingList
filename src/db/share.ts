@@ -75,6 +75,13 @@ export async function applyImport(
         categories.push(category);
         return category;
       };
+      /** Alias libre : ni le nom ni un alias d'un autre article (saisie ambiguë sinon). */
+      const free = async (alias: string, own?: ID) => {
+        const other =
+          (await database.articles.where("slug").equals(alias).first()) ??
+          (await database.articles.where("aliases").equals(alias).first());
+        return other === undefined || other.id === own;
+      };
       /** Libellé reçu en alias, types acceptés ajoutés aux types de l'article. */
       const complete = async (
         article: Article,
@@ -86,7 +93,8 @@ export async function applyImport(
           alias &&
           label &&
           label !== article.slug &&
-          !article.aliases.includes(label)
+          !article.aliases.includes(label) &&
+          (await free(label, article.id))
             ? [...article.aliases, label]
             : article.aliases;
         const known = new Set(article.types.map(slugify));
@@ -110,6 +118,7 @@ export async function applyImport(
         const { received } = line;
         const name = typed.trim() || received.name;
         const slug = slugify(name);
+        if (!slug) return undefined;
         const existing = await database.articles
           .where("slug")
           .equals(slug)
@@ -124,6 +133,13 @@ export async function applyImport(
             .equals(received.catalogKey)
             .first()) !== undefined;
         const known = new Set(received.types.map(slugify));
+        const aliases: string[] = [];
+        for (const alias of new Set([
+          ...received.aliases,
+          slugify(received.label),
+        ]))
+          if (alias && alias !== slug && (await free(alias)))
+            aliases.push(alias);
         const article: Article = {
           ...base(),
           slug,
@@ -137,9 +153,7 @@ export async function applyImport(
             ...received.types,
             ...line.acceptedTypes.filter((type) => !known.has(slugify(type))),
           ],
-          aliases: [
-            ...new Set([...received.aliases, slugify(received.label)]),
-          ].filter((alias) => alias && alias !== slug),
+          aliases,
           icon: received.icon,
           favorite: false,
           barcodes: [],
@@ -164,6 +178,7 @@ export async function applyImport(
             line.match.articleId !== choice.articleId;
           article = await complete(chosen, line, confirmed);
         } else article = await create(line, choice.name);
+        if (!article) continue;
         if ("quantity" in line.amount) await ensureUnit(line.amount.unit);
         const amount = importAmount(line, article, units);
         if (!amount) continue;

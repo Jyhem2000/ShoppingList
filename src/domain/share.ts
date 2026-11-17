@@ -4,6 +4,7 @@ import {
 } from "lz-string";
 import {
   entryAmount,
+  exactEntry,
   parseEntry,
   resolveEntry,
   type ParsedEntry,
@@ -157,8 +158,9 @@ export function buildSharedList(
   const lines: SharedItem[] = [];
   for (const item of items) {
     const article = articleById.get(item.articleId);
+    if (!article) continue;
     const unit = unitRef(item.unitId);
-    if (!article || !unit) continue;
+    if (!unit) continue;
     const line: SharedItem = { q: item.quantity, u: unit };
     if (article.catalogKey) {
       line.k = article.catalogKey;
@@ -189,7 +191,7 @@ export function buildSharedList(
 }
 
 const IMPORT_PATH = "#/import?d=";
-/** Alphabet de `compressToEncodedURIComponent`, et `%` d'un `$` encodé en route. */
+/** Alphabet de `compressToEncodedURIComponent`, et `%` d'un caractère réencodé en route. */
 const LINK = /#\/import\?d=([A-Za-z0-9+\-$%]+)/;
 
 /** Lien d'import : `base` est l'adresse de l'app, sans `#`. */
@@ -207,9 +209,7 @@ export function findSharedList(text: string): SharedList | undefined {
   const encoded = LINK.exec(text)?.[1];
   if (!encoded) return undefined;
   try {
-    const json = decompressFromEncodedURIComponent(
-      encoded.replace(/%24/gi, "$"),
-    );
+    const json = decompressFromEncodedURIComponent(decodeURIComponent(encoded));
     return json ? validSharedList(JSON.parse(json)) : undefined;
   } catch {
     return undefined;
@@ -223,6 +223,9 @@ const optional = (value: unknown, check: (v: unknown) => boolean) =>
   value === undefined || check(value);
 const isNumber = (value: unknown): value is number =>
   typeof value === "number" && Number.isFinite(value);
+/** Un nom lisible : au moins une lettre ou un chiffre. */
+const isLabel = (value: unknown): value is string =>
+  isString(value) && /[\p{L}\p{N}]/u.test(value);
 
 /** Relit une liste reçue : un lien abîmé ou trafiqué ne doit rien casser. */
 function validSharedList(value: unknown): SharedList | undefined {
@@ -238,7 +241,7 @@ function validSharedList(value: unknown): SharedList | undefined {
       item.q > 0 &&
       isString(item.u) &&
       optional(item.k, isString) &&
-      optional(item.n, isString) &&
+      optional(item.n, isLabel) &&
       (item.k !== undefined || item.n !== undefined) &&
       optional(item.t, isStrings) &&
       optional(item.o, isString) &&
@@ -256,7 +259,7 @@ function validSharedList(value: unknown): SharedList | undefined {
       typeof c === "object" &&
       c !== null &&
       isString(c.r) &&
-      isString(c.n) &&
+      isLabel(c.n) &&
       isString(c.co),
   );
   const units = (Array.isArray(list.u) ? list.u : []).filter(
@@ -264,8 +267,8 @@ function validSharedList(value: unknown): SharedList | undefined {
       typeof u === "object" &&
       u !== null &&
       isString(u.r) &&
-      isString(u.s) &&
-      isString(u.p) &&
+      isLabel(u.s) &&
+      isLabel(u.p) &&
       (u.d === "mass" || u.d === "volume" || u.d === "other") &&
       isNumber(u.st) &&
       u.st > 0 &&
@@ -274,7 +277,7 @@ function validSharedList(value: unknown): SharedList | undefined {
   return {
     v: SHARE_VERSION,
     l: isString(list.l) ? list.l : "fr",
-    n: list.n,
+    n: list.n.trim(),
     i: items,
     c: categories,
     u: units,
@@ -486,6 +489,11 @@ export interface ImportLine {
   acceptedTypes: string[];
   note?: string;
   match: ImportMatch;
+  /**
+   * L'article ou l'unité vient d'un catalogue plus récent que celui du destinataire :
+   * catégorie et unité devinées, mieux vaut mettre l'app à jour.
+   */
+  outdated?: boolean;
 }
 
 export interface ImportContext {
@@ -526,6 +534,8 @@ export function resolveImport(
       ? { slug: own.r, name: own.n, color: own.co, icon: own.i }
       : (catalog.categories.get(ref) ?? fallbackCategory);
   };
+  const knownUnit = (ref: string) =>
+    shared.u?.some((u) => u.r === ref) === true || catalog.units.has(ref);
   const unitDesc = (ref: string): UnitDesc => {
     const own = shared.u?.find((u) => u.r === ref);
     return own
@@ -546,7 +556,8 @@ export function resolveImport(
   return shared.i.map((item) => {
     const fromCatalog =
       item.k === undefined ? undefined : catalog.articles.get(item.k);
-    const label = item.n ?? fromCatalog?.name ?? labelFromKey(item.k ?? "");
+    const label =
+      item.n?.trim() ?? fromCatalog?.name ?? labelFromKey(item.k ?? "");
     const received: ReceivedArticle = fromCatalog
       ? { ...fromCatalog, label }
       : {
@@ -566,6 +577,8 @@ export function resolveImport(
       acceptedTypes: mergeTypes(item.t ?? [], types),
       note: item.o,
       match,
+      ...(((item.k !== undefined && !fromCatalog && !item.a) ||
+        !knownUnit(item.u)) && { outdated: true }),
     };
   });
 }
@@ -580,7 +593,10 @@ export function textImportLines(
   text: string,
   context: ImportContext,
 ): ImportLine[] {
-  const lines = text.split(/\r?\n/);
+  const lines = text
+    .split(/\r?\n/)
+    .map((line) => line.replace(FORMATTING, "$1$3"))
+    .filter((line) => isLabel(line));
   const bulleted = lines.filter((line) => BULLET.test(line));
   const kept = (bulleted.length ? bulleted : lines)
     .map((line) =>
@@ -623,6 +639,14 @@ export function textImportLines(
 }
 
 /**
+ * Mise en forme d'une messagerie autour d'un ou plusieurs mots (`*gras*`, `_italique_`,
+ * `~barré~` de WhatsApp) : retirée avant de lire le texte collé. Une puce `* pain`
+ * n'est pas touchée (l'étoile n'est pas collée au mot).
+ */
+const FORMATTING =
+  /(^|[^\p{L}\p{N}])([*_~])(?=\S)(.+?)(?<=\S)\2(?![\p{L}\p{N}])/gu;
+
+/**
  * Puce en début de ligne : •, -, *, case à cocher, ou numéro suivi d'une espace
  * (« 1. pain », mais pas « 2.5 kg de farine »).
  */
@@ -658,9 +682,8 @@ function matchReceived(
   if (exact.exact && exact.article)
     return known(exact.article, exact.acceptedTypes);
   for (const alias of received.aliases) {
-    const found = resolveEntry(alias, articles);
-    if (found.exact && found.article && found.acceptedTypes.length === 0)
-      return known(found.article);
+    const found = existingArticle(alias, articles);
+    if (found) return known(found);
   }
 
   // 3. Le catalogue comme dictionnaire, toutes langues confondues.
@@ -673,6 +696,9 @@ function matchReceived(
     const data = catalog.articles.get(key);
     if (data && received.catalogKey === undefined) {
       better = { ...data, label: received.label };
+      // Déjà là sous le nom du catalogue, sans sa clé (créé à la main).
+      const same = existingArticle(data.name, articles);
+      if (same) return { ...known(same), received: better };
       break;
     }
   }
@@ -703,6 +729,18 @@ function matchReceived(
     received: better,
     types: [],
   };
+}
+
+/**
+ * Article du destinataire qui porte déjà ce nom (libellé ou alias exact) : « Créer »
+ * avec ce nom reprend cet article plutôt que d'en faire un double.
+ */
+export function existingArticle<A extends Article>(
+  name: string,
+  articles: readonly A[],
+): A | undefined {
+  const found = exactEntry(name, articles);
+  return found?.acceptedTypes.length === 0 ? found.article : undefined;
 }
 
 function mergeTypes(a: readonly string[], b: readonly string[]): string[] {

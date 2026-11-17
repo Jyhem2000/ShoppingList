@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import type { Article, Category, ID } from "@/domain/model";
 import { searchArticles } from "@/domain/search";
 import {
+  existingArticle,
   findCategory,
   type ImportChoice,
   type ImportLine,
@@ -146,7 +147,15 @@ export function ImportChoiceSheet({
           className="flex flex-col gap-3"
           onSubmit={(event) => {
             event.preventDefault();
-            if (name.trim()) onChoose({ kind: "create", name: name.trim() });
+            const typed = name.trim();
+            if (!typed) return;
+            // Un article de ce nom existe déjà : c'est lui (pas de double).
+            const same = existingArticle(typed, articles);
+            onChoose(
+              same
+                ? { kind: "use", articleId: same.id }
+                : { kind: "create", name: typed },
+            );
           }}
         >
           <FieldLabel>{t.createTitle}</FieldLabel>

@@ -108,6 +108,30 @@ describe("lien de partage (docs/07 § 7.9)", () => {
     expect(findSharedList("https://exemple.fr/#/import?d=abc")).toBeUndefined();
   });
 
+  it("un lien réencodé par une messagerie se relit ; un nom vide est écarté", () => {
+    const shared: SharedList = {
+      v: 1,
+      l: "fr",
+      n: "Courses",
+      i: [
+        { k: "tomates", q: 1, u: "kg" },
+        { n: " … ", q: 1, u: "piece" },
+      ],
+    };
+    const link = shareLink("https://exemple.fr/", shared);
+    const start = link.indexOf("d=") + 2;
+    const reencoded =
+      link.slice(0, start) +
+      encodeURIComponent(link.slice(start)).replace(
+        /^[A-Za-z0-9]/,
+        (char) => `%${char.charCodeAt(0).toString(16).toUpperCase()}`,
+      );
+    expect(reencoded).not.toBe(link);
+    expect(findSharedList(reencoded)?.i).toEqual([
+      { k: "tomates", q: 1, u: "kg" },
+    ]);
+  });
+
   it("un article créé à la main voyage avec sa description, sa catégorie et son unité", async () => {
     const sender = await seeded();
     const now = Date.now();
@@ -323,6 +347,21 @@ describe("import et associations", () => {
     expect(again[0]?.match).toEqual({ kind: "known", articleId: butter.id });
   });
 
+  it("un libellé reçu qui désigne déjà un autre article ne devient pas un alias", async () => {
+    const recipient = await seeded();
+    const potatoes = await byKey(recipient, "pommes-de-terre");
+    const lines = textImportLines("pommes", await context(recipient));
+    await applyImport(
+      recipient,
+      lines,
+      [{ kind: "use", articleId: potatoes.id }],
+      { kind: "new", name: "Courses" },
+    );
+    expect((await recipient.articles.get(potatoes.id))?.aliases).not.toContain(
+      "pommes",
+    );
+  });
+
   it("fusion dans une liste existante : les quantités s'additionnent, les types acceptés rejoignent l'article", async () => {
     const recipient = await seeded();
     const tomatoes = await byKey(recipient, "tomates");
@@ -390,6 +429,24 @@ describe("coller une liste en texte (docs/03 A8)", () => {
       "baguettes",
       "beurre",
       "œufs",
+    ]);
+  });
+
+  it("la mise en forme d'une messagerie et les séparateurs sont retirés avant la lecture", async () => {
+    const recipient = await seeded();
+    const lines = textImportLines(
+      "*Courses samedi*\npain\n-----\n_lait_\n* beurre",
+      await context(recipient),
+    );
+    expect(lines.map((line) => line.received.label)).toEqual(["beurre"]);
+    const plain = textImportLines(
+      "*Courses samedi*\npain\n-----\n_lait_ ~frais~",
+      await context(recipient),
+    );
+    expect(plain.map((line) => line.received.label)).toEqual([
+      "Courses samedi",
+      "pain",
+      "lait frais",
     ]);
   });
 

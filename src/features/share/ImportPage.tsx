@@ -53,6 +53,7 @@ type Source = { kind: "link" } | { kind: "text"; text: string; listId?: ID };
 type Preview =
   | { kind: "lines"; name: string; received: boolean; lines: ImportLine[] }
   | { kind: "broken" }
+  | { kind: "failed" }
   | { kind: "empty" };
 
 const NEW_LIST = "new";
@@ -85,21 +86,26 @@ export function ImportPage() {
   const units = useUnits();
   const lists = useLists();
   const purchaseCounts = usePurchaseCounts();
-  const [catalog, setCatalog] = useState<ImportCatalog>();
+  const [catalog, setCatalog] = useState<ImportCatalog | "failed">();
   useEffect(() => {
     // Le catalogue embarqué, chargé à part (comme au premier lancement).
-    void import("@/data/catalog").then(({ catalogData }) => {
-      setCatalog(
-        buildImportCatalog({
-          articles: catalogData,
-          categories: categoriesData,
-          units: unitsData,
-        }),
-      );
-    });
+    import("@/data/catalog")
+      .then(({ catalogData }) => {
+        setCatalog(
+          buildImportCatalog({
+            articles: catalogData,
+            categories: categoriesData,
+            units: unitsData,
+          }),
+        );
+      })
+      .catch(() => {
+        setCatalog("failed");
+      });
   }, []);
 
   const preview = useMemo((): Preview | undefined => {
+    if (catalog === "failed") return { kind: "failed" };
     if (!catalog || !articles || !categories || !units || !purchaseCounts)
       return undefined;
     const context = {
@@ -116,7 +122,7 @@ export function ImportPage() {
     if (shared)
       return {
         kind: "lines",
-        name: shared.n,
+        name: shared.n || t.titleShared,
         received: true,
         lines: resolveImport(shared, context),
       };
@@ -199,10 +205,14 @@ export function ImportPage() {
     return (
       <EmptyState
         icon={<Link2Off />}
-        title={preview.kind === "broken" ? t.brokenTitle : t.titlePasted}
+        title={preview.kind === "empty" ? t.titlePasted : t.brokenTitle}
         action={backToList}
       >
-        {preview.kind === "broken" ? t.broken : t.empty}
+        {preview.kind === "broken"
+          ? t.broken
+          : preview.kind === "failed"
+            ? t.catalogError
+            : t.empty}
       </EmptyState>
     );
 
@@ -307,6 +317,9 @@ export function ImportPage() {
         </p>
         {toCheck.length > 0 && (
           <p className="text-sm text-muted-foreground">{t.summaryHint}</p>
+        )}
+        {lines.some((line) => line.outdated) && (
+          <p className="text-sm text-muted-foreground">{t.outdated}</p>
         )}
       </div>
       <div className="px-4 pt-4">
