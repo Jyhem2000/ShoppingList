@@ -4,6 +4,7 @@ import { useListItems } from "@/db/hooks";
 import { addRecipeToList } from "@/db/recipes";
 import type { ID, Recipe } from "@/domain/model";
 import { planRecipeAdd, yieldLabel } from "@/domain/recipes";
+import { stepCount } from "@/domain/quantity";
 import { feedback } from "@/feedback";
 import { lineDetails, lineQuantity } from "@/features/list/format";
 import { reportSaveError } from "@/features/list/useAddToList";
@@ -120,12 +121,12 @@ export function RecipeAddSheet({
             className="justify-center gap-4"
             lessLabel={a.less}
             moreLabel={a.more}
-            lessDisabled={requested <= 1}
+            lessDisabled={stepCount(requested, -1) === undefined}
             onLess={() => {
-              setRequested((value) => Math.max(1, Math.ceil(value) - 1));
+              setRequested((value) => stepCount(value, -1) ?? value);
             }}
             onMore={() => {
-              setRequested((value) => Math.floor(value) + 1);
+              setRequested((value) => stepCount(value, 1));
             }}
           >
             <StepperValue size="lg">

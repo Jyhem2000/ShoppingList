@@ -1,9 +1,10 @@
 import { Trash2 } from "lucide-react";
 import type { ReactNode } from "react";
 import { db } from "@/db/database";
-import { deleteItems, restoreItems, updateItem } from "@/db/lists";
+import { deleteItems, restoreItems, stepItem } from "@/db/lists";
 import { otherTypes, typesKey } from "@/domain/lines";
-import type { Article, ListItem } from "@/domain/model";
+import type { Article, ListItem, Unit } from "@/domain/model";
+import { stepAmount } from "@/domain/quantity";
 import { feedback } from "@/feedback";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
@@ -80,6 +81,7 @@ export function QuantitySheet({
               key={line.id}
               line={line}
               data={data}
+              home={data.unitById.get(article.defaultUnitId)}
               label={
                 labelled
                   ? line.acceptedTypes.length
@@ -109,21 +111,23 @@ export function QuantitySheet({
 function QuantityRow({
   line,
   data,
+  home,
   label,
   onRemove,
 }: {
   line: ListItem;
   data: ListData;
+  home?: Unit;
   label?: string;
   onRemove: () => void;
 }) {
   const unit = data.unitById.get(line.unitId);
   if (!unit) return null;
-  const step = unit.step > 0 ? unit.step : 1;
-  const set = (quantity: number) => {
-    void updateItem(db, line.id, {
-      quantity: Math.round(quantity * 1000) / 1000,
-    });
+  // Le pas suit l'unité, qui change au besoin : 950 g → 1 kg → 1,5 kg (docs/02 § 5).
+  const amount = { quantity: line.quantity, unit };
+  const less = stepAmount(amount, -1, data.units, { home });
+  const set = (direction: 1 | -1) => {
+    void stepItem(db, line.id, direction);
   };
   return (
     <li className="flex items-center gap-2">
@@ -132,12 +136,12 @@ function QuantityRow({
       )}
       <Stepper
         className={label ? undefined : "flex-1 justify-center gap-4"}
-        lessDisabled={line.quantity <= step}
+        lessDisabled={!less}
         onLess={() => {
-          set(Math.max(step, line.quantity - step));
+          set(-1);
         }}
         onMore={() => {
-          set(line.quantity + step);
+          set(1);
         }}
       >
         <StepperValue size={label ? "md" : "lg"}>

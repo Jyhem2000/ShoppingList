@@ -3,7 +3,7 @@ import { useState } from "react";
 import { addArticleType } from "@/db/catalog";
 import { manageArticlePath } from "@/app/routes";
 import { db } from "@/db/database";
-import { mergeIntoTwin, updateItem } from "@/db/lists";
+import { mergeIntoTwin, stepItem, updateItem } from "@/db/lists";
 import type { ListItem } from "@/domain/model";
 import { changeUnit } from "@/domain/quantity";
 import { fr } from "@/i18n/fr";
@@ -81,7 +81,9 @@ export function LineSheet({
           quantity={item.quantity}
           unit={unit}
           usualUnits={usualUnits}
+          stepping={{ home: data.unitById.get(article.defaultUnitId) }}
           onQuantity={(quantity) => void updateItem(db, item.id, { quantity })}
+          onStep={(direction) => void stepItem(db, item.id, direction)}
           onUnit={setUnit}
         />
 

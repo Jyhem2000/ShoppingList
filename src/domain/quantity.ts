@@ -71,6 +71,83 @@ export function simplify<U extends QuantityUnit>(
   return amount;
 }
 
+/** Unité réglable par − / + : elle a un pas (docs/06 § 1). */
+export type SteppedUnit = QuantityUnit & Pick<Unit, "step">;
+
+export interface StepOptions<U> {
+  /** Unité de l'article : on n'en descend pas, on y revient en descendant. */
+  home?: U;
+}
+
+/**
+ * − / + d'une quantité (docs/02 § 5) : avance d'un pas de l'unité, en se calant sur
+ * ses multiples (1,25 kg → 1,5 kg ou 1 kg). En montant, passe à la plus grande unité
+ * quand la valeur s'y simplifie (950 g → 1 kg, puis 1,5 kg) ; une quantité gardée
+ * exprès dans la petite unité (1200 g, « Annuler ») y reste. En descendant sous 1,
+ * repasse à l'unité plus petite — `home` de préférence — et y continue (1 kg → 950 g),
+ * sauf dans l'unité de l'article elle-même (pommes de terre au kg : 1 kg → 0,5 kg).
+ * `undefined` : impossible de descendre plus bas.
+ */
+export function stepAmount<U extends SteppedUnit>(
+  amount: Amount<U>,
+  direction: 1 | -1,
+  units: readonly U[],
+  { home }: StepOptions<U> = {},
+): Amount<U> | undefined {
+  const step = amount.unit.step > 0 ? amount.unit.step : 1;
+  const ratio = amount.quantity / step;
+  if (direction === 1) {
+    const next = {
+      quantity: clean((Math.floor(ratio + 1e-9) + 1) * step),
+      unit: amount.unit,
+    };
+    const simple = simplify(next, units);
+    // Déjà exprimable dans cette unité-là sans y être : gardée exprès en petit.
+    const keptSmall = simplify(amount, units).unit.id === simple.unit.id;
+    return !keptSmall && (simple.unit.factor ?? 0) > (amount.unit.factor ?? 0)
+      ? simple
+      : next;
+  }
+  const quantity = clean((Math.ceil(ratio - 1e-9) - 1) * step);
+  const kept = quantity > 0 ? { quantity, unit: amount.unit } : undefined;
+  if (quantity >= 1 || amount.unit.id === home?.id) return kept;
+  const smaller = smallerUnit(amount.unit, units, home);
+  const converted = smaller && convert(amount.quantity, amount.unit, smaller);
+  if (smaller && converted !== undefined)
+    return stepAmount({ quantity: converted, unit: smaller }, -1, units, {
+      home,
+    });
+  return kept;
+}
+
+/** Unité de même dimension juste plus petite, ou `home` si elle est plus petite. */
+function smallerUnit<U extends QuantityUnit>(
+  unit: U,
+  units: readonly U[],
+  home?: U,
+): U | undefined {
+  const below = units.filter(
+    (u) => convertible(unit, u) && (u.factor ?? 0) < (unit.factor ?? 0),
+  );
+  if (home && below.some((u) => u.id === home.id)) return home;
+  return below.sort((a, b) => (b.factor ?? 0) - (a.factor ?? 0))[0];
+}
+
+/**
+ * − / + d'un nombre de personnes ou de parts (rendement d'une recette, quantité voulue
+ * à l'ajout) : nombres entiers, au moins 1 ; une valeur à virgule se cale sur l'entier
+ * voisin (2,5 → 3 ou 2). `undefined` : impossible de descendre sous 1.
+ */
+export function stepCount(value: number, direction: 1): number;
+export function stepCount(value: number, direction: 1 | -1): number | undefined;
+export function stepCount(
+  value: number,
+  direction: 1 | -1,
+): number | undefined {
+  if (direction === 1) return Math.floor(value + 1e-9) + 1;
+  return value > 1 ? Math.max(1, Math.ceil(value - 1e-9) - 1) : undefined;
+}
+
 export type MergeResult<U extends QuantityUnit> =
   ({ kind: "merged" } & Amount<U>) | { kind: "incompatible" };
 

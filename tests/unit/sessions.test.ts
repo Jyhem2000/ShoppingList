@@ -22,6 +22,7 @@ import {
   deleteList,
   mergeIntoTwin,
   restoreItems,
+  stepItem,
   updateItem,
 } from "@/db/lists";
 import {
@@ -493,6 +494,41 @@ describe("deux lignes d'un même article (types différents)", () => {
       [golden.id, 3],
     ]);
     expect((await db.items.get(golden.id))?.quantity).toBe(3);
+  });
+
+  it("− / + d'une ligne cochée : appuis rapprochés tous comptés, l'achat suit l'unité", async () => {
+    const { db, list, store, article, aisleOf } = await setup();
+    const cerises = await article("cerises");
+    const { item } = await addListItem(db, {
+      listId: list.id,
+      articleId: cerises.id,
+      quantity: 950,
+      unitId: cerises.defaultUnitId,
+    });
+    const session = await startSession(db, list.id, store.id, 1000);
+    await checkItem(
+      db,
+      session,
+      item,
+      (await aisleOf("Fruits & Légumes")).id,
+      2000,
+    );
+    const kg = await db.units.where("slug").equals("kg").first();
+    // 950 g → 1 kg → 1,5 kg → 2 kg, sans perdre un appui.
+    await Promise.all([1, 2, 3].map(() => stepItem(db, item.id, 1)));
+    const line = await db.items.get(item.id);
+    expect([line?.quantity, line?.unitId]).toEqual([2, kg?.id]);
+    const purchases = await db.purchases.toArray();
+    expect(purchases.map((p) => [p.quantity, p.unitId])).toEqual([[2, kg?.id]]);
+    // En descendant sous 1 kg, retour à l'unité de l'article.
+    await stepItem(db, item.id, -1);
+    await stepItem(db, item.id, -1);
+    await stepItem(db, item.id, -1);
+    const back = await db.items.get(item.id);
+    expect([back?.quantity, back?.unitId]).toEqual([
+      950,
+      cerises.defaultUnitId,
+    ]);
   });
 
   it("un achat d'avant la 1.0.1 (sans ligne) suit encore la sienne", async () => {

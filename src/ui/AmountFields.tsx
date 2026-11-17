@@ -1,4 +1,5 @@
 import type { Unit } from "@/domain/model";
+import { type StepOptions, stepAmount } from "@/domain/quantity";
 import { fr } from "@/i18n/fr";
 import { Chip, Field } from "@/ui/form";
 import { QuantityInput } from "@/ui/QuantityInput";
@@ -10,7 +11,10 @@ const t = fr.list.line;
  * Quantité et unité d'une ligne ou d'un ingrédient, côte à côte (la quantité, un nombre
  * court, au plus juste ; l'unité, au nom parfois long, prend le reste), puis les unités
  * habituelles de l'article en puces (s'il y en a plusieurs). `kitchen` : propose aussi
- * les unités de cuisine (recettes).
+ * les unités de cuisine (recettes). − / + suivent le pas de l'unité et en changent au
+ * besoin (950 g → 1 kg, 1 kg → 950 g, docs/02 § 5). Le pas lui-même se calcule en base
+ * (`onStep` : `stepItem`, `stepIngredient`, pour ne perdre aucun appui) ; `stepping`,
+ * les mêmes options de `stepAmount`, sert ici à savoir si − est possible.
  */
 export function AmountFields({
   units,
@@ -18,7 +22,9 @@ export function AmountFields({
   unit,
   usualUnits = [],
   kitchen = false,
+  stepping,
   onQuantity,
+  onStep,
   onUnit,
 }: {
   units: readonly Unit[];
@@ -26,17 +32,29 @@ export function AmountFields({
   unit: Unit;
   usualUnits?: readonly Unit[];
   kitchen?: boolean;
+  stepping?: StepOptions<Unit>;
   onQuantity: (quantity: number) => void;
+  onStep: (direction: 1 | -1) => void;
   onUnit: (unitId: string) => void;
 }) {
+  const canLess = !!stepAmount({ quantity, unit }, -1, units, stepping);
   return (
     <>
       <div className="flex gap-3">
         <Field label={t.quantity} className="w-40 shrink-0">
           <QuantityInput
             value={quantity}
-            step={unit.step}
             onChange={onQuantity}
+            onLess={
+              canLess
+                ? () => {
+                    onStep(-1);
+                  }
+                : undefined
+            }
+            onMore={() => {
+              onStep(1);
+            }}
           />
         </Field>
         <Field label={t.unit} className="min-w-0 flex-1">

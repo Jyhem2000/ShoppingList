@@ -1,4 +1,5 @@
 import type { ID, Recipe } from "@/domain/model";
+import { stepAmount } from "@/domain/quantity";
 import {
   planRecipeAdd,
   recipeMerge,
@@ -104,6 +105,47 @@ export async function updateIngredient(
         i === index ? { ...ingredient, ...changes } : ingredient,
       ),
     now,
+  );
+}
+
+/**
+ * − / + d'un ingrédient, comme une ligne (docs/02 § 5) : un pas de son unité, qui
+ * change au besoin (950 g → 1 kg). Calculé depuis la recette enregistrée : des appuis
+ * rapprochés s'enchaînent sans se perdre.
+ */
+export async function stepIngredient(
+  database: ShoppingDatabase,
+  recipeId: ID,
+  index: number,
+  direction: 1 | -1,
+  now = Date.now(),
+): Promise<void> {
+  await database.transaction(
+    "rw",
+    [database.recipes, database.units, database.articles],
+    async () => {
+      const ingredient = (await database.recipes.get(recipeId))?.ingredients[
+        index
+      ];
+      if (!ingredient) return;
+      const units = await database.units.toArray();
+      const unit = units.find((u) => u.id === ingredient.unitId);
+      const article = await database.articles.get(ingredient.articleId);
+      const home = units.find((u) => u.id === article?.defaultUnitId);
+      const next =
+        unit &&
+        stepAmount({ quantity: ingredient.quantity, unit }, direction, units, {
+          home,
+        });
+      if (next)
+        await updateIngredient(
+          database,
+          recipeId,
+          index,
+          { quantity: next.quantity, unitId: next.unit.id },
+          now,
+        );
+    },
   );
 }
 

@@ -43,24 +43,24 @@ Principe : **tester ce qui peut casser silencieusement et ce qui fait la valeur 
 
 ### Tests unitaires (Vitest)
 
-| Sujet                                                               | Pourquoi c'est important                                                                                                            |
-| ------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| `slugify`, `searchKey`                                              | Base de l'unicité et de l'import                                                                                                    |
-| `searchArticles`                                                    | Qualité de l'ajout éclair (accents, pluriels, fautes de frappe)                                                                     |
-| `parseEntry`                                                        | Nombreux cas de saisie (tableau de 03 § A2)                                                                                         |
-| `effectiveAisle`, `groupListForStore`                               | Cœur de l'app : le tri par rayon                                                                                                    |
-| Rangement en cochant, « Rayon suivant », titre d'un rayon           | Le magasin se construit pendant les courses (03 C4, 02 § 4) : bonne catégorie au bon rayon, jamais deux rayons vides, titres courts |
-| Clôture, apprentissage, réouverture                                 | Logique statistique ; jamais de double comptage après réouverture                                                                   |
-| `convert`, `changeUnit`, `simplify`, `mergeQuantity`, `scaleRecipe` | Calculs, conversions et arrondis (y compris rendements « 1 cake »)                                                                  |
-| `parseMarkdown`, `toggleBold`, `toggleLineStyle`, `continueList`    | Étapes mises en forme : titres, listes, gras, un ancien texte simple lu tel quel ; boutons de la barre et suite d'une liste         |
-| Suggestions anti-oubli                                              | Logique statistique                                                                                                                 |
-| `slugify` sur d'autres alphabets                                    | Jamais de slug vide (cyrillique, chinois…)                                                                                          |
-| `resolveImport`, `suggestCandidates`                                | Partage entre deux catalogues différents : clé, alias, dictionnaire du catalogue, candidats par icône/catégorie                     |
-| `findLikelyDuplicates`                                              | Détection des doublons sans faux positifs grossiers                                                                                 |
-| Données initiales et premier lancement                              | Slugs et alias sans doublon, icônes du pack, un rayon principal par catégorie ; copie unique au premier lancement                   |
-| Migrations Dexie                                                    | Ne jamais perdre les données d'une version à l'autre                                                                                |
-| Export puis import d'une sauvegarde                                 | Aller-retour sans perte                                                                                                             |
-| Copies automatiques internes                                        | Une par jour au plus, 7 gardées, restauration sans perte                                                                            |
+| Sujet                                                                                          | Pourquoi c'est important                                                                                                                                   |
+| ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `slugify`, `searchKey`                                                                         | Base de l'unicité et de l'import                                                                                                                           |
+| `searchArticles`                                                                               | Qualité de l'ajout éclair (accents, pluriels, fautes de frappe)                                                                                            |
+| `parseEntry`                                                                                   | Nombreux cas de saisie (tableau de 03 § A2)                                                                                                                |
+| `effectiveAisle`, `groupListForStore`                                                          | Cœur de l'app : le tri par rayon                                                                                                                           |
+| Rangement en cochant, « Rayon suivant », titre d'un rayon                                      | Le magasin se construit pendant les courses (03 C4, 02 § 4) : bonne catégorie au bon rayon, jamais deux rayons vides, titres courts                        |
+| Clôture, apprentissage, réouverture                                                            | Logique statistique ; jamais de double comptage après réouverture                                                                                          |
+| `convert`, `changeUnit`, `simplify`, `stepAmount`, `stepCount`, `mergeQuantity`, `scaleRecipe` | Calculs, conversions et arrondis (y compris rendements « 1 cake », − / + qui changent d'unité ; en base, appuis rapprochés tous comptés et achat qui suit) |
+| `parseMarkdown`, `toggleBold`, `toggleLineStyle`, `continueList`                               | Étapes mises en forme : titres, listes, gras, un ancien texte simple lu tel quel ; boutons de la barre et suite d'une liste                                |
+| Suggestions anti-oubli                                                                         | Logique statistique                                                                                                                                        |
+| `slugify` sur d'autres alphabets                                                               | Jamais de slug vide (cyrillique, chinois…)                                                                                                                 |
+| `resolveImport`, `suggestCandidates`                                                           | Partage entre deux catalogues différents : clé, alias, dictionnaire du catalogue, candidats par icône/catégorie                                            |
+| `findLikelyDuplicates`                                                                         | Détection des doublons sans faux positifs grossiers                                                                                                        |
+| Données initiales et premier lancement                                                         | Slugs et alias sans doublon, icônes du pack, un rayon principal par catégorie ; copie unique au premier lancement                                          |
+| Migrations Dexie                                                                               | Ne jamais perdre les données d'une version à l'autre                                                                                                       |
+| Export puis import d'une sauvegarde                                                            | Aller-retour sans perte                                                                                                                                    |
+| Copies automatiques internes                                                                   | Une par jour au plus, 7 gardées, restauration sans perte                                                                                                   |
 
 ### Scénarios de bout en bout (Playwright)
 

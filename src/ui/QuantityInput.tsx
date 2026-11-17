@@ -9,24 +9,22 @@ function parseQuantity(text: string): number | undefined {
   return Number.isFinite(value) && value > 0 ? value : undefined;
 }
 
-/** Arrondi des pas décimaux (0,5 + 0,5 + 0,5…). */
-function round(value: number): number {
-  return Math.round(value * 1000) / 1000;
-}
-
 /**
- * Quantité modifiable (fiche d'une ligne, ingrédient d'une recette) : − / + selon le
- * pas de l'unité, ou saisie au clavier. Chaque valeur valide est transmise tout de
- * suite ; le champ suit aussi les changements venus d'ailleurs (changement d'unité).
+ * Quantité modifiable (fiche d'une ligne, ingrédient, rendement d'une recette) : − / +
+ * (calculés par l'appelant, qui peut changer d'unité : 950 g → 1 kg), ou saisie au
+ * clavier. Chaque valeur valide est transmise tout de suite ; le champ suit aussi les
+ * changements venus d'ailleurs. `onLess` absent : − désactivé.
  */
 export function QuantityInput({
   value,
-  step,
   onChange,
+  onLess,
+  onMore,
 }: {
   value: number;
-  step: number;
   onChange: (quantity: number) => void;
+  onLess?: () => void;
+  onMore: () => void;
 }) {
   const [text, setText] = useState(formatNumber(value));
   const [shown, setShown] = useState(value);
@@ -34,22 +32,8 @@ export function QuantityInput({
     setShown(value);
     setText(formatNumber(value));
   }
-  const unitStep = step > 0 ? step : 1;
-  const set = (quantity: number) => {
-    setShown(quantity);
-    setText(formatNumber(quantity));
-    onChange(quantity);
-  };
   return (
-    <Stepper
-      lessDisabled={value <= unitStep}
-      onLess={() => {
-        set(round(Math.max(unitStep, value - unitStep)));
-      }}
-      onMore={() => {
-        set(round(value + unitStep));
-      }}
-    >
+    <Stepper lessDisabled={!onLess} onLess={() => onLess?.()} onMore={onMore}>
       <TextInput
         inputMode="decimal"
         value={text}

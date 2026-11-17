@@ -7,6 +7,8 @@ import {
   unitGroup,
   unitOptionLabel,
   simplify,
+  stepAmount,
+  stepCount,
 } from "@/domain/quantity";
 import { unit, units } from "./fixtures";
 
@@ -47,6 +49,76 @@ describe("simplify", () => {
     expect(show(simplify({ quantity, unit: unit(slug) }, units))).toBe(
       expected,
     );
+  });
+});
+
+describe("stepAmount : − / + (docs/02 § 5)", () => {
+  const step = (
+    quantity: number,
+    slug: string,
+    direction: 1 | -1,
+    options: { home?: string } = {},
+  ) => {
+    const result = stepAmount(
+      { quantity, unit: unit(slug) },
+      direction,
+      units,
+      { home: options.home ? unit(options.home) : undefined },
+    );
+    return result ? show(result) : undefined;
+  };
+
+  it.each([
+    [500, "g", "550 g"],
+    [950, "g", "1 kg"],
+    [1, "kg", "1.5 kg"],
+    [2.5, "kg", "3 kg"],
+    [1.25, "kg", "1.5 kg"],
+    [950, "ml", "1 l"],
+    [33, "cl", "35 cl"],
+    [1200, "g", "1250 g"],
+    [3, "piece", "4 piece"],
+  ])("+ : %s %s → %s", (quantity, slug, expected) => {
+    expect(step(quantity, slug, 1)).toBe(expected);
+  });
+
+  it.each([
+    [1.5, "kg", "1 kg"],
+    [1.25, "kg", "1 kg"],
+    [1, "kg", "950 g"],
+    [0.5, "kg", "450 g"],
+    [550, "g", "500 g"],
+    [1, "l", "95 cl"],
+    [2, "piece", "1 piece"],
+  ])("− : %s %s → %s", (quantity, slug, expected) => {
+    expect(step(quantity, slug, -1)).toBe(expected);
+  });
+
+  it("− repasse à l'unité de l'article, sans jamais en descendre", () => {
+    expect(step(1, "l", -1, { home: "ml" })).toBe("950 ml");
+    expect(step(1, "kg", -1, { home: "g" })).toBe("950 g");
+    // Article au kg (pommes de terre) ou au litre (lait) : on reste dans son unité.
+    expect(step(1, "kg", -1, { home: "kg" })).toBe("0.5 kg");
+    expect(step(0.5, "kg", -1, { home: "kg" })).toBeUndefined();
+    expect(step(1, "l", -1, { home: "l" })).toBeUndefined();
+  });
+
+  it("s'arrête au dernier pas", () => {
+    expect(step(50, "g", -1)).toBeUndefined();
+    expect(step(1, "piece", -1)).toBeUndefined();
+  });
+});
+
+describe("stepCount : personnes ou parts", () => {
+  it.each([
+    [2, 1, 3],
+    [2.5, 1, 3],
+    [2.5, -1, 2],
+    [1.5, -1, 1],
+    [2, -1, 1],
+    [1, -1, undefined],
+  ] as const)("%s, %s → %s", (value, direction, expected) => {
+    expect(stepCount(value, direction)).toBe(expected);
   });
 });
 

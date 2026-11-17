@@ -73,7 +73,7 @@ Si aucun article ni alias ne correspond : suggestion « Créer _Sauce nuoc-mâm_
 Grille de catégories (icône + libellé) → grille d'articles (grande icône + libellé).
 
 - Tap sur un article absent de la liste = ajout avec la quantité par défaut.
-- Article déjà présent : pastille de quantité (plusieurs lignes : additionnées par unité) ; un tap ouvre le réglage de **toutes ses lignes** : une rangée par ligne, étiquetée par sa sorte (« Peu importe », « entier ») quand il y en a plusieurs, avec `−` / `+` et 🗑, puis « Ajouter une autre sorte » si l'article a des types. Une sorte touchée ajoute sa ligne dans le panneau, avec la quantité par défaut de l'article, réglable sur place ; « Terminé » ferme (décision du 15 novembre 2026, après essai : une quantité sans étiquette au-dessus des sortes faisait croire qu'elle s'appliquait à la nouvelle sorte).
+- Article déjà présent : pastille de quantité (plusieurs lignes : additionnées par unité) ; un tap ouvre le réglage de **toutes ses lignes** : une rangée par ligne, étiquetée par sa sorte (« Peu importe », « entier ») quand il y en a plusieurs, avec `−` / `+` (pas de l'unité, qui change d'unité en chemin : 950 g → 1 kg → 1,5 kg, [02 § 5](02-modele-metier.md#conversions)) et 🗑, puis « Ajouter une autre sorte » si l'article a des types. Une sorte touchée ajoute sa ligne dans le panneau, avec la quantité par défaut de l'article, réglable sur place ; « Terminé » ferme (décision du 15 novembre 2026, après essai : une quantité sans étiquette au-dessus des sortes faisait croire qu'elle s'appliquait à la nouvelle sorte).
 - Recherche en haut du catalogue, avec **suggestions dès la première lettre** (nom, alias, sans tenir compte des accents ; la partie tapée en gras ; quantité si l'article est déjà dans la liste). Tap ou Entrée sur la première = même effet qu'un tap sur la carte ; au-delà de 8 suggestions, « Voir les N résultats » ouvre la grille complète.
 
 ### A6. Habituels et favoris — _v1.0_
@@ -107,7 +107,7 @@ Créer, renommer, dupliquer, supprimer (avec confirmation ; des courses restées
 
 ### B3. Éditer une ligne — _v1.0_
 
-Tap sur une ligne → fiche : quantité (boutons `−`/`+` selon le pas de l'unité, ou saisie directe), unité (**changer d'unité convertit la quantité** quand c'est possible : 1200 g → kg = 1,2 kg ; sélecteur rangé par groupes et puces des unités habituelles, voir 06 § 1), **types acceptés** (puces sélectionnables, « Peu importe » par défaut, ajout d'un nouveau type), note. Lien « Modifier l'article » vers sa fiche complète.
+Tap sur une ligne → fiche : quantité (boutons `−`/`+` selon le pas de l'unité, qui passent d'eux-mêmes de 950 g à 1 kg et inversement, voir [02 § 5](02-modele-metier.md#conversions) ; ou saisie directe), unité (**changer d'unité convertit la quantité** quand c'est possible : 1200 g → kg = 1,2 kg ; sélecteur rangé par groupes et puces des unités habituelles, voir 06 § 1), **types acceptés** (puces sélectionnables, « Peu importe » par défaut, ajout d'un nouveau type), note. Lien « Modifier l'article » vers sa fiche complète.
 
 ### B4. Supprimer une ligne — _v1.0_
 
@@ -234,7 +234,7 @@ Le partage fonctionne entre iPhone et Android dans les deux sens.
 Liste → `⋯` → « Partager la liste » → feuille de partage du téléphone (Messages, WhatsApp, Mail…). Le message contient :
 
 - la liste **lisible**, groupée par catégorie, une puce par article avec sa quantité, ses types et sa note (lisible même sans l'app) ;
-- un **lien d'import** contenant les données de la liste (compressées dans l'URL, sans serveur ; liens courts, voir [02 § 9](02-modele-metier.md#9-partage-dune-liste)).
+- un **lien d'import** contenant les données de la liste (compressées dans l'URL, sans serveur ; liens courts, voir [02 § 9](02-modele-metier.md#9-partage-dune-liste)), précédé du mode d'emploi : copier le message ou juste le lien, puis dans l'app `⋯` → « Coller une liste » ; sur Android, toucher le lien suffit souvent (voir l'encadré de F2 : sur iPhone, un lien n'ouvre jamais l'app installée).
 
 Seules les lignes encore à acheter partent. Sans feuille de partage (rare), le message est copié, à coller dans la messagerie.
 

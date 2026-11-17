@@ -337,7 +337,9 @@ Calculées à la demande à partir des achats des sessions **clôturées**. Pour
 - `changeUnit(line, newUnit)` : convertit la quantité si possible, sinon la conserve.
 - `simplify(q, unit, units)` : parmi les unités de même dimension (≠ `other`), choisit **la plus grande** qui donne une valeur ≥ 1 avec 3 décimales au plus ; sinon conserve. 1200 g → 1,2 kg ; 250 g → 250 g ; 150 cl → 1,5 l ; 33 cl → 33 cl.
 - `mergeQuantity(existing, added)` : même unité → somme ; convertible → somme dans l'unité existante puis `simplify` ; sinon → `incompatible` (l'interface demande).
-- `scaleRecipe(recipe, amount)` : quantités fixes inchangées ; les autres `q × amount ÷ recipe.yield.quantity`, arrondi **au pas supérieur** : `ceil(q / step − 1e-9) × step`, puis `simplify`.
+- `stepAmount(amount, ±1, units, { home })` : − / + d'un pas de l'unité, calé sur ses multiples ; en montant, passe à la plus grande unité si la valeur s'y simplifie (950 g → 1 kg), sauf quantité déjà exprimable dans cette unité (gardée exprès en petit) ; en descendant sous 1, repasse à `home` (l'unité de l'article) ou à l'unité juste en dessous (1 kg → 950 g), sauf si l'on est dans `home` ; `undefined` au dernier pas. Appliqué en base dans une transaction (`stepItem`, `stepIngredient`), depuis la valeur enregistrée, pour que des appuis rapprochés ne se perdent pas.
+- `stepCount(value, ±1)` : − / + d'un nombre de personnes ou de parts (rendement, quantité voulue à l'ajout d'une recette) : entiers, au moins 1, une valeur à virgule se cale sur l'entier voisin (2,5 → 3 ou 2).
+- `scaleRecipe(recipe, amount)` : quantités fixes inchangées ; les autres `q × amount ÷ recipe.yield.quantity`, converti dans **la plus petite unité de même dimension** (g, ml), arrondi **au pas supérieur** de celle-ci : `ceil(q / step − 1e-9) × step`, puis `simplify`.
 - Affichage : virgule décimale, zéros inutiles supprimés (`1,5 kg`, `× 3`, `2 boîtes`).
 
 ### 7.9 Partage (v1.1)

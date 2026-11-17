@@ -1,7 +1,13 @@
 import { lineKey } from "./lines";
 import { planListMerge, type MergeLine, type MergeSource } from "./listMerge";
 import type { ID, Recipe, Unit } from "./model";
-import { clean, formatNumber, simplify } from "./quantity";
+import {
+  clean,
+  convert,
+  convertible,
+  formatNumber,
+  simplify,
+} from "./quantity";
 
 /**
  * Recettes (docs/02 § 7, docs/03 E2) : quantités recalculées pour le rendement demandé,
@@ -23,9 +29,11 @@ function roundUpToStep(quantity: number, step: number): number {
 /**
  * Quantité d'un ingrédient pour `requested` (dans l'unité de rendement de la recette,
  * pour un rendement de référence `reference`) : une quantité fixe ne bouge pas ; sinon
- * `quantité × demandé ÷ rendement`, arrondie au pas supérieur de l'unité, puis
- * simplifiée (750 g reste 750 g, 1500 g → 1,5 kg). Pour le rendement de la recette,
- * les quantités restent celles de la fiche.
+ * `quantité × demandé ÷ rendement`, arrondie au pas supérieur de **la plus petite unité
+ * de même dimension** (1 kg de farine pour 3 au lieu de 4 : 750 g, pas 1 kg au pas de
+ * 0,5 kg ; l'unité où l'ingrédient est écrit ne change donc rien), puis simplifiée
+ * (750 g reste 750 g, 1500 g → 1,5 kg). Pour le rendement de la recette, les quantités
+ * restent celles de la fiche.
  */
 export function scaleIngredient(
   ingredient: Pick<Ingredient, "quantity" | "unitId" | "fixed">,
@@ -37,8 +45,16 @@ export function scaleIngredient(
   const unit = units.find((candidate) => candidate.id === unitId);
   if (ingredient.fixed || requested === reference || reference <= 0 || !unit)
     return { quantity, unitId };
-  const scaled = roundUpToStep((quantity * requested) / reference, unit.step);
-  const simple = simplify({ quantity: scaled, unit }, units);
+  const finest = units
+    .filter((candidate) => convertible(unit, candidate))
+    .reduce(
+      (best, candidate) =>
+        (candidate.factor ?? 0) < (best.factor ?? 0) ? candidate : best,
+      unit,
+    );
+  const inFinest = convert(quantity, unit, finest) ?? quantity;
+  const scaled = roundUpToStep((inFinest * requested) / reference, finest.step);
+  const simple = simplify({ quantity: scaled, unit: finest }, units);
   return { quantity: simple.quantity, unitId: simple.unit.id };
 }
 

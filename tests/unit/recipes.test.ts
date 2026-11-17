@@ -8,6 +8,7 @@ import {
   duplicateRecipe,
   previewRecipeAdd,
   recipesUsing,
+  stepIngredient,
 } from "@/db/recipes";
 import { seedDatabase } from "@/db/seed";
 import { deleteUnit } from "@/db/units";
@@ -68,6 +69,12 @@ describe("recalcul d'une recette (docs/03 E2)", () => {
       [2, "piece"],
       [400, "g"],
     ]);
+  });
+
+  it("arrondit dans la plus petite unité, quelle que soit celle de la fiche : 1 kg pour 3 au lieu de 4 → 750 g", () => {
+    const cake = recipe(4, "personnes", [ingredient("farine", 1, "kg")]);
+    expect(amounts(scaleRecipe(cake, 3, units))).toEqual([[750, "g"]]);
+    expect(amounts(scaleRecipe(cake, 6, units))).toEqual([[1.5, "kg"]]);
   });
 
   it("simplifie après le calcul : 2 kg de farine pour 16", () => {
@@ -243,6 +250,16 @@ describe("recettes dans la base (docs/02 § 7)", () => {
     });
     return { db, list, farine, oeufs, g, kg, piece, recipeId };
   }
+
+  it("− / + d'un ingrédient : appuis rapprochés tous comptés, en changeant d'unité", async () => {
+    const { db, kg, recipeId } = await setup();
+    await Promise.all(
+      Array.from({ length: 17 }, () => stepIngredient(db, recipeId, 0, 1)),
+    );
+    const farine = (await db.recipes.get(recipeId))?.ingredients[0];
+    // 250 g + 17 pas : 950 g (14 pas) → 1 kg → 1,5 kg → 2 kg.
+    expect([farine?.quantity, farine?.unitId]).toEqual([2, kg]);
+  });
 
   it("ajouter pour 2 cakes : lignes créées ou complétées, avec la recette pour origine", async () => {
     const { db, list, farine, oeufs, kg, recipeId } = await setup();

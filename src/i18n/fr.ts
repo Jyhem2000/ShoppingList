@@ -243,7 +243,8 @@ export const fr = {
     paste: "Coller une liste",
     messageTitle: (name: string, count: number) =>
       `${name} (${count > 1 ? `${count} articles` : "1 article"})`,
-    messageLink: "Pour la recevoir dans l'app ShoppingList :",
+    messageLink:
+      "Pour l'ajouter dans l'app ShoppingList : copie ce message (ou juste le lien), puis dans l'app, ⋯ → Coller une liste. Sur Android, toucher le lien suffit souvent :",
     copied: "Liste copiée : colle-la dans ton message.",
     shareError: "Partage impossible sur ce téléphone.",
     pasteTitle: "Coller une liste",

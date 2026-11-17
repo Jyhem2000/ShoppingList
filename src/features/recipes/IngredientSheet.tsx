@@ -1,6 +1,10 @@
 import { addArticleType } from "@/db/catalog";
 import { db } from "@/db/database";
-import { removeIngredient, updateIngredient } from "@/db/recipes";
+import {
+  removeIngredient,
+  stepIngredient,
+  updateIngredient,
+} from "@/db/recipes";
 import type { ID, Recipe } from "@/domain/model";
 import { changeUnit } from "@/domain/quantity";
 import type { ListData } from "@/features/list/useListData";
@@ -53,8 +57,12 @@ export function IngredientSheet({
           quantity={ingredient.quantity}
           unit={unit}
           kitchen
+          stepping={{ home: data.unitById.get(article.defaultUnitId) }}
           onQuantity={(quantity) => {
             update({ quantity });
+          }}
+          onStep={(direction) => {
+            void stepIngredient(db, recipeId, index, direction);
           }}
           onUnit={(unitId) => {
             const next = data.unitById.get(unitId);
