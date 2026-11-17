@@ -14,6 +14,25 @@ import { fr } from "@/i18n/fr";
 
 const t = fr.list;
 
+/**
+ * Détail d'un ingrédient (docs/02 § 7) : `detail` (ses sortes, ou ce que l'import en
+ * fera), puis « facultatif » et « quantité fixe ».
+ */
+export function ingredientDetails(
+  detail: string | undefined,
+  ingredient: Pick<Recipe["ingredients"][number], "optional" | "fixed"> = {
+    optional: false,
+    fixed: false,
+  },
+): string | undefined {
+  const parts = [
+    detail,
+    ingredient.optional ? fr.recipes.optional : undefined,
+    ingredient.fixed ? fr.recipes.fixed : undefined,
+  ].filter(Boolean);
+  return parts.length ? parts.join(" · ") : undefined;
+}
+
 /** Ordre des catégories du catalogue de départ (docs/06 § 2). */
 export const catalogOrder = categoriesData.map((c) => c.key);
 

@@ -14,7 +14,6 @@ import {
 import { applyImport, applyRecipeImport } from "@/db/share";
 import type { ID } from "@/domain/model";
 import { formatQuantity } from "@/domain/quantity";
-import { yieldLabel } from "@/domain/recipes";
 import {
   buildImportCatalog,
   defaultChoice,
@@ -35,9 +34,9 @@ import {
   type ShareType,
 } from "@/domain/share";
 import { feedback } from "@/feedback";
-import { lineDetails } from "@/features/list/format";
+import { ingredientDetails, lineDetails } from "@/features/list/format";
 import { reportSaveError } from "@/features/list/useAddToList";
-import { RecipeIcon } from "@/features/recipes/RecipeIcon";
+import { RecipeHeader } from "@/features/recipes/RecipeHeader";
 import { fr } from "@/i18n/fr";
 import { copyText } from "@/platform/clipboard";
 import {
@@ -300,14 +299,10 @@ export function ImportPage() {
    */
   const display = (line: ImportLine, choice: ImportChoice) => {
     const shown = outcome(line, choice);
-    const detail = [
-      shown.detail,
-      line.ingredient?.optional ? fr.recipes.optional : undefined,
-      line.ingredient?.fixed ? fr.recipes.fixed : undefined,
-    ]
-      .filter(Boolean)
-      .join(" · ");
-    return { ...shown, detail: detail || undefined };
+    return {
+      ...shown,
+      detail: ingredientDetails(shown.detail, line.ingredient),
+    };
   };
   const outcome = (line: ImportLine, choice: ImportChoice) => {
     const { received, match } = line;
@@ -414,18 +409,11 @@ export function ImportPage() {
         backTo={home}
       />
       {recipe && (
-        <div className="flex items-center gap-4 px-4 pt-1 pb-4">
-          <RecipeIcon
-            recipe={{ name: preview.name, icon: recipe.ic }}
-            size={56}
-          />
-          <div className="min-w-0">
-            <p className="text-lg font-semibold">{preview.name}</p>
-            <p className="text-muted-foreground">
-              {fr.recipes.serves(yieldLabel(recipe.y.q, recipe.y.u))}
-            </p>
-          </div>
-        </div>
+        <RecipeHeader
+          recipe={{ ...receivedRecipe(recipe), name: preview.name }}
+          withName
+          className="pb-4"
+        />
       )}
       <div className="flex flex-col gap-1 px-5">
         {lines.length > 0 && (

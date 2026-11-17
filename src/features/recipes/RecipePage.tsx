@@ -18,11 +18,14 @@ import {
   type ParsedEntry,
 } from "@/domain/entry";
 import type { Article, Recipe } from "@/domain/model";
-import { yieldLabel } from "@/domain/recipes";
 import { feedback } from "@/feedback";
 import { AddArticleBar } from "@/features/list/AddArticleBar";
 import { CreateArticleSheet } from "@/features/list/CreateArticleSheet";
-import { lineDetails, lineQuantity } from "@/features/list/format";
+import {
+  ingredientDetails,
+  lineDetails,
+  lineQuantity,
+} from "@/features/list/format";
 import { reportSaveError } from "@/features/list/useAddToList";
 import { recipeMessage, sendMessage } from "@/features/share/message";
 import { type ListData, useListData } from "@/features/list/useListData";
@@ -43,7 +46,8 @@ import { Sheet } from "@/ui/Sheet";
 import { showToast } from "@/ui/toast";
 import { IngredientSheet } from "./IngredientSheet";
 import { RecipeAddSheet } from "./RecipeAddSheet";
-import { RECIPE_COLOR, RecipeIcon } from "./RecipeIcon";
+import { RecipeHeader } from "./RecipeHeader";
+import { RECIPE_COLOR } from "./RecipeIcon";
 import { usePendingSave } from "@/ui/usePendingSave";
 import { YieldFields } from "./YieldFields";
 
@@ -110,14 +114,7 @@ function RecipeView({ recipe, data }: { recipe: Recipe; data: ListData }) {
         />
       ),
       title: article.name,
-      detail:
-        [
-          lineDetails({ acceptedTypes: item.acceptedTypes }),
-          item.optional ? t.optional : undefined,
-          item.fixed ? t.fixed : undefined,
-        ]
-          .filter(Boolean)
-          .join(" · ") || undefined,
+      detail: ingredientDetails(lineDetails(item), item),
       trailing: (
         <QuantityText>{lineQuantity(item, data.unitById)}</QuantityText>
       ),
@@ -199,14 +196,7 @@ function RecipeView({ recipe, data }: { recipe: Recipe; data: ListData }) {
           </Section>
         </>
       ) : (
-        <>
-          <div className="flex items-center gap-4 px-4 pt-1">
-            <RecipeIcon recipe={recipe} size={56} />
-            <p className="text-lg font-semibold">
-              {t.serves(yieldLabel(recipe.yield.quantity, recipe.yield.unit))}
-            </p>
-          </div>
-        </>
+        <RecipeHeader recipe={recipe} />
       )}
 
       <Section title={t.ingredients}>

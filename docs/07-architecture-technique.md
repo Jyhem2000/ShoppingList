@@ -398,7 +398,7 @@ ShoppingList/
 │  ├─ domain/                 # fonctions pures (§ 7) — aucun import React ni Dexie
 │  ├─ db/                     # schéma Dexie, migrations, accès aux données, initialisation
 │  ├─ data/                   # données initiales (06)
-│  ├─ ui/                     # composants partagés (shadcn + ProductIcon, ItemRow, AisleHeader, AddBar, CatalogCard, Sheet)
+│  ├─ ui/                     # composants génériques partagés (shadcn + ProductIcon, ItemRow, AisleHeader, AddBar, CatalogCard, Sheet) ; un composant propre à une fonctionnalité reste dans son dossier de features/, même partagé entre écrans
 │  ├─ icons/                  # icônes dessinées (drawn/*.svg), pack des articles assemblé au build (packData.ts), icônes Lucide des catégories et rayons (lucide.ts)
 │  ├─ feedback/               # sons
 │  ├─ platform/               # installation, écran allumé (fonctionnalités du navigateur)

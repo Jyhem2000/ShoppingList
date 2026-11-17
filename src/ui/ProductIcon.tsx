@@ -1,5 +1,5 @@
 import { monogram } from "@/domain/monogram";
-import { ICON_VIEWBOX, useIconPack } from "@/icons/pack";
+import { ICON_VIEWBOX, packIcon, useIconPack } from "@/icons/pack";
 import { palette, type PaletteColor } from "@/ui/palette";
 import { cn } from "@/ui/utils";
 
@@ -34,7 +34,7 @@ export function ProductIcon({
     );
   }
 
-  const found = icon ? pack?.[icon] : undefined;
+  const found = icon && pack ? packIcon(pack, icon) : undefined;
   if (found) {
     return (
       <svg

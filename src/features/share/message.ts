@@ -11,6 +11,7 @@ import {
 import {
   catalogOrder,
   lineDetails,
+  ingredientDetails,
   lineQuantity,
 } from "@/features/list/format";
 import type { ListData } from "@/features/list/useListData";
@@ -24,6 +25,12 @@ const t = fr.share;
 /** Adresse de l'app, sans `#` : base du lien d'import. */
 export function appAddress(): string {
   return new URL(import.meta.env.BASE_URL, window.location.origin).href;
+}
+
+/** Une puce du message : « • Pommes 1 kg (Gala uniquement) ». */
+function bullet(name: string, quantity: string, details?: string): string {
+  const text = [name, quantity].filter(Boolean).join(" ");
+  return `• ${text}${details ? ` (${details})` : ""}`;
 }
 
 /** Peut-on partager la liste ? (il reste quelque chose à acheter) */
@@ -49,9 +56,8 @@ export function listMessage(data: ListData): string {
     lines.push("", group.category.name);
     for (const item of group.items) {
       const name = data.articleById.get(item.articleId)?.name ?? "";
-      const details = lineDetails(item);
       lines.push(
-        `• ${name} ${lineQuantity(item, data.unitById)}${details ? ` (${details})` : ""}`,
+        bullet(name, lineQuantity(item, data.unitById), lineDetails(item)),
       );
     }
   }
@@ -76,15 +82,12 @@ export function recipeMessage(recipe: Recipe, data: ListData): string {
     for (const ingredient of recipe.ingredients) {
       const name = data.articleById.get(ingredient.articleId)?.name;
       if (!name) continue;
-      const details = [
-        lineDetails(ingredient),
-        ingredient.optional ? fr.recipes.optional : undefined,
-        ingredient.fixed ? fr.recipes.fixed : undefined,
-      ]
-        .filter(Boolean)
-        .join(", ");
       lines.push(
-        `• ${name} ${lineQuantity(ingredient, data.unitById)}${details ? ` (${details})` : ""}`,
+        bullet(
+          name,
+          lineQuantity(ingredient, data.unitById),
+          ingredientDetails(lineDetails(ingredient), ingredient),
+        ),
       );
     }
   }

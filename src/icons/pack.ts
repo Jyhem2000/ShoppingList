@@ -52,6 +52,14 @@ function subscribe(listener: () => void): () => void {
   return () => listeners.delete(listener);
 }
 
+/**
+ * L'icône `name` du pack. Le nom peut venir d'un lien reçu : seules les icônes du
+ * pack comptent, pas les propriétés héritées (`constructor`, `toString`…).
+ */
+export function packIcon(pack: IconPack, name: string): PackIcon | undefined {
+  return Object.hasOwn(pack, name) ? pack[name] : undefined;
+}
+
 /** Le pack, ou `null` tant qu'il n'est pas chargé (le chargement démarre au premier appel). */
 export function useIconPack(): IconPack | null {
   const current = useSyncExternalStore(subscribe, () => pack);
