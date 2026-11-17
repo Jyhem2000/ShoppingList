@@ -1,6 +1,7 @@
 import { lineKey } from "./lines";
 import { planListMerge, type MergeLine, type MergeSource } from "./listMerge";
 import type { ID, Recipe, Unit } from "./model";
+import { slugify } from "./slug";
 import {
   clean,
   convert,
@@ -181,4 +182,20 @@ export function yieldLabel(quantity: number, unit: string): string {
   if (!first) return formatNumber(quantity);
   const words = [agree(first, quantity >= 2), ...rest].join(" ");
   return `${formatNumber(quantity)} ${words}`;
+}
+
+/**
+ * Nom d'une recette reçue (docs/03 E3) : le sien, ou « Raclette (2) » si une recette
+ * porte déjà ce nom (rien n'est remplacé).
+ */
+export function uniqueRecipeName(
+  name: string,
+  taken: readonly string[],
+): string {
+  const used = new Set(taken.map(slugify));
+  if (!used.has(slugify(name))) return name;
+  for (let n = 2; ; n++) {
+    const candidate = `${name} (${n})`;
+    if (!used.has(slugify(candidate))) return candidate;
+  }
 }

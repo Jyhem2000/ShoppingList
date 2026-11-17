@@ -354,6 +354,10 @@ Le partage est **autonome** : chaque ligne embarque de quoi retrouver ou recrée
 
 **Liens courts** (décision du 16 novembre 2026) : un article du **catalogue** ne voyage qu'avec sa **clé** (et son libellé s'il a été renommé) : le destinataire a le même catalogue embarqué, il y retrouve libellé, icône, catégorie et unité, même s'il a supprimé l'article. Un article **créé à la main** voyage avec sa description complète (libellé, alias, icône, types, catégorie et unité par défaut) ; une catégorie ou une unité créée à la main est décrite aussi, les autres se désignent par leur clé catalogue. Une liste de 30 articles du catalogue tient ainsi en un lien d'environ 700 caractères.
 
+### Partager une recette
+
+Même mécanisme, même format (décision du 17 novembre 2026, [03 E3](03-fonctionnalites.md#e3-partager-une-recette--v11)) : le lien dit ce qu'il porte, une **liste** ou une **recette**. Une recette envoie ses ingrédients comme des lignes (article, quantité, unité, types acceptés, plus « facultatif » et « quantité fixe »), son rendement, son icône et ses étapes. À l'import, chaque ingrédient est reconnu comme un article reçu (ci-dessous) ; la recette est **créée**, jamais remplacée (« Raclette (2) » si le nom est pris). Un ingrédient non reconnu est créé par défaut dans le catalogue, pas « juste cette fois ».
+
 ### Import chez le destinataire
 
 1. Il choisit : créer une nouvelle liste, ou fusionner dans une liste existante.

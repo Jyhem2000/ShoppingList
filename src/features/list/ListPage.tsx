@@ -231,7 +231,7 @@ export function ListPage() {
           onRemoveItems={removeItems}
           onPaste={(text) => {
             void navigate(routes.import, {
-              state: { text, listId: data.list.id },
+              state: { text, expected: "list", listId: data.list.id },
             });
           }}
         />

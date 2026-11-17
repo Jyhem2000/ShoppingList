@@ -186,3 +186,36 @@ export async function check(page: Page, name: string) {
       }),
   );
 }
+
+/** Onglet Recettes → « Nouvelle recette » : nom et rendement, puis la fiche en modification. */
+export async function createRecipe(
+  page: Page,
+  name: string,
+  { quantity, unit }: { quantity: number; unit: string },
+) {
+  await page
+    .getByRole("navigation", { name: fr.tabs.navigation })
+    .getByRole("link", { name: fr.tabs.recipes })
+    .click();
+  await page.getByRole("button", { name: fr.recipes.create }).click();
+  const sheet = page.getByRole("dialog", { name: fr.recipes.newTitle });
+  await sheet.getByRole("textbox", { name: fr.recipes.name }).fill(name);
+  await sheet
+    .getByRole("textbox", { name: fr.list.line.quantity })
+    .fill(String(quantity));
+  await sheet.getByRole("button", { name: unit, exact: true }).click();
+  await sheet.getByRole("button", { name: fr.recipes.createSubmit }).click();
+  await expect(page.getByRole("heading", { name })).toBeVisible();
+}
+
+/** Barre d'ajout des ingrédients de la fiche en modification. */
+export async function addIngredients(page: Page, text: string) {
+  const input = page.getByRole("textbox", { name: fr.recipes.addPlaceholder });
+  await input.fill(text);
+  await input.press("Enter");
+}
+
+/** Ingrédient de la fiche (en modification : une ligne à toucher). */
+export function ingredient(page: Page, name: string) {
+  return page.locator("main li").filter({ hasText: name });
+}

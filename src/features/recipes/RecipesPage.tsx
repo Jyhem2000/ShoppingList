@@ -1,14 +1,16 @@
-import { ChefHat, Plus } from "lucide-react";
+import { ChefHat, ClipboardPaste, Plus } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router";
-import { recipePath } from "@/app/routes";
+import { recipePath, routes } from "@/app/routes";
 import { db } from "@/db/database";
 import { useRecipes } from "@/db/hooks";
 import { createRecipe, DEFAULT_YIELD } from "@/db/recipes";
 import { yieldLabel } from "@/domain/recipes";
 import { searchKey } from "@/domain/slug";
 import { reportSaveError } from "@/features/list/useAddToList";
+import { PasteForm } from "@/features/share/PasteForm";
 import { fr } from "@/i18n/fr";
+import { pasteText } from "@/platform/clipboard";
 import { Button } from "@/ui/button";
 import { Field, TextInput } from "@/ui/form";
 import { EmptyHint, EmptyState, PageHeader, Section } from "@/ui/Page";
@@ -22,12 +24,18 @@ const t = fr.recipes;
 
 /**
  * Onglet Recettes (docs/04 § 2.6) : les recettes (icône, nom, rendement), une recherche,
- * « Nouvelle recette ».
+ * « Nouvelle recette » et « Coller une recette » (docs/03 E3 : lit le presse-papiers ;
+ * s'il est refusé, un champ où coller à la main).
  */
 export function RecipesPage() {
+  const navigate = useNavigate();
   const recipes = useRecipes();
   const [query, setQuery] = useState("");
   const [creating, setCreating] = useState(false);
+  const [pasting, setPasting] = useState(false);
+  const paste = (text: string) => {
+    void navigate(routes.import, { state: { text, expected: "recipe" } });
+  };
 
   const shown = useMemo(() => {
     const key = searchKey(query);
@@ -36,24 +44,40 @@ export function RecipesPage() {
     );
   }, [recipes, query]);
 
-  const create = (
-    <Button
-      variant="outline"
-      className="w-full"
-      onClick={() => {
-        setCreating(true);
-      }}
-    >
-      <Plus />
-      {t.create}
-    </Button>
+  const actions = (
+    <div className="flex flex-col gap-3">
+      <Button
+        variant="outline"
+        className="w-full"
+        onClick={() => {
+          setCreating(true);
+        }}
+      >
+        <Plus />
+        {t.create}
+      </Button>
+      <Button
+        variant="outline"
+        className="w-full"
+        onClick={() => {
+          // Lu pendant le toucher (iPhone : bulle « Coller » à confirmer).
+          void pasteText().then((text) => {
+            if (text?.trim()) paste(text);
+            else setPasting(true);
+          });
+        }}
+      >
+        <ClipboardPaste />
+        {fr.share.pasteRecipe}
+      </Button>
+    </div>
   );
 
   return (
     <>
       <PageHeader title={t.title} />
       {recipes?.length === 0 ? (
-        <EmptyState icon={<ChefHat />} title={t.emptyTitle} action={create}>
+        <EmptyState icon={<ChefHat />} title={t.emptyTitle} action={actions}>
           {t.emptyText}
         </EmptyState>
       ) : (
@@ -65,7 +89,7 @@ export function RecipesPage() {
                 value={query}
                 onValueChange={setQuery}
               />
-              {create}
+              {actions}
             </div>
             <Section title={t.count(shown.length)} className="pb-6">
               {shown.length === 0 ? (
@@ -91,6 +115,22 @@ export function RecipesPage() {
             </Section>
           </>
         )
+      )}
+      {pasting && (
+        <Sheet
+          open
+          onOpenChange={(open) => {
+            if (!open) setPasting(false);
+          }}
+          title={fr.share.pasteRecipe}
+          description={fr.share.pasteRecipeText}
+        >
+          <PasteForm
+            label={fr.share.pasteRecipe}
+            placeholder={fr.share.pasteRecipePlaceholder}
+            onPaste={paste}
+          />
+        </Sheet>
       )}
       {creating && (
         <NewRecipeSheet

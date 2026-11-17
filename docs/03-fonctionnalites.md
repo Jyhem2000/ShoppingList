@@ -5,9 +5,9 @@ Chaque fonctionnalité a un identifiant (`A1`, `B2`…) réutilisé dans le plan
 | Version                  | Thème            | Fonctionnalités                                |
 | ------------------------ | ---------------- | ---------------------------------------------- |
 | **v1.0**                 | Cœur et recettes | A1-A7 · B1-B6 · C1-C8 · E1-E2 · G1-G5 · H1-H11 |
-| **v1.1**                 | Partage          | F1-F2 · A8                                     |
+| **v1.1**                 | Partage          | F1-F2 · A8 · E3                                |
 | **v1.2**                 | Anti-oubli       | D1-D2                                          |
-| **Plus tard**            | —                | D3 · E3                                        |
+| **Plus tard**            | —                | D3                                             |
 | **Idées non planifiées** | Peut-être jamais | I1 · I2 · I3                                   |
 
 L'ordre des versions après la v1.0 pourra être réévalué après quelques semaines d'usage réel. Les règles métier citées sont détaillées dans [02](02-modele-metier.md).
@@ -219,9 +219,13 @@ Le rendement de la fiche est **fixe** (« 4 personnes », « 1 cake ») : on cho
 
 **Critères** : recette pour 4 avec 2 oignons et 500 g de farine, ajoutée pour 6 → 3 oignons et 750 g de farine ; si la liste contient déjà 1 kg de farine → 1,75 kg après fusion. Recette « 1 cake » avec 3 œufs, demandée pour 2 cakes → 6 œufs. Raclette pour 4 avec 1 pot de crème à quantité fixe, ajoutée pour 10 → toujours 1 pot.
 
-### E3. Partager une recette — _plus tard_
+### E3. Partager une recette — _v1.1_
 
-Même mécanisme que F1.
+Même mécanisme que F1 et F2, même format de lien (décision du 17 novembre 2026, voir [02 § 9](02-modele-metier.md#partager-une-recette)). Fiche recette → « Partager la recette » → feuille de partage du téléphone. Le message contient le nom et le rendement, les ingrédients (une puce chacun, avec « facultatif » ou « quantité fixe »), les étapes en texte simple, puis le mode d'emploi et le lien d'import.
+
+Le destinataire colle le message dans Recettes → « Coller une recette » (sur Android, toucher le lien suffit souvent). Même aperçu que pour une liste (À vérifier, Reconnus, choix de l'article), avec le nom, l'icône, le rendement et les étapes de la recette à la place de « Ajouter à » ; « Ajouter la recette » la crée et ouvre sa fiche. Un ingrédient non reconnu est créé par défaut **dans le catalogue**, dans la catégorie reçue : la recette resservira (« Juste cette fois » reste possible). Si une recette porte déjà ce nom, la reçue s'appelle « Raclette (2) » : rien n'est remplacé.
+
+« Coller une recette » n'accepte qu'un message de recette partagé par l'app : un autre texte affiche qu'il ne s'agit pas d'une recette partagée par l'app. Un lien de recette collé dans une liste, ou de liste collé dans les recettes, dit où le coller.
 
 ---
 

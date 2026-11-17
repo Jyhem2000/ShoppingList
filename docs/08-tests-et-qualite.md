@@ -74,11 +74,14 @@ Chaque scénario tourne sur deux configurations : **WebKit + iPhone émulé** (c
 6. Rechargement de la page → les données sont toujours là.
 7. _(v1.0)_ Recette ajoutée pour un autre rendement (personnes et « cakes ») → quantités correctes dans la liste : fusion avec la farine déjà présente, quantité fixe inchangée, origine « via … » sur les lignes.
 8. _(v1.1)_ Partage puis import dans un profil vierge → aperçu correct, association « C'est le même que… » mémorisée, articles créés.
+9. _(v1.1)_ Recette partagée puis importée dans un profil vierge → ingrédients reconnus, quantité fixe conservée, recette créée et ouverte.
 
 Échecs intermittents recherchés le 14 novembre 2026 (suite rejouée 12 fois : 2 échecs sur 216 passages, tous sur iPhone) :
 
 - scénario 3 : « C'est parti » touché pendant que la deuxième ligne s'ajoutait au-dessus et le décalait. Le test attend désormais que les lignes soient là ;
 - scénario 5 : WebKit (sous Windows) cesse un moment de redessiner la page ; Playwright attend alors en vain qu'un bouton soit immobile. Rien dans l'app : la page répond toujours et aucune animation n'est en cours. Les scénarios iPhone sont donc rejoués une fois en cas d'échec (`retries: 1` dans `playwright.config.ts`) : un scénario qui passe au second essai est signalé « flaky » dans le rapport sans bloquer `npm run e2e` ni `npm run release` ; s'il échoue deux fois, c'est un vrai problème. Un scénario souvent « flaky » mérite d'être examiné.
+
+Le 17 novembre 2026, avec le scénario 9 (deux téléphones neufs de plus), la suite lancée à quatre scénarios à la fois (la moitié des 8 cœurs) faisait dépasser leur délai à trois scénarios iPhone, deux fois sur deux (un déjà sur le commit précédent) : ces pauses de WebKit se multiplient avec la charge. `workers: 3` dans `playwright.config.ts` : suite verte, et plus rapide (2,4 min au lieu de 3,3).
 
 Repris le 15 novembre 2026 : le scénario 5 échouait au premier essai presque à chaque fois sur iPhone (4 sur 4). Deux causes : un toucher perdu parce que la ligne visée bouge juste après que Playwright l'a jugée immobile (une ligne qui change de rayon, un rayon qui s'ouvre), et des pauses de WebKit allant jusqu'à une dizaine de secondes (une simple saisie). Les gestes du mode courses qu'un second toucher ne défait pas (cocher, « Rayon suivant », « Terminer », « Retour à la liste ») sont donc rejoués tant que leur effet n'est pas visible (`tapUntil` dans `tests/e2e/app.ts`), et un scénario iPhone a 60 s au lieu de 30. Le scénario 5 rejoué 6 fois passe alors du premier coup.
 

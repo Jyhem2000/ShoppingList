@@ -6,19 +6,24 @@ import { ShoppingDatabase } from "@/db/database";
 import { addListItem } from "@/db/items";
 import { activeItems } from "@/db/lists";
 import { seedDatabase } from "@/db/seed";
-import { applyImport } from "@/db/share";
+import { createRecipe } from "@/db/recipes";
+import { applyImport, applyRecipeImport } from "@/db/share";
 import type { Article, Category, ID, ListItem, Unit } from "@/domain/model";
 import {
   buildImportCatalog,
   buildSharedList,
+  buildSharedRecipe,
   canKeep,
   defaultChoice,
-  findSharedList,
+  findShared,
+  receivedRecipe,
   resolveImport,
   shareLink,
   suggestCandidates,
   textImportLines,
   type ImportContext,
+  type Shared,
+  type ShareSource,
   type SharedList,
 } from "@/domain/share";
 import { slugify } from "@/domain/slug";
@@ -57,18 +62,24 @@ const byKey = async (db: ShoppingDatabase, key: string) => {
   return article;
 };
 
+async function shareSource(db: ShoppingDatabase): Promise<ShareSource> {
+  const map = <T extends { id: ID }>(rows: T[]) =>
+    new Map(rows.map((row) => [row.id, row]));
+  return {
+    articleById: map<Article>(await db.articles.toArray()),
+    categoryById: map<Category>(await db.categories.toArray()),
+    unitById: map<Unit>(await db.units.toArray()),
+  };
+}
+
 /** La liste partagée par `db` : ses lignes à acheter. */
 async function share(db: ShoppingDatabase): Promise<SharedList> {
   const list = await db.lists.orderBy("position").first();
   if (!list) throw new Error("liste");
-  const map = <T extends { id: ID }>(rows: T[]) =>
-    new Map(rows.map((row) => [row.id, row]));
   return buildSharedList(
     list.name,
     await activeItems(db, list.id),
-    map<Article>(await db.articles.toArray()),
-    map<Category>(await db.categories.toArray()),
-    map<Unit>(await db.units.toArray()),
+    await shareSource(db),
   );
 }
 
@@ -102,17 +113,18 @@ describe("lien de partage (docs/07 § 7.9)", () => {
       { k: "tomates", q: 1, u: "kg", t: ["grappe"], o: "bien mûres" },
     ]);
     const message = `Liste 1\n• Tomates 1 kg\n\nPour l'ajouter : ${shareLink("https://exemple.fr/", shared)}`;
-    expect(findSharedList(message)).toEqual({ ...shared, c: [], u: [] });
+    expect(findShared(message)).toEqual({ ...shared, c: [], u: [] });
   });
 
   it("un lien abîmé ou absent ne donne rien", () => {
-    expect(findSharedList("Des tomates et du pain")).toBeUndefined();
-    expect(findSharedList("https://exemple.fr/#/import?d=abc")).toBeUndefined();
+    expect(findShared("Des tomates et du pain")).toBeUndefined();
+    expect(findShared("https://exemple.fr/#/import?d=abc")).toBeUndefined();
   });
 
   it("un lien réencodé par une messagerie se relit ; un nom vide est écarté", () => {
     const shared: SharedList = {
       v: 1,
+      type: "list",
       l: "fr",
       n: "Courses",
       i: [
@@ -129,9 +141,7 @@ describe("lien de partage (docs/07 § 7.9)", () => {
         (char) => `%${char.charCodeAt(0).toString(16).toUpperCase()}`,
       );
     expect(reencoded).not.toBe(link);
-    expect(findSharedList(reencoded)?.i).toEqual([
-      { k: "tomates", q: 1, u: "kg" },
-    ]);
+    expect(findShared(reencoded)?.i).toEqual([{ k: "tomates", q: 1, u: "kg" }]);
   });
 
   it("un article créé à la main voyage avec sa description, sa catégorie et son unité", async () => {
@@ -234,6 +244,7 @@ describe("resolveImport (docs/02 § 9)", () => {
     const coca = await byKey(recipient, "coca-cola");
     const shared: SharedList = {
       v: 1,
+      type: "list",
       l: "fr",
       n: "Courses",
       i: [
@@ -259,6 +270,7 @@ describe("resolveImport (docs/02 § 9)", () => {
     });
     const shared: SharedList = {
       v: 1,
+      type: "list",
       l: "en",
       n: "Groceries",
       i: [
@@ -280,6 +292,7 @@ describe("resolveImport (docs/02 § 9)", () => {
     await recipient.articles.delete(tomatoes.id);
     const shared: SharedList = {
       v: 1,
+      type: "list",
       l: "fr",
       n: "Courses",
       i: [{ k: "tomates", q: 1, u: "kg" }],
@@ -308,6 +321,7 @@ describe("resolveImport (docs/02 § 9)", () => {
     const recipient = await seeded();
     const shared: SharedList = {
       v: 1,
+      type: "list",
       l: "fr",
       n: "Courses",
       i: [
@@ -340,6 +354,7 @@ describe("resolveImport (docs/02 § 9)", () => {
     const tomatoes = await byKey(recipient, "tomates");
     const shared: SharedList = {
       v: 1,
+      type: "list",
       l: "fr",
       n: "Courses",
       i: [{ n: "Tomatess", a: { c: "legumes", u: "kg" }, q: 1, u: "kg" }],
@@ -372,6 +387,7 @@ describe("import et associations", () => {
     const butter = await byKey(recipient, "beurre-de-cacahuete");
     const shared: SharedList = {
       v: 1,
+      type: "list",
       l: "fr",
       n: "Courses",
       i: [
@@ -423,6 +439,7 @@ describe("import et associations", () => {
     const listId = (await recipient.lists.toArray())[0]?.id ?? "";
     const shared: SharedList = {
       v: 1,
+      type: "list",
       l: "fr",
       n: "Courses",
       i: [
@@ -517,5 +534,135 @@ describe("coller une liste en texte (docs/03 A8)", () => {
     expect(lines[0]?.amount).toMatchObject({
       entry: { quantity: 2.5, unitSlug: "kg" },
     });
+  });
+});
+
+describe("partage d'une recette (docs/03 E3)", () => {
+  it("voyage avec son rendement, son icône, ses étapes et ses ingrédients ; le destinataire la crée", async () => {
+    const sender = await seeded();
+    const tomates = await byKey(sender, "tomates");
+    const now = Date.now();
+    const sauce: Article = {
+      ...tomates,
+      id: "sauce",
+      createdAt: now,
+      updatedAt: now,
+      slug: "sauce-secrete",
+      name: "Sauce secrète",
+      aliases: [],
+      types: [],
+      catalogKey: undefined,
+    };
+    await sender.articles.add(sauce);
+    const steps = "## Préparer\n- **Couper** les tomates";
+    const id = await createRecipe(sender, {
+      name: "Raclette",
+      icon: "fromage",
+      yield: { quantity: 4, unit: "personnes" },
+      ingredients: [
+        {
+          articleId: tomates.id,
+          quantity: 0.5,
+          unitId: tomates.defaultUnitId,
+          acceptedTypes: ["grappe"],
+          optional: false,
+          fixed: true,
+        },
+        {
+          articleId: sauce.id,
+          quantity: 1,
+          unitId: tomates.defaultUnitId,
+          acceptedTypes: [],
+          optional: true,
+          fixed: false,
+        },
+      ],
+      steps,
+    });
+    const recipe = await sender.recipes.get(id);
+    if (!recipe) throw new Error("recette");
+    const shared = buildSharedRecipe(recipe, await shareSource(sender));
+    expect(shared).toMatchObject({
+      type: "recipe",
+      n: "Raclette",
+      y: { q: 4, u: "personnes" },
+      ic: "fromage",
+      s: steps,
+    });
+    expect(shared.i[0]).toEqual({
+      k: "tomates",
+      q: 0.5,
+      u: "kg",
+      t: ["grappe"],
+      fx: 1,
+    });
+    expect(shared.i[1]).toMatchObject({ n: "Sauce secrète", op: 1 });
+    const found = findShared(
+      `Raclette\n${shareLink("https://exemple.fr/", shared)}`,
+    );
+    expect(found).toEqual({ ...shared, c: [], u: [] });
+    if (found?.type !== "recipe") throw new Error("recette");
+
+    // Le destinataire a déjà une « Raclette » : la reçue ne la remplace pas.
+    const recipient = await seeded();
+    await createRecipe(recipient, {
+      name: "Raclette",
+      yield: { quantity: 2, unit: "personnes" },
+      ingredients: [],
+    });
+    const lines = resolveImport(found, await context(recipient));
+    expect(lines.map((line) => line.ingredient)).toEqual([
+      { optional: false, fixed: true },
+      { optional: true, fixed: false },
+    ]);
+    // Un ingrédient inconnu est gardé dans le catalogue : la recette resservira.
+    const sauceLine = lines[1];
+    if (!sauceLine) throw new Error("ingrédient");
+    expect(defaultChoice(sauceLine)).toEqual({
+      kind: "create",
+      name: "Sauce secrète",
+      oneOff: false,
+    });
+    const result = await applyRecipeImport(
+      recipient,
+      receivedRecipe(found),
+      lines,
+      [],
+    );
+    expect(result).toMatchObject({ name: "Raclette (2)", count: 2 });
+    const created = await recipient.recipes.get(result.recipeId);
+    expect(created).toMatchObject({
+      name: "Raclette (2)",
+      icon: "fromage",
+      yield: { quantity: 4, unit: "personnes" },
+      steps,
+    });
+    const [first, second] = created?.ingredients ?? [];
+    expect(first).toMatchObject({
+      articleId: (await byKey(recipient, "tomates")).id,
+      quantity: 0.5,
+      acceptedTypes: ["grappe"],
+      optional: false,
+      fixed: true,
+    });
+    const article = await recipient.articles.get(second?.articleId ?? "");
+    expect(article?.name).toBe("Sauce secrète");
+    expect(article?.categoryId).toBe(
+      (await byKey(recipient, "tomates")).categoryId,
+    );
+    expect(second).toMatchObject({ optional: true, fixed: false });
+  });
+
+  it("un lien sans type, ou une recette sans rendement, ne donne rien", () => {
+    const link = (value: unknown) =>
+      shareLink("https://exemple.fr/", value as Shared);
+    const list = { v: 1, l: "fr", n: "Courses", i: [] };
+    expect(findShared(link(list))).toBeUndefined();
+    expect(findShared(link({ ...list, type: "menu" }))).toBeUndefined();
+    expect(findShared(link({ ...list, type: "recipe" }))).toBeUndefined();
+    expect(
+      findShared(link({ ...list, type: "recipe", y: { q: 0, u: "parts" } })),
+    ).toBeUndefined();
+    expect(findShared(link({ ...list, type: "list" }))?.type).toBe("list");
   });
 });

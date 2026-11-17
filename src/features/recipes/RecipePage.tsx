@@ -1,4 +1,4 @@
-import { Copy, ListPlus, Pencil, Trash2, X } from "lucide-react";
+import { Copy, ListPlus, Pencil, Share, Trash2, X } from "lucide-react";
 import { useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router";
 import { recipePath, routes } from "@/app/routes";
@@ -24,6 +24,7 @@ import { AddArticleBar } from "@/features/list/AddArticleBar";
 import { CreateArticleSheet } from "@/features/list/CreateArticleSheet";
 import { lineDetails, lineQuantity } from "@/features/list/format";
 import { reportSaveError } from "@/features/list/useAddToList";
+import { recipeMessage, sendMessage } from "@/features/share/message";
 import { type ListData, useListData } from "@/features/list/useListData";
 import { IconPickerSheet } from "@/features/manage/IconPickerSheet";
 import { NameField } from "@/features/manage/NameField";
@@ -61,7 +62,7 @@ type Panel =
  * Fiche recette (docs/04 § 2.6) : en lecture, le rendement fixe, les ingrédients, les
  * étapes, puis « Ajouter à une liste » en bas ; « Modifier » ouvre l'édition sur la même fiche
  * (nom, rendement, icône, ingrédients par la barre d'ajout, étapes). Dupliquer (sous un
- * nom demandé tout de suite) et supprimer en bas.
+ * nom demandé tout de suite), partager (docs/03 E3) et supprimer en bas.
  */
 export function RecipePage() {
   const { recipeId } = useParams();
@@ -245,6 +246,18 @@ function RecipeView({ recipe, data }: { recipe: Recipe; data: ListData }) {
             {t.addToList}
           </Button>
         )}
+        <Button
+          variant="outline"
+          onClick={() => {
+            void sendMessage(
+              recipeMessage(recipe, data),
+              fr.share.recipeCopied,
+            );
+          }}
+        >
+          <Share />
+          {fr.share.sendRecipe}
+        </Button>
         <Button
           variant="outline"
           onClick={() => {

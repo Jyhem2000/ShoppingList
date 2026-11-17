@@ -17,6 +17,7 @@ import type {
   Dimension,
   ID,
   ListItem,
+  Recipe,
   Unit,
   UnitGroup,
 } from "./model";
@@ -24,33 +25,55 @@ import type { Amount } from "./quantity";
 import { searchKey, slugify } from "./slug";
 
 /**
- * Partage d'une liste (docs/02 § 9, docs/03 F1-F2 et A8, docs/07 § 7.9), sans serveur :
- * la liste voyage dans un lien, compressée ; le destinataire la relit et retrouve
- * chaque article chez lui (clé catalogue, libellés et alias, catalogue comme
- * dictionnaire, recherche), sinon on l'aide à choisir ou à créer.
+ * Partage d'une liste ou d'une recette (docs/02 § 9, docs/03 E3, F1-F2 et A8, docs/07
+ * § 7.9), sans serveur : elle voyage dans un lien, compressée ; le destinataire la
+ * relit et retrouve chaque article chez lui (clé catalogue, libellés et alias,
+ * catalogue comme dictionnaire, recherche), sinon on l'aide à choisir ou à créer.
+ * Les deux partages ont le même format : des lignes (celles de la liste, ou les
+ * ingrédients), et ce qui est propre à une recette (rendement, icône, étapes).
  */
 
 // --- Format du lien --------------------------------------------------------------
 
+/** Ce qu'un lien partage. */
+export type ShareType = "list" | "recipe";
+
 /**
- * Liste partagée, version 1. Noms de champs courts : ils se répètent à chaque ligne et
+ * Partage, version 1. Noms de champs courts : ils se répètent à chaque ligne et
  * allongent le lien. Une catégorie ou une unité se désigne par sa clé catalogue, ou
  * par son slug si elle a été créée à la main (elle est alors décrite dans `c` ou `u`).
  */
-export interface SharedList {
+interface SharedBase {
   /** Version du format. */
   v: 1;
+  type: ShareType;
   /** Langue de l'expéditeur. */
   l: string;
-  /** Nom de la liste. */
+  /** Nom de la liste ou de la recette. */
   n: string;
-  /** Lignes. */
+  /** Lignes de la liste, ou ingrédients de la recette. */
   i: SharedItem[];
   /** Catégories créées à la main, citées par les articles. */
   c?: SharedCategory[];
   /** Unités créées à la main, citées par les lignes et les articles. */
   u?: SharedUnit[];
 }
+
+export interface SharedList extends SharedBase {
+  type: "list";
+}
+
+export interface SharedRecipe extends SharedBase {
+  type: "recipe";
+  /** Rendement : « 4 personnes », « 1 cake ». */
+  y: { q: number; u: string };
+  /** Icône de la recette. */
+  ic?: string;
+  /** Étapes (Markdown, docs/03 E1). */
+  s?: string;
+}
+
+export type Shared = SharedList | SharedRecipe;
 
 export interface SharedItem {
   /** Clé catalogue de l'article : le destinataire a le même catalogue, elle suffit. */
@@ -65,8 +88,12 @@ export interface SharedItem {
   u: string;
   /** Types acceptés. */
   t?: string[];
-  /** Note. */
+  /** Note (ligne de liste). */
   o?: string;
+  /** Ingrédient facultatif. */
+  op?: 1;
+  /** Ingrédient à quantité fixe. */
+  fx?: 1;
 }
 
 export interface SharedArticle {
@@ -113,18 +140,59 @@ export function sharedItems<I extends Pick<ListItem, "status">>(
   return items.filter((item) => item.status !== "checked");
 }
 
+/** Articles, catégories et unités de l'expéditeur, par identifiant. */
+export interface ShareSource {
+  articleById: ReadonlyMap<ID, Article>;
+  categoryById: ReadonlyMap<ID, Category>;
+  unitById: ReadonlyMap<ID, Unit>;
+}
+
+/** Ligne de liste ou ingrédient, tel qu'il part. */
+type LineSource = Pick<
+  ListItem,
+  "articleId" | "quantity" | "unitId" | "acceptedTypes"
+> & { note?: string; optional?: boolean; fixed?: boolean };
+
 /** La liste à envoyer (lignes déjà filtrées par `sharedItems`). */
 export function buildSharedList(
   name: string,
-  items: readonly Pick<
-    ListItem,
-    "articleId" | "quantity" | "unitId" | "acceptedTypes" | "note"
-  >[],
-  articleById: ReadonlyMap<ID, Article>,
-  categoryById: ReadonlyMap<ID, Category>,
-  unitById: ReadonlyMap<ID, Unit>,
+  items: readonly LineSource[],
+  source: ShareSource,
   language = "fr",
 ): SharedList {
+  return {
+    v: SHARE_VERSION,
+    type: "list",
+    l: language,
+    n: name,
+    ...sharedLines(items, source),
+  };
+}
+
+/** La recette à envoyer : ses ingrédients, son rendement, son icône et ses étapes. */
+export function buildSharedRecipe(
+  recipe: Pick<Recipe, "name" | "icon" | "yield" | "ingredients" | "steps">,
+  source: ShareSource,
+  language = "fr",
+): SharedRecipe {
+  const steps = recipe.steps?.trim();
+  return {
+    v: SHARE_VERSION,
+    type: "recipe",
+    l: language,
+    n: recipe.name,
+    y: { q: recipe.yield.quantity, u: recipe.yield.unit },
+    ...(recipe.icon && { ic: recipe.icon }),
+    ...(steps && { s: steps }),
+    ...sharedLines(recipe.ingredients, source),
+  };
+}
+
+/** Les lignes, et les catégories et unités créées à la main qu'elles citent. */
+function sharedLines(
+  items: readonly LineSource[],
+  { articleById, categoryById, unitById }: ShareSource,
+): Pick<SharedBase, "i" | "c" | "u"> {
   const categories = new Map<string, SharedCategory>();
   const units = new Map<string, SharedUnit>();
   const unitRef = (id: ID): string | undefined => {
@@ -179,12 +247,11 @@ export function buildSharedList(
     if (item.acceptedTypes.length) line.t = item.acceptedTypes;
     const note = item.note?.trim();
     if (note) line.o = note;
+    if (item.optional) line.op = 1;
+    if (item.fixed) line.fx = 1;
     lines.push(line);
   }
   return {
-    v: SHARE_VERSION,
-    l: language,
-    n: name,
     i: lines,
     ...(categories.size && { c: [...categories.values()] }),
     ...(units.size && { u: [...units.values()] }),
@@ -196,22 +263,22 @@ const IMPORT_PATH = "#/import?d=";
 const LINK = /#\/import\?d=([A-Za-z0-9+\-$%]+)/;
 
 /** Lien d'import : `base` est l'adresse de l'app, sans `#`. */
-export function shareLink(base: string, shared: SharedList): string {
+export function shareLink(base: string, shared: Shared): string {
   return (
     base + IMPORT_PATH + compressToEncodedURIComponent(JSON.stringify(shared))
   );
 }
 
 /**
- * Liste contenue dans un texte (le message reçu, ou l'adresse de la page) : le premier
- * lien d'import qu'il contient. `undefined` : pas de lien, ou lien abîmé.
+ * Liste ou recette contenue dans un texte (le message reçu, ou l'adresse de la page) :
+ * le premier lien d'import qu'il contient. `undefined` : pas de lien, ou lien abîmé.
  */
-export function findSharedList(text: string): SharedList | undefined {
+export function findShared(text: string): Shared | undefined {
   const encoded = LINK.exec(text)?.[1];
   if (!encoded) return undefined;
   try {
     const json = decompressFromEncodedURIComponent(decodeURIComponent(encoded));
-    return json ? validSharedList(JSON.parse(json)) : undefined;
+    return json ? validShared(JSON.parse(json)) : undefined;
   } catch {
     return undefined;
   }
@@ -228,11 +295,33 @@ const isNumber = (value: unknown): value is number =>
 const isLabel = (value: unknown): value is string =>
   isString(value) && /[\p{L}\p{N}]/u.test(value);
 
-/** Relit une liste reçue : un lien abîmé ou trafiqué ne doit rien casser. */
-function validSharedList(value: unknown): SharedList | undefined {
+const isFlag = (value: unknown) => value === 1;
+const isObject = (value: unknown): value is object =>
+  typeof value === "object" && value !== null;
+
+/** Relit une liste ou une recette reçue : un lien abîmé ou trafiqué ne doit rien casser. */
+function validShared(value: unknown): Shared | undefined {
   if (typeof value !== "object" || value === null) return undefined;
-  const list = value as Partial<SharedList>;
-  if (list.v !== SHARE_VERSION || !isString(list.n) || !Array.isArray(list.i))
+  const list = value as Partial<Omit<SharedRecipe, "type">> & {
+    type?: unknown;
+  };
+  const type: ShareType | undefined =
+    list.type === "list" || list.type === "recipe" ? list.type : undefined;
+  if (
+    list.v !== SHARE_VERSION ||
+    !type ||
+    !isString(list.n) ||
+    !Array.isArray(list.i)
+  )
+    return undefined;
+  const yields = list.y;
+  if (
+    type === "recipe" &&
+    (!isObject(yields) ||
+      !isNumber(yields.q) ||
+      yields.q <= 0 ||
+      !isLabel(yields.u))
+  )
     return undefined;
   const items = list.i.filter((item: Partial<SharedItem> | null) => {
     if (typeof item !== "object" || item === null) return false;
@@ -246,6 +335,8 @@ function validSharedList(value: unknown): SharedList | undefined {
       (item.k !== undefined || item.n !== undefined) &&
       optional(item.t, isStrings) &&
       optional(item.o, isString) &&
+      optional(item.op, isFlag) &&
+      optional(item.fx, isFlag) &&
       (a === undefined ||
         (typeof a === "object" &&
           isString(a.c) &&
@@ -275,13 +366,33 @@ function validSharedList(value: unknown): SharedList | undefined {
       u.st > 0 &&
       optional(u.f, isNumber),
   );
-  return {
+  const common = {
     v: SHARE_VERSION,
     l: isString(list.l) ? list.l : "fr",
     n: list.n.trim(),
     i: items,
     c: categories,
     u: units,
+  } as const;
+  if (type === "list") return { ...common, type };
+  return {
+    ...common,
+    type: "recipe",
+    y: { q: yields?.q ?? 1, u: yields?.u.trim() ?? "" },
+    ...(isString(list.ic) && { ic: list.ic }),
+    ...(isString(list.s) && list.s.trim() && { s: list.s }),
+  };
+}
+
+/** La recette reçue, hors ingrédients (ils passent par l'aperçu). */
+export function receivedRecipe(
+  shared: SharedRecipe,
+): Pick<Recipe, "name" | "icon" | "yield" | "steps"> {
+  return {
+    name: shared.n,
+    icon: shared.ic,
+    yield: { quantity: shared.y.q, unit: shared.y.u },
+    steps: shared.s,
   };
 }
 
@@ -489,6 +600,8 @@ export interface ImportLine {
   amount: { quantity: number; unit: UnitDesc } | { entry: ParsedEntry };
   acceptedTypes: string[];
   note?: string;
+  /** Ingrédient d'une recette reçue (absent pour une ligne de liste). */
+  ingredient?: { optional: boolean; fixed: boolean };
   match: ImportMatch;
   /**
    * L'article ou l'unité vient d'un catalogue plus récent que celui du destinataire :
@@ -518,12 +631,12 @@ export function capitalize(text: string): string {
 }
 
 /**
- * Lignes d'une liste reçue, chacune avec sa correspondance chez le destinataire
- * (docs/02 § 9 : clé catalogue, slug et alias croisés, dictionnaire du catalogue,
- * recherche floue, sinon candidats).
+ * Lignes d'une liste reçue, ou ingrédients d'une recette, chacun avec sa
+ * correspondance chez le destinataire (docs/02 § 9 : clé catalogue, slug et alias
+ * croisés, dictionnaire du catalogue, recherche floue, sinon candidats).
  */
 export function resolveImport(
-  shared: SharedList,
+  shared: Shared,
   context: ImportContext,
 ): ImportLine[] {
   const { catalog } = context;
@@ -577,6 +690,9 @@ export function resolveImport(
       amount: { quantity: item.q, unit: unitDesc(item.u) },
       acceptedTypes: mergeTypes(item.t ?? [], types),
       note: item.o,
+      ...(shared.type === "recipe" && {
+        ingredient: { optional: item.op === 1, fixed: item.fx === 1 },
+      }),
       match,
       ...(((item.k !== undefined && !fromCatalog && !item.a) ||
         !knownUnit(item.u)) && { outdated: true }),
@@ -836,10 +952,11 @@ export function defaultChoice(line: ImportLine): ImportChoice {
  * Créé « juste cette fois » par défaut (docs/02 § 9) : un article créé à la main ou
  * tapé, pour qu'une longue liste reçue n'encombre pas le catalogue. Un article décrit
  * par le catalogue (supprimé chez le destinataire, ou retrouvé par son dictionnaire)
- * reprend sa vraie catégorie.
+ * reprend sa vraie catégorie. L'ingrédient d'une recette est gardé dans le catalogue :
+ * la recette resservira, il ne doit pas revenir dans « À placer » à chaque courses.
  */
 export function defaultOneOff(line: ImportLine): boolean {
-  return line.received.catalogKey === undefined;
+  return !line.ingredient && line.received.catalogKey === undefined;
 }
 
 /**

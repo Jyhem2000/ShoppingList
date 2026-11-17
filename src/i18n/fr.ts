@@ -240,31 +240,50 @@ export const fr = {
   },
   share: {
     send: "Partager la liste",
+    sendRecipe: "Partager la recette",
     paste: "Coller une liste",
+    pasteRecipe: "Coller une recette",
     messageTitle: (name: string, count: number) =>
       `${name} (${count > 1 ? `${count} articles` : "1 article"})`,
     messageLink:
       "Pour l'ajouter dans l'app ShoppingList : copie ce message (ou juste le lien), puis dans l'app, ⋯ → Coller une liste. Sur Android, toucher le lien suffit souvent :",
+    recipeMessageTitle: (name: string, amount: string) =>
+      `${name} (pour ${amount})`,
+    recipeMessageLink:
+      "Pour l'ajouter dans l'app ShoppingList : copie ce message (ou juste le lien), puis dans l'app, Recettes → Coller une recette. Sur Android, toucher le lien suffit souvent :",
     copied: "Liste copiée : colle-la dans ton message.",
+    recipeCopied: "Recette copiée : colle-la dans ton message.",
     shareError: "Partage impossible sur ce téléphone.",
     pasteTitle: "Coller une liste",
     pasteText:
       "Colle ici le message reçu, ou n'importe quelle liste : une ligne par article.",
     pastePlaceholder: "2 baguettes\ndu beurre\n6 œufs",
+    pasteRecipeText:
+      "Colle ici le message reçu : une recette partagée depuis l'app ShoppingList.",
+    pasteRecipePlaceholder: "Le message reçu, avec son lien",
     pasteContinue: "Continuer",
     titleShared: "Liste reçue",
     titlePasted: "Liste collée",
+    titleRecipe: "Recette reçue",
     pastedListName: "Liste collée",
-    loading: "Lecture de la liste…",
-    brokenTitle: "Liste illisible",
+    loading: "Lecture…",
+    brokenTitle: "Lien illisible",
     broken:
-      "Ce lien est incomplet ou abîmé. Demande à la personne de te renvoyer la liste.",
+      "Ce lien est incomplet ou abîmé. Demande à la personne de te le renvoyer.",
+    notRecipeTitle: "Pas de recette",
+    notRecipe:
+      "Ce texte n'est pas une recette partagée par l'app ShoppingList. Demande à la personne de te l'envoyer depuis l'app : fiche de la recette → Partager la recette.",
+    isRecipeTitle: "C'est une recette",
+    isRecipe: `Ce message contient une recette : colle-le depuis l'onglet Recettes → «\u00a0Coller une recette\u00a0».`,
+    isListTitle: "C'est une liste",
+    isList: `Ce message contient une liste : colle-le depuis ta liste, ⋯ → «\u00a0Coller une liste\u00a0».`,
     empty: "Rien à ajouter dans ce texte.",
     catalogError:
       "Le catalogue de l'app n'a pas pu être chargé. Reviens à ta liste, puis réessaie.",
     outdated:
       "Certains articles viennent d'une version plus récente de l'app. Ferme-la puis rouvre-la pour la mettre à jour.",
     backToList: "Revenir à ma liste",
+    backToRecipes: "Revenir aux recettes",
     summary: (known: number, probable: number, unknown: number) =>
       [
         known && (known > 1 ? `${known} reconnus` : "1 reconnu"),
@@ -287,6 +306,13 @@ export const fr = {
     open: (name: string) => `Choisir l'article pour ${name}`,
     apply: (count: number) =>
       count > 1 ? `Ajouter ${count} lignes` : "Ajouter 1 ligne",
+    applyRecipe: (count: number) =>
+      count > 1
+        ? `Ajouter la recette (${count} ingrédients)`
+        : count === 1
+          ? "Ajouter la recette (1 ingrédient)"
+          : "Ajouter la recette",
+    recipeDone: (name: string) => `Recette «\u00a0${name}\u00a0» ajoutée`,
     done: (count: number, list: string) =>
       `${count > 1 ? `${count} lignes ajoutées` : "1 ligne ajoutée"} à «\u00a0${list}\u00a0»`,
     choiceTitle: (label: string) => `«\u00a0${label}\u00a0»`,
@@ -309,6 +335,9 @@ export const fr = {
       "Lien copié. Ouvre l'app, puis ⋯ → «\u00a0Coller une liste\u00a0».",
     copyError: "Copie impossible : garde le message et colle-le depuis l'app.",
     importHere: "Ajouter la liste ici quand même",
+    browserRecipeText: `Sur iPhone, l'app installée ne voit pas ce que reçoit le navigateur. Copie le lien, ouvre ShoppingList depuis ton écran d'accueil, puis Recettes → «\u00a0Coller une recette\u00a0».`,
+    linkCopiedRecipe: `Lien copié. Ouvre l'app, puis Recettes → «\u00a0Coller une recette\u00a0».`,
+    importRecipeHere: "Ajouter la recette ici quand même",
   },
   shopping: {
     /** Champ d'ajout, à côté de « Terminer » : la place manque pour le libellé de la liste. */

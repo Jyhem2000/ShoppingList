@@ -12,6 +12,10 @@ export default defineConfig({
   // Résultats rangés avec les tests (ignorés par git).
   outputDir: "tests/e2e/.results",
   fullyParallel: true,
+  // Trois scénarios à la fois : à quatre (la moitié des 8 cœurs), WebKit sous Windows
+  // cesse plus souvent de redessiner la page et les scénarios iPhone dépassent leur
+  // délai ; à trois, la suite est verte et plus rapide (docs/08 § 3, 17 novembre 2026).
+  workers: 3,
   // Le premier lancement copie le catalogue dans IndexedDB : environ 11 s avec le
   // WebKit de Playwright sous Windows. `enterApp` (tests/e2e/app.ts) l'attend avec
   // son propre délai ; ensuite, 10 s suffisent largement.

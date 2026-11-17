@@ -13,37 +13,17 @@ import { db } from "@/db/database";
 import { deleteList, duplicateList, updateList } from "@/db/lists";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
-import {
-  ConfirmActions,
-  Field,
-  MenuItem,
-  TextArea,
-  TextInput,
-} from "@/ui/form";
+import { ConfirmActions, Field, MenuItem, TextInput } from "@/ui/form";
 import { Sheet } from "@/ui/Sheet";
 import type { ListData } from "./useListData";
 import { feedback } from "@/feedback";
-import { canShare, shareMessage } from "@/features/share/message";
-import { copyText, pasteText } from "@/platform/clipboard";
-import { shareText } from "@/platform/share";
-import { showToast } from "@/ui/toast";
+import { canShare, listMessage, sendMessage } from "@/features/share/message";
+import { PasteForm } from "@/features/share/PasteForm";
+import { pasteText } from "@/platform/clipboard";
 
 const t = fr.list.menuSheet;
 
 type View = "menu" | "rename" | "paste" | "clear" | "delete";
-
-/**
- * Envoie la liste (docs/03 F1) par la feuille de partage du téléphone ; sans feuille de
- * partage, le message est copié, à coller dans une messagerie.
- */
-async function sendList(data: ListData): Promise<void> {
-  const message = shareMessage(data);
-  if ((await shareText(message)) !== "unsupported") return;
-  const copied = await copyText(Promise.resolve(message));
-  showToast(copied ? fr.share.copied : fr.share.shareError, {
-    tone: copied ? "success" : "error",
-  });
-}
 
 /**
  * Menu `⋯` de la liste (docs/04 § 2.1, docs/03 B2, B6, F1, F2) : seulement des actions sur
@@ -68,7 +48,6 @@ export function ListMenuSheet({
 }) {
   const [view, setView] = useState<View>("menu");
   const [name, setName] = useState(data.list.name);
-  const [pasted, setPasted] = useState("");
   const checked = data.items.filter((item) => item.status === "checked");
 
   const title =
@@ -131,7 +110,7 @@ export function ListMenuSheet({
             icon={<Share />}
             disabled={!canShare(data)}
             onClick={() => {
-              void sendList(data);
+              void sendMessage(listMessage(data), fr.share.copied);
               onClose();
             }}
           >
@@ -205,27 +184,11 @@ export function ListMenuSheet({
       )}
 
       {view === "paste" && (
-        <form
-          className="flex flex-col gap-4"
-          onSubmit={(event) => {
-            event.preventDefault();
-            if (pasted.trim()) onPaste(pasted);
-          }}
-        >
-          <TextArea
-            value={pasted}
-            autoFocus
-            aria-label={fr.share.pasteTitle}
-            placeholder={fr.share.pastePlaceholder}
-            className="font-sans"
-            onChange={(event) => {
-              setPasted(event.target.value);
-            }}
-          />
-          <Button type="submit" disabled={!pasted.trim()}>
-            {fr.share.pasteContinue}
-          </Button>
-        </form>
+        <PasteForm
+          label={fr.share.pasteTitle}
+          placeholder={fr.share.pastePlaceholder}
+          onPaste={onPaste}
+        />
       )}
 
       {(view === "clear" || view === "delete") && (
