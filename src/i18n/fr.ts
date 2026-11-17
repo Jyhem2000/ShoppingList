@@ -278,6 +278,8 @@ export const fr = {
     newList: (name: string) => `Une nouvelle liste «\u00a0${name}\u00a0»`,
     sectionCheck: "À vérifier",
     sectionKnown: "Reconnus",
+    checkAll: "Tout cocher",
+    uncheckAll: "Tout décocher",
     toConfirm: (label: string) => `reçu : «\u00a0${label}\u00a0», à confirmer`,
     received: (label: string) => `reçu : «\u00a0${label}\u00a0»`,
     willCreate: (category: string) => `nouvel article, ${category}`,
@@ -296,6 +298,8 @@ export const fr = {
     createTitle: "Ou créer un nouvel article",
     createName: "Nom",
     create: "Créer cet article",
+    inCategory: (category: string) =>
+      `Gardé dans le catalogue, dans la catégorie ${category}.`,
     browserTitle: "Ouvre-la dans l'app",
     browserText:
       "Sur iPhone, l'app installée ne voit pas ce que reçoit le navigateur. Copie le lien, ouvre ShoppingList depuis ton écran d'accueil, puis ⋯ → «\u00a0Coller une liste\u00a0».",

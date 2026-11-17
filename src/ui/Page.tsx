@@ -119,16 +119,19 @@ export function EmptyHint({
 /** Groupe de lignes de réglages. */
 export function Section({
   title,
+  action,
   children,
   className,
 }: {
   title?: string;
+  /** Action sur toute la section, à droite du titre (« Tout décocher »). */
+  action?: ReactNode;
   children: ReactNode;
   className?: string;
 }) {
   return (
     <section className={cn("px-4", title ? "pt-6" : "pt-4", className)}>
-      {title && <SectionTitle>{title}</SectionTitle>}
+      {title && <SectionTitle action={action}>{title}</SectionTitle>}
       <div className="divide-y divide-border overflow-hidden rounded-2xl bg-surface">
         {children}
       </div>
@@ -163,7 +166,20 @@ export function PageTitle({
  * Sous-titre d'une partie d'écran (Mes données, Application, Favoris…) : le même partout.
  * Un trait or le signale, dans les deux thèmes (aplat `--secondary-fill` : l'or marque les repères, docs/05 § 2) ; le texte reste sobre.
  */
-export function SectionTitle({ children }: { children: ReactNode }) {
+export function SectionTitle({
+  children,
+  action,
+}: {
+  children: ReactNode;
+  action?: ReactNode;
+}) {
+  if (action)
+    return (
+      <div className="flex items-center justify-between gap-2">
+        <SectionTitle>{children}</SectionTitle>
+        <div className="-mt-2.5">{action}</div>
+      </div>
+    );
   return (
     <h2 className="flex items-center gap-2 px-1 pb-2.5 text-base font-bold tracking-tight text-text">
       <span

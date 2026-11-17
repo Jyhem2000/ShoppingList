@@ -10,7 +10,13 @@ import {
 import { fr } from "@/i18n/fr";
 import { ArticleIcon } from "@/ui/ArticleIcon";
 import { Button } from "@/ui/button";
-import { ChoiceMark, Field, FieldLabel, TextInput } from "@/ui/form";
+import {
+  ChipChoice,
+  ChoiceMark,
+  Field,
+  FieldLabel,
+  TextInput,
+} from "@/ui/form";
 import { EmptyHint } from "@/ui/Page";
 import { RowButton } from "@/ui/RowButton";
 import { SearchField } from "@/ui/SearchField";
@@ -51,6 +57,9 @@ export function ImportChoiceSheet({
   const [showAll, setShowAll] = useState(false);
   const [name, setName] = useState(
     choice.kind === "create" ? choice.name : received.name,
+  );
+  const [oneOff, setOneOff] = useState(
+    choice.kind !== "create" || choice.oneOff,
   );
   const articleById = useMemo(
     () => new Map(articles.map((article) => [article.id, article])),
@@ -154,7 +163,7 @@ export function ImportChoiceSheet({
             onChoose(
               same
                 ? { kind: "use", articleId: same.id }
-                : { kind: "create", name: typed },
+                : { kind: "create", name: typed, oneOff },
             );
           }}
         >
@@ -168,6 +177,18 @@ export function ImportChoiceSheet({
               }}
             />
           </Field>
+          <ChipChoice
+            selected={oneOff}
+            onToggle={() => {
+              setOneOff(!oneOff);
+            }}
+            label={fr.list.createSheet.oneOff}
+            hint={
+              oneOff
+                ? fr.list.createSheet.oneOffOn
+                : t.inCategory(category?.name ?? received.category.name)
+            }
+          />
           <Button
             type="submit"
             variant={choice.kind === "create" ? "default" : "outline"}

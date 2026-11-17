@@ -817,13 +817,17 @@ export function suggestCandidates(
 /** Ce que le destinataire décide pour une ligne. */
 export type ImportChoice =
   | { kind: "use"; articleId: ID }
-  | { kind: "create"; name: string }
+  /** `oneOff` : « Juste cette fois », rangé dans « Achats ponctuels » (docs/03 A4). */
+  | { kind: "create"; name: string; oneOff: boolean }
   | { kind: "skip" };
 
-/** Par défaut : l'article reconnu ou proposé, sinon « Créer » avec le libellé du catalogue. */
+/**
+ * Par défaut : l'article reconnu ou proposé, sinon « Créer » avec le libellé du
+ * catalogue, juste cette fois : une longue liste reçue n'encombre pas le catalogue.
+ */
 export function defaultChoice(line: ImportLine): ImportChoice {
   return line.match.kind === "unknown"
-    ? { kind: "create", name: line.received.name }
+    ? { kind: "create", name: line.received.name, oneOff: true }
     : { kind: "use", articleId: line.match.articleId };
 }
 

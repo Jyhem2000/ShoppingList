@@ -380,7 +380,7 @@ On ne peut pas demander « C'est le même que… ? » à quelqu'un qui ne sait p
 Deux issues, toutes deux en un tap :
 
 - **« C'est celui-là »** → association : le libellé reçu devient un alias de l'article choisi ; la prochaine fois, la correspondance est automatique ;
-- **« Créer »** (par défaut) → nouvel article, avec un **libellé modifiable** au moment de la création (on peut taper « Beurre de cacahuète » à la place de « Peanut butter ») ; le libellé reçu est gardé en alias.
+- **« Créer »** (par défaut) → nouvel article, avec un **libellé modifiable** au moment de la création (on peut taper « Beurre de cacahuète » à la place de « Peanut butter ») ; le libellé reçu est gardé en alias. Par défaut **juste cette fois** (catégorie « Achats ponctuels ») ; décoché, il est gardé dans le catalogue, dans la catégorie reçue. Un nom qui est déjà celui d'un article reprend cet article.
 
 Et si un doublon passe quand même, ce n'est pas grave : on **fusionne** les deux articles plus tard, et l'écran Articles signale les **doublons probables** (même icône et même catégorie, libellés proches ou alias en commun).
 

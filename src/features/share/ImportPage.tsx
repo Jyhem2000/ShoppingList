@@ -2,7 +2,12 @@ import { Link2Off, Smartphone } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { routes } from "@/app/routes";
-import { categoriesData, keywordRules, unitsData } from "@/data";
+import {
+  categoriesData,
+  keywordRules,
+  ONE_OFF_CATEGORY,
+  unitsData,
+} from "@/data";
 import { db } from "@/db/database";
 import {
   useArticles,
@@ -217,6 +222,9 @@ export function ImportPage() {
     );
 
   const { lines } = preview;
+  const oneOffCategory = categories.find(
+    (category) => category.catalogKey === ONE_OFF_CATEGORY,
+  );
   const choiceOf = (index: number, line: ImportLine) =>
     choices.get(index) ?? defaultChoice(line);
 
@@ -247,7 +255,10 @@ export function ImportPage() {
       };
     }
     const name = choice.kind === "create" ? choice.name : received.name;
-    const category = findCategory(received.category, categories);
+    const oneOff = choice.kind !== "create" || choice.oneOff;
+    const category =
+      (oneOff ? oneOffCategory : undefined) ??
+      findCategory(received.category, categories);
     const amount = importAmount(
       line,
       {
@@ -299,6 +310,7 @@ export function ImportPage() {
   const known = lines
     .map((line, index) => ({ line, index }))
     .filter(({ line }) => line.match.kind === "known");
+  const allChecked = toCheck.every(({ index }) => !excluded.has(index));
   const summary = importSummary(lines);
   const count = lines.length - excluded.size;
   const targetList = lists.find((list) => list.id === target);
@@ -340,7 +352,28 @@ export function ImportPage() {
         </Field>
       </div>
       {toCheck.length > 0 && (
-        <Section title={t.sectionCheck}>
+        <Section
+          title={t.sectionCheck}
+          action={
+            toCheck.length > 1 && (
+              <Button
+                variant="link"
+                className="px-1"
+                onClick={() => {
+                  setExcluded((current) => {
+                    const next = new Set(current);
+                    for (const { index } of toCheck)
+                      if (allChecked) next.add(index);
+                      else next.delete(index);
+                    return next;
+                  });
+                }}
+              >
+                {allChecked ? t.uncheckAll : t.checkAll}
+              </Button>
+            )
+          }
+        >
           <div className="px-4">
             {toCheck.map(({ line, index }) => row(line, index))}
           </div>

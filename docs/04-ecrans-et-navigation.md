@@ -173,7 +173,7 @@ Articles, catégories, unités : liste + recherche → fiche d'édition. La fich
 
 ### 2.10 Aperçu d'import _(v1.1)_
 
-Écran « Liste reçue » (lien) ou « Liste collée » (texte), route `#/import`. Résumé (« 12 reconnus, 1 à confirmer, 2 non reconnus »), puis « Ajouter à » : une nouvelle liste au nom reçu, ou une liste existante. Lignes en deux sections, **À vérifier** (à confirmer et non reconnus) puis **Reconnus**, chacune avec sa case (décochée : pas ajoutée), son icône, ce qu'elle deviendra (« reçu : « Tomatess », à confirmer », « nouvel article, Légumes ») et sa quantité. Toucher une ligne ouvre le choix de son article :
+Écran « Liste reçue » (lien) ou « Liste collée » (texte), route `#/import`. Résumé (« 12 reconnus, 1 à confirmer, 2 non reconnus »), puis « Ajouter à » : une nouvelle liste au nom reçu, ou une liste existante. Lignes en deux sections, **À vérifier** (à confirmer et non reconnus) puis **Reconnus**, chacune avec sa case (décochée : pas ajoutée), son icône, ce qu'elle deviendra (« reçu : « Tomatess », à confirmer », « nouvel article, Légumes ») et sa quantité. « Tout décocher » / « Tout cocher » à droite du titre « À vérifier » (dès deux lignes). Un article non reconnu est créé par défaut **juste cette fois** (« Achats ponctuels », docs/03 A4) : une longue liste reçue n'encombre pas le catalogue ; dans le choix de l'article, la puce « Juste cette fois » décochée le garde dans le catalogue, dans la catégorie reçue (décision du 17 novembre 2026). Toucher une ligne ouvre le choix de son article :
 
 ```
 ┌──────────────────────────────────┐

@@ -7,7 +7,7 @@ import { guessFromKeywords } from "@/domain/keywords";
 import type { Article } from "@/domain/model";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
-import { Chip, Field, Select, TextInput } from "@/ui/form";
+import { ChipChoice, Field, Select, TextInput } from "@/ui/form";
 import { ProductIcon } from "@/ui/ProductIcon";
 import { Sheet } from "@/ui/Sheet";
 import { reportSaveError } from "./useAddToList";
@@ -121,19 +121,14 @@ export function CreateArticleSheet({
           </Field>
         </div>
         {oneOffCategory && (
-          <div>
-            <Chip
-              selected={oneOff}
-              onClick={() => {
-                setOneOff(!oneOff);
-              }}
-            >
-              {t.oneOff}
-            </Chip>
-            <p className="mt-1.5 text-sm text-muted-foreground">
-              {oneOff ? t.oneOffOn : t.oneOffHint}
-            </p>
-          </div>
+          <ChipChoice
+            selected={oneOff}
+            onToggle={() => {
+              setOneOff(!oneOff);
+            }}
+            label={t.oneOff}
+            hint={oneOff ? t.oneOffOn : t.oneOffHint}
+          />
         )}
         {!oneOff && (
           <Field label={t.category}>

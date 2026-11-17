@@ -240,6 +240,31 @@ export function Chip({
   );
 }
 
+/**
+ * « Juste cette fois » (docs/03 A4) : une puce à cocher et l'explication de ce qu'elle
+ * change dessous (création d'un article, import d'une liste).
+ */
+export function ChipChoice({
+  selected,
+  onToggle,
+  label,
+  hint,
+}: {
+  selected: boolean;
+  onToggle: () => void;
+  label: string;
+  hint: string;
+}) {
+  return (
+    <div>
+      <Chip selected={selected} onClick={onToggle}>
+        {label}
+      </Chip>
+      <p className="mt-1.5 text-sm text-muted-foreground">{hint}</p>
+    </div>
+  );
+}
+
 /** Ligne d'action d'un menu en panneau : icône (couleur du texte) et libellé. */
 export function MenuItem({
   icon,

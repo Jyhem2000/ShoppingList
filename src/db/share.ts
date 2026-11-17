@@ -1,3 +1,4 @@
+import { ONE_OFF_CATEGORY } from "@/data";
 import { planListMerge, type MergeSource } from "@/domain/listMerge";
 import type { Article, Category, ID, Unit } from "@/domain/model";
 import {
@@ -114,7 +115,11 @@ export async function applyImport(
         });
         return { ...article, aliases, types };
       };
-      const create = async (line: ImportLine, typed: string) => {
+      const create = async (
+        line: ImportLine,
+        typed: string,
+        oneOff: boolean,
+      ) => {
         const { received } = line;
         const name = typed.trim() || received.name;
         const slug = slugify(name);
@@ -124,7 +129,12 @@ export async function applyImport(
           .equals(slug)
           .first();
         if (existing) return complete(existing, line, true);
-        const category = await ensureCategory(received.category);
+        // Juste cette fois : « Achats ponctuels », la catégorie reçue n'est pas créée.
+        const oneOffCategory = oneOff
+          ? categories.find((c) => c.catalogKey === ONE_OFF_CATEGORY)
+          : undefined;
+        const category =
+          oneOffCategory ?? (await ensureCategory(received.category));
         const unit = await ensureUnit(received.unit);
         const keyTaken =
           received.catalogKey !== undefined &&
@@ -177,7 +187,7 @@ export async function applyImport(
             line.match.kind !== "known" ||
             line.match.articleId !== choice.articleId;
           article = await complete(chosen, line, confirmed);
-        } else article = await create(line, choice.name);
+        } else article = await create(line, choice.name, choice.oneOff);
         if (!article) continue;
         if ("quantity" in line.amount) await ensureUnit(line.amount.unit);
         const amount = importAmount(line, article, units);

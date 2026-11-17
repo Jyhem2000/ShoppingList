@@ -176,14 +176,32 @@ describe("lien de partage (docs/07 § 7.9)", () => {
     await sender.articles.add(article);
     await add(sender, article, 2);
 
-    const recipient = await seeded();
     const shared = await share(sender);
-    const lines = resolveImport(shared, await context(recipient));
-    expect(lines[0]?.match.kind).toBe("unknown");
-    const { listId } = await applyImport(recipient, lines, [], {
+
+    // Par défaut, juste cette fois : « Achats ponctuels », sa catégorie n'est pas créée.
+    const once = await seeded();
+    const onceLines = resolveImport(shared, await context(once));
+    expect(onceLines[0]?.match.kind).toBe("unknown");
+    const first = await applyImport(once, onceLines, [], {
       kind: "new",
       name: shared.n,
     });
+    const [oneOff] = await activeItems(once, first.listId);
+    const kept = await once.articles.get(oneOff?.articleId ?? "");
+    expect(
+      (await once.categories.get(kept?.categoryId ?? ""))?.catalogKey,
+    ).toBe("achats-ponctuels");
+    expect(await once.categories.where("slug").equals("vrac").count()).toBe(0);
+
+    // Gardé dans le catalogue : sa catégorie et son unité sont créées.
+    const recipient = await seeded();
+    const lines = resolveImport(shared, await context(recipient));
+    const { listId } = await applyImport(
+      recipient,
+      lines,
+      [{ kind: "create", name: "Sirop de sureau maison", oneOff: false }],
+      { kind: "new", name: shared.n },
+    );
     const [line] = await activeItems(recipient, listId);
     const created = await recipient.articles.get(line?.articleId ?? "");
     expect(created?.name).toBe("Sirop de sureau maison");
