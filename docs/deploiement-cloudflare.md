@@ -16,7 +16,7 @@ Rappel ([07 § 9](07-architecture-technique.md#9-hébergement-versions-et-déplo
 La branche `dev` est déjà créée et poussée.
 
 1. Dépôt `Jyhem2000/ShoppingList` → **Settings** → **General** → **Default branch** → icône ⇄ → choisir **`dev`** → **Update**.
-2. Tout le travail est poussé directement sur `dev`. `main` ne reçoit que les versions publiées (`npm run release`).
+2. Tout le travail est poussé directement sur `dev`. `main` ne reçoit qu'un commit par version publiée (`npm run release`).
 
 _Facultatif_ : **Settings** → **Rules** → **Rulesets** → **New branch ruleset** sur `main`, en interdisant la suppression et le _force push_.
 

@@ -13,6 +13,11 @@ export function isBump(value: string | undefined): value is Bump {
   return value === "major" || value === "minor" || value === "patch";
 }
 
+/** Titre du commit et du tag d'une version : « Release MINOR 1.1.0 ». */
+export function releaseTitle(bump: Bump, version: string): string {
+  return `Release ${bump.toUpperCase()} ${version}`;
+}
+
 export function nextVersion(current: string, bump: Bump): string {
   const match = VERSION.exec(current);
   if (!match) throw new Error(`Version invalide : ${current}`);

@@ -5,13 +5,15 @@
  * 2. Calcule la version à partir du type demandé (jamais des messages de commit).
  * 3. Vérifie que ses nouveautés sont écrites (src/i18n/fr.ts → releaseNotes).
  * 4. Lance tous les contrôles : format, lint, types, tests unitaires et E2E.
- * 5. Fige la version (package.json, commit « chore: version X », tag vX).
- * 6. Pousse `dev` puis avance `main` : Cloudflare met la production à jour.
+ * 5. Fige la version sur `dev` (package.json, commit « Release MINOR X.Y.0 », tag vX.Y.0).
+ * 6. Pousse `dev`, puis ajoute sur `main` un seul commit, copie exacte de `dev` à cette
+ *    version : `main` ne contient qu'un commit par version, `dev` garde l'historique.
+ *    Cloudflare met la production à jour.
  */
 import { execSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 import { fr } from "../src/i18n/fr.ts";
-import { isBump, nextVersion } from "./versioning.ts";
+import { isBump, nextVersion, releaseTitle } from "./versioning.ts";
 
 const args = process.argv.slice(2);
 const dryRun = args.includes("--dry-run");
@@ -23,6 +25,8 @@ const read = (command: string) =>
     encoding: "utf8",
     stdio: ["ignore", "pipe", "ignore"],
   }).trim();
+/** Arbre (contenu complet) d'un commit ; sans `^{tree}`, que cmd.exe déforme. */
+const treeOf = (rev: string) => read(`git log -1 --format=%T ${rev}`);
 const succeeds = (command: string) => {
   try {
     execSync(command, { stdio: "ignore" });
@@ -52,18 +56,19 @@ if (succeeds("git rev-parse --verify --quiet origin/dev")) {
     fail("dev est en retard sur origin/dev : fais un git pull.");
 }
 const hasMain = succeeds("git rev-parse --verify --quiet origin/main");
-if (hasMain && !succeeds("git merge-base --is-ancestor origin/main HEAD"))
+const lastTag = succeeds("git describe --tags --abbrev=0 --match v*")
+  ? read("git describe --tags --abbrev=0 --match v*")
+  : "";
+// `main` doit être exactement la dernière version publiée : rien n'y est fait à la main.
+if (hasMain && lastTag && treeOf("origin/main") !== treeOf(lastTag))
   fail(
-    "main contient des commits absents de dev : à fusionner dans dev d'abord.",
+    `main ne correspond pas à ${lastTag} : quelque chose y a été poussé hors de npm run release.`,
   );
 
 // 2. Version
 const pkg = JSON.parse(readFileSync("package.json", "utf8")) as {
   version: string;
 };
-const lastTag = succeeds("git describe --tags --abbrev=0 --match v*")
-  ? read("git describe --tags --abbrev=0 --match v*")
-  : "";
 const commits = Number(
   read(`git rev-list --count ${lastTag ? `${lastTag}..HEAD` : "HEAD"}`),
 );
@@ -96,14 +101,22 @@ run("npm run check");
 run("npm run e2e");
 
 // 5. Figer la version
+const title = releaseTitle(bump, version);
 run(`npm version ${version} --no-git-tag-version`);
 run("git add package.json package-lock.json");
-run(`git commit -m "chore: version ${version}"`);
-run(`git tag -a v${version} -m "Version ${version}"`);
+run(`git commit -m "${title}"`);
+run(`git tag -a v${version} -m "${title}"`);
 
-// 6. Publier
+// 6. Publier : dev avec son historique, puis un seul commit sur main.
 run("git push origin dev --follow-tags");
-run("git push origin dev:main");
+const release = read(
+  [
+    `git commit-tree ${treeOf("HEAD")}`,
+    hasMain ? "-p origin/main" : "",
+    `-m "${title}" -m "Copie de dev (commit ${read("git rev-parse --short HEAD")}, tag v${version})."`,
+  ].join(" "),
+);
+run(`git push origin ${release}:refs/heads/main`);
 console.log(
   `\n✔ Version ${version} publiée : Cloudflare met la production à jour.`,
 );

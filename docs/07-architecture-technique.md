@@ -410,7 +410,7 @@ ShoppingList/
 
 ### Hébergement
 
-**Cloudflare Pages** (gratuit), **connecté directement au dépôt GitHub** `Jyhem2000/ShoppingList` (privé pour l'instant ; le site publié, lui, est public). Cloudflare construit et met en ligne l'app à chaque push : aucun jeton ni secret à gérer, aucun workflow GitHub Actions. Mise en place : [guide](deploiement-cloudflare.md).
+**Cloudflare Pages** (gratuit), **connecté directement au dépôt GitHub** `Jyhem2000/ShoppingList` (public). Cloudflare construit et met en ligne l'app à chaque push : aucun jeton ni secret à gérer, aucun workflow GitHub Actions. Mise en place : [guide](deploiement-cloudflare.md).
 
 Projet Cloudflare Pages : `shoppinglist-app`. Version de Node : **`.node-version`** à la racine (`26`), seule source, lue par Cloudflare au build et par les gestionnaires de versions de Node en local ; `engines` de `package.json` la rappelle.
 
@@ -418,12 +418,12 @@ Commande de build côté Cloudflare : `npm run build:checked` (format, lint, typ
 
 ### Branches et environnements
 
-| Branche                    | Rôle                                                                                        | Environnement     | Adresse                                                                              |
-| -------------------------- | ------------------------------------------------------------------------------------------- | ----------------- | ------------------------------------------------------------------------------------ |
-| `dev` (branche par défaut) | **Travail quotidien** : on y commite et pousse directement ; tout ce qui n'est pas publié   | **Préproduction** | `dev.shoppinglist-app.pages.dev`                                                     |
-| `main`                     | **Uniquement les versions publiées** : n'avance que par `npm run release`, jamais à la main | **Production**    | `shoppinglist.jyhem.cloud` (domaine perso ; `shoppinglist-app.pages.dev` y redirige) |
+| Branche                    | Rôle                                                                                     | Environnement     | Adresse                                                                              |
+| -------------------------- | ---------------------------------------------------------------------------------------- | ----------------- | ------------------------------------------------------------------------------------ |
+| `dev` (branche par défaut) | **Travail quotidien** : on y commite et pousse directement ; tout l'historique           | **Préproduction** | `dev.shoppinglist-app.pages.dev`                                                     |
+| `main`                     | **Un commit par version publiée** : n'avance que par `npm run release`, jamais à la main | **Production**    | `shoppinglist.jyhem.cloud` (domaine perso ; `shoppinglist-app.pages.dev` y redirige) |
 
-Il n'y a pas d'autre branche : pas de branche de travail ni de pull request. Seules `dev` et `main` sont construites par Cloudflare (réglage « Custom branches ») ; les essais sur téléphone se font en préproduction. On ne travaille jamais directement sur `main`. Le canal affiché dans l'app (§ 6) est déduit de la branche construite (`CF_PAGES_BRANCH`). Hors production, l'app installée s'appelle **« ShoppingList DEV »** (manifeste et titre), pour distinguer les deux apps installées côte à côte sur le téléphone.
+Il n'y a pas d'autre branche : pas de branche de travail ni de pull request. Seules `dev` et `main` sont construites par Cloudflare (réglage « Custom branches ») ; les essais sur téléphone se font en préproduction. On ne travaille jamais directement sur `main` : elle ne contient qu'un commit par version (« Release MINOR 1.1.0 »), copie exacte de `dev` à cette version, sans l'historique de développement, qui reste sur `dev`. Le canal affiché dans l'app (§ 6) est déduit de la branche construite (`CF_PAGES_BRANCH`). Hors production, l'app installée s'appelle **« ShoppingList DEV »** (manifeste et titre), pour distinguer les deux apps installées côte à côte sur le téléphone.
 
 ### Numéro de version
 
@@ -448,8 +448,10 @@ Depuis `dev`, à jour, sans modification en cours, et seulement **sur demande ex
 
 1. Le script calcule la version à partir du type demandé et vérifie que ses nouveautés sont écrites. `npm run release -- minor --dry-run` affiche la version sans rien modifier.
 2. Il lance tous les contrôles : format, lint, types, tests unitaires et E2E.
-3. Il fige la version : `package.json`, commit `chore: version 1.1.0`, tag `v1.1.0`.
-4. Il pousse `dev` (avec le tag), puis avance `main` sur `dev`. Cloudflare construit `main` : **la production est à jour**.
+3. Il fige la version sur `dev` : `package.json`, commit `Release MINOR 1.1.0` (`Release PATCH …`, `Release MAJOR …` selon le type), tag `v1.1.0` sur ce commit. Ce commit est indispensable : la version est lue dans `package.json` au build.
+4. Il pousse `dev` (avec le tag), puis ajoute sur `main` **un seul commit**, de même titre, dont le contenu est exactement celui de `dev` à cette version et dont le seul parent est la version précédente sur `main` (`git commit-tree`). Cloudflare construit `main` : **la production est à jour**.
+
+Avant tout, le script vérifie que `main` a le même contenu que le dernier tag : si quelque chose y a été poussé hors de `npm run release`, il refuse de publier.
 
 Les téléphones détectent la nouvelle version et proposent la mise à jour (§ 6).
 
