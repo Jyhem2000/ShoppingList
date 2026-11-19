@@ -447,7 +447,12 @@ Versions publiées : les tags git `vX.Y.Z` ; ce qui a changé pour l'utilisateur
 Depuis `dev`, à jour, sans modification en cours, et seulement **sur demande explicite** :
 
 1. Le script calcule la version à partir du type demandé et vérifie que ses nouveautés sont écrites. `npm run release -- minor --dry-run` affiche la version sans rien modifier.
-2. Il lance tous les contrôles : format, lint, types, tests unitaires et E2E.
+2. Il lance tous les contrôles : format, lint, types, tests unitaires et E2E. Les E2E ont besoin des navigateurs de test de Playwright ; si l'erreur `browserType.launch: Executable doesn't exist` apparaît, les (ré)installer, puis relancer la publication :
+
+   ```bash
+   npx playwright install chromium webkit
+   ```
+
 3. Il fige la version sur `dev` : `package.json`, commit `Release MINOR 1.1.0` (`Release PATCH …`, `Release MAJOR …` selon le type), tag `v1.1.0` sur ce commit. Ce commit est indispensable : la version est lue dans `package.json` au build.
 4. Il pousse `dev` (avec le tag), puis ajoute sur `main` **un seul commit**, de même titre, dont le contenu est exactement celui de `dev` à cette version et dont le seul parent est la version précédente sur `main` (`git commit-tree`). Cloudflare construit `main` : **la production est à jour**.
 
