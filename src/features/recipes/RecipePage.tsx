@@ -1,4 +1,4 @@
-import { Copy, ListPlus, Pencil, Trash2, X } from "lucide-react";
+import { Copy, ListPlus, Pencil, Share, Trash2, X } from "lucide-react";
 import { useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router";
 import { recipePath, routes } from "@/app/routes";
@@ -11,22 +11,17 @@ import {
   duplicateRecipe,
   updateRecipe,
 } from "@/db/recipes";
-import {
-  entryAmount,
-  parseEntry,
-  resolveEntry,
-  type ParsedEntry,
-} from "@/domain/entry";
+import { entryAmount, type ParsedEntry } from "@/domain/entry";
 import type { Article, Recipe } from "@/domain/model";
-import { yieldLabel } from "@/domain/recipes";
 import { feedback } from "@/feedback";
-import { AddArticleBar } from "@/features/list/AddArticleBar";
-import { CreateArticleSheet } from "@/features/list/CreateArticleSheet";
-import { lineDetails, lineQuantity } from "@/features/list/format";
-import { reportSaveError } from "@/features/list/useAddToList";
-import { type ListData, useListData } from "@/features/list/useListData";
-import { IconPickerSheet } from "@/features/manage/IconPickerSheet";
-import { NameField } from "@/features/manage/NameField";
+import { AddArticleBar } from "@/common/AddArticleBar";
+import { CreateArticleSheet } from "@/common/CreateArticleSheet";
+import { ingredientDetails, lineDetails, lineQuantity } from "@/common/format";
+import { recipeMessage, sendMessage } from "@/common/shareMessage";
+import { useEntryAdder } from "@/common/useEntryAdder";
+import { type ListData, useListData } from "@/common/useListData";
+import { IconPickerSheet } from "@/common/IconPickerSheet";
+import { NameField } from "@/common/NameField";
 import { fr } from "@/i18n/fr";
 import { RECIPE_ICON_CATEGORIES } from "@/icons/pack";
 import { ArticleIcon } from "@/ui/ArticleIcon";
@@ -39,10 +34,11 @@ import { EmptyHint, EmptyState, PageHeader, Section } from "@/ui/Page";
 import { QuantityText } from "@/ui/PreviewRow";
 import { InfoRow, RowButton } from "@/ui/RowButton";
 import { Sheet } from "@/ui/Sheet";
-import { showToast } from "@/ui/toast";
+import { showToast, reportSaveError } from "@/ui/toast";
 import { IngredientSheet } from "./IngredientSheet";
 import { RecipeAddSheet } from "./RecipeAddSheet";
-import { RECIPE_COLOR, RecipeIcon } from "./RecipeIcon";
+import { RecipeHeader } from "@/common/RecipeHeader";
+import { RECIPE_COLOR } from "@/common/RecipeIcon";
 import { usePendingSave } from "@/ui/usePendingSave";
 import { YieldFields } from "./YieldFields";
 
@@ -61,7 +57,7 @@ type Panel =
  * Fiche recette (docs/04 § 2.6) : en lecture, le rendement fixe, les ingrédients, les
  * étapes, puis « Ajouter à une liste » en bas ; « Modifier » ouvre l'édition sur la même fiche
  * (nom, rendement, icône, ingrédients par la barre d'ajout, étapes). Dupliquer (sous un
- * nom demandé tout de suite) et supprimer en bas.
+ * nom demandé tout de suite), partager (docs/03 E3) et supprimer en bas.
  */
 export function RecipePage() {
   const { recipeId } = useParams();
@@ -109,14 +105,7 @@ function RecipeView({ recipe, data }: { recipe: Recipe; data: ListData }) {
         />
       ),
       title: article.name,
-      detail:
-        [
-          lineDetails({ acceptedTypes: item.acceptedTypes }),
-          item.optional ? t.optional : undefined,
-          item.fixed ? t.fixed : undefined,
-        ]
-          .filter(Boolean)
-          .join(" · ") || undefined,
+      detail: ingredientDetails(lineDetails(item), item),
       trailing: (
         <QuantityText>{lineQuantity(item, data.unitById)}</QuantityText>
       ),
@@ -198,14 +187,7 @@ function RecipeView({ recipe, data }: { recipe: Recipe; data: ListData }) {
           </Section>
         </>
       ) : (
-        <>
-          <div className="flex items-center gap-4 px-4 pt-1">
-            <RecipeIcon recipe={recipe} size={56} />
-            <p className="text-lg font-semibold">
-              {t.serves(yieldLabel(recipe.yield.quantity, recipe.yield.unit))}
-            </p>
-          </div>
-        </>
+        <RecipeHeader recipe={recipe} />
       )}
 
       <Section title={t.ingredients}>
@@ -245,6 +227,18 @@ function RecipeView({ recipe, data }: { recipe: Recipe; data: ListData }) {
             {t.addToList}
           </Button>
         )}
+        <Button
+          variant="outline"
+          onClick={() => {
+            void sendMessage(
+              recipeMessage(recipe, data),
+              fr.share.recipeCopied,
+            );
+          }}
+        >
+          <Share />
+          {fr.share.sendRecipe}
+        </Button>
         <Button
           variant="outline"
           onClick={() => {
@@ -312,10 +306,9 @@ function RecipeView({ recipe, data }: { recipe: Recipe; data: ListData }) {
       )}
       {panel?.kind === "delete" && (
         <Sheet
-          open
           autoFocus={false}
-          onOpenChange={(open) => {
-            if (!open) close();
+          onClose={() => {
+            close();
           }}
           title={t.deleteTitle(recipe.name)}
           description={t.deleteText}
@@ -393,16 +386,16 @@ function StepsEditor({
  * 3 œufs »), suggestions, création d'un article inconnu. La quantité est gardée telle
  * qu'écrite (pas de simplification : c'est celle de la recette).
  */
-function IngredientBar({ recipe, data }: { recipe: Recipe; data: ListData }) {
-  const [toCreate, setToCreate] = useState<ParsedEntry[]>([]);
+const keepEntry = (entry: ParsedEntry) => entry;
 
+function IngredientBar({ recipe, data }: { recipe: Recipe; data: ListData }) {
   const add = async (
     article: Article,
     entry: ParsedEntry = { text: article.name },
     acceptedTypes: string[] = [],
-  ) => {
+  ): Promise<undefined> => {
     const amount = entryAmount(entry, article, data.units, false);
-    if (!amount) return;
+    if (!amount) return undefined;
     await addIngredient(db, recipe.id, {
       articleId: article.id,
       quantity: amount.quantity,
@@ -412,25 +405,14 @@ function IngredientBar({ recipe, data }: { recipe: Recipe; data: ListData }) {
       fixed: false,
     });
     feedback.add();
+    return undefined;
   };
 
-  const submit = async (text: string) => {
-    const unknown: ParsedEntry[] = [];
-    for (const entry of parseEntry(text, data.units)) {
-      const { article, acceptedTypes } = resolveEntry(
-        entry.text,
-        data.articles,
-      );
-      if (article) await add(article, entry, acceptedTypes);
-      else unknown.push(entry);
-    }
-    if (unknown.length) setToCreate((current) => [...current, ...unknown]);
-  };
-
-  const pending = toCreate[0];
-  const next = () => {
-    setToCreate((current) => current.slice(1));
-  };
+  const { submit, enqueue, pending, next } = useEntryAdder(
+    data,
+    add,
+    keepEntry,
+  );
 
   return (
     <>
@@ -440,13 +422,13 @@ function IngredientBar({ recipe, data }: { recipe: Recipe; data: ListData }) {
         addLabel={t.addLabel}
         showInList={false}
         onSubmit={(text) => {
-          submit(text).catch(reportSaveError);
+          void submit(text);
         }}
         onPick={(article, entry, types) => {
           add(article, entry, types).catch(reportSaveError);
         }}
         onCreate={(entry) => {
-          setToCreate((current) => [...current, entry]);
+          enqueue(entry);
         }}
       />
       {pending && (
@@ -478,9 +460,8 @@ function DuplicateSheet({
   const [name, setName] = useState("");
   return (
     <Sheet
-      open
-      onOpenChange={(open) => {
-        if (!open) onClose();
+      onClose={() => {
+        onClose();
       }}
       title={t.duplicateTitle(recipe.name)}
     >

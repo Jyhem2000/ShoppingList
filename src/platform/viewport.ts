@@ -12,12 +12,18 @@ import { currentInstallEnvironment, isAppleMobile } from "./install";
  * posé dans la page (position absolue, non coupée) à la hauteur de l'écran. Dès
  * qu'iOS a corrigé la zone, il redevient fixe : le rebond de la page ne le déplace
  * plus.
+ *
+ * Jamais pendant une saisie : au premier clavier, iOS fait défiler la page pour montrer
+ * le champ, ce qui corrige la zone ; le cadre qui redevient fixe descend alors de la
+ * hauteur de la barre d'état, et iOS laisse le curseur à l'ancienne place, hors du
+ * champ. Le changement attend que le champ perde le focus.
  */
 export function trackAppHeight(): void {
   const root = document.documentElement;
   const environment = currentInstallEnvironment();
   const iosInstalled = environment.standalone && isAppleMobile(environment);
   let current = "";
+  let waiting = false;
 
   const apply = () => {
     const portrait = window.innerHeight >= window.innerWidth;
@@ -25,6 +31,20 @@ export function trackAppHeight(): void {
       iosInstalled && portrait && window.innerHeight < window.screen.height;
     const height = tooShort ? `${window.screen.height}px` : "100%";
     if (height === current) return;
+    if (current && editing()) {
+      if (waiting) return;
+      waiting = true;
+      document.addEventListener(
+        "focusout",
+        () => {
+          waiting = false;
+          // Après le focus suivant : d'un champ à l'autre, on attend encore.
+          setTimeout(apply, 0);
+        },
+        { once: true },
+      );
+      return;
+    }
     current = height;
     if (tooShort) root.dataset.frameMode = "page";
     else delete root.dataset.frameMode;
@@ -40,4 +60,13 @@ export function trackAppHeight(): void {
   document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "visible") apply();
   });
+}
+
+/** Un champ de saisie a le focus (le clavier est ouvert ou va s'ouvrir). */
+function editing(): boolean {
+  const element = document.activeElement;
+  return (
+    element instanceof HTMLElement &&
+    (element.isContentEditable || element.matches("input, textarea, select"))
+  );
 }

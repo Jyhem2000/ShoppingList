@@ -1,5 +1,5 @@
 import { MotionConfig } from "motion/react";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import {
   NavigationType,
   Outlet,
@@ -81,18 +81,13 @@ export function Layout() {
     };
   }, []);
 
-  // Le contenu dépasse-t-il de la zone ? (bordure sous l'en-tête, voir PageHeader)
+  // Le contenu a grandi (chargé après coup) : la position à reprendre devient possible.
   const content = useRef<HTMLDivElement>(null);
-  const [scrollable, setScrollable] = useState(false);
   useEffect(() => {
     const area = main.current;
     const inner = content.current;
     if (!area || !inner) return;
-    const update = () => {
-      setScrollable(area.scrollHeight > area.clientHeight + 1);
-      resume();
-    };
-    const observer = new ResizeObserver(update);
+    const observer = new ResizeObserver(resume);
     observer.observe(area);
     observer.observe(inner);
     return () => {
@@ -107,8 +102,7 @@ export function Layout() {
         <div className="relative min-h-0 flex-1">
           <main
             ref={main}
-            data-scrollable={scrollable || undefined}
-            className="group/main scrollbar-none h-full overflow-y-auto overscroll-contain"
+            className="scrollbar-none h-full overflow-y-auto overscroll-contain"
           >
             <div ref={content} className="mx-auto max-w-xl pb-4">
               <Outlet />

@@ -1,5 +1,5 @@
 import { useLiveQuery } from "dexie-react-hooks";
-import { ChevronRight, Plus, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { useState } from "react";
 import { routes } from "@/app/routes";
 import { db } from "@/db/database";
@@ -14,17 +14,22 @@ import {
 import type { ID, Unit, UnitGroup } from "@/domain/model";
 import {
   formatNumber,
+  parseNumber,
+  pieceUnit,
   UNIT_GROUPS,
   unitGroup,
   unitOptionLabel,
 } from "@/domain/quantity";
 import { fr } from "@/i18n/fr";
+import { AddButton } from "@/ui/AddButton";
 import { Button } from "@/ui/button";
 import { Field, Select, TextInput, ConfirmActions } from "@/ui/form";
 import { PageHeader, Section } from "@/ui/Page";
+import { RowButton } from "@/ui/RowButton";
 import { Sheet } from "@/ui/Sheet";
 import { showToast } from "@/ui/toast";
 import { feedback } from "@/feedback";
+import { compareText } from "@/domain/slug";
 
 const t = fr.manage.units;
 const groupLabel = fr.list.unitGroups;
@@ -43,16 +48,12 @@ export function UnitsPage() {
     <>
       <PageHeader title={t.title} backTo={routes.settings} />
       <div className="px-4 pb-1">
-        <Button
-          variant="outline"
-          className="w-full"
+        <AddButton
+          label={t.add}
           onClick={() => {
             setOpen("");
           }}
-        >
-          <Plus />
-          {t.add}
-        </Button>
+        />
       </div>
       {UNIT_GROUPS.map((group) => {
         // Du plus petit au plus grand pour les poids et volumes, par nom sinon.
@@ -61,7 +62,7 @@ export function UnitsPage() {
           .sort(
             (a, b) =>
               (a.factor ?? 0) - (b.factor ?? 0) ||
-              a.singular.localeCompare(b.singular, "fr"),
+              compareText(a.singular, b.singular),
           );
         if (inGroup.length === 0) return null;
         return (
@@ -69,21 +70,13 @@ export function UnitsPage() {
             <ul className="divide-y divide-border/50">
               {inGroup.map((unit) => (
                 <li key={unit.id}>
-                  <button
-                    type="button"
+                  <RowButton
+                    title={unitOptionLabel(unit)}
+                    chevron
                     onClick={() => {
                       setOpen(unit.id);
                     }}
-                    className="flex min-h-12 w-full items-center gap-3 px-4 text-left active:bg-raised"
-                  >
-                    <span className="flex-1 font-semibold">
-                      {unitOptionLabel(unit)}
-                    </span>
-                    <ChevronRight
-                      className="size-5 text-muted-foreground"
-                      aria-hidden
-                    />
-                  </button>
+                  />
                 </li>
               ))}
             </ul>
@@ -127,18 +120,13 @@ function UnitSheet({
   const others = units.filter((u) => u.id !== unit?.id);
   const sameDimension = (u: Unit) => u.dimension === unit?.dimension;
   const [replacement, setReplacement] = useState<ID>(
-    (
-      others.find(sameDimension) ??
-      others.find((u) => u.slug === "piece") ??
-      others[0]
-    )?.id ?? "",
+    (others.find(sameDimension) ?? pieceUnit(others) ?? others[0])?.id ?? "",
   );
   const usage = useLiveQuery(
     async () => (unit ? unitUsage(db, unit.id) : undefined),
     [unit?.id],
   );
   const measured = group === "mass" || group === "volume";
-  const number = (text: string) => Number(text.replace(",", "."));
 
   const submit = () => {
     if (!singular.trim()) return;
@@ -148,8 +136,9 @@ function UnitSheet({
       abbr: abbr.trim() || undefined,
       group,
       dimension: dimensionOf(group),
-      factor: measured && number(factor) > 0 ? number(factor) : undefined,
-      step: number(step) > 0 ? number(step) : 1,
+      factor:
+        measured && parseNumber(factor) > 0 ? parseNumber(factor) : undefined,
+      step: parseNumber(step) > 0 ? parseNumber(step) : 1,
     };
     const done = (result: unknown) => {
       if (result === "nameTaken") showToast(t.nameTaken, { tone: "warning" });
@@ -163,10 +152,9 @@ function UnitSheet({
 
   return (
     <Sheet
-      open
       autoFocus={!unit}
-      onOpenChange={(open) => {
-        if (!open) onClose();
+      onClose={() => {
+        onClose();
       }}
       onBack={
         deleting

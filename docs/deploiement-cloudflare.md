@@ -58,7 +58,7 @@ Ainsi seules `main` (production) et `dev` (préproduction) sont construites.
 
 1. Projet → **Deployments** : un déploiement par branche poussée. Un projet relié à Git n'a **pas de bouton pour lancer un déploiement** : seul un push (ou un _Deploy Hook_, ci-dessous) déclenche un build. **Retry deployment** reconstruit le _même_ commit qu'à l'origine, pas le dernier.
 2. Si un push ne déclenche rien, ou si Cloudflare affiche « This project is disconnected from your Git account » : GitHub → **Settings** (du compte) → **Applications** → **Installed GitHub Apps** → **Cloudflare Workers and Pages** → **Configure** → vérifier que `ShoppingList` est autorisé → **Save**. Cela arrive notamment après un changement de visibilité du dépôt.
-3. Ouvrir la préproduction (`https://dev.shoppinglist-app.pages.dev`) sur les téléphones, installer l'app et suivre la checklist de [08 § 5](08-tests-et-qualite.md#5-checklist-manuelle-sur-téléphone-fin-de-chaque-phase).
+3. Ouvrir la préproduction (`https://dev.shoppinglist-app.pages.dev`) sur les téléphones, installer l'app et suivre la checklist de [08 § 5](08-tests-et-qualite.md#5-checklist-manuelle-sur-téléphone-avant-chaque-version).
 4. Si un build échoue, son journal indique quel contrôle (format, lint, types, tests) a échoué ; rien n'est mis en ligne dans ce cas.
 
 ## 6. Domaine personnalisé
@@ -72,7 +72,9 @@ Aucune adresse n'est écrite en dur dans le code : le manifeste (`id`, `start_ur
 
 ## 7. Rediriger `shoppinglist-app.pages.dev` vers le domaine
 
-> **Les données ne suivent pas l'adresse.** La base (IndexedDB : listes, articles, magasins, recettes) et les préférences de l'appareil (`localStorage` : thème, sons, écran allumé) appartiennent à l'adresse d'origine. Sur le nouveau domaine, l'app démarre vide. **Avant d'activer la redirection**, sur chaque téléphone : dans l'app installée depuis `shoppinglist-app.pages.dev`, **Réglages → Sauvegarde → Exporter mes données** ; installer l'app depuis `https://shoppinglist.jyhem.cloud` ; **Importer une sauvegarde** ; refaire les préférences de l'appareil (elles ne sont pas dans la sauvegarde) ; supprimer l'ancienne icône. Après la redirection, l'ancienne app installée ne se met plus à jour.
+_En place : `shoppinglist-app.pages.dev` redirige vers le domaine. La marche à suivre est gardée pour la refaire au besoin._
+
+> **Les données ne suivent pas l'adresse.** La base (IndexedDB : listes, articles, magasins, recettes) et les préférences de l'appareil (`localStorage` : thème, sons, écran allumé) appartiennent à l'adresse d'origine. Sur le nouveau domaine, l'app démarre vide. **Avant d'activer la redirection**, sur chaque téléphone : dans l'app installée depuis `shoppinglist-app.pages.dev`, **Réglages → Sauvegarde → Exporter un fichier** ; installer l'app depuis `https://shoppinglist.jyhem.cloud` ; **Importer un fichier** ; refaire les préférences de l'appareil (elles ne sont pas dans la sauvegarde) ; supprimer l'ancienne icône. Après la redirection, l'ancienne app installée ne se met plus à jour.
 
 Redirection par **Bulk Redirects** (gratuit, sans code). Elle ne vise que le nom exact `shoppinglist-app.pages.dev` : la préproduction (`dev.shoppinglist-app.pages.dev`) et les aperçus de déploiement (`<empreinte>.shoppinglist-app.pages.dev`) ne sont pas redirigés.
 

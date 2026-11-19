@@ -1,6 +1,6 @@
 import { monogram } from "@/domain/monogram";
 import { ICON_VIEWBOX, useIconPack } from "@/icons/pack";
-import { palette, type PaletteColor } from "@/ui/palette";
+import { palette, paletteColor } from "@/ui/palette";
 import { cn } from "@/ui/utils";
 
 /**
@@ -10,16 +10,18 @@ import { cn } from "@/ui/utils";
 export function ProductIcon({
   icon,
   label,
-  color = "gris",
+  color: rawColor,
   size = 40,
   className,
 }: {
   icon?: string;
   label: string;
-  color?: PaletteColor;
+  /** Couleur de la palette, normalisée ici (inconnue → gris). */
+  color?: string;
   size?: number;
   className?: string;
 }) {
+  const color = paletteColor(rawColor);
   const pack = useIconPack();
   const style = { width: size, height: size };
 

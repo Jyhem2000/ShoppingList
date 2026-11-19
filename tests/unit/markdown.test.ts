@@ -3,6 +3,7 @@ import {
   type DocNode,
   docToMarkdown,
   markdownToDoc,
+  markdownToText,
   parseInline,
   parseMarkdown,
 } from "@/domain/markdown";
@@ -109,5 +110,15 @@ describe("étapes mises en forme (docs/03 E1)", () => {
     expect(docToMarkdown(doc)).toBe(
       "## Sauce\n\nFondre **le beurre**\npuis saler\n\n3. Fouetter\n4. Ajouter\n5. le lait",
     );
+  });
+});
+
+describe("étapes dans un message de partage (docs/03 E3)", () => {
+  it("donne un texte simple : sans gras ni dièse, listes gardées", () => {
+    expect(
+      markdownToText(
+        "## Préparer\n- **Couper** les tomates\n\n1. Cuire\n2. Servir",
+      ),
+    ).toBe("Préparer\n\n- Couper les tomates\n\n1. Cuire\n2. Servir");
   });
 });

@@ -1,32 +1,29 @@
 import { motion } from "motion/react";
 import { useLayoutEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { usePreferences } from "@/app/preferences";
 import { fr } from "@/i18n/fr";
-import { dismissTip, type TipId } from "./tips";
 
 /**
- * Bulle d'aide montrée une seule fois (docs/03 H12) : l'écran s'assombrit sauf
+ * Bulle d'aide (docs/03 H12) : l'écran s'assombrit sauf
  * l'élément visé (`target`, sélecteur CSS), une bulle avec une flèche l'explique ; un
- * toucher n'importe où la ferme. Sans élément visé, la bulle est au centre.
+ * toucher n'importe où la ferme (`onDismiss`). Sans élément visé, la bulle est au
+ * centre. Ce qui a déjà été vu est géré par l'appelant (`show`).
  */
 export function Tip({
-  id,
   text,
   target,
   show = true,
+  onDismiss,
 }: {
-  id: TipId;
   text: string;
   target?: string;
   show?: boolean;
+  onDismiss: () => void;
 }) {
-  const { seenTips } = usePreferences();
-  const visible = show && !seenTips.includes(id);
   const [rect, setRect] = useState<DOMRect | null>(null);
 
   useLayoutEffect(() => {
-    if (!visible || !target) return;
+    if (!show || !target) return;
     const measure = () => {
       const element = document.querySelector(target);
       setRect(element?.getBoundingClientRect() ?? null);
@@ -40,9 +37,9 @@ export function Tip({
       clearTimeout(timer);
       window.removeEventListener("resize", measure);
     };
-  }, [visible, target]);
+  }, [show, target]);
 
-  if (!visible || (target && !rect)) return null;
+  if (!show || (target && !rect)) return null;
 
   const pad = 6;
   const below = rect ? rect.bottom + 180 < window.innerHeight : false;
@@ -59,9 +56,7 @@ export function Tip({
       aria-label={text}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      onClick={() => {
-        dismissTip(id);
-      }}
+      onClick={onDismiss}
       className="fixed inset-0 z-50"
     >
       {rect ? (

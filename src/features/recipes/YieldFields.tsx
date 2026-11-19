@@ -1,4 +1,5 @@
 import type { Recipe } from "@/domain/model";
+import { stepCount } from "@/domain/quantity";
 import { searchKey } from "@/domain/slug";
 import { fr } from "@/i18n/fr";
 import { Chip, Field, TextInput } from "@/ui/form";
@@ -17,15 +18,25 @@ export function YieldFields({
   value: Recipe["yield"];
   onChange: (value: Recipe["yield"]) => void;
 }) {
+  const less = stepCount(value.quantity, -1);
   return (
     <div className="flex flex-col gap-3">
       <div className="flex gap-3">
         <Field label={t.yield} className="w-40 shrink-0">
           <QuantityInput
             value={value.quantity}
-            step={1}
             onChange={(quantity) => {
               onChange({ ...value, quantity });
+            }}
+            onLess={
+              less === undefined
+                ? undefined
+                : () => {
+                    onChange({ ...value, quantity: less });
+                  }
+            }
+            onMore={() => {
+              onChange({ ...value, quantity: stepCount(value.quantity, 1) });
             }}
           />
         </Field>

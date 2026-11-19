@@ -1,7 +1,11 @@
 import { useLiveQuery } from "dexie-react-hooks";
 import type { ID, ShoppingSession } from "@/domain/model";
 import { db } from "./database";
+import { activeItems } from "./items";
 import { latestSession } from "./sessions";
+import { storeAisles } from "./stores";
+import { countBy } from "@/domain/collections";
+import { byName } from "@/domain/slug";
 
 /**
  * Lectures de la base pour les écrans : chaque hook se met à jour tout seul quand
@@ -35,26 +39,25 @@ export function useLists() {
   return useLiveQuery(() => db.lists.orderBy("position").toArray());
 }
 
+/**
+ * Liste courante : celle des réglages, sinon la première. `list` est `undefined`
+ * pendant la lecture, ou s'il n'y a aucune liste (`lists` vide).
+ */
+export function useCurrentList() {
+  const settings = useSettings();
+  const lists = useLists();
+  const list =
+    lists?.find((l) => l.id === settings?.currentListId) ?? lists?.[0];
+  return { settings, lists, list };
+}
+
 export function useListItems(listId: ID | undefined) {
-  return useKeyedLiveQuery(
-    listId,
-    (id) =>
-      db.items
-        .where("listId")
-        .equals(id)
-        .filter((item) => !item.closedInSessionId)
-        .toArray(),
-    [],
-  );
+  return useKeyedLiveQuery(listId, (id) => activeItems(db, id), []);
 }
 
 /** Recettes, par ordre alphabétique. */
 export function useRecipes() {
-  return useLiveQuery(async () =>
-    (await db.recipes.toArray()).sort((a, b) =>
-      a.name.localeCompare(b.name, "fr"),
-    ),
-  );
+  return useLiveQuery(async () => (await db.recipes.toArray()).sort(byName));
 }
 
 export function useRecipe(recipeId: ID | undefined) {
@@ -82,11 +85,7 @@ export function useStores() {
 }
 
 export function useAisles(storeId: ID | undefined) {
-  return useKeyedLiveQuery(
-    storeId,
-    (id) => db.aisles.where("storeId").equals(id).toArray(),
-    [],
-  );
+  return useKeyedLiveQuery(storeId, (id) => storeAisles(db, id), []);
 }
 
 export function useOverrides() {
@@ -104,17 +103,10 @@ export function usePurchaseCounts() {
       .where("status")
       .equals("closed")
       .primaryKeys();
-    const counts = new Map<ID, number>();
-    await db.purchases
-      .where("sessionId")
-      .anyOf(closed)
-      .each((purchase) => {
-        counts.set(
-          purchase.articleId,
-          (counts.get(purchase.articleId) ?? 0) + 1,
-        );
-      });
-    return counts;
+    return countBy(
+      await db.purchases.where("sessionId").anyOf(closed).toArray(),
+      (purchase) => purchase.articleId,
+    );
   });
 }
 
@@ -122,6 +114,38 @@ export function usePurchaseCounts() {
  * Dernière session de courses de la liste (ouverte ou clôturée), `null` s'il n'y en a
  * pas, `undefined` pendant la lecture et tant que la liste n'est pas connue.
  */
+/** Lignes d'un article, toutes listes confondues (archivées comprises). */
+export function useArticleItems(articleId: ID | undefined) {
+  return useKeyedLiveQuery(
+    articleId,
+    (id) => db.items.where("articleId").equals(id).toArray(),
+    [],
+  );
+}
+
+/** Nombre de rayons de chaque magasin, sans « À placer ». */
+export function useAisleCounts() {
+  return useLiveQuery(async () =>
+    countBy(
+      (await db.aisles.toArray()).filter((aisle) => !aisle.isUnsorted),
+      (aisle) => aisle.storeId,
+    ),
+  );
+}
+
+/** Nombre d'articles, de catégories, de magasins et d'unités (Réglages). */
+export function useDataCounts() {
+  return useLiveQuery(async () => {
+    const [articles, categories, stores, units] = await Promise.all([
+      db.articles.count(),
+      db.categories.count(),
+      db.stores.count(),
+      db.units.count(),
+    ]);
+    return { articles, categories, stores, units };
+  });
+}
+
 export function useLatestSession(listId: ID | undefined) {
   return useKeyedLiveQuery<ShoppingSession | null | undefined>(
     listId,

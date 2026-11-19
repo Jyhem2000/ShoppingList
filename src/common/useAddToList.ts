@@ -1,24 +1,15 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { db } from "@/db/database";
 import { addListItem } from "@/db/items";
 import { updateItem } from "@/db/lists";
-import {
-  entryAmount,
-  parseEntry,
-  resolveEntry,
-  type ParsedEntry,
-} from "@/domain/entry";
+import { entryAmount, type ParsedEntry } from "@/domain/entry";
 import type { Article, ListItem, Unit } from "@/domain/model";
 import { formatQuantity, type Amount } from "@/domain/quantity";
 import { feedback } from "@/feedback";
 import { fr } from "@/i18n/fr";
-import { showToast } from "@/ui/toast";
+import { reportSaveError, showToast } from "@/ui/toast";
+import { useEntryAdder } from "./useEntryAdder";
 import type { ListData } from "./useListData";
-
-/** Échec d'enregistrement (rare : stockage plein ou refusé) : on le dit. */
-export function reportSaveError(): void {
-  showToast(fr.list.saveError, { tone: "error" });
-}
 
 /** Ajout en attente d'une réponse : article déjà présent, ou article à créer. */
 export type PendingAdd =
@@ -32,6 +23,11 @@ export type PendingAdd =
     }
   | { kind: "create"; entry: ParsedEntry };
 
+const toCreate = (entry: ParsedEntry): PendingAdd => ({
+  kind: "create",
+  entry,
+});
+
 /**
  * Ajout à la liste courante (docs/03 A1 à A4, H8) : la saisie est découpée en
  * lignes ; les articles connus sont ajoutés tout de suite, les autres attendent une
@@ -42,7 +38,6 @@ export function useAddToList(
   data: ListData | undefined,
   onAdded?: (item: ListItem, article: Article) => void,
 ) {
-  const [queue, setQueue] = useState<PendingAdd[]>([]);
   const added = useRef(onAdded);
   useEffect(() => {
     added.current = onAdded;
@@ -102,29 +97,10 @@ export function useAddToList(
   );
 
   /** Saisie de la barre d'ajout : une ou plusieurs lignes (« 2 baguettes, du beurre »). */
-  const submit = useCallback(
-    async (text: string) => {
-      if (!data) return;
-      const pending: PendingAdd[] = [];
-      try {
-        for (const entry of parseEntry(text, data.units)) {
-          const { article, acceptedTypes } = resolveEntry(
-            entry.text,
-            data.articles,
-          );
-          if (!article) {
-            pending.push({ kind: "create", entry });
-            continue;
-          }
-          const waiting = await addArticle(article, entry, acceptedTypes);
-          if (waiting) pending.push(waiting);
-        }
-      } catch {
-        reportSaveError();
-      }
-      if (pending.length) setQueue((current) => [...current, ...pending]);
-    },
-    [data, addArticle],
+  const { submit, enqueue, pending, next } = useEntryAdder(
+    data,
+    addArticle,
+    toCreate,
   );
 
   /** Ajout d'un article choisi (suggestion, catalogue). */
@@ -136,12 +112,12 @@ export function useAddToList(
     ) => {
       try {
         const waiting = await addArticle(article, entry, acceptedTypes);
-        if (waiting) setQueue((current) => [...current, waiting]);
+        if (waiting) enqueue(waiting);
       } catch {
         reportSaveError();
       }
     },
-    [addArticle],
+    [addArticle, enqueue],
   );
 
   /**
@@ -152,22 +128,21 @@ export function useAddToList(
     async (article: Article, type: string, entry?: ParsedEntry) => {
       try {
         const waiting = await addArticle(article, entry, [type]);
-        if (waiting) setQueue((current) => [...current, waiting]);
+        if (waiting) enqueue(waiting);
       } catch {
         reportSaveError();
       }
     },
-    [addArticle],
+    [addArticle, enqueue],
   );
 
   /** « Créer … » choisi dans les suggestions. */
-  const create = useCallback((entry: ParsedEntry) => {
-    setQueue((current) => [...current, { kind: "create", entry }]);
-  }, []);
-
-  const next = useCallback(() => {
-    setQueue((current) => current.slice(1));
-  }, []);
+  const create = useCallback(
+    (entry: ParsedEntry) => {
+      enqueue(toCreate(entry));
+    },
+    [enqueue],
+  );
 
   return {
     submit,
@@ -175,7 +150,7 @@ export function useAddToList(
     create,
     addArticle,
     addType,
-    pending: queue[0],
+    pending,
     next,
   };
 }

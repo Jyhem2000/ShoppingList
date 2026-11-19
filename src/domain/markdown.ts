@@ -96,6 +96,30 @@ export function parseMarkdown(text: string): MarkdownBlock[] {
 }
 
 /**
+ * Les étapes en texte simple, pour un message (docs/03 E3) : sans `**` ni `#`, les
+ * listes gardent leurs tirets et leurs numéros.
+ */
+export function markdownToText(text: string): string {
+  const inline = (parts: Inline[]) => parts.map((part) => part.text).join("");
+  return parseMarkdown(text)
+    .map((block) => {
+      switch (block.kind) {
+        case "heading":
+          return inline(block.content);
+        case "bullets":
+          return block.items.map((item) => `- ${inline(item)}`).join("\n");
+        case "numbers":
+          return block.items
+            .map((item, index) => `${block.start + index}. ${inline(item)}`)
+            .join("\n");
+        case "paragraph":
+          return block.lines.map(inline).join("\n");
+      }
+    })
+    .join("\n\n");
+}
+
+/**
  * Nœud du document de l'éditeur (format JSON de ProseMirror, celui de TipTap) : les
  * étapes s'éditent mises en forme et restent enregistrées en Markdown.
  */

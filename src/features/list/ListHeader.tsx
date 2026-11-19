@@ -1,6 +1,7 @@
 import { ChevronDown, Ellipsis } from "lucide-react";
 import { fr } from "@/i18n/fr";
-import { PageTitle } from "@/ui/Page";
+import { Button } from "@/ui/button";
+import { PageHeader, PageTitle } from "@/ui/Page";
 
 const t = fr.list;
 
@@ -18,13 +19,13 @@ export function ListHeader({
   onMenu: () => void;
 }) {
   return (
-    <header className="sticky top-0 z-20 mb-2 border-b border-transparent bg-bg px-4 pt-7 pb-2 group-data-[scrollable]/main:border-border">
-      <div className="flex items-center gap-2">
+    <PageHeader
+      title={
         <button
           type="button"
           onClick={onChooseList}
           aria-label={`${listName} — ${t.chooseList}`}
-          className="-my-1.5 flex min-h-11 min-w-0 flex-1 items-center gap-2 text-left"
+          className="-my-1.5 flex min-h-11 w-full items-center gap-2 text-left"
         >
           <PageTitle>{listName}</PageTitle>
           {/* Centré sur les majuscules du nom (de leur sommet à la ligne de base, mesurés),
@@ -34,15 +35,18 @@ export function ListHeader({
             aria-hidden
           />
         </button>
-        <button
-          type="button"
+      }
+      action={
+        <Button
+          variant="icon"
+          size="icon"
           onClick={onMenu}
           aria-label={t.menu}
-          className="-my-1.5 -mr-2 flex size-11 shrink-0 items-center justify-center rounded-xl text-secondary active:bg-raised"
+          className="-mr-2"
         >
           <Ellipsis className="size-6" aria-hidden />
-        </button>
-      </div>
-    </header>
+        </Button>
+      }
+    />
   );
 }

@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { fr } from "@/i18n/fr";
+import { Button } from "@/ui/button";
 import { dismissToast, type ToastTone, useToast } from "@/ui/toast";
 import { cn } from "@/ui/utils";
 
@@ -25,7 +26,9 @@ const tones: Record<ToastTone, { icon: LucideIcon; className: string }> = {
  * (panneaux compris) et jamais caché par le clavier : il descend, puis remonte tout seul.
  * Posé sous le flou qu'iOS 26 met sous la barre d'état (même marge que les titres d'écran).
  * Bordure épaisse et icône de la couleur du ton, sur un fond plus clair que l'interface.
- * Se ferme aussi d'un ✕ ou en le poussant vers le haut.
+ * Se ferme aussi d'un ✕ ou en le poussant vers le haut. Un nouveau message prend la
+ * place de l'ancien, posé au même endroit, par-dessus : l'ancien s'en va dessous, au
+ * lieu de pousser le nouveau plus bas le temps de sortir.
  */
 export function Toaster() {
   const toast = useToast();
@@ -35,16 +38,22 @@ export function Toaster() {
     // qu'un message ne soit jamais lu deux fois.
     <div
       aria-live="polite"
-      className="pointer-events-none fixed inset-x-3 top-[calc(env(safe-area-inset-top)+2rem)] z-[60] mx-auto max-w-xl"
+      className="pointer-events-none fixed inset-x-3 top-[calc(env(safe-area-inset-top)+2rem)] z-[60] mx-auto grid max-w-xl"
     >
       <AnimatePresence>
         {toast && (
           <motion.div
             key={toast.id}
-            initial={{ y: -90, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: -90, opacity: 0 }}
-            transition={{ type: "spring", stiffness: 420, damping: 34 }}
+            initial={{ y: -90, opacity: 0, zIndex: 1 }}
+            animate={{ y: 0, opacity: 1, zIndex: 1 }}
+            exit={{ y: -90, opacity: 0, zIndex: 0 }}
+            // L'ordre d'empilement change d'un coup, sans ressort : le nouveau au-dessus.
+            transition={{
+              type: "spring",
+              stiffness: 420,
+              damping: 34,
+              zIndex: { duration: 0 },
+            }}
             drag="y"
             dragConstraints={{ top: 0, bottom: 0 }}
             dragElastic={{ top: 0.8, bottom: 0 }}
@@ -52,7 +61,7 @@ export function Toaster() {
               if (info.offset.y < -30 || info.velocity.y < -300) dismissToast();
             }}
             className={cn(
-              "pointer-events-auto flex touch-none items-center gap-2 rounded-2xl border-2 bg-raised py-1 pr-1 pl-3 shadow-xl shadow-overlay",
+              "pointer-events-auto relative col-start-1 row-start-1 flex touch-none items-center gap-2 self-start rounded-2xl border-2 bg-raised py-1 pr-1 pl-3 shadow-xl shadow-overlay",
               tones[toast.tone].className,
             )}
           >
@@ -72,14 +81,16 @@ export function Toaster() {
                 {toast.action.label}
               </button>
             )}
-            <button
-              type="button"
+            <Button
+              variant="iconMuted"
+              size="icon"
               aria-label={fr.toast.close}
               onClick={dismissToast}
-              className="flex size-11 shrink-0 items-center justify-center rounded-xl text-muted-foreground active:bg-surface"
+              // Sur le fond du message (--raised), l'appui se voit en --surface.
+              className="hover:bg-surface active:bg-surface"
             >
-              <X className="size-5" aria-hidden />
-            </button>
+              <X aria-hidden />
+            </Button>
           </motion.div>
         )}
       </AnimatePresence>

@@ -37,14 +37,13 @@ export function IconPickerSheet({
   const [featured, others] = useMemo(() => {
     if (!pack) return [[], []];
     const key = searchKey(query);
-    const names = Object.entries(pack)
-      .filter(
-        ([, icon]) =>
-          !key ||
-          searchKey(icon.l).includes(key) ||
-          icon.k.some((word) => searchKey(word).startsWith(key)),
-      )
-      .sort(([, a], [, b]) => a.l.localeCompare(b.l, "fr"));
+    // Le pack est déjà rangé par libellé, avec ses clés de recherche.
+    const names = Object.entries(pack).filter(
+      ([, icon]) =>
+        !key ||
+        icon.s.includes(key) ||
+        icon.k.some((word) => word.startsWith(key)),
+    );
     // En tête, les catégories dans l'ordre donné (les plats avant les desserts).
     const order = [...(featuredCategories ?? [])];
     return [
@@ -87,10 +86,9 @@ export function IconPickerSheet({
 
   return (
     <Sheet
-      open
       autoFocus={false}
-      onOpenChange={(open) => {
-        if (!open) onClose();
+      onClose={() => {
+        onClose();
       }}
       title={t.title}
     >

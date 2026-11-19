@@ -1,11 +1,9 @@
 import type { ID, Recipe } from "@/domain/model";
-import {
-  planRecipeAdd,
-  recipeMerge,
-  type RecipeAddLine,
-} from "@/domain/recipes";
+import { stepAmount } from "@/domain/quantity";
+import { recipeMerge, type RecipeAddLine } from "@/domain/recipes";
 import type { ShoppingDatabase } from "./database";
-import { activeItems, applyListMerge } from "./lists";
+import { activeItems } from "./items";
+import { applyListMerge } from "./lists";
 
 /**
  * Recettes (docs/02 § 7, docs/03 E1 et E2). Une recette ne garde que des identifiants
@@ -107,6 +105,47 @@ export async function updateIngredient(
   );
 }
 
+/**
+ * − / + d'un ingrédient, comme une ligne (docs/02 § 5) : un pas de son unité, qui
+ * change au besoin (950 g → 1 kg). Calculé depuis la recette enregistrée : des appuis
+ * rapprochés s'enchaînent sans se perdre.
+ */
+export async function stepIngredient(
+  database: ShoppingDatabase,
+  recipeId: ID,
+  index: number,
+  direction: 1 | -1,
+  now = Date.now(),
+): Promise<void> {
+  await database.transaction(
+    "rw",
+    [database.recipes, database.units, database.articles],
+    async () => {
+      const ingredient = (await database.recipes.get(recipeId))?.ingredients[
+        index
+      ];
+      if (!ingredient) return;
+      const units = await database.units.toArray();
+      const unit = units.find((u) => u.id === ingredient.unitId);
+      const article = await database.articles.get(ingredient.articleId);
+      const home = units.find((u) => u.id === article?.defaultUnitId);
+      const next =
+        unit &&
+        stepAmount({ quantity: ingredient.quantity, unit }, direction, units, {
+          home,
+        });
+      if (next)
+        await updateIngredient(
+          database,
+          recipeId,
+          index,
+          { quantity: next.quantity, unitId: next.unit.id },
+          now,
+        );
+    },
+  );
+}
+
 /** Retire un ingrédient de la recette. */
 export async function removeIngredient(
   database: ShoppingDatabase,
@@ -158,22 +197,6 @@ export async function deleteRecipe(
   await database.recipes.delete(id);
 }
 
-/** Aperçu de l'ajout à une liste, pour `requested` (dans l'unité de rendement). */
-export async function previewRecipeAdd(
-  database: ShoppingDatabase,
-  recipeId: ID,
-  listId: ID,
-  requested: number,
-): Promise<RecipeAddLine[]> {
-  const recipe = await database.recipes.get(recipeId);
-  if (!recipe) return [];
-  const [target, units] = await Promise.all([
-    activeItems(database, listId),
-    database.units.toArray(),
-  ]);
-  return planRecipeAdd(recipe, requested, target, units);
-}
-
 /**
  * Ajoute les ingrédients cochés de l'aperçu à la liste : nouvelles lignes, ou quantités
  * fusionnées avec les lignes aux mêmes types (docs/02 § 6). Chaque ligne touchée garde
@@ -204,18 +227,4 @@ export async function addRecipeToList(
       return merge.length;
     },
   );
-}
-
-/** Recettes qui utilisent un article (avant de le supprimer, docs/02 § 2). */
-export async function recipesUsing(
-  database: ShoppingDatabase,
-  articleId: ID,
-): Promise<Recipe[]> {
-  return database.recipes
-    .filter((recipe) =>
-      recipe.ingredients.some(
-        (ingredient) => ingredient.articleId === articleId,
-      ),
-    )
-    .toArray();
 }

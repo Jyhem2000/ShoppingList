@@ -10,7 +10,7 @@ import { feedback } from "@/feedback";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
 import { Sheet } from "@/ui/Sheet";
-import { formatWhen } from "./format";
+import { formatWhen } from "./time";
 
 import { useNow } from "@/ui/useNow";
 const t = fr.shopping.stale;
@@ -37,10 +37,9 @@ export function StaleSessionPrompt({ session }: { session: ShoppingSession }) {
 
   return (
     <Sheet
-      open
       autoFocus={false}
-      onOpenChange={(open) => {
-        if (!open) answer();
+      onClose={() => {
+        answer();
       }}
       title={t.title(formatWhen(lastActivity, now))}
       description={t.text}

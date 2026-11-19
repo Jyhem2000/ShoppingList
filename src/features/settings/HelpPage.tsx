@@ -3,7 +3,7 @@ import { routes } from "@/app/routes";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
 import { PageHeader, Row, Section } from "@/ui/Page";
-import { resetTips } from "@/ui/tips";
+import { resetTips } from "@/app/tips";
 import { showToast } from "@/ui/toast";
 
 const t = fr.help;

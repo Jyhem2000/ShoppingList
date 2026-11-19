@@ -1,8 +1,8 @@
 import { useState } from "react";
 import type { Article } from "@/domain/model";
-import { useAddToList } from "@/features/list/useAddToList";
-import type { ListData } from "@/features/list/useListData";
-import { QuantitySheet } from "./QuantitySheet";
+import { useAddToList } from "@/common/useAddToList";
+import type { ListData } from "@/common/useListData";
+import { QuantitySheet } from "@/common/QuantitySheet";
 
 /**
  * Choisir un article du catalogue (docs/03 A5) : absent de la liste, il est ajouté avec

@@ -5,8 +5,26 @@ import prettier from "eslint-config-prettier";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
 import { defineConfig, globalIgnores } from "eslint/config";
+import { readdirSync } from "node:fs";
 import globals from "globals";
 import tseslint from "typescript-eslint";
+
+const featureDirs = readdirSync("src/features");
+/** Imports interdits : ces modules, et tout dossier parent (« ../ »). */
+const forbid = (modules) => ({
+  "no-restricted-imports": [
+    "error",
+    {
+      patterns: [
+        {
+          group: [...modules, "../**"],
+          message:
+            "Module partagé entre dossiers de features : le placer dans src/common.",
+        },
+      ],
+    },
+  ],
+});
 
 export default defineConfig([
   globalIgnores([
@@ -43,5 +61,19 @@ export default defineConfig([
       ],
     },
   },
+  // Un dossier de features n'importe pas un autre dossier de features (src/app seul importe
+  // leurs écrans) ; src/common, partagé entre elles, ne les importe jamais (CLAUDE.md).
+  {
+    files: ["src/common/**/*.{ts,tsx}"],
+    rules: forbid(["@/features/**"]),
+  },
+  ...featureDirs.map((feature) => ({
+    files: [`src/features/${feature}/**/*.{ts,tsx}`],
+    rules: forbid(
+      featureDirs
+        .filter((other) => other !== feature)
+        .map((other) => `@/features/${other}/**`),
+    ),
+  })),
   prettier,
 ]);

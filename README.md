@@ -1,66 +1,71 @@
 # ShoppingList
 
-**Une liste de courses qui se range toute seule dans l'ordre de ton parcours en magasin.**
+**English** · [Français](README.fr.md)
 
-Fini les allers-retours au rayon frais parce que tu avais oublié le beurre : l'app trie ta liste rayon par rayon, dans l'ordre de **ton** magasin, et apprend ce parcours au fil de tes courses.
+**A shopping list that sorts itself in the order you walk through the store.**
 
-## Ce qu'elle fait
+No more walking back to the dairy aisle because you forgot the butter: the app sorts your list aisle by aisle, in the order of **your** store, and learns that route as you shop.
 
-- ⚡ **Ajout éclair** : tape `3 tom`, Entrée, c'est ajouté. Comprend « 500 g de farine », « une douzaine d'œufs », « pommes gala ».
-- 🗺️ **Tri par rayon** selon le magasin choisi : ses rayons se créent pendant tes premières courses, tels qu'ils sont vraiment.
-- 🧠 **Apprend l'ordre des rayons** à partir de l'ordre dans lequel tu coches tes articles.
-- 🛒 **Mode courses** : grosses lignes, rayons qui se replient une fois terminés, écran qui reste allumé, alerte si tu ajoutes un article d'un rayon déjà passé, clôture des courses (et réouverture en cas d'oubli à la caisse).
-- ✏️ **Tout est modifiable** : articles, catégories, rayons, magasins, unités.
-- 🍲 **Recettes** _(v1.0)_ : ajoute une recette pour 6 personnes ou 2 cakes, les ingrédients sont recalculés et ajoutés à ta liste.
-- 📤 **Partage** _(v1.1)_ : envoie ta liste à quelqu'un qui l'importe dans son app.
-- 💡 **Anti-oubli** _(v1.2)_ : l'app te rappelle ce que tu achètes d'habitude.
-- 🔒 **Sans compte, sans serveur, sans pub, gratuit.** Tes données restent sur ton téléphone et l'app marche hors ligne.
+The app itself is in French.
 
-## Mode d'emploi
+## What it does
 
-1. **Remplis ta liste** avec la barre du bas (`2 baguettes, du beurre`) ou le catalogue. Elle se range toute seule par catégorie ; en magasin, elle se range par rayon, dans l'ordre de ton parcours.
-2. **En magasin**, touche **C'est parti** et choisis le magasin (ou nomme-le, la première fois). La première fois, tout est « À placer » : touche chaque article quand il est dans le caddie, et **Rayon suivant** quand tu changes de rayon ; le magasin est enregistré tel que tu l'as parcouru. Touche une ligne quand l'article est dans le caddie ; glisse-la vers la gauche si tu ne le prends pas (introuvable, plus besoin…) : il reste dans la liste ; appui long pour dire qu'il est dans un autre rayon.
-3. **Tu penses à un article en passant** : ajoute-le avec la barre. Si tu l'as déjà pris, choisis « Je l'ai déjà dans le caddie » ; s'il n'est pas dans le rayon prévu, « Il est dans un autre rayon… ». Si son rayon est déjà passé, il t'attend en haut dans « À récupérer ».
-4. **À la caisse**, touche **Terminer**. Un oubli ? « Rouvrir les courses » sur la liste, tant que tu n'as pas recommencé de nouvelles courses.
+- ⚡ **Quick add**: type `3 tom`, press Enter, done. Understands "500 g de farine", "une douzaine d'œufs", "pommes gala".
+- 🗺️ **Sorted by aisle** for the store you pick: its aisles are created during your first trips, the way they really are.
+- 🧠 **Learns the aisle order** from the order in which you tick your items.
+- 🛒 **Shopping mode**: big rows, aisles that fold up once done, screen that stays on, a warning when you add an item from an aisle you already passed, end of shopping (and reopening if you forgot something at the checkout).
+- ✏️ **Everything can be edited**: items, categories, aisles, stores, units.
+- 🍲 **Recipes**: add a recipe for 6 people or 2 cakes, the ingredients are scaled and added to your list.
+- 📤 **Sharing**: send a list or a recipe to someone who imports it into their app (iPhone ↔ Android). You can also paste a list written by hand.
+- 💡 **Don't forget** _(v1.2)_: the app reminds you of what you usually buy, and shows which fruit and vegetables are in season.
+- 🔒 **No account, no server, no ads, free.** Your data stays on your phone and the app works offline.
 
-### Tes données
+## How to use it
 
-Tout reste sur ton téléphone. Pense à **Réglages → Sauvegarde → Exporter mes données** de temps en temps : le fichier se range dans Fichiers ou Drive, et « Importer une sauvegarde » remet tout en place (nouveau téléphone, réinstallation). Les nouveaux articles du catalogue arrivent avec les mises à jour, sans réinstaller.
+1. **Fill your list** with the bar at the bottom (`2 baguettes, du beurre`) or the catalogue. It sorts itself by category; in the store, it sorts by aisle, in the order of your route.
+2. **In the store**, tap **C'est parti** and pick the store (or name it, the first time). The first time, everything is in "À placer" (to be placed): tap each item when it is in the cart, and **Rayon suivant** (next aisle) when you move to another aisle; the store is saved the way you walked through it. Tap a row when the item is in the cart; swipe it left if you don't take it (not found, no longer needed…): it stays on the list; long-press to say it is in another aisle.
+3. **Something comes to mind on the way**: add it with the bar. If you already took it, choose "Je l'ai déjà dans le caddie" (already in the cart); if it is not in the expected aisle, "Il est dans un autre rayon…" (it's in another aisle). If its aisle is already behind you, it waits at the top in "À récupérer" (to pick up).
+4. **At the checkout**, tap **Terminer** (finish). Forgot something? "Rouvrir les courses" (reopen) on the list, as long as you haven't started a new trip.
+5. **Share**: `⋯` → "Partager la liste" (or, on a recipe, "Partager la recette") sends a message through Messages, WhatsApp… The other person copies the message, then in their app `⋯` → "Coller une liste" (or Recettes → "Coller une recette"); on Android, tapping the link is often enough.
 
-### Ce que l'app règle toute seule
+### Your data
 
-Rien à paramétrer à l'avance : ton magasin se construit pendant tes premières courses, puis l'app s'adapte chaque fois que tu les termines.
+Everything stays on your phone. Remember to use **Réglages → Sauvegarde → Exporter un fichier** (Settings → Backup → Export a file) now and then: the file goes to Files or Drive, and "Importer un fichier" (import a file) puts everything back (new phone, reinstall). The app also keeps one automatic copy per day (7 days), to undo a mistake. New catalogue items arrive with updates, without reinstalling.
 
-- **L'ordre des rayons** : les rayons où tu as coché quelque chose sont rangés dans l'ordre où tu les as parcourus. Seul l'**ordre des coches** compte, pas l'heure : une pause ou une attente au rayon coupe ne change rien. Un aller-retour (un oubli repris à la fin) ne fait pas passer un rayon en dernier. Les rayons où tu n'es pas passé gardent leur place.
-- **L'ordre des articles dans chaque rayon** : même principe, d'après l'ordre dans lequel tu les prends.
-- **Le rayon d'un article** : quand tu le déplaces (appui long), l'app retient ton choix pour ce magasin, pour cet article seul ou pour toute sa catégorie.
-- **Tes habitudes** : les articles que tu achètes souvent remontent en premier quand tu tapes dans la barre.
+### What the app sets up on its own
 
-**Astuce** : dans un nouveau magasin, suis ton parcours habituel pendant les premières courses et coche chaque article au moment où tu le prends, pas à la caisse : l'app apprend plus vite et plus juste.
+Nothing to configure beforehand: your store is built during your first trips, then the app adapts each time you finish shopping.
 
-Chaque magasin a son propre ordre : apprendre l'un ne change pas les autres. Courses rouvertes puis terminées à nouveau : rien n'est compté deux fois.
+- **Aisle order**: the aisles where you ticked something are arranged in the order you walked through them. Only the **order of the ticks** counts, not the time: a break or waiting at the deli counter changes nothing. Going back (an item forgotten and picked up at the end) doesn't send an aisle to the end. Aisles you didn't visit keep their place.
+- **Item order within each aisle**: same idea, based on the order in which you pick them up.
+- **An item's aisle**: when you move it (long press), the app remembers your choice for that store, for that item only or for its whole category.
+- **Your habits**: the items you buy often come first when you type in the bar.
+
+**Tip**: in a new store, follow your usual route during the first trips and tick each item when you pick it up, not at the checkout: the app learns faster and better.
+
+Each store has its own order: learning one doesn't change the others. A trip reopened and finished again is never counted twice.
 
 ## Installation
 
-Optimisée pour **Chrome** sur iPhone et Android. Adresse : **https://shoppinglist.jyhem.cloud**.
+Optimised for **Chrome** on iPhone and Android. Address: **https://shoppinglist.jyhem.cloud**.
 
 **iPhone (Chrome)**
 
-1. Ouvrir l'adresse dans Chrome.
-2. Bouton **Partager** (dans la barre d'adresse) → **Ajouter à l'écran d'accueil** → **Ajouter**.
-3. Lancer l'app depuis l'icône de l'écran d'accueil.
+1. Open the address in Chrome.
+2. **Share** button (in the address bar) → **Add to Home Screen** → **Add**.
+3. Launch the app from its home screen icon.
 
-> Important : installe l'app **avant** de commencer à t'en servir. Sur iPhone, l'app installée et le navigateur ne partagent pas leurs données.
+> Important: install the app **before** you start using it. On iPhone, the installed app and the browser don't share their data.
 
 **Android (Chrome)**
 
-1. Ouvrir l'adresse dans Chrome.
-2. Appuyer sur **Installer** (bouton proposé par l'app, ou menu ⋮ → _Installer l'application_).
+1. Open the address in Chrome.
+2. Tap **Installer** (button offered by the app, or menu ⋮ → _Install app_).
 
-## État du projet
+## Project status
 
-Version publiée : **1.0.0** (liste, catalogue, mode courses, magasins construits pendant les courses, recettes). À venir : 1.1 (partage), 1.2 (anti-oubli). Spécification dans [`docs/`](docs/README.md).
+Released version: **1.1.0** (list, catalogue, shopping mode, stores built while shopping, recipes, sharing). Coming next: 1.2 (don't forget, seasonal produce), 1.3 (English version of the app). Specification in [`docs/`](docs/README.md) (in French).
 
-## Pour les développeurs
+## For developers
 
-Toute la documentation technique (fonctionnalités, architecture, tests, plan) est dans [`docs/`](docs/README.md).
+All the technical documentation (features, architecture, tests, roadmap) is in [`docs/`](docs/README.md), in French.

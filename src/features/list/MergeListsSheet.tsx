@@ -11,10 +11,11 @@ import { CheckRow, FieldLabel } from "@/ui/form";
 import { PreviewRow } from "@/ui/PreviewRow";
 import { Sheet } from "@/ui/Sheet";
 import { showToast } from "@/ui/toast";
-import { lineDetails, lineQuantity } from "./format";
-import type { ListData } from "./useListData";
+import { lineDetails, lineQuantity } from "@/common/format";
+import type { ListData } from "@/common/useListData";
 import { ArticleIcon } from "@/ui/ArticleIcon";
 import { EmptyHint } from "@/ui/Page";
+import { withMember } from "@/domain/collections";
 const t = fr.list.merge;
 
 /**
@@ -51,9 +52,8 @@ export function MergeListsSheet({
 
   return (
     <Sheet
-      open
-      onOpenChange={(open) => {
-        if (!open) onClose();
+      onClose={() => {
+        onClose();
       }}
       title={t.title(data.list.name)}
       description={t.text}
@@ -95,12 +95,9 @@ export function MergeListsSheet({
                   key={lineKey(line)}
                   checked={!excluded.has(lineKey(line))}
                   onCheckedChange={(checked) => {
-                    setExcluded((current) => {
-                      const next = new Set(current);
-                      if (checked) next.delete(lineKey(line));
-                      else next.add(lineKey(line));
-                      return next;
-                    });
+                    setExcluded((current) =>
+                      withMember(current, lineKey(line), !checked),
+                    );
                   }}
                   icon={<ArticleIcon article={article} category={category} />}
                   title={article.name}

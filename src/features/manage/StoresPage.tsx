@@ -1,13 +1,13 @@
-import { Plus, Store as StoreIcon } from "lucide-react";
-import { useLiveQuery } from "dexie-react-hooks";
+import { Store as StoreIcon } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { manageStorePath, routes } from "@/app/routes";
 import { db } from "@/db/database";
-import { useStores } from "@/db/hooks";
+import { useAisleCounts, useStores } from "@/db/hooks";
 import { copyStore, createEmptyStore } from "@/db/stores";
 import type { ID } from "@/domain/model";
 import { fr } from "@/i18n/fr";
+import { AddButton } from "@/ui/AddButton";
 import { Button } from "@/ui/button";
 import { Chip, Field, TextInput, FieldLabel } from "@/ui/form";
 import { EmptyState, LinkRow, PageHeader, Section } from "@/ui/Page";
@@ -24,25 +24,15 @@ type Source = "copy" | "empty";
 export function StoresPage() {
   const stores = useStores();
   const [creating, setCreating] = useState(false);
-  const counts = useLiveQuery(async () => {
-    const map = new Map<ID, number>();
-    await db.aisles.each((a) => {
-      if (!a.isUnsorted) map.set(a.storeId, (map.get(a.storeId) ?? 0) + 1);
-    });
-    return map;
-  });
+  const counts = useAisleCounts();
 
   const addButton = (
-    <Button
-      variant="outline"
-      className="w-full"
+    <AddButton
+      label={t.add}
       onClick={() => {
         setCreating(true);
       }}
-    >
-      <Plus />
-      {t.add}
-    </Button>
+    />
   );
 
   return (
@@ -104,10 +94,9 @@ function NewStoreSheet({ onClose }: { onClose: () => void }) {
 
   return (
     <Sheet
-      open
       autoFocus={false}
-      onOpenChange={(open) => {
-        if (!open) onClose();
+      onClose={() => {
+        onClose();
       }}
       title={t.newTitle}
     >

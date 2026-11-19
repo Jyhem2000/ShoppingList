@@ -1,4 +1,5 @@
 import type { Article, ID, ItemStatus, ListItem, Purchase } from "./model";
+import { compareText } from "./slug";
 
 /**
  * Une ligne par article **et par choix de types** dans une liste (docs/02 § 6) :
@@ -57,8 +58,6 @@ const STATUS_ORDER: Record<ItemStatus, number> = {
   unavailable: 2,
 };
 
-const collator = new Intl.Collator("fr");
-
 /**
  * Ordre des lignes dans un groupe (rayon, catégorie, « À placer ») : à prendre, puis
  * cochées, puis pas prises ; l'article générique (« Fruits au choix ») en tête ; puis
@@ -78,6 +77,6 @@ export function compareLines<
     STATUS_ORDER[a.status] - STATUS_ORDER[b.status] ||
     Number(generic(b)) - Number(generic(a)) ||
     (rank(a) === rank(b) ? 0 : rank(a) < rank(b) ? -1 : 1) ||
-    collator.compare(name(a), name(b)) ||
-    collator.compare(typesKey(a.acceptedTypes), typesKey(b.acceptedTypes));
+    compareText(name(a), name(b)) ||
+    compareText(typesKey(a.acceptedTypes), typesKey(b.acceptedTypes));
 }

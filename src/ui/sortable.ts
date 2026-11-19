@@ -1,3 +1,5 @@
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import type { DndContextProps, UniqueIdentifier } from "@dnd-kit/core";
 import { fr } from "@/i18n/fr";
 
@@ -27,5 +29,28 @@ export function sortableAccessibility(
           : t.cancelled(nameOf(active.id)),
       onDragCancel: ({ active }) => t.cancelled(nameOf(active.id)),
     },
+  };
+}
+
+/**
+ * Une ligne de `SortableList` : `rowProps` va sur le `<li>`, `handleProps` sur la
+ * `DragHandle` ; `isDragging` pendant le glissement. `disabled` : ligne fixe.
+ */
+export function useSortableRow(id: string, disabled = false) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id, disabled });
+  return {
+    isDragging,
+    rowProps: {
+      ref: setNodeRef,
+      style: { transform: CSS.Transform.toString(transform), transition },
+    },
+    handleProps: { ...attributes, ...listeners },
   };
 }

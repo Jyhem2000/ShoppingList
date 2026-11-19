@@ -22,6 +22,7 @@ import {
   deleteList,
   mergeIntoTwin,
   restoreItems,
+  stepItem,
   updateItem,
 } from "@/db/lists";
 import {
@@ -198,7 +199,7 @@ describe("réouverture (docs/03 C8)", () => {
     );
     await closeSession(db, session.id, 10_000);
 
-    expect(await reopenSession(db, session.id)).toBe(true);
+    expect(await reopenSession(db, session.id, 20_000)).toBe(true);
     // L'ordre d'avant la clôture est rétabli, les achats réapparaissent cochés.
     expect(
       Object.fromEntries(
@@ -264,7 +265,7 @@ describe("réouverture (docs/03 C8)", () => {
       quantity: 2,
       unitId: pates.defaultUnitId,
     });
-    expect(await reopenSession(db, session.id)).toBe(true);
+    expect(await reopenSession(db, session.id, 2000)).toBe(true);
     const active = (
       await db.items.where("listId").equals(list.id).toArray()
     ).filter((i) => !i.closedInSessionId && i.articleId === pates.id);
@@ -286,10 +287,12 @@ describe("réouverture (docs/03 C8)", () => {
     const first = await shop(["pates"], ["Épicerie salée"], 0);
     await closeSession(db, first.id, 1000);
     await startSession(db, list.id, store.id, 2000);
-    expect(await reopenSession(db, first.id)).toBe(false);
-    // Les lignes archivées des courses précédentes sont supprimées.
+    expect(await reopenSession(db, first.id, 3000)).toBe(false);
+    // Les lignes archivées des courses précédentes sont supprimées, l'état gardé pour
+    // les rouvrir aussi.
     const items = await db.items.where("listId").equals(list.id).toArray();
     expect(items.filter((i) => i.closedInSessionId)).toEqual([]);
+    expect((await db.sessions.get(first.id))?.learningSnapshot).toBeUndefined();
   });
 });
 
@@ -495,6 +498,41 @@ describe("deux lignes d'un même article (types différents)", () => {
     expect((await db.items.get(golden.id))?.quantity).toBe(3);
   });
 
+  it("− / + d'une ligne cochée : appuis rapprochés tous comptés, l'achat suit l'unité", async () => {
+    const { db, list, store, article, aisleOf } = await setup();
+    const cerises = await article("cerises");
+    const { item } = await addListItem(db, {
+      listId: list.id,
+      articleId: cerises.id,
+      quantity: 950,
+      unitId: cerises.defaultUnitId,
+    });
+    const session = await startSession(db, list.id, store.id, 1000);
+    await checkItem(
+      db,
+      session,
+      item,
+      (await aisleOf("Fruits & Légumes")).id,
+      2000,
+    );
+    const kg = await db.units.where("slug").equals("kg").first();
+    // 950 g → 1 kg → 1,5 kg → 2 kg, sans perdre un appui.
+    await Promise.all([1, 2, 3].map(() => stepItem(db, item.id, 1)));
+    const line = await db.items.get(item.id);
+    expect([line?.quantity, line?.unitId]).toEqual([2, kg?.id]);
+    const purchases = await db.purchases.toArray();
+    expect(purchases.map((p) => [p.quantity, p.unitId])).toEqual([[2, kg?.id]]);
+    // En descendant sous 1 kg, retour à l'unité de l'article.
+    await stepItem(db, item.id, -1);
+    await stepItem(db, item.id, -1);
+    await stepItem(db, item.id, -1);
+    const back = await db.items.get(item.id);
+    expect([back?.quantity, back?.unitId]).toEqual([
+      950,
+      cerises.defaultUnitId,
+    ]);
+  });
+
   it("un achat d'avant la 1.0.1 (sans ligne) suit encore la sienne", async () => {
     const { db, list, store, article, aisleOf } = await setup();
     const lait = await article("lait");
@@ -557,12 +595,7 @@ describe("rayons modifiés pendant les courses", () => {
   it("un rayon créé et nommé dans Gérer reste à la clôture", async () => {
     const { db, list, store } = await setup();
     const session = await startSession(db, list.id, store.id, 1000);
-    const aisle = await addAisle(
-      db,
-      store.id,
-      { icon: "shopping-basket", color: "gris" },
-      2000,
-    );
+    const aisle = await addAisle(db, store.id, 2000);
     await updateAisle(db, aisle.id, { name: "Bio" });
     await closeSession(db, session.id, 3000);
     expect(await db.aisles.get(aisle.id)).toBeDefined();
@@ -592,7 +625,7 @@ describe("rayons modifiés pendant les courses", () => {
     await deleteAisle(db, opened.id, false, 5000);
     expect((await db.sessions.get(session.id))?.openedAisle).toBeUndefined();
 
-    // Rayon supprimé : l'achat passe au nouveau rayon de l'article (« Non classé »).
+    // Rayon supprimé : l'achat passe au nouveau rayon de l'article (« À placer »).
     await deleteAisle(db, epicerie.id, false, 6000);
     const unsorted = (
       await db.aisles.where("storeId").equals(store.id).toArray()
@@ -610,7 +643,7 @@ describe("rouvrir depuis le bilan", () => {
     await closeSession(db, session.id, 2000);
     const other = await createList(db, "Autre");
     expect((await getSettings(db))?.currentListId).toBe(other.id);
-    expect(await reopenSession(db, session.id)).toBe(true);
+    expect(await reopenSession(db, session.id, 3000)).toBe(true);
     expect((await getSettings(db))?.currentListId).toBe(list.id);
   });
 });

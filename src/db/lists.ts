@@ -1,5 +1,10 @@
 import { isPurchaseOf } from "@/domain/lines";
-import { planListMerge, type MergeLine } from "@/domain/listMerge";
+import {
+  mergeRecipeOrigins,
+  planListMerge,
+  type MergeLine,
+} from "@/domain/listMerge";
+import { stepAmount } from "@/domain/quantity";
 import type {
   ID,
   ListItem,
@@ -8,7 +13,7 @@ import type {
   Unit,
 } from "@/domain/model";
 import type { ShoppingDatabase } from "./database";
-import { findActiveItem } from "./items";
+import { activeItems, findActiveItem } from "./items";
 import { openSession } from "./sessions";
 import { getSettings, updateSettings } from "./settings";
 
@@ -17,18 +22,6 @@ import { getSettings, updateSettings } from "./settings";
  * par choix de types dans une liste : voir `addListItem` (items.ts).
  */
 const newId = () => crypto.randomUUID();
-
-/** Lignes actives (non archivées) d'une liste. */
-export async function activeItems(
-  database: ShoppingDatabase,
-  listId: ID,
-): Promise<ListItem[]> {
-  return database.items
-    .where("listId")
-    .equals(listId)
-    .filter((item) => !item.closedInSessionId)
-    .toArray();
-}
 
 export async function createList(
   database: ShoppingDatabase,
@@ -136,31 +129,77 @@ export async function reorderLists(
   });
 }
 
+type ItemChanges = Partial<
+  Pick<ListItem, "quantity" | "unitId" | "acceptedTypes" | "note" | "status">
+>;
+
 export async function updateItem(
   database: ShoppingDatabase,
   id: ID,
-  changes: Partial<
-    Pick<ListItem, "quantity" | "unitId" | "acceptedTypes" | "note" | "status">
-  >,
+  changes: ItemChanges,
 ): Promise<void> {
   await database.transaction(
     "rw",
     [database.items, database.purchases, database.sessions],
+    () => applyItemChanges(database, id, changes),
+  );
+}
+
+/**
+ * − / + d'une ligne (docs/02 § 5) : un pas de son unité, qui change au besoin
+ * (950 g → 1 kg → 1,5 kg ; 1 kg → 950 g, vers l'unité de l'article). Calculé depuis
+ * la ligne enregistrée : des appuis rapprochés s'enchaînent sans se perdre.
+ */
+export async function stepItem(
+  database: ShoppingDatabase,
+  id: ID,
+  direction: 1 | -1,
+): Promise<void> {
+  await database.transaction(
+    "rw",
+    [
+      database.items,
+      database.purchases,
+      database.sessions,
+      database.units,
+      database.articles,
+    ],
     async () => {
-      await database.items.update(id, { ...changes, updatedAt: Date.now() });
-      // Ligne déjà cochée : son achat suit la quantité (bilan, historique).
       const item = await database.items.get(id);
-      if (
-        item &&
-        (changes.quantity !== undefined || changes.unitId !== undefined)
-      )
-        for (const purchase of await linePurchases(database, item))
-          await database.purchases.update(purchase.id, {
-            quantity: item.quantity,
-            unitId: item.unitId,
-          });
+      if (!item) return;
+      const units = await database.units.toArray();
+      const unit = units.find((u) => u.id === item.unitId);
+      const article = await database.articles.get(item.articleId);
+      const home = units.find((u) => u.id === article?.defaultUnitId);
+      const next =
+        unit &&
+        stepAmount({ quantity: item.quantity, unit }, direction, units, {
+          home,
+        });
+      if (next)
+        await applyItemChanges(database, id, {
+          quantity: next.quantity,
+          unitId: next.unit.id,
+        });
     },
   );
+}
+
+/** À appeler dans une transaction sur `items`, `purchases` et `sessions`. */
+async function applyItemChanges(
+  database: ShoppingDatabase,
+  id: ID,
+  changes: ItemChanges,
+): Promise<void> {
+  await database.items.update(id, { ...changes, updatedAt: Date.now() });
+  // Ligne déjà cochée : son achat suit la quantité (bilan, historique).
+  const item = await database.items.get(id);
+  if (item && (changes.quantity !== undefined || changes.unitId !== undefined))
+    for (const purchase of await linePurchases(database, item))
+      await database.purchases.update(purchase.id, {
+        quantity: item.quantity,
+        unitId: item.unitId,
+      });
 }
 
 /**
@@ -193,13 +232,9 @@ export async function mergeLineInto(
       ...(await linePurchases(database, line)),
     ].map((purchase) => [purchase.id, purchase]),
   );
-  const known = new Set(twin.fromRecipes.map((r) => r.recipeId));
   await database.items.update(twin.id, {
     ...merged,
-    fromRecipes: [
-      ...twin.fromRecipes,
-      ...line.fromRecipes.filter((r) => !known.has(r.recipeId)),
-    ],
+    fromRecipes: mergeRecipeOrigins(twin.fromRecipes, line.fromRecipes),
     updatedAt: now,
   });
   await database.items.delete(line.id);
@@ -377,9 +412,7 @@ export async function applyListMerge(
   recipe?: ListItem["fromRecipes"][number],
 ): Promise<void> {
   const withRecipe = (from: ListItem["fromRecipes"]) =>
-    recipe
-      ? [...from.filter((r) => r.recipeId !== recipe.recipeId), recipe]
-      : from;
+    mergeRecipeOrigins(from, recipe ? [recipe] : []);
   await database.transaction("rw", database.items, async () => {
     for (const line of lines) {
       const changes = {

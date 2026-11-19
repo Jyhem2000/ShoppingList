@@ -1,5 +1,4 @@
 import { CircleCheck } from "lucide-react";
-import { useLiveQuery } from "dexie-react-hooks";
 import { useNavigate, useParams } from "react-router";
 import { routes } from "@/app/routes";
 import { db } from "@/db/database";
@@ -8,6 +7,7 @@ import {
   useArticles,
   useCategories,
   useLatestSession,
+  useListItems,
   useSession,
   useSessionPurchases,
   useStores,
@@ -16,11 +16,13 @@ import { reopenSession } from "@/db/sessions";
 import { aisleOrderChanged, canReopen } from "@/domain/shopping";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
-import { EmptyState, PageHeader } from "@/ui/Page";
-import { Tip } from "@/ui/Tip";
-import { formatDuration } from "./format";
+import { EmptyState, PageHeader, Section } from "@/ui/Page";
+import { InfoRow } from "@/ui/RowButton";
+import { HelpTip } from "./HelpTip";
+import { formatDuration } from "@/common/time";
 import { ArticleIcon } from "@/ui/ArticleIcon";
 import { useNow } from "@/ui/useNow";
+import { byId } from "@/domain/collections";
 const t = fr.shopping.recap;
 
 /**
@@ -38,20 +40,10 @@ export function RecapPage() {
   const latest = useLatestSession(session?.listId);
   const stores = useStores();
   const now = useNow();
-  const unavailable = useLiveQuery(
-    () =>
-      session
-        ? db.items
-            .where("listId")
-            .equals(session.listId)
-            .filter(
-              (item) =>
-                item.status === "unavailable" && !item.closedInSessionId,
-            )
-            .count()
-        : 0,
-    [session],
-  );
+  const listId = session?.listId;
+  const unavailable = useListItems(listId)?.filter(
+    (item) => item.status === "unavailable",
+  ).length;
 
   if (session === null)
     return (
@@ -63,8 +55,8 @@ export function RecapPage() {
   if (!session || !purchases || !articles || !categories || !aisles)
     return null;
 
-  const articleById = new Map(articles.map((a) => [a.id, a]));
-  const categoryById = new Map(categories.map((c) => [c.id, c]));
+  const articleById = byId(articles);
+  const categoryById = byId(categories);
   const snapshot = session.learningSnapshot;
   const learned =
     snapshot !== undefined &&
@@ -98,22 +90,29 @@ export function RecapPage() {
         {learned && <p className="text-secondary">{t.learned}</p>}
       </div>
       {purchases.length > 0 && (
-        <ul className="mx-3 divide-y divide-border/50 overflow-hidden rounded-2xl bg-surface">
-          {purchases.map((purchase) => {
-            const article = articleById.get(purchase.articleId);
-            if (!article) return null;
-            const category = categoryById.get(article.categoryId);
-            return (
-              <li
-                key={purchase.id}
-                className="flex min-h-11 items-center gap-3 px-4 py-1.5"
-              >
-                <ArticleIcon article={article} category={category} size={24} />
-                <span className="truncate font-semibold">{article.name}</span>
-              </li>
-            );
-          })}
-        </ul>
+        <Section>
+          <ul className="divide-y divide-border">
+            {purchases.map((purchase) => {
+              const article = articleById.get(purchase.articleId);
+              if (!article) return null;
+              const category = categoryById.get(article.categoryId);
+              return (
+                <li key={purchase.id}>
+                  <InfoRow
+                    icon={
+                      <ArticleIcon
+                        article={article}
+                        category={category}
+                        size={24}
+                      />
+                    }
+                    title={article.name}
+                  />
+                </li>
+              );
+            })}
+          </ul>
+        </Section>
       )}
       <div className="flex flex-col gap-3 px-5 pt-6">
         <Button
@@ -136,7 +135,7 @@ export function RecapPage() {
           </Button>
         )}
       </div>
-      <Tip id="shopping-stored" text={fr.tips.stored} />
+      <HelpTip id="shopping-stored" text={fr.tips.stored} />
     </>
   );
 }

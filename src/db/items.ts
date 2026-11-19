@@ -6,6 +6,18 @@ import type { ShoppingDatabase } from "./database";
  * Lignes d'une liste (docs/02 § 6). Une seule ligne par article et par choix de types
  * dans une liste, hors lignes archivées (clôturées) : cette règle est garantie ici.
  */
+/** Lignes actives (non archivées) d'une liste. */
+export async function activeItems(
+  database: ShoppingDatabase,
+  listId: ID,
+): Promise<ListItem[]> {
+  return database.items
+    .where("listId")
+    .equals(listId)
+    .filter((item) => !item.closedInSessionId)
+    .toArray();
+}
+
 export type NewListItem = Pick<
   ListItem,
   "listId" | "articleId" | "quantity" | "unitId"

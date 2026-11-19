@@ -1,5 +1,5 @@
 import type { Article, Unit } from "./model";
-import { simplify, type Amount } from "./quantity";
+import { parseNumber, pieceUnit, simplify, type Amount } from "./quantity";
 import { searchArticles } from "./search";
 import { accentKey, coreWords, searchKey, slugify } from "./slug";
 
@@ -58,10 +58,6 @@ const PARTITIVE = /^(?:(?:de\s+l|d|l)['’]\s*|(?:du|des|de\s+la|de)\s+)/i;
 const NUMBER = /^(\d+(?:[.,]\d+)?)(.*)$/;
 const TIMES = /^[x×*](\d+(?:[.,]\d+)?)$/i;
 
-function toNumber(text: string): number {
-  return Number(text.replace(",", "."));
-}
-
 function unitIndex(units: readonly ParsingUnit[]): Map<string, string> {
   const index = new Map<string, string>();
   for (const unit of units) {
@@ -100,7 +96,7 @@ function leadingQuantity(
     const [, digits = "", glued = ""] = numeric;
     const gluedUnit = glued ? units.get(searchKey(glued)) : undefined;
     if (glued && !gluedUnit) return undefined;
-    result = { quantity: toNumber(digits), unitSlug: gluedUnit, length: 1 };
+    result = { quantity: parseNumber(digits), unitSlug: gluedUnit, length: 1 };
   } else if (HALF_DOZEN.has(firstKey)) {
     return { quantity: 6, length: 1 };
   } else if (DOZEN.has(firstKey)) {
@@ -130,21 +126,21 @@ function trailingQuantity(
   const last = words.at(-1) ?? "";
   const beforeLast = words.at(-2) ?? "";
   const times = TIMES.exec(last);
-  if (times) return { quantity: toNumber(times[1] ?? ""), length: 1 };
+  if (times) return { quantity: parseNumber(times[1] ?? ""), length: 1 };
   if (/^[x×*]$/i.test(beforeLast) && /^\d+(?:[.,]\d+)?$/.test(last))
-    return { quantity: toNumber(last), length: 2 };
+    return { quantity: parseNumber(last), length: 2 };
   const numeric = NUMBER.exec(last);
   if (numeric) {
     const [, digits = "", glued = ""] = numeric;
-    if (!glued) return { quantity: toNumber(digits), length: 1 };
+    if (!glued) return { quantity: parseNumber(digits), length: 1 };
     const unit = units.get(searchKey(glued));
     return unit
-      ? { quantity: toNumber(digits), unitSlug: unit, length: 1 }
+      ? { quantity: parseNumber(digits), unitSlug: unit, length: 1 }
       : undefined;
   }
   const unit = units.get(searchKey(last));
   if (unit && words.length > 2 && /^\d+(?:[.,]\d+)?$/.test(beforeLast))
-    return { quantity: toNumber(beforeLast), unitSlug: unit, length: 2 };
+    return { quantity: parseNumber(beforeLast), unitSlug: unit, length: 2 };
   return undefined;
 }
 
@@ -190,6 +186,8 @@ export interface ResolvedEntry<A extends ResolvableArticle> {
   /** Absent : article inconnu, à créer. */
   article?: A;
   acceptedTypes: string[];
+  /** Libellé ou alias exact ; faux : meilleur résultat de la recherche. */
+  exact: boolean;
 }
 
 /** Clé d'un type pour la saisie : mots significatifs de sa clé de recherche. */
@@ -215,10 +213,19 @@ function matchTypes(rest: string[], types: string[]): string[] | undefined {
 }
 
 /** Libellés et alias exacts (clé de recherche) → articles qui les portent. */
+/** Index par tableau d'articles : une liste importée le consulte à chaque ligne. */
+const labelIndexes = new WeakMap<
+  readonly ResolvableArticle[],
+  Map<string, { article: ResolvableArticle; label: string }[]>
+>();
+
 function labelIndex<A extends ResolvableArticle>(
   articles: readonly A[],
 ): Map<string, { article: A; label: string }[]> {
+  const cached = labelIndexes.get(articles);
+  if (cached) return cached as Map<string, { article: A; label: string }[]>;
   const exact = new Map<string, { article: A; label: string }[]>();
+  labelIndexes.set(articles, exact);
   for (const article of articles) {
     for (const label of [article.name, ...article.aliases]) {
       const key = searchKey(label);
@@ -268,8 +275,21 @@ export function resolveEntry<A extends ResolvableArticle>(
   text: string,
   articles: readonly A[],
 ): ResolvedEntry<A> {
+  const found = exactEntry(text, articles);
+  if (found) return { ...found, exact: true };
+  const [best] = searchArticles(text, articles);
+  return best
+    ? { article: best.article, acceptedTypes: [], exact: false }
+    : { acceptedTypes: [], exact: false };
+}
+
+/** Libellé ou alias exact (avec ses types), sans recherche ; `undefined` sinon. */
+export function exactEntry<A extends ResolvableArticle>(
+  text: string,
+  articles: readonly A[],
+): { article: A; acceptedTypes: string[] } | undefined {
   const words = searchKey(text).split("-").filter(Boolean);
-  if (words.length === 0) return { acceptedTypes: [] };
+  if (words.length === 0) return undefined;
   const exact = labelIndex(articles);
   // Libellés qui ne diffèrent que par les accents ou le pluriel (« pâté », « pâtes ») :
   // la saisie exacte, puis le pluriel tapé, puis les accents tapés ; sinon le premier
@@ -301,10 +321,7 @@ export function resolveEntry<A extends ResolvableArticle>(
     const types = matchTypes(rest, article.types);
     if (types) return { article, acceptedTypes: types };
   }
-  const [best] = searchArticles(text, articles);
-  return best
-    ? { article: best.article, acceptedTypes: [] }
-    : { acceptedTypes: [] };
+  return undefined;
 }
 
 /**
@@ -344,12 +361,4 @@ export function entryAmount(
   const amount = { quantity, unit };
   const entered = entry.quantity !== undefined || entry.unitSlug !== undefined;
   return simplifyQuantities && entered ? simplify(amount, units) : amount;
-}
-
-/** Unité « pièce » (celle du catalogue, même renommée), pour compter des objets. */
-function pieceUnit(units: readonly Unit[]): Unit | undefined {
-  return (
-    units.find((u) => u.catalogKey === "piece") ??
-    units.find((u) => u.slug === "piece")
-  );
 }

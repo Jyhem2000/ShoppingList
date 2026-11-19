@@ -31,7 +31,20 @@ export async function enterApp(page: Page, { tips = false } = {}) {
   await expect(
     page.getByRole("navigation", { name: fr.tabs.navigation }),
   ).toBeVisible();
+  // La barre d'ajout n'apparaît qu'une fois les données de départ créées.
+  await expect(
+    page.getByRole("textbox", { name: fr.list.addPlaceholder }),
+  ).toBeVisible({ timeout: FIRST_LAUNCH_TIMEOUT });
 }
+
+/**
+ * Premier lancement : une écriture IndexedDB par unité, catégorie et article (environ
+ * 540). Le WebKit de Playwright sous Windows met environ 15,6 ms par écriture, un tic
+ * de l'horloge de Windows, quelle que soit la taille de l'objet : environ 8,5 s
+ * d'écritures, 11 s en tout, au-delà des 10 s d'une attente ordinaire (docs/08 § 3).
+ * Quelques millisecondes sous Chromium. 30 s laissent de la marge au catalogue.
+ */
+const FIRST_LAUNCH_TIMEOUT = 30_000;
 
 /**
  * Saisie dans la barre d'ajout de la liste, validée par Entrée. En mode courses, le
@@ -65,7 +78,7 @@ export async function aisleNames(page: Page): Promise<string[]> {
  * de rayon, un rayon qui s'ouvre), ou la page cesse un moment de se redessiner (docs/08
  * § 3). À réserver aux actions qu'un second toucher ne défait pas.
  */
-async function tapUntil(
+export async function tapUntil(
   tap: () => Promise<unknown>,
   done: (timeout: number) => Promise<unknown>,
 ) {
@@ -172,4 +185,37 @@ export async function check(page: Page, name: string) {
         timeout,
       }),
   );
+}
+
+/** Onglet Recettes → « Nouvelle recette » : nom et rendement, puis la fiche en modification. */
+export async function createRecipe(
+  page: Page,
+  name: string,
+  { quantity, unit }: { quantity: number; unit: string },
+) {
+  await page
+    .getByRole("navigation", { name: fr.tabs.navigation })
+    .getByRole("link", { name: fr.tabs.recipes })
+    .click();
+  await page.getByRole("button", { name: fr.recipes.create }).click();
+  const sheet = page.getByRole("dialog", { name: fr.recipes.newTitle });
+  await sheet.getByRole("textbox", { name: fr.recipes.name }).fill(name);
+  await sheet
+    .getByRole("textbox", { name: fr.list.line.quantity })
+    .fill(String(quantity));
+  await sheet.getByRole("button", { name: unit, exact: true }).click();
+  await sheet.getByRole("button", { name: fr.recipes.createSubmit }).click();
+  await expect(page.getByRole("heading", { name })).toBeVisible();
+}
+
+/** Barre d'ajout des ingrédients de la fiche en modification. */
+export async function addIngredients(page: Page, text: string) {
+  const input = page.getByRole("textbox", { name: fr.recipes.addPlaceholder });
+  await input.fill(text);
+  await input.press("Enter");
+}
+
+/** Ingrédient de la fiche (en modification : une ligne à toucher). */
+export function ingredient(page: Page, name: string) {
+  return page.locator("main li").filter({ hasText: name });
 }

@@ -1,3 +1,4 @@
+import { Dexie } from "dexie";
 import type {
   Aisle,
   Article,
@@ -7,15 +8,27 @@ import type {
   ShoppingSession,
 } from "@/domain/model";
 import { isPurchaseOf, lineKey } from "@/domain/lines";
-import { learnAislePositions, learnArticleOrder } from "@/domain/shopping";
+import {
+  canReopen,
+  learnAislePositions,
+  learnArticleOrder,
+} from "@/domain/shopping";
 import {
   insertAisleAfter,
+  isFreshEmptyAisle,
+  newAisle,
   placementScope,
-  setCategoryRole,
+  withPrimaryCategory,
 } from "@/domain/stores";
 import type { ShoppingDatabase } from "./database";
+import { activeItems } from "./items";
 import { updateSettings } from "./settings";
-import { ensureUnsortedAisle } from "./stores";
+import {
+  ensureUnsortedAisle,
+  setAisleCategoryRole,
+  setArticleOverride,
+  storeAisles,
+} from "./stores";
 
 /**
  * Courses : session, coches, clôture, apprentissage et réouverture (docs/02 § 8,
@@ -39,17 +52,18 @@ export async function latestSession(
   database: ShoppingDatabase,
   listId: ID,
 ): Promise<ShoppingSession | undefined> {
-  const sessions = await database.sessions
-    .where("listId")
-    .equals(listId)
-    .sortBy("startedAt");
-  return sessions.at(-1);
+  // Index par liste et date : seule la dernière est lue.
+  return database.sessions
+    .where("[listId+startedAt]")
+    .between([listId, Dexie.minKey], [listId, Dexie.maxKey])
+    .last();
 }
 
 /**
  * Démarre les courses (C1), ou reprend la session déjà ouverte. Une nouvelle session
  * supprime les lignes archivées des courses précédentes (les achats restent dans
- * l'historique) et remet les introuvables à prendre.
+ * l'historique), remet les introuvables à prendre et vide l'état gardé pour rouvrir les
+ * courses précédentes (`learningSnapshot`).
  */
 export async function startSession(
   database: ShoppingDatabase,
@@ -78,13 +92,23 @@ export async function startSession(
       await database.items.bulkDelete(
         items.filter((item) => item.closedInSessionId).map((item) => item.id),
       );
-      for (const item of items)
-        if (!item.closedInSessionId && item.status !== "todo")
-          await database.items.update(item.id, {
-            status: "todo",
-            checkedAt: undefined,
-            updatedAt: now,
-          });
+      await database.items.bulkUpdate(
+        items
+          .filter((item) => !item.closedInSessionId && item.status !== "todo")
+          .map((item) => ({
+            key: item.id,
+            changes: { status: "todo", checkedAt: undefined, updatedAt: now },
+          })),
+      );
+      // Les courses précédentes ne peuvent plus être rouvertes (`canReopen`) : l'état
+      // d'avant leur apprentissage ne sert plus.
+      await database.sessions
+        .where("listId")
+        .equals(listId)
+        .filter((previous) => previous.learningSnapshot !== undefined)
+        .modify((previous) => {
+          delete previous.learningSnapshot;
+        });
       const session: ShoppingSession = {
         id: crypto.randomUUID(),
         listId,
@@ -138,33 +162,16 @@ export async function checkItem(
   );
 }
 
-/** Icône et couleur d'un rayon qui vient d'être ouvert, avant qu'il reçoive une catégorie. */
-const NEW_AISLE_STYLE = { icon: "shopping-basket", color: "gris" } as const;
-
 /** Rayons du magasin visés par au moins une exception par article (lus en une fois). */
 async function aislesWithOverrides(
   database: ShoppingDatabase,
   storeId: ID,
 ): Promise<Set<ID>> {
   const overrides = await database.overrides
-    .filter((o) => o.storeId === storeId)
+    .where("storeId")
+    .equals(storeId)
     .toArray();
   return new Set(overrides.map((o) => o.aisleId));
-}
-
-/**
- * Rayon ouvert par « Rayon suivant » pendant ces courses, encore vide : ni nom, ni
- * repère, ni catégorie, ni exception. Un rayon créé ou nommé dans Gérer est gardé.
- */
-function isFreshEmptyAisle(
-  aisle: Aisle,
-  session: Pick<ShoppingSession, "startedAt">,
-  withOverrides: ReadonlySet<ID>,
-): boolean {
-  if (aisle.isUnsorted || aisle.categories.length > 0) return false;
-  if (aisle.name.trim() || aisle.description?.trim()) return false;
-  if (aisle.createdAt < session.startedAt) return false;
-  return !withOverrides.has(aisle.id);
 }
 
 /** Nouveau rayon sans nom, juste après `afterId` (en tête si absent). */
@@ -174,30 +181,19 @@ async function openAisleAfter(
   afterId: ID | undefined,
   now: number,
 ): Promise<Aisle> {
-  const aisles = await database.aisles
-    .where("storeId")
-    .equals(storeId)
-    .toArray();
-  const aisle: Aisle = {
-    id: crypto.randomUUID(),
-    createdAt: now,
-    updatedAt: now,
-    storeId,
-    name: "",
-    ...NEW_AISLE_STYLE,
-    position: 0,
-    categories: [],
-    isUnsorted: false,
-  };
+  const aisles = await storeAisles(database, storeId);
+  const aisle = newAisle(crypto.randomUUID(), storeId, now);
   const positions = insertAisleAfter([...aisles, aisle], afterId, aisle.id);
   aisle.position = positions[aisle.id] ?? 0;
   await database.aisles.add(aisle);
-  for (const other of aisles)
-    if (
-      positions[other.id] !== undefined &&
-      positions[other.id] !== other.position
-    )
-      await database.aisles.update(other.id, { position: positions[other.id] });
+  await database.aisles.bulkUpdate(
+    aisles.flatMap((other) => {
+      const position = positions[other.id];
+      return position !== undefined && position !== other.position
+        ? [{ key: other.id, changes: { position } }]
+        : [];
+    }),
+  );
   return aisle;
 }
 
@@ -261,31 +257,15 @@ export async function placeAndCheck(
       database.sessions,
     ],
     async () => {
-      const aisles = await database.aisles
-        .where("storeId")
-        .equals(session.storeId)
-        .toArray();
+      const aisles = await storeAisles(database, session.storeId);
       const target =
         aisles.find((a) => a.id === targetId && !a.isUnsorted) ??
         (await openAisleAfter(database, session.storeId, undefined, now));
       const category = await database.categories.get(article.categoryId);
-      const existing = await database.overrides
-        .where("[storeId+articleId]")
-        .equals([session.storeId, article.id])
-        .toArray();
-      await database.overrides.bulkDelete(existing.map((o) => o.id));
       if (placementScope(category, aisles) === "category" && category) {
-        const fresh = target.categories.length === 0;
+        await setArticleOverride(database, session.storeId, article);
         await database.aisles.update(target.id, {
-          categories: [
-            ...target.categories.filter((c) => c.categoryId !== category.id),
-            { categoryId: category.id, primary: true },
-          ],
-          ...(fresh &&
-          target.icon === NEW_AISLE_STYLE.icon &&
-          target.color === NEW_AISLE_STYLE.color
-            ? { icon: category.icon, color: category.color }
-            : {}),
+          ...withPrimaryCategory(target, category),
           updatedAt: now,
         });
         const current = await database.sessions.get(session.id);
@@ -295,17 +275,10 @@ export async function placeAndCheck(
             { categoryId: category.id, at: now },
           ],
         });
-      } else if (
-        // Déjà le rayon de sa catégorie : aucune exception à garder.
-        !target.categories.some(
-          (c) => c.categoryId === article.categoryId && c.primary,
-        )
-      )
-        await database.overrides.add({
-          id: crypto.randomUUID(),
-          storeId: session.storeId,
-          articleId: article.id,
+      } else
+        await setArticleOverride(database, session.storeId, article, {
           aisleId: target.id,
+          aisles,
         });
       await checkItem(database, session, item, target.id, now);
       return target.id;
@@ -313,12 +286,13 @@ export async function placeAndCheck(
   );
 }
 
-/** Remettre à prendre (décocher, ou retirer « Introuvable »). */
-export async function uncheckItem(
+/** Ligne non prise : son achat dans la session est retiré. */
+async function setUnbought(
   database: ShoppingDatabase,
   sessionId: ID,
   item: Pick<ListItem, "id" | "articleId">,
-  now = Date.now(),
+  status: "todo" | "unavailable",
+  now: number,
 ): Promise<void> {
   await database.transaction(
     "rw",
@@ -327,7 +301,7 @@ export async function uncheckItem(
     async () => {
       await removePurchases(database, sessionId, item);
       await database.items.update(item.id, {
-        status: "todo",
+        status,
         checkedAt: undefined,
         updatedAt: now,
       });
@@ -335,27 +309,21 @@ export async function uncheckItem(
   );
 }
 
-/** Introuvable (C3) : la ligne reste dans la liste après les courses. */
-export async function markUnavailable(
+/** Remettre à prendre (décocher, ou retirer « Introuvable »). */
+export const uncheckItem = (
   database: ShoppingDatabase,
   sessionId: ID,
   item: Pick<ListItem, "id" | "articleId">,
   now = Date.now(),
-): Promise<void> {
-  await database.transaction(
-    "rw",
-    database.items,
-    database.purchases,
-    async () => {
-      await removePurchases(database, sessionId, item);
-      await database.items.update(item.id, {
-        status: "unavailable",
-        checkedAt: undefined,
-        updatedAt: now,
-      });
-    },
-  );
-}
+) => setUnbought(database, sessionId, item, "todo", now);
+
+/** Introuvable (C3) : la ligne reste dans la liste après les courses. */
+export const markUnavailable = (
+  database: ShoppingDatabase,
+  sessionId: ID,
+  item: Pick<ListItem, "id" | "articleId">,
+  now = Date.now(),
+) => setUnbought(database, sessionId, item, "unavailable", now);
 
 /** Retire l'achat de cette ligne dans la session (`isPurchaseOf`). */
 export async function removePurchases(
@@ -401,22 +369,17 @@ export async function closeSession(
         database,
         session.storeId,
       );
-      for (const aisle of await database.aisles
-        .where("storeId")
-        .equals(session.storeId)
-        .toArray())
-        if (isFreshEmptyAisle(aisle, session, withOverrides)) {
-          await database.aisles.delete(aisle.id);
-          if (session.openedAisle?.aisleId === aisle.id)
-            await database.sessions.update(sessionId, {
-              openedAisle: undefined,
-            });
-        }
+      const all = await storeAisles(database, session.storeId);
+      const empty = new Set(
+        all
+          .filter((aisle) => isFreshEmptyAisle(aisle, session, withOverrides))
+          .map((aisle) => aisle.id),
+      );
+      await database.aisles.bulkDelete([...empty]);
+      if (session.openedAisle && empty.has(session.openedAisle.aisleId))
+        await database.sessions.update(sessionId, { openedAisle: undefined });
       const store = await database.stores.get(session.storeId);
-      const aisles = await database.aisles
-        .where("storeId")
-        .equals(session.storeId)
-        .toArray();
+      const aisles = all.filter((aisle) => !empty.has(aisle.id));
       const purchases = await database.purchases
         .where("sessionId")
         .equals(sessionId)
@@ -430,19 +393,25 @@ export async function closeSession(
       };
       if (store && !store.orderLocked) {
         const positions = learnAislePositions(aisles, purchases);
-        for (const [id, position] of Object.entries(positions))
-          await database.aisles.update(id, { position, updatedAt: now });
+        await database.aisles.bulkUpdate(
+          Object.entries(positions).map(([key, position]) => ({
+            key,
+            changes: { position, updatedAt: now },
+          })),
+        );
         await database.stores.update(store.id, {
           articleOrder: learnArticleOrder(articleOrder, purchases),
         });
       }
-      const checked = await database.items
-        .where("listId")
-        .equals(session.listId)
-        .filter((item) => item.status === "checked" && !item.closedInSessionId)
-        .toArray();
-      for (const item of checked)
-        await database.items.update(item.id, { closedInSessionId: sessionId });
+      const checked = (await activeItems(database, session.listId)).filter(
+        (item) => item.status === "checked",
+      );
+      await database.items.bulkUpdate(
+        checked.map((item) => ({
+          key: item.id,
+          changes: { closedInSessionId: sessionId },
+        })),
+      );
       await database.sessions.update(sessionId, {
         status: "closed",
         closedAt: now,
@@ -453,7 +422,7 @@ export async function closeSession(
 }
 
 /**
- * Rouvrir les courses (C8), tant qu'aucune nouvelle session n'a démarré : l'ordre
+ * Rouvrir les courses (C8), si `canReopen` le permet : l'ordre
  * d'avant la clôture est rétabli et les articles achetés réapparaissent cochés. La
  * clôture suivante recalcule tout : rien n'est jamais compté deux fois. Sa liste
  * devient la liste courante : le mode courses l'affiche, pas une autre.
@@ -461,6 +430,7 @@ export async function closeSession(
 export async function reopenSession(
   database: ShoppingDatabase,
   sessionId: ID,
+  now = Date.now(),
 ): Promise<boolean> {
   return database.transaction(
     "rw",
@@ -473,15 +443,24 @@ export async function reopenSession(
     ],
     async () => {
       const session = await database.sessions.get(sessionId);
-      if (session?.status !== "closed") return false;
-      const latest = await latestSession(database, session.listId);
-      if (latest?.id !== session.id) return false;
-      // Magasin supprimé depuis : plus rien à rouvrir.
-      if (!(await database.stores.get(session.storeId))) return false;
+      if (
+        !session ||
+        !canReopen(
+          session,
+          (await latestSession(database, session.listId))?.id,
+          (await database.stores.get(session.storeId)) !== undefined,
+          now,
+        )
+      )
+        return false;
       const snapshot = session.learningSnapshot;
       if (snapshot) {
-        for (const [id, position] of Object.entries(snapshot.aislePositions))
-          await database.aisles.update(id, { position });
+        await database.aisles.bulkUpdate(
+          Object.entries(snapshot.aislePositions).map(([key, position]) => ({
+            key,
+            changes: { position },
+          })),
+        );
         await database.stores.update(session.storeId, {
           articleOrder: snapshot.articleOrder,
         });
@@ -489,13 +468,7 @@ export async function reopenSession(
       // Une seule ligne par article et par types : un achat remis dans la liste depuis
       // (une nouvelle ligne à prendre) l'emporte, la ligne achetée reste archivée.
       const active = new Set(
-        (
-          await database.items
-            .where("listId")
-            .equals(session.listId)
-            .filter((item) => !item.closedInSessionId)
-            .toArray()
-        ).map(lineKey),
+        (await activeItems(database, session.listId)).map(lineKey),
       );
       await database.items
         .where("closedInSessionId")
@@ -539,44 +512,21 @@ export async function moveArticle(
     "rw",
     [database.overrides, database.aisles, database.purchases],
     async () => {
-      const existing = await database.overrides
-        .where("[storeId+articleId]")
-        .equals([storeId, article.id])
-        .toArray();
-      await database.overrides.bulkDelete(existing.map((o) => o.id));
-      if (scope === "article") {
-        const aisles = await database.aisles
-          .where("storeId")
-          .equals(storeId)
-          .toArray();
-        const primary = aisles.find((a) =>
-          a.categories.some(
-            (c) => c.categoryId === article.categoryId && c.primary,
-          ),
-        );
-        // Déjà le rayon de sa catégorie : aucune exception à garder.
-        if (primary?.id !== aisleId)
-          await database.overrides.add({
-            id: crypto.randomUUID(),
-            storeId,
-            articleId: article.id,
-            aisleId,
-          });
-      } else {
-        const aisles = await database.aisles
-          .where("storeId")
-          .equals(storeId)
-          .toArray();
-        for (const changed of setCategoryRole(
-          aisles,
+      if (scope === "article")
+        await setArticleOverride(database, storeId, article, {
+          aisleId,
+          aisles: await storeAisles(database, storeId),
+        });
+      else {
+        await setArticleOverride(database, storeId, article);
+        await setAisleCategoryRole(
+          database,
+          storeId,
           aisleId,
           article.categoryId,
           "primary",
-        ))
-          await database.aisles.update(changed.id, {
-            categories: changed.categories,
-            updatedAt: now,
-          });
+          now,
+        );
       }
       if (sessionId)
         await database.purchases

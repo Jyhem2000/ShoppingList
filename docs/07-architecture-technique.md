@@ -9,30 +9,30 @@
 
 ## 2. Stack
 
-| Besoin                         | Choix                                                                                                             | Licence          | Pourquoi                                                                                                                                           |
-| ------------------------------ | ----------------------------------------------------------------------------------------------------------------- | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Build, serveur de dev          | **Vite**                                                                                                          | MIT              | Standard actuel, rapide                                                                                                                            |
-| Interface                      | **React 19 + TypeScript** (strict)                                                                                | MIT              | Écosystème le plus large, très bien maîtrisé par les agents IA                                                                                     |
-| Styles                         | **Tailwind CSS v4**                                                                                               | MIT              | Tokens de couleurs (05 § 2) en variables CSS, itération rapide                                                                                     |
-| Composants                     | **shadcn/ui** (Radix UI, Vaul pour les panneaux glissants)                                                        | MIT              | Composants accessibles copiés dans le projet, entièrement stylables                                                                                |
-| Routage                        | **React Router 8** (`createHashRouter`), historique par hash (`#/…`)                                              | MIT              | Simple ; aucune configuration serveur sur un hébergement statique                                                                                  |
-| Stockage                       | **Dexie.js** + `dexie-react-hooks`                                                                                | Apache 2.0       | IndexedDB avec requêtes réactives (`useLiveQuery`), index, transactions, migrations                                                                |
-| État d'interface               | État React local + contexte. **Zustand** seulement si le besoin apparaît                                          | MIT              | Les données métier vivent dans Dexie, pas dans un store global                                                                                     |
-| Recherche                      | Implémentation maison dans `domain/`                                                                              | —                | ~1 000 articles : pas besoin de bibliothèque ; contrôle total des règles (accents, pluriels, alias)                                                |
-| Glisser-déposer                | **dnd-kit**                                                                                                       | MIT              | Réordonner les rayons, compatible tactile                                                                                                          |
-| Animations, gestes             | **Motion**                                                                                                        | MIT              | Animations de listes, glissements (swipe)                                                                                                          |
-| Sons                           | **Web Audio API** (native) + sons CC0                                                                             | —                | Voir 05 § 7                                                                                                                                        |
-| Icônes interface               | **lucide-react**                                                                                                  | ISC              | —                                                                                                                                                  |
-| Icônes articles                | **Dessinées pour l'app** (`src/icons/drawn`, une par article)                                                     | —                | Pack réuni au build (05 § 4)                                                                                                                       |
-| Éditeur des étapes de recette  | **TipTap** (ProseMirror), extensions choisies : gras, titre, puces, numéros                                       | MIT              | Texte mis en forme pendant qu'on l'écrit, enregistré en Markdown ; chargé seulement à la modification d'une recette (décision du 16 novembre 2026) |
-| Compression du lien de partage | **lz-string**                                                                                                     | MIT              | Données de la liste dans l'URL (v1.1)                                                                                                              |
-| PWA                            | **vite-plugin-pwa** (Workbox)                                                                                     | MIT              | Manifest, service worker, cache hors ligne, mises à jour (§ 6)                                                                                     |
-| Police                         | **Plus Jakarta Sans** via `@fontsource-variable/plus-jakarta-sans`                                                | OFL              | Embarquée, hors ligne                                                                                                                              |
-| Tests                          | **Vitest**, **Playwright**                                                                                        | MIT / Apache 2.0 | Voir [08](08-tests-et-qualite.md)                                                                                                                  |
-| Lint / format                  | **ESLint** (typescript-eslint strict, hooks React) + **Prettier** (réglages par défaut, tri des classes Tailwind) | MIT              | Les standards des projets React + Vite ; ESLint analyse le code avec les types                                                                     |     |
-| Déploiement                    | **Cloudflare Pages** connecté au dépôt GitHub                                                                     | gratuit          | Voir § 9                                                                                                                                           |
+| Besoin                         | Choix                                                                                                             | Licence          | Pourquoi                                                                                                            |
+| ------------------------------ | ----------------------------------------------------------------------------------------------------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------- |
+| Build, serveur de dev          | **Vite**                                                                                                          | MIT              | Standard actuel, rapide                                                                                             |
+| Interface                      | **React 19 + TypeScript** (strict)                                                                                | MIT              | Écosystème le plus large, très bien maîtrisé par les agents IA                                                      |
+| Styles                         | **Tailwind CSS v4**                                                                                               | MIT              | Tokens de couleurs (05 § 2) en variables CSS, itération rapide                                                      |
+| Composants                     | **shadcn/ui** (Radix UI, Vaul pour les panneaux glissants)                                                        | MIT              | Composants accessibles copiés dans le projet, entièrement stylables                                                 |
+| Routage                        | **React Router 8** (`createHashRouter`), historique par hash (`#/…`)                                              | MIT              | Simple ; aucune configuration serveur sur un hébergement statique                                                   |
+| Stockage                       | **Dexie.js** + `dexie-react-hooks`                                                                                | Apache 2.0       | IndexedDB avec requêtes réactives (`useLiveQuery`), index, transactions, migrations                                 |
+| État d'interface               | État React local + contexte. **Zustand** seulement si le besoin apparaît                                          | MIT              | Les données métier vivent dans Dexie, pas dans un store global                                                      |
+| Recherche                      | Implémentation maison dans `domain/`                                                                              | —                | ~500 articles : pas besoin de bibliothèque ; contrôle total des règles (accents, pluriels, alias)                   |
+| Glisser-déposer                | **dnd-kit**                                                                                                       | MIT              | Réordonner les rayons, compatible tactile                                                                           |
+| Animations, gestes             | **Motion**                                                                                                        | MIT              | Animations de listes, glissements (swipe)                                                                           |
+| Sons                           | **Web Audio API** (native) + sons CC0                                                                             | —                | Voir 05 § 7                                                                                                         |
+| Icônes interface               | **lucide-react**                                                                                                  | ISC              | —                                                                                                                   |
+| Icônes articles                | **Dessinées pour l'app** (`src/icons/drawn`, une par article)                                                     | —                | Pack réuni au build (05 § 4)                                                                                        |
+| Éditeur des étapes de recette  | **TipTap** (ProseMirror), extensions choisies : gras, titre, puces, numéros                                       | MIT              | Texte mis en forme pendant qu'on l'écrit, enregistré en Markdown ; chargé seulement à la modification d'une recette |
+| Compression du lien de partage | **lz-string**                                                                                                     | MIT              | Données de la liste dans l'URL (v1.1)                                                                               |
+| PWA                            | **vite-plugin-pwa** (Workbox)                                                                                     | MIT              | Manifest, service worker, cache hors ligne, mises à jour (§ 6)                                                      |
+| Police                         | **Plus Jakarta Sans** via `@fontsource-variable/plus-jakarta-sans`                                                | OFL              | Embarquée, hors ligne                                                                                               |
+| Tests                          | **Vitest**, **Playwright**                                                                                        | MIT / Apache 2.0 | Voir [08](08-tests-et-qualite.md)                                                                                   |
+| Lint / format                  | **ESLint** (typescript-eslint strict, hooks React) + **Prettier** (réglages par défaut, tri des classes Tailwind) | MIT              | Les standards des projets React + Vite ; ESLint analyse le code avec les types                                      |     |
+| Déploiement                    | **Cloudflare Pages** connecté au dépôt GitHub                                                                     | gratuit          | Voir § 9                                                                                                            |
 
-Versions des bibliothèques : dernières stables au moment de l'initialisation (novembre 2026 : Vite 8, React 19, TypeScript 6.0 (la 7, compilateur natif, n'est pas encore prise en charge par typescript-eslint), React Router 8, Tailwind CSS 4, Vitest 5, Playwright 1.65, ESLint 10, Prettier 3). Node 26 LTS (Node 24 est en fin de support).
+Versions des bibliothèques : Vite 8, React 19, TypeScript 6.0 (la 7, compilateur natif, n'est pas encore prise en charge par typescript-eslint), React Router 8, Tailwind CSS 4, Vitest 5, Playwright 1.65, ESLint 10, Prettier 3. Node 26 LTS.
 
 ## 3. Fonctionnalités du navigateur
 
@@ -40,21 +40,19 @@ Toutes ces fonctionnalités sont **gratuites** : elles sont intégrées au navig
 
 Rappel ([01](01-vision.md#plateformes-cibles)) : sur iPhone, **tous les navigateurs et l'app installée utilisent WebKit** ; la colonne « iPhone » vaut donc pour Chrome iPhone comme pour Safari. Règle : _essentiel_ = doit marcher sur les deux ; _confort_ = au moins un des deux, sans rien casser ailleurs (détection systématique avant usage).
 
-| Fonctionnalité                     | Usage                                   | iPhone (WebKit)                      | Android (Chrome) | Rôle             | Décision                                                                                |
-| ---------------------------------- | --------------------------------------- | ------------------------------------ | ---------------- | ---------------- | --------------------------------------------------------------------------------------- |
-| IndexedDB                          | Stockage                                | ✅                                   | ✅               | Essentiel        | Utilisée (Dexie)                                                                        |
-| Service Worker + Cache             | Hors ligne, mises à jour                | ✅                                   | ✅               | Essentiel        | Utilisée                                                                                |
-| Screen Wake Lock                   | Écran allumé en mode courses (C1)       | ✅ (app installée : iOS 18.4+)       | ✅               | Essentiel        | Utilisée ; message de repli si indisponible                                             |
-| Web Audio                          | Sons (H6)                               | ✅ (après un premier geste)          | ✅               | Confort          | Utilisée                                                                                |
-| Audio Session API                  | Suivre le mode silencieux (H6)          | ✅ (iOS 17+)                         | ❌               | Confort          | Utilisée sur iPhone (`type = "ambient"`)                                                |
-| Web Share                          | Export de sauvegarde (H4), partage (F1) | ✅ texte, lien, fichiers             | ✅               | Essentiel        | Utilisée                                                                                |
-| Clipboard                          | « Coller une liste partagée » (F2)      | ✅ sur geste de l'utilisateur        | ✅               | Essentiel (v1.1) | Utilisée                                                                                |
-| `navigator.storage.persist()`      | Limiter l'effacement des données        | ✅                                   | ✅               | Confort          | Demandée automatiquement au démarrage de l'app installée, sans rien afficher            |
-| Vibration                          | Retour haptique (H7)                    | ❌                                   | ✅               | —                | **Non retenue** : absente sur iPhone, l'astuce haptique n'y fonctionne pas (H7 retirée) |
-| `beforeinstallprompt`              | Bouton « Installer » (H5)               | ❌ (installation manuelle expliquée) | ✅               | Confort          | Utilisée sur Android                                                                    |
-| Caméra (`getUserMedia`)            | Scan code-barres (I1)                   | ✅                                   | ✅               | Idée             | Plus tard                                                                               |
-| `BarcodeDetector`                  | Scan code-barres (I1)                   | ❌                                   | ✅               | Idée             | Native si présente, sinon ZXing                                                         |
-| Web Speech (reconnaissance vocale) | Dictée                                  | ⚠️ peu fiable en app installée       | ✅               | —                | **Non retenue** : le micro du clavier fait la même chose partout (A7)                   |
+| Fonctionnalité                     | Usage                                   | iPhone (WebKit)                      | Android (Chrome) | Rôle             | Décision                                                                     |
+| ---------------------------------- | --------------------------------------- | ------------------------------------ | ---------------- | ---------------- | ---------------------------------------------------------------------------- |
+| IndexedDB                          | Stockage                                | ✅                                   | ✅               | Essentiel        | Utilisée (Dexie)                                                             |
+| Service Worker + Cache             | Hors ligne, mises à jour                | ✅                                   | ✅               | Essentiel        | Utilisée                                                                     |
+| Screen Wake Lock                   | Écran allumé en mode courses (C1)       | ✅ (app installée : iOS 18.4+)       | ✅               | Essentiel        | Utilisée ; message de repli si indisponible                                  |
+| Web Audio                          | Sons (H6)                               | ✅ (après un premier geste)          | ✅               | Confort          | Utilisée                                                                     |
+| Audio Session API                  | Suivre le mode silencieux (H6)          | ✅ (iOS 17+)                         | ❌               | Confort          | Utilisée sur iPhone (`type = "ambient"`)                                     |
+| Web Share                          | Export de sauvegarde (H4), partage (F1) | ✅ texte, lien, fichiers             | ✅               | Essentiel        | Utilisée                                                                     |
+| Clipboard                          | « Coller une liste » (F2)               | ✅ sur geste de l'utilisateur        | ✅               | Essentiel (v1.1) | Utilisée                                                                     |
+| `navigator.storage.persist()`      | Limiter l'effacement des données        | ✅                                   | ✅               | Confort          | Demandée automatiquement au démarrage de l'app installée, sans rien afficher |
+| Vibration                          | Retour haptique                         | ❌                                   | ✅               | —                | **Non retenue** : absente sur iPhone, l'astuce haptique n'y fonctionne pas   |
+| `beforeinstallprompt`              | Bouton « Installer » (H5)               | ❌ (installation manuelle expliquée) | ✅               | Confort          | Utilisée sur Android                                                         |
+| Web Speech (reconnaissance vocale) | Dictée                                  | ⚠️ peu fiable en app installée       | ✅               | —                | **Non retenue** : le micro du clavier fait la même chose partout (A7)        |
 
 ## 4. Stockage : points d'attention
 
@@ -64,7 +62,7 @@ Rappel ([01](01-vision.md#plateformes-cibles)) : sur iPhone, **tous les navigate
 
 1. **L'app installée sur l'écran d'accueil a son propre stockage**, séparé de celui de Chrome (et de Safari). Les données saisies dans le navigateur avant l'installation ne se retrouvent pas dans l'app. → L'écran de premier lancement (04 § 2.11) pousse à installer **avant** toute saisie.
 2. **Effacement automatique** : WebKit peut effacer les données d'un _site_ non visité depuis 7 jours ; une app installée n'est pas concernée de la même façon (son compteur dépend de son propre usage). → Installation fortement recommandée + export en fichier expliqué dans Réglages → Sauvegarde (H4). Les copies automatiques internes (H4) ne couvrent pas ce risque : elles sont effacées avec le reste.
-3. **Hauteur au lancement** : bug connu d'iOS. Au lancement de l'app installée, la zone d'affichage mesure la hauteur de l'écran moins celle de la barre d'état (797 au lieu de 844 sur l'iPhone de test) jusqu'au premier défilement de la page. La page est peinte sur tout l'écran, mais un élément en position fixe est coupé au bas de cette zone : la barre d'onglets remontait, ou ses libellés étaient coupés. Tant que la zone est trop courte (iPhone, app installée, portrait), le cadre de l'app est donc posé dans la page (position absolue) à la hauteur de l'écran ; dès qu'iOS l'a corrigée, il redevient fixe à 100 % de la zone d'affichage, pour que le rebond de la page ne le déplace pas (`src/platform/viewport.ts`). Correction validée sur iPhone avec un diagnostic de mesures, retiré depuis. Un défilement invisible d'un pixel au lancement a été essayé puis abandonné : il ne corrigeait pas la hauteur et faisait trembler l'affichage. Seul le contenu défile. La page ne rebondit pas (`overscroll-behavior: none` sur `html`) : sur iPhone, un rebond de la page faisait ignorer l'appui suivant sur la barre d'onglets. Le contenu garde son effet élastique, mais sa barre de défilement est masquée : iOS la dessinait au-dessus du titre, sous la barre d'état. Barre d'état en `black-translucent`, avec une bande opaque sur sa zone.
+3. **Hauteur au lancement** : bug connu d'iOS. Au lancement de l'app installée, la zone d'affichage mesure la hauteur de l'écran moins celle de la barre d'état (797 au lieu de 844 sur l'iPhone de test) jusqu'au premier défilement de la page. La page est peinte sur tout l'écran, mais un élément en position fixe est coupé au bas de cette zone : la barre d'onglets remonterait, ou ses libellés seraient coupés. Tant que la zone est trop courte (iPhone, app installée, portrait), le cadre de l'app est donc posé dans la page (position absolue) à la hauteur de l'écran ; dès qu'iOS l'a corrigée, il redevient fixe à 100 % de la zone d'affichage, pour que le rebond de la page ne le déplace pas (`src/platform/viewport.ts`). Ce passage attend qu'aucun champ n'ait le focus : au premier clavier, iOS fait défiler la page pour montrer le champ, ce qui corrige la zone, et le cadre redevenu fixe descendrait sous un curseur resté à l'ancienne place, hors du champ. Un défilement invisible d'un pixel au lancement ne corrige pas la hauteur et fait trembler l'affichage. Seul le contenu défile. La page ne rebondit pas (`overscroll-behavior: none` sur `html`) : sur iPhone, un rebond de la page fait ignorer l'appui suivant sur la barre d'onglets. Le contenu garde son effet élastique, mais sa barre de défilement est masquée : iOS la dessinerait au-dessus du titre, sous la barre d'état. Barre d'état en `black-translucent`, avec une bande opaque sur sa zone.
 4. **Liens** : un lien ouvert depuis Messages s'ouvre dans le navigateur, jamais dans l'app installée → mécanisme « Coller une liste partagée » (F2).
 
 **Partout** : chaque adresse (production, préproduction — § 9) est une app distincte avec ses propres données. Installer la préproduction pour tester n'affecte pas l'app de production.
@@ -122,8 +120,7 @@ interface Article extends Base {
   aliases: string[]; // slugifiés pour la comparaison
   icon?: string;
   favorite: boolean;
-  seasonMonths?: number[]; // plus tard (D3) : 1..12
-  barcodes: string[]; // idée I1
+  seasonMonths?: number[]; // v1.2 (D3) : 1..12
   notDuplicateOf: ID[]; // paires écartées de la détection de doublons
   catalogKey?: string;
 }
@@ -142,7 +139,7 @@ interface Aisle extends Base {
   color: string;
   position: number; // score 0..1, appris ou manuel ; tri croissant
   categories: { categoryId: ID; primary: boolean }[];
-  isUnsorted: boolean; // rayon spécial « À placer » (ex-« Non classé »)
+  isUnsorted: boolean; // rayon spécial « À placer »
 }
 // Invariant : dans un magasin, une catégorie a au plus UN rayon où primary = true.
 
@@ -207,7 +204,7 @@ interface Purchase {
   sessionId: ID;
   storeId: ID;
   articleId: ID;
-  itemId?: ID; // la ligne cochée (deux lignes d'un même article : deux achats) ; non indexé, absent avant la 1.0.1
+  itemId?: ID; // la ligne cochée (deux lignes d'un même article : deux achats) ; non indexé, absent des achats les plus anciens (repli sur `articleId`)
   aisleId: ID;
   quantity: number;
   unitId: ID;
@@ -226,27 +223,27 @@ interface Settings {
 ### Tables Dexie
 
 ```ts
-db.version(1).stores({
+db.version(6).stores({
   units: "id, &slug",
   categories: "id, &slug",
-  articles: "id, &slug, *aliases, categoryId, favorite, *barcodes, catalogKey",
+  articles: "id, &slug, *aliases, categoryId, favorite, catalogKey",
   stores: "id",
   aisles: "id, storeId",
   overrides: "id, [storeId+articleId]",
   lists: "id, position",
   items: "id, listId, articleId, closedInSessionId",
   recipes: "id",
-  sessions: "id, listId, storeId, status, startedAt",
+  sessions: "id, listId, storeId, status, startedAt, [listId+startedAt]", // dernière course d'une liste
   purchases: "id, sessionId, storeId, articleId, at",
   meta: "key", // settings, version du catalogue…
-  copies: "id, at", // copies automatiques : date et résumé (version 3), hors fichier de sauvegarde
-  copyBackups: "id", // leurs données complètes (version 4), lues seulement pour restaurer
+  copies: "id, at", // copies automatiques : date et résumé, hors fichier de sauvegarde
+  copyBackups: "id", // leurs données complètes, lues seulement pour restaurer
 });
 ```
 
 - **Préférences de l'appareil** (sons, son par son, écran allumé, thème) : hors de `Settings`, dans `localStorage` (`src/app/preferences.ts`). Elles dépendent du téléphone, ne sont pas exportées et ne sont pas écrasées par l'import d'une sauvegarde venant d'un autre appareil.
 - Unicité « un article et un choix de types par liste » (`src/domain/lines.ts`) vérifiée par la couche d'accès aux données (les lignes archivées `closedInSessionId` sont exclues).
-- **La version du schéma de données est indépendante de la version de l'app** : elle n'augmente que si la structure change. Toute évolution = nouvelle `version(n)` + fonction `upgrade` + test de migration. Les migrations s'exécutent automatiquement au premier lancement de la nouvelle version. Historique : **version 2** (13 novembre 2026) — mêmes tables, aucune donnée modifiée ; elle a porté en préproduction une migration des noms de rayons, retirée avec la phase 7 (les magasins se construisent pendant les courses), et reste déclarée pour les bases déjà passées en version 2. **Version 3** (14 novembre 2026) — nouvelle table `copies` (copies automatiques internes, 03 H4), vide au départ : rien à migrer, les données existantes restent telles quelles (test de passage de la version 2 à la 3). **Version 4** (15 novembre 2026) — nouvelle table `copyBackups` : les données complètes de chaque copie y passent, `copies` ne garde que la date et le résumé, pour que l'écran Sauvegarde ne lise plus 7 bases entières. Pas de reprise des anciennes copies : avant la `0.9.0` (installation définitive), l'app ne contient que des données d'essai, donc une évolution du schéma se limite à la nouvelle version ; les migrations de données et leurs tests commencent quand l'app aura **d'autres utilisateurs** (« vraie production », peut-être après la `1.0.0`) ; d'ici là, un changement incompatible se règle en effaçant les données de l'app ou en la réinstallant (décision du 15 novembre 2026, confirmée le même jour après la `0.9.0`). Champs ajoutés sans index (donc sans nouvelle version) : `Aisle.description`, `Category.shortName`, `ShoppingSession.openedAisle`, `ShoppingSession.placedCategories`.
+- **La version du schéma de données est indépendante de la version de l'app** : elle n'augmente que si la structure change (nouvelle table, nouvel index). Version actuelle : **6** ; les versions 1 à 5 restent déclarées dans `src/db/database.ts` pour ouvrir une base plus ancienne. Toute évolution = nouvelle `version(n)` déclarée. Tant que l'app n'a pas d'autres utilisateurs (« vraie production »), pas de migration de données ni de test de migration : un changement incompatible se règle en effaçant les données de l'app ou en la réinstallant. Ensuite, chaque évolution aura sa fonction `upgrade` et son test de migration, exécutés automatiquement au premier lancement de la nouvelle version. Une sauvegarde exportée avec un schéma plus récent n'est pas lisible par une app au schéma plus ancien. Champs sans index, ajoutés sans nouvelle version : `Aisle.description`, `Category.shortName`, `ShoppingSession.openedAisle`, `ShoppingSession.placedCategories`.
 
 ## 6. App installée, hors ligne et mises à jour
 
@@ -296,13 +293,13 @@ Règles en [02 § 1](02-modele-metier.md#1-libellé-identifiant-et-slug). Implé
 
 ### 7.4 `effectiveAisle(article, store, aisles, overrides)`
 
-Exception de l'article → rayon **principal** de sa catégorie → « Non classé » ([02 § 4](02-modele-metier.md#rayon-effectif-dun-article-dans-un-magasin)).
+Exception de l'article → rayon **principal** de sa catégorie → « À placer » ([02 § 4](02-modele-metier.md#rayon-effectif-dun-article-dans-un-magasin)).
 
 ### 7.5 `groupListForStore(items, articles, store, aisles, overrides, articleOrder)` → `AisleGroup[]`
 
 Mode courses (03 B1). La liste, elle, est groupée par catégorie : `groupListByCategory` (`src/domain/categories.ts`), catégories dans l'ordre du catalogue (`sortCategories`, partagé avec l'écran Catalogue).
 
-Groupes par rayon effectif, rayons triés par `position` (« Non classé » en dernier), rayons vides omis ; dans un groupe : lignes `todo` puis `checked` puis `unavailable`, chacune avec les articles génériques en tête, puis triée par ordre appris (`articleOrder` : score par article, plus petit d'abord ; les articles sans ordre appris viennent après) puis alphabétique. Lignes archivées exclues.
+Groupes par rayon effectif, rayons triés par `position` (« À placer » en dernier), rayons vides omis ; dans un groupe : lignes `todo` puis `checked` puis `unavailable`, chacune avec les articles génériques en tête, puis triée par ordre appris (`articleOrder` : score par article, plus petit d'abord ; les articles sans ordre appris viennent après) puis alphabétique. Lignes archivées exclues.
 
 `articleOrder` est l'ordre appris des articles du magasin (`Store.articleOrder`, § 7.6) : un champ sans index, donc sans changement du schéma Dexie.
 
@@ -314,16 +311,16 @@ Groupes par rayon effectif, rayons triés par `position` (« Non classé » en d
 2. Si le magasin n'est pas verrouillé, appliquer l'apprentissage (`learnAislePositions`, `learnArticleOrder` dans `src/domain/shopping.ts`) à partir de **tous** les achats de la session :
    - les achats sont numérotés dans l'**ordre des coches** (rang 0, 1, 2…) : l'heure ne sert qu'à les trier, une pause en magasin ne pèse rien ;
    - pour chaque rayon ayant au moins un achat : rang **médian** de ses achats (robuste aux allers-retours : un oubli repris à la fin ne fait pas passer le rayon en dernier) ;
-   - les rayons visités se **répartissent entre leurs propres positions**, dans l'ordre de ces médianes : les rayons non visités et « Non classé » ne bougent pas ;
+   - les rayons visités se **répartissent entre leurs propres positions**, dans l'ordre de ces médianes : les rayons non visités et « À placer » ne bougent pas ;
    - même principe pour les articles, rayon par rayon (`Store.articleOrder`) ; un article sans ordre appris prend une place après les articles connus.
 
-   Choix du 12 novembre 2026, à la place d'une moyenne `0,6 × ancienne + 0,4 × r` (rang normalisé sur [0, 1]) : celle-ci tirait les rayons visités vers les extrémités, devant ou derrière des rayons non visités, alors que la session ne dit rien de leur place relative. L'ordre observé est donc repris tel quel ; un parcours inhabituel se corrige à la course suivante, ou en verrouillant l'ordre.
+   Pas de moyenne pondérée entre ancien et nouveau rang : elle tirerait les rayons visités vers les extrémités, devant ou derrière des rayons non visités, alors que la session ne dit rien de leur place relative. L'ordre observé est donc repris tel quel ; un parcours inhabituel se corrige à la course suivante, ou en verrouillant l'ordre.
 
 3. Marquer les lignes cochées `closedInSessionId = session.id` ; session `closed`.
 
 **Réouverture** (`reopenSession`) : restaurer les positions depuis `learningSnapshot`, retirer `closedInSessionId` des lignes de la session (elles réapparaissent cochées), session `open`. La clôture suivante recalcule tout : **aucun double comptage**.
 
-**Purge** : au démarrage d'une nouvelle session sur la liste, les lignes archivées des sessions précédentes sont supprimées (les achats restent dans l'historique).
+**Purge** : au démarrage d'une nouvelle session sur la liste, les lignes archivées des sessions précédentes sont supprimées (les achats restent dans l'historique), et leur `learningSnapshot` vidé : elles ne peuvent plus être rouvertes.
 
 **Ordre manuel** (glisser-déposer) : positions réparties uniformément sur [0, 1].
 
@@ -337,13 +334,16 @@ Calculées à la demande à partir des achats des sessions **clôturées**. Pour
 - `changeUnit(line, newUnit)` : convertit la quantité si possible, sinon la conserve.
 - `simplify(q, unit, units)` : parmi les unités de même dimension (≠ `other`), choisit **la plus grande** qui donne une valeur ≥ 1 avec 3 décimales au plus ; sinon conserve. 1200 g → 1,2 kg ; 250 g → 250 g ; 150 cl → 1,5 l ; 33 cl → 33 cl.
 - `mergeQuantity(existing, added)` : même unité → somme ; convertible → somme dans l'unité existante puis `simplify` ; sinon → `incompatible` (l'interface demande).
-- `scaleRecipe(recipe, amount)` : quantités fixes inchangées ; les autres `q × amount ÷ recipe.yield.quantity`, arrondi **au pas supérieur** : `ceil(q / step − 1e-9) × step`, puis `simplify`.
+- `stepAmount(amount, ±1, units, { home })` : − / + d'un pas de l'unité, calé sur ses multiples ; en montant, passe à la plus grande unité si la valeur s'y simplifie (950 g → 1 kg), sauf quantité déjà exprimable dans cette unité (gardée exprès en petit) ; en descendant sous 1, repasse à `home` (l'unité de l'article) ou à l'unité juste en dessous (1 kg → 950 g), sauf si l'on est dans `home` ; `undefined` au dernier pas. Appliqué en base dans une transaction (`stepItem`, `stepIngredient`), depuis la valeur enregistrée, pour que des appuis rapprochés ne se perdent pas.
+- `stepCount(value, ±1)` : − / + d'un nombre de personnes ou de parts (rendement, quantité voulue à l'ajout d'une recette) : entiers, au moins 1, une valeur à virgule se cale sur l'entier voisin (2,5 → 3 ou 2).
+- `scaleRecipe(recipe, amount)` : quantités fixes inchangées ; les autres `q × amount ÷ recipe.yield.quantity`, converti dans **la plus petite unité de même dimension** (g, ml), arrondi **au pas supérieur** de celle-ci : `ceil(q / step − 1e-9) × step`, puis `simplify`.
 - Affichage : virgule décimale, zéros inutiles supprimés (`1,5 kg`, `× 3`, `2 boîtes`).
 
 ### 7.9 Partage (v1.1)
 
-- Format : `{ v: 1, kind: "list", lang: "fr", name, items: [{ article: { key?, slug, name, aliases, icon, types, category: { key?, slug, name, color }, unit: { key?, slug, singular, plural, abbr, dimension, factor, step } }, quantity, unitSlug, acceptedTypes, note }] }`.
-- Encodage : JSON → `lz-string` (`compressToEncodedURIComponent`) → `https://<adresse>/#/import?d=…`. Les données sont dans le fragment `#`, jamais envoyé au serveur d'hébergement.
+- Code : `src/domain/share.ts` (format, reconnaissance, texte collé), `src/db/share.ts` (`applyImport`, `applyRecipeImport`), `src/features/share/` (écran d'aperçu, choix d'un article), `src/common/shareMessage.ts` et `src/common/PasteForm.tsx` (messages et formulaire de collage, utilisés par la liste et les recettes).
+- Format, version 1, noms courts (ils se répètent à chaque ligne), le même pour une liste et une recette : `{ v: 1, type: "list" | "recipe", l: "fr", n: nom, i: [{ k?: clé catalogue, n?: libellé, a?: { c: catégorie, u: unité par défaut, i?: icône, al?: alias, ty?: types }, q: quantité, u: unité, t?: types acceptés, o?: note, op?: 1 facultatif, fx?: 1 quantité fixe }], c?: [{ r: slug, n, co: couleur, i? }], u?: [{ r: slug, s, p, ab?, d, g?, f?, st }] }` ; une recette ajoute `y: { q, u }` (rendement), `ic?` (icône) et `s?` (étapes en Markdown). Les lignes d'une liste sont ses lignes à acheter, celles d'une recette ses ingrédients. Un lien sans `type` valide est écarté (pas d'ancien format à relire : personne d'autre n'a l'app). Une catégorie ou une unité se désigne par sa clé catalogue, ou par son slug si elle a été créée à la main (décrite alors dans `c` ou `u`). Article du catalogue : `k` seul, plus `n` s'il a été renommé (slug du libellé ≠ clé) ; article créé à la main : `n` et `a` (liens courts, [02 § 9](02-modele-metier.md#9-partage-dune-liste)).
+- Encodage : JSON → `lz-string` (`compressToEncodedURIComponent`) → `https://<adresse>/#/import?d=…`. Les données sont dans le fragment `#`, jamais envoyé au serveur d'hébergement. `findShared(texte)` retrouve le lien dans n'importe quel texte (le message entier collé) et relit les données en écartant ce qui est mal formé. Le lien décide de l'aperçu (liste ou recette) ; un texte collé depuis une liste ou depuis les recettes doit porter un lien de ce type (sauf une liste en texte, A8).
 - Import : `resolveImport(payload, userData, catalog)` → décision par article, dans l'ordre de [02 § 9](02-modele-metier.md#import-chez-le-destinataire) :
   1. clé catalogue ;
   2. slug ;
@@ -351,7 +351,11 @@ Calculées à la demande à partir des achats des sessions **clôturées**. Pour
   4. **dictionnaire du catalogue** : index `slug → clé catalogue` construit sur tous les libellés et alias du catalogue embarqué, **toutes langues** ; si le libellé reçu y figure, on cherche l'article du destinataire portant cette clé ;
   5. recherche floue → « à confirmer » ;
   6. sinon « non reconnu » avec `suggestCandidates(article, userArticles, stats)` : même icône + même catégorie, puis même icône, puis même catégorie triée par fréquence d'achat (5 candidats max).
-- Application en une transaction ; une association manuelle ajoute le libellé reçu aux alias de l'article choisi ; une création utilise le libellé saisi par le destinataire et garde le libellé reçu en alias.
+
+  Les étapes 2 et 3 (slug, alias croisés) passent par `resolveEntry` (libellés et alias par clé de recherche, types reconnus : « Pommes Gala » → _Pommes_, type Gala) ; l'étape 5 par sa recherche. Deux articles du catalogue de clés différentes ne sont jamais proposés l'un pour l'autre (_Tomates_ ≠ _Tomates concassées_). Un article reçu introuvable mais présent au catalogue (supprimé chez le destinataire, ou trouvé par le dictionnaire) se recrée tel que le catalogue le décrit, avec sa clé.
+
+- Texte collé (A8) : `textImportLines(texte, …)` lit chaque ligne avec `parseEntry` (lignes à puces seulement s'il y en a) ; un article inconnu prend catégorie, unité et icône du dictionnaire de mots-clés ; sa quantité se calcule selon l'article finalement choisi (`entryAmount`).
+- Application en une transaction (`applyImport`) ; une association manuelle ou confirmée ajoute le libellé reçu aux alias de l'article choisi ; une création utilise le libellé saisi par le destinataire et garde le libellé reçu en alias ; catégories et unités inconnues créées ; types acceptés absents ajoutés à l'article ; lignes ajoutées par `planListMerge` (quantités fusionnées avec la liste cible). Une recette (`applyRecipeImport`) passe par la même création d'articles, puis est créée avec ses ingrédients, sous un nom libre (`uniqueRecipeName` : « Raclette (2) »).
 
 ### 7.12 Doublons probables (G1)
 
@@ -369,8 +373,7 @@ Un module `feedback` unique (`feedback.check()`, `feedback.aisleDone()`…) qui 
 
 ```
 ShoppingList/
-├─ README.md                  # présentation du projet (utilisateurs)
-├─ CLAUDE.md                  # consignes pour l'agent IA
+├─ README.md                  # présentation du projet (utilisateurs, en anglais ; README.fr.md en français)
 ├─ docs/                      # cette documentation (développeurs)
 ├─ public/                    # icônes de l'app, sons (public/sounds : Kenney, CC0)
 ├─ scripts/
@@ -379,7 +382,7 @@ ShoppingList/
 ├─ src/
 │  ├─ app/                    # point d'entrée, routes, layout, onglets, mise à jour, préférences de l'appareil
 │  ├─ features/
-│  │  ├─ list/                # liste, lignes, barre d'ajout, fiche ligne
+│  │  ├─ list/                # liste, lignes, fiche ligne
 │  │  ├─ shopping/            # mode courses, wake lock, clôture, réouverture
 │  │  ├─ catalog/             # grille catégories / articles, habituels
 │  │  ├─ recipes/             # recettes, ajout à une liste (v1.0)
@@ -391,7 +394,8 @@ ShoppingList/
 │  ├─ domain/                 # fonctions pures (§ 7) — aucun import React ni Dexie
 │  ├─ db/                     # schéma Dexie, migrations, accès aux données, initialisation
 │  ├─ data/                   # données initiales (06)
-│  ├─ ui/                     # composants partagés (shadcn + ProductIcon, ItemRow, AisleHeader, AddBar, CatalogCard, Sheet)
+│  ├─ common/                 # modules propres à l'app partagés entre fonctionnalités (données d'une liste, ajout à une liste, barre d'ajout, mise en forme, message de partage…) ; n'importe jamais features/
+│  ├─ ui/                     # composants génériques partagés (shadcn + ProductIcon, ItemRow, AisleHeader, AddBar, CatalogCard, Sheet)
 │  ├─ icons/                  # icônes dessinées (drawn/*.svg), pack des articles assemblé au build (packData.ts), icônes Lucide des catégories et rayons (lucide.ts)
 │  ├─ feedback/               # sons
 │  ├─ platform/               # installation, écran allumé (fonctionnalités du navigateur)
@@ -425,34 +429,24 @@ Il n'y a pas d'autre branche : pas de branche de travail ni de pull request. Seu
 
 - Format **SemVer** `MAJEUR.MINEUR.CORRECTIF` : `1.0.0`, `1.1.0` (partage), `1.0.1` (correctif).
 - **Source unique : `version` dans `package.json`.** Au build, Vite injecte des constantes (`define`) lues par `src/version.ts` : version, empreinte du commit, date, canal (`production` / `preprod` / `preview` / `dev`). Hors production, l'app affiche par exemple `1.1.0 · préproduction · a1b2c3d`.
-- **Calcul automatique** à partir des messages de commit (Conventional Commits) depuis la version précédente : un `feat:` → version mineure ; uniquement des `fix:`, `docs:`, `chore:`… → correctif ; `feat!:` ou « BREAKING CHANGE » → majeure (mineure tant qu'on est en 0.x). On peut toujours imposer la version (`npm run release -- 0.9.0`).
+- **Le type de version est donné à la publication**, jamais déduit des messages de commit (un message mal formé donnerait un mauvais numéro) : `npm run release -- patch` (corrections : 1.1.0 → 1.1.1), `minor` (nouvelle fonctionnalité : 1.1.0 → 1.2.0) ou `major` (changement incompatible : 1.1.0 → 2.0.0). Sans type, le script refuse de partir.
 - Le build génère aussi `licences.json` (bibliothèques incluses et texte de leur licence), affiché dans Réglages → À propos → Licences.
 
 ### Nouveautés
 
-L'historique git sert aux développeurs ; ses messages sont trop techniques pour l'utilisateur. Les **nouveautés** de chaque version sont donc écrites pour l'utilisateur dans `src/i18n/fr.ts` (`releaseNotes`), affichées dans Réglages → À propos → Nouveautés, et reprises par l'écran « Quoi de neuf » après une mise à jour (H5). `npm run release` refuse de publier une version dont les nouveautés ne sont pas écrites. On peut les écrire à l'avance : l'écran n'affiche que les versions égales ou antérieures à celle de l'app. À la `1.0.0`, les nouveautés des versions `0.x` (itérations de développement) sont **remplacées** par une seule entrée « 1.0.0 » qui présente l'app ; ensuite, une entrée par version publiée (décision du 15 novembre 2026).
+L'historique git sert aux développeurs ; ses messages sont trop techniques pour l'utilisateur. Les **nouveautés** de chaque version sont donc écrites pour l'utilisateur dans `src/i18n/fr.ts` (`releaseNotes`), affichées dans Réglages → À propos → Nouveautés, et reprises par l'écran « Quoi de neuf » après une mise à jour (H5). `npm run release` refuse de publier une version dont les nouveautés ne sont pas écrites. On peut les écrire à l'avance : l'écran n'affiche que les versions égales ou antérieures à celle de l'app. L'entrée « 1.0.0 » présente l'app ; ensuite, une entrée par version publiée.
 
 ### Cycle des versions
 
-| Moment                                        | Version                                                                                                                                                                                              | Où l'installer                                                     |
-| --------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| Validation de chaque phase de la v1.0 (1 à 8) | `0.N.0` = phase N validée (`0.4.0` … `0.8.0`), publiées par `npm run release` ; correctifs entre deux : `0.N.1`, `0.N.2`…                                                                            | Production, pour les essais (pas encore d'installation définitive) |
-| Fin de la phase 8                             | **`0.9.0`** — candidate à la v1.0 (`npm run release -- 0.9.0`)                                                                                                                                       | **Production** : installation définitive sur les téléphones        |
-| Usage réel (2-3 semaines)                     | `0.9.1`, `0.9.2`… correctifs                                                                                                                                                                         | Production                                                         |
-| Validation de la 0.9                          | **`1.0.0`** — la 0.9 validée et les recettes (phase 9, développées en parallèle sur `dev`, visibles dès leur arrivée ; pas de `0.9.x` publiée depuis `dev` entre-temps) (`npm run release -- 1.0.0`) | Production (les données restent en place)                          |
-| Versions suivantes                            | Développement sur `dev`, testé en préproduction avec une **copie des vraies données** (export de sauvegarde de la production → import en préproduction), puis `1.1.0`, correctifs `1.1.x`            | Production                                                         |
+- Développement sur `dev`, testé en préproduction avec une **copie des vraies données** (export de sauvegarde de la production → import en préproduction), puis publication : `1.2.0` (anti-oubli et saisonnalité), `1.3.0` (anglais), correctifs `1.x.y` entre deux ([09](09-feuille-de-route.md)). Les données restent en place d'une version à l'autre.
 
-**Règle de numérotation pendant la v1.0** : la version `0.N.0` sort quand la **phase N est validée** (critères de 09 et checklist téléphone). Elle peut contenir en avant-première le travail de la phase suivante, encore en essai : la `0.4.0` (phases 1 à 4 validées) contient déjà le mode courses de la phase 5, qui deviendra la `0.5.0` après l'essai en magasin. Le calcul automatique donne le bon numéro tant que la version contient un `feat:` ; sinon, l'imposer (`npm run release -- 0.5.0`).
+Versions publiées : les tags git `vX.Y.Z` ; ce qui a changé pour l'utilisateur est dans l'écran Nouveautés (`releaseNotes`).
 
-Versions publiées : voir le tableau de [09](09-plan-de-developpement.md#versions-publiées). L'historique git a été repris à zéro le 12 novembre 2026 (un seul commit pour les phases 1 à 5) : les anciennes `0.1.0` et `0.3.0` n'existent plus, la première version de l'historique actuel est la `0.4.0`.
-
-Pourquoi une 0.9 en production plutôt qu'en préproduction : la validation en usage réel demande une version **figée** dont on **garde les données** ; la préproduction change à chaque fusion sur `dev` et a ses propres données (§ 4).
-
-### Publier une version (figer) — `npm run release`
+### Publier une version (figer) — `npm run release -- <major|minor|patch>`
 
 Depuis `dev`, à jour, sans modification en cours, et seulement **sur demande explicite** :
 
-1. Le script calcule la version (ou prend celle imposée) et vérifie que ses nouveautés sont écrites. `npm run release -- --dry-run` affiche la version sans rien modifier.
+1. Le script calcule la version à partir du type demandé et vérifie que ses nouveautés sont écrites. `npm run release -- minor --dry-run` affiche la version sans rien modifier.
 2. Il lance tous les contrôles : format, lint, types, tests unitaires et E2E.
 3. Il fige la version : `package.json`, commit `chore: version 1.1.0`, tag `v1.1.0`.
 4. Il pousse `dev` (avec le tag), puis avance `main` sur `dev`. Cloudflare construit `main` : **la production est à jour**.

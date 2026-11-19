@@ -3,11 +3,14 @@ import { motion, useDragControls } from "motion/react";
 import { Dialog } from "radix-ui";
 import type { ReactNode } from "react";
 import { fr } from "@/i18n/fr";
+import { Button } from "@/ui/button";
+import { buttonVariants } from "@/ui/buttonVariants";
 
 /** Au-delà de ce glissement vers le bas (ou d'un geste rapide), le panneau se ferme. */
 const CLOSE_DISTANCE = 90;
 
 /**
+ * Toujours ouvert : on l’affiche ou non ; `onClose` à la fermeture.
  * Panneau glissant du bas (docs/05 § 5.6) : fond --surface, poignée en haut, coins
  * supérieurs arrondis, au-dessus de la barre d'accueil de l'iPhone.
  * Se ferme par ✕ (toujours visible, même clavier ouvert), en glissant la poignée ou
@@ -17,8 +20,7 @@ const CLOSE_DISTANCE = 90;
  * ne s'ouvre pas et ne cache pas le reste du panneau (fiches à consulter d'abord).
  */
 export function Sheet({
-  open,
-  onOpenChange,
+  onClose,
   title,
   description,
   children,
@@ -26,8 +28,7 @@ export function Sheet({
   onBack,
 }: {
   autoFocus?: boolean;
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
+  onClose: () => void;
   title: string;
   description?: string;
   children: ReactNode;
@@ -36,7 +37,12 @@ export function Sheet({
   const drag = useDragControls();
 
   return (
-    <Dialog.Root open={open} onOpenChange={onOpenChange}>
+    <Dialog.Root
+      open
+      onOpenChange={(open) => {
+        if (!open) onClose();
+      }}
+    >
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-50 bg-overlay motion-safe:data-[state=open]:animate-[fade-in_200ms_ease-out]" />
         <Dialog.Content
@@ -55,7 +61,7 @@ export function Sheet({
             dragElastic={{ top: 0, bottom: 1 }}
             onDragEnd={(_, info) => {
               if (info.offset.y > CLOSE_DISTANCE || info.velocity.y > 600)
-                onOpenChange(false);
+                onClose();
             }}
             initial={{ y: "100%" }}
             animate={{ y: 0 }}
@@ -74,14 +80,15 @@ export function Sheet({
               />
               <div className="flex items-start gap-1">
                 {onBack && (
-                  <button
-                    type="button"
+                  <Button
+                    variant="icon"
+                    size="icon"
                     aria-label={fr.sheet.back}
                     onClick={onBack}
-                    className="-ml-2 flex size-11 shrink-0 items-center justify-center rounded-xl text-secondary active:bg-raised"
+                    className="-ml-2"
                   >
-                    <ArrowLeft className="size-5" aria-hidden />
-                  </button>
+                    <ArrowLeft aria-hidden />
+                  </Button>
                 )}
                 <div className="min-w-0 flex-1 py-2">
                   <Dialog.Title className="text-lg leading-tight font-extrabold">
@@ -99,7 +106,11 @@ export function Sheet({
                 </div>
                 <Dialog.Close
                   aria-label={fr.sheet.close}
-                  className="-mr-2 flex size-11 shrink-0 items-center justify-center rounded-xl text-muted-foreground active:bg-raised"
+                  className={buttonVariants({
+                    variant: "iconMuted",
+                    size: "icon",
+                    className: "-mr-2",
+                  })}
                 >
                   <X className="size-6" aria-hidden />
                 </Dialog.Close>

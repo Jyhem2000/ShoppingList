@@ -30,7 +30,7 @@ type TableName = (typeof TABLES)[number];
 /** Champs tableau sans lesquels les écrans cassent : vérifiés à la lecture. */
 const ARRAY_FIELDS: Partial<Record<TableName, readonly string[]>> = {
   units: ["aliases"],
-  articles: ["types", "aliases", "barcodes", "notDuplicateOf"],
+  articles: ["types", "aliases", "notDuplicateOf"],
   aisles: ["categories"],
   items: ["acceptedTypes", "fromRecipes"],
   recipes: ["ingredients"],
@@ -129,7 +129,7 @@ export function summarizeBackup(backup: Backup): BackupSummary {
 
 /**
  * Remplace toutes les données par celles de la sauvegarde. Un magasin sans rayon
- * « Non classé » (fichier abîmé) le retrouve.
+ * « À placer » (fichier abîmé) le retrouve.
  */
 export async function importBackup(
   database: ShoppingDatabase,

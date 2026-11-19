@@ -27,3 +27,21 @@ export async function shareOrDownload(file: File): Promise<boolean> {
   }, 10_000);
   return true;
 }
+
+/**
+ * Partager un texte (docs/03 F1) : la feuille de partage du téléphone (Messages,
+ * WhatsApp, Mail…). `unsupported` : pas de feuille de partage, on copiera le texte.
+ */
+export async function shareText(
+  text: string,
+): Promise<"shared" | "cancelled" | "unsupported"> {
+  if (typeof navigator.share !== "function") return "unsupported";
+  try {
+    await navigator.share({ text });
+    return "shared";
+  } catch (error) {
+    if (error instanceof DOMException && error.name === "AbortError")
+      return "cancelled";
+    return "unsupported";
+  }
+}

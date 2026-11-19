@@ -2,8 +2,9 @@ import { useState } from "react";
 import { db } from "@/db/database";
 import { moveArticle, type MoveScope } from "@/db/sessions";
 import type { Aisle, Article, ID } from "@/domain/model";
-import { aisleText } from "@/features/list/format";
-import type { ListData } from "@/features/list/useListData";
+import { sortAisles } from "@/domain/stores";
+import { aisleText } from "@/common/format";
+import type { ListData } from "@/common/useListData";
 import { fr } from "@/i18n/fr";
 import { GroupIcon } from "@/ui/GroupIcon";
 import { Sheet } from "@/ui/Sheet";
@@ -39,9 +40,7 @@ export function MoveAisleSheet({
   const storeId = data.store?.id;
   const category = data.categoryById.get(article.categoryId);
   // « À placer » n'est pas un vrai rayon : on n'y range rien à la main.
-  const sorted = data.aisles
-    .filter((aisle) => !aisle.isUnsorted)
-    .sort((a, b) => a.position - b.position);
+  const sorted = sortAisles(data.aisles).filter((aisle) => !aisle.isUnsorted);
   const textOf = (aisle: Aisle) =>
     aisleText(aisle, data.categoryById, data.categoryWeights);
   const hasCategory = (aisle: Aisle) =>
@@ -138,10 +137,9 @@ export function MoveAisleSheet({
 
   return (
     <Sheet
-      open
       autoFocus={false}
-      onOpenChange={(open) => {
-        if (!open) onClose();
+      onClose={() => {
+        onClose();
       }}
       onBack={
         target

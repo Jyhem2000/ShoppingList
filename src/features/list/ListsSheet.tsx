@@ -1,33 +1,17 @@
-import {
-  closestCenter,
-  DndContext,
-  type DragEndEvent,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-} from "@dnd-kit/core";
-import {
-  arrayMove,
-  SortableContext,
-  sortableKeyboardCoordinates,
-  useSortable,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import { GripVertical, Plus } from "lucide-react";
 import { useState } from "react";
 import { db } from "@/db/database";
 import { createList, reorderLists } from "@/db/lists";
 import { updateSettings } from "@/db/settings";
 import type { ID, ShoppingList } from "@/domain/model";
 import { fr } from "@/i18n/fr";
+import { AddButton } from "@/ui/AddButton";
 import { Button } from "@/ui/button";
 import { Field, TextInput, FieldLabel, CheckRow, ChoiceMark } from "@/ui/form";
 import { Sheet } from "@/ui/Sheet";
-import { sortableAccessibility } from "@/ui/sortable";
+import { useSortableRow } from "@/ui/sortable";
+import { DragHandle, SortableList } from "@/ui/SortableList";
 import { cn } from "@/ui/utils";
-import type { ListData } from "./useListData";
+import type { ListData } from "@/common/useListData";
 import { RowButton } from "@/ui/RowButton";
 const t = fr.list.lists;
 
@@ -40,18 +24,10 @@ function ListRow({
   current: boolean;
   onSelect: () => void;
 }) {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id: list.id });
+  const { isDragging, rowProps, handleProps } = useSortableRow(list.id);
   return (
     <li
-      ref={setNodeRef}
-      style={{ transform: CSS.Transform.toString(transform), transition }}
+      {...rowProps}
       className={cn(
         "flex items-center gap-1 rounded-xl bg-surface",
         isDragging && "relative z-10 bg-raised shadow-lg",
@@ -68,15 +44,7 @@ function ListRow({
           {list.name}
         </span>
       </RowButton>
-      <button
-        type="button"
-        {...attributes}
-        {...listeners}
-        aria-label={t.reorder(list.name)}
-        className="flex size-11 touch-none items-center justify-center text-muted-foreground"
-      >
-        <GripVertical className="size-5" aria-hidden />
-      </button>
+      <DragHandle {...handleProps} aria-label={t.reorder(list.name)} />
     </li>
   );
 }
@@ -97,31 +65,11 @@ export function ListsSheet({
   const [creating, setCreating] = useState(false);
   const [name, setName] = useState("");
   const [include, setInclude] = useState<ID[]>([]);
-  const [order, setOrder] = useState(data.lists);
-  const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 4 } }),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    }),
-  );
-
-  const onDragEnd = ({ active, over }: DragEndEvent) => {
-    if (!over || active.id === over.id) return;
-    const from = order.findIndex((l) => l.id === active.id);
-    const to = order.findIndex((l) => l.id === over.id);
-    const next = arrayMove(order, from, to);
-    setOrder(next);
-    void reorderLists(
-      db,
-      next.map((l) => l.id),
-    );
-  };
 
   return (
     <Sheet
-      open
-      onOpenChange={(open) => {
-        if (!open) onClose();
+      onClose={() => {
+        onClose();
       }}
       title={creating ? t.newTitle : t.title}
     >
@@ -170,43 +118,28 @@ export function ListsSheet({
         </form>
       ) : (
         <div className="flex flex-col gap-3">
-          <DndContext
-            sensors={sensors}
-            collisionDetection={closestCenter}
-            onDragEnd={onDragEnd}
-            accessibility={sortableAccessibility(
-              order.map((l) => l.id),
-              (id) => order.find((l) => l.id === id)?.name ?? "",
+          <SortableList
+            items={data.lists}
+            nameOf={(list) => list.name}
+            onReorder={(ids) => void reorderLists(db, ids)}
+            renderItem={(list) => (
+              <ListRow
+                key={list.id}
+                list={list}
+                current={list.id === data.list.id}
+                onSelect={() => {
+                  void updateSettings(db, { currentListId: list.id });
+                  onClose();
+                }}
+              />
             )}
-          >
-            <SortableContext
-              items={order.map((l) => l.id)}
-              strategy={verticalListSortingStrategy}
-            >
-              <ul className="flex flex-col">
-                {order.map((list) => (
-                  <ListRow
-                    key={list.id}
-                    list={list}
-                    current={list.id === data.list.id}
-                    onSelect={() => {
-                      void updateSettings(db, { currentListId: list.id });
-                      onClose();
-                    }}
-                  />
-                ))}
-              </ul>
-            </SortableContext>
-          </DndContext>
-          <Button
-            variant="outline"
+          />
+          <AddButton
+            label={t.newList}
             onClick={() => {
               setCreating(true);
             }}
-          >
-            <Plus />
-            {t.newList}
-          </Button>
+          />
         </div>
       )}
     </Sheet>

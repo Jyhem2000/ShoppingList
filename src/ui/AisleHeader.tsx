@@ -7,7 +7,7 @@ import {
 } from "motion/react";
 import { type ReactNode, useEffect, useRef } from "react";
 import { GroupIcon } from "@/ui/GroupIcon";
-import { palette, type PaletteColor } from "@/ui/palette";
+import { palette, paletteColor } from "@/ui/palette";
 import { cn } from "@/ui/utils";
 
 /**
@@ -22,7 +22,7 @@ export function AisleSection({
   id,
   label,
   icon,
-  color,
+  color: rawColor,
   count,
   expanded,
   done = false,
@@ -37,7 +37,8 @@ export function AisleSection({
   id?: string;
   label: string;
   icon?: string;
-  color: PaletteColor;
+  /** Couleur de la palette, normalisée ici (inconnue → gris). */
+  color?: string;
   count: number;
   expanded: boolean;
   done?: boolean;
@@ -51,6 +52,7 @@ export function AisleSection({
   onToggle: () => void;
   children: ReactNode;
 }) {
+  const color = paletteColor(rawColor);
   // Rebond quand le rayon devient celui en cours (pas à l'ouverture de l'écran).
   const [scope, animate] = useAnimate<HTMLElement>();
   const reduceMotion = useReducedMotion();
@@ -158,7 +160,7 @@ export function AisleSection({
 export function AisleSubgroup({
   label,
   icon,
-  color,
+  color: rawColor,
   count,
   expanded,
   onToggle,
@@ -166,12 +168,14 @@ export function AisleSubgroup({
 }: {
   label: string;
   icon?: string;
-  color: PaletteColor;
+  /** Couleur de la palette, normalisée ici (inconnue → gris). */
+  color?: string;
   count: number;
   expanded: boolean;
   onToggle: () => void;
   children: ReactNode;
 }) {
+  const color = paletteColor(rawColor);
   return (
     <div>
       <button

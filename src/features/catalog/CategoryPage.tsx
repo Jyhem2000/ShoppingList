@@ -4,10 +4,9 @@ import { routes } from "@/app/routes";
 import { fr } from "@/i18n/fr";
 import { GroupIcon } from "@/ui/GroupIcon";
 import { EmptyState, PageHeader } from "@/ui/Page";
-import { useListData } from "@/features/list/useListData";
+import { useListData } from "@/common/useListData";
 import { ArticleGrid } from "./ArticleGrid";
-
-const collator = new Intl.Collator("fr");
+import { byName } from "@/domain/slug";
 
 /**
  * Articles d'une catégorie du catalogue (docs/03 A5) : les articles génériques
@@ -20,9 +19,8 @@ export function CategoryPage() {
   const t = fr.catalog;
   const { generic, others } = useMemo(() => {
     const articles =
-      data?.articles
-        .filter((a) => a.categoryId === categoryId)
-        .sort((a, b) => collator.compare(a.name, b.name)) ?? [];
+      data?.articles.filter((a) => a.categoryId === categoryId).sort(byName) ??
+      [];
     return {
       generic: articles.filter((a) => a.generic),
       others: articles.filter((a) => !a.generic),

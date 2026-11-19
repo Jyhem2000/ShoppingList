@@ -6,6 +6,7 @@ import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import { defineConfig, type Plugin } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
+import { iconSvg } from "./scripts/iconSvg.ts";
 
 /** Informations de version injectées dans l'app (docs/07 § 9). */
 const pkg = JSON.parse(
@@ -166,6 +167,7 @@ export default defineConfig({
   plugins: [
     react(),
     tailwindcss(),
+    iconSvg(),
     appNameInHtml(),
     versionFile(),
     licencesFile(),

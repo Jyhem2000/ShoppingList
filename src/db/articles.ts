@@ -203,7 +203,7 @@ export async function mergeArticles(
       });
 
       await database.articles.update(keepId, {
-        ...mergedArticleFields(keep, removed, slugify),
+        ...mergedArticleFields(keep, removed),
         updatedAt: now,
       });
       await database.articles.toCollection().modify((article) => {

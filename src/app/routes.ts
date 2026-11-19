@@ -21,6 +21,8 @@ export const routes = {
   manageUnits: "/reglages/unites",
   manageStores: "/reglages/magasins",
   manageStore: "/reglages/magasins/:storeId",
+  /** Aperçu d'une liste reçue (lien `#/import?d=…`) ou collée (docs/03 F2). */
+  import: "/import",
   devUi: "/dev/ui",
 } as const;
 

@@ -242,7 +242,7 @@ describe("copies automatiques internes (docs/03 H4)", () => {
     expect(kept.map((copy) => copy.id)).toContain(oldest.id);
   });
 
-  it("un magasin sans rayon « Non classé » le retrouve à l'import", async () => {
+  it("un magasin sans rayon « À placer » le retrouve à l'import", async () => {
     const database = open();
     await seedDatabase(database, 0);
     await createEmptyStore(database, "Marché", 0);
@@ -277,7 +277,7 @@ describe("copies automatiques internes (docs/03 H4)", () => {
     expect(await database.copies.count()).toBe(1);
   });
 
-  it("le passage au schéma 3 garde les données de la version 2", async () => {
+  it("le passage aux schémas suivants garde les données de la version 2", async () => {
     const name = `test-${crypto.randomUUID()}`;
     const old = new Dexie(name);
     old.version(2).stores(SCHEMA_V1);
@@ -289,6 +289,6 @@ describe("copies automatiques internes (docs/03 H4)", () => {
     databases.push(database);
     expect(await database.lists.get("l1")).toMatchObject({ name: "Liste 1" });
     expect(await database.copies.count()).toBe(0);
-    expect(database.verno).toBe(4);
+    expect(database.verno).toBe(6);
   });
 });

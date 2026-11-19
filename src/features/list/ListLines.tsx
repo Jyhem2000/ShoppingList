@@ -1,6 +1,5 @@
 import { AnimatePresence, motion } from "motion/react";
 import { useMemo, useState } from "react";
-import { categoriesData } from "@/data";
 import { groupListByCategory } from "@/domain/categories";
 import type { ID, ListItem } from "@/domain/model";
 import { fr } from "@/i18n/fr";
@@ -9,11 +8,16 @@ import { ItemRow } from "@/ui/ItemRow";
 import { useOnPulse } from "@/ui/pulse";
 import { PulseLine } from "@/ui/PulseLine";
 import { SwipeToDelete } from "@/ui/SwipeToDelete";
-import { lineDetails, lineQuantity, recipeOrigin } from "./format";
-import type { ListData } from "./useListData";
-import { paletteColor } from "@/ui/palette";
-/** Ordre des catégories du catalogue de départ (docs/06 § 2). */
-const catalogOrder = categoriesData.map((c) => c.key);
+import {
+  catalogOrder,
+  joinDetails,
+  lineDetails,
+  lineQuantity,
+  recipeOrigin,
+} from "@/common/format";
+import type { ListData } from "@/common/useListData";
+import { withMember } from "@/domain/collections";
+import { countTodo } from "@/domain/shopping";
 
 /**
  * Lignes de la liste groupées par catégorie (docs/03 B1) : une liste ne dépend d'aucun
@@ -35,12 +39,7 @@ export function ListLines({
     const item = data.items.find((i) => i.id === id);
     const categoryId = item && data.articleById.get(item.articleId)?.categoryId;
     if (!categoryId) return;
-    setCollapsed((current) => {
-      if (!current.has(categoryId)) return current;
-      const next = new Set(current);
-      next.delete(categoryId);
-      return next;
-    });
+    setCollapsed((current) => withMember(current, categoryId, false));
   });
   const groups = useMemo(
     () =>
@@ -57,22 +56,19 @@ export function ListLines({
     <div className="flex flex-col gap-4 px-3">
       {groups.map(({ category, items }) => {
         const expanded = !collapsed.has(category.id);
-        const remaining = items.filter((i) => i.status === "todo").length;
+        const remaining = countTodo(items);
         return (
           <AisleSection
             key={category.id}
             label={category.name}
             icon={category.icon}
-            color={paletteColor(category.color)}
+            color={category.color}
             count={remaining}
             expanded={expanded}
             onToggle={() => {
-              setCollapsed((current) => {
-                const next = new Set(current);
-                if (expanded) next.add(category.id);
-                else next.delete(category.id);
-                return next;
-              });
+              setCollapsed((current) =>
+                withMember(current, category.id, expanded),
+              );
             }}
           >
             {/* Nouvelle ligne : apparition avec un léger rebond (docs/05 § 6). */}
@@ -100,16 +96,13 @@ export function ListLines({
                         <ItemRow
                           label={article.name}
                           icon={article.icon}
-                          color={paletteColor(category.color)}
-                          details={[
-                            item.status === "unavailable"
-                              ? fr.list.unavailableLastTime
-                              : undefined,
+                          color={category.color}
+                          details={joinDetails(
+                            item.status === "unavailable" &&
+                              fr.list.unavailableLastTime,
                             lineDetails(item),
                             recipeOrigin(item, data.recipeById),
-                          ]
-                            .filter(Boolean)
-                            .join(" · ")}
+                          )}
                           quantity={lineQuantity(item, data.unitById)}
                           checked={item.status === "checked"}
                           onClick={() => {

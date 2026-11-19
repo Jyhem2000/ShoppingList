@@ -4,6 +4,7 @@ import type {
   ArticleAisleOverride,
   Category,
   ID,
+  ShoppingSession,
 } from "./model";
 
 /**
@@ -14,6 +15,78 @@ import type {
 
 type AisleLike = Pick<Aisle, "id" | "categories" | "isUnsorted" | "position">;
 
+/**
+ * Icône et couleur d'un rayon neuf, avant qu'il reçoive une catégorie ; aussi celles
+ * de « À placer ».
+ */
+export const DEFAULT_AISLE_STYLE = {
+  icon: "shopping-basket",
+  color: "gris",
+} as const;
+
+/** Rayon neuf : sans nom ni catégorie, position à fixer par l'appelant. */
+export function newAisle(id: ID, storeId: ID, now: number): Aisle {
+  return {
+    id,
+    createdAt: now,
+    updatedAt: now,
+    storeId,
+    name: "",
+    ...DEFAULT_AISLE_STYLE,
+    position: 0,
+    categories: [],
+    isUnsorted: false,
+  };
+}
+
+/** Rayon principal d'une catégorie dans un magasin (au plus un, voir l'invariant). */
+export function primaryAisleOf<A extends Pick<Aisle, "categories">>(
+  aisles: readonly A[],
+  categoryId: ID,
+): A | undefined {
+  return aisles.find((aisle) =>
+    aisle.categories.some((c) => c.categoryId === categoryId && c.primary),
+  );
+}
+
+/**
+ * Rayon ouvert par « Rayon suivant » pendant ces courses, encore vide : ni nom, ni
+ * repère, ni catégorie, ni exception (`withOverrides` : rayons visés par au moins
+ * une exception). Un rayon créé ou nommé dans Gérer est gardé.
+ */
+export function isFreshEmptyAisle(
+  aisle: Aisle,
+  session: Pick<ShoppingSession, "startedAt">,
+  withOverrides: ReadonlySet<ID>,
+): boolean {
+  if (aisle.isUnsorted || aisle.categories.length > 0) return false;
+  if (aisle.name.trim() || aisle.description?.trim()) return false;
+  if (aisle.createdAt < session.startedAt) return false;
+  return !withOverrides.has(aisle.id);
+}
+
+/**
+ * Le rayon devient le rayon principal de la catégorie (rangement en cochant, docs/03
+ * C4). Un rayon neuf qui reçoit sa première catégorie prend son icône et sa couleur.
+ */
+export function withPrimaryCategory(
+  aisle: Pick<Aisle, "categories" | "icon" | "color">,
+  category: Pick<Category, "id" | "icon" | "color">,
+): Pick<Aisle, "categories" | "icon" | "color"> {
+  const fresh =
+    aisle.categories.length === 0 &&
+    aisle.icon === DEFAULT_AISLE_STYLE.icon &&
+    aisle.color === DEFAULT_AISLE_STYLE.color;
+  return {
+    categories: [
+      ...aisle.categories.filter((c) => c.categoryId !== category.id),
+      { categoryId: category.id, primary: true },
+    ],
+    icon: fresh ? category.icon : aisle.icon,
+    color: fresh ? category.color : aisle.color,
+  };
+}
+
 /** Ordre manuel : positions réparties uniformément sur [0, 1] (docs/07 § 7.6). */
 export function spreadPositions(ids: readonly ID[]): Record<ID, number> {
   return Object.fromEntries(
@@ -21,7 +94,7 @@ export function spreadPositions(ids: readonly ID[]): Record<ID, number> {
   );
 }
 
-/** Rayons triés comme dans la liste : par position, « Non classé » en dernier. */
+/** Rayons triés comme dans la liste : par position, « À placer » en dernier. */
 export function sortAisles<A extends AisleLike>(aisles: readonly A[]): A[] {
   return [...aisles].sort(
     (a, b) =>
@@ -102,7 +175,7 @@ export function placementScope(
 
 /**
  * Positions des rayons après l'ouverture de `newId` juste après `afterId` (en tête si
- * absent), réparties sur [0, 1] ; « Non classé » ne bouge pas.
+ * absent), réparties sur [0, 1] ; « À placer » ne bouge pas.
  */
 export function insertAisleAfter(
   aisles: readonly AisleLike[],
@@ -170,7 +243,7 @@ export function setCategoryRole<A extends AisleLike>(
 
 /**
  * Catégories rattachées à aucun rayon du magasin : leurs articles vont dans
- * « Non classé » (docs/02 § 4). Les catégories système y sont rangées exprès.
+ * « À placer » (docs/02 § 4). Les catégories système y sont rangées exprès.
  */
 export function unattachedCategories<C extends { id: ID; isSystem: boolean }>(
   aisles: readonly Pick<Aisle, "categories">[],
@@ -184,7 +257,7 @@ export function unattachedCategories<C extends { id: ID; isSystem: boolean }>(
 
 /**
  * Supprimer un rayon : les catégories dont il était le rayon principal vont dans
- * « Non classé », ou deviennent principales dans un de leurs rayons secondaires si
+ * « À placer », ou deviennent principales dans un de leurs rayons secondaires si
  * `promoteSecondary` (docs/02 § 4). Renvoie les autres rayons qui changent.
  */
 export function removeAisle<A extends AisleLike>(

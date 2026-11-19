@@ -14,27 +14,43 @@ type AisleArticle = Pick<Article, "id" | "categoryId">;
 
 /**
  * Rayon effectif d'un article dans un magasin : son exception pour ce magasin, sinon
- * le rayon principal de sa catégorie, sinon « Non classé ».
+ * le rayon principal de sa catégorie, sinon « À placer ». Les tables sont
+ * construites une fois, pour résoudre ensuite autant d'articles qu'on veut.
  */
+export function aisleResolver<A extends Aisle>(
+  storeId: ID,
+  aisles: readonly A[],
+  overrides: readonly ArticleAisleOverride[],
+): (article: AisleArticle) => A | undefined {
+  const byId = new Map<ID, A>();
+  const primaryOf = new Map<ID, A>();
+  let unsorted: A | undefined;
+  for (const aisle of aisles) {
+    if (aisle.storeId !== storeId) continue;
+    byId.set(aisle.id, aisle);
+    if (aisle.isUnsorted) unsorted ??= aisle;
+    for (const c of aisle.categories)
+      if (c.primary && !primaryOf.has(c.categoryId))
+        primaryOf.set(c.categoryId, aisle);
+  }
+  const overrideOf = new Map<ID, A>();
+  for (const o of overrides) {
+    const aisle = o.storeId === storeId ? byId.get(o.aisleId) : undefined;
+    if (aisle && !overrideOf.has(o.articleId))
+      overrideOf.set(o.articleId, aisle);
+  }
+  return (article) =>
+    overrideOf.get(article.id) ?? primaryOf.get(article.categoryId) ?? unsorted;
+}
+
+/** Rayon effectif d'un seul article (voir `aisleResolver`). */
 export function effectiveAisle<A extends Aisle>(
   article: AisleArticle,
   storeId: ID,
   aisles: readonly A[],
   overrides: readonly ArticleAisleOverride[],
 ): A | undefined {
-  const storeAisles = aisles.filter((aisle) => aisle.storeId === storeId);
-  const override = overrides.find(
-    (o) => o.storeId === storeId && o.articleId === article.id,
-  );
-  const overridden =
-    override && storeAisles.find((aisle) => aisle.id === override.aisleId);
-  if (overridden) return overridden;
-  const primary = storeAisles.find((aisle) =>
-    aisle.categories.some(
-      (c) => c.categoryId === article.categoryId && c.primary,
-    ),
-  );
-  return primary ?? storeAisles.find((aisle) => aisle.isUnsorted);
+  return aisleResolver(storeId, aisles, overrides)(article);
 }
 
 export interface AisleGroup<A extends Aisle, I extends ListItem> {
@@ -43,7 +59,7 @@ export interface AisleGroup<A extends Aisle, I extends ListItem> {
 }
 
 /**
- * Lignes groupées par rayon effectif, rayons dans l'ordre du parcours (« Non classé »
+ * Lignes groupées par rayon effectif, rayons dans l'ordre du parcours (« À placer »
  * en dernier). Dans un rayon : à acheter, puis cochées, puis introuvables ; chacune
  * avec les articles génériques en tête, puis par ordre appris (`articleOrder`,
  * plus petit d'abord), puis alphabétique.
@@ -62,11 +78,12 @@ export function groupListForStore<
   articleOrder: Readonly<Record<ID, number>> = {},
 ): AisleGroup<A, I>[] {
   const groups = new Map<ID, AisleGroup<A, I>>();
+  const aisleOf = aisleResolver(storeId, aisles, overrides);
   for (const item of items) {
     if (item.closedInSessionId) continue;
     const article = articles.get(item.articleId);
     if (!article) continue;
-    const aisle = effectiveAisle(article, storeId, aisles, overrides);
+    const aisle = aisleOf(article);
     if (!aisle) continue;
     let group = groups.get(aisle.id);
     if (!group) {

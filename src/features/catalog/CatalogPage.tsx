@@ -1,20 +1,19 @@
 import { type ReactNode, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import { catalogCategoryPath } from "@/app/routes";
-import { categoriesData } from "@/data";
 import { sortCategories } from "@/domain/categories";
 import { searchArticles } from "@/domain/search";
 import { fr } from "@/i18n/fr";
 import { CategoryCard } from "@/ui/CategoryCard";
 import { PageHeader, SectionTitle } from "@/ui/Page";
-import { useListData } from "@/features/list/useListData";
+import { useListData } from "@/common/useListData";
+import { catalogOrder } from "@/common/format";
 import { ArticleGrid } from "./ArticleGrid";
 import { CatalogSearch } from "./CatalogSearch";
-import { paletteColor } from "@/ui/palette";
+import { byName } from "@/domain/slug";
+import { countBy } from "@/domain/collections";
 const t = fr.catalog;
 const MAX_USUAL = 9;
-const collator = new Intl.Collator("fr");
-
 function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section className="pt-6">
@@ -37,33 +36,34 @@ export function CatalogPage() {
   // « Voir les N résultats » : la grille complète de la recherche.
   const [showAll, setShowAll] = useState(false);
 
-  const view = useMemo(() => {
-    if (!data) return undefined;
-    const results =
-      showAll && query.trim()
-        ? searchArticles(query, data.articles, data.purchaseCounts).map(
-            (r) => r.article,
-          )
-        : [];
-    const favorites = data.articles
-      .filter((a) => a.favorite)
-      .sort((a, b) => collator.compare(a.name, b.name));
-    const usual = [...data.purchaseCounts.entries()]
+  const { articles, articleById, purchaseCounts, categories } = data ?? {};
+  // Ce qui ne dépend pas de la saisie : calculé une fois, pas à chaque lettre.
+  const home = useMemo(() => {
+    if (!articles || !articleById || !purchaseCounts || !categories)
+      return undefined;
+    const favorites = articles.filter((a) => a.favorite).sort(byName);
+    const usual = [...purchaseCounts.entries()]
       .sort((a, b) => b[1] - a[1])
       .slice(0, MAX_USUAL)
-      .map(([id]) => data.articleById.get(id))
+      .map(([id]) => articleById.get(id))
       .filter((a) => a !== undefined);
-    const counts = new Map<string, number>();
-    for (const article of data.articles)
-      counts.set(article.categoryId, (counts.get(article.categoryId) ?? 0) + 1);
+    const counts = countBy(articles, (article) => article.categoryId);
     // Même ordre que la liste (docs/06 § 2) : catalogue de départ, puis les catégories
     // créées par l'utilisateur, les catégories système en dernier.
-    const categories = sortCategories(
-      data.categories.filter((c) => counts.has(c.id)),
-      categoriesData.map((c) => c.key),
+    const shown = sortCategories(
+      categories.filter((c) => counts.has(c.id)),
+      catalogOrder,
     );
-    return { results, favorites, usual, categories, counts };
-  }, [data, query, showAll]);
+    return { favorites, usual, categories: shown, counts };
+  }, [articles, articleById, purchaseCounts, categories]);
+  // Une seule recherche, pour les suggestions et pour « Voir les N résultats ».
+  const results = useMemo(
+    () =>
+      articles && purchaseCounts && query.trim()
+        ? searchArticles(query, articles, purchaseCounts).map((r) => r.article)
+        : [],
+    [query, articles, purchaseCounts],
+  );
 
   return (
     <>
@@ -71,6 +71,8 @@ export function CatalogPage() {
       {data && (
         <CatalogSearch
           data={data}
+          counts={home?.counts}
+          results={results}
           query={query}
           onQueryChange={(text) => {
             setQuery(text);
@@ -83,37 +85,37 @@ export function CatalogPage() {
         />
       )}
 
-      {data && view && (
+      {data && home && (
         <>
           {showAll && query.trim() ? (
-            <ArticleGrid articles={view.results} data={data} />
+            <ArticleGrid articles={results} data={data} />
           ) : (
             <>
-              {view.favorites.length > 0 && (
+              {home.favorites.length > 0 && (
                 <Section title={t.favorites}>
-                  <ArticleGrid articles={view.favorites} data={data} />
+                  <ArticleGrid articles={home.favorites} data={data} />
                 </Section>
               )}
-              {view.usual.length > 0 && (
+              {home.usual.length > 0 && (
                 <Section title={t.usual}>
-                  <ArticleGrid articles={view.usual} data={data} />
+                  <ArticleGrid articles={home.usual} data={data} />
                 </Section>
               )}
               {/* Titre seulement s'il y a des favoris ou des habituels au-dessus : il les
                   sépare de la grille ; seule, la grille se suffit à elle-même. */}
               <section className="pt-4">
-                {(view.favorites.length > 0 || view.usual.length > 0) && (
+                {(home.favorites.length > 0 || home.usual.length > 0) && (
                   <div className="px-4 pt-2">
                     <SectionTitle>{t.categories}</SectionTitle>
                   </div>
                 )}
                 <div className="grid grid-cols-3 gap-2 px-3">
-                  {view.categories.map((category) => (
+                  {home.categories.map((category) => (
                     <CategoryCard
                       key={category.id}
                       label={category.name}
                       icon={category.icon}
-                      color={paletteColor(category.color)}
+                      color={category.color}
                       onClick={() => {
                         void navigate(catalogCategoryPath(category.id));
                       }}

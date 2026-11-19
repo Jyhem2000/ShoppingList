@@ -1,11 +1,11 @@
+import { mergeTypes } from "@/domain/slug";
 import { Pencil } from "lucide-react";
 import { useState } from "react";
 import { addArticleType } from "@/db/catalog";
 import { manageArticlePath } from "@/app/routes";
 import { db } from "@/db/database";
-import { mergeIntoTwin, updateItem } from "@/db/lists";
+import { mergeIntoTwin, stepItem, updateItem } from "@/db/lists";
 import type { ListItem } from "@/domain/model";
-import { changeUnit } from "@/domain/quantity";
 import { fr } from "@/i18n/fr";
 import { AmountFields } from "@/ui/AmountFields";
 import { Field, RemoveDoneActions, TextInput } from "@/ui/form";
@@ -13,9 +13,9 @@ import { NavButton } from "@/ui/NavButton";
 import { Sheet } from "@/ui/Sheet";
 import { showToast } from "@/ui/toast";
 import { TypesPicker } from "@/ui/TypesPicker";
-import { recipeOrigin } from "./format";
-import { KeepOneOff } from "./KeepOneOff";
-import type { ListData } from "./useListData";
+import { recipeOrigin } from "@/common/format";
+import { KeepOneOff } from "@/common/KeepOneOff";
+import type { ListData } from "@/common/useListData";
 import { usePendingSave } from "@/ui/usePendingSave";
 import { useUsualUnits } from "./useUsualUnits";
 
@@ -47,12 +47,6 @@ export function LineSheet({
   });
   if (!article || !unit) return null;
 
-  const setUnit = (unitId: string) => {
-    const next = data.unitById.get(unitId);
-    if (!next || next.id === item.unitId) return;
-    const quantity = changeUnit(item.quantity, unit, next);
-    void updateItem(db, item.id, { unitId: next.id, quantity });
-  };
   // Types changés : la ligne rejoint l'autre ligne du même article aux mêmes types
   // (docs/02 § 6), à la fermeture seulement, pour ne pas fusionner en cours de choix.
   const close = async () => {
@@ -64,13 +58,10 @@ export function LineSheet({
 
   return (
     <Sheet
-      open
       autoFocus={false}
-      onOpenChange={(open) => {
-        if (!open) {
-          void close();
-          onClose();
-        }
+      onClose={() => {
+        void close();
+        onClose();
       }}
       title={article.name}
       description={origin}
@@ -81,8 +72,10 @@ export function LineSheet({
           quantity={item.quantity}
           unit={unit}
           usualUnits={usualUnits}
+          stepping={{ home: data.unitById.get(article.defaultUnitId) }}
           onQuantity={(quantity) => void updateItem(db, item.id, { quantity })}
-          onUnit={setUnit}
+          onStep={(direction) => void stepItem(db, item.id, direction)}
+          onUnit={(amount) => void updateItem(db, item.id, amount)}
         />
 
         <TypesPicker
@@ -94,7 +87,7 @@ export function LineSheet({
           onAddType={(type) => {
             void addArticleType(db, article.id, type).then(() =>
               updateItem(db, item.id, {
-                acceptedTypes: [...new Set([...item.acceptedTypes, type])],
+                acceptedTypes: mergeTypes(item.acceptedTypes, [type]),
               }),
             );
           }}

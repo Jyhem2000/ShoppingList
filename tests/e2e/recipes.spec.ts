@@ -1,43 +1,17 @@
 import { expect, test, type Page } from "@playwright/test";
-import { addToList, enterApp, line } from "./app";
+import {
+  addIngredients,
+  addToList,
+  createRecipe,
+  enterApp,
+  ingredient,
+  line,
+} from "./app";
 import { fr } from "./texts";
 
 /** Scénario de bout en bout des recettes (docs/08 § 3 : 7). */
 
 const t = fr.recipes;
-
-/** Onglet Recettes → « Nouvelle recette » : nom et rendement, puis la fiche en modification. */
-async function createRecipe(
-  page: Page,
-  name: string,
-  { quantity, unit }: { quantity: number; unit: string },
-) {
-  await page
-    .getByRole("navigation", { name: fr.tabs.navigation })
-    .getByRole("link", { name: fr.tabs.recipes })
-    .click();
-  await page.getByRole("button", { name: t.create }).click();
-  const sheet = page.getByRole("dialog", { name: t.newTitle });
-  await sheet.getByRole("textbox", { name: t.name }).fill(name);
-  await sheet
-    .getByRole("textbox", { name: fr.list.line.quantity })
-    .fill(String(quantity));
-  await sheet.getByRole("button", { name: unit, exact: true }).click();
-  await sheet.getByRole("button", { name: t.createSubmit }).click();
-  await expect(page.getByRole("heading", { name })).toBeVisible();
-}
-
-/** Barre d'ajout des ingrédients de la fiche en modification. */
-async function addIngredients(page: Page, text: string) {
-  const input = page.getByRole("textbox", { name: t.addPlaceholder });
-  await input.fill(text);
-  await input.press("Enter");
-}
-
-/** Ingrédient de la fiche (en modification : une ligne à toucher). */
-function ingredient(page: Page, name: string) {
-  return page.locator("main li").filter({ hasText: name });
-}
 
 /** Fin de la modification, puis « Ajouter à une liste » : le panneau s'ouvre. */
 async function openAddSheet(page: Page, name: string) {

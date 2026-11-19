@@ -1,9 +1,10 @@
 import {
-  CircleCheckBig,
+  ClipboardPaste,
   Copy,
   Eraser,
   ListPlus,
   Pencil,
+  Share,
   Trash2,
 } from "lucide-react";
 import { useState } from "react";
@@ -13,47 +14,55 @@ import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
 import { ConfirmActions, Field, MenuItem, TextInput } from "@/ui/form";
 import { Sheet } from "@/ui/Sheet";
-import type { ListData } from "./useListData";
+import type { ListData } from "@/common/useListData";
 import { feedback } from "@/feedback";
+import { canShare, listMessage, sendMessage } from "@/common/shareMessage";
+import { PasteForm } from "@/common/PasteForm";
+import { pasteOrAsk } from "@/common/paste";
 
 const t = fr.list.menuSheet;
 
-type View = "menu" | "rename" | "clear" | "delete";
+type View = "menu" | "rename" | "paste" | "clear" | "delete";
 
 /**
- * Menu `⋯` de la liste (docs/04 § 2.1, docs/03 B2 et B6) : seulement des actions sur la
- * liste courante — renommer, dupliquer, y ajouter le contenu d'une autre liste, retirer
- * les cochés, vider, supprimer. Les autres listes : toucher le nom de la liste.
+ * Menu `⋯` de la liste (docs/04 § 2.1, docs/03 B2, B6, F1, F2) : seulement des actions sur
+ * la liste courante — renommer, dupliquer, y ajouter le contenu d'une autre liste, la
+ * partager, y coller une liste, vider, supprimer. Les autres listes :
+ * toucher le nom de la liste. « Coller une liste » lit le presse-papiers ; s'il est
+ * refusé, un champ où coller à la main.
  */
 export function ListMenuSheet({
   data,
   onClose,
   onAddLists,
   onRemoveItems,
+  onPaste,
 }: {
   data: ListData;
   onClose: () => void;
   onAddLists: () => void;
   onRemoveItems: (ids: string[]) => void;
+  /** Texte collé (message reçu, liste) : aperçu de l'import. */
+  onPaste: (text: string) => void;
 }) {
   const [view, setView] = useState<View>("menu");
   const [name, setName] = useState(data.list.name);
-  const checked = data.items.filter((item) => item.status === "checked");
 
   const title =
     view === "rename"
       ? t.renameTitle
-      : view === "clear"
-        ? t.confirmClear
-        : view === "delete"
-          ? t.confirmDelete(data.list.name)
-          : data.list.name;
+      : view === "paste"
+        ? fr.share.pasteTitle
+        : view === "clear"
+          ? t.confirmClear
+          : view === "delete"
+            ? t.confirmDelete(data.list.name)
+            : data.list.name;
 
   return (
     <Sheet
-      open
-      onOpenChange={(open) => {
-        if (!open) onClose();
+      onClose={() => {
+        onClose();
       }}
       title={title}
       description={
@@ -61,9 +70,11 @@ export function ListMenuSheet({
           ? t.confirmClearText
           : view === "delete"
             ? t.confirmDeleteText
-            : view === "menu"
-              ? t.description
-              : undefined
+            : view === "paste"
+              ? fr.share.pasteText
+              : view === "menu"
+                ? t.description
+                : undefined
       }
     >
       {view === "menu" && (
@@ -93,14 +104,24 @@ export function ListMenuSheet({
             {t.addLists}
           </MenuItem>
           <MenuItem
-            icon={<CircleCheckBig />}
-            disabled={checked.length === 0}
+            icon={<Share />}
+            disabled={!canShare(data)}
             onClick={() => {
-              onRemoveItems(checked.map((item) => item.id));
+              void sendMessage(listMessage(data), fr.share.copied);
               onClose();
             }}
           >
-            {t.removeChecked}
+            {fr.share.send}
+          </MenuItem>
+          <MenuItem
+            icon={<ClipboardPaste />}
+            onClick={() => {
+              pasteOrAsk(onPaste, () => {
+                setView("paste");
+              });
+            }}
+          >
+            {fr.share.paste}
           </MenuItem>
           <MenuItem
             icon={<Eraser />}
@@ -145,6 +166,14 @@ export function ListMenuSheet({
           </Field>
           <Button type="submit">{t.save}</Button>
         </form>
+      )}
+
+      {view === "paste" && (
+        <PasteForm
+          label={fr.share.pasteTitle}
+          placeholder={fr.share.pastePlaceholder}
+          onPaste={onPaste}
+        />
       )}
 
       {(view === "clear" || view === "delete") && (

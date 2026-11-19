@@ -1,10 +1,11 @@
 import { useSyncExternalStore } from "react";
 import { feedback } from "@/feedback";
+import { fr } from "@/i18n/fr";
 
 /**
- * Message bref en bas de l'écran, avec une action facultative (« Annuler »).
+ * Message bref en haut de l'écran, avec une action facultative (« Annuler »).
  * Un seul à la fois : un nouveau message remplace le précédent.
- * Ton (docs/05 § 5.7) : neutre (retrait annulable), réussite, information,
+ * Ton (docs/05 § 5.8) : neutre (retrait annulable), réussite, information,
  * attention, erreur.
  */
 export type ToastTone = "neutral" | "success" | "info" | "warning" | "error";
@@ -63,4 +64,9 @@ export function useToast(): Toast | null {
     },
     () => current,
   );
+}
+
+/** Échec d'enregistrement (rare : stockage plein ou refusé) : on le dit. */
+export function reportSaveError(): void {
+  showToast(fr.list.saveError, { tone: "error" });
 }

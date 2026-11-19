@@ -97,6 +97,13 @@ export const fr = {
     text: "Le stockage du téléphone est peut-être plein, ou la navigation privée l'empêche. Libère de la place ou ouvre l'app normalement, puis recharge.",
     reload: "Recharger",
   },
+  /** Écran qui n'a pas pu s'ouvrir (fichier non chargé, hors ligne…). */
+  screenError: {
+    title: "Cet écran n'a pas pu s'ouvrir",
+    text: "Vérifie ta connexion, puis recharge l'app. Tes données ne sont pas touchées.",
+    reload: "Recharger",
+    home: "Revenir à la liste",
+  },
   search: { clear: "Effacer la recherche" },
   /** Barre de mise en forme d'un texte (src/ui/Markdown.tsx). */
   markdown: {
@@ -198,7 +205,6 @@ export const fr = {
       rename: "Renommer",
       duplicate: "Dupliquer",
       addLists: "Y ajouter le contenu d'une autre liste",
-      removeChecked: "Retirer les articles cochés",
       clear: "Vider la liste",
       delete: "Supprimer la liste",
       confirmClear: "Vider la liste ?",
@@ -237,6 +243,107 @@ export const fr = {
     },
     unavailableLastTime: "Pas pris la dernière fois",
     via: (recipes: string[]) => `via ${recipes.join(", ")}`,
+  },
+  share: {
+    send: "Partager la liste",
+    sendRecipe: "Partager la recette",
+    paste: "Coller une liste",
+    pasteRecipe: "Coller une recette",
+    messageTitle: (name: string, count: number) =>
+      `${name} (${count > 1 ? `${count} articles` : "1 article"})`,
+    messageLink:
+      "Pour l'ajouter dans l'app ShoppingList : copie ce message (ou juste le lien), puis dans l'app, ⋯ → Coller une liste. Sur Android, toucher le lien suffit souvent :",
+    recipeMessageTitle: (name: string, amount: string) =>
+      `${name} (pour ${amount})`,
+    recipeMessageLink:
+      "Pour l'ajouter dans l'app ShoppingList : copie ce message (ou juste le lien), puis dans l'app, Recettes → Coller une recette. Sur Android, toucher le lien suffit souvent :",
+    copied: "Liste copiée : colle-la dans ton message.",
+    recipeCopied: "Recette copiée : colle-la dans ton message.",
+    shareError: "Partage impossible sur ce téléphone.",
+    pasteTitle: "Coller une liste",
+    pasteText:
+      "Colle ici le message reçu, ou n'importe quelle liste : une ligne par article.",
+    pastePlaceholder: "2 baguettes\ndu beurre\n6 œufs",
+    pasteRecipeText:
+      "Colle ici le message reçu : une recette partagée depuis l'app ShoppingList.",
+    pasteRecipePlaceholder: "Le message reçu, avec son lien",
+    pasteContinue: "Continuer",
+    titleShared: "Liste reçue",
+    titlePasted: "Liste collée",
+    titleRecipe: "Recette reçue",
+    pastedListName: "Liste collée",
+    loading: "Lecture…",
+    brokenTitle: "Lien illisible",
+    broken:
+      "Ce lien est incomplet ou abîmé. Demande à la personne de te le renvoyer.",
+    notRecipeTitle: "Pas de recette",
+    notRecipe:
+      "Ce texte n'est pas une recette partagée par l'app ShoppingList. Demande à la personne de te l'envoyer depuis l'app : fiche de la recette → Partager la recette.",
+    isRecipeTitle: "C'est une recette",
+    isRecipe: `Ce message contient une recette : colle-le depuis l'onglet Recettes → «\u00a0Coller une recette\u00a0».`,
+    isListTitle: "C'est une liste",
+    isList: `Ce message contient une liste : colle-le depuis ta liste, ⋯ → «\u00a0Coller une liste\u00a0».`,
+    empty: "Rien à ajouter dans ce texte.",
+    catalogError:
+      "Le catalogue de l'app n'a pas pu être chargé. Reviens à ta liste, puis réessaie.",
+    outdated:
+      "Certains articles viennent d'une version plus récente de l'app. Ferme-la puis rouvre-la pour la mettre à jour.",
+    backToList: "Revenir à ma liste",
+    backToRecipes: "Revenir aux recettes",
+    summary: (known: number, probable: number, unknown: number) =>
+      [
+        known && (known > 1 ? `${known} reconnus` : "1 reconnu"),
+        probable && `${probable} à confirmer`,
+        unknown && (unknown > 1 ? `${unknown} non reconnus` : "1 non reconnu"),
+      ]
+        .filter(Boolean)
+        .join(", "),
+    summaryHint:
+      "Touche une ligne pour choisir l'article qui correspond chez toi, ou en créer un.",
+    target: "Ajouter à",
+    newList: (name: string) => `Une nouvelle liste «\u00a0${name}\u00a0»`,
+    sectionCheck: "À vérifier",
+    sectionKnown: "Reconnus",
+    checkAll: "Tout cocher",
+    uncheckAll: "Tout décocher",
+    toConfirm: (label: string) => `reçu : «\u00a0${label}\u00a0», à confirmer`,
+    received: (label: string) => `reçu : «\u00a0${label}\u00a0»`,
+    willCreate: (category: string) => `nouvel article, ${category}`,
+    open: (name: string) => `Choisir l'article pour ${name}`,
+    apply: (count: number) =>
+      count > 1 ? `Ajouter ${count} lignes` : "Ajouter 1 ligne",
+    applyRecipe: (count: number) =>
+      count > 1
+        ? `Ajouter la recette (${count} ingrédients)`
+        : count === 1
+          ? "Ajouter la recette (1 ingrédient)"
+          : "Ajouter la recette",
+    recipeDone: (name: string) => `Recette «\u00a0${name}\u00a0» ajoutée`,
+    done: (count: number, list: string) =>
+      `${count > 1 ? `${count} lignes ajoutées` : "1 ligne ajoutée"} à «\u00a0${list}\u00a0»`,
+    choiceTitle: (label: string) => `«\u00a0${label}\u00a0»`,
+    choiceText: (category: string, quantity: string) =>
+      `Reçu : ${category}, ${quantity}`,
+    candidates: "Peut-être chez toi",
+    noCandidates: "Aucun article ressemblant.",
+    allInCategory: "Voir tous mes articles de cette catégorie",
+    search: "Chercher dans mes articles",
+    createTitle: "Ou créer un nouvel article",
+    createName: "Nom",
+    create: "Créer cet article",
+    inCategory: (category: string) =>
+      `Gardé dans le catalogue, dans la catégorie ${category}.`,
+    browserTitle: "Ouvre-la dans l'app",
+    browserText:
+      "Sur iPhone, l'app installée ne voit pas ce que reçoit le navigateur. Copie le lien, ouvre ShoppingList depuis ton écran d'accueil, puis ⋯ → «\u00a0Coller une liste\u00a0».",
+    copyLink: "Copier le lien",
+    linkCopied:
+      "Lien copié. Ouvre l'app, puis ⋯ → «\u00a0Coller une liste\u00a0».",
+    copyError: "Copie impossible : garde le message et colle-le depuis l'app.",
+    importHere: "Ajouter la liste ici quand même",
+    browserRecipeText: `Sur iPhone, l'app installée ne voit pas ce que reçoit le navigateur. Copie le lien, ouvre ShoppingList depuis ton écran d'accueil, puis Recettes → «\u00a0Coller une recette\u00a0».`,
+    linkCopiedRecipe: `Lien copié. Ouvre l'app, puis Recettes → «\u00a0Coller une recette\u00a0».`,
+    importRecipeHere: "Ajouter la recette ici quand même",
   },
   shopping: {
     /** Champ d'ajout, à côté de « Terminer » : la place manque pour le libellé de la liste. */
@@ -428,7 +535,7 @@ export const fr = {
       shortNameHint:
         "Sert au titre des rayons qui la contiennent («\u00a0Pain · Café & thé +2\u00a0»).",
       system:
-        "Catégorie de l'app : elle ne se supprime pas. Ses articles vont dans «\u00a0Non classé\u00a0».",
+        "Catégorie de l'app : elle ne se supprime pas. Ses articles vont dans «\u00a0À placer\u00a0».",
       newHint:
         "Pense à la ranger dans un rayon de chaque magasin (Magasins & rayons).",
       merge: "Fusionner avec une autre catégorie",
@@ -491,10 +598,6 @@ export const fr = {
       count: (count: number) =>
         count > 1 ? `${count} articles` : `${count} article`,
       add: "Nouvel article",
-      newTitle: "Nouvel article",
-      name: "Nom",
-      category: "Catégorie",
-      unit: "Unité",
       create: "Créer l'article",
       exists: (name: string) => `«\u00a0${name}\u00a0» existe déjà`,
       duplicates: "Doublons probables",
@@ -609,7 +712,7 @@ export const fr = {
       addAisle: "Nouveau rayon",
       unattached: "Catégories non rattachées",
       unattachedHint:
-        "Leurs articles vont dans «\u00a0Non classé\u00a0». Touche-en une pour la ranger.",
+        "Leurs articles vont dans «\u00a0À placer\u00a0». Touche-en une pour la ranger.",
       place: (category: string) => `Ranger ${category}`,
       placeHint: "Dans quel rayon ? Elle y sera principale.",
       overrides: "Exceptions",
@@ -656,7 +759,7 @@ export const fr = {
       delete: "Supprimer le rayon",
       deleteTitle: (name: string) => `Supprimer ${name} ?`,
       deleteText:
-        "Les catégories dont c'est le rayon principal iront dans «\u00a0Non classé\u00a0».",
+        "Les catégories dont c'est le rayon principal iront dans «\u00a0À placer\u00a0».",
       deletePromote:
         "Ou dans un de leurs rayons secondaires quand elles en ont un",
       deleted: (label: string) => `${label} supprimé`,
@@ -918,6 +1021,14 @@ export const fr = {
     title: "Nouveautés",
     version: (version: string) => `Version ${version}`,
     versions: [
+      {
+        version: "1.1.0",
+        date: "2026-11-19",
+        items: [
+          "Partage d'une liste ou d'une recette : envoie-la par message, la personne la colle dans son app (⋯ → «\u00a0Coller une liste\u00a0», ou Recettes → «\u00a0Coller une recette\u00a0»).",
+          "Optimisation du code.",
+        ],
+      },
       {
         version: "1.0.1",
         date: "2026-11-16",

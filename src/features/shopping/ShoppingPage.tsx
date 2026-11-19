@@ -1,14 +1,20 @@
 import { ArrowDown, ArrowRightLeft, Ban, Check, X } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
-import { Fragment, useCallback, useEffect, useRef, useState } from "react";
+import {
+  Fragment,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { Navigate, useNavigate } from "react-router";
 import { routes, shoppingRecapPath } from "@/app/routes";
 import { db } from "@/db/database";
 import {
+  useCurrentList,
   useLatestSession,
-  useLists,
   useSessionPurchases,
-  useSettings,
 } from "@/db/hooks";
 import {
   checkItem,
@@ -19,9 +25,14 @@ import {
   placeAndCheck,
   uncheckItem,
 } from "@/db/sessions";
-import { categoriesData } from "@/data";
-import { sortCategories } from "@/domain/categories";
-import { compareLines } from "@/domain/lines";
+import { groupListByCategory } from "@/domain/categories";
+import { DEFAULT_AISLE_STYLE } from "@/domain/stores";
+import {
+  buildShoppingView,
+  checkAction,
+  countTodo,
+  type ShoppingView,
+} from "@/domain/shopping";
 import type {
   Aisle,
   Article,
@@ -30,30 +41,36 @@ import type {
   ShoppingSession,
 } from "@/domain/model";
 import { feedback } from "@/feedback";
-import { QuantitySheet } from "@/features/catalog/QuantitySheet";
-import { AddArticleBar } from "@/features/list/AddArticleBar";
-import { CreateArticleSheet } from "@/features/list/CreateArticleSheet";
-import { ExistsSheet } from "@/features/list/ExistsSheet";
-import { aisleText, lineDetails, lineQuantity } from "@/features/list/format";
-import { reportSaveError, useAddToList } from "@/features/list/useAddToList";
-import { type ListData, useListData } from "@/features/list/useListData";
+import { QuantitySheet } from "@/common/QuantitySheet";
+import { AddArticleBar } from "@/common/AddArticleBar";
+import { CreateArticleSheet } from "@/common/CreateArticleSheet";
+import { ExistsSheet } from "@/common/ExistsSheet";
+import {
+  aisleText,
+  catalogOrder,
+  joinDetails,
+  lineDetails,
+  lineQuantity,
+} from "@/common/format";
+import { useAddToList } from "@/common/useAddToList";
+import { type ListData, useListDataOf } from "@/common/useListData";
 import { fr } from "@/i18n/fr";
 import { AisleSection, AisleSubgroup } from "@/ui/AisleHeader";
 import { Button } from "@/ui/button";
+import { ConfirmActions } from "@/ui/form";
 import { ItemRow } from "@/ui/ItemRow";
-import { EmptyHint, Loading, PageTitle } from "@/ui/Page";
+import { EmptyHint, Loading, PageHeader } from "@/ui/Page";
 import { useOnPulse } from "@/ui/pulse";
 import { PulseLine } from "@/ui/PulseLine";
-import { paletteColor } from "@/ui/palette";
 import { Sheet } from "@/ui/Sheet";
 import { SwipeAction } from "@/ui/SwipeToDelete";
-import { Tip } from "@/ui/Tip";
-import { showToast } from "@/ui/toast";
+import { HelpTip } from "./HelpTip";
+import { showToast, reportSaveError } from "@/ui/toast";
 import { AddedInStoreSheet } from "./AddedInStoreSheet";
 import { MoveAisleSheet } from "./MoveAisleSheet";
-import { StaleSessionPrompt } from "./StaleSessionPrompt";
-import { type ShoppingView, useShoppingView } from "./useShoppingView";
+import { StaleSessionPrompt } from "@/common/StaleSessionPrompt";
 import { useWakeLock } from "@/app/useWakeLock";
+import { withMember } from "@/domain/collections";
 
 const t = fr.shopping;
 /** Identifiant du bloc d'un rayon dans la page, pour y faire défiler l'écran. */
@@ -78,15 +95,20 @@ type Panel =
  * terminé se replie, le rayon en cours est mis en évidence. ✕ quitte sans clôturer.
  */
 export function ShoppingPage() {
-  const settings = useSettings();
-  const lists = useLists();
-  const listId = (
-    lists?.find((l) => l.id === settings?.currentListId) ?? lists?.[0]
-  )?.id;
+  const current = useCurrentList();
+  const { lists, list } = current;
+  const listId = list?.id;
   const session = useLatestSession(listId);
-  const data = useListData(session?.storeId);
+  const data = useListDataOf(current, session?.storeId);
   const purchases = useSessionPurchases(session?.id);
-  const view = useShoppingView(data, session, purchases);
+  const store = data?.store;
+  const view = useMemo(
+    () =>
+      data && store && session && purchases
+        ? buildShoppingView({ ...data, store }, session, purchases)
+        : undefined,
+    [data, store, session, purchases],
+  );
 
   if (lists && !listId) return <Navigate to={routes.list} replace />;
   if (listId && session === null) return <Navigate to={routes.list} replace />;
@@ -131,12 +153,10 @@ function Shopping({
     if (view.unplaced.some((i) => i.id === id)) {
       setOpen(UNPLACED, true);
       const categoryId = data.articleById.get(item.articleId)?.categoryId;
-      setFoldedCategories((current) => {
-        if (!categoryId || !current.has(categoryId)) return current;
-        const next = new Set(current);
-        next.delete(categoryId);
-        return next;
-      });
+      if (categoryId)
+        setFoldedCategories((current) =>
+          withMember(current, categoryId, false),
+        );
     } else if (view.pickUp.some((i) => i.id === id)) setOpen(PICK_UP, true);
     else {
       const aisle = view.aisleOf.get(id);
@@ -182,22 +202,11 @@ function Shopping({
 
   /** Cocher, dans son rayon ou dans celui où l'article a été pris (`aisleId`). */
   const check = (item: ListItem, aisleId?: ID) => {
-    const own = view.aisleOf.get(item.id);
-    const unplaced = view.unplaced.some((other) => other.id === item.id);
-    if (!aisleId && (unplaced || !own || own.isUnsorted)) {
-      place(item);
-      return;
-    }
-    const target = aisleId ?? own?.id;
-    if (!target) return;
-    const lastOfAisle = !data.items.some(
-      (other) =>
-        other.id !== item.id &&
-        other.status === "todo" &&
-        view.aisleOf.get(other.id)?.id === target,
-    );
-    void checkItem(db, session, item, target).then(() => {
-      if (lastOfAisle) feedback.aisleDone();
+    const action = checkAction(view, item, aisleId);
+    if (action?.kind === "place") place(item);
+    if (action?.kind !== "check") return;
+    void checkItem(db, session, item, action.aisleId).then(() => {
+      if (action.lastOfAisle) feedback.aisleDone();
       else feedback.check();
     }, reportSaveError);
   };
@@ -233,12 +242,8 @@ function Shopping({
         shopping
         label={article.name}
         icon={article.icon}
-        color={paletteColor(category?.color)}
-        details={
-          isUnavailable
-            ? [t.unavailable, lineDetails(item)].filter(Boolean).join(" · ")
-            : lineDetails(item)
-        }
+        color={category?.color}
+        details={joinDetails(isUnavailable && t.unavailable, lineDetails(item))}
         quantity={lineQuantity(item, data.unitById)}
         checked={item.status === "checked"}
         unavailable={isUnavailable}
@@ -286,29 +291,21 @@ function Shopping({
 
   // « À placer » : rangé par catégorie (ordre du catalogue), un intertitre par
   // catégorie pour s'y retrouver ; dans une catégorie, l'ordre habituel des lignes.
-  const categoryOf = (item: ListItem) =>
-    data.categoryById.get(
-      data.articleById.get(item.articleId)?.categoryId ?? "",
-    );
-  const byLine = compareLines(data.articleById);
-  const unplacedGroups = sortCategories(
+  const unplacedGroups = groupListByCategory(
+    view.unplaced,
+    data.articleById,
     data.categories,
-    categoriesData.map((c) => c.key),
-  ).flatMap((category) => {
-    const items = view.unplaced
-      .filter((item) => categoryOf(item)?.id === category.id)
-      .sort(byLine);
-    return items.length ? [{ category, items }] : [];
-  });
-  const toPlace = view.unplaced.filter((item) => item.status === "todo").length;
+    catalogOrder,
+  );
+  const toPlace = countTodo(view.unplaced);
   const firstUnplaced = unplacedGroups[0]?.items[0]?.id;
   const unplacedOpen = expanded.get(UNPLACED) ?? true;
   const pickUpOpen = expanded.get(PICK_UP) ?? true;
   const unplacedBlock = unplacedGroups.length > 0 && (
     <AisleSection
       label={fr.aisles.unplaced}
-      icon="shopping-basket"
-      color="gris"
+      icon={DEFAULT_AISLE_STYLE.icon}
+      color={DEFAULT_AISLE_STYLE.color}
       count={toPlace}
       expanded={unplacedOpen}
       onToggle={() => {
@@ -322,16 +319,13 @@ function Shopping({
             key={category.id}
             label={category.name}
             icon={category.icon}
-            color={paletteColor(category.color)}
-            count={items.filter((item) => item.status === "todo").length}
+            color={category.color}
+            count={countTodo(items)}
             expanded={!folded}
             onToggle={() => {
-              setFoldedCategories((current) => {
-                const next = new Set(current);
-                if (folded) next.delete(category.id);
-                else next.add(category.id);
-                return next;
-              });
+              setFoldedCategories((current) =>
+                withMember(current, category.id, !folded),
+              );
             }}
           >
             {items.map((item) =>
@@ -349,7 +343,7 @@ function Shopping({
     </AisleSection>
   );
 
-  const remaining = data.items.filter((item) => item.status === "todo").length;
+  const remaining = countTodo(data.items);
   const { checked, total } = view.progress;
   const added =
     panel?.kind === "added"
@@ -370,40 +364,46 @@ function Shopping({
 
   return (
     <>
-      <header className="sticky top-0 z-20 border-b border-border bg-bg px-2 pt-7 pb-3">
-        <div className="flex items-center gap-1">
-          <button
-            type="button"
+      <PageHeader
+        title={data.store?.name ?? ""}
+        leading={
+          <Button
+            variant="icon"
+            size="icon"
             aria-label={t.quit}
             onClick={() => {
               void navigate(routes.list);
             }}
-            className="flex size-11 shrink-0 items-center justify-center rounded-xl text-secondary active:bg-raised"
           >
             <X className="size-6" aria-hidden />
-          </button>
-          <PageTitle className="min-w-0 flex-1">{data.store?.name}</PageTitle>
-          {/* « 3/7 » à l'écran, une phrase entière pour le lecteur d'écran. */}
-          <span
-            data-testid="shopping-progress"
+          </Button>
+        }
+        action={
+          <>
+            {/* « 3/7 » à l'écran, une phrase entière pour le lecteur d'écran. */}
+            <span
+              data-testid="shopping-progress"
+              aria-hidden
+              className="text-lg font-extrabold text-secondary tabular-nums"
+            >
+              {t.progress(checked, total)}
+            </span>
+            <span className="sr-only">{t.progressLabel(checked, total)}</span>
+          </>
+        }
+        below={
+          <div
             aria-hidden
-            className="shrink-0 pr-2 text-lg font-extrabold text-secondary tabular-nums"
+            className="mt-2 h-1.5 overflow-hidden rounded-full bg-raised"
           >
-            {t.progress(checked, total)}
-          </span>
-          <span className="sr-only">{t.progressLabel(checked, total)}</span>
-        </div>
-        <div
-          aria-hidden
-          className="mx-2 mt-2 h-1.5 overflow-hidden rounded-full bg-raised"
-        >
-          <motion.div
-            className="h-full rounded-full bg-secondary-fill"
-            initial={false}
-            animate={{ width: `${total ? (checked / total) * 100 : 0}%` }}
-          />
-        </div>
-      </header>
+            <motion.div
+              className="h-full rounded-full bg-secondary-fill"
+              initial={false}
+              animate={{ width: `${total ? (checked / total) * 100 : 0}%` }}
+            />
+          </div>
+        }
+      />
 
       <div className="flex flex-col gap-4 px-3 pt-4">
         {view.pickUp.length > 0 && (
@@ -420,7 +420,7 @@ function Shopping({
             {view.pickUp.map(row)}
           </AisleSection>
         )}
-        {view.unplacedAfter === undefined && unplacedBlock}
+        {view.placing === undefined && unplacedBlock}
         {view.groups.map(({ aisle, items, done }) => {
           const open = expanded.get(aisle.id) ?? !done;
           const text = textOf(aisle);
@@ -430,8 +430,8 @@ function Shopping({
                 label={text.title}
                 description={text.description}
                 icon={aisle.icon}
-                color={paletteColor(aisle.color)}
-                count={items.filter((i) => i.status === "todo").length}
+                color={aisle.color}
+                count={countTodo(items)}
                 expanded={open}
                 done={done}
                 id={aisleElementId(aisle.id)}
@@ -448,7 +448,7 @@ function Shopping({
                   <EmptyHint inset>{t.emptyAisle}</EmptyHint>
                 )}
               </AisleSection>
-              {aisle.id === view.unplacedAfter && unplacedBlock}
+              {aisle.id === view.placing?.id && unplacedBlock}
             </Fragment>
           );
         })}
@@ -513,13 +513,13 @@ function Shopping({
       />
 
       {/* Bulles d'aide de la première course (docs/03 H12), une à la fois. */}
-      <Tip
+      <HelpTip
         id="shopping-place"
         text={fr.tips.place}
         target='[data-tip="first-unplaced"]'
         show={!panel && toPlace > 0 && !view.placing}
       />
-      <Tip
+      <HelpTip
         id="shopping-next"
         text={fr.tips.next}
         target='[data-tip="next-aisle"]'
@@ -661,32 +661,27 @@ function Shopping({
       )}
       {panel?.kind === "finish" && (
         <Sheet
-          open
           autoFocus={false}
-          onOpenChange={(open) => {
-            if (!open) close();
+          onClose={() => {
+            close();
           }}
           title={t.finishTitle}
           description={t.finishText(remaining)}
         >
-          <div className="flex flex-col gap-3">
-            <Button
-              variant="gold"
-              onClick={() => {
-                void closeSession(db, session.id).then(() => {
-                  feedback.done();
-                  void navigate(shoppingRecapPath(session.id), {
-                    replace: true,
-                  });
-                }, reportSaveError);
-              }}
-            >
-              {t.finishConfirm}
-            </Button>
-            <Button variant="outline" onClick={close}>
-              {t.cancel}
-            </Button>
-          </div>
+          <ConfirmActions
+            variant="gold"
+            label={t.finishConfirm}
+            cancelLabel={t.cancel}
+            onCancel={close}
+            onConfirm={() => {
+              void closeSession(db, session.id).then(() => {
+                feedback.done();
+                void navigate(shoppingRecapPath(session.id), {
+                  replace: true,
+                });
+              }, reportSaveError);
+            }}
+          />
         </Sheet>
       )}
       <StaleSessionPrompt session={session} />

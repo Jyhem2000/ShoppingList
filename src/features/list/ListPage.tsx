@@ -9,24 +9,24 @@ import { reopenSession } from "@/db/sessions";
 import { canReopen } from "@/domain/shopping";
 import type { ID, ListItem } from "@/domain/model";
 import { feedback } from "@/feedback";
-import { formatClock } from "@/features/shopping/format";
-import { StaleSessionPrompt } from "@/features/shopping/StaleSessionPrompt";
-import { StartShoppingSheet } from "@/features/shopping/StartShoppingSheet";
+import { formatClock } from "@/common/time";
+import { StaleSessionPrompt } from "@/common/StaleSessionPrompt";
+import { StartShoppingSheet } from "@/common/StartShoppingSheet";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
 import { EmptyState, Loading } from "@/ui/Page";
 import { showToast } from "@/ui/toast";
-import { AddArticleBar } from "./AddArticleBar";
-import { CreateArticleSheet } from "./CreateArticleSheet";
-import { ExistsSheet } from "./ExistsSheet";
+import { AddArticleBar } from "@/common/AddArticleBar";
+import { CreateArticleSheet } from "@/common/CreateArticleSheet";
+import { ExistsSheet } from "@/common/ExistsSheet";
 import { LineSheet } from "./LineSheet";
 import { ListHeader } from "./ListHeader";
 import { ListLines } from "./ListLines";
 import { ListMenuSheet } from "./ListMenuSheet";
 import { ListsSheet } from "./ListsSheet";
 import { MergeListsSheet } from "./MergeListsSheet";
-import { useAddToList } from "./useAddToList";
-import { useListData } from "./useListData";
+import { useAddToList } from "@/common/useAddToList";
+import { useListData } from "@/common/useListData";
 
 import { useNow } from "@/ui/useNow";
 const t = fr.list;
@@ -229,6 +229,11 @@ export function ListPage() {
             setPanel({ kind: "merge", sources: [] });
           }}
           onRemoveItems={removeItems}
+          onPaste={(text) => {
+            void navigate(routes.import, {
+              state: { text, expected: "list", listId: data.list.id },
+            });
+          }}
         />
       )}
       {panel?.kind === "lists" && (

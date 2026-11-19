@@ -16,6 +16,11 @@ function startOfDay(at: number): number {
   return date.getTime();
 }
 
+/** « 17 novembre 2026 ». */
+export function formatDate(at: number): string {
+  return new Date(at).toLocaleDateString("fr-FR", { dateStyle: "long" });
+}
+
 /** « aujourd'hui 18 h 02 », « hier 18 h », « lundi 9 h 30 », « 3 novembre 18 h ». */
 export function formatWhen(at: number, now = Date.now()): string {
   const days = Math.round((startOfDay(now) - startOfDay(at)) / DAY_MS);
