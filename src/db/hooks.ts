@@ -123,7 +123,7 @@ export function useArticleItems(articleId: ID | undefined) {
   );
 }
 
-/** Nombre de rayons de chaque magasin, sans « Non classé ». */
+/** Nombre de rayons de chaque magasin, sans « À placer ». */
 export function useAisleCounts() {
   return useLiveQuery(async () =>
     countBy(

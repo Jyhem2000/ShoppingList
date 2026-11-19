@@ -39,7 +39,6 @@ export async function createArticle(
       aliases: [],
       icon: input.icon,
       favorite: false,
-      barcodes: [],
       notDuplicateOf: [],
     };
     await database.articles.add(article);

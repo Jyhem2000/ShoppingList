@@ -52,8 +52,7 @@ export async function setArticleOverride(
 }
 
 /**
- * Magasin vide (docs/02 § 4) : un seul rayon « Non classé » (« À placer » en mode
- * courses), qui reçoit les catégories système ; les autres rayons se créent pendant
+ * Magasin vide (docs/02 § 4) : un seul rayon « À placer », qui reçoit les catégories système ; les autres rayons se créent pendant
  * les courses.
  */
 export function buildEmptyStore(
@@ -90,7 +89,7 @@ export function buildEmptyStore(
 }
 
 /**
- * Recrée le rayon « Non classé » d'un magasin s'il manque (sauvegarde abîmée) : sans
+ * Recrée le rayon « À placer » d'un magasin s'il manque (sauvegarde abîmée) : sans
  * lui, les articles sans rayon ne s'afficheraient pas en courses. Il reçoit les
  * catégories système qui n'ont pas déjà un rayon principal.
  */
@@ -232,7 +231,7 @@ export async function deleteStore(
   );
 }
 
-/** Nouveau rayon, juste avant « Non classé ». */
+/** Nouveau rayon, juste avant « À placer ». */
 export async function addAisle(
   database: ShoppingDatabase,
   storeId: ID,
@@ -312,7 +311,7 @@ async function forgetOpenedAisle(
 }
 
 /**
- * Supprimer un rayon (pas « Non classé ») ; ses exceptions par article disparaissent.
+ * Supprimer un rayon (pas « À placer ») ; ses exceptions par article disparaissent.
  * Les achats des courses en cours qui y étaient passent au nouveau rayon de leur
  * article.
  */

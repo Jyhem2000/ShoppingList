@@ -237,7 +237,6 @@ export const articles: Article[] = Object.entries(definitions).map(
     types: a.types ?? [],
     aliases: (a.aliases ?? []).map(slugify),
     favorite: false,
-    barcodes: [],
     notDuplicateOf: [],
   }),
 );

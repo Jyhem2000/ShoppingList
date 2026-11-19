@@ -625,7 +625,7 @@ describe("rayons modifiés pendant les courses", () => {
     await deleteAisle(db, opened.id, false, 5000);
     expect((await db.sessions.get(session.id))?.openedAisle).toBeUndefined();
 
-    // Rayon supprimé : l'achat passe au nouveau rayon de l'article (« Non classé »).
+    // Rayon supprimé : l'achat passe au nouveau rayon de l'article (« À placer »).
     await deleteAisle(db, epicerie.id, false, 6000);
     const unsorted = (
       await db.aisles.where("storeId").equals(store.id).toArray()

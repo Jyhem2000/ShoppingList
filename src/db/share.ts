@@ -239,7 +239,6 @@ async function importArticles(
       aliases,
       icon: received.icon,
       favorite: false,
-      barcodes: [],
       notDuplicateOf: [],
       catalogKey: keyTaken ? undefined : received.catalogKey,
     };

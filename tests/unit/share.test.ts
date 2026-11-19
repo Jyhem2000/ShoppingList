@@ -180,7 +180,6 @@ describe("lien de partage (docs/07 § 7.9)", () => {
       aliases: ["sureau"],
       icon: "sirop",
       favorite: false,
-      barcodes: [],
       notDuplicateOf: [],
     };
     await sender.categories.add(category);

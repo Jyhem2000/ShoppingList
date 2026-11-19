@@ -74,7 +74,6 @@ export interface Article extends Base {
   icon?: string;
   favorite: boolean;
   seasonMonths?: number[];
-  barcodes: string[];
   /** Paires écartées de la détection de doublons. */
   notDuplicateOf: ID[];
   catalogKey?: string;
@@ -112,7 +111,7 @@ export interface Aisle extends Base {
   position: number;
   categories: AisleCategory[];
   /**
-   * Rayon « Non classé » d'un magasin, affiché « À placer » en mode courses : les articles
+   * Rayon « À placer » d'un magasin : les articles
    * dont la catégorie n'a pas encore de rayon dans ce magasin (docs/03 C4).
    */
   isUnsorted: boolean;

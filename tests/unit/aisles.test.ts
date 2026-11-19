@@ -72,7 +72,7 @@ describe("effectiveAisle (docs/02 § 4)", () => {
     ).toBe("Boucherie");
   });
 
-  it("sans rayon principal : « Non classé »", () => {
+  it("sans rayon principal : « À placer »", () => {
     const others = categories.find((c) => c.isSystem);
     expect(
       effectiveAisle(
@@ -169,7 +169,7 @@ describe("groupListForStore (docs/07 § 7.5)", () => {
     expect(groups.some((g) => g.aisle.name === "Boulangerie")).toBe(false);
   });
 
-  it("place « Non classé » en dernier, quelle que soit sa position", () => {
+  it("place « À placer » en dernier, quelle que soit sa position", () => {
     const unsorted = aisles.map((a) =>
       a.isUnsorted ? { ...a, position: -1 } : a,
     );

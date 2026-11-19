@@ -2,9 +2,9 @@
 
 ## 1. Ambiance
 
-Un **thème sombre, franchement « dark mode »**, par défaut : fond quasi noir et neutre (gris très foncé), et **deux couleurs** réservées aux éléments d'interface : le **violet** (couleur principale) et l'**or** (couleur secondaire) ; des touches de couleurs douces par rayon pour la variété, des icônes colorées, des coins arrondis généreux, des animations souples, de petits sons et des vibrations là où c'est possible.
+Un **thème sombre, franchement « dark mode »**, par défaut : fond quasi noir et neutre (gris très foncé), et **deux couleurs** réservées aux éléments d'interface : le **violet** (couleur principale) et l'**or** (couleur secondaire) ; des touches de couleurs douces par rayon pour la variété, des icônes colorées, des coins arrondis généreux, des animations souples et de petits sons.
 
-Un **thème clair** lui correspond, rôle pour rôle (même design system, mêmes noms de tokens) : fonds blancs et gris très clairs, violet profond, or. Choix dans Réglages → **Thème** (H11) : _Automatique_ (suit le téléphone), _Sombre_, _Clair_ ; décision du 12 novembre 2026, qui remplace le « thème sombre unique » du départ.
+Un **thème clair** lui correspond, rôle pour rôle (même design system, mêmes noms de tokens) : fonds blancs et gris très clairs, violet profond, or. Choix dans Réglages → **Thème** (H11) : _Automatique_ (suit le téléphone), _Sombre_, _Clair_.
 
 ## 2. Couleurs
 
@@ -32,11 +32,11 @@ Définis une seule fois dans `src/styles/index.css` ; les composants n'utilisent
 | Attention              | `--warning`          | `#ff7b3a` | Orange : « À récupérer », catégories non rattachées                                                                                    |
 | Danger                 | `--danger`           | `#f2484f` | Rouge franc : suppression, message d'erreur                                                                                            |
 
-Écarts entre les fonds élargis le 12 novembre 2026 après essai sur iPhone (tout se confondait) : fond 1 plus sombre, fond 3 et séparateurs plus clairs. Le fond 2 ne bouge pas : c'est la couleur du filet sombre des icônes dessinées et du fond du logo.
+Les fonds sont nettement écartés (fond 1 très sombre, fond 3 et séparateurs plus clairs) pour ne pas se confondre sur iPhone. Le fond 2 est aussi la couleur du filet sombre des icônes dessinées et du fond du logo.
 
 ### Thème clair
 
-Mêmes tokens, redéfinis sous `:root[data-theme="light"]` dans `src/styles/index.css`. Violet **`#5B21B6`** et or **`#FBBF24`**, choisis le 12 novembre 2026. Fond de l'app **blanc**, cartes et panneaux **gris très clair** (fond 2), éléments surélevés **violet très clair** (fond 3) ; barre d'ajout et recherche du catalogue sur le fond de l'app, bordées d'or (`--field-border`) ; les champs des fiches restent blancs, bordés de gris, pour ne pas alourdir les panneaux. Sur fond blanc, l'or vif est trop pâle pour un petit texte ou une icône au trait : il sert aux **aplats** (`--secondary-fill` : bouton « Terminer », barre de progression, trait de l'onglet actif) et à la bordure des champs ; les **repères** (icônes, quantités, onglet actif) passent en **violet** (`--secondary` = violet principal). Retours d'essai du 12 novembre 2026 : l'ambre foncé essayé d'abord faisait « rouille ». Retours du 13 novembre 2026, en thème clair : **aucun fond sous les articles** (liste et mode courses : blanc), blocs bordés d'un trait fin de leur couleur ; cartes du catalogue (catégories, habituels, articles) **sans fond ni bordure**. En thème sombre : articles de la liste sur le fond 3, cartes du catalogue sur le fond 2 sans bordure, mode courses sans fond sous les articles et bloc bordé d'un trait fin de sa couleur. Barre d'ajout et recherche sans fond propre dans les deux thèmes. Le filet qui détache deux objets dans une icône d'article prend le fond de la ligne en thème clair (`--icon-gap` reste `#18181d` en sombre).
+Mêmes tokens, redéfinis sous `:root[data-theme="light"]` dans `src/styles/index.css`. Violet **`#5B21B6`** et or **`#FBBF24`**. Fond de l'app **blanc**, cartes et panneaux **gris très clair** (fond 2), éléments surélevés **violet très clair** (fond 3) ; barre d'ajout et recherche du catalogue sur le fond de l'app, bordées d'or (`--field-border`) ; les champs des fiches restent blancs, bordés de gris, pour ne pas alourdir les panneaux. Sur fond blanc, l'or vif est trop pâle pour un petit texte ou une icône au trait : il sert aux **aplats** (`--secondary-fill` : bouton « Terminer », barre de progression, trait de l'onglet actif) et à la bordure des champs ; les **repères** (icônes, quantités, onglet actif) passent en **violet** (`--secondary` = violet principal ; un ambre foncé ferait « rouille »). En thème clair : **aucun fond sous les articles** (liste et mode courses : blanc), blocs bordés d'un trait fin de leur couleur ; cartes du catalogue (catégories, habituels, articles) **sans fond ni bordure**. En thème sombre : articles de la liste sur le fond 3, cartes du catalogue sur le fond 2 sans bordure, mode courses sans fond sous les articles et bloc bordé d'un trait fin de sa couleur. Barre d'ajout et recherche sans fond propre dans les deux thèmes. Le filet qui détache deux objets dans une icône d'article prend le fond de la ligne en thème clair (`--icon-gap` reste `#18181d` en sombre).
 
 | Rôle                   | Token              | Valeur    |
 | ---------------------- | ------------------ | --------- |
@@ -87,13 +87,13 @@ Couleurs douces, utilisées en pastille, en liseré d'en-tête de rayon et en fo
 | glacier | `#a5e1f0` | Surgelés                   |
 | lilas   | `#b9a4f0` | Hygiène                    |
 | ardoise | `#9aa7bd` | Entretien & Maison         |
-| gris    | `#85858f` | Non classé / Autres        |
+| gris    | `#85858f` | À placer / Autres          |
 
-> Contrastes vérifiés le 14 novembre 2026 sur tous les écrans, dans les deux thèmes (WCAG AA : 4,5:1 pour le texte, 3:1 pour les éléments graphiques) : les couleurs de la palette en thème clair ont été un peu foncées pour rester lisibles en titre de rayon sur leur fond teinté, et le violet appuyé (`--primary-strong`) un peu éclairci sous le texte des boutons.
+> Contrastes visés sur tous les écrans, dans les deux thèmes : WCAG AA (4,5:1 pour le texte, 3:1 pour les éléments graphiques). En thème clair, les couleurs de la palette sont assez foncées pour rester lisibles en titre de rayon sur leur fond teinté ; le violet appuyé (`--primary-strong`) est assez clair sous le texte des boutons.
 
 ## 3. Typographie
 
-- **Plus Jakarta Sans** (moderne, nette, chaleureuse sans être enfantine) — licence libre (OFL), **embarquée dans l'app** (pas de chargement depuis Google pour rester hors ligne). Nunito, trop arrondie, a été écartée.
+- **Plus Jakarta Sans** (moderne, nette, chaleureuse sans être enfantine) — licence libre (OFL), **embarquée dans l'app** (pas de chargement depuis Google pour rester hors ligne).
 - Chiffres à chasse fixe pour les quantités (`font-variant-numeric: tabular-nums`).
 - Tailles : titres d'écran 24 px extra-gras en violet ; titres de section 12 px en capitales (texte secondaire) ; **en-tête de rayon 18 px extra-gras** dans la couleur du rayon ; **lignes d'article 16 px**, jamais plus grandes que l'en-tête de leur rayon, y compris en mode courses (lisibilité assurée par la hiérarchie et des lignes de 48 px) ; descriptions 14 px.
 
@@ -107,17 +107,17 @@ Couleurs douces, utilisées en pastille, en liseré d'en-tête de rayon et en fo
 | Catégories et rayons                | **Lucide**                                        | Trait, dans la couleur de la catégorie ou du rayon (sur fond atténué de cette couleur dans le catalogue) |
 | Articles, recettes                  | **Icônes dessinées pour l'app** (une par article) | Plat, coloré, doux                                                                                       |
 
-Les icônes colorées sont réservées aux articles : on les repère d'un coup d'œil, et les catégories et rayons, plus sobres, structurent sans leur faire concurrence (choix du 9 novembre 2026, après essai dans la maquette). Une catégorie ou un rayon stocke le nom de son icône Lucide (`apple`) ; la liste des icônes proposées est dans `src/icons/lucide.ts`. Lucide n'a pas d'icône de fromage : un triangle en tient lieu.
+Les icônes colorées sont réservées aux articles : on les repère d'un coup d'œil, et les catégories et rayons, plus sobres, structurent sans leur faire concurrence. Une catégorie ou un rayon stocke le nom de son icône Lucide (`apple`) ; la liste des icônes proposées est dans `src/icons/lucide.ts`. Lucide n'a pas d'icône de fromage : un triangle en tient lieu.
 
 ### Icônes dessinées pour l'app
 
-Décision du 9 novembre 2026, après essai dans la maquette : **toutes les icônes d'articles sont dessinées pour l'app**, une par article du catalogue (236), dans un style plat inspiré de Fluent Emoji (grille 32 × 32, aplats, une ombre et un reflet). Cohérence partout, et plus d'article sans icône.
+**Toutes les icônes d'articles sont dessinées pour l'app**, une par article du catalogue (236), dans un style plat inspiré de Fluent Emoji (grille 32 × 32, aplats, une ombre et un reflet). Cohérence partout, et aucun article sans icône.
 
 - Source : `src/icons/drawn/<clé de l'article>.svg`. Vite les réunit au build dans le pack (`src/icons/packData.ts`) ; libellé et mots-clés viennent de l'article de même clé (nom, alias, types), et l'entrée garde sa catégorie (`c`).
 - Chaque article pointe sur son icône (`"icon": "framboises"`) ; le dictionnaire de mots-clés (06 § 5) aussi, pour les articles créés par l'utilisateur.
-- Catalogue complet (phase 8, décision du 14 novembre 2026) : pour ne pas multiplier les dessins à relire, un article peut **reprendre** le dessin d'un article proche (Cannelle → Épices, Kit fajitas → Tortillas : `"icon"` désigne alors l'autre clé), ou recevoir une **variante recolorée** d'un dessin existant (huiles, sauces en flacon, pots d'épices…), qui reste son propre fichier. Un même modèle sert à **5 articles au plus** (un peu plus seulement au cas par cas : les conserves, qui se ressemblent en vrai, se distinguent par l'étiquette et la couleur) ; au-delà, un dessin propre (la muscade en noix, l'origan en brins…). Le dessin d'un article générique n'est pas décliné pour un article précis : Poisson et Champagne gardent le leur, la truite, la dorade, le bar, le cidre ou le crémant ont le leur. Chaque dessin porte la clé d'un article. Lots relus sur une page temporaire de la maquette (hors production), retirée une fois le catalogue validé le 14 novembre 2026.
-- **Modèle déjà très utilisé** (décision du 15 novembre 2026) : avant de dessiner le nouvel article sous sa vraie forme, on regarde si les articles qui utilisent ce modèle lui correspondent vraiment. Souvent, le modèle générique va mieux au nouvel article et c'est un ancien article, à la forme plus parlante, qui reçoit un dessin propre. Le fichier change alors de nom pour la clé de l'article qu'il représente désormais. Exemple de la phase 9 : le pot du piment d'Espelette devient Ras el hanout et le piment est dessiné en vrai ; de même le pot du curcuma (→ Quatre-épices, curcuma en rhizome) et la pointe de la tomme (→ Beaufort, tomme ronde à croûte grise).
-- **Icônes de plats** (phase 9) : six dessins pour les recettes (soupe, cake, tarte, gâteau, gratin, salade composée) dans `src/icons/dishes/`, qui ne correspondent à aucun article. Leur clé dans le pack est préfixée (`plat-soupe`) et leur catégorie est `plats` ; libellé et mots-clés sont dans `src/i18n/fr.ts` (`recipes.dishes`). Le choix de l'icône d'une recette les montre en tête, sous « Plats et desserts », avec les icônes du Traiteur, des Desserts frais et des Biscuits & Gâteaux.
+- **Reprise et variantes** : pour ne pas multiplier les dessins à relire, un article peut **reprendre** le dessin d'un article proche (Cannelle → Épices, Kit fajitas → Tortillas : `"icon"` désigne alors l'autre clé), ou recevoir une **variante recolorée** d'un dessin existant (huiles, sauces en flacon, pots d'épices…), qui reste son propre fichier. Un même modèle sert à **5 articles au plus** (un peu plus seulement au cas par cas : les conserves, qui se ressemblent en vrai, se distinguent par l'étiquette et la couleur) ; au-delà, un dessin propre (la muscade en noix, l'origan en brins…). Le dessin d'un article générique n'est pas décliné pour un article précis : Poisson et Champagne gardent le leur, la truite, la dorade, le bar, le cidre ou le crémant ont le leur. Chaque dessin porte la clé d'un article.
+- **Modèle déjà très utilisé** : avant de dessiner le nouvel article sous sa vraie forme, on regarde si les articles qui utilisent ce modèle lui correspondent vraiment. Souvent, le modèle générique va mieux au nouvel article et c'est un ancien article, à la forme plus parlante, qui reçoit un dessin propre. Le fichier change alors de nom pour la clé de l'article qu'il représente. Exemples : un pot d'épice va mieux à Ras el hanout ou à Quatre-épices qu'au piment d'Espelette ou au curcuma, dessinés en vrai (piment, rhizome) ; une pointe de fromage va mieux au Beaufort qu'à la tomme, ronde à croûte grise.
+- **Icônes de plats** : six dessins pour les recettes (soupe, cake, tarte, gâteau, gratin, salade composée) dans `src/icons/dishes/`, qui ne correspondent à aucun article. Leur clé dans le pack est préfixée (`plat-soupe`) et leur catégorie est `plats` ; libellé et mots-clés sont dans `src/i18n/fr.ts` (`recipes.dishes`). Le choix de l'icône d'une recette les montre en tête, sous « Plats et desserts », avec les icônes du Traiteur, des Desserts frais et des Biscuits & Gâteaux.
 - Les icônes se relisent dans la maquette (`#/dev/ui`, hors production).
 
 Règles de dessin, tirées des relectures (à appliquer à toute nouvelle icône) :
@@ -135,7 +135,7 @@ Règles de dessin, tirées des relectures (à appliquer à toute nouvelle icône
 - une viennoiserie ou un produit fourré se montre **coupé** quand c'est l'intérieur qui le fait reconnaître (pain au chocolat).
 - **sobriété** : un seul produit (un œuf, pas une boîte), aucun accessoire (cuillère, couvercle, blini, part en trop), aucun socle sous un fromage ; bols petits ; croûte d'un fromage sur le petit côté de la part ; forme la plus parlante (nid de tagliatelles, coquillettes, chèvre cendré, une sardine).
 - bols sans pied, contenant qui **contraste** avec son contenu (pas de bol blanc pour du riz) ; part de fromage = dessus et face coupée, la croûte n'apparaissant qu'en liseré sur le petit côté ; fromage rond entamé avec une encoche nette ; formes organiques plutôt que géométriques (œuf plus large à la base, pâte irrégulière).
-- **perspective** (relecture du 15 novembre 2026) : sur un pot ou une boîte vu un peu du dessus, l'étiquette ou la bande suit la courbure ; dans un bol vu en perspective, le contenu remplit l'ouverture et passe derrière le bord avant ; un motif sur une étiquette est centré sur elle ;
+- **perspective** : sur un pot ou une boîte vu un peu du dessus, l'étiquette ou la bande suit la courbure ; dans un bol vu en perspective, le contenu remplit l'ouverture et passe derrière le bord avant ; un motif sur une étiquette est centré sur elle ;
 - **tas** : ni symétrique ni demi-sphère (un tas de sucre est une petite pyramide au sommet arrondi), sans miettes autour ; une seule sorte de forme par tas (des dés, pas des dés et une cerise) ; plusieurs objets posés au hasard plutôt qu'en éventail, qui ferait croire à un seul objet ;
 - alcools forts de cuisine (cognac, calvados, kirsch) : une même **flasque** au col large, colorée selon l'alcool, étiquette propre à chacun.
 
@@ -162,7 +162,7 @@ Carré arrondi, fond = couleur de la catégorie à ~15 %, 1 ou 2 lettres en gras
 
 ## 5. Composants clés
 
-Le design system, ce sont aussi des **composants partagés** (`src/ui`), utilisés partout : un élément présent à deux endroits n'est jamais recopié, il devient un composant, et un changement de style se fait une seule fois (décision du 14 novembre 2026, après trois retours sur des champs de recherche recopiés et devenus différents). Les principaux :
+Le design system, ce sont aussi des **composants partagés** (`src/ui`), utilisés partout : un élément présent à deux endroits n'est jamais recopié, il devient un composant, et un changement de style se fait une seule fois (des champs recopiés finissent toujours par diverger). Les principaux :
 
 - **Voile et ombres** : tokens `--overlay` (voile sous les panneaux et les bulles d'aide) et `--shadow` (ombre des éléments flottants), jamais de noir écrit en dur. La barre d'état prend la valeur de `--bg` du thème posé (seuls `index.html` et le manifeste, lus avant les styles, la répètent en dur).
 - **Titre d'écran** (`PageTitle`) : 24 px, extra-gras, violet — Liste, Catalogue, Réglages, nom du magasin en mode courses.
@@ -200,7 +200,7 @@ Bibliothèque **Motion**.
 
 ### Sons (H6)
 
-Petits sons courts, doux et discrets, **à volume bas** (un son léger, jamais plus fort que le reste du téléphone) : fichiers WAV de **Kenney Interface Sounds** (licence **CC0**, domaine public, usage commercial libre, mention facultative, créditée dans l'écran Licences), dans `public/sounds/`, mis en cache pour le hors-ligne. Les sons synthétisés par le code, essayés en parallèle, ont été retirés le 13 novembre 2026 : plus de choix de style.
+Petits sons courts, doux et discrets, **à volume bas** (un son léger, jamais plus fort que le reste du téléphone) : fichiers WAV de **Kenney Interface Sounds** (licence **CC0**, domaine public, usage commercial libre, mention facultative, créditée dans l'écran Licences), dans `public/sounds/`, mis en cache pour le hors-ligne.
 
 | Action             | Fichier Kenney d'origine |
 | ------------------ | ------------------------ |
@@ -221,9 +221,9 @@ Points d'attention :
 - **mode silencieux** : sur iPhone, la session audio est déclarée « ambient » (Audio Session API, iOS 17+) : les sons sont coupés quand le bouton silencieux est activé et n'interrompent pas la musique en cours. Android ne permet pas de connaître le mode silencieux depuis le web : les sons suivent le volume multimédia ;
 - réglage **Sons** général et **un interrupteur par son**, chacun pouvant être écouté (Réglages → Préférences → Sons).
 
-### Vibrations — non retenues
+### Pas de vibrations
 
-Pas de vibrations (H7 retirée) : l'API Vibration n'existe pas sur iPhone, et l'astuce non officielle de retour haptique (interrupteur natif masqué) n'a rien produit sur l'iPhone de test. Plutôt que d'avoir une app différente selon le téléphone, elles sont retirées partout.
+L'API Vibration n'existe pas sur iPhone, et l'astuce non officielle de retour haptique (interrupteur natif masqué) n'y fonctionne pas. Pour garder la même app sur les deux téléphones, il n'y a de vibrations nulle part.
 
 ## 8. Icône de l'app et écran de démarrage
 

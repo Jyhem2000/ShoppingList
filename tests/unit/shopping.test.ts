@@ -53,7 +53,7 @@ describe("apprentissage de l'ordre des rayons (docs/03 C7)", () => {
     ]);
   });
 
-  it("ne déplace ni les rayons non visités, ni « Non classé »", () => {
+  it("ne déplace ni les rayons non visités, ni « À placer »", () => {
     const changes = learnAislePositions(
       aisles,
       trip(["epicerie", "fruits", "non-classe"]),

@@ -1,8 +1,8 @@
 /**
- * Publication d'une version (docs/07 § 9) : `npm run release [-- <version|patch|minor|major>] [--dry-run]`.
+ * Publication d'une version (docs/07 § 9) : `npm run release -- <major|minor|patch> [--dry-run]`.
  *
  * 1. Vérifie qu'on est sur `dev`, à jour, sans modification en cours.
- * 2. Calcule la version (déduite des commits depuis la dernière version, ou imposée).
+ * 2. Calcule la version à partir du type demandé (jamais des messages de commit).
  * 3. Vérifie que ses nouveautés sont écrites (src/i18n/fr.ts → releaseNotes).
  * 4. Lance tous les contrôles : format, lint, types, tests unitaires et E2E.
  * 5. Fige la version (package.json, commit « chore: version X », tag vX).
@@ -11,11 +11,11 @@
 import { execSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 import { fr } from "../src/i18n/fr.ts";
-import { nextVersion } from "./versioning.ts";
+import { isBump, nextVersion } from "./versioning.ts";
 
 const args = process.argv.slice(2);
 const dryRun = args.includes("--dry-run");
-const forced = args.find((arg) => !arg.startsWith("--"));
+const bump = args.find((arg) => !arg.startsWith("--"));
 
 const run = (command: string) => execSync(command, { stdio: "inherit" });
 const read = (command: string) =>
@@ -31,10 +31,15 @@ const succeeds = (command: string) => {
     return false;
   }
 };
-const fail = (message: string): never => {
+function fail(message: string): never {
   console.error(`\n✖ ${message}`);
   process.exit(1);
-};
+}
+
+if (!isBump(bump))
+  fail(
+    "Indique le type de version : npm run release -- major | minor | patch (--dry-run pour simuler).",
+  );
 
 // 1. État du dépôt
 if (read("git rev-parse --abbrev-ref HEAD") !== "dev")
@@ -59,27 +64,20 @@ const pkg = JSON.parse(readFileSync("package.json", "utf8")) as {
 const lastTag = succeeds("git describe --tags --abbrev=0 --match v*")
   ? read("git describe --tags --abbrev=0 --match v*")
   : "";
-const range = lastTag ? `${lastTag}..HEAD` : "HEAD";
-const log = read(`git log ${range} --format=%B%x1e`);
-const messages = log
-  .split("\x1e")
-  .map((message) => message.trim())
-  .filter(Boolean);
-if (lastTag && messages.length === 0)
+const commits = Number(
+  read(`git rev-list --count ${lastTag ? `${lastTag}..HEAD` : "HEAD"}`),
+);
+if (lastTag && commits === 0)
   fail(`Aucun commit depuis ${lastTag} : rien à publier.`);
 
 let version = "";
 try {
-  // Première publication : la version de package.json n'a encore jamais été publiée.
-  version =
-    !lastTag && !forced
-      ? pkg.version
-      : nextVersion(pkg.version, messages, forced);
+  version = nextVersion(pkg.version, bump);
 } catch (error) {
   fail(error instanceof Error ? error.message : String(error));
 }
 console.log(
-  `\nVersion ${version} (actuelle : ${pkg.version}, ${messages.length} commit(s) depuis ${lastTag || "le début"})`,
+  `\nVersion ${version} (${bump} ; actuelle : ${pkg.version}, ${commits} commit(s) depuis ${lastTag || "le début"})`,
 );
 
 // 3. Nouveautés
@@ -98,11 +96,9 @@ run("npm run check");
 run("npm run e2e");
 
 // 5. Figer la version
-if (version !== pkg.version) {
-  run(`npm version ${version} --no-git-tag-version`);
-  run("git add package.json package-lock.json");
-  run(`git commit -m "chore: version ${version}"`);
-}
+run(`npm version ${version} --no-git-tag-version`);
+run("git add package.json package-lock.json");
+run(`git commit -m "chore: version ${version}"`);
 run(`git tag -a v${version} -m "Version ${version}"`);
 
 // 6. Publier

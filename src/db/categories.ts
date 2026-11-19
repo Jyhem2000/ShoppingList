@@ -67,7 +67,7 @@ export async function updateCategory(
 /**
  * La catégorie `sourceId` disparaît : ses articles passent dans `targetId`, et dans
  * chaque magasin ses rayons deviennent ceux de la catégorie gardée (fusion), ou sont
- * simplement retirés (suppression vers « Autres », rangée dans « Non classé »).
+ * simplement retirés (suppression vers « Autres », rangée dans « À placer »).
  */
 async function absorbCategory(
   database: ShoppingDatabase,

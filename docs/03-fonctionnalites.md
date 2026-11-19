@@ -2,15 +2,14 @@
 
 Chaque fonctionnalité a un identifiant (`A1`, `B2`…) réutilisé dans le plan de développement et les tests, et une version cible :
 
-| Version                  | Thème            | Fonctionnalités                                |
-| ------------------------ | ---------------- | ---------------------------------------------- |
-| **v1.0**                 | Cœur et recettes | A1-A7 · B1-B6 · C1-C8 · E1-E2 · G1-G5 · H1-H11 |
-| **v1.1**                 | Partage          | F1-F2 · A8 · E3                                |
-| **v1.2**                 | Anti-oubli       | D1-D2                                          |
-| **Plus tard**            | —                | D3                                             |
-| **Idées non planifiées** | Peut-être jamais | I1 · I2 · I3                                   |
+| Version  | Thème                      | Fonctionnalités                                |
+| -------- | -------------------------- | ---------------------------------------------- |
+| **v1.0** | Cœur et recettes           | A1-A7 · B1-B6 · C1-C8 · E1-E2 · G1-G5 · H1-H12 |
+| **v1.1** | Partage                    | F1-F2 · A8 · E3                                |
+| **v1.2** | Anti-oubli et saisonnalité | D1-D3                                          |
+| **v1.3** | Anglais                    | I3                                             |
 
-L'ordre des versions après la v1.0 pourra être réévalué après quelques semaines d'usage réel. Les règles métier citées sont détaillées dans [02](02-modele-metier.md).
+Les règles métier citées sont détaillées dans [02](02-modele-metier.md).
 
 ---
 
@@ -18,7 +17,7 @@ L'ordre des versions après la v1.0 pourra être réévalué après quelques sem
 
 ### A1. Barre d'ajout éclair — _v1.0_
 
-Barre de saisie fixée en bas de l'écran Liste, accessible au pouce. Son libellé, « Ajouter un ou plusieurs articles… », rappelle qu'on peut en saisir plusieurs, séparés par des virgules (A2) ; en mode courses, à côté de « Terminer », la place manque : « Ajouter… » (décision du 16 novembre 2026).
+Barre de saisie fixée en bas de l'écran Liste, accessible au pouce. Son libellé, « Ajouter un ou plusieurs articles… », rappelle qu'on peut en saisir plusieurs, séparés par des virgules (A2) ; en mode courses, à côté de « Terminer », la place manque : « Ajouter… ».
 
 - Recherche dès la 1ʳᵉ lettre dans les libellés **et alias**, insensible aux accents, à la casse et au pluriel (`oeuf` → _Œufs_, `coca` → _Coca-Cola_).
 - Suggestions (5 max) : icône, libellé, catégorie ; classées par pertinence puis fréquence d'achat. Un article déjà dans la liste est marqué de sa quantité.
@@ -43,7 +42,7 @@ Barre de saisie fixée en bas de l'écran Liste, accessible au pouce. Son libell
 - Nombres en lettres jusqu'à vingt, « une douzaine », « une demi-douzaine ».
 - Plusieurs articles séparés par `,`, `;`, `et`, `puis`, retour à la ligne, ou un point de fin de phrase suivi d'une majuscule (`Des pommes. Du lait.`, ajouté par la dictée) ; jamais la virgule ou le point d'un nombre (`1,5 kg`) ni le point d'une abréviation (`2 tr. de jambon`). Articles partitifs ignorés (`du`, `de la`, `des`, `d'`).
 - **Suggestions par type** : dès qu'on tape après le nom d'un article le début d'un de ses types (`pommes g`), les suggestions proposent d'abord « Pommes · Gala », « Pommes · Golden »… (puis « Pommes ») ; en toucher une ajoute la ligne avec ce type. Tant qu'on ne tape que le nom, rien ne change (liste courte). Pas de « Créer… » quand la saisie désigne un article et un de ses types.
-- **Un nombre seul compte des objets** (décision du 16 novembre 2026), dans la liste comme dans une recette. Selon l'unité par défaut de l'article :
+- **Un nombre seul compte des objets**, dans la liste comme dans une recette. Selon l'unité par défaut de l'article :
   - pièce, contenant (paquet, pot, bouteille…) ou unité de cuisine : le nombre de cette unité (« 6 œufs », « 3 pâtes » → 3 paquets) ;
   - poids, article qui **se compte à la pièce** (02 § 2) : des pièces (« 3 pommes » → Pommes × 3, « 1 échalote » → × 1) ;
   - poids, autre article : le nombre de portions, c'est-à-dire **N fois la quantité par défaut** (« 2 beurres » → 500 g, « 2 cerises » → 1 kg), puis simplification ;
@@ -73,7 +72,7 @@ Si aucun article ni alias ne correspond : suggestion « Créer _Sauce nuoc-mâm_
 Grille de catégories (icône + libellé) → grille d'articles (grande icône + libellé).
 
 - Tap sur un article absent de la liste = ajout avec la quantité par défaut.
-- Article déjà présent : pastille de quantité (plusieurs lignes : additionnées par unité) ; un tap ouvre le réglage de **toutes ses lignes** : une rangée par ligne, étiquetée par sa sorte (« Peu importe », « entier ») quand il y en a plusieurs, avec `−` / `+` (pas de l'unité, qui change d'unité en chemin : 950 g → 1 kg → 1,5 kg, [02 § 5](02-modele-metier.md#conversions)) et 🗑, puis « Ajouter une autre sorte » si l'article a des types. Une sorte touchée ajoute sa ligne dans le panneau, avec la quantité par défaut de l'article, réglable sur place ; « Terminé » ferme (décision du 15 novembre 2026, après essai : une quantité sans étiquette au-dessus des sortes faisait croire qu'elle s'appliquait à la nouvelle sorte).
+- Article déjà présent : pastille de quantité (plusieurs lignes : additionnées par unité) ; un tap ouvre le réglage de **toutes ses lignes** : une rangée par ligne, étiquetée par sa sorte (« Peu importe », « entier ») quand il y en a plusieurs, avec `−` / `+` (pas de l'unité, qui change d'unité en chemin : 950 g → 1 kg → 1,5 kg, [02 § 5](02-modele-metier.md#conversions)) et 🗑, puis « Ajouter une autre sorte » si l'article a des types. Une sorte touchée ajoute sa ligne dans le panneau, avec la quantité par défaut de l'article, réglable sur place ; « Terminé » ferme. Chaque quantité est sur la rangée de sa sorte : une quantité sans étiquette au-dessus des sortes ferait croire qu'elle s'applique à la nouvelle sorte.
 - Recherche en haut du catalogue, avec **suggestions dès la première lettre** (nom, alias, sans tenir compte des accents ; la partie tapée en gras ; quantité si l'article est déjà dans la liste). Tap ou Entrée sur la première = même effet qu'un tap sur la carte ; au-delà de 8 suggestions, « Voir les N résultats » ouvre la grille complète.
 
 ### A6. Habituels et favoris — _v1.0_
@@ -84,7 +83,7 @@ En tête du catalogue : les articles les plus achetés (calculés à partir de l
 
 Aucun développement spécifique : le **micro du clavier** (iPhone comme Android) fonctionne dans la barre d'ajout, gratuitement. A2 sait découper « deux baguettes, du beurre et six œufs » en trois lignes.
 
-**Séparer les articles à la voix** (constat du 15 novembre 2026 sur iPhone) : la dictée du clavier n'écrit une virgule que si on dit « virgule » ; sans séparateur, toute la phrase devient un seul article. Il suffit de dire **« et »** (ou « puis », ou « virgule ») entre deux articles : « deux baguettes et du beurre et six œufs ». La dictée d'Android (Gboard) se comporte de même pour la virgule. Deviner les coupures sans séparateur (« deux baguettes trois tomates ») a été écarté : « farine 500 g » met la quantité après le nom, la coupure serait ambiguë. L'écran d'aide le dit (H9).
+**Séparer les articles à la voix** : la dictée du clavier n'écrit une virgule que si on dit « virgule » ; sans séparateur, toute la phrase devient un seul article. Il suffit de dire **« et »** (ou « puis », ou « virgule ») entre deux articles : « deux baguettes et du beurre et six œufs ». La dictée d'Android (Gboard) se comporte de même pour la virgule. Les coupures sans séparateur (« deux baguettes trois tomates ») ne sont pas devinées : « farine 500 g » met la quantité après le nom, la coupure serait ambiguë. L'écran d'aide le dit (H10).
 
 ### A8. Coller une liste — _v1.1_
 
@@ -96,7 +95,7 @@ Liste → `⋯` → « Coller une liste » (avec F2) : chaque ligne d'un texte (
 
 ### B1. Liste par catégorie, courses par rayon — _v1.0_
 
-Décision du 13 novembre 2026, après le premier essai réel : une liste **n'appartient à aucun magasin**, elle se range donc **par catégorie** ; le regroupement **par rayon** n'apparaît qu'en **mode courses**, une fois le magasin choisi (et dans le réglage des magasins).
+Une liste **n'appartient à aucun magasin**, elle se range donc **par catégorie** ; le regroupement **par rayon** n'apparaît qu'en **mode courses**, une fois le magasin choisi (et dans le réglage des magasins).
 
 - **Liste** : lignes groupées par **catégorie**, dans l'ordre du catalogue (06 § 2), catégories créées ensuite par ordre alphabétique, « Autres » et « Achats ponctuels » en dernier. Dans une catégorie : l'article générique en tête, puis alphabétique. En-tête : icône, couleur et nom de la catégorie, nombre de lignes.
 - **Mode courses** : lignes groupées par **rayon effectif** (02 § 4) du magasin choisi, rayons dans l'ordre du parcours, le bloc **« À placer »** (C4) juste après le rayon en cours ; dans un rayon, ordre appris des articles, sinon alphabétique. L'en-tête porte le mot **« RAYON »** au-dessus de son nom, ou du titre tiré de ses catégories (« Pain · Café & thé +2 », 02 § 4), et son repère éventuel en dessous.
@@ -119,7 +118,7 @@ Au départ des courses (« C'est parti ») : le dernier magasin utilisé pour ce
 
 ### B6. Vider — _v1.0_
 
-« Vider la liste » (avec confirmation). « Retirer les lignes cochées » est retiré le 18 novembre 2026 : une ligne n'est cochée qu'en courses encore ouvertes, et la retirer la sortait de l'historique et de l'apprentissage ; c'est « Terminer les courses » qui fait partir les cochées.
+« Vider la liste » (avec confirmation). Pas de « Retirer les lignes cochées » : une ligne n'est cochée qu'en courses encore ouvertes, et la retirer la sortirait de l'historique et de l'apprentissage ; c'est « Terminer les courses » qui fait partir les cochées.
 
 ---
 
@@ -141,17 +140,17 @@ Lancé par un bouton bien visible sur la liste ; confirmation du magasin.
 
 ### C3. Pas pris — _v1.0_
 
-Glisser une ligne → « Pas pris » : elle passe en bas, grisée, et restera dans la liste après les courses. La raison n'importe pas (introuvable, rupture, plus besoin, trop cher) : l'article n'est simplement pas dans le caddie. Libellé « Introuvable » remplacé le 13 novembre 2026, après essai en magasin ; en interne, le statut reste `unavailable`.
+Glisser une ligne → « Pas pris » : elle passe en bas, grisée, et restera dans la liste après les courses. La raison n'importe pas (introuvable, rupture, plus besoin, trop cher) : l'article n'est simplement pas dans le caddie. En interne, le statut s'appelle `unavailable`.
 
 ### C4. Ranger le magasin en cochant ; ajouter pendant les courses — _v1.0_
 
-**Ranger en cochant** (décision du 13 novembre 2026, phase 7) : un magasin se construit pendant les courses, sans rien régler avant.
+**Ranger en cochant** : un magasin se construit pendant les courses, sans rien régler avant.
 
-- Les articles dont la catégorie n'a pas encore de rayon dans ce magasin sont dans le bloc **« À placer »**, rangé par catégorie avec un intertitre par catégorie (icône, nom, couleur, nombre d'articles à prendre) qui la replie ou la déplie d'un toucher (retour d'essai du 15 novembre 2026), affiché juste après le rayon en cours (en tête s'il n'y en a pas encore). À la première course dans un magasin, tout y est.
+- Les articles dont la catégorie n'a pas encore de rayon dans ce magasin sont dans le bloc **« À placer »**, rangé par catégorie avec un intertitre par catégorie (icône, nom, couleur, nombre d'articles à prendre) qui la replie ou la déplie d'un toucher, affiché juste après le rayon en cours (en tête s'il n'y en a pas encore). À la première course dans un magasin, tout y est.
 - **Cocher** un article de « À placer » le range dans le **rayon en cours** (ouvert à la première coche) : toute sa catégorie y devient principale. Si sa catégorie a déjà un rayon dans ce magasin, ou si c'est « Autres » ou « Achats ponctuels », seul l'article y est rangé (exception par article). Le rayon prend l'icône et la couleur de sa première catégorie.
 - Bouton **« Rayon suivant »**, au-dessus de la barre d'ajout, tant qu'il reste des articles à placer : il ouvre un nouveau rayon juste après le rayon en cours, qui devient le rayon en cours. Le rayon en cours s'affiche même vide, avec une explication. Un rayon ouvert et resté vide n'est jamais doublé, et il disparaît à la fin des courses.
-- Le rayon en cours : celui ouvert par « Rayon suivant », ou celui de la dernière coche si elle est plus récente. Il porte l'étiquette or **« Tu es ici »** et rebondit quand il le devient (retour d'essai du 16 novembre 2026 : l'ancien cadre violet ressemblait à un focus). « Rayon suivant » se confirme : son, message « Nouveau rayon : les articles cochés ensuite y seront rangés. », et l'écran va au nouveau rayon ; retouché sur un rayon neuf encore vide, il le dit au lieu de ne rien faire.
-- Rien ne saute à l'écran (retour d'essai du 13 novembre 2026) : quand une catégorie est rangée en cochant un de ses articles, ses **autres articles déjà dans la liste**, encore à prendre, **restent dans « À placer »** jusqu'à ce qu'on les coche (ils vont alors dans le rayon en cours, sans exception s'il s'agit du rayon de leur catégorie). Un article ajouté ensuite va directement dans son rayon (ou « À récupérer » s'il est passé). Aux courses suivantes, tous sont dans le rayon de leur catégorie.
+- Le rayon en cours : celui ouvert par « Rayon suivant », ou celui de la dernière coche si elle est plus récente. Il porte l'étiquette or **« Tu es ici »** et rebondit quand il le devient (pas de cadre violet, qui ressemblerait à un focus). « Rayon suivant » se confirme : son, message « Nouveau rayon : les articles cochés ensuite y seront rangés. », et l'écran va au nouveau rayon ; retouché sur un rayon neuf encore vide, il le dit au lieu de ne rien faire.
+- Rien ne saute à l'écran : quand une catégorie est rangée en cochant un de ses articles, ses **autres articles déjà dans la liste**, encore à prendre, **restent dans « À placer »** jusqu'à ce qu'on les coche (ils vont alors dans le rayon en cours, sans exception s'il s'agit du rayon de leur catégorie). Un article ajouté ensuite va directement dans son rayon (ou « À récupérer » s'il est passé). Aux courses suivantes, tous sont dans le rayon de leur catégorie.
 
 **Ajouter pendant les courses** : la barre d'ajout reste disponible. Si le rayon de l'article ajouté est **déjà passé** (on y a coché quelque chose, puis coché ailleurs), l'app l'indique (« Rayon Crèmerie déjà passé ») et place la ligne dans un groupe **« À récupérer »** affiché en haut.
 
@@ -165,10 +164,10 @@ Appui long sur une ligne → « Déplacer vers… » → le rayon où l'on est, 
 
 ### C6. Terminer les courses (clôture) — _v1.0_
 
-Bouton **« Terminer les courses »**, toujours visible en mode courses → confirmation → récapitulatif (articles achetés, introuvables, durée). Voir [02 § 8](02-modele-metier.md#8-courses-clôture-et-historique) :
+Bouton **« Terminer les courses »**, toujours visible en mode courses → confirmation → récapitulatif (articles achetés, pas pris, durée). Voir [02 § 8](02-modele-metier.md#8-courses-clôture-et-historique) :
 
 - les lignes cochées quittent la liste et vont dans l'historique ; les autres restent ;
-- les calculs sont faits à ce moment : ordre des rayons (C7), ordre des articles, fréquences d'achat, introuvables.
+- les calculs sont faits à ce moment : ordre des rayons (C7), ordre des articles, fréquences d'achat, articles pas pris.
 
 ### C7. Apprentissage de l'ordre des rayons — _v1.0_
 
@@ -180,7 +179,7 @@ Bouton **« Terminer les courses »**, toujours visible en mode courses → conf
 
 ### C8. Rouvrir les courses — _v1.0_
 
-- Après la clôture, la liste (et le bilan) affichent **« Rouvrir les courses »** le **jour même** seulement, tant qu'aucune nouvelle session n'a démarré sur cette liste et que le magasin existe encore (retour d'essai du 13 novembre 2026 : le bouton restait affiché indéfiniment, même après la suppression du magasin).
+- Après la clôture, la liste (et le bilan) affichent **« Rouvrir les courses »** le **jour même** seulement, tant qu'aucune nouvelle session n'a démarré sur cette liste et que le magasin existe encore.
 - Réouverture → retour en mode courses, articles déjà achetés affichés cochés, ajout et cochage des oublis, puis nouvelle clôture qui **remplace** les calculs précédents. Un article acheté puis remis dans la liste depuis n'est pas doublé : la nouvelle ligne l'emporte. Les rangements suivants vont après le rayon de la dernière coche (le rayon vide ouvert par « Rayon suivant » a disparu à la clôture).
 - Session restée ouverte plus de **3 heures** après la dernière coche : à la réouverture de l'app, « Tu as terminé tes courses de _hier 18 h_ ? — Terminer · Continuer ».
 
@@ -198,9 +197,9 @@ Bandeau « Tu prends souvent : 🥛 Lait, 🧈 Beurre » basé sur la fréquence
 
 Mode « Tour de la cuisine » : un écran par catégorie présentant ses articles habituels ; tap pour ajouter, glisser pour passer à la suivante.
 
-### D3. Saisonnalité — _plus tard_
+### D3. Saisonnalité — _v1.2_
 
-- Propriété **« mois de saison »** sur les articles des catégories Fruits, Légumes et Herbes aromatiques, fournie par le catalogue de départ et modifiable dans la fiche article.
+- Propriété **« mois de saison »** sur les articles des catégories Fruits, Légumes et Herbes aromatiques, pour la **France métropolitaine** (aucune autre zone, pas de réglage de pays). Les mois viennent du catalogue embarqué, lus par la clé de l'article tant que l'utilisateur ne les a pas modifiés dans la fiche article : les articles déjà installés en profitent sans migration. Un article créé à la main n'a pas de mois ; on peut les saisir.
 - Pastille « de saison » sur ces articles dans le catalogue, la liste et les suggestions ; petit calendrier des 12 mois dans la fiche article.
 - Filtre « De saison » dans le catalogue.
 
@@ -211,7 +210,7 @@ Mode « Tour de la cuisine » : un écran par catégorie présentant ses article
 ### E1. Gérer les recettes — _v1.0_
 
 Onglet **Recettes** : liste avec recherche ; créer, éditer, dupliquer, supprimer.
-Fiche recette : libellé, icône, **rendement** (« 4 personnes » par défaut, ou unité libre : « 1 cake », « 24 cookies », voir [02 § 7](02-modele-metier.md#7-recette)), ingrédients (ajoutés avec la même barre d'ajout que les listes, donc saisie naturelle A2 et création d'article A4), ingrédients facultatifs, ingrédients à **quantité fixe** (non recalculés selon le nombre de personnes : un pot de crème pour la raclette), étapes mises en forme : gras, titres, listes à puces ou numérotées, par une petite barre au-dessus du champ (enregistrées en Markdown, décision du 15 novembre 2026). Le champ montre le texte mis en forme pendant qu'on l'écrit, comme à la lecture, jamais le Markdown (éditeur TipTap, décision du 16 novembre 2026). La fiche garde l'écran allumé (H9).
+Fiche recette : libellé, icône, **rendement** (« 4 personnes » par défaut, ou unité libre : « 1 cake », « 24 cookies », voir [02 § 7](02-modele-metier.md#7-recette)), ingrédients (ajoutés avec la même barre d'ajout que les listes, donc saisie naturelle A2 et création d'article A4), ingrédients facultatifs, ingrédients à **quantité fixe** (non recalculés selon le nombre de personnes : un pot de crème pour la raclette), étapes mises en forme : gras, titres, listes à puces ou numérotées, par une petite barre au-dessus du champ (enregistrées en Markdown). Le champ montre le texte mis en forme pendant qu'on l'écrit, comme à la lecture, jamais le Markdown (éditeur TipTap). La fiche garde l'écran allumé (H9).
 
 ### E2. Ajouter une recette à une liste — _v1.0_
 
@@ -221,7 +220,7 @@ Le rendement de la fiche est **fixe** (« 4 personnes », « 1 cake ») : on cho
 
 ### E3. Partager une recette — _v1.1_
 
-Même mécanisme que F1 et F2, même format de lien (décision du 17 novembre 2026, voir [02 § 9](02-modele-metier.md#partager-une-recette)). Fiche recette → « Partager la recette » → feuille de partage du téléphone. Le message contient le nom et le rendement, les ingrédients (une puce chacun, avec « facultatif » ou « quantité fixe »), les étapes en texte simple, puis le mode d'emploi et le lien d'import.
+Même mécanisme que F1 et F2, même format de lien (voir [02 § 9](02-modele-metier.md#partager-une-recette)). Fiche recette → « Partager la recette » → feuille de partage du téléphone. Le message contient le nom et le rendement, les ingrédients (une puce chacun, avec « facultatif » ou « quantité fixe »), les étapes en texte simple, puis le mode d'emploi et le lien d'import.
 
 Le destinataire colle le message dans Recettes → « Coller une recette » (sur Android, toucher le lien suffit souvent). Même aperçu que pour une liste (À vérifier, Reconnus, choix de l'article), avec le nom, l'icône, le rendement et les étapes de la recette à la place de « Ajouter à » ; « Ajouter la recette » la crée et ouvre sa fiche. Un ingrédient non reconnu est créé par défaut **dans le catalogue**, dans la catégorie reçue : la recette resservira (« Juste cette fois » reste possible). Si une recette porte déjà ce nom, la reçue s'appelle « Raclette (2) » (puis « Raclette (3) »…, au premier numéro libre) : rien n'est remplacé.
 
@@ -244,11 +243,10 @@ Seules les lignes encore à acheter partent. Sans feuille de partage (rare), le 
 
 ### F2. Importer une liste — _v1.1_
 
-Trois manières, toutes aboutissant à l'écran d'aperçu décrit en [02 § 9](02-modele-metier.md#9-partage-dune-liste) : correspondances automatiques (clé catalogue, slug, alias, catalogue utilisé comme dictionnaire), puis pour les articles non reconnus des **candidats proposés** (même icône, même catégorie), « C'est celui-là » mémorisé en alias, ou « Créer » avec libellé modifiable :
+Deux manières, toutes deux aboutissant à l'écran d'aperçu décrit en [02 § 9](02-modele-metier.md#9-partage-dune-liste) : correspondances automatiques (clé catalogue, slug, alias, catalogue utilisé comme dictionnaire), puis pour les articles non reconnus des **candidats proposés** (même icône, même catégorie), « C'est celui-là » mémorisé en alias, ou « Créer » avec libellé modifiable :
 
 1. **Liste → `⋯` → « Coller une liste »** dans l'app : lit le presse-papier (sur iPhone, une bulle « Coller » à toucher), reconnaît le lien d'import ou, à défaut, analyse le texte ligne par ligne (A8). Si la lecture est refusée, un champ où coller à la main ; sur iPhone, ce champ s'ouvre aussi tant que la bulle reste sans réponse (un instant après le toucher), et toucher « Coller » ensuite suffit encore. _Méthode principale sur iPhone_ (voir encadré).
 2. Ouvrir le lien d'import. _Méthode principale sur Android._
-3. ~~Importer un fichier `.json` exporté~~ : **pas fait** en phase 10 (16 novembre 2026) ; le lien et le texte suffisent, et le fichier de sauvegarde (H4) remplace toutes les données. À rediscuter si le besoin apparaît.
 
 L'aperçu propose d'ajouter les lignes à une **nouvelle liste** (au nom reçu) ou à une liste existante (« Coller une liste » propose la liste courante) ; les quantités s'additionnent à celles déjà présentes, comme pour « Y ajouter le contenu d'une autre liste ».
 
@@ -270,7 +268,7 @@ Créer, renommer, changer icône/couleur, **nom court** facultatif (titre des ra
 
 ### G3. Magasins et rayons
 
-- Créer un magasin (vide, ou copie d'un autre ; plus de modèle depuis la phase 7), renommer, supprimer (même le dernier, jamais pendant des courses en cours). Le plus simple : le créer au départ des courses (B5) et laisser ses rayons se ranger en cochant (C4).
+- Créer un magasin (vide, ou copie d'un autre), renommer, supprimer (même le dernier, jamais pendant des courses en cours). Le plus simple : le créer au départ des courses (B5) et laisser ses rayons se ranger en cochant (C4).
 - Rayons : créer, **nommer (facultatif)**, ajouter un **repère** facultatif (« au fond du magasin »), icône/couleur, **réordonner par glisser-déposer**, fusionner (jamais dans « À placer » : ses catégories n'en sortiraient plus), supprimer. Sans nom, son titre vient de ses catégories principales (02 § 4) ; le champ nom le montre en grisé. Un rayon est toujours renommable.
 - Rattacher les catégories aux rayons : une catégorie peut être dans plusieurs rayons d'un magasin, dont **un principal** (puce pleine ; contour = secondaire ; toucher pour changer) ; voir et ranger les catégories non rattachées.
 - Supprimer un rayon : ses catégories principales vont dans « À placer », ou dans un de leurs rayons secondaires (au choix).
@@ -290,31 +288,22 @@ Depuis toute fiche (article, catégorie, rayon, recette) : grille des icônes du
 
 ### H1. Animations
 
-**Toujours présentes**, sauf si le téléphone demande de réduire les animations (réglage d'accessibilité « Réduire les animations », pour qui les mouvements à l'écran donnent la nausée). Pas de réglage dans l'app (décision du 14 novembre 2026) : les animations de Motion (déplacements, fondus) ne coûtent presque rien, même sur un téléphone modeste.
-
-### H2. ~~Affichage compact~~ — retiré
-
-Retiré le 14 novembre 2026 : masquer les icônes ne fait pas gagner de lignes (la hauteur d'une ligne vient de la zone à toucher, 44 px, 48 px en magasin), seulement de la largeur, au prix du repère visuel. Identifiant conservé pour ne pas renuméroter.
+**Toujours présentes**, sauf si le téléphone demande de réduire les animations (réglage d'accessibilité « Réduire les animations », pour qui les mouvements à l'écran donnent la nausée). Pas de réglage dans l'app : les animations de Motion (déplacements, fondus) ne coûtent presque rien, même sur un téléphone modeste.
 
 ### H3. Lignes cochées en mode courses
 
-Elles **glissent en fin de rayon**, sans réglage (décision du 14 novembre 2026) : on voit ce qui est dans le caddie, on rattrape une coche par erreur d'un toucher, et un rayon terminé se replie tout seul. L'option « disparaissent » est abandonnée.
+Elles **glissent en fin de rayon**, sans réglage : on voit ce qui est dans le caddie, on rattrape une coche par erreur d'un toucher, et un rayon terminé se replie tout seul.
 
 ### H4. Sauvegarde
 
-Export de toutes les données en fichier `.json` (feuille de partage → tes fichiers, ton stockage en ligne…) ; import en **remplacement**. ~~Import en fusion~~ et ~~rappel si aucune sauvegarde depuis 30 jours~~ : **abandonnés** le 14 novembre 2026 (voir plus bas).
+Réglages → Mes données → **Sauvegarde** :
 
-Avancé le 13 novembre 2026, après le premier essai réel (Réglages → Sauvegarde) : export, import en **remplacement** (après confirmation, avec le résumé du fichier), date de la dernière sauvegarde. L'import en fusion, prévu pour la phase 8, est abandonné (voir plus bas). Les préférences de l'appareil (sons, thème, écran allumé) ne sont pas dans le fichier.
-
-Ajouté en phase 7 : **« Copier dans le presse-papiers »** (la même sauvegarde, en texte) et **« Coller une sauvegarde »** (lecture du presse-papiers, ou champ où coller le texte si le téléphone ne permet pas de le lire). Pratique pour désinstaller et réinstaller l'app : copier, coller dans une note ou un message, puis coller dans l'app réinstallée. Libellés depuis le 14 novembre 2026 : **« Copier les données »** et **« Coller les données »**. Les textes de l'app restent **génériques** (« une note », « tes fichiers ») et ne nomment pas d'app propre à un téléphone ; seuls les écrans qui détectent le téléphone (installation, mode silencieux des sons) parlent d'iPhone ou d'Android. Le fichier reste disponible : les deux sont utiles. Fonctionnalité de confort pour la copie (bouton absent si le navigateur ne la permet pas), le collage marche partout grâce au champ.
-
-Ajouté pour la phase 8 (décision du 13 novembre 2026, réalisé le 14 novembre : section « Copies automatiques » de l'écran Sauvegarde, une copie faite au lancement et au retour dans l'app, avant la mise à jour du catalogue) :
-
-- **Copies automatiques internes** : une copie par jour, au premier lancement de la journée, et une juste **avant chaque remplacement** des données (restauration d'une copie, import d'un fichier ou d'un texte collé : marquée « avant remplacement », rien de ce qui a été fait depuis le matin n'est perdu ; revue de code du 15 novembre 2026), en gardant les **7 dernières** ; un remplacement qui échoue ne change rien et le dit ; Réglages → Sauvegarde → **« Restaurer une copie »** (date, résumé, confirmation). Dans la plupart des cas, elles suffisent. Elles protègent contre une fausse manipulation, un import qui écrase tout ou un bug de mise à jour, **pas** contre la suppression de l'app, un changement de téléphone ou un effacement du stockage : elles vivent dans le même stockage que la base (une app web ne peut pas écrire un fichier hors de son stockage sans un geste de l'utilisateur, et un service en ligne contredirait « aucun serveur, aucun compte »). Nouvelle table Dexie → nouvelle version du schéma, migration et test.
-- **Libellés explicatifs** dans Réglages → Mes données → Sauvegarde, à la place d'un rappel :
-  - sous **« Exporter mes données »** : à quoi sert le fichier — changer de téléphone, réinstaller l'app (la supprimer efface ses données, iOS le précise), passer de la préproduction à la production, garder une copie hors du téléphone ;
+- **Exporter** toutes les données en fichier `.json` (feuille de partage → tes fichiers, ton stockage en ligne…) et **importer** un fichier en **remplacement** (après confirmation, avec le résumé du fichier) ; date de la dernière sauvegarde. Les préférences de l'appareil (sons, thème, écran allumé) ne sont pas dans le fichier. Pas d'import en fusion : ses règles seraient délicates (doublons d'articles, de magasins, de listes) pour un usage rare ; le remplacement, protégé par les copies automatiques, suffit, et le partage de listes passe par F1 et F2.
+- **« Copier les données »** (la même sauvegarde, en texte) et **« Coller les données »** (lecture du presse-papiers, ou champ où coller le texte si le téléphone ne permet pas de le lire). Pratique pour désinstaller et réinstaller l'app : copier, coller dans une note ou un message, puis coller dans l'app réinstallée. Le fichier reste disponible : les deux sont utiles. Fonctionnalité de confort pour la copie (bouton absent si le navigateur ne la permet pas), le collage marche partout grâce au champ. Les textes de l'app restent **génériques** (« une note », « tes fichiers ») et ne nomment pas d'app propre à un téléphone ; seuls les écrans qui détectent le téléphone (installation, mode silencieux des sons) parlent d'iPhone ou d'Android.
+- **Copies automatiques internes** (section « Copies automatiques ») : une copie par jour, au premier lancement ou retour dans l'app de la journée (avant la mise à jour du catalogue), et une juste **avant chaque remplacement** des données (restauration d'une copie, import d'un fichier ou d'un texte collé : marquée « avant remplacement », rien de ce qui a été fait depuis le matin n'est perdu), en gardant les **7 dernières** ; un remplacement qui échoue ne change rien et le dit ; **« Restaurer une copie »** (date, résumé, confirmation). Dans la plupart des cas, elles suffisent. Elles protègent contre une fausse manipulation, un import qui écrase tout ou un bug de mise à jour, **pas** contre la suppression de l'app, un changement de téléphone ou un effacement du stockage : elles vivent dans le même stockage que la base (une app web ne peut pas écrire un fichier hors de son stockage sans un geste de l'utilisateur, et un service en ligne contredirait « aucun serveur, aucun compte »).
+- **Libellés explicatifs**, plutôt qu'un rappel de sauvegarde (supprimer l'app efface ses données, iOS le dit) :
+  - sous **« Exporter un fichier »** : à quoi sert le fichier — changer de téléphone, réinstaller l'app (la supprimer efface ses données, iOS le précise), passer de la préproduction à la production, garder une copie hors du téléphone ;
   - à côté de **« Restaurer une copie »** : le rôle des copies automatiques — revenir sur une fausse manipulation, un import ou une mise à jour, jusqu'à 7 jours en arrière ; elles restent dans le téléphone et disparaissent avec l'app.
-- **Abandonnés le 14 novembre 2026** : le **rappel de sauvegarde** après 30 jours (les copies automatiques et les libellés suffisent ; supprimer l'app efface ses données, iOS le dit) et l'**import en fusion** (règles délicates — doublons d'articles, de magasins, de listes — pour un usage rare ; le remplacement, protégé par les copies automatiques, suffit, et le partage de listes arrive en v1.1).
 
 ### H5. Installation, stockage, mises à jour
 
@@ -327,23 +316,17 @@ Ajouté pour la phase 8 (décision du 13 novembre 2026, réalisé le 14 novembre
 
 Petits sons discrets et gratuits sur les actions : ajout d'un article, cocher, rayon terminé, courses terminées, suppression. Réglage **Sons** général, plus **un interrupteur par son** avec un bouton pour l'écouter (tous activés par défaut). Volume bas. Respecte le mode silencieux de l'iPhone. Voir 05 § 7.
 
-### H7. ~~Vibrations~~ — retirée
-
-Retirée le 8 novembre 2026 : l'API Vibration n'existe pas sur iPhone, et l'astuce de retour haptique testée sur l'iPhone ne fonctionnait pas. Pas de vibrations sur aucun téléphone, pour garder la même app partout. Identifiant conservé pour ne pas renuméroter.
-
 ### H8. Simplification des quantités
 
-**Toujours active** : 1200 g → 1,2 kg, avec « Annuler » (voir [02 § 5](02-modele-metier.md#conversions)). _v1.0._ Le réglage qui permettait de la désactiver a été retiré le 14 novembre 2026 : personne ne le change, « Annuler » suffit pour une exception.
-
----
+**Toujours active**, sans réglage : 1200 g → 1,2 kg, avec « Annuler » pour une exception (voir [02 § 5](02-modele-metier.md#conversions)).
 
 ### H9. Écran allumé
 
-Réglage **activé par défaut** : en mode courses, l'écran ne se met pas en veille (Screen Wake Lock, C1) ; sur la fiche d'une recette non plus, pour cuisiner en la lisant (décision du 15 novembre 2026). Grisé si le téléphone ne le permet pas.
+Réglage **activé par défaut** : en mode courses, l'écran ne se met pas en veille (Screen Wake Lock, C1) ; sur la fiche d'une recette non plus, pour cuisiner en la lisant. Grisé si le téléphone ne le permet pas.
 
 ### H10. Aide
 
-Réglages → **Aide** (réalisé le 14 novembre 2026) : le conseil ci-dessous en tête, un mode d'emploi court (remplir la liste, faire les courses, terminer, rouvrir) et **ce que l'app règle toute seule** (ordre des rayons et des articles, rayon d'un article, habitudes ; apprentissage activé ou non par magasin).
+Réglages → **Aide** : le conseil ci-dessous en tête, un mode d'emploi court (remplir la liste, faire les courses, terminer, rouvrir) et **ce que l'app règle toute seule** (ordre des rayons et des articles, rayon d'un article, habitudes ; apprentissage activé ou non par magasin).
 
 Conseil mis en avant : **suivre le même parcours** dans un magasin, au moins pendant les premières courses, le temps que l'app apprenne l'ordre ; cocher les articles **au moment où on les prend**, pas tous à la caisse. Ensuite, on peut désactiver l'apprentissage si l'ordre convient.
 
@@ -351,40 +334,21 @@ Conseil mis en avant : **suivre le même parcours** dans un magasin, au moins pe
 
 Réglages → **Thème** : _Automatique_ (par défaut : suit le réglage clair ou sombre du téléphone, et change avec lui), _Sombre_, _Clair_. Préférence de l'appareil (comme les sons). Le thème est posé avant le premier affichage : pas d'éclair de la mauvaise couleur au lancement.
 
-### H12. Bulles d'aide — _v1.0_
+### H12. Bulles d'aide
 
-Ajouté en phase 7 (guide allégé) : une bulle, montrée **une seule fois**, sur un écran assombri sauf l'élément concerné, avec une flèche ; un toucher n'importe où la ferme.
+Une bulle, montrée **une seule fois**, sur un écran assombri sauf l'élément concerné, avec une flèche ; un toucher n'importe où la ferme.
 
 - Première course, sur le premier article de « À placer » : « Touche un article quand il est dans le caddie : l'app retient dans quel rayon il se trouve. »
 - Après la première coche, sur « Rayon suivant » : « Tu changes de rayon ? Touche ici : les articles suivants iront dans le nouveau rayon. »
 - Au premier bilan : « Ton magasin est enregistré : la prochaine fois, ta liste suivra ton parcours. »
 
-Mémorisées sur le téléphone (préférences de l'appareil, hors sauvegarde) ; Réglages → Aide → **« Revoir les conseils »** les fait revenir. Un **guide de démonstration complet** (parcours pas à pas, flèches sur chaque action) reste pour plus tard.
+Mémorisées sur le téléphone (préférences de l'appareil, hors sauvegarde) ; Réglages → Aide → **« Revoir les conseils »** les fait revenir.
 
-## Idées non planifiées
+## I. Langues — _v1.3_
 
-Idées notées pour plus tard, **sans version** — peut-être jamais réalisées.
+### I3. Anglais — _v1.3_
 
-### I1. Scan de code-barres
-
-Scanner un article avec la caméra pour l'ajouter.
-
-- Décodage dans le navigateur avec **ZXing** (WebAssembly, open source, hors ligne) — l'API native `BarcodeDetector` existe sur Chrome Android mais pas sur iPhone ; elle peut être utilisée quand elle est présente.
-- Code inconnu : recherche du nom et de la catégorie dans **Open Food Facts** (base ouverte et gratuite, réseau nécessaire), proposée pour créer ou associer un article ; le code est ensuite enregistré sur l'article (scans suivants hors ligne).
-
-### I2. Convertisseur d'unités
-
-Outil accessible partout (recette, ligne de liste, menu) pour convertir **entre dimensions** grâce à des équivalences par article :
-
-- mesures de cuisine : « 200 g de farine ≈ 1⅓ verre » ; « 1 c. à soupe de sucre ≈ 15 g » ;
-- masse ↔ volume selon la densité : « 1 kg de miel ≈ 0,7 l » ;
-- équivalences propres à un article : « 1 oignon moyen ≈ 150 g ».
-
-Nécessite une table de densités / équivalences par article (catalogue) et des unités de cuisine (verre, tasse, cuillère).
-
-### I3. Multilingue
-
-Interface et catalogue de départ en anglais (puis éventuellement d'autres langues), langue choisie dans les réglages.
+Interface et catalogue de départ en anglais, langue choisie dans les réglages (le français reste la langue par défaut).
 
 - Interface : un fichier de textes par langue (`src/i18n/en.ts` à côté de `fr.ts`).
 - Catalogue : ajout des libellés, alias et types anglais aux entrées existantes (même clé), ainsi qu'aux catégories et unités.

@@ -39,15 +39,15 @@ Pour les recettes, de petites unités sont utiles : `c-a-s` (cuillère à soupe)
 
 L'unité par défaut doit correspondre à **ce qu'on compte devant le rayon**, et la quantité par défaut à **ce qu'on achète le plus souvent**.
 
-1. **On compte les objets quand la taille des lots varie** : éponges (par 2, 3, 6), piles (4, 8), yaourts (4, 8, 12), œufs (6, 12), rouleaux de papier toilette (6, 9, 12…). Unité `pièce` et une quantité par défaut : « Éponges × 3 », « Papier toilette × 6 », jamais « 1 paquet d'éponges ». Il n'y a pas d'unité « rouleau » (retirée le 12 novembre 2026 : c'était une pièce sous un autre nom) ; le mot reste compris à la saisie (« 12 rouleaux de PQ »).
-2. **Le contenant n'est l'unité que s'il est toujours le même** et que son contenu importe peu : un paquet de pâtes, un pot de moutarde, une bouteille d'huile, une boîte de thon, un pack d'eau de 6. Ce qu'on prend toujours **en lot** prend le lot pour unité : un pack de berlingots de lait aromatisé, un paquet de sachets de levure ou de barres chocolatées (revu le 16 novembre 2026).
+1. **On compte les objets quand la taille des lots varie** : éponges (par 2, 3, 6), piles (4, 8), yaourts (4, 8, 12), œufs (6, 12), rouleaux de papier toilette (6, 9, 12…). Unité `pièce` et une quantité par défaut : « Éponges × 3 », « Papier toilette × 6 », jamais « 1 paquet d'éponges ». Il n'y a pas d'unité « rouleau » (ce serait une pièce sous un autre nom) ; le mot reste compris à la saisie (« 12 rouleaux de PQ »).
+2. **Le contenant n'est l'unité que s'il est toujours le même** et que son contenu importe peu : un paquet de pâtes, un pot de moutarde, une bouteille d'huile, une boîte de thon, un pack d'eau de 6. Ce qu'on prend toujours **en lot** prend le lot pour unité : un pack de berlingots de lait aromatisé, un paquet de sachets de levure ou de barres chocolatées.
 3. **Le poids pour le vrac et la coupe** : fruits et légumes vendus au poids, fromage, viande et charcuterie à la coupe. Un article au poids a **toujours une quantité par défaut** (250 g de fromage, 500 g de viande ou de poisson…) : sans elle, la saisie prendrait le pas de l'unité, soit 50 g.
 4. **Le volume** pour ce qu'on achète en litres (lait, crème liquide) : « Lait 6 L ».
 5. **Un nombre tapé seul compte des objets** (03 A2) : l'unité par défaut ne sert donc qu'à la saisie sans nombre. Les articles vendus au poids qui se comptent sont marqués **« se compte à la pièce »** (`countable` dans le catalogue) : fruits et légumes qu'on compte (pommes, poires, oranges, clémentines, pêches, nectarines, abricots, prunes, tomates, pommes de terre, carottes, navets, betteraves, panais, topinambours), blancs de poulet, noix de Saint-Jacques… Ce qui ne se compte pas (beurre, fromage à la coupe, cerises, raisin, haricots verts, viande et poisson à la coupe) compte en portions de la quantité par défaut.
-6. **Ce qu'on achète rarement au poids passe à la pièce**, × 1 par défaut, même quand on ne sait pas combien : oignons, échalotes, poireaux, courgettes, endives, patates douces (décision du 16 novembre 2026, plutôt qu'une ligne sans quantité).
+6. **Ce qu'on achète rarement au poids passe à la pièce**, × 1 par défaut, même quand on ne sait pas combien : oignons, échalotes, poireaux, courgettes, endives, patates douces (plutôt qu'une ligne sans quantité).
 7. Tout reste modifiable : l'utilisateur change l'unité ou la quantité d'une ligne, et peut changer les valeurs par défaut dans la fiche article.
 
-Articles de base (extrait du futur catalogue, phase 3) :
+Articles de base (extrait du catalogue) :
 
 | Article                       | Unité     | Qté par défaut | Pourquoi                                                |
 | ----------------------------- | --------- | -------------- | ------------------------------------------------------- |
@@ -96,53 +96,54 @@ Articles de base (extrait du futur catalogue, phase 3) :
 
 ## 2. Catégories (~35)
 
-Volontairement fines pour être regroupées différemment selon les magasins. Unité par défaut suggérée pour les nouveaux articles de la catégorie. Dans un nom double, **chaque partie prend une majuscule** (« Pain & Viennoiseries », « Crèmerie & Œufs ») : ce sont des étiquettes. Pas de catégorie pour un seul article : les œufs sont rangés avec la crèmerie (retour d'essai du 15 novembre 2026). Les deux catégories système vont dans « À placer » de chaque magasin.
+Volontairement fines pour être regroupées différemment selon les magasins. Unité par défaut suggérée pour les nouveaux articles de la catégorie. Dans un nom double, **chaque partie prend une majuscule** (« Pain & Viennoiseries », « Crèmerie & Œufs ») : ce sont des étiquettes. Pas de catégorie pour un seul article : les œufs sont rangés avec la crèmerie. Les deux catégories système vont dans « À placer » de chaque magasin.
 
-Chaque catégorie (sauf les catégories système) a aussi un **nom court** et une **famille**, qui servent au titre des rayons sans nom (02 § 4). Ils sont dans `src/data/categories.json` (`short`, `family`) et `src/data/families.json` ; le tableau validé le 13 novembre 2026 est dans 09, phase 7. Familles : Fruits & légumes, Boulangerie, Viandes & poissons, Frais, Épicerie salée, Épicerie sucrée, Boissons, Surgelés, Hygiène, Maison.
+Chaque catégorie (sauf les catégories système) a aussi un **nom court** et une **famille**, qui servent au titre des rayons sans nom (02 § 4). Ils sont dans `src/data/categories.json` (`short`, `family`) et `src/data/families.json`. Familles : Fruits & légumes, Boulangerie, Viandes & poissons, Frais, Épicerie salée, Épicerie sucrée, Boissons, Surgelés, Hygiène, Maison.
 
-| Slug                      | Libellé                             | Unité par défaut suggérée |
-| ------------------------- | ----------------------------------- | ------------------------- |
-| `fruits`                  | Fruits                              | kg                        |
-| `legumes`                 | Légumes                             | kg                        |
-| `herbes-aromatiques`      | Herbes aromatiques                  | botte                     |
-| `pain-viennoiseries`      | Pain & Viennoiseries                | pièce                     |
-| `viande`                  | Viande                              | g                         |
-| `volaille`                | Volaille                            | g                         |
-| `charcuterie`             | Charcuterie                         | paquet                    |
-| `poisson-fruits-de-mer`   | Poisson & Fruits de mer             | g                         |
-| `traiteur`                | Traiteur & Plats préparés           | barquette                 |
-| `lait-creme-beurre`       | Crèmerie & Œufs                     | pièce                     |
-| `yaourts-desserts`        | Yaourts & Desserts frais            | pièce                     |
-| `fromages`                | Fromages                            | pièce                     |
-| `pates-riz-feculents`     | Pâtes, Riz & Féculents              | paquet                    |
-| `conserves-bocaux`        | Conserves & Bocaux                  | boîte                     |
-| `sauces-condiments`       | Sauces, Condiments & Épices         | pot                       |
-| `huiles-vinaigres`        | Huiles & Vinaigres                  | bouteille                 |
-| `aperitif`                | Apéritif                            | sachet                    |
-| `cuisine-du-monde`        | Cuisine du monde                    | pièce                     |
-| `farine-sucre-patisserie` | Farine, Sucre & Pâtisserie          | paquet                    |
-| `petit-dejeuner`          | Céréales & Petit-déjeuner           | paquet                    |
-| `biscuits-gateaux`        | Biscuits & Gâteaux                  | paquet                    |
-| `chocolat-confiserie`     | Chocolat & Confiserie               | pièce                     |
-| `confitures-tartiner`     | Confitures & Pâtes à tartiner       | pot                       |
-| `cafe-the`                | Café & Thé                          | paquet                    |
-| `eaux`                    | Eaux                                | pack                      |
-| `jus-sodas`               | Jus & Sodas                         | bouteille                 |
-| `alcools`                 | Bières, Vins & Alcools              | bouteille                 |
-| `surgeles`                | Surgelés                            | sachet                    |
-| `glaces`                  | Glaces                              | pièce                     |
-| `hygiene-beaute`          | Hygiène & Beauté                    | pièce                     |
-| `papier-mouchoirs`        | Papier toilette & Mouchoirs         | pièce                     |
-| `entretien`               | Entretien & Lessive                 | pièce                     |
-| `cuisine-maison`          | Cuisine & Maison                    | pièce                     |
-| `bebe`                    | Bébé                                | pièce                     |
-| `animaux`                 | Animaux                             | pièce                     |
-| `autres`                  | Autres _(système, non supprimable)_ | pièce                     |
-| `achats-ponctuels`        | Achats ponctuels _(système)_        | pièce                     |
+| Slug                      | Libellé                             | Unité par défaut suggérée | Nom court       | Famille            |
+| ------------------------- | ----------------------------------- | ------------------------- | --------------- | ------------------ |
+| `fruits`                  | Fruits                              | kg                        | Fruits          | Fruits & légumes   |
+| `legumes`                 | Légumes                             | kg                        | Légumes         | Fruits & légumes   |
+| `herbes-aromatiques`      | Herbes aromatiques                  | botte                     | Herbes          | Fruits & légumes   |
+| `pain-viennoiseries`      | Pain & Viennoiseries                | pièce                     | Pain            | Boulangerie        |
+| `viande`                  | Viande                              | g                         | Viande          | Viandes & poissons |
+| `volaille`                | Volaille                            | g                         | Volaille        | Viandes & poissons |
+| `charcuterie`             | Charcuterie                         | paquet                    | Charcuterie     | Frais              |
+| `poisson-fruits-de-mer`   | Poisson & Fruits de mer             | g                         | Poisson         | Viandes & poissons |
+| `traiteur`                | Traiteur & Plats préparés           | barquette                 | Traiteur        | Frais              |
+| `lait-creme-beurre`       | Crèmerie & Œufs                     | pièce                     | Crèmerie & Œufs | Frais              |
+| `yaourts-desserts`        | Yaourts & Desserts frais            | pièce                     | Yaourts         | Frais              |
+| `fromages`                | Fromages                            | pièce                     | Fromages        | Frais              |
+| `pates-riz-feculents`     | Pâtes, Riz & Féculents              | paquet                    | Pâtes & riz     | Épicerie salée     |
+| `conserves-bocaux`        | Conserves & Bocaux                  | boîte                     | Conserves       | Épicerie salée     |
+| `sauces-condiments`       | Sauces & Condiments                 | pot                       | Sauces          | Épicerie salée     |
+| `epices`                  | Sel, Poivre & Épices                | pot                       | Épices          | Épicerie salée     |
+| `huiles-vinaigres`        | Huiles & Vinaigres                  | bouteille                 | Huiles          | Épicerie salée     |
+| `aperitif`                | Apéritif                            | sachet                    | Apéro           | Épicerie salée     |
+| `cuisine-du-monde`        | Cuisine du monde                    | pièce                     | Monde           | Épicerie salée     |
+| `farine-sucre-patisserie` | Farine, Sucre & Pâtisserie          | paquet                    | Pâtisserie      | Épicerie sucrée    |
+| `petit-dejeuner`          | Céréales & Petit-déjeuner           | paquet                    | Petit-déj       | Épicerie sucrée    |
+| `biscuits-gateaux`        | Biscuits & Gâteaux                  | paquet                    | Biscuits        | Épicerie sucrée    |
+| `chocolat-confiserie`     | Chocolat & Confiserie               | pièce                     | Chocolat        | Épicerie sucrée    |
+| `confitures-tartiner`     | Confitures & Pâtes à tartiner       | pot                       | Confitures      | Épicerie sucrée    |
+| `cafe-the`                | Café & Thé                          | paquet                    | Café & thé      | Épicerie sucrée    |
+| `eaux`                    | Eaux                                | pack                      | Eaux            | Boissons           |
+| `jus-sodas`               | Jus & Sodas                         | bouteille                 | Jus & sodas     | Boissons           |
+| `alcools`                 | Bières, Vins & Alcools              | bouteille                 | Alcools         | Boissons           |
+| `surgeles`                | Surgelés                            | sachet                    | Surgelés        | Surgelés           |
+| `glaces`                  | Glaces                              | pièce                     | Glaces          | Surgelés           |
+| `hygiene-beaute`          | Hygiène & Beauté                    | pièce                     | Hygiène         | Hygiène            |
+| `papier-mouchoirs`        | Papier toilette & Mouchoirs         | pièce                     | Papier          | Hygiène            |
+| `entretien`               | Entretien & Lessive                 | pièce                     | Entretien       | Maison             |
+| `cuisine-maison`          | Cuisine & Maison                    | pièce                     | Maison          | Maison             |
+| `bebe`                    | Bébé                                | pièce                     | Bébé            | Hygiène            |
+| `animaux`                 | Animaux                             | pièce                     | Animaux         | Maison             |
+| `autres`                  | Autres _(système, non supprimable)_ | pièce                     | —               | —                  |
+| `achats-ponctuels`        | Achats ponctuels _(système)_        | pièce                     | —               | —                  |
 
 ## 3. Magasins
 
-Plus de modèles de magasin depuis la phase 7 (13 novembre 2026) : ils regroupaient les catégories de façon arbitraire, et faux pour le vrai magasin de l'utilisateur. Aucun magasin n'est créé au premier lancement ; un magasin se crée vide (au premier « C'est parti », ou dans Réglages) et ses rayons se rangent pendant les courses (03 C4).
+Pas de modèles de magasin : ils regrouperaient les catégories de façon arbitraire, et faux pour le vrai magasin de l'utilisateur. Aucun magasin n'est créé au premier lancement ; un magasin se crée vide (au premier « C'est parti », ou dans Réglages) et ses rayons se rangent pendant les courses (03 C4).
 
 ## 3 bis. Rendements de recette proposés
 
@@ -150,7 +151,7 @@ Plus de modèles de magasin depuis la phase 7 (13 novembre 2026) : ils regroupai
 
 ## 4. Catalogue de départ
 
-- **~500 articles** courants en France, répartis dans toutes les catégories (objectif ramené de ~1 000 à ~500 le 14 novembre 2026 : 10 à 20 articles par catégorie, davantage pour les fruits et légumes). Un grand catalogue limite les créations manuelles, donc les doublons au moment du partage ([02 § 9](02-modele-metier.md#9-partage-dune-liste)).
+- **~500 articles** courants en France (483 aujourd'hui), répartis dans toutes les catégories : 10 à 20 articles par catégorie, davantage pour les fruits et légumes. Un grand catalogue limite les créations manuelles, donc les doublons au moment du partage ([02 § 9](02-modele-metier.md#9-partage-dune-liste)).
 - Format de chaque entrée — les textes sont **par langue**, la v1 ne remplit que `fr` :
   ```json
   {
@@ -171,14 +172,13 @@ Plus de modèles de magasin depuis la phase 7 (13 novembre 2026) : ils regroupai
     "icon": "red-apple"
   }
   ```
-  Ajouter l'anglais plus tard = ajouter `"en": …` dans ces champs (ou un fichier `catalog.en.json` fusionné au build), sans migration des données utilisateur.
+  Ajouter l'anglais (v1.3) = ajouter `"en": …` dans ces champs (ou un fichier `catalog.en.json` fusionné au build), sans migration des données utilisateur.
 - `key` = clé catalogue : identifiant technique **sans langue**, écrit sous forme de slug français pour rester lisible, **figé pour toujours** (même si le libellé change dans une version future). Il n'est jamais affiché.
 - `types` uniquement quand c'est utile (pommes, pommes de terre, lait, farine…), sinon absent.
 - `aliases` : synonymes, abréviations (`pdt`), marques passées dans le langage courant (`sopalin`, `kleenex`, `coca`), variantes régionales (`chocolatine`), orthographes alternatives (`nuoc mam`).
 - **Même structure pour les catégories et les unités** : `key` sans langue + `name` (et pluriel, abréviation pour les unités) par langue.
-- _Plus tard (D3)_ : `season` pour les fruits et légumes, liste des mois de saison (`[9, 10, 11, 12, 1, 2]`).
+- _v1.2 (D3)_ : `season` pour les fruits, légumes et herbes aromatiques, liste des mois de saison en France métropolitaine (`[9, 10, 11, 12, 1, 2]`).
 - **Production** : généré par l'agent IA pendant le développement, puis **relu par catégorie** avant validation. C'est la donnée qui fait la qualité perçue de l'app.
-- Livraison progressive : ~150 articles dès la phase données (238 livrés, relus le 9 novembre 2026), le catalogue complet en phase 8 : 428 articles, relus et validés le 14 novembre 2026. Phase 9 (recettes) : 55 ingrédients de cuisine et de pâtisserie en plus, soit 483 articles, relus et validés le 15 novembre 2026.
 
 ## 5. Dictionnaire de mots-clés
 
@@ -225,14 +225,4 @@ Au lancement, si le catalogue de l'app est plus récent que celui de la base (`s
 - rien de ce que l'utilisateur a créé, modifié ou supprimé n'est touché : un article du catalogue qu'il a supprimé ne revient pas ;
 - une nouvelle catégorie n'est rangée dans aucun rayon : elle apparaît dans les « Catégories non rattachées » de chaque magasin (G3).
 
-Les changements apportés à un article existant ne sont pas recopiés, sauf une **correction** listée dans `catalogFixes` (`src/data/catalog.ts` : unité par défaut, quantité par défaut, « se compte à la pièce ») : elle ne s'applique qu'à un article que l'utilisateur n'a jamais modifié (date de mise à jour égale à la date de création). Plus besoin de réinstaller l'app pour profiter des nouveautés.
-
-| Version | Ajouts                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 2       | Catégorie « Sel, Poivre & Épices » ; articles Gnocchis, Brandade de morue, Conserves au choix.                                                                                                                                                                                                                                                                                                                           |
-| 3       | Article Lait aromatisé (fraise, chocolat, vanille).                                                                                                                                                                                                                                                                                                                                                                      |
-| 4       | Correction : la litière se compte en paquets (et non en sachets).                                                                                                                                                                                                                                                                                                                                                        |
-| 5       | Lot 1 du catalogue complet (phase 8) : 44 articles d'épicerie salée (pâtes et féculents, conserves, sauces, épices, huiles, apéritif, cuisine du monde).                                                                                                                                                                                                                                                                 |
-| 6       | Lot 2 du catalogue complet (phase 8) : 145 articles — épicerie sucrée, frais (charcuterie, traiteur, crèmerie, desserts, fromages), viandes et poissons, boulangerie, boissons, surgelés, hygiène, maison, animaux. Catalogue : 428 articles. Autres noms retirés pour éviter les doublons : « granola » (Muesli), « faisselle » (Fromage blanc). Liniment retiré à la relecture (trop rare).                            |
-| 7       | Phase 9 (recettes) : 55 ingrédients de cuisine et de pâtisserie (fruits secs, épices, herbes, alcools de cuisine, fromages, abats de volaille…). Catalogue : 483 articles. Retirés pour éviter les doublons : l'autre nom « cacao » (Chocolat en poudre, au profit de Cacao non sucré), la sorte « roux » du Sucre (« sucre roux » devient un autre nom de Cassonade), la sorte « confit » du Canard (Confit de canard). |
-| 8       | Corrections (phase 9, un nombre seul compte des objets) : 17 articles au poids se comptent à la pièce (pommes, tomates, carottes, blancs de poulet…) ; oignons, échalotes, poireaux, courgettes, endives et patates douces passent à la pièce × 1.                                                                                                                                                                       |
+Les changements apportés à un article existant ne sont pas recopiés, sauf une **correction** listée dans `catalogFixes` (`src/data/catalog.ts` : unité par défaut, quantité par défaut, « se compte à la pièce ») : elle ne s'applique qu'à un article que l'utilisateur n'a jamais modifié (date de mise à jour égale à la date de création). Pas besoin de réinstaller l'app pour profiter des nouveautés. Chaque enrichissement du catalogue augmente `CATALOG_VERSION`.

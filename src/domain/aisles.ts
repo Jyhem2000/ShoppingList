@@ -14,7 +14,7 @@ type AisleArticle = Pick<Article, "id" | "categoryId">;
 
 /**
  * Rayon effectif d'un article dans un magasin : son exception pour ce magasin, sinon
- * le rayon principal de sa catégorie, sinon « Non classé ». Les tables sont
+ * le rayon principal de sa catégorie, sinon « À placer ». Les tables sont
  * construites une fois, pour résoudre ensuite autant d'articles qu'on veut.
  */
 export function aisleResolver<A extends Aisle>(
@@ -59,7 +59,7 @@ export interface AisleGroup<A extends Aisle, I extends ListItem> {
 }
 
 /**
- * Lignes groupées par rayon effectif, rayons dans l'ordre du parcours (« Non classé »
+ * Lignes groupées par rayon effectif, rayons dans l'ordre du parcours (« À placer »
  * en dernier). Dans un rayon : à acheter, puis cochées, puis introuvables ; chacune
  * avec les articles génériques en tête, puis par ordre appris (`articleOrder`,
  * plus petit d'abord), puis alphabétique.

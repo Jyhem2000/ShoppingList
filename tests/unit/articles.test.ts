@@ -25,7 +25,6 @@ function article(
     aliases: [],
     icon: "pommes",
     favorite: false,
-    barcodes: [],
     notDuplicateOf: [],
     ...extra,
   };

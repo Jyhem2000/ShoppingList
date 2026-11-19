@@ -18,7 +18,7 @@ Ce sont deux outils **complémentaires**, pas concurrents.
 1. Il embarque **WebKit** (le moteur de tous les navigateurs sur iPhone, Chrome compris) et **Chromium** (celui de Chrome Android), et sait émuler un iPhone ou un téléphone Android (taille d'écran, tactile). On teste donc sur les moteurs des deux téléphones du foyer, depuis le PC.
 2. C'est ce qui permet à l'**agent IA de vérifier lui-même** qu'une fonctionnalité marche de bout en bout, au lieu de seulement « penser » qu'elle marche.
 
-**Ce qu'aucun des deux ne remplace** : un essai sur ton iPhone réel (app installée, écran qui reste allumé, clavier, dictée). Une courte checklist manuelle est prévue à chaque fin de phase (§ 5).
+**Ce qu'aucun des deux ne remplace** : un essai sur ton iPhone réel (app installée, écran qui reste allumé, clavier, dictée). Une courte checklist manuelle est prévue avant chaque version (§ 5).
 
 ## 2. Organisation
 
@@ -52,7 +52,7 @@ Principe : **tester ce qui peut casser silencieusement et ce qui fait la valeur 
 | Rangement en cochant, « Rayon suivant », titre d'un rayon                                      | Le magasin se construit pendant les courses (03 C4, 02 § 4) : bonne catégorie au bon rayon, jamais deux rayons vides, titres courts                                                       |
 | Clôture, apprentissage, réouverture                                                            | Logique statistique ; jamais de double comptage après réouverture                                                                                                                         |
 | `convert`, `changeUnit`, `simplify`, `stepAmount`, `stepCount`, `mergeQuantity`, `scaleRecipe` | Calculs, conversions et arrondis (y compris rendements « 1 cake », − / + qui changent d'unité ; en base, appuis rapprochés tous comptés et achat qui suit)                                |
-| `parseMarkdown`, `toggleBold`, `toggleLineStyle`, `continueList`                               | Étapes mises en forme : titres, listes, gras, un ancien texte simple lu tel quel ; boutons de la barre et suite d'une liste                                                               |
+| `parseMarkdown`, `toggleBold`, `toggleLineStyle`, `continueList`                               | Étapes mises en forme : titres, listes, gras, un texte simple lu tel quel ; boutons de la barre et suite d'une liste                                                                      |
 | Suggestions anti-oubli                                                                         | Logique statistique                                                                                                                                                                       |
 | `slugify` sur d'autres alphabets                                                               | Jamais de slug vide (cyrillique, chinois…)                                                                                                                                                |
 | `resolveImport`, `suggestCandidates`, `uniqueRecipeName`                                       | Partage entre deux catalogues différents : clé, alias, dictionnaire du catalogue, candidats par icône/catégorie ; recette reçue sous un nom libre (« Cake (3) », jamais « Cake (2) (2) ») |
@@ -76,16 +76,13 @@ Chaque scénario tourne sur deux configurations : **WebKit + iPhone émulé** (c
 8. _(v1.1)_ Partage puis import dans un profil vierge → aperçu correct, association « C'est le même que… » mémorisée, articles créés.
 9. _(v1.1)_ Recette partagée puis importée dans un profil vierge → ingrédients reconnus, quantité fixe conservée, recette créée et ouverte.
 
-Échecs intermittents recherchés le 14 novembre 2026 (suite rejouée 12 fois : 2 échecs sur 216 passages, tous sur iPhone) :
+**Stabilité des scénarios iPhone.** Le WebKit de Playwright sous Windows a des pauses (il cesse un moment de redessiner la page, parfois une dizaine de secondes), plus nombreuses avec la charge, et il écrit lentement dans IndexedDB (environ 15,6 ms par requête, un tic de l'horloge de Windows, contre quelques millisecondes sous Chromium). Rien de cela ne vient de l'app. D'où :
 
-- scénario 3 : « C'est parti » touché pendant que la deuxième ligne s'ajoutait au-dessus et le décalait. Le test attend désormais que les lignes soient là ;
-- scénario 5 : WebKit (sous Windows) cesse un moment de redessiner la page ; Playwright attend alors en vain qu'un bouton soit immobile. Rien dans l'app : la page répond toujours et aucune animation n'est en cours. Les scénarios iPhone sont donc rejoués une fois en cas d'échec (`retries: 1` dans `playwright.config.ts`) : un scénario qui passe au second essai est signalé « flaky » dans le rapport sans bloquer `npm run e2e` ni `npm run release` ; s'il échoue deux fois, c'est un vrai problème. Un scénario souvent « flaky » mérite d'être examiné.
-
-Le 17 novembre 2026, avec le scénario 9 (deux téléphones neufs de plus), la suite lancée à quatre scénarios à la fois (la moitié des 8 cœurs) faisait dépasser leur délai à trois scénarios iPhone, deux fois sur deux (un déjà sur le commit précédent) : ces pauses de WebKit se multiplient avec la charge. `workers: 3` dans `playwright.config.ts` : suite verte, et plus rapide (2,4 min au lieu de 3,3).
-
-Repris le 15 novembre 2026 : le scénario 5 échouait au premier essai presque à chaque fois sur iPhone (4 sur 4). Deux causes : un toucher perdu parce que la ligne visée bouge juste après que Playwright l'a jugée immobile (une ligne qui change de rayon, un rayon qui s'ouvre), et des pauses de WebKit allant jusqu'à une dizaine de secondes (une simple saisie). Les gestes du mode courses qu'un second toucher ne défait pas (cocher, « Rayon suivant », « Terminer », « Retour à la liste ») sont donc rejoués tant que leur effet n'est pas visible (`tapUntil` dans `tests/e2e/app.ts`), et un scénario iPhone a 60 s au lieu de 30. Le scénario 5 rejoué 6 fois passe alors du premier coup.
-
-Repris le 17 novembre 2026 : le scénario 1 échouait sur iPhone (3 sur 3), le 8 était instable. Le premier lancement écrit une unité, une catégorie ou un article par requête IndexedDB (environ 540, le catalogue a grossi avec les recettes) ; le WebKit de Playwright sous Windows met environ 15,6 ms par requête (un tic de l'horloge de Windows, quelle que soit la taille de l'objet : un seul objet de 483 articles s'écrit en 50 ms). Les données de départ arrivent donc environ 11 s après l'ouverture, au-delà des 10 s qu'attendait le scénario 1 ; le 8 ouvrait le lien avant leur fin chez le destinataire. Rien dans l'app (quelques millisecondes sous Chromium) : `enterApp` attend désormais la barre d'ajout, signe que les données de départ sont créées, avec un délai de 30 s propre au premier lancement.
+- les scénarios iPhone sont rejoués une fois en cas d'échec (`retries: 1` dans `playwright.config.ts`) : un scénario qui passe au second essai est signalé « flaky » dans le rapport sans bloquer `npm run e2e` ni `npm run release` ; s'il échoue deux fois, c'est un vrai problème. Un scénario souvent « flaky » mérite d'être examiné ;
+- trois scénarios à la fois au plus (`workers: 3`) : davantage fait dépasser leur délai aux scénarios iPhone ;
+- les gestes du mode courses qu'un second toucher ne défait pas (cocher, « Rayon suivant », « Terminer », « Retour à la liste ») sont rejoués tant que leur effet n'est pas visible (`tapUntil` dans `tests/e2e/app.ts`) : la ligne visée peut bouger juste après que Playwright l'a jugée immobile. Un scénario iPhone a 60 s au lieu de 30 ;
+- `enterApp` attend la barre d'ajout, signe que les données de départ sont créées (environ 540 écritures, une dizaine de secondes sous WebKit), avec un délai de 30 s propre au premier lancement ;
+- avant de toucher un bouton, un scénario attend que les lignes qui pourraient le décaler soient affichées.
 
 Les textes attendus à l'écran sont lus dans `src/i18n/fr.ts` et `src/data/categories.json` (`tests/e2e/texts.ts`), jamais recopiés : retoucher un texte ne casse pas les scénarios. Seul ce que l'on tape (noms d'articles, de magasins) reste écrit dans les scénarios.
 
@@ -97,14 +94,14 @@ Les textes attendus à l'écran sont lus dans `src/i18n/fr.ts` et `src/data/cate
 - Tests E2E (WebKit et Chromium) : sur le poste de développement avant chaque commit, et par `npm run release` avant toute publication ([07 § 9](07-architecture-technique.md#9-hébergement-versions-et-déploiement)).
 - Résultats des tests E2E dans `tests/e2e/.results` et `tests/e2e/.report` (ignorés par git).
 
-## 5. Checklist manuelle sur téléphone (fin de chaque phase)
+## 5. Checklist manuelle sur téléphone (avant chaque version)
 
-Sur la préproduction (`dev`), app installée sur l'écran d'accueil de l'iPhone (via Chrome). À refaire sur le téléphone Android au moins à la fin de la phase 1, avant chaque version publiée, et pour la v1.1 (partage dans les deux sens).
+Sur la préproduction (`dev`), app installée sur l'écran d'accueil de l'iPhone (via Chrome). À refaire sur le téléphone Android avant chaque version publiée, et pour la v1.1 (partage dans les deux sens).
 
 - [ ] L'app s'ouvre en plein écran, sans barre de navigateur, et hors ligne (mode avion).
 - [ ] Rien n'est masqué par l'encoche ou la barre d'accueil.
 - [ ] La barre d'ajout reste visible au-dessus du clavier.
-- [ ] Les fonctionnalités de la phase marchent au doigt.
+- [ ] Les nouveautés de la version marchent au doigt.
 - [ ] (Mode courses) L'écran ne s'éteint pas.
 - [ ] Les données sont toujours là après avoir fermé l'app.
 - [ ] Sons audibles, coupés par le mode silencieux sur iPhone ; rien ne casse quand ils sont désactivés.

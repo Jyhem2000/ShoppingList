@@ -85,7 +85,6 @@ export function buildInitialData(
       aliases,
       icon: article.icon,
       favorite: false,
-      barcodes: [],
       notDuplicateOf: [],
       catalogKey: article.key,
     };

@@ -3,9 +3,9 @@ import { feedback } from "@/feedback";
 import { fr } from "@/i18n/fr";
 
 /**
- * Message bref en bas de l'écran, avec une action facultative (« Annuler »).
+ * Message bref en haut de l'écran, avec une action facultative (« Annuler »).
  * Un seul à la fois : un nouveau message remplace le précédent.
- * Ton (docs/05 § 5.7) : neutre (retrait annulable), réussite, information,
+ * Ton (docs/05 § 5.8) : neutre (retrait annulable), réussite, information,
  * attention, erreur.
  */
 export type ToastTone = "neutral" | "success" | "info" | "warning" | "error";

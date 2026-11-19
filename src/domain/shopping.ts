@@ -60,7 +60,7 @@ function reorderVisited(
 
 /**
  * Apprentissage de l'ordre des rayons (C7) : les rayons où l'on a coché prennent,
- * entre eux, l'ordre du parcours ; les rayons non visités et « Non classé » gardent
+ * entre eux, l'ordre du parcours ; les rayons non visités et « À placer » gardent
  * leur position. Renvoie les nouvelles positions des rayons qui changent.
  */
 export function learnAislePositions(

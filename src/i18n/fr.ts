@@ -535,7 +535,7 @@ export const fr = {
       shortNameHint:
         "Sert au titre des rayons qui la contiennent («\u00a0Pain · Café & thé +2\u00a0»).",
       system:
-        "Catégorie de l'app : elle ne se supprime pas. Ses articles vont dans «\u00a0Non classé\u00a0».",
+        "Catégorie de l'app : elle ne se supprime pas. Ses articles vont dans «\u00a0À placer\u00a0».",
       newHint:
         "Pense à la ranger dans un rayon de chaque magasin (Magasins & rayons).",
       merge: "Fusionner avec une autre catégorie",
@@ -712,7 +712,7 @@ export const fr = {
       addAisle: "Nouveau rayon",
       unattached: "Catégories non rattachées",
       unattachedHint:
-        "Leurs articles vont dans «\u00a0Non classé\u00a0». Touche-en une pour la ranger.",
+        "Leurs articles vont dans «\u00a0À placer\u00a0». Touche-en une pour la ranger.",
       place: (category: string) => `Ranger ${category}`,
       placeHint: "Dans quel rayon ? Elle y sera principale.",
       overrides: "Exceptions",
@@ -759,7 +759,7 @@ export const fr = {
       delete: "Supprimer le rayon",
       deleteTitle: (name: string) => `Supprimer ${name} ?`,
       deleteText:
-        "Les catégories dont c'est le rayon principal iront dans «\u00a0Non classé\u00a0».",
+        "Les catégories dont c'est le rayon principal iront dans «\u00a0À placer\u00a0».",
       deletePromote:
         "Ou dans un de leurs rayons secondaires quand elles en ont un",
       deleted: (label: string) => `${label} supprimé`,
@@ -1021,6 +1021,14 @@ export const fr = {
     title: "Nouveautés",
     version: (version: string) => `Version ${version}`,
     versions: [
+      {
+        version: "1.1.0",
+        date: "2026-11-19",
+        items: [
+          "Partage d'une liste ou d'une recette : envoie-la par message, la personne la colle dans son app (⋯ → «\u00a0Coller une liste\u00a0», ou Recettes → «\u00a0Coller une recette\u00a0»).",
+          "Optimisation du code.",
+        ],
+      },
       {
         version: "1.0.1",
         date: "2026-11-16",

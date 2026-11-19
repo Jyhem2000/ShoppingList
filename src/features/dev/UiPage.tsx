@@ -88,7 +88,7 @@ function Aisle({ aisle, large }: { aisle: MockAisle; large?: boolean }) {
 }
 
 /**
- * Maquette des composants (docs/09, phase 2) : à ouvrir sur l'iPhone pour valider
+ * Maquette des composants (docs/05 § 5) : à ouvrir sur l'iPhone pour valider
  * couleurs, tailles, icônes et sons avant de construire les fonctionnalités.
  */
 export function UiPage() {

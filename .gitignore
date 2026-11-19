@@ -23,4 +23,6 @@ Thumbs.db
 
 # Outils locaux (config de l'agent IA, propre à chaque poste)
 .claude/
+CLAUDE.md
+CLAUDE.local.md
 *.tsbuildinfo

@@ -17,7 +17,7 @@ type AisleLike = Pick<Aisle, "id" | "categories" | "isUnsorted" | "position">;
 
 /**
  * Icône et couleur d'un rayon neuf, avant qu'il reçoive une catégorie ; aussi celles
- * de « Non classé » (« À placer » en mode courses).
+ * de « À placer ».
  */
 export const DEFAULT_AISLE_STYLE = {
   icon: "shopping-basket",
@@ -94,7 +94,7 @@ export function spreadPositions(ids: readonly ID[]): Record<ID, number> {
   );
 }
 
-/** Rayons triés comme dans la liste : par position, « Non classé » en dernier. */
+/** Rayons triés comme dans la liste : par position, « À placer » en dernier. */
 export function sortAisles<A extends AisleLike>(aisles: readonly A[]): A[] {
   return [...aisles].sort(
     (a, b) =>
@@ -175,7 +175,7 @@ export function placementScope(
 
 /**
  * Positions des rayons après l'ouverture de `newId` juste après `afterId` (en tête si
- * absent), réparties sur [0, 1] ; « Non classé » ne bouge pas.
+ * absent), réparties sur [0, 1] ; « À placer » ne bouge pas.
  */
 export function insertAisleAfter(
   aisles: readonly AisleLike[],
@@ -243,7 +243,7 @@ export function setCategoryRole<A extends AisleLike>(
 
 /**
  * Catégories rattachées à aucun rayon du magasin : leurs articles vont dans
- * « Non classé » (docs/02 § 4). Les catégories système y sont rangées exprès.
+ * « À placer » (docs/02 § 4). Les catégories système y sont rangées exprès.
  */
 export function unattachedCategories<C extends { id: ID; isSystem: boolean }>(
   aisles: readonly Pick<Aisle, "categories">[],
@@ -257,7 +257,7 @@ export function unattachedCategories<C extends { id: ID; isSystem: boolean }>(
 
 /**
  * Supprimer un rayon : les catégories dont il était le rayon principal vont dans
- * « Non classé », ou deviennent principales dans un de leurs rayons secondaires si
+ * « À placer », ou deviennent principales dans un de leurs rayons secondaires si
  * `promoteSecondary` (docs/02 § 4). Renvoie les autres rayons qui changent.
  */
 export function removeAisle<A extends AisleLike>(

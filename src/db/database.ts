@@ -47,6 +47,12 @@ export const SCHEMA_V5 = {
   sessions: "id, listId, storeId, status, startedAt, [listId+startedAt]",
 } as const;
 
+/** Version 6 : plus d'index des codes-barres sur les articles (aucun scan). */
+export const SCHEMA_V6 = {
+  ...SCHEMA_V5,
+  articles: "id, &slug, *aliases, categoryId, favorite, catalogKey",
+} as const;
+
 /** Ligne de la table `meta` : réglages, version du catalogue… */
 export interface MetaRow {
   key: "settings";
@@ -88,6 +94,8 @@ export class ShoppingDatabase extends Dexie {
     this.version(4).stores(SCHEMA_V4);
     // Version 5 : nouvel index des sessions par liste et date ; aucune donnée modifiée.
     this.version(5).stores(SCHEMA_V5);
+    // Version 6 : index des codes-barres retiré ; aucune donnée modifiée.
+    this.version(6).stores(SCHEMA_V6);
   }
 }
 
