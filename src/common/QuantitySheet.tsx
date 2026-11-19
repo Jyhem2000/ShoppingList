@@ -12,9 +12,9 @@ import { OtherTypes } from "@/ui/OtherTypes";
 import { Sheet } from "@/ui/Sheet";
 import { Stepper, StepperValue } from "@/ui/Stepper";
 import { showToast } from "@/ui/toast";
-import { lineQuantity } from "@/features/list/format";
-import { KeepOneOff } from "@/features/list/KeepOneOff";
-import type { ListData } from "@/features/list/useListData";
+import { lineQuantity } from "./format";
+import { KeepOneOff } from "./KeepOneOff";
+import type { ListData } from "./useListData";
 
 const t = fr.catalog;
 
@@ -67,10 +67,9 @@ export function QuantitySheet({
 
   return (
     <Sheet
-      open
       autoFocus={false}
-      onOpenChange={(open) => {
-        if (!open) onClose();
+      onClose={() => {
+        onClose();
       }}
       title={t.quantityTitle(article.name)}
     >
@@ -149,9 +148,8 @@ function QuantityRow({
         </StepperValue>
       </Stepper>
       <Button
-        variant="icon"
+        variant="iconDanger"
         size="icon"
-        className="text-danger"
         aria-label={t.removeLine(label)}
         onClick={onRemove}
       >

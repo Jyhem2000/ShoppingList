@@ -1,5 +1,4 @@
 import { Check } from "lucide-react";
-import type { PaletteColor } from "@/ui/palette";
 import { ProductIcon } from "@/ui/ProductIcon";
 import { useLongPress } from "@/ui/useLongPress";
 import { cn } from "@/ui/utils";
@@ -28,7 +27,7 @@ export function ItemRow({
 }: {
   label: string;
   icon?: string;
-  color?: PaletteColor;
+  color?: string;
   details?: string;
   quantity?: string;
   checked?: boolean;

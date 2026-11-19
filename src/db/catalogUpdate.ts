@@ -1,5 +1,6 @@
 import { categoriesData } from "@/data";
 import { CATALOG_VERSION, catalogData, catalogFixes } from "@/data/catalog";
+import type { Article, Category } from "@/domain/model";
 import type { ShoppingDatabase } from "./database";
 import { buildInitialData } from "./seed";
 
@@ -32,16 +33,19 @@ export async function updateCatalog(
         categories.map((c) => [c.catalogKey, c.id]),
       );
       const categorySlugs = new Set(categories.map((c) => c.slug));
+      const freshCategories = new Map(
+        fresh.categories.map((c) => [c.catalogKey, c]),
+      );
+      const newCategories: Category[] = [];
       for (const data of categoriesData) {
         if (!isNew(data.since) || categoryByKey.has(data.key)) continue;
-        const category = fresh.categories.find(
-          (c) => c.catalogKey === data.key,
-        );
+        const category = freshCategories.get(data.key);
         if (!category || categorySlugs.has(category.slug)) continue;
-        await database.categories.add(category);
+        newCategories.push(category);
         categoryByKey.set(data.key, category.id);
-        added++;
       }
+      await database.categories.bulkAdd(newCategories);
+      added += newCategories.length;
 
       const units = await database.units.toArray();
       const unitByKey = new Map(
@@ -50,9 +54,13 @@ export async function updateCatalog(
       const articles = await database.articles.toArray();
       const articleKeys = new Set(articles.map((a) => a.catalogKey));
       const articleSlugs = new Set(articles.map((a) => a.slug));
+      const freshArticles = new Map(
+        fresh.articles.map((a) => [a.catalogKey, a]),
+      );
+      const newArticles: Article[] = [];
       for (const data of catalogData) {
         if (!isNew(data.since) || articleKeys.has(data.key)) continue;
-        const article = fresh.articles.find((a) => a.catalogKey === data.key);
+        const article = freshArticles.get(data.key);
         const categoryId = categoryByKey.get(data.category);
         const unitId = unitByKey.get(data.unit);
         if (
@@ -62,17 +70,16 @@ export async function updateCatalog(
           articleSlugs.has(article.slug)
         )
           continue;
-        await database.articles.add({
-          ...article,
-          categoryId,
-          defaultUnitId: unitId,
-        });
-        added++;
+        newArticles.push({ ...article, categoryId, defaultUnitId: unitId });
       }
+      await database.articles.bulkAdd(newArticles);
+      added += newArticles.length;
+
+      const articleByKey = new Map(articles.map((a) => [a.catalogKey, a]));
 
       for (const fix of catalogFixes) {
         if (!isNew(fix.since)) continue;
-        const article = articles.find((a) => a.catalogKey === fix.key);
+        const article = articleByKey.get(fix.key);
         const unitId =
           fix.unit === undefined ? undefined : unitByKey.get(fix.unit);
         // Modifié par l'utilisateur (date de mise à jour) : on n'y touche pas.

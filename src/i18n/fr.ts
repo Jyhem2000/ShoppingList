@@ -97,6 +97,13 @@ export const fr = {
     text: "Le stockage du téléphone est peut-être plein, ou la navigation privée l'empêche. Libère de la place ou ouvre l'app normalement, puis recharge.",
     reload: "Recharger",
   },
+  /** Écran qui n'a pas pu s'ouvrir (fichier non chargé, hors ligne…). */
+  screenError: {
+    title: "Cet écran n'a pas pu s'ouvrir",
+    text: "Vérifie ta connexion, puis recharge l'app. Tes données ne sont pas touchées.",
+    reload: "Recharger",
+    home: "Revenir à la liste",
+  },
   search: { clear: "Effacer la recherche" },
   /** Barre de mise en forme d'un texte (src/ui/Markdown.tsx). */
   markdown: {
@@ -198,7 +205,6 @@ export const fr = {
       rename: "Renommer",
       duplicate: "Dupliquer",
       addLists: "Y ajouter le contenu d'une autre liste",
-      removeChecked: "Retirer les articles cochés",
       clear: "Vider la liste",
       delete: "Supprimer la liste",
       confirmClear: "Vider la liste ?",
@@ -592,10 +598,6 @@ export const fr = {
       count: (count: number) =>
         count > 1 ? `${count} articles` : `${count} article`,
       add: "Nouvel article",
-      newTitle: "Nouvel article",
-      name: "Nom",
-      category: "Catégorie",
-      unit: "Unité",
       create: "Créer l'article",
       exists: (name: string) => `«\u00a0${name}\u00a0» existe déjà`,
       duplicates: "Doublons probables",

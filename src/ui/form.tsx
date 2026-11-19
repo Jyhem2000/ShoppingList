@@ -1,4 +1,4 @@
-import { Check, ChevronDown, Trash2 } from "lucide-react";
+import { Check, ChevronDown, Trash2, GitMerge } from "lucide-react";
 import type { ComponentProps, ReactNode } from "react";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
@@ -49,12 +49,15 @@ export function TextInput({ className, ...props }: ComponentProps<"input">) {
   return <input {...props} className={cn(control, className)} />;
 }
 
-/** Texte sur plusieurs lignes (coller une sauvegarde…). */
+/**
+ * Texte sur plusieurs lignes (coller une sauvegarde…). En 16 px comme les autres champs :
+ * plus petit, l'iPhone zoome en le touchant et l'app déborde de l'écran.
+ */
 export function TextArea({ className, ...props }: ComponentProps<"textarea">) {
   return (
     <textarea
       {...props}
-      className={cn(control, "h-32 py-2 font-mono text-sm", className)}
+      className={cn(control, "h-32 py-2 font-mono", className)}
     />
   );
 }
@@ -146,22 +149,55 @@ export function ConfirmActions({
   onConfirm,
   onCancel,
   disabled,
+  variant = "destructive",
+  cancelLabel = fr.manage.confirmCancel,
 }: {
   label: ReactNode;
   onConfirm: () => void;
   onCancel?: () => void;
   disabled?: boolean;
+  /** `gold` : confirmation qui n’efface rien (« Terminer les courses »). */
+  variant?: "destructive" | "gold";
+  cancelLabel?: string;
 }) {
   return (
     <div className="flex flex-col gap-3">
-      <Button variant="destructive" disabled={disabled} onClick={onConfirm}>
+      <Button variant={variant} disabled={disabled} onClick={onConfirm}>
         {label}
       </Button>
       {onCancel && (
         <Button variant="outline" onClick={onCancel}>
-          {fr.manage.confirmCancel}
+          {cancelLabel}
         </Button>
       )}
+    </div>
+  );
+}
+
+/** « Fusionner » et « Supprimer » d’une fiche (article, catégorie, rayon). */
+export function MergeDeleteActions({
+  mergeLabel,
+  deleteLabel,
+  onMerge,
+  onDelete,
+  className,
+}: {
+  mergeLabel: string;
+  deleteLabel: string;
+  onMerge: () => void;
+  onDelete: () => void;
+  className?: string;
+}) {
+  return (
+    <div className={cn("flex flex-col gap-3", className)}>
+      <Button variant="outline" onClick={onMerge}>
+        <GitMerge />
+        {mergeLabel}
+      </Button>
+      <Button variant="dangerOutline" onClick={onDelete}>
+        <Trash2 />
+        {deleteLabel}
+      </Button>
     </div>
   );
 }

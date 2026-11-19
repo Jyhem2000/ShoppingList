@@ -1,5 +1,9 @@
 import { isPurchaseOf } from "@/domain/lines";
-import { planListMerge, type MergeLine } from "@/domain/listMerge";
+import {
+  mergeRecipeOrigins,
+  planListMerge,
+  type MergeLine,
+} from "@/domain/listMerge";
 import { stepAmount } from "@/domain/quantity";
 import type {
   ID,
@@ -9,7 +13,7 @@ import type {
   Unit,
 } from "@/domain/model";
 import type { ShoppingDatabase } from "./database";
-import { findActiveItem } from "./items";
+import { activeItems, findActiveItem } from "./items";
 import { openSession } from "./sessions";
 import { getSettings, updateSettings } from "./settings";
 
@@ -18,18 +22,6 @@ import { getSettings, updateSettings } from "./settings";
  * par choix de types dans une liste : voir `addListItem` (items.ts).
  */
 const newId = () => crypto.randomUUID();
-
-/** Lignes actives (non archivées) d'une liste. */
-export async function activeItems(
-  database: ShoppingDatabase,
-  listId: ID,
-): Promise<ListItem[]> {
-  return database.items
-    .where("listId")
-    .equals(listId)
-    .filter((item) => !item.closedInSessionId)
-    .toArray();
-}
 
 export async function createList(
   database: ShoppingDatabase,
@@ -240,13 +232,9 @@ export async function mergeLineInto(
       ...(await linePurchases(database, line)),
     ].map((purchase) => [purchase.id, purchase]),
   );
-  const known = new Set(twin.fromRecipes.map((r) => r.recipeId));
   await database.items.update(twin.id, {
     ...merged,
-    fromRecipes: [
-      ...twin.fromRecipes,
-      ...line.fromRecipes.filter((r) => !known.has(r.recipeId)),
-    ],
+    fromRecipes: mergeRecipeOrigins(twin.fromRecipes, line.fromRecipes),
     updatedAt: now,
   });
   await database.items.delete(line.id);
@@ -424,9 +412,7 @@ export async function applyListMerge(
   recipe?: ListItem["fromRecipes"][number],
 ): Promise<void> {
   const withRecipe = (from: ListItem["fromRecipes"]) =>
-    recipe
-      ? [...from.filter((r) => r.recipeId !== recipe.recipeId), recipe]
-      : from;
+    mergeRecipeOrigins(from, recipe ? [recipe] : []);
   await database.transaction("rw", database.items, async () => {
     for (const line of lines) {
       const changes = {

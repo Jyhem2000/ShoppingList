@@ -1,21 +1,4 @@
-import {
-  closestCenter,
-  DndContext,
-  type DragEndEvent,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-} from "@dnd-kit/core";
-import {
-  arrayMove,
-  SortableContext,
-  sortableKeyboardCoordinates,
-  useSortable,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import { ChevronRight, GripVertical, Plus, Trash2, X } from "lucide-react";
+import { Trash2, X } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useParams } from "react-router";
 import { routes } from "@/app/routes";
@@ -38,28 +21,34 @@ import {
 } from "@/db/stores";
 import type { Aisle, Category, ID } from "@/domain/model";
 import { sortAisles, unattachedCategories } from "@/domain/stores";
-import {
-  type AisleText,
-  aisleText,
-  categoryWeights,
-} from "@/features/list/format";
+import { type AisleText, aisleText, categoryWeights } from "@/common/format";
 import { fr } from "@/i18n/fr";
+import { AddButton } from "@/ui/AddButton";
 import { Button } from "@/ui/button";
 import { useGoBack } from "@/ui/navigation";
 import { GroupIcon } from "@/ui/GroupIcon";
 import { EmptyState, PageHeader, Row, Section } from "@/ui/Page";
 import { palette, paletteColor } from "@/ui/palette";
 import { Sheet } from "@/ui/Sheet";
-import { sortableAccessibility } from "@/ui/sortable";
+import { useSortableRow } from "@/ui/sortable";
+import { DragHandle, SortableList } from "@/ui/SortableList";
 import { Switch } from "@/ui/switch";
 import { showToast } from "@/ui/toast";
 import { cn } from "@/ui/utils";
 import { AisleSheet } from "./AisleSheet";
-import { NameField } from "./NameField";
+import { NameField } from "@/common/NameField";
 import { RowButton, RowText } from "@/ui/RowButton";
 import { ConfirmActions } from "@/ui/form";
 import { feedback } from "@/feedback";
+import { byId } from "@/domain/collections";
 const t = fr.manage.store;
+
+/** Panneau ouvert : un rayon, une catégorie à placer, ou la suppression du magasin. */
+type Panel =
+  | { kind: "aisle"; id: ID }
+  | { kind: "place"; category: Category }
+  | { kind: "delete" }
+  | null;
 
 /**
  * Un magasin (docs/03 G3, docs/04 § 2.8) : nom, apprentissage de l'ordre, rayons
@@ -69,6 +58,7 @@ const t = fr.manage.store;
 export function StorePage() {
   const { storeId } = useParams();
   const goBack = useGoBack(routes.manageStores);
+  // Seulement ce dont l'écran a besoin (pas la liste courante ni les recettes).
   const stores = useStores();
   const store = stores?.find((s) => s.id === storeId);
   const aisles = useAisles(storeId);
@@ -76,20 +66,12 @@ export function StorePage() {
   const overrides = useOverrides();
   const articles = useArticles();
   const purchaseCounts = usePurchaseCounts();
-  const [openAisle, setOpenAisle] = useState<ID | null>(null);
-  const [placing, setPlacing] = useState<Category | null>(null);
-  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [panel, setPanel] = useState<Panel>(null);
 
   const sorted = useMemo(() => sortAisles(aisles ?? []), [aisles]);
-  const movable = sorted.filter((a) => !a.isUnsorted);
+  // Même tableau tant que les rayons ne changent pas : SortableList garde l’ordre glissé.
+  const movable = useMemo(() => sorted.filter((a) => !a.isUnsorted), [sorted]);
   const unsorted = sorted.find((a) => a.isUnsorted);
-  const order = movable.map((a) => a.id);
-  const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 4 } }),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    }),
-  );
 
   if (stores && !store)
     return (
@@ -111,23 +93,13 @@ export function StorePage() {
   )
     return null;
 
-  const aisleById = new Map(aisles.map((a) => [a.id, a]));
-  const articleById = new Map(articles.map((a) => [a.id, a]));
-  const categoryById = new Map(categories.map((c) => [c.id, c]));
+  const aisleById = byId(aisles);
+  const articleById = byId(articles);
+  const categoryById = byId(categories);
   const weights = categoryWeights(articles, purchaseCounts);
   const textOf = (aisle: Aisle) => aisleText(aisle, categoryById, weights);
   const unattached = unattachedCategories(aisles, categories);
   const exceptions = overrides.filter((o) => o.storeId === store.id);
-
-  const onDragEnd = ({ active, over }: DragEndEvent) => {
-    if (!over || active.id === over.id) return;
-    const next = arrayMove(
-      order,
-      order.indexOf(String(active.id)),
-      order.indexOf(String(over.id)),
-    );
-    void reorderAisles(db, next);
-  };
 
   const aisleRow = (aisle: Aisle, sortable: boolean) => (
     <AisleRow
@@ -136,11 +108,12 @@ export function StorePage() {
       text={textOf(aisle)}
       sortable={sortable}
       onOpen={() => {
-        setOpenAisle(aisle.id);
+        setPanel({ kind: "aisle", id: aisle.id });
       }}
     />
   );
-  const editing = openAisle ? aisleById.get(openAisle) : undefined;
+  const editing = panel?.kind === "aisle" ? aisleById.get(panel.id) : undefined;
+  const placing = panel?.kind === "place" ? panel.category : undefined;
 
   return (
     <>
@@ -169,41 +142,24 @@ export function StorePage() {
         <p className="px-4 pt-3 pb-3 text-sm text-muted-foreground">
           {t.aislesHint}
         </p>
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCenter}
-          onDragEnd={onDragEnd}
-          accessibility={sortableAccessibility(
-            order,
-            (id) => aisleById.get(String(id))?.name ?? "",
-          )}
-        >
-          <SortableContext items={order} strategy={verticalListSortingStrategy}>
-            <ul aria-label={t.aisles} className="flex flex-col py-1">
-              {order.flatMap((id) => {
-                const aisle = aisleById.get(id);
-                return aisle ? [aisleRow(aisle, true)] : [];
-              })}
-            </ul>
-          </SortableContext>
-        </DndContext>
+        <SortableList
+          ariaLabel={t.aisles}
+          className="py-1"
+          items={movable}
+          nameOf={(aisle) => aisle.name}
+          onReorder={(ids) => void reorderAisles(db, ids)}
+          renderItem={(aisle) => aisleRow(aisle, true)}
+        />
         {unsorted && <ul className="pb-1">{aisleRow(unsorted, false)}</ul>}
         <div className="px-4 pt-4 pb-4">
-          <Button
-            variant="outline"
-            className="w-full"
+          <AddButton
+            label={t.addAisle}
             onClick={() => {
-              void addAisle(db, store.id, {
-                icon: "shopping-basket",
-                color: "gris",
-              }).then((aisle) => {
-                setOpenAisle(aisle.id);
+              void addAisle(db, store.id).then((aisle) => {
+                setPanel({ kind: "aisle", id: aisle.id });
               });
             }}
-          >
-            <Plus />
-            {t.addAisle}
-          </Button>
+          />
         </div>
       </Section>
 
@@ -215,24 +171,20 @@ export function StorePage() {
           <ul className="py-1">
             {unattached.map((category) => (
               <li key={category.id}>
-                <button
-                  type="button"
+                <RowButton
+                  icon={
+                    <GroupIcon
+                      name={category.icon}
+                      palette={category.color}
+                      className="size-5"
+                    />
+                  }
+                  title={category.name}
+                  chevron
                   onClick={() => {
-                    setPlacing(category);
+                    setPanel({ kind: "place", category });
                   }}
-                  className="flex min-h-12 w-full items-center gap-3 px-4 text-left font-semibold active:bg-raised"
-                >
-                  <GroupIcon
-                    name={category.icon}
-                    palette={category.color}
-                    className="size-5"
-                  />
-                  <span className="flex-1">{category.name}</span>
-                  <ChevronRight
-                    className="size-5 text-muted-foreground"
-                    aria-hidden
-                  />
-                </button>
+                />
               </li>
             ))}
           </ul>
@@ -258,8 +210,9 @@ export function StorePage() {
                     title={article.name}
                     detail={`→ ${textOf(aisle).label}`}
                   />
-                  <button
-                    type="button"
+                  <Button
+                    variant="iconMuted"
+                    size="icon"
                     aria-label={t.removeOverride(article.name)}
                     onClick={() => {
                       void deleteOverride(db, o.id).then(() => {
@@ -268,10 +221,9 @@ export function StorePage() {
                         });
                       });
                     }}
-                    className="flex size-11 items-center justify-center rounded-xl text-muted-foreground active:bg-raised"
                   >
-                    <X className="size-5" aria-hidden />
-                  </button>
+                    <X aria-hidden />
+                  </Button>
                 </li>
               );
             })}
@@ -284,7 +236,7 @@ export function StorePage() {
           variant="dangerOutline"
           className="w-full"
           onClick={() => {
-            setConfirmDelete(true);
+            setPanel({ kind: "delete" });
           }}
         >
           <Trash2 />
@@ -298,18 +250,18 @@ export function StorePage() {
           aisle={editing}
           aisles={sorted}
           categories={categories}
+          categoryById={categoryById}
           weights={weights}
           onClose={() => {
-            setOpenAisle(null);
+            setPanel(null);
           }}
         />
       )}
       {placing && (
         <Sheet
-          open
           autoFocus={false}
-          onOpenChange={(open) => {
-            if (!open) setPlacing(null);
+          onClose={() => {
+            setPanel(null);
           }}
           title={t.place(placing.name)}
           description={t.placeHint}
@@ -338,7 +290,7 @@ export function StorePage() {
                         placing.id,
                         "primary",
                       );
-                      setPlacing(null);
+                      setPanel(null);
                     }}
                   />
                 </li>
@@ -347,12 +299,11 @@ export function StorePage() {
           </ul>
         </Sheet>
       )}
-      {confirmDelete && (
+      {panel?.kind === "delete" && (
         <Sheet
-          open
           autoFocus={false}
-          onOpenChange={(open) => {
-            if (!open) setConfirmDelete(false);
+          onClose={() => {
+            setPanel(null);
           }}
           title={t.deleteTitle(store.name)}
           description={t.deleteText}
@@ -361,7 +312,7 @@ export function StorePage() {
             label={t.delete}
             onConfirm={() => {
               void deleteStore(db, store.id).then((result) => {
-                setConfirmDelete(false);
+                setPanel(null);
                 if (result === "deleted") {
                   feedback.remove();
                   showToast(t.deleted(store.name), { tone: "success" });
@@ -370,7 +321,7 @@ export function StorePage() {
               });
             }}
             onCancel={() => {
-              setConfirmDelete(false);
+              setPanel(null);
             }}
           />
         </Sheet>
@@ -390,19 +341,14 @@ function AisleRow({
   sortable: boolean;
   onOpen: () => void;
 }) {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id: aisle.id, disabled: !sortable });
+  const { isDragging, rowProps, handleProps } = useSortableRow(
+    aisle.id,
+    !sortable,
+  );
   const color = paletteColor(aisle.color);
   return (
     <li
-      ref={setNodeRef}
-      style={{ transform: CSS.Transform.toString(transform), transition }}
+      {...rowProps}
       className={cn(
         "flex items-center bg-surface",
         isDragging && "relative z-10 rounded-xl bg-raised shadow-lg",
@@ -431,15 +377,11 @@ function AisleRow({
         </span>
       </button>
       {sortable ? (
-        <button
-          type="button"
-          {...attributes}
-          {...listeners}
+        <DragHandle
+          {...handleProps}
           aria-label={t.reorder(text.label)}
-          className="flex size-12 shrink-0 touch-none items-center justify-center text-muted-foreground"
-        >
-          <GripVertical className="size-5" aria-hidden />
-        </button>
+          className="size-12"
+        />
       ) : (
         <span className="size-12 shrink-0" />
       )}

@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import type { Article, Category, ID } from "@/domain/model";
 import { searchArticles } from "@/domain/search";
 import {
@@ -23,9 +23,9 @@ import { EmptyHint } from "@/ui/Page";
 import { RowButton } from "@/ui/RowButton";
 import { SearchField } from "@/ui/SearchField";
 import { Sheet } from "@/ui/Sheet";
+import { byName } from "@/domain/slug";
 
 const t = fr.share;
-const collator = new Intl.Collator("fr");
 const MAX_RESULTS = 8;
 
 /**
@@ -39,7 +39,9 @@ export function ImportChoiceSheet({
   choice,
   quantity,
   articles,
+  articleById,
   categories,
+  categoryById,
   purchaseCounts,
   onChoose,
   onClose,
@@ -49,7 +51,9 @@ export function ImportChoiceSheet({
   /** Quantité reçue, telle qu'affichée dans l'aperçu. */
   quantity: string;
   articles: readonly Article[];
+  articleById: ReadonlyMap<ID, Article>;
   categories: readonly Category[];
+  categoryById: ReadonlyMap<ID, Category>;
   purchaseCounts: ReadonlyMap<ID, number>;
   onChoose: (choice: ImportChoice) => void;
   onClose: () => void;
@@ -63,14 +67,6 @@ export function ImportChoiceSheet({
   const keepable = canKeep(line);
   const [oneOff, setOneOff] = useState(
     choice.kind === "create" ? choice.oneOff : defaultOneOff(line),
-  );
-  const articleById = useMemo(
-    () => new Map(articles.map((article) => [article.id, article])),
-    [articles],
-  );
-  const categoryById = useMemo(
-    () => new Map(categories.map((category) => [category.id, category])),
-    [categories],
   );
   const category = findCategory(received.category, categories);
   const chosenId = choice.kind === "use" ? choice.articleId : undefined;
@@ -90,7 +86,7 @@ export function ImportChoiceSheet({
     : showAll && category
       ? articles
           .filter((article) => article.categoryId === category.id)
-          .sort((a, b) => collator.compare(a.name, b.name))
+          .sort(byName)
       : [];
 
   const row = (article: Article) => (
@@ -114,10 +110,9 @@ export function ImportChoiceSheet({
 
   return (
     <Sheet
-      open
       autoFocus={false}
-      onOpenChange={(open) => {
-        if (!open) onClose();
+      onClose={() => {
+        onClose();
       }}
       title={t.choiceTitle(received.label)}
       description={t.choiceText(

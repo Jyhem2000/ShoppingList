@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { Aisle, Article } from "@/domain/model";
-import type { AisleText } from "@/features/list/format";
+import type { AisleText } from "@/common/format";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
 import { Sheet } from "@/ui/Sheet";
@@ -44,10 +44,9 @@ export function AddedInStoreSheet({
 
   return (
     <Sheet
-      open
       autoFocus={false}
-      onOpenChange={(open) => {
-        if (!open) onClose();
+      onClose={() => {
+        onClose();
       }}
       onBack={
         asking

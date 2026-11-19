@@ -119,7 +119,7 @@ Au départ des courses (« C'est parti ») : le dernier magasin utilisé pour ce
 
 ### B6. Vider — _v1.0_
 
-« Retirer les lignes cochées » et « Vider la liste » (avec confirmation).
+« Vider la liste » (avec confirmation). « Retirer les lignes cochées » est retiré le 18 novembre 2026 : une ligne n'est cochée qu'en courses encore ouvertes, et la retirer la sortait de l'historique et de l'apprentissage ; c'est « Terminer les courses » qui fait partir les cochées.
 
 ---
 
@@ -223,7 +223,7 @@ Le rendement de la fiche est **fixe** (« 4 personnes », « 1 cake ») : on cho
 
 Même mécanisme que F1 et F2, même format de lien (décision du 17 novembre 2026, voir [02 § 9](02-modele-metier.md#partager-une-recette)). Fiche recette → « Partager la recette » → feuille de partage du téléphone. Le message contient le nom et le rendement, les ingrédients (une puce chacun, avec « facultatif » ou « quantité fixe »), les étapes en texte simple, puis le mode d'emploi et le lien d'import.
 
-Le destinataire colle le message dans Recettes → « Coller une recette » (sur Android, toucher le lien suffit souvent). Même aperçu que pour une liste (À vérifier, Reconnus, choix de l'article), avec le nom, l'icône, le rendement et les étapes de la recette à la place de « Ajouter à » ; « Ajouter la recette » la crée et ouvre sa fiche. Un ingrédient non reconnu est créé par défaut **dans le catalogue**, dans la catégorie reçue : la recette resservira (« Juste cette fois » reste possible). Si une recette porte déjà ce nom, la reçue s'appelle « Raclette (2) » : rien n'est remplacé.
+Le destinataire colle le message dans Recettes → « Coller une recette » (sur Android, toucher le lien suffit souvent). Même aperçu que pour une liste (À vérifier, Reconnus, choix de l'article), avec le nom, l'icône, le rendement et les étapes de la recette à la place de « Ajouter à » ; « Ajouter la recette » la crée et ouvre sa fiche. Un ingrédient non reconnu est créé par défaut **dans le catalogue**, dans la catégorie reçue : la recette resservira (« Juste cette fois » reste possible). Si une recette porte déjà ce nom, la reçue s'appelle « Raclette (2) » (puis « Raclette (3) »…, au premier numéro libre) : rien n'est remplacé.
 
 « Coller une recette » n'accepte qu'un message de recette partagé par l'app : un autre texte affiche qu'il ne s'agit pas d'une recette partagée par l'app. Un lien de recette collé dans une liste, ou de liste collé dans les recettes, dit où le coller.
 
@@ -246,7 +246,7 @@ Seules les lignes encore à acheter partent. Sans feuille de partage (rare), le 
 
 Trois manières, toutes aboutissant à l'écran d'aperçu décrit en [02 § 9](02-modele-metier.md#9-partage-dune-liste) : correspondances automatiques (clé catalogue, slug, alias, catalogue utilisé comme dictionnaire), puis pour les articles non reconnus des **candidats proposés** (même icône, même catégorie), « C'est celui-là » mémorisé en alias, ou « Créer » avec libellé modifiable :
 
-1. **Liste → `⋯` → « Coller une liste »** dans l'app : lit le presse-papier (sur iPhone, une bulle « Coller » à toucher), reconnaît le lien d'import ou, à défaut, analyse le texte ligne par ligne (A8). Si la lecture est refusée, un champ où coller à la main. _Méthode principale sur iPhone_ (voir encadré).
+1. **Liste → `⋯` → « Coller une liste »** dans l'app : lit le presse-papier (sur iPhone, une bulle « Coller » à toucher), reconnaît le lien d'import ou, à défaut, analyse le texte ligne par ligne (A8). Si la lecture est refusée, un champ où coller à la main ; sur iPhone, ce champ s'ouvre aussi tant que la bulle reste sans réponse (un instant après le toucher), et toucher « Coller » ensuite suffit encore. _Méthode principale sur iPhone_ (voir encadré).
 2. Ouvrir le lien d'import. _Méthode principale sur Android._
 3. ~~Importer un fichier `.json` exporté~~ : **pas fait** en phase 10 (16 novembre 2026) ; le lien et le texte suffisent, et le fichier de sauvegarde (H4) remplace toutes les données. À rediscuter si le besoin apparaît.
 

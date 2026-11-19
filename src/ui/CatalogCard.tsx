@@ -1,4 +1,3 @@
-import type { PaletteColor } from "@/ui/palette";
 import { ProductIcon } from "@/ui/ProductIcon";
 import { useLongPress } from "@/ui/useLongPress";
 
@@ -17,7 +16,7 @@ export function CatalogCard({
 }: {
   label: string;
   icon?: string;
-  color?: PaletteColor;
+  color?: string;
   quantity?: string;
   onClick?: () => void;
   /** Appui long : la fiche de l'article (docs/04 § 2.5). */

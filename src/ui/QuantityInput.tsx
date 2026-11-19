@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { formatNumber } from "@/domain/quantity";
+import { formatNumber, parseNumber } from "@/domain/quantity";
 import { fr } from "@/i18n/fr";
 import { TextInput } from "@/ui/form";
 import { Stepper } from "@/ui/Stepper";
 
 function parseQuantity(text: string): number | undefined {
-  const value = Number(text.replace(",", ".").trim());
+  const value = parseNumber(text);
   return Number.isFinite(value) && value > 0 ? value : undefined;
 }
 

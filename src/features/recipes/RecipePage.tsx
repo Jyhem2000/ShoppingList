@@ -11,26 +11,17 @@ import {
   duplicateRecipe,
   updateRecipe,
 } from "@/db/recipes";
-import {
-  entryAmount,
-  parseEntry,
-  resolveEntry,
-  type ParsedEntry,
-} from "@/domain/entry";
+import { entryAmount, type ParsedEntry } from "@/domain/entry";
 import type { Article, Recipe } from "@/domain/model";
 import { feedback } from "@/feedback";
-import { AddArticleBar } from "@/features/list/AddArticleBar";
-import { CreateArticleSheet } from "@/features/list/CreateArticleSheet";
-import {
-  ingredientDetails,
-  lineDetails,
-  lineQuantity,
-} from "@/features/list/format";
-import { reportSaveError } from "@/features/list/useAddToList";
-import { recipeMessage, sendMessage } from "@/features/share/message";
-import { type ListData, useListData } from "@/features/list/useListData";
-import { IconPickerSheet } from "@/features/manage/IconPickerSheet";
-import { NameField } from "@/features/manage/NameField";
+import { AddArticleBar } from "@/common/AddArticleBar";
+import { CreateArticleSheet } from "@/common/CreateArticleSheet";
+import { ingredientDetails, lineDetails, lineQuantity } from "@/common/format";
+import { recipeMessage, sendMessage } from "@/common/shareMessage";
+import { useEntryAdder } from "@/common/useEntryAdder";
+import { type ListData, useListData } from "@/common/useListData";
+import { IconPickerSheet } from "@/common/IconPickerSheet";
+import { NameField } from "@/common/NameField";
 import { fr } from "@/i18n/fr";
 import { RECIPE_ICON_CATEGORIES } from "@/icons/pack";
 import { ArticleIcon } from "@/ui/ArticleIcon";
@@ -43,11 +34,11 @@ import { EmptyHint, EmptyState, PageHeader, Section } from "@/ui/Page";
 import { QuantityText } from "@/ui/PreviewRow";
 import { InfoRow, RowButton } from "@/ui/RowButton";
 import { Sheet } from "@/ui/Sheet";
-import { showToast } from "@/ui/toast";
+import { showToast, reportSaveError } from "@/ui/toast";
 import { IngredientSheet } from "./IngredientSheet";
 import { RecipeAddSheet } from "./RecipeAddSheet";
-import { RecipeHeader } from "./RecipeHeader";
-import { RECIPE_COLOR } from "./RecipeIcon";
+import { RecipeHeader } from "@/common/RecipeHeader";
+import { RECIPE_COLOR } from "@/common/RecipeIcon";
 import { usePendingSave } from "@/ui/usePendingSave";
 import { YieldFields } from "./YieldFields";
 
@@ -315,10 +306,9 @@ function RecipeView({ recipe, data }: { recipe: Recipe; data: ListData }) {
       )}
       {panel?.kind === "delete" && (
         <Sheet
-          open
           autoFocus={false}
-          onOpenChange={(open) => {
-            if (!open) close();
+          onClose={() => {
+            close();
           }}
           title={t.deleteTitle(recipe.name)}
           description={t.deleteText}
@@ -396,16 +386,16 @@ function StepsEditor({
  * 3 œufs »), suggestions, création d'un article inconnu. La quantité est gardée telle
  * qu'écrite (pas de simplification : c'est celle de la recette).
  */
-function IngredientBar({ recipe, data }: { recipe: Recipe; data: ListData }) {
-  const [toCreate, setToCreate] = useState<ParsedEntry[]>([]);
+const keepEntry = (entry: ParsedEntry) => entry;
 
+function IngredientBar({ recipe, data }: { recipe: Recipe; data: ListData }) {
   const add = async (
     article: Article,
     entry: ParsedEntry = { text: article.name },
     acceptedTypes: string[] = [],
-  ) => {
+  ): Promise<undefined> => {
     const amount = entryAmount(entry, article, data.units, false);
-    if (!amount) return;
+    if (!amount) return undefined;
     await addIngredient(db, recipe.id, {
       articleId: article.id,
       quantity: amount.quantity,
@@ -415,25 +405,14 @@ function IngredientBar({ recipe, data }: { recipe: Recipe; data: ListData }) {
       fixed: false,
     });
     feedback.add();
+    return undefined;
   };
 
-  const submit = async (text: string) => {
-    const unknown: ParsedEntry[] = [];
-    for (const entry of parseEntry(text, data.units)) {
-      const { article, acceptedTypes } = resolveEntry(
-        entry.text,
-        data.articles,
-      );
-      if (article) await add(article, entry, acceptedTypes);
-      else unknown.push(entry);
-    }
-    if (unknown.length) setToCreate((current) => [...current, ...unknown]);
-  };
-
-  const pending = toCreate[0];
-  const next = () => {
-    setToCreate((current) => current.slice(1));
-  };
+  const { submit, enqueue, pending, next } = useEntryAdder(
+    data,
+    add,
+    keepEntry,
+  );
 
   return (
     <>
@@ -443,13 +422,13 @@ function IngredientBar({ recipe, data }: { recipe: Recipe; data: ListData }) {
         addLabel={t.addLabel}
         showInList={false}
         onSubmit={(text) => {
-          submit(text).catch(reportSaveError);
+          void submit(text);
         }}
         onPick={(article, entry, types) => {
           add(article, entry, types).catch(reportSaveError);
         }}
         onCreate={(entry) => {
-          setToCreate((current) => [...current, entry]);
+          enqueue(entry);
         }}
       />
       {pending && (
@@ -481,9 +460,8 @@ function DuplicateSheet({
   const [name, setName] = useState("");
   return (
     <Sheet
-      open
-      onOpenChange={(open) => {
-        if (!open) onClose();
+      onClose={() => {
+        onClose();
       }}
       title={t.duplicateTitle(recipe.name)}
     >

@@ -1,4 +1,4 @@
-import { ChefHat, ClipboardPaste, Plus } from "lucide-react";
+import { ChefHat, ClipboardPaste } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import { recipePath, routes } from "@/app/routes";
@@ -7,17 +7,18 @@ import { useRecipes } from "@/db/hooks";
 import { createRecipe, DEFAULT_YIELD } from "@/db/recipes";
 import { yieldLabel } from "@/domain/recipes";
 import { searchKey } from "@/domain/slug";
-import { reportSaveError } from "@/features/list/useAddToList";
-import { PasteForm } from "@/features/share/PasteForm";
+import { PasteForm } from "@/common/PasteForm";
 import { fr } from "@/i18n/fr";
-import { pasteText } from "@/platform/clipboard";
+import { reportSaveError } from "@/ui/toast";
+import { pasteOrAsk } from "@/common/paste";
+import { AddButton } from "@/ui/AddButton";
 import { Button } from "@/ui/button";
 import { Field, TextInput } from "@/ui/form";
 import { EmptyHint, EmptyState, PageHeader, Section } from "@/ui/Page";
 import { RowButton } from "@/ui/RowButton";
 import { SearchField } from "@/ui/SearchField";
 import { Sheet } from "@/ui/Sheet";
-import { RecipeIcon } from "./RecipeIcon";
+import { RecipeIcon } from "@/common/RecipeIcon";
 import { YieldFields } from "./YieldFields";
 
 const t = fr.recipes;
@@ -46,24 +47,18 @@ export function RecipesPage() {
 
   const actions = (
     <div className="flex flex-col gap-3">
-      <Button
-        variant="outline"
-        className="w-full"
+      <AddButton
+        label={t.create}
         onClick={() => {
           setCreating(true);
         }}
-      >
-        <Plus />
-        {t.create}
-      </Button>
+      />
       <Button
         variant="outline"
         className="w-full"
         onClick={() => {
-          // Lu pendant le toucher (iPhone : bulle « Coller » à confirmer).
-          void pasteText().then((text) => {
-            if (text?.trim()) paste(text);
-            else setPasting(true);
+          pasteOrAsk(paste, () => {
+            setPasting(true);
           });
         }}
       >
@@ -118,9 +113,8 @@ export function RecipesPage() {
       )}
       {pasting && (
         <Sheet
-          open
-          onOpenChange={(open) => {
-            if (!open) setPasting(false);
+          onClose={() => {
+            setPasting(false);
           }}
           title={fr.share.pasteRecipe}
           description={fr.share.pasteRecipeText}
@@ -158,9 +152,8 @@ function NewRecipeSheet({
 
   return (
     <Sheet
-      open
-      onOpenChange={(open) => {
-        if (!open) onClose();
+      onClose={() => {
+        onClose();
       }}
       title={t.newTitle}
     >

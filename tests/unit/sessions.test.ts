@@ -199,7 +199,7 @@ describe("réouverture (docs/03 C8)", () => {
     );
     await closeSession(db, session.id, 10_000);
 
-    expect(await reopenSession(db, session.id)).toBe(true);
+    expect(await reopenSession(db, session.id, 20_000)).toBe(true);
     // L'ordre d'avant la clôture est rétabli, les achats réapparaissent cochés.
     expect(
       Object.fromEntries(
@@ -265,7 +265,7 @@ describe("réouverture (docs/03 C8)", () => {
       quantity: 2,
       unitId: pates.defaultUnitId,
     });
-    expect(await reopenSession(db, session.id)).toBe(true);
+    expect(await reopenSession(db, session.id, 2000)).toBe(true);
     const active = (
       await db.items.where("listId").equals(list.id).toArray()
     ).filter((i) => !i.closedInSessionId && i.articleId === pates.id);
@@ -287,10 +287,12 @@ describe("réouverture (docs/03 C8)", () => {
     const first = await shop(["pates"], ["Épicerie salée"], 0);
     await closeSession(db, first.id, 1000);
     await startSession(db, list.id, store.id, 2000);
-    expect(await reopenSession(db, first.id)).toBe(false);
-    // Les lignes archivées des courses précédentes sont supprimées.
+    expect(await reopenSession(db, first.id, 3000)).toBe(false);
+    // Les lignes archivées des courses précédentes sont supprimées, l'état gardé pour
+    // les rouvrir aussi.
     const items = await db.items.where("listId").equals(list.id).toArray();
     expect(items.filter((i) => i.closedInSessionId)).toEqual([]);
+    expect((await db.sessions.get(first.id))?.learningSnapshot).toBeUndefined();
   });
 });
 
@@ -593,12 +595,7 @@ describe("rayons modifiés pendant les courses", () => {
   it("un rayon créé et nommé dans Gérer reste à la clôture", async () => {
     const { db, list, store } = await setup();
     const session = await startSession(db, list.id, store.id, 1000);
-    const aisle = await addAisle(
-      db,
-      store.id,
-      { icon: "shopping-basket", color: "gris" },
-      2000,
-    );
+    const aisle = await addAisle(db, store.id, 2000);
     await updateAisle(db, aisle.id, { name: "Bio" });
     await closeSession(db, session.id, 3000);
     expect(await db.aisles.get(aisle.id)).toBeDefined();
@@ -646,7 +643,7 @@ describe("rouvrir depuis le bilan", () => {
     await closeSession(db, session.id, 2000);
     const other = await createList(db, "Autre");
     expect((await getSettings(db))?.currentListId).toBe(other.id);
-    expect(await reopenSession(db, session.id)).toBe(true);
+    expect(await reopenSession(db, session.id, 3000)).toBe(true);
     expect((await getSettings(db))?.currentListId).toBe(list.id);
   });
 });

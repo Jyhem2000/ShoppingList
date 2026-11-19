@@ -1,5 +1,4 @@
 import {
-  CircleCheckBig,
   ClipboardPaste,
   Copy,
   Eraser,
@@ -15,11 +14,11 @@ import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
 import { ConfirmActions, Field, MenuItem, TextInput } from "@/ui/form";
 import { Sheet } from "@/ui/Sheet";
-import type { ListData } from "./useListData";
+import type { ListData } from "@/common/useListData";
 import { feedback } from "@/feedback";
-import { canShare, listMessage, sendMessage } from "@/features/share/message";
-import { PasteForm } from "@/features/share/PasteForm";
-import { pasteText } from "@/platform/clipboard";
+import { canShare, listMessage, sendMessage } from "@/common/shareMessage";
+import { PasteForm } from "@/common/PasteForm";
+import { pasteOrAsk } from "@/common/paste";
 
 const t = fr.list.menuSheet;
 
@@ -28,7 +27,7 @@ type View = "menu" | "rename" | "paste" | "clear" | "delete";
 /**
  * Menu `⋯` de la liste (docs/04 § 2.1, docs/03 B2, B6, F1, F2) : seulement des actions sur
  * la liste courante — renommer, dupliquer, y ajouter le contenu d'une autre liste, la
- * partager, y coller une liste, retirer les cochés, vider, supprimer. Les autres listes :
+ * partager, y coller une liste, vider, supprimer. Les autres listes :
  * toucher le nom de la liste. « Coller une liste » lit le presse-papiers ; s'il est
  * refusé, un champ où coller à la main.
  */
@@ -48,7 +47,6 @@ export function ListMenuSheet({
 }) {
   const [view, setView] = useState<View>("menu");
   const [name, setName] = useState(data.list.name);
-  const checked = data.items.filter((item) => item.status === "checked");
 
   const title =
     view === "rename"
@@ -63,9 +61,8 @@ export function ListMenuSheet({
 
   return (
     <Sheet
-      open
-      onOpenChange={(open) => {
-        if (!open) onClose();
+      onClose={() => {
+        onClose();
       }}
       title={title}
       description={
@@ -119,24 +116,12 @@ export function ListMenuSheet({
           <MenuItem
             icon={<ClipboardPaste />}
             onClick={() => {
-              // Lu pendant le toucher (iPhone : bulle « Coller » à confirmer).
-              void pasteText().then((text) => {
-                if (text?.trim()) onPaste(text);
-                else setView("paste");
+              pasteOrAsk(onPaste, () => {
+                setView("paste");
               });
             }}
           >
             {fr.share.paste}
-          </MenuItem>
-          <MenuItem
-            icon={<CircleCheckBig />}
-            disabled={checked.length === 0}
-            onClick={() => {
-              onRemoveItems(checked.map((item) => item.id));
-              onClose();
-            }}
-          >
-            {t.removeChecked}
           </MenuItem>
           <MenuItem
             icon={<Eraser />}

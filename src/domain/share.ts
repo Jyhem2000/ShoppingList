@@ -9,7 +9,7 @@ import {
   resolveEntry,
   type ParsedEntry,
 } from "./entry";
-import { isOneOff, oneOffCategory } from "./categories";
+import { isOneOff, OTHERS_CATEGORY, oneOffCategory } from "./categories";
 import { guessFromKeywords, type KeywordGuess } from "./keywords";
 import type {
   Article,
@@ -21,8 +21,14 @@ import type {
   Unit,
   UnitGroup,
 } from "./model";
-import type { Amount } from "./quantity";
-import { searchKey, slugify } from "./slug";
+import { type Amount, PIECE_UNIT } from "./quantity";
+import {
+  capitalize,
+  mergeTypes,
+  searchKey,
+  slugify,
+  compareText,
+} from "./slug";
 
 /**
  * Partage d'une liste ou d'une recette (docs/02 § 9, docs/03 E3, F1-F2 et A8, docs/07
@@ -237,7 +243,7 @@ function sharedLines(
     } else {
       line.n = article.name;
       line.a = {
-        c: categoryRef(article.categoryId) ?? FALLBACK_CATEGORY,
+        c: categoryRef(article.categoryId) ?? OTHERS_CATEGORY,
         u: unitRef(article.defaultUnitId) ?? unit,
         ...(article.icon && { i: article.icon }),
         ...(article.aliases.length && { al: article.aliases }),
@@ -301,7 +307,7 @@ const isObject = (value: unknown): value is object =>
 
 /** Relit une liste ou une recette reçue : un lien abîmé ou trafiqué ne doit rien casser. */
 function validShared(value: unknown): Shared | undefined {
-  if (typeof value !== "object" || value === null) return undefined;
+  if (!isObject(value)) return undefined;
   const list = value as Partial<Omit<SharedRecipe, "type">> & {
     type?: unknown;
   };
@@ -324,7 +330,7 @@ function validShared(value: unknown): Shared | undefined {
   )
     return undefined;
   const items = list.i.filter((item: Partial<SharedItem> | null) => {
-    if (typeof item !== "object" || item === null) return false;
+    if (!isObject(item)) return false;
     const a = item.a as Partial<SharedArticle> | undefined;
     return (
       isNumber(item.q) &&
@@ -338,7 +344,7 @@ function validShared(value: unknown): Shared | undefined {
       optional(item.op, isFlag) &&
       optional(item.fx, isFlag) &&
       (a === undefined ||
-        (typeof a === "object" &&
+        (isObject(a) &&
           isString(a.c) &&
           isString(a.u) &&
           optional(a.i, isString) &&
@@ -348,16 +354,11 @@ function validShared(value: unknown): Shared | undefined {
   });
   const categories = (Array.isArray(list.c) ? list.c : []).filter(
     (c: Partial<SharedCategory> | null) =>
-      typeof c === "object" &&
-      c !== null &&
-      isString(c.r) &&
-      isLabel(c.n) &&
-      isString(c.co),
+      isObject(c) && isString(c.r) && isLabel(c.n) && isString(c.co),
   );
   const units = (Array.isArray(list.u) ? list.u : []).filter(
     (u: Partial<SharedUnit> | null) =>
-      typeof u === "object" &&
-      u !== null &&
+      isObject(u) &&
       isString(u.r) &&
       isLabel(u.s) &&
       isLabel(u.p) &&
@@ -488,9 +489,6 @@ export interface CatalogSource {
   }[];
 }
 
-const FALLBACK_CATEGORY = "autres";
-const FALLBACK_UNIT = "piece";
-
 export function buildImportCatalog(source: CatalogSource): ImportCatalog {
   const units = new Map<string, UnitDesc>(
     source.units.map((unit) => [
@@ -557,29 +555,29 @@ export function buildImportCatalog(source: CatalogSource): ImportCatalog {
   return { articles, dictionary, categories, units };
 }
 
-/** Catégorie du destinataire qui correspond : même clé catalogue, sinon même slug. */
-export function findCategory<C extends Pick<Category, "slug" | "catalogKey">>(
-  desc: CategoryDesc,
-  categories: readonly C[],
-): C | undefined {
+type Matchable = Pick<Category | Unit, "slug" | "catalogKey">;
+
+/** Catégorie ou unité du destinataire qui correspond : même clé catalogue, sinon même slug. */
+function findMatching<T extends Matchable>(
+  desc: Matchable,
+  items: readonly T[],
+): T | undefined {
   const keyed =
     desc.catalogKey === undefined
       ? undefined
-      : categories.find((c) => c.catalogKey === desc.catalogKey);
-  return keyed ?? categories.find((c) => c.slug === desc.slug);
+      : items.find((item) => item.catalogKey === desc.catalogKey);
+  return keyed ?? items.find((item) => item.slug === desc.slug);
 }
 
-/** Unité du destinataire qui correspond : même clé catalogue, sinon même slug. */
-export function findUnit<U extends Pick<Unit, "slug" | "catalogKey">>(
+export const findCategory: <C extends Matchable>(
+  desc: CategoryDesc,
+  categories: readonly C[],
+) => C | undefined = findMatching;
+
+export const findUnit: <U extends Matchable>(
   desc: UnitDesc,
   units: readonly U[],
-): U | undefined {
-  const keyed =
-    desc.catalogKey === undefined
-      ? undefined
-      : units.find((u) => u.catalogKey === desc.catalogKey);
-  return keyed ?? units.find((u) => u.slug === desc.slug);
-}
+) => U | undefined = findMatching;
 
 // --- Lignes à importer ----------------------------------------------------------
 
@@ -625,11 +623,6 @@ function labelFromKey(key: string): string {
   return capitalize(key.replace(/-/g, " "));
 }
 
-export function capitalize(text: string): string {
-  const clean = text.trim();
-  return clean.charAt(0).toLocaleUpperCase("fr") + clean.slice(1);
-}
-
 /**
  * Lignes d'une liste reçue, ou ingrédients d'une recette, chacun avec sa
  * correspondance chez le destinataire (docs/02 § 9 : clé catalogue, slug et alias
@@ -640,8 +633,8 @@ export function resolveImport(
   context: ImportContext,
 ): ImportLine[] {
   const { catalog } = context;
-  const fallbackCategory = catalogCategory(catalog, FALLBACK_CATEGORY);
-  const fallbackUnit = catalogUnit(catalog, FALLBACK_UNIT);
+  const fallbackCategory = catalogCategory(catalog, OTHERS_CATEGORY);
+  const fallbackUnit = catalogUnit(catalog, PIECE_UNIT);
   const categoryDesc = (ref: string): CategoryDesc => {
     const own = shared.c?.find((c) => c.r === ref);
     return own
@@ -726,7 +719,7 @@ export function textImportLines(
     .filter(Boolean);
   const entries = parseEntry(kept.join("\n"), context.units);
   const { catalog } = context;
-  const fallbackCategory = catalogCategory(catalog, FALLBACK_CATEGORY);
+  const fallbackCategory = catalogCategory(catalog, OTHERS_CATEGORY);
 
   return entries.map((entry) => {
     const guess = guessFromKeywords(entry.text, context.keywordRules);
@@ -734,7 +727,7 @@ export function textImportLines(
       (guess && catalog.categories.get(guess.category)) ?? fallbackCategory;
     const unit = catalogUnit(
       catalog,
-      guess?.unit ?? category.unitKey ?? FALLBACK_UNIT,
+      guess?.unit ?? category.unitKey ?? PIECE_UNIT,
     );
     const received: ReceivedArticle = {
       name: capitalize(entry.text),
@@ -860,11 +853,6 @@ export function existingArticle<A extends Article>(
   return found?.acceptedTypes.length === 0 ? found.article : undefined;
 }
 
-function mergeTypes(a: readonly string[], b: readonly string[]): string[] {
-  const keys = new Set(a.map(slugify));
-  return [...a, ...b.filter((type) => !keys.has(slugify(type)))];
-}
-
 function catalogCategory(catalog: ImportCatalog, key: string): CategoryDesc {
   return (
     catalog.categories.get(key) ?? {
@@ -879,19 +867,17 @@ function catalogCategory(catalog: ImportCatalog, key: string): CategoryDesc {
 function catalogUnit(catalog: ImportCatalog, key: string): UnitDesc {
   return (
     catalog.units.get(key) ??
-    catalog.units.get(FALLBACK_UNIT) ?? {
-      catalogKey: FALLBACK_UNIT,
-      slug: FALLBACK_UNIT,
-      singular: FALLBACK_UNIT,
-      plural: FALLBACK_UNIT,
+    catalog.units.get(PIECE_UNIT) ?? {
+      catalogKey: PIECE_UNIT,
+      slug: PIECE_UNIT,
+      singular: PIECE_UNIT,
+      plural: PIECE_UNIT,
       dimension: "other",
       step: 1,
       aliases: [],
     }
   );
 }
-
-const collator = new Intl.Collator("fr");
 
 /**
  * « Peut-être chez toi » (docs/02 § 9) : les articles du destinataire qui ont la même
@@ -923,7 +909,7 @@ export function suggestCandidates(
         a.rank - b.rank ||
         (purchaseCounts.get(b.article.id) ?? 0) -
           (purchaseCounts.get(a.article.id) ?? 0) ||
-        collator.compare(a.article.name, b.article.name),
+        compareText(a.article.name, b.article.name),
     )
     .slice(0, max)
     .map(({ article }) => article.id);
@@ -990,18 +976,27 @@ export function newArticleCategory<
 }
 
 /** Décompte de l'aperçu : « 12 reconnus, 1 à confirmer, 2 non reconnus ». */
-export function importSummary(lines: readonly ImportLine[]): {
-  known: number;
+export function splitImportLines(lines: readonly ImportLine[]): {
+  known: IndexedImportLine[];
+  toCheck: IndexedImportLine[];
   probable: number;
   unknown: number;
 } {
-  const count = (kind: ImportMatch["kind"]) =>
-    lines.filter((line) => line.match.kind === kind).length;
-  return {
-    known: count("known"),
-    probable: count("probable"),
-    unknown: count("unknown"),
-  };
+  const known: IndexedImportLine[] = [];
+  const toCheck: IndexedImportLine[] = [];
+  lines.forEach((line, index) => {
+    (line.match.kind === "known" ? known : toCheck).push({ line, index });
+  });
+  const probable = toCheck.filter(
+    ({ line }) => line.match.kind === "probable",
+  ).length;
+  return { known, toCheck, probable, unknown: toCheck.length - probable };
+}
+
+/** Une ligne importée et son rang dans l'aperçu (les choix sont rangés par rang). */
+export interface IndexedImportLine {
+  line: ImportLine;
+  index: number;
 }
 
 /**

@@ -1,5 +1,5 @@
 import type { Article, ID } from "./model";
-import { searchKey } from "./slug";
+import { mergeTypes, searchKey, slugify } from "./slug";
 
 /**
  * Doublons probables (docs/03 G1, docs/07 § 7.12) : paires d'articles de même catégorie
@@ -34,13 +34,14 @@ export function editDistance(a: string, b: string, max = 2): number {
   return previous[b.length] ?? max + 1;
 }
 
-function close(a: DuplicateCandidate, b: DuplicateCandidate): boolean {
-  const ka = searchKey(a.name);
-  const kb = searchKey(b.name);
+/** Clé de recherche du nom, puis celles des noms alternatifs. */
+type Keys = [string, ...string[]];
+
+function close([ka, ...aliasesA]: Keys, [kb, ...aliasesB]: Keys): boolean {
   if (ka.includes(kb) || kb.includes(ka)) return true;
   if (editDistance(ka, kb) <= 2) return true;
-  const aliasesA = new Set([ka, ...a.aliases.map(searchKey)]);
-  return [kb, ...b.aliases.map(searchKey)].some((key) => aliasesA.has(key));
+  const labelsA = new Set([ka, ...aliasesA]);
+  return [kb, ...aliasesB].some((key) => labelsA.has(key));
 }
 
 export function findLikelyDuplicates<A extends DuplicateCandidate>(
@@ -54,6 +55,16 @@ export function findLikelyDuplicates<A extends DuplicateCandidate>(
     if (group) group.push(article);
     else groups.set(key, [article]);
   }
+  // Clés calculées une fois par article, pas à chaque paire.
+  const keys = new Map<A, Keys>();
+  const keysOf = (article: A): Keys => {
+    let found = keys.get(article);
+    if (!found) {
+      found = [searchKey(article.name), ...article.aliases.map(searchKey)];
+      keys.set(article, found);
+    }
+    return found;
+  };
   const pairs: [A, A][] = [];
   for (const group of groups.values())
     for (let i = 0; i < group.length; i++)
@@ -63,7 +74,7 @@ export function findLikelyDuplicates<A extends DuplicateCandidate>(
         if (!a || !b) continue;
         if (a.notDuplicateOf.includes(b.id) || b.notDuplicateOf.includes(a.id))
           continue;
-        if (close(a, b)) pairs.push([a, b]);
+        if (close(keysOf(a), keysOf(b))) pairs.push([a, b]);
       }
   return pairs;
 }
@@ -78,15 +89,12 @@ export function mergedArticleFields(
     Article,
     "id" | "name" | "aliases" | "types" | "notDuplicateOf" | "favorite"
   >,
-  slugify: (text: string) => string,
 ): Pick<Article, "aliases" | "types" | "notDuplicateOf" | "favorite"> {
   const keepSlug = slugify(keep.name);
   const aliases = [
     ...new Set([...keep.aliases, slugify(removed.name), ...removed.aliases]),
   ].filter((alias) => alias !== keepSlug);
-  const types = [...keep.types];
-  for (const type of removed.types)
-    if (!types.some((t) => slugify(t) === slugify(type))) types.push(type);
+  const types = mergeTypes(keep.types, removed.types);
   const notDuplicateOf: ID[] = [
     ...new Set([...keep.notDuplicateOf, ...removed.notDuplicateOf]),
   ].filter((id) => id !== removed.id);

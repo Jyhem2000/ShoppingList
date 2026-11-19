@@ -2,6 +2,7 @@ import type { Category, ID } from "@/domain/model";
 import { slugify } from "@/domain/slug";
 import { moveCategoryInAisles } from "@/domain/stores";
 import type { ShoppingDatabase } from "./database";
+import { storeAisles } from "./stores";
 
 /**
  * Catégories (docs/02 § 3, docs/03 G2) : créer, renommer, icône et couleur, fusionner,
@@ -86,10 +87,7 @@ async function absorbCategory(
         .equals(sourceId)
         .modify({ categoryId: targetId, updatedAt: now });
       for (const store of await database.stores.toArray()) {
-        const aisles = await database.aisles
-          .where("storeId")
-          .equals(store.id)
-          .toArray();
+        const aisles = await storeAisles(database, store.id);
         for (const aisle of moveCategoryInAisles(
           aisles,
           sourceId,

@@ -13,8 +13,8 @@ import {
   lineDetails,
   ingredientDetails,
   lineQuantity,
-} from "@/features/list/format";
-import type { ListData } from "@/features/list/useListData";
+} from "./format";
+import type { ListData } from "./useListData";
 import { fr } from "@/i18n/fr";
 import { copyText } from "@/platform/clipboard";
 import { shareText } from "@/platform/share";

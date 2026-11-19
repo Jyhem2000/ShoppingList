@@ -1,15 +1,24 @@
 import { catalogData } from "@/data/catalog";
 import { fr } from "@/i18n/fr";
 import { DISH_CATEGORY, DISH_PREFIX, type IconPack } from "./pack";
+import { compareText, searchKey } from "@/domain/slug";
 
 /**
  * Pack d'icônes d'articles (docs/05 § 4), assemblé par Vite au build à partir des
  * dessins `src/icons/drawn/<clé d'article>.svg` : aucun fichier généré à versionner.
- * Libellé et mots-clés français viennent de l'article de même clé (nom, alias, types).
+ * Les dessins arrivent prêts à afficher (`?icon`, `scripts/iconSvg.ts`) ; libellé et
+ * mots-clés français viennent de l'article de même clé (nom, alias, types).
  * Importé à la demande par `pack.ts` : il forme un fichier à part.
  */
 const drawings = import.meta.glob<string>("./drawn/*.svg", {
-  query: "?raw",
+  query: "?icon",
+  import: "default",
+  eager: true,
+});
+
+/** Icônes de plats, pour les recettes : elles ne correspondent à aucun article. */
+const dishDrawings = import.meta.glob<string>("./dishes/*.svg", {
+  query: "?icon",
   import: "default",
   eager: true,
 });
@@ -20,92 +29,63 @@ const words = (text: string) =>
     .split(/[\s,:’'()-]+/)
     .filter((word) => word.length > 1);
 
-/** Les identifiants internes du SVG sont préfixés pour rester uniques dans la page. */
-const prefixIds = (body: string, name: string) =>
-  body
-    .replace(/id="([^"]+)"/g, `id="${name}-$1"`)
-    .replace(/url\(#([^)]+)\)/g, `url(#${name}-$1)`)
-    .replace(/href="#([^"]+)"/g, `href="#${name}-$1"`);
-
-/**
- * Le filet sombre qui détache deux objets (docs/05 § 4) est dessiné dans la couleur du
- * fond des cartes, #18181d en thème sombre (`--icon-gap`) ; en thème clair, il prend le
- * fond de la ligne (`--row-bg`) ou des cartes (`--surface`), sinon il ferait un trait
- * noir sur fond blanc.
- */
-const GAP = "#18181d";
-const themeGap = (body: string) =>
-  body.replace(/<[^>]+>/g, (tag) => {
-    if (!tag.includes(GAP)) return tag;
-    const styles: string[] = [];
-    const cleaned = tag.replace(
-      /\s(fill|stroke)="#18181d"/g,
-      (_, prop: string) => {
-        styles.push(`${prop}:var(--icon-gap,var(--row-bg,var(--surface)))`);
-        return "";
-      },
-    );
-    return cleaned.replace(/^<(\w+)/, `<$1 style="${styles.join(";")}"`);
-  });
-
-/** Icônes de plats, pour les recettes : elles ne correspondent à aucun article. */
-const dishDrawings = import.meta.glob<string>("./dishes/*.svg", {
-  query: "?raw",
-  import: "default",
-  eager: true,
-});
-
-const pack: IconPack = {};
-
-function addIcon(
-  name: string,
-  path: string,
-  svg: string,
-  label: string,
-  texts: string[],
-  category: string,
-) {
-  const body = /<svg[^>]*>([\s\S]*)<\/svg>/.exec(svg)?.[1];
-  if (!body) throw new Error(`${path} : SVG illisible`);
-  const keywords = new Set(texts.flatMap(words));
-  pack[name] = {
-    b: themeGap(prefixIds(body.replace(/>\s+</g, "><").trim(), name)),
-    l: label.toLocaleLowerCase("fr"),
-    k: [...keywords].sort((a, b) => a.localeCompare(b, "fr")),
-    c: category,
-  };
+interface Entry {
+  name: string;
+  body: string;
+  label: string;
+  texts: string[];
+  category: string;
 }
 
-for (const [path, svg] of Object.entries(drawings)) {
+const articleByKey = new Map(
+  catalogData.map((article) => [article.key, article]),
+);
+
+const entries: Entry[] = [];
+
+for (const [path, body] of Object.entries(drawings)) {
   const name = path.slice("./drawn/".length, -".svg".length);
-  const article = catalogData.find((a) => a.key === name);
+  const article = articleByKey.get(name);
   if (!article) throw new Error(`${path} : aucun article n'a cette clé`);
-  addIcon(
+  entries.push({
     name,
-    path,
-    svg,
-    article.name.fr,
-    [
+    body,
+    label: article.name.fr,
+    texts: [
       article.name.fr,
       ...(article.aliases?.fr ?? []),
       ...(article.types?.fr ?? []),
     ],
-    article.category,
-  );
+    category: article.category,
+  });
 }
 
-for (const [path, svg] of Object.entries(dishDrawings)) {
+for (const [path, body] of Object.entries(dishDrawings)) {
   const name = path.slice("./dishes/".length, -".svg".length);
   const dish = fr.recipes.dishes[name];
   if (!dish) throw new Error(`${path} : aucun libellé dans fr.recipes.dishes`);
-  addIcon(
-    `${DISH_PREFIX}${name}`,
-    path,
-    svg,
-    dish.label,
-    [dish.label, ...dish.keywords],
-    DISH_CATEGORY,
-  );
+  entries.push({
+    name: `${DISH_PREFIX}${name}`,
+    body,
+    label: dish.label,
+    texts: [dish.label, ...dish.keywords],
+    category: DISH_CATEGORY,
+  });
+}
+
+// Sans prototype : un nom reçu par un lien (« constructor », « toString »…) n'y trouve
+// rien, `pack[name]` ne renvoie que les icônes dessinées. Rangé par libellé : le choix
+// d'icône n'a pas à le trier.
+const pack = Object.create(null) as IconPack;
+for (const entry of entries.sort((a, b) => compareText(a.label, b.label))) {
+  const label = entry.label.toLocaleLowerCase("fr");
+  pack[entry.name] = {
+    b: entry.body,
+    l: label,
+    s: searchKey(label),
+    k: [...new Set(entry.texts.flatMap(words).map(searchKey))],
+    c: entry.category,
+  };
 }
 
 export default pack;

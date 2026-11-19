@@ -1,15 +1,14 @@
 import "fake-indexeddb/auto";
 import { afterEach, describe, expect, it } from "vitest";
-import { deleteArticle, mergeArticles } from "@/db/articles";
+import { articleUsage, deleteArticle, mergeArticles } from "@/db/articles";
 import { ShoppingDatabase } from "@/db/database";
 import {
   addRecipeToList,
   createRecipe,
   duplicateRecipe,
-  previewRecipeAdd,
-  recipesUsing,
   stepIngredient,
 } from "@/db/recipes";
+import { activeItems } from "@/db/items";
 import { seedDatabase } from "@/db/seed";
 import { deleteUnit } from "@/db/units";
 import type { Recipe } from "@/domain/model";
@@ -17,6 +16,7 @@ import {
   planRecipeAdd,
   recipeMerge,
   scaleRecipe,
+  uniqueRecipeName,
   yieldLabel,
 } from "@/domain/recipes";
 import { unit, units } from "./fixtures";
@@ -113,6 +113,24 @@ describe("rendement en clair (docs/02 § 7)", () => {
     expect(yieldLabel(1, "gâteaux")).toBe("1 gâteau");
     expect(yieldLabel(6, "part de tarte")).toBe("6 parts de tarte");
     expect(yieldLabel(1.5, "litre")).toBe("1,5 litre");
+  });
+});
+
+describe("nom d'une recette reçue (docs/03 E3)", () => {
+  it("garde le nom s'il est libre, sinon prend le premier numéro libre", () => {
+    expect(uniqueRecipeName("Cake", ["Tarte"])).toBe("Cake");
+    expect(uniqueRecipeName("Cake", ["Cake"])).toBe("Cake (2)");
+    expect(uniqueRecipeName("Cake", ["cake", "Cake (2)"])).toBe("Cake (3)");
+    expect(uniqueRecipeName("Cake", ["Cake", "Cake (3)"])).toBe("Cake (2)");
+  });
+
+  it("reprend le numéro d'un nom déjà numéroté", () => {
+    const taken = ["Cake", "Cake (2)"];
+    expect(uniqueRecipeName("Cake (2)", taken)).toBe("Cake (3)");
+    expect(uniqueRecipeName("Cake (2)", [...taken, "Cake (3)"])).toBe(
+      "Cake (4)",
+    );
+    expect(uniqueRecipeName("Cake (3)", ["Cake (3)"])).toBe("Cake (2)");
   });
 });
 
@@ -275,7 +293,14 @@ describe("recettes dans la base (docs/02 § 7)", () => {
       status: "todo",
       fromRecipes: [],
     });
-    const preview = await previewRecipeAdd(db, recipeId, list.id, 2);
+    const recipe = await db.recipes.get(recipeId);
+    if (!recipe) throw new Error("recette");
+    const preview = planRecipeAdd(
+      recipe,
+      2,
+      await activeItems(db, list.id),
+      await db.units.toArray(),
+    );
     expect(await addRecipeToList(db, recipeId, list.id, 2, preview)).toBe(2);
 
     const items = await db.items.where("listId").equals(list.id).toArray();
@@ -294,7 +319,7 @@ describe("recettes dans la base (docs/02 § 7)", () => {
     const copyId = await duplicateRecipe(db, recipeId, "Cake (copie)");
     if (!copyId) throw new Error("copie");
     expect((await db.recipes.get(copyId))?.ingredients).toHaveLength(2);
-    expect(await recipesUsing(db, oeufs.id)).toHaveLength(2);
+    expect((await articleUsage(db, oeufs.id)).recipes).toBe(2);
 
     await deleteArticle(db, oeufs.id);
     expect(

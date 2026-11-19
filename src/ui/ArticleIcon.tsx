@@ -1,5 +1,4 @@
 import type { Article, Category } from "@/domain/model";
-import { paletteColor } from "@/ui/palette";
 import { ProductIcon } from "@/ui/ProductIcon";
 
 /**
@@ -19,7 +18,7 @@ export function ArticleIcon({
     <ProductIcon
       icon={article.icon}
       label={article.name}
-      color={paletteColor(category?.color)}
+      color={category?.color}
       size={size}
     />
   );

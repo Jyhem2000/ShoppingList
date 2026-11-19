@@ -1,5 +1,5 @@
 import type { Unit } from "@/domain/model";
-import { type StepOptions, stepAmount } from "@/domain/quantity";
+import { changeUnit, type StepOptions, stepAmount } from "@/domain/quantity";
 import { fr } from "@/i18n/fr";
 import { Chip, Field } from "@/ui/form";
 import { QuantityInput } from "@/ui/QuantityInput";
@@ -15,6 +15,7 @@ const t = fr.list.line;
  * besoin (950 g → 1 kg, 1 kg → 950 g, docs/02 § 5). Le pas lui-même se calcule en base
  * (`onStep` : `stepItem`, `stepIngredient`, pour ne perdre aucun appui) ; `stepping`,
  * les mêmes options de `stepAmount`, sert ici à savoir si − est possible.
+ * `onUnit` : une autre unité choisie, avec la quantité convertie (1,2 kg → 1200 g).
  */
 export function AmountFields({
   units,
@@ -35,8 +36,13 @@ export function AmountFields({
   stepping?: StepOptions<Unit>;
   onQuantity: (quantity: number) => void;
   onStep: (direction: 1 | -1) => void;
-  onUnit: (unitId: string) => void;
+  onUnit: (amount: { unitId: string; quantity: number }) => void;
 }) {
+  const pickUnit = (unitId: string) => {
+    const next = units.find((u) => u.id === unitId);
+    if (!next || next.id === unit.id) return;
+    onUnit({ unitId: next.id, quantity: changeUnit(quantity, unit, next) });
+  };
   const canLess = !!stepAmount({ quantity, unit }, -1, units, stepping);
   return (
     <>
@@ -63,7 +69,7 @@ export function AmountFields({
             value={unit.id}
             kitchen={kitchen}
             onChange={(event) => {
-              onUnit(event.target.value);
+              pickUnit(event.target.value);
             }}
           />
         </Field>
@@ -75,7 +81,7 @@ export function AmountFields({
               key={u.id}
               selected={u.id === unit.id}
               onClick={() => {
-                onUnit(u.id);
+                pickUnit(u.id);
               }}
             >
               {u.singular}

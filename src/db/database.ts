@@ -22,6 +22,7 @@ export const SCHEMA_V1 = {
   articles: "id, &slug, *aliases, categoryId, favorite, *barcodes, catalogKey",
   stores: "id",
   aisles: "id, storeId",
+  // Aussi lu par magasin seul : `where("storeId")`, premier champ de l'index.
   overrides: "id, [storeId+articleId]",
   lists: "id, position",
   items: "id, listId, articleId, closedInSessionId",
@@ -39,6 +40,12 @@ export const SCHEMA_V3 = { ...SCHEMA_V1, copies: "id, at" } as const;
  * ne garde que la date et le résumé (l'écran Sauvegarde ne lit plus 7 bases entières).
  */
 export const SCHEMA_V4 = { ...SCHEMA_V3, copyBackups: "id" } as const;
+
+/** Version 5 : dernière session d'une liste lue directement (`latestSession`). */
+export const SCHEMA_V5 = {
+  ...SCHEMA_V4,
+  sessions: "id, listId, storeId, status, startedAt, [listId+startedAt]",
+} as const;
 
 /** Ligne de la table `meta` : réglages, version du catalogue… */
 export interface MetaRow {
@@ -79,6 +86,8 @@ export class ShoppingDatabase extends Dexie {
     // Version 4 : nouvelle table des données complètes des copies. Pas de reprise des
     // anciennes copies : seulement des données d'essai avant la 0.9.0 (docs/07 § 5).
     this.version(4).stores(SCHEMA_V4);
+    // Version 5 : nouvel index des sessions par liste et date ; aucune donnée modifiée.
+    this.version(5).stores(SCHEMA_V5);
   }
 }
 

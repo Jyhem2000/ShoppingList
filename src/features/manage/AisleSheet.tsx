@@ -1,4 +1,4 @@
-import { GitMerge, Trash2, X } from "lucide-react";
+import { X } from "lucide-react";
 import { useState } from "react";
 import { db } from "@/db/database";
 import {
@@ -7,22 +7,24 @@ import {
   setAisleCategoryRole,
   updateAisle,
 } from "@/db/stores";
-import type { Aisle, Category } from "@/domain/model";
+import type { Aisle, Category, ID } from "@/domain/model";
 import { categoryRole } from "@/domain/stores";
-import { aisleText } from "@/features/list/format";
+import { aisleText } from "@/common/format";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
-import { Field, Select, ConfirmActions } from "@/ui/form";
+import { Field, ConfirmActions, MergeDeleteActions } from "@/ui/form";
+import { CategorySelect } from "@/ui/CategorySelect";
 import { GroupIcon } from "@/ui/GroupIcon";
 import { palette, paletteColor } from "@/ui/palette";
 import { Sheet } from "@/ui/Sheet";
 import { StylePicker } from "@/ui/StylePicker";
 import { Switch } from "@/ui/switch";
 import { showToast } from "@/ui/toast";
-import { NameField } from "./NameField";
+import { NameField } from "@/common/NameField";
 import { cn } from "@/ui/utils";
 import { RowButton } from "@/ui/RowButton";
 import { feedback } from "@/feedback";
+import { byName } from "@/domain/slug";
 const t = fr.manage.aisle;
 
 type Step = "edit" | "merge" | "delete";
@@ -37,12 +39,14 @@ export function AisleSheet({
   aisle,
   aisles,
   categories,
+  categoryById,
   weights,
   onClose,
 }: {
   aisle: Aisle;
   aisles: Aisle[];
   categories: Category[];
+  categoryById: ReadonlyMap<ID, Category>;
   /** Achats par catégorie, pour le titre des rayons sans nom. */
   weights: ReadonlyMap<string, number>;
   onClose: () => void;
@@ -50,14 +54,13 @@ export function AisleSheet({
   const [step, setStep] = useState<Step>("edit");
   const [promote, setPromote] = useState(true);
   const color = paletteColor(aisle.color);
-  const categoryById = new Map(categories.map((c) => [c.id, c]));
   const present = aisle.categories.flatMap((entry) => {
     const category = categoryById.get(entry.categoryId);
     return category ? [{ category, primary: entry.primary }] : [];
   });
   const addable = categories
     .filter((c) => !c.isSystem && categoryRole(aisle, c.id) === "none")
-    .sort((a, b) => a.name.localeCompare(b.name, "fr"));
+    .sort(byName);
   // Jamais « À placer » : ses catégories n'en sortiraient plus (docs/02 § 4).
   const others = aisles.filter((a) => a.id !== aisle.id && !a.isUnsorted);
   const textOf = (a: Aisle) => aisleText(a, categoryById, weights);
@@ -70,10 +73,9 @@ export function AisleSheet({
 
   return (
     <Sheet
-      open
       autoFocus={false}
-      onOpenChange={(open) => {
-        if (!open) onClose();
+      onClose={() => {
+        onClose();
       }}
       onBack={
         step === "edit"
@@ -244,10 +246,11 @@ export function AisleSheet({
               </ul>
               {addable.length > 0 && (
                 <Field label={t.addCategory} className="mt-3">
-                  <Select
+                  <CategorySelect
+                    categories={addable}
                     value=""
-                    onChange={(event) => {
-                      const id = event.target.value;
+                    placeholder={t.chooseCategory}
+                    onChange={(id) => {
                       if (!id) return;
                       // Principale si elle n'a encore aucun rayon principal dans ce magasin.
                       const elsewhere = aisles.some(
@@ -255,14 +258,7 @@ export function AisleSheet({
                       );
                       setRole(id, elsewhere ? "secondary" : "primary");
                     }}
-                  >
-                    <option value="">{t.chooseCategory}</option>
-                    {addable.map((c) => (
-                      <option key={c.id} value={c.id}>
-                        {c.name}
-                      </option>
-                    ))}
-                  </Select>
+                  />
                 </Field>
               )}
             </div>
@@ -276,26 +272,17 @@ export function AisleSheet({
           />
 
           {!aisle.isUnsorted && (
-            <div className="flex flex-col gap-3 pt-2">
-              <Button
-                variant="outline"
-                onClick={() => {
-                  setStep("merge");
-                }}
-              >
-                <GitMerge />
-                {t.merge}
-              </Button>
-              <Button
-                variant="dangerOutline"
-                onClick={() => {
-                  setStep("delete");
-                }}
-              >
-                <Trash2 />
-                {t.delete}
-              </Button>
-            </div>
+            <MergeDeleteActions
+              className="pt-2"
+              mergeLabel={t.merge}
+              deleteLabel={t.delete}
+              onMerge={() => {
+                setStep("merge");
+              }}
+              onDelete={() => {
+                setStep("delete");
+              }}
+            />
           )}
           <Button onClick={onClose}>{t.done}</Button>
         </div>

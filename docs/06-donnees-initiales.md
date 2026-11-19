@@ -217,7 +217,7 @@ Voir [05 § 4](05-identite-visuelle.md#4-icônes). Une icône dessinée par arti
 
 ## 7. Mise à jour du catalogue sans réinstaller
 
-Le catalogue embarqué a un numéro de version (`CATALOG_VERSION`, `src/data/catalog.ts`), gardé dans les réglages de l'app (`Settings.catalogVersion`). Une catégorie ou un article ajouté au catalogue porte `since` : la version qui l'a introduit (absent : 1).
+Le catalogue embarqué a un numéro de version (`CATALOG_VERSION`, `src/data/catalogVersion.ts` : le lancement la compare à celle de la base sans charger le catalogue), gardé dans les réglages de l'app (`Settings.catalogVersion`). Une catégorie ou un article ajouté au catalogue porte `since` : la version qui l'a introduit (absent : 1).
 
 Au lancement, si le catalogue de l'app est plus récent que celui de la base (`src/db/catalogUpdate.ts`) :
 

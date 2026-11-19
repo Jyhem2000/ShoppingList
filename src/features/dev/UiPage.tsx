@@ -201,31 +201,32 @@ export function UiPage() {
             {t.openSheet}
           </Button>
         </div>
-        <Sheet
-          open={sheetOpen}
-          onOpenChange={setSheetOpen}
-          title={t.sheetTitle}
-          description={t.sheetText}
-        >
-          <div className="flex flex-col gap-2">
-            <Button
-              size="lg"
-              onClick={() => {
-                feedback.add();
-                setSheetOpen(false);
-              }}
-            >
-              {t.sheetAdd}
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              onClick={() => setSheetOpen(false)}
-            >
-              {t.sheetNothing}
-            </Button>
-          </div>
-        </Sheet>
+        {sheetOpen && (
+          <Sheet
+            onClose={() => setSheetOpen(false)}
+            title={t.sheetTitle}
+            description={t.sheetText}
+          >
+            <div className="flex flex-col gap-2">
+              <Button
+                size="lg"
+                onClick={() => {
+                  feedback.add();
+                  setSheetOpen(false);
+                }}
+              >
+                {t.sheetAdd}
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                onClick={() => setSheetOpen(false)}
+              >
+                {t.sheetNothing}
+              </Button>
+            </div>
+          </Sheet>
+        )}
       </Block>
 
       <Block title={t.sounds}>

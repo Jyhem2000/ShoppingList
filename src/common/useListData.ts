@@ -3,12 +3,11 @@ import {
   useAisles,
   useArticles,
   useCategories,
+  useCurrentList,
   useListItems,
-  useLists,
   useOverrides,
   usePurchaseCounts,
   useRecipes,
-  useSettings,
   useStores,
   useUnits,
 } from "@/db/hooks";
@@ -26,6 +25,7 @@ import type {
   Unit,
 } from "@/domain/model";
 import { categoryWeights } from "./format";
+import { byId } from "@/domain/collections";
 
 export interface ListData {
   settings: Settings;
@@ -55,10 +55,19 @@ export interface ListData {
  * pendant le chargement (et au premier lancement, le temps de créer les données).
  */
 export function useListData(storeId?: ID): ListData | undefined {
-  const settings = useSettings();
-  const lists = useLists();
-  const list =
-    lists?.find((l) => l.id === settings?.currentListId) ?? lists?.[0];
+  return useListDataOf(useCurrentList(), storeId);
+}
+
+/**
+ * Même chose, pour un écran qui lit déjà la liste courante (le mode courses, qui en tire
+ * sa session et son magasin) : pas de seconde lecture des réglages et des listes.
+ * Chaque table dérivée (`articleById`…) n'est refaite que si sa table change : une
+ * coche ne reconstruit que ce qui dépend des lignes.
+ */
+export function useListDataOf(
+  { settings, lists, list }: ReturnType<typeof useCurrentList>,
+  storeId?: ID,
+): ListData | undefined {
   const items = useListItems(list?.id);
   const articles = useArticles();
   const units = useUnits();
@@ -72,20 +81,47 @@ export function useListData(storeId?: ID): ListData | undefined {
   const purchaseCounts = usePurchaseCounts();
   const recipes = useRecipes();
 
+  // Chaque table avec ses dérivées : refaites seulement quand elle change.
+  const articleTables = useMemo(
+    () => articles && { articles, articleById: byId(articles) },
+    [articles],
+  );
+  const unitTables = useMemo(
+    () => units && { units, unitById: byId(units) },
+    [units],
+  );
+  const categoryTables = useMemo(
+    () => categories && { categories, categoryById: byId(categories) },
+    [categories],
+  );
+  const recipeTables = useMemo(
+    () => recipes && { recipes, recipeById: byId(recipes) },
+    [recipes],
+  );
+  const purchaseTables = useMemo(
+    () =>
+      articles &&
+      purchaseCounts && {
+        purchaseCounts,
+        categoryWeights: categoryWeights(articles, purchaseCounts),
+      },
+    [articles, purchaseCounts],
+  );
+
   return useMemo(() => {
     if (
       !settings ||
       !lists ||
       !list ||
       !items ||
-      !articles ||
-      !units ||
-      !categories ||
+      !articleTables ||
+      !unitTables ||
+      !categoryTables ||
       !stores ||
       !aisles ||
       !overrides ||
-      !purchaseCounts ||
-      !recipes
+      !recipeTables ||
+      !purchaseTables
     )
       return undefined;
     return {
@@ -93,34 +129,29 @@ export function useListData(storeId?: ID): ListData | undefined {
       lists,
       list,
       items,
-      articles,
-      articleById: new Map(articles.map((a) => [a.id, a])),
-      units,
-      unitById: new Map(units.map((u) => [u.id, u])),
-      categories,
-      categoryById: new Map(categories.map((c) => [c.id, c])),
+      ...articleTables,
+      ...unitTables,
+      ...categoryTables,
       stores,
       store,
       aisles,
       overrides,
-      purchaseCounts,
-      recipes,
-      recipeById: new Map(recipes.map((r) => [r.id, r])),
-      categoryWeights: categoryWeights(articles, purchaseCounts),
+      ...recipeTables,
+      ...purchaseTables,
     };
   }, [
     settings,
     lists,
     list,
     items,
-    articles,
-    units,
-    categories,
+    articleTables,
+    unitTables,
+    categoryTables,
     stores,
     store,
     aisles,
     overrides,
-    purchaseCounts,
-    recipes,
+    recipeTables,
+    purchaseTables,
   ]);
 }

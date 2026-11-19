@@ -1,6 +1,7 @@
 import { lineKey } from "./lines";
 import type { ID, ListItem, Unit } from "./model";
 import { formatQuantity, mergeQuantity } from "./quantity";
+import { byId } from "./collections";
 
 /**
  * Ajout du contenu d'autres listes à une liste (docs/02 § 6, « Ajouter une liste
@@ -24,9 +25,26 @@ export interface MergeLine {
   kind: "new" | "merged" | "note";
 }
 
-function mergeNotes(a?: string, b?: string): string | undefined {
+/** Deux notes réunies sans doublon : « bio · + 2 kg ». */
+export function mergeNotes(a?: string, b?: string): string | undefined {
   const notes = [a, b].filter((note): note is string => Boolean(note?.trim()));
   return notes.length ? [...new Set(notes)].join(" · ") : undefined;
+}
+
+/**
+ * Recettes d'où vient une ligne, après l'ajout de `added` (docs/03 E2) : une recette
+ * déjà présente garde sa place avec la nouvelle valeur, les autres suivent.
+ */
+export function mergeRecipeOrigins(
+  origins: ListItem["fromRecipes"],
+  added: ListItem["fromRecipes"],
+): ListItem["fromRecipes"] {
+  const byRecipe = new Map(added.map((r) => [r.recipeId, r]));
+  const present = new Set(origins.map((r) => r.recipeId));
+  return [
+    ...origins.map((r) => byRecipe.get(r.recipeId) ?? r),
+    ...added.filter((r) => !present.has(r.recipeId)),
+  ];
 }
 
 /**
@@ -38,7 +56,7 @@ export function planListMerge(
   sources: readonly MergeSource[],
   units: readonly Unit[],
 ): MergeLine[] {
-  const unitById = new Map(units.map((unit) => [unit.id, unit]));
+  const unitById = byId(units);
   const current = new Map<string, MergeLine>();
   const touched = new Set<string>();
   for (const item of target)

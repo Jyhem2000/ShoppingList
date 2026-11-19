@@ -1,4 +1,3 @@
-import { GitMerge, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { routes } from "@/app/routes";
 import {
@@ -10,35 +9,39 @@ import {
 import { db } from "@/db/database";
 import { useArticles, useCategories } from "@/db/hooks";
 import type { Category, ID } from "@/domain/model";
-import { categoryShortName } from "@/features/list/format";
+import { othersCategory } from "@/domain/categories";
+import { categoryShortName } from "@/common/format";
 import { fr } from "@/i18n/fr";
+import { AddButton } from "@/ui/AddButton";
 import { Button } from "@/ui/button";
-import { Field, Select, TextInput, ConfirmActions } from "@/ui/form";
+import {
+  Field,
+  TextInput,
+  ConfirmActions,
+  MergeDeleteActions,
+} from "@/ui/form";
+import { CategorySelect } from "@/ui/CategorySelect";
 import { GroupIcon } from "@/ui/GroupIcon";
 import { PageHeader, Section } from "@/ui/Page";
 import { type PaletteColor, paletteColor } from "@/ui/palette";
 import { Sheet } from "@/ui/Sheet";
 import { StylePicker } from "@/ui/StylePicker";
 import { showToast } from "@/ui/toast";
-import { NameField } from "./NameField";
+import { NameField } from "@/common/NameField";
 import { RowButton } from "@/ui/RowButton";
 import { feedback } from "@/feedback";
+import { byName } from "@/domain/slug";
+import { countBy } from "@/domain/collections";
 const t = fr.manage.categories;
-const collator = new Intl.Collator("fr");
-
 /** Catégories (docs/03 G2) : la liste, la création, et la fiche de chacune. */
 export function CategoriesPage() {
   const categories = useCategories();
   const articles = useArticles();
   const [open, setOpen] = useState<ID | null>(null);
   const [creating, setCreating] = useState(false);
-  const counts = new Map<ID, number>();
-  for (const a of articles ?? [])
-    counts.set(a.categoryId, (counts.get(a.categoryId) ?? 0) + 1);
+  const counts = countBy(articles ?? [], (a) => a.categoryId);
   const sorted = [...(categories ?? [])].sort(
-    (a, b) =>
-      Number(a.isSystem) - Number(b.isSystem) ||
-      collator.compare(a.name, b.name),
+    (a, b) => Number(a.isSystem) - Number(b.isSystem) || byName(a, b),
   );
   const editing = sorted.find((c) => c.id === open);
 
@@ -46,16 +49,12 @@ export function CategoriesPage() {
     <>
       <PageHeader title={t.title} backTo={routes.settings} />
       <div className="px-4 pb-1">
-        <Button
-          variant="outline"
-          className="w-full"
+        <AddButton
+          label={t.add}
           onClick={() => {
             setCreating(true);
           }}
-        >
-          <Plus />
-          {t.add}
-        </Button>
+        />
       </div>
       <Section className="pb-6">
         <ul className="divide-y divide-border/50">
@@ -116,9 +115,8 @@ function NewCategorySheet({
   const [name, setName] = useState("");
   return (
     <Sheet
-      open
-      onOpenChange={(open) => {
-        if (!open) onClose();
+      onClose={() => {
+        onClose();
       }}
       title={t.newTitle}
       description={t.newHint}
@@ -168,8 +166,7 @@ function CategorySheet({
 }) {
   const [step, setStep] = useState<Step>("edit");
   const others = categories.filter((c) => c.id !== category.id);
-  const fallback =
-    categories.find((c) => c.catalogKey === "autres") ?? others[0];
+  const fallback = othersCategory(categories) ?? others[0];
   const [moveTo, setMoveTo] = useState<ID>(fallback?.id ?? "");
   const color = paletteColor(category.color);
   const save = (changes: Parameters<typeof updateCategory>[2]) =>
@@ -179,10 +176,9 @@ function CategorySheet({
 
   return (
     <Sheet
-      open
       autoFocus={false}
-      onOpenChange={(open) => {
-        if (!open) onClose();
+      onClose={() => {
+        onClose();
       }}
       onBack={
         step === "edit"
@@ -239,18 +235,11 @@ function CategorySheet({
         <div className="flex flex-col gap-4">
           {count > 0 && (
             <Field label={t.moveTo}>
-              <Select
+              <CategorySelect
+                categories={others}
                 value={moveTo}
-                onChange={(event) => {
-                  setMoveTo(event.target.value);
-                }}
-              >
-                {others.map((c) => (
-                  <option key={c.id} value={c.id}>
-                    {c.name}
-                  </option>
-                ))}
-              </Select>
+                onChange={setMoveTo}
+              />
             </Field>
           )}
           <ConfirmActions
@@ -303,26 +292,17 @@ function CategorySheet({
             }}
           />
           {!category.isSystem && (
-            <div className="flex flex-col gap-3 pt-2">
-              <Button
-                variant="outline"
-                onClick={() => {
-                  setStep("merge");
-                }}
-              >
-                <GitMerge />
-                {t.merge}
-              </Button>
-              <Button
-                variant="dangerOutline"
-                onClick={() => {
-                  setStep("delete");
-                }}
-              >
-                <Trash2 />
-                {t.delete}
-              </Button>
-            </div>
+            <MergeDeleteActions
+              className="pt-2"
+              mergeLabel={t.merge}
+              deleteLabel={t.delete}
+              onMerge={() => {
+                setStep("merge");
+              }}
+              onDelete={() => {
+                setStep("delete");
+              }}
+            />
           )}
           <Button onClick={onClose}>{t.done}</Button>
         </div>

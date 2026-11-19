@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
+import type { Aisle, Article, ListItem } from "@/domain/model";
 import {
+  buildShoppingView,
+  checkAction,
   currentAisle,
   isStale,
   learnAislePositions,
@@ -150,6 +153,102 @@ describe("pendant les courses (docs/03 C2, C4, C8)", () => {
   it("une session est oubliée après 3 heures sans coche", () => {
     expect(isStale(0, STALE_AFTER_MS - 1)).toBe(false);
     expect(isStale(0, STALE_AFTER_MS)).toBe(true);
+  });
+});
+
+describe("vue des courses : rangement en cochant (docs/03 C4)", () => {
+  const base = { createdAt: 0, updatedAt: 0 };
+  const aisle = (id: string, position: number, categoryId?: string): Aisle => ({
+    ...base,
+    id,
+    storeId: "magasin",
+    name: id,
+    color: "gris",
+    position,
+    categories: categoryId ? [{ categoryId, primary: true }] : [],
+    isUnsorted: id === "non-classe",
+  });
+  const article = (id: string, categoryId: string) =>
+    ({ id, categoryId, name: id }) as Article;
+  const item = (id: string, createdAt: number): ListItem => ({
+    ...base,
+    createdAt,
+    id,
+    listId: "liste",
+    articleId: id,
+    quantity: 1,
+    unitId: "piece",
+    acceptedTypes: [],
+    status: "todo",
+    fromRecipes: [],
+  });
+  const data = (aisles: Aisle[], items: ListItem[]) => ({
+    items,
+    articleById: new Map([
+      ["lait", article("lait", "cremerie")],
+      ["beurre", article("beurre", "cremerie")],
+      ["pommes", article("pommes", "fruits")],
+    ]),
+    store: { ...base, id: "magasin", name: "Magasin", orderLocked: false },
+    aisles,
+    overrides: [],
+  });
+
+  it("une catégorie rangée pendant les courses : ses lignes déjà là restent dans « À placer », le rayon en cours s'affiche même vide", () => {
+    const beurre = item("beurre", 0);
+    const lait = item("lait", 200);
+    const items = [beurre, item("pommes", 0), lait];
+    const view = buildShoppingView(
+      data(
+        [
+          aisle("rayon-1", 0, "cremerie"),
+          aisle("rayon-2", 0.5),
+          aisle("non-classe", 1),
+        ],
+        items,
+      ),
+      {
+        storeId: "magasin",
+        startedAt: 0,
+        openedAisle: { aisleId: "rayon-2", at: 300 },
+        placedCategories: [{ categoryId: "cremerie", at: 100 }],
+      },
+      [],
+    );
+    expect(view.unplaced.map((i) => i.id).sort()).toEqual(["beurre", "pommes"]);
+    expect(
+      view.groups.map((g) => [g.aisle.id, g.items.map((i) => i.id)]),
+    ).toEqual([
+      ["rayon-1", ["lait"]],
+      ["rayon-2", []],
+    ]);
+    expect(view.placing?.id).toBe("rayon-2");
+    expect(checkAction(view, beurre)).toEqual({ kind: "place" });
+    expect(checkAction(view, lait)).toEqual({
+      kind: "check",
+      aisleId: "rayon-1",
+      lastOfAisle: true,
+    });
+  });
+
+  it("un rayon n'est pas terminé tant qu'une de ses lignes attend dans « À récupérer »", () => {
+    const fruits = aisle("fruits", 0, "fruits");
+    const cerises = item("cerises", 0);
+    const pommes = item("pommes", 200);
+    const view = {
+      aisleOf: new Map([
+        [cerises.id, fruits],
+        [pommes.id, fruits],
+      ]),
+      unplaced: [],
+      groups: [{ aisle: fruits, items: [cerises], done: false }],
+      pickUp: [pommes],
+    };
+    expect(checkAction(view, cerises)).toEqual({
+      kind: "check",
+      aisleId: "fruits",
+      lastOfAisle: false,
+    });
   });
 });
 

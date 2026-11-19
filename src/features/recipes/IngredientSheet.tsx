@@ -1,3 +1,4 @@
+import { mergeTypes } from "@/domain/slug";
 import { addArticleType } from "@/db/catalog";
 import { db } from "@/db/database";
 import {
@@ -6,8 +7,7 @@ import {
   updateIngredient,
 } from "@/db/recipes";
 import type { ID, Recipe } from "@/domain/model";
-import { changeUnit } from "@/domain/quantity";
-import type { ListData } from "@/features/list/useListData";
+import type { ListData } from "@/common/useListData";
 import { fr } from "@/i18n/fr";
 import { AmountFields } from "@/ui/AmountFields";
 import { CheckOption, RemoveDoneActions } from "@/ui/form";
@@ -44,10 +44,9 @@ export function IngredientSheet({
 
   return (
     <Sheet
-      open
       autoFocus={false}
-      onOpenChange={(open) => {
-        if (!open) onClose();
+      onClose={() => {
+        onClose();
       }}
       title={article.name}
     >
@@ -64,14 +63,7 @@ export function IngredientSheet({
           onStep={(direction) => {
             void stepIngredient(db, recipeId, index, direction);
           }}
-          onUnit={(unitId) => {
-            const next = data.unitById.get(unitId);
-            if (!next || next.id === unit.id) return;
-            update({
-              unitId: next.id,
-              quantity: changeUnit(ingredient.quantity, unit, next),
-            });
-          }}
+          onUnit={update}
         />
 
         <TypesPicker
@@ -83,9 +75,7 @@ export function IngredientSheet({
           onAddType={(type) => {
             void addArticleType(db, article.id, type).then(() => {
               update({
-                acceptedTypes: [
-                  ...new Set([...ingredient.acceptedTypes, type]),
-                ],
+                acceptedTypes: mergeTypes(ingredient.acceptedTypes, [type]),
               });
             });
           }}

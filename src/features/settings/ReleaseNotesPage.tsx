@@ -1,4 +1,5 @@
 import { routes } from "@/app/routes";
+import { formatDate } from "@/common/time";
 import { fr } from "@/i18n/fr";
 import { PageHeader, Section } from "@/ui/Page";
 import { buildInfo, compareVersions } from "@/version";
@@ -21,7 +22,7 @@ export function ReleaseNotesPage() {
         .map((release) => (
           <Section
             key={release.version}
-            title={`${t.version(release.version)} · ${new Date(release.date).toLocaleDateString("fr-FR", { dateStyle: "long" })}`}
+            title={`${t.version(release.version)} · ${formatDate(Date.parse(release.date))}`}
             className="last:pb-6"
           >
             <ul className="space-y-2 px-4 py-3">

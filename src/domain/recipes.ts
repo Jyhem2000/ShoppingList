@@ -186,7 +186,8 @@ export function yieldLabel(quantity: number, unit: string): string {
 
 /**
  * Nom d'une recette reçue (docs/03 E3) : le sien, ou « Raclette (2) » si une recette
- * porte déjà ce nom (rien n'est remplacé).
+ * porte déjà ce nom (rien n'est remplacé). Un numéro déjà là est repris : la copie de
+ * « Raclette (2) » est « Raclette (3) » (premier numéro libre), pas « Raclette (2) (2) ».
  */
 export function uniqueRecipeName(
   name: string,
@@ -194,8 +195,9 @@ export function uniqueRecipeName(
 ): string {
   const used = new Set(taken.map(slugify));
   if (!used.has(slugify(name))) return name;
+  const base = name.replace(/\s*\(\d+\)$/, "") || name;
   for (let n = 2; ; n++) {
-    const candidate = `${name} (${n})`;
+    const candidate = `${base} (${n})`;
     if (!used.has(slugify(candidate))) return candidate;
   }
 }

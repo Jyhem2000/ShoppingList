@@ -2,6 +2,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion } from "motion/react";
 import type { ReactNode } from "react";
 import { fr } from "@/i18n/fr";
+import { buttonVariants } from "@/ui/buttonVariants";
 import { NavButton } from "@/ui/NavButton";
 import { useGoBack } from "@/ui/navigation";
 import { cn } from "@/ui/utils";
@@ -9,43 +10,60 @@ import { cn } from "@/ui/utils";
 /**
  * En-tête d'écran, avec retour optionnel. Il reste en haut quand le contenu défile,
  * avec sa marge haute : le titre ne passe jamais sous le flou qu'iOS 26 pose sous la
- * barre d'état. Une bordure le sépare du contenu quand celui-ci défile (Layout pose
- * `data-scrollable` sur la zone qui défile).
- * `action` : un bouton à droite du titre.
+ * barre d'état. Une bordure le sépare toujours du contenu.
+ * `title` : un texte (titre d'écran) ou un élément qui le contient (nom de la liste à
+ * toucher). `leading` : un bouton à gauche du titre (quitter les courses), `action`
+ * un bouton à droite, `below` une ligne en dessous (barre de progression).
  * `backTo` : la flèche revient à l'écran précédent ; cet écran-ci seulement si
  * l'on n'en a pas (docs/04 § 1).
  */
 export function PageHeader({
   title,
   backTo,
+  leading,
   action,
+  below,
 }: {
-  title: string;
+  title: ReactNode;
   backTo?: string;
+  leading?: ReactNode;
   /** À droite du titre (« Modifier » d'une recette). */
   action?: ReactNode;
+  below?: ReactNode;
 }) {
   const goBack = useGoBack(backTo ?? "/");
   return (
-    <header className="sticky top-0 z-20 mb-2 flex items-center gap-2 border-b border-transparent bg-bg px-4 pt-7 pb-2 group-data-[scrollable]/main:border-border">
-      {backTo && (
-        <NavButton
-          to={backTo}
-          back
-          aria-label={fr.sheet.back}
-          onClick={(event) => {
-            event.preventDefault();
-            goBack();
-          }}
-          // Cible de 44 px, mais occupe la hauteur d'une ligne de titre (32 px) :
-          // le titre reste au même niveau, avec ou sans bouton de retour.
-          className="-my-1.5 -ml-2 flex size-11 items-center justify-center rounded-xl text-primary hover:bg-raised"
-        >
-          <ChevronLeft className="size-6" />
-        </NavButton>
-      )}
-      <PageTitle className="min-w-0 flex-1">{title}</PageTitle>
-      {action && <div className="-my-1.5 shrink-0">{action}</div>}
+    <header className="sticky top-0 z-20 mb-2 border-b border-border bg-bg px-4 pt-7 pb-2">
+      <div className="flex items-center gap-2">
+        {backTo && (
+          <NavButton
+            to={backTo}
+            back
+            aria-label={fr.sheet.back}
+            onClick={(event) => {
+              event.preventDefault();
+              goBack();
+            }}
+            // Cible de 44 px, mais occupe la hauteur d'une ligne de titre (32 px) :
+            // le titre reste au même niveau, avec ou sans bouton de retour.
+            className={buttonVariants({
+              variant: "iconPrimary",
+              size: "icon",
+              className: "-my-1.5 -ml-2",
+            })}
+          >
+            <ChevronLeft className="size-6" />
+          </NavButton>
+        )}
+        {leading && <div className="-my-1.5 -ml-2 shrink-0">{leading}</div>}
+        {typeof title === "string" ? (
+          <PageTitle className="min-w-0 flex-1">{title}</PageTitle>
+        ) : (
+          <div className="min-w-0 flex-1">{title}</div>
+        )}
+        {action && <div className="-my-1.5 shrink-0">{action}</div>}
+      </div>
+      {below}
     </header>
   );
 }

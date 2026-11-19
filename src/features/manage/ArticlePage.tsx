@@ -1,5 +1,5 @@
 import { useLiveQuery } from "dexie-react-hooks";
-import { GitMerge, Plus, Trash2, X } from "lucide-react";
+import { Plus, X } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useParams } from "react-router";
 import { routes } from "@/app/routes";
@@ -11,23 +11,29 @@ import {
 } from "@/db/articles";
 import { db } from "@/db/database";
 import type { Article } from "@/domain/model";
-import { formatNumber } from "@/domain/quantity";
+import { formatNumber, parseNumber } from "@/domain/quantity";
 import { searchArticles } from "@/domain/search";
-import { slugify } from "@/domain/slug";
+import { addAlias as withAlias, mergeTypes } from "@/domain/slug";
 import { UnitSelect } from "@/ui/UnitSelect";
-import { type ListData, useListData } from "@/features/list/useListData";
+import { type ListData, useListData } from "@/common/useListData";
 import { fr } from "@/i18n/fr";
 import { SearchField } from "@/ui/SearchField";
 import { Button } from "@/ui/button";
 import { useGoBack } from "@/ui/navigation";
-import { Field, Select, TextInput, ConfirmActions } from "@/ui/form";
+import {
+  Field,
+  TextInput,
+  ConfirmActions,
+  MergeDeleteActions,
+} from "@/ui/form";
+import { CategorySelect } from "@/ui/CategorySelect";
 import { EmptyState, PageHeader, Row, Section } from "@/ui/Page";
 import { IconChangeButton } from "@/ui/IconChangeButton";
 import { Sheet } from "@/ui/Sheet";
 import { Switch } from "@/ui/switch";
 import { showToast } from "@/ui/toast";
-import { IconPickerSheet } from "./IconPickerSheet";
-import { NameField } from "./NameField";
+import { IconPickerSheet } from "@/common/IconPickerSheet";
+import { NameField } from "@/common/NameField";
 import { RowButton } from "@/ui/RowButton";
 import { ArticleIcon } from "@/ui/ArticleIcon";
 import { paletteColor } from "@/ui/palette";
@@ -66,12 +72,8 @@ function ArticleForm({ article, data }: { article: Article; data: ListData }) {
   const goBack = useGoBack(routes.manageArticles);
   const [panel, setPanel] = useState<"icon" | "merge" | "delete" | null>(null);
   const [quantity, setQuantity] = useState(
-    article.defaultQuantity === undefined
-      ? ""
-      : formatNumber(article.defaultQuantity),
+    quantityText(article.defaultQuantity),
   );
-  const [newType, setNewType] = useState("");
-  const [newAlias, setNewAlias] = useState("");
   const usage = useLiveQuery(() => articleUsage(db, article.id), [article.id]);
   const category = data.categoryById.get(article.categoryId);
   const color = paletteColor(category?.color);
@@ -81,30 +83,21 @@ function ArticleForm({ article, data }: { article: Article; data: ListData }) {
     });
 
   const saveQuantity = () => {
-    const value = Number(quantity.replace(",", "."));
+    const value = parseNumber(quantity);
     if (!quantity.trim()) save({ defaultQuantity: undefined });
     else if (Number.isFinite(value) && value > 0)
       save({ defaultQuantity: value });
-    else
-      setQuantity(
-        article.defaultQuantity === undefined
-          ? ""
-          : formatNumber(article.defaultQuantity),
-      );
+    else setQuantity(quantityText(article.defaultQuantity));
   };
   const { edited: quantityEdited, commit: commitQuantity } =
     usePendingSave(saveQuantity);
-  const addType = () => {
-    const clean = newType.trim();
-    if (clean && !article.types.some((x) => slugify(x) === slugify(clean)))
-      save({ types: [...article.types, clean] });
-    setNewType("");
+  const addType = (text: string) => {
+    const types = mergeTypes(article.types, [text]);
+    if (types.length > article.types.length) save({ types });
   };
-  const addAlias = () => {
-    const slug = slugify(newAlias);
-    if (slug && slug !== article.slug && !article.aliases.includes(slug))
-      save({ aliases: [...article.aliases, slug] });
-    setNewAlias("");
+  const addAlias = (text: string) => {
+    const aliases = withAlias(article, text);
+    if (aliases.length > article.aliases.length) save({ aliases });
   };
 
   return (
@@ -132,20 +125,13 @@ function ArticleForm({ article, data }: { article: Article; data: ListData }) {
             }}
           />
           <Field label={t.category}>
-            <Select
+            <CategorySelect
+              categories={data.categories}
               value={article.categoryId}
-              onChange={(event) => {
-                save({ categoryId: event.target.value });
+              onChange={(categoryId) => {
+                save({ categoryId });
               }}
-            >
-              {[...data.categories]
-                .sort((a, b) => a.name.localeCompare(b.name, "fr"))
-                .map((c) => (
-                  <option key={c.id} value={c.id}>
-                    {c.name}
-                  </option>
-                ))}
-            </Select>
+            />
           </Field>
           <div className="flex flex-col gap-4">
             <Field label={t.unit}>
@@ -203,13 +189,10 @@ function ArticleForm({ article, data }: { article: Article; data: ListData }) {
         <TagEditor
           hint={t.typesHint}
           values={article.types}
-          display={(x) => x}
           removeLabel={t.removeType}
           onRemove={(type) => {
             save({ types: article.types.filter((x) => x !== type) });
           }}
-          input={newType}
-          onInput={setNewType}
           placeholder={t.newType}
           addLabel={t.addType}
           onAdd={addType}
@@ -225,8 +208,6 @@ function ArticleForm({ article, data }: { article: Article; data: ListData }) {
           onRemove={(alias) => {
             save({ aliases: article.aliases.filter((x) => x !== alias) });
           }}
-          input={newAlias}
-          onInput={setNewAlias}
           placeholder={t.newAlias}
           addLabel={t.addAlias}
           onAdd={addAlias}
@@ -239,24 +220,16 @@ function ArticleForm({ article, data }: { article: Article; data: ListData }) {
             {t.usage(usage.lines, usage.lists, usage.recipes)}
           </p>
         )}
-        <Button
-          variant="outline"
-          onClick={() => {
+        <MergeDeleteActions
+          mergeLabel={t.merge}
+          deleteLabel={t.delete}
+          onMerge={() => {
             setPanel("merge");
           }}
-        >
-          <GitMerge />
-          {t.merge}
-        </Button>
-        <Button
-          variant="dangerOutline"
-          onClick={() => {
+          onDelete={() => {
             setPanel("delete");
           }}
-        >
-          <Trash2 />
-          {t.delete}
-        </Button>
+        />
       </div>
 
       {panel === "icon" && (
@@ -283,10 +256,9 @@ function ArticleForm({ article, data }: { article: Article; data: ListData }) {
       )}
       {panel === "delete" && (
         <Sheet
-          open
           autoFocus={false}
-          onOpenChange={(open) => {
-            if (!open) setPanel(null);
+          onClose={() => {
+            setPanel(null);
           }}
           title={t.deleteTitle(article.name)}
           description={t.deleteText(usage?.lists ?? 0, usage?.recipes ?? 0)}
@@ -310,30 +282,35 @@ function ArticleForm({ article, data }: { article: Article; data: ListData }) {
   );
 }
 
-/** Puces modifiables (types, autres noms) : ✕ pour retirer, champ pour ajouter. */
+/** Quantité par défaut dans son champ (vide : celle de l'unité). */
+function quantityText(quantity: number | undefined): string {
+  return quantity === undefined ? "" : formatNumber(quantity);
+}
+
+/**
+ * Puces modifiables (types, autres noms) : ✕ pour retirer, champ pour ajouter
+ * (`onAdd` reçoit le texte saisi, puis le champ se vide).
+ */
 function TagEditor({
   hint,
   values,
-  display,
+  display = (value) => value,
   removeLabel,
   onRemove,
-  input,
-  onInput,
   placeholder,
   addLabel,
   onAdd,
 }: {
   hint: string;
   values: string[];
-  display: (value: string) => string;
+  display?: (value: string) => string;
   removeLabel: (value: string) => string;
   onRemove: (value: string) => void;
-  input: string;
-  onInput: (value: string) => void;
   placeholder: string;
   addLabel: string;
-  onAdd: () => void;
+  onAdd: (text: string) => void;
 }) {
+  const [input, setInput] = useState("");
   return (
     <div className="flex flex-col gap-3 px-4 py-4">
       <p className="text-sm text-muted-foreground">{hint}</p>
@@ -363,7 +340,8 @@ function TagEditor({
         className="flex gap-2"
         onSubmit={(event) => {
           event.preventDefault();
-          onAdd();
+          onAdd(input);
+          setInput("");
         }}
       >
         <TextInput
@@ -371,7 +349,7 @@ function TagEditor({
           placeholder={placeholder}
           aria-label={placeholder}
           onChange={(event) => {
-            onInput(event.target.value);
+            setInput(event.target.value);
           }}
         />
         <Button
@@ -413,10 +391,9 @@ function MergeArticleSheet({
 
   return (
     <Sheet
-      open
       autoFocus={false}
-      onOpenChange={(open) => {
-        if (!open) onClose();
+      onClose={() => {
+        onClose();
       }}
       onBack={
         other

@@ -42,14 +42,14 @@ export { dayKey };
 /** Jour de la dernière copie connue, par base : évite de rouvrir la base à chaque retour dans l'app. */
 const copiedDay = new Map<string, string>();
 
-/** `keep` : copie qu'on restaure, gardée même si c'est la plus ancienne. */
+/** Enregistre une copie de `backup` ; `keep` : copie qu'on restaure, gardée même si c'est la plus ancienne. */
 async function addCopy(
   database: ShoppingDatabase,
+  backup: Backup,
   now: number,
   beforeReplace: boolean,
   keep?: ID,
 ): Promise<void> {
-  const backup = await exportBackup(database, now);
   const id = crypto.randomUUID();
   await database.copies.add({
     id,
@@ -67,21 +67,45 @@ async function addCopy(
   await database.copyBackups.bulkDelete(extra);
 }
 
-/** Fait la copie du jour si elle n'existe pas encore. Renvoie `true` si une copie a été faite. */
-export async function takeDailyCopy(
+/** Copie du jour en cours, par base : le retour dans l'app pendant le lancement n'en refait pas une. */
+const copying = new Map<string, Promise<boolean>>();
+
+/**
+ * Fait la copie du jour si elle n'existe pas encore. Renvoie `true` si une copie a été
+ * faite. L'export se fait en lecture seule : les écrans lisent leurs données pendant ce
+ * temps ; seules les tables des copies sont ensuite écrites.
+ */
+export function takeDailyCopy(
   database: ShoppingDatabase,
   now = Date.now(),
 ): Promise<boolean> {
   const day = dayKey(now);
-  if (copiedDay.get(database.name) === day) return false;
-  const made = await database.transaction("rw", database.tables, async () => {
-    const latest = await database.copies.orderBy("at").last();
-    if (latest?.day === day) return false;
-    await addCopy(database, now, false);
-    return true;
-  });
-  copiedDay.set(database.name, day);
-  return made;
+  const name = database.name;
+  if (copiedDay.get(name) === day) return Promise.resolve(false);
+  const running = copying.get(name);
+  if (running) return running;
+  const copiedToday = async () =>
+    (await database.copies.orderBy("at").last())?.day === day;
+  const copy = (async () => {
+    if (await copiedToday()) return false;
+    const backup = await exportBackup(database, now);
+    return database.transaction(
+      "rw",
+      [database.copies, database.copyBackups],
+      async () => {
+        if (await copiedToday()) return false;
+        await addCopy(database, backup, now, false);
+        return true;
+      },
+    );
+  })()
+    .then((made) => {
+      copiedDay.set(name, day);
+      return made;
+    })
+    .finally(() => copying.delete(name));
+  copying.set(name, copy);
+  return copy;
 }
 
 /** Les copies, de la plus récente à la plus ancienne (dates et résumés seulement). */
@@ -103,7 +127,7 @@ export async function replaceAllData(
   keep?: ID,
 ): Promise<void> {
   await database.transaction("rw", database.tables, async () => {
-    await addCopy(database, now, true, keep);
+    await addCopy(database, await exportBackup(database, now), now, true, keep);
     await importBackup(database, backup);
   });
 }

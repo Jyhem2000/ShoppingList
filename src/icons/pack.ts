@@ -2,7 +2,7 @@ import { useSyncExternalStore } from "react";
 
 /**
  * Pack d'icônes d'articles (docs/05 § 4) : les icônes dessinées pour l'app, une par
- * article du catalogue, réunies au build par `packData.ts`.
+ * article du catalogue, réunies au build par `packData.ts`, rangées par libellé.
  * Chargé à part (fichier séparé, mis en cache pour le hors-ligne par le service
  * worker) pour ne pas alourdir le premier affichage.
  */
@@ -11,7 +11,9 @@ export interface PackIcon {
   b: string;
   /** Libellé français. */
   l: string;
-  /** Mots-clés français. */
+  /** Clé de recherche du libellé. */
+  s: string;
+  /** Clés de recherche des mots-clés français. */
   k: string[];
   /** Catégorie du catalogue. */
   c: string;
@@ -50,14 +52,6 @@ export function loadIconPack(): Promise<IconPack> {
 function subscribe(listener: () => void): () => void {
   listeners.add(listener);
   return () => listeners.delete(listener);
-}
-
-/**
- * L'icône `name` du pack. Le nom peut venir d'un lien reçu : seules les icônes du
- * pack comptent, pas les propriétés héritées (`constructor`, `toString`…).
- */
-export function packIcon(pack: IconPack, name: string): PackIcon | undefined {
-  return Object.hasOwn(pack, name) ? pack[name] : undefined;
 }
 
 /** Le pack, ou `null` tant qu'il n'est pas chargé (le chargement démarre au premier appel). */

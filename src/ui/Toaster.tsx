@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { fr } from "@/i18n/fr";
+import { Button } from "@/ui/button";
 import { dismissToast, type ToastTone, useToast } from "@/ui/toast";
 import { cn } from "@/ui/utils";
 
@@ -80,14 +81,16 @@ export function Toaster() {
                 {toast.action.label}
               </button>
             )}
-            <button
-              type="button"
+            <Button
+              variant="iconMuted"
+              size="icon"
               aria-label={fr.toast.close}
               onClick={dismissToast}
-              className="flex size-11 shrink-0 items-center justify-center rounded-xl text-muted-foreground active:bg-surface"
+              // Sur le fond du message (--raised), l'appui se voit en --surface.
+              className="hover:bg-surface active:bg-surface"
             >
-              <X className="size-5" aria-hidden />
-            </button>
+              <X aria-hidden />
+            </Button>
           </motion.div>
         )}
       </AnimatePresence>

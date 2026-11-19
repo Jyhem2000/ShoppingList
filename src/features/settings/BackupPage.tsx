@@ -25,7 +25,7 @@ import { db } from "@/db/database";
 import { useSettings } from "@/db/hooks";
 import { updateSettings } from "@/db/settings";
 import { fr } from "@/i18n/fr";
-import { canCopyText, copyText, pasteText } from "@/platform/clipboard";
+import { canCopyText, copyText } from "@/platform/clipboard";
 import { shareOrDownload } from "@/platform/share";
 import { Button } from "@/ui/button";
 import { ConfirmActions, Field, TextArea } from "@/ui/form";
@@ -35,6 +35,8 @@ import { showToast } from "@/ui/toast";
 import { RowButton } from "@/ui/RowButton";
 import { useNow } from "@/ui/useNow";
 import { daysSince } from "./backupAge";
+import { formatDate } from "@/common/time";
+import { pasteOrAsk } from "@/common/paste";
 
 const t = fr.manage.backup;
 
@@ -66,8 +68,6 @@ export function BackupPage() {
   const now = useNow();
   const copies = useLiveQuery(() => listCopies(db));
   const [restoring, setRestoring] = useState<AutoCopy | null>(null);
-  const longDate = (at: number) =>
-    new Date(at).toLocaleDateString("fr-FR", { dateStyle: "long" });
   const days = daysSince(settings?.lastBackupAt, now);
 
   const exportData = async () => {
@@ -121,13 +121,16 @@ export function BackupPage() {
   };
 
   // Coller : directement si le téléphone le permet, sinon dans un champ.
-  const pasteData = async () => {
-    const text = await pasteText();
-    if (text?.trim()) readText(text, t.invalidText);
-    else {
-      setPasted("");
-      setPasting(true);
-    }
+  const pasteData = () => {
+    pasteOrAsk(
+      (text) => {
+        readText(text, t.invalidText);
+      },
+      () => {
+        setPasted("");
+        setPasting(true);
+      },
+    );
   };
 
   return (
@@ -169,7 +172,7 @@ export function BackupPage() {
             <Upload />
             {t.import}
           </Button>
-          <Button variant="outline" onClick={() => void pasteData()}>
+          <Button variant="outline" onClick={pasteData}>
             <ClipboardPaste />
             {t.paste}
           </Button>
@@ -218,12 +221,11 @@ export function BackupPage() {
       </Section>
       {restoring && (
         <Sheet
-          open
           autoFocus={false}
-          onOpenChange={(open) => {
-            if (!open) setRestoring(null);
+          onClose={() => {
+            setRestoring(null);
           }}
-          title={t.copies.restoreTitle(longDate(restoring.at))}
+          title={t.copies.restoreTitle(formatDate(restoring.at))}
           description={t.copies.restoreText}
         >
           <ConfirmActions
@@ -239,9 +241,8 @@ export function BackupPage() {
       )}
       {pasting && (
         <Sheet
-          open
-          onOpenChange={(open) => {
-            if (!open) setPasting(false);
+          onClose={() => {
+            setPasting(false);
           }}
           title={t.pasteTitle}
           description={t.pasteText}
@@ -270,14 +271,13 @@ export function BackupPage() {
       )}
       {pending && (
         <Sheet
-          open
           autoFocus={false}
-          onOpenChange={(open) => {
-            if (!open) setPending(null);
+          onClose={() => {
+            setPending(null);
           }}
           title={t.importTitle}
           description={t.importText(
-            longDate(pending.summary.exportedAt),
+            formatDate(pending.summary.exportedAt),
             pending.summary.articles,
             pending.summary.lists,
             pending.summary.stores,

@@ -11,6 +11,7 @@ import { Sheet } from "@/ui/Sheet";
 import { lineQuantity } from "./format";
 import type { PendingAdd } from "./useAddToList";
 import type { ListData } from "./useListData";
+import { mergeNotes } from "@/domain/listMerge";
 
 const t = fr.list.exists;
 
@@ -57,9 +58,8 @@ export function ExistsSheet({
 
   return (
     <Sheet
-      open
-      onOpenChange={(open) => {
-        if (!open) done();
+      onClose={() => {
+        done();
       }}
       title={article.name}
       description={
@@ -95,7 +95,7 @@ export function ExistsSheet({
               variant="outline"
               onClick={() =>
                 void apply({
-                  note: [item.note, `+ ${added}`].filter(Boolean).join(" · "),
+                  note: mergeNotes(item.note, `+ ${added}`),
                 })
               }
             >

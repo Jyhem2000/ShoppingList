@@ -1,11 +1,10 @@
 import { type ReactNode, useId, useMemo, useRef } from "react";
 import { useNavigate } from "react-router";
 import { catalogCategoryPath } from "@/app/routes";
-import type { Article } from "@/domain/model";
+import type { Article, ID } from "@/domain/model";
 import { searchKey } from "@/domain/slug";
-import { searchArticles } from "@/domain/search";
-import { quantitiesInList } from "@/features/list/format";
-import type { ListData } from "@/features/list/useListData";
+import { quantitiesInList } from "@/common/format";
+import type { ListData } from "@/common/useListData";
 import { fr } from "@/i18n/fr";
 import { GroupIcon } from "@/ui/GroupIcon";
 import { SearchField } from "@/ui/SearchField";
@@ -53,12 +52,18 @@ function highlight(label: string, query: string): ReactNode {
  */
 export function CatalogSearch({
   data,
+  counts,
+  results,
   query,
   onQueryChange,
   showAll,
   onShowAll,
 }: {
   data: ListData;
+  /** Nombre d'articles par catégorie. */
+  counts: ReadonlyMap<ID, number> | undefined;
+  /** Articles qui correspondent à la saisie, du plus pertinent au moins pertinent. */
+  results: Article[];
   query: string;
   onQueryChange: (query: string) => void;
   showAll: boolean;
@@ -71,10 +76,7 @@ export function CatalogSearch({
   // Catégories dont un mot commence par la saisie (« anim » → Animaux) : tous leurs articles.
   const categories = useMemo(() => {
     const key = searchKey(query);
-    if (!key) return [];
-    const counts = new Map<string, number>();
-    for (const a of data.articles)
-      counts.set(a.categoryId, (counts.get(a.categoryId) ?? 0) + 1);
+    if (!key || !counts) return [];
     return data.categories
       .filter(
         (c) =>
@@ -85,16 +87,7 @@ export function CatalogSearch({
       )
       .slice(0, 3)
       .map((c) => ({ category: c, count: counts.get(c.id) ?? 0 }));
-  }, [query, data]);
-  const results = useMemo(
-    () =>
-      query.trim()
-        ? searchArticles(query, data.articles, data.purchaseCounts).map(
-            (r) => r.article,
-          )
-        : [],
-    [query, data],
-  );
+  }, [query, counts, data.categories]);
   const inList = quantitiesInList(data.items, data.unitById);
   const suggestions = results.slice(0, MAX_SUGGESTIONS);
   const open = query.trim() !== "" && !showAll;

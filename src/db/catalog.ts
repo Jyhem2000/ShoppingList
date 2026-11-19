@@ -1,5 +1,5 @@
 import type { Article, ID } from "@/domain/model";
-import { slugify } from "@/domain/slug";
+import { mergeTypes, slugify } from "@/domain/slug";
 import type { ShoppingDatabase } from "./database";
 
 /**
@@ -55,11 +55,11 @@ export async function addArticleType(
 ): Promise<void> {
   await database.transaction("rw", database.articles, async () => {
     const article = await database.articles.get(articleId);
-    const clean = type.trim();
-    if (!article || !clean) return;
-    if (article.types.some((t) => slugify(t) === slugify(clean))) return;
+    if (!article) return;
+    const types = mergeTypes(article.types, [type]);
+    if (types.length === article.types.length) return;
     await database.articles.update(articleId, {
-      types: [...article.types, clean],
+      types,
       updatedAt: Date.now(),
     });
   });

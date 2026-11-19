@@ -21,10 +21,10 @@ import {
   findShared,
   findUnit,
   importAmount,
-  importSummary,
   newArticleCategory,
   receivedRecipe,
   resolveImport,
+  splitImportLines,
   textImportLines,
   type ImportCatalog,
   type ImportChoice,
@@ -34,9 +34,8 @@ import {
   type ShareType,
 } from "@/domain/share";
 import { feedback } from "@/feedback";
-import { ingredientDetails, lineDetails } from "@/features/list/format";
-import { reportSaveError } from "@/features/list/useAddToList";
-import { RecipeHeader } from "@/features/recipes/RecipeHeader";
+import { ingredientDetails, lineDetails } from "@/common/format";
+import { RecipeHeader } from "@/common/RecipeHeader";
 import { fr } from "@/i18n/fr";
 import { copyText } from "@/platform/clipboard";
 import {
@@ -49,8 +48,9 @@ import { Field, Select } from "@/ui/form";
 import { MarkdownText } from "@/ui/Markdown";
 import { EmptyState, Loading, PageHeader, Section } from "@/ui/Page";
 import { PreviewRow } from "@/ui/PreviewRow";
-import { showToast } from "@/ui/toast";
+import { showToast, reportSaveError } from "@/ui/toast";
 import { ImportChoiceSheet } from "./ImportChoiceSheet";
+import { byId, withMember } from "@/domain/collections";
 
 const t = fr.share;
 
@@ -80,6 +80,16 @@ type Preview =
   | { kind: "wrongType"; found: ShareType };
 
 const NEW_LIST = "new";
+
+/** Titre et texte de l'écran quand il n'y a rien à importer. */
+const errors = {
+  broken: [t.brokenTitle, t.broken],
+  failed: [t.brokenTitle, t.catalogError],
+  empty: [t.titlePasted, t.empty],
+  notRecipe: [t.notRecipeTitle, t.notRecipe],
+  isRecipe: [t.isRecipeTitle, t.isRecipe],
+  isList: [t.isListTitle, t.isList],
+} as const;
 
 /**
  * Aperçu d'une liste ou d'une recette reçue, ou d'une liste collée (docs/02 § 9,
@@ -161,21 +171,14 @@ export function ImportPage() {
     if (shared) {
       if (source.kind === "text" && shared.type !== source.expected)
         return { kind: "wrongType", found: shared.type };
-      const lines = resolveImport(shared, context);
-      return shared.type === "recipe"
-        ? {
-            kind: "lines",
-            name: shared.n || t.titleRecipe,
-            received: true,
-            lines,
-            recipe: shared,
-          }
-        : {
-            kind: "lines",
-            name: shared.n || t.titleShared,
-            received: true,
-            lines,
-          };
+      const recipe = shared.type === "recipe" ? shared : undefined;
+      return {
+        kind: "lines",
+        name: shared.n || (recipe ? t.titleRecipe : t.titleShared),
+        received: true,
+        lines: resolveImport(shared, context),
+        recipe,
+      };
     }
     if (source.kind === "link") return { kind: "broken" };
     if (source.expected === "recipe") return { kind: "notRecipe" };
@@ -195,15 +198,8 @@ export function ImportPage() {
   const [open, setOpen] = useState<number>();
   const [saving, setSaving] = useState(false);
 
-  const articleById = useMemo(
-    () => new Map((articles ?? []).map((article) => [article.id, article])),
-    [articles],
-  );
-  const categoryById = useMemo(
-    () =>
-      new Map((categories ?? []).map((category) => [category.id, category])),
-    [categories],
-  );
+  const articleById = useMemo(() => byId(articles ?? []), [articles]);
+  const categoryById = useMemo(() => byId(categories ?? []), [categories]);
 
   if (inBrowser && !here)
     return (
@@ -252,17 +248,13 @@ export function ImportPage() {
 
   if (preview.kind !== "lines") {
     const [title, text] =
-      preview.kind === "broken"
-        ? [t.brokenTitle, t.broken]
-        : preview.kind === "failed"
-          ? [t.brokenTitle, t.catalogError]
-          : preview.kind === "empty"
-            ? [t.titlePasted, t.empty]
-            : preview.kind === "notRecipe"
-              ? [t.notRecipeTitle, t.notRecipe]
-              : preview.found === "recipe"
-                ? [t.isRecipeTitle, t.isRecipe]
-                : [t.isListTitle, t.isList];
+      errors[
+        preview.kind === "wrongType"
+          ? preview.found === "recipe"
+            ? "isRecipe"
+            : "isList"
+          : preview.kind
+      ];
     return (
       <EmptyState
         icon={<Link2Off />}
@@ -298,13 +290,6 @@ export function ImportPage() {
    * dit en plus s'il est facultatif ou à quantité fixe.
    */
   const display = (line: ImportLine, choice: ImportChoice) => {
-    const shown = outcome(line, choice);
-    return {
-      ...shown,
-      detail: ingredientDetails(shown.detail, line.ingredient),
-    };
-  };
-  const outcome = (line: ImportLine, choice: ImportChoice) => {
     const { received, match } = line;
     const chosen =
       choice.kind === "use" ? articleById.get(choice.articleId) : undefined;
@@ -318,12 +303,14 @@ export function ImportPage() {
       return {
         article: chosen,
         category: categoryById.get(chosen.categoryId),
-        detail:
+        detail: ingredientDetails(
           same && match.kind === "known"
             ? lineDetails(line)
             : same
               ? t.toConfirm(received.label)
               : t.received(received.label),
+          line.ingredient,
+        ),
         quantity: amount
           ? formatQuantity(amount.quantity, amount.unit)
           : fallback,
@@ -348,7 +335,7 @@ export function ImportPage() {
     return {
       article: { name, icon: received.icon },
       category,
-      detail: t.willCreate(category.name),
+      detail: ingredientDetails(t.willCreate(category.name), line.ingredient),
       quantity: amount
         ? formatQuantity(amount.quantity, amount.unit)
         : fallback,
@@ -362,12 +349,7 @@ export function ImportPage() {
         key={index}
         checked={!excluded.has(index)}
         onCheckedChange={(checked) => {
-          setExcluded((current) => {
-            const next = new Set(current);
-            if (checked) next.delete(index);
-            else next.add(index);
-            return next;
-          });
+          setExcluded((current) => withMember(current, index, !checked));
         }}
         checkLabel={shown.article.name}
         onOpen={() => {
@@ -381,14 +363,8 @@ export function ImportPage() {
     );
   };
 
-  const toCheck = lines
-    .map((line, index) => ({ line, index }))
-    .filter(({ line }) => line.match.kind !== "known");
-  const known = lines
-    .map((line, index) => ({ line, index }))
-    .filter(({ line }) => line.match.kind === "known");
+  const { known, toCheck, probable, unknown } = splitImportLines(lines);
   const allChecked = toCheck.every(({ index }) => !excluded.has(index));
-  const summary = importSummary(lines);
   const count = lines.length - excluded.size;
   const targetList = recipe
     ? undefined
@@ -418,7 +394,7 @@ export function ImportPage() {
       <div className="flex flex-col gap-1 px-5">
         {lines.length > 0 && (
           <p className="font-semibold">
-            {t.summary(summary.known, summary.probable, summary.unknown)}
+            {t.summary(known.length, probable, unknown)}
           </p>
         )}
         {toCheck.length > 0 && (
@@ -499,45 +475,41 @@ export function ImportPage() {
                 ? { kind: "skip" as const }
                 : choiceOf(index, line),
             );
-            if (recipe) {
-              void applyRecipeImport(
-                db,
-                { ...receivedRecipe(recipe), name: preview.name },
-                lines,
-                chosen,
-              )
-                .then((result) => {
-                  feedback.add();
-                  showToast(t.recipeDone(result.name), { tone: "success" });
-                  void navigate(recipePath(result.recipeId), {
-                    replace: true,
-                  });
-                })
-                .catch(() => {
-                  setSaving(false);
-                  reportSaveError();
-                });
-              return;
-            }
-            void applyImport(
-              db,
-              lines,
-              chosen,
-              targetList
-                ? { kind: "list", listId: targetList.id }
-                : { kind: "new", name: preview.name },
-            )
-              .then((result) => {
+            const saved = recipe
+              ? applyRecipeImport(
+                  db,
+                  { ...receivedRecipe(recipe), name: preview.name },
+                  lines,
+                  chosen,
+                ).then(
+                  (result) =>
+                    [
+                      t.recipeDone(result.name),
+                      recipePath(result.recipeId),
+                    ] as const,
+                )
+              : applyImport(
+                  db,
+                  lines,
+                  chosen,
+                  targetList
+                    ? { kind: "list", listId: targetList.id }
+                    : { kind: "new", name: preview.name },
+                ).then(
+                  (result) =>
+                    [t.done(result.count, listName), routes.list] as const,
+                );
+            saved.then(
+              ([message, path]) => {
                 feedback.add();
-                showToast(t.done(result.count, listName), {
-                  tone: "success",
-                });
-                void navigate(routes.list, { replace: true });
-              })
-              .catch(() => {
+                showToast(message, { tone: "success" });
+                void navigate(path, { replace: true });
+              },
+              () => {
                 setSaving(false);
                 reportSaveError();
-              });
+              },
+            );
           }}
         >
           {recipe ? t.applyRecipe(count) : t.apply(count)}
@@ -551,15 +523,13 @@ export function ImportPage() {
           choice={choiceOf(open, opened)}
           quantity={display(opened, choiceOf(open, opened)).quantity}
           articles={articles}
+          articleById={articleById}
           categories={categories}
+          categoryById={categoryById}
           purchaseCounts={purchaseCounts ?? new Map<ID, number>()}
           onChoose={(choice) => {
             setChoices((current) => new Map(current).set(open, choice));
-            setExcluded((current) => {
-              const next = new Set(current);
-              next.delete(open);
-              return next;
-            });
+            setExcluded((current) => withMember(current, open, false));
             setOpen(undefined);
           }}
           onClose={() => {

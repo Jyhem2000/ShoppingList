@@ -4,7 +4,7 @@ import { categoriesData, keywordRules, unitsData } from "@/data";
 import { catalogData } from "@/data/catalog";
 import { ShoppingDatabase } from "@/db/database";
 import { addListItem } from "@/db/items";
-import { activeItems } from "@/db/lists";
+import { activeItems } from "@/db/items";
 import { seedDatabase } from "@/db/seed";
 import { createRecipe } from "@/db/recipes";
 import { applyImport, applyRecipeImport } from "@/db/share";

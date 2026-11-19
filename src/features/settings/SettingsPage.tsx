@@ -1,4 +1,3 @@
-import { useLiveQuery } from "dexie-react-hooks";
 import {
   Apple,
   DatabaseBackup,
@@ -11,8 +10,7 @@ import {
 } from "lucide-react";
 import type { ReactNode } from "react";
 import { routes } from "@/app/routes";
-import { db } from "@/db/database";
-import { useSettings } from "@/db/hooks";
+import { useDataCounts, useSettings } from "@/db/hooks";
 import { fr } from "@/i18n/fr";
 import { NavButton } from "@/ui/NavButton";
 import { LinkRow, PageHeader, Section, SectionTitle } from "@/ui/Page";
@@ -28,15 +26,7 @@ const t = fr.settings;
  */
 export function SettingsPage() {
   const settings = useSettings();
-  const counts = useLiveQuery(async () => {
-    const [articles, categories, stores, units] = await Promise.all([
-      db.articles.count(),
-      db.categories.count(),
-      db.stores.count(),
-      db.units.count(),
-    ]);
-    return { articles, categories, stores, units };
-  });
+  const counts = useDataCounts();
   const now = useNow();
 
   return (

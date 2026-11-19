@@ -1,5 +1,5 @@
 import { GroupIcon } from "@/ui/GroupIcon";
-import { palette, type PaletteColor } from "@/ui/palette";
+import { palette, paletteColor } from "@/ui/palette";
 
 /**
  * Carte d'une catégorie dans le catalogue (docs/05 § 5.4) : icône Lucide dans la
@@ -9,14 +9,15 @@ import { palette, type PaletteColor } from "@/ui/palette";
 export function CategoryCard({
   label,
   icon,
-  color,
+  color: rawColor,
   onClick,
 }: {
   label: string;
   icon?: string;
-  color: PaletteColor;
+  color?: string;
   onClick?: () => void;
 }) {
+  const color = paletteColor(rawColor);
   return (
     <button
       type="button"

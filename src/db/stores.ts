@@ -1,8 +1,11 @@
-import { effectiveAisle } from "@/domain/aisles";
-import type { Aisle, Category, ID, Store } from "@/domain/model";
+import { aisleResolver } from "@/domain/aisles";
+import type { Aisle, Article, Category, ID, Store } from "@/domain/model";
 import {
   type CategoryRole,
+  DEFAULT_AISLE_STYLE,
   mergeAisles,
+  newAisle,
+  primaryAisleOf,
   removeAisle,
   setCategoryRole,
   sortAisles,
@@ -12,6 +15,41 @@ import { fr } from "@/i18n/fr";
 import type { ShoppingDatabase } from "./database";
 
 // ——— Édition des magasins et des rayons (docs/03 G3) ———
+
+/** Rayons d'un magasin, dans l'ordre de la base. */
+export function storeAisles(
+  database: ShoppingDatabase,
+  storeId: ID,
+): Promise<Aisle[]> {
+  return database.aisles.where("storeId").equals(storeId).toArray();
+}
+
+/**
+ * Exception par article dans un magasin (docs/02 § 4) : l'ancienne est supprimée ; avec
+ * `target`, une nouvelle vise ce rayon, sauf s'il est déjà le rayon principal de sa
+ * catégorie (`target.aisles` : rayons du magasin).
+ */
+export async function setArticleOverride(
+  database: ShoppingDatabase,
+  storeId: ID,
+  article: Pick<Article, "id" | "categoryId">,
+  target?: { aisleId: ID; aisles: readonly Aisle[] },
+): Promise<void> {
+  await database.overrides
+    .where("[storeId+articleId]")
+    .equals([storeId, article.id])
+    .delete();
+  if (
+    target &&
+    primaryAisleOf(target.aisles, article.categoryId)?.id !== target.aisleId
+  )
+    await database.overrides.add({
+      id: crypto.randomUUID(),
+      storeId,
+      articleId: article.id,
+      aisleId: target.aisleId,
+    });
+}
 
 /**
  * Magasin vide (docs/02 § 4) : un seul rayon « Non classé » (« À placer » en mode
@@ -40,8 +78,7 @@ export function buildEmptyStore(
         updatedAt: now,
         storeId: store.id,
         name: fr.defaults.unsortedAisle,
-        icon: "shopping-basket",
-        color: "gris",
+        ...DEFAULT_AISLE_STYLE,
         position: 1,
         categories: categories
           .filter((c) => c.isSystem)
@@ -62,10 +99,7 @@ export async function ensureUnsortedAisle(
   storeId: ID,
   now = Date.now(),
 ): Promise<void> {
-  const aisles = await database.aisles
-    .where("storeId")
-    .equals(storeId)
-    .toArray();
+  const aisles = await storeAisles(database, storeId);
   if (aisles.some((aisle) => aisle.isUnsorted)) return;
   const taken = new Set(
     aisles.flatMap((aisle) =>
@@ -121,10 +155,7 @@ export async function copyStore(
         updatedAt: now,
         lastUsedAt: undefined,
       };
-      const aisles = await database.aisles
-        .where("storeId")
-        .equals(sourceId)
-        .toArray();
+      const aisles = await storeAisles(database, sourceId);
       const newIds = new Map(aisles.map((a) => [a.id, crypto.randomUUID()]));
       await database.stores.add(store);
       await database.aisles.bulkAdd(
@@ -137,7 +168,8 @@ export async function copyStore(
         })),
       );
       const overrides = await database.overrides
-        .filter((o) => o.storeId === sourceId)
+        .where("storeId")
+        .equals(sourceId)
         .toArray();
       await database.overrides.bulkAdd(
         overrides.flatMap((o) => {
@@ -188,7 +220,7 @@ export async function deleteStore(
         .count();
       if (open) return "shopping";
       await database.aisles.where("storeId").equals(id).delete();
-      await database.overrides.filter((o) => o.storeId === id).delete();
+      await database.overrides.where("storeId").equals(id).delete();
       await database.lists
         .filter((l) => l.lastStoreId === id)
         .modify((l) => {
@@ -204,29 +236,18 @@ export async function deleteStore(
 export async function addAisle(
   database: ShoppingDatabase,
   storeId: ID,
-  input: Pick<Aisle, "icon" | "color">,
   now = Date.now(),
 ): Promise<Aisle> {
   return database.transaction("rw", database.aisles, async () => {
-    const sorted = sortAisles(
-      await database.aisles.where("storeId").equals(storeId).toArray(),
-    ).filter((a) => !a.isUnsorted);
-    const id = crypto.randomUUID();
-    const positions = spreadPositions([...sorted.map((a) => a.id), id]);
+    const sorted = sortAisles(await storeAisles(database, storeId)).filter(
+      (a) => !a.isUnsorted,
+    );
+    const aisle = newAisle(crypto.randomUUID(), storeId, now);
+    const positions = spreadPositions([...sorted.map((a) => a.id), aisle.id]);
     for (const a of sorted)
       if (positions[a.id] !== a.position)
         await database.aisles.update(a.id, { position: positions[a.id] });
-    const aisle: Aisle = {
-      id,
-      createdAt: now,
-      updatedAt: now,
-      storeId,
-      name: "",
-      ...input,
-      position: positions[id] ?? 1,
-      categories: [],
-      isUnsorted: false,
-    };
+    aisle.position = positions[aisle.id] ?? 1;
     await database.aisles.add(aisle);
     return aisle;
   });
@@ -262,10 +283,7 @@ export async function setAisleCategoryRole(
   now = Date.now(),
 ): Promise<void> {
   await database.transaction("rw", database.aisles, async () => {
-    const aisles = await database.aisles
-      .where("storeId")
-      .equals(storeId)
-      .toArray();
+    const aisles = await storeAisles(database, storeId);
     for (const aisle of setCategoryRole(aisles, aisleId, categoryId, role))
       await database.aisles.update(aisle.id, {
         categories: aisle.categories,
@@ -317,37 +335,43 @@ export async function deleteAisle(
       const aisle = await database.aisles.get(aisleId);
       if (!aisle || aisle.isUnsorted) return;
       const sessionIds = await forgetOpenedAisle(database, aisle);
-      const aisles = await database.aisles
+      const aisles = await storeAisles(database, aisle.storeId);
+      await database.aisles.bulkUpdate(
+        removeAisle(aisles, aisleId, promoteSecondary).map((changed) => ({
+          key: changed.id,
+          changes: { categories: changed.categories, updatedAt: now },
+        })),
+      );
+      await database.overrides
         .where("storeId")
         .equals(aisle.storeId)
-        .toArray();
-      for (const changed of removeAisle(aisles, aisleId, promoteSecondary))
-        await database.aisles.update(changed.id, {
-          categories: changed.categories,
-          updatedAt: now,
-        });
-      await database.overrides.filter((o) => o.aisleId === aisleId).delete();
+        .filter((o) => o.aisleId === aisleId)
+        .delete();
       await database.aisles.delete(aisleId);
-      const rest = await database.aisles
+      const rest = await storeAisles(database, aisle.storeId);
+      const overrides = await database.overrides
         .where("storeId")
         .equals(aisle.storeId)
         .toArray();
-      const overrides = await database.overrides
-        .filter((o) => o.storeId === aisle.storeId)
-        .toArray();
-      for (const purchase of await database.purchases
+      const aisleOf = aisleResolver(aisle.storeId, rest, overrides);
+      const purchases = await database.purchases
         .where("sessionId")
         .anyOf(sessionIds)
         .filter((p) => p.aisleId === aisleId)
-        .toArray()) {
-        const article = await database.articles.get(purchase.articleId);
-        const target =
-          (article &&
-            effectiveAisle(article, aisle.storeId, rest, overrides)) ??
-          rest.find((a) => a.isUnsorted);
-        if (target)
-          await database.purchases.update(purchase.id, { aisleId: target.id });
-      }
+        .toArray();
+      const articles = await database.articles.bulkGet(
+        purchases.map((p) => p.articleId),
+      );
+      const unsorted = rest.find((a) => a.isUnsorted);
+      await database.purchases.bulkUpdate(
+        purchases.flatMap((purchase, index) => {
+          const article = articles[index];
+          const target = (article && aisleOf(article)) ?? unsorted;
+          return target
+            ? [{ key: purchase.id, changes: { aisleId: target.id } }]
+            : [];
+        }),
+      );
     },
   );
 }
@@ -381,7 +405,8 @@ export async function mergeAisleInto(
       )
         return;
       const overrides = await database.overrides
-        .filter((o) => o.storeId === source.storeId)
+        .where("storeId")
+        .equals(source.storeId)
         .toArray();
       const merged = mergeAisles(target, source, overrides);
       await database.aisles.update(target.id, {

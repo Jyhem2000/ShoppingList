@@ -12,9 +12,10 @@ import {
   type UnitDesc,
 } from "@/domain/share";
 import { uniqueRecipeName } from "@/domain/recipes";
-import { slugify } from "@/domain/slug";
+import { mergeTypes, slugify } from "@/domain/slug";
 import type { ShoppingDatabase } from "./database";
-import { activeItems, applyListMerge, createList } from "./lists";
+import { activeItems } from "./items";
+import { applyListMerge, createList } from "./lists";
 import { createRecipe, type RecipeInput } from "./recipes";
 import { updateSettings } from "./settings";
 
@@ -188,11 +189,7 @@ async function importArticles(
       (await free(label, article.id))
         ? [...article.aliases, label]
         : article.aliases;
-    const known = new Set(article.types.map(slugify));
-    const types = [
-      ...article.types,
-      ...line.acceptedTypes.filter((type) => !known.has(slugify(type))),
-    ];
+    const types = mergeTypes(article.types, line.acceptedTypes);
     if (
       aliases.length === article.aliases.length &&
       types.length === article.types.length
@@ -226,7 +223,6 @@ async function importArticles(
         .where("catalogKey")
         .equals(received.catalogKey)
         .first()) !== undefined;
-    const known = new Set(received.types.map(slugify));
     const aliases: string[] = [];
     for (const alias of new Set([...received.aliases, slugify(received.label)]))
       if (alias && alias !== slug && (await free(alias))) aliases.push(alias);
@@ -239,10 +235,7 @@ async function importArticles(
       defaultQuantity: received.defaultQuantity,
       countable: received.countable,
       generic: received.generic,
-      types: [
-        ...received.types,
-        ...line.acceptedTypes.filter((type) => !known.has(slugify(type))),
-      ],
+      types: mergeTypes(received.types, line.acceptedTypes),
       aliases,
       icon: received.icon,
       favorite: false,

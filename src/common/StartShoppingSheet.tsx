@@ -6,9 +6,9 @@ import { db } from "@/db/database";
 import { startSession } from "@/db/sessions";
 import { createEmptyStore } from "@/db/stores";
 import type { ID } from "@/domain/model";
-import type { ListData } from "@/features/list/useListData";
-import { reportSaveError } from "@/features/list/useAddToList";
+import type { ListData } from "./useListData";
 import { fr } from "@/i18n/fr";
+import { reportSaveError } from "@/ui/toast";
 import { Button } from "@/ui/button";
 import { Field, TextInput, ChoiceMark } from "@/ui/form";
 import { Sheet } from "@/ui/Sheet";
@@ -68,10 +68,9 @@ export function StartShoppingSheet({
 
   return (
     <Sheet
-      open
       autoFocus={false}
-      onOpenChange={(open) => {
-        if (!open) onClose();
+      onClose={() => {
+        onClose();
       }}
       title={t.startTitle}
       description={t.startText}

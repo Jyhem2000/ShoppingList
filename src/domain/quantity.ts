@@ -1,3 +1,4 @@
+import { countBy } from "./collections";
 import type { Unit, UnitGroup } from "./model";
 
 /**
@@ -210,6 +211,55 @@ export function formatQuantity(
 }
 
 /** Groupes du sélecteur d'unité, dans l'ordre d'affichage (docs/06 § 1). */
+/** Nombre saisi au clavier, virgule ou point (« 1,5 ») ; `NaN` s'il n'en est pas un. */
+export function parseNumber(text: string): number {
+  return Number(text.trim().replace(",", "."));
+}
+
+/** Unité « pièce » : le repli quand rien n'est deviné, et pour compter des objets. */
+export const PIECE_UNIT = "piece";
+
+/** L'unité de l'utilisateur pour une clé du catalogue (même renommée), sinon par slug. */
+export function unitByKey<U extends Pick<Unit, "catalogKey" | "slug">>(
+  units: readonly U[],
+  key: string | undefined,
+): U | undefined {
+  if (!key) return undefined;
+  return (
+    units.find((u) => u.catalogKey === key) ?? units.find((u) => u.slug === key)
+  );
+}
+
+/** L'unité « pièce » de l'utilisateur (celle du catalogue, même renommée). */
+export function pieceUnit<U extends Pick<Unit, "catalogKey" | "slug">>(
+  units: readonly U[],
+): U | undefined {
+  return unitByKey(units, PIECE_UNIT);
+}
+
+/**
+ * Unités habituelles d'un article (fiche d'une ligne), au plus `max` : `fixed` dans
+ * l'ordre (son unité par défaut, celle de sa catégorie, « pièce »), puis les unités de
+ * `used` (celles de ses autres lignes), les plus fréquentes d'abord. Sans doublon ;
+ * une unité disparue est ignorée.
+ */
+export function usualUnits<U extends { id: string }>(
+  fixed: readonly (string | undefined)[],
+  used: readonly string[],
+  unitById: ReadonlyMap<string, U>,
+  max = 4,
+): U[] {
+  const byUse = [...countBy(used, (id) => id).entries()]
+    .sort((a, b) => b[1] - a[1])
+    .map(([id]) => id);
+  return [...new Set([...fixed, ...byUse])]
+    .flatMap((id) => {
+      const unit = id === undefined ? undefined : unitById.get(id);
+      return unit ? [unit] : [];
+    })
+    .slice(0, max);
+}
+
 export const UNIT_GROUPS: readonly UnitGroup[] = [
   "mass",
   "volume",

@@ -1,5 +1,6 @@
 import { useSyncExternalStore } from "react";
 import { feedback } from "@/feedback";
+import { fr } from "@/i18n/fr";
 
 /**
  * Message bref en bas de l'écran, avec une action facultative (« Annuler »).
@@ -63,4 +64,9 @@ export function useToast(): Toast | null {
     },
     () => current,
   );
+}
+
+/** Échec d'enregistrement (rare : stockage plein ou refusé) : on le dit. */
+export function reportSaveError(): void {
+  showToast(fr.list.saveError, { tone: "error" });
 }

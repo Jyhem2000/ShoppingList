@@ -1,5 +1,5 @@
 import { categoriesData, familiesData } from "@/data";
-import { formatQuantity } from "@/domain/quantity";
+import { formatQuantity, PIECE_UNIT } from "@/domain/quantity";
 import type {
   Aisle,
   Article,
@@ -14,27 +14,39 @@ import { fr } from "@/i18n/fr";
 
 const t = fr.list;
 
+/** Détails d'une ligne joints par « · », sans les vides ; `undefined` s'il n'y en a aucun. */
+export function joinDetails(
+  ...parts: (string | false | undefined)[]
+): string | undefined {
+  const kept = parts.filter(Boolean);
+  return kept.length ? kept.join(" · ") : undefined;
+}
+
 /**
  * Détail d'un ingrédient (docs/02 § 7) : `detail` (ses sortes, ou ce que l'import en
- * fera), puis « facultatif » et « quantité fixe ».
+ * fera), « facultatif », « quantité fixe », puis `after` (ce que l'ajout à une liste
+ * en fera). Sans ingrédient (ligne de liste importée), `detail` seul.
  */
 export function ingredientDetails(
   detail: string | undefined,
-  ingredient: Pick<Recipe["ingredients"][number], "optional" | "fixed"> = {
-    optional: false,
-    fixed: false,
-  },
+  ingredient?: { optional?: boolean; fixed?: boolean },
+  after?: string,
 ): string | undefined {
-  const parts = [
+  return joinDetails(
     detail,
-    ingredient.optional ? fr.recipes.optional : undefined,
-    ingredient.fixed ? fr.recipes.fixed : undefined,
-  ].filter(Boolean);
-  return parts.length ? parts.join(" · ") : undefined;
+    ingredient?.optional && fr.recipes.optional,
+    ingredient?.fixed && fr.recipes.fixed,
+    after,
+  );
 }
 
 /** Ordre des catégories du catalogue de départ (docs/06 § 2). */
 export const catalogOrder = categoriesData.map((c) => c.key);
+
+/** Unité suggérée d'une catégorie du catalogue (docs/06 § 2), « pièce » à défaut. */
+export function suggestedUnitKey(catalogKey: string | undefined): string {
+  return categoriesData.find((c) => c.key === catalogKey)?.unit ?? PIECE_UNIT;
+}
 
 /** « Gala uniquement », « Gala ou Golden », puis la note (docs/02 § 6). */
 export function lineDetails(
@@ -46,8 +58,7 @@ export function lineDetails(
       : item.acceptedTypes.length > 1
         ? t.typesMany(item.acceptedTypes)
         : undefined;
-  const parts = [types, item.note?.trim()].filter(Boolean);
-  return parts.length ? parts.join(" · ") : undefined;
+  return joinDetails(types, item.note?.trim());
 }
 
 /**

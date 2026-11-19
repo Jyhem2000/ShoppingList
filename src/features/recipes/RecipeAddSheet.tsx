@@ -6,9 +6,8 @@ import type { ID, Recipe } from "@/domain/model";
 import { planRecipeAdd, yieldLabel } from "@/domain/recipes";
 import { stepCount } from "@/domain/quantity";
 import { feedback } from "@/feedback";
-import { lineDetails, lineQuantity } from "@/features/list/format";
-import { reportSaveError } from "@/features/list/useAddToList";
-import type { ListData } from "@/features/list/useListData";
+import { ingredientDetails, lineDetails, lineQuantity } from "@/common/format";
+import type { ListData } from "@/common/useListData";
 import { fr } from "@/i18n/fr";
 import { ArticleIcon } from "@/ui/ArticleIcon";
 import { Button } from "@/ui/button";
@@ -18,7 +17,7 @@ import { PreviewRow } from "@/ui/PreviewRow";
 import { RowButton } from "@/ui/RowButton";
 import { Sheet } from "@/ui/Sheet";
 import { Stepper, StepperValue } from "@/ui/Stepper";
-import { showToast } from "@/ui/toast";
+import { showToast, reportSaveError } from "@/ui/toast";
 import { cn } from "@/ui/utils";
 
 const t = fr.recipes;
@@ -74,10 +73,9 @@ export function RecipeAddSheet({
 
   return (
     <Sheet
-      open
       autoFocus={false}
-      onOpenChange={(open) => {
-        if (!open) onClose();
+      onClose={() => {
+        onClose();
       }}
       title={a.title(recipe.name)}
       description={data.lists.length > 1 ? undefined : a.into(list.name)}
@@ -170,13 +168,11 @@ export function RecipeAddSheet({
                       />
                     }
                     title={article.name}
-                    detail={[
-                      lineDetails({ acceptedTypes: line.acceptedTypes }),
-                      line.optional ? t.optional : undefined,
+                    detail={ingredientDetails(
+                      lineDetails(line),
+                      { optional: line.optional },
                       merge,
-                    ]
-                      .filter(Boolean)
-                      .join(" · ")}
+                    )}
                     quantity={lineQuantity(line, data.unitById)}
                   />
                 );
