@@ -8,7 +8,7 @@ Ce sont deux outils **complémentaires**, pas concurrents.
 | -------------------- | ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
 | Ce qu'il teste       | Des **fonctions** isolées (et éventuellement un composant seul)                       | **L'application entière**, comme un utilisateur                                                       |
 | Comment              | Exécute le code directement dans Node.js, sans navigateur                             | Pilote un **vrai navigateur** : ouvre l'app, tape, clique, glisse, vérifie l'écran                    |
-| Exemple              | `parseEntry("1,5 kg pommes")` renvoie `{quantité: 1.5, unité: "kg", texte: "pommes"}` | « Je tape _3 tom_, j'appuie sur Entrée, je vois _Tomates × 3_ sous _Fruits & Légumes_ »               |
+| Exemple              | `parseEntry("1,5 kg pommes")` renvoie `{quantité: 1.5, unité: "kg", texte: "pommes"}` | « Je tape _3 tom_, j'appuie sur Entrée, je vois _Tomates × 3_ sous _Fruits & Légumes_ »               |
 | Vitesse              | Des centaines de tests en ~1 seconde                                                  | Quelques secondes par scénario                                                                        |
 | Ce qu'il attrape     | Erreurs de logique (calculs, tri, conversions, arrondis)                              | Ce qui casse quand tout est assemblé : interface, stockage IndexedDB, navigation, mise en page mobile |
 | Ce qu'il ne voit pas | L'interface réelle, l'intégration entre les morceaux                                  | Les cas limites fins de la logique (trop lents à tous couvrir)                                        |
@@ -16,7 +16,7 @@ Ce sont deux outils **complémentaires**, pas concurrents.
 **Pourquoi Playwright est particulièrement utile ici :**
 
 1. Il embarque **WebKit** (le moteur de tous les navigateurs sur iPhone, Chrome compris) et **Chromium** (celui de Chrome Android), et sait émuler un iPhone ou un téléphone Android (taille d'écran, tactile). On teste donc sur les moteurs des deux téléphones du foyer, depuis le PC.
-2. C'est ce qui permet à l'**agent IA de vérifier lui-même** qu'une fonctionnalité marche de bout en bout, au lieu de seulement « penser » qu'elle marche.
+2. C'est ce qui permet à l'**agent IA de vérifier lui-même** qu'une fonctionnalité marche de bout en bout, au lieu de seulement « penser » qu'elle marche.
 
 **Ce qu'aucun des deux ne remplace** : un essai sur ton iPhone réel (app installée, écran qui reste allumé, clavier, dictée). Une courte checklist manuelle est prévue avant chaque version (§ 5).
 
@@ -49,13 +49,13 @@ Principe : **tester ce qui peut casser silencieusement et ce qui fait la valeur 
 | `searchArticles`                                                                               | Qualité de l'ajout éclair (accents, pluriels, fautes de frappe)                                                                                                                           |
 | `parseEntry`                                                                                   | Nombreux cas de saisie (tableau de 03 § A2)                                                                                                                                               |
 | `effectiveAisle`, `groupListForStore`                                                          | Cœur de l'app : le tri par rayon                                                                                                                                                          |
-| Rangement en cochant, « Rayon suivant », titre d'un rayon                                      | Le magasin se construit pendant les courses (03 C4, 02 § 4) : bonne catégorie au bon rayon, jamais deux rayons vides, titres courts                                                       |
+| Rangement en cochant, « Rayon suivant », titre d'un rayon                                      | Le magasin se construit pendant les courses (03 C4, 02 § 4) : bonne catégorie au bon rayon, jamais deux rayons vides, titres courts                                                       |
 | Clôture, apprentissage, réouverture                                                            | Logique statistique ; jamais de double comptage après réouverture                                                                                                                         |
-| `convert`, `changeUnit`, `simplify`, `stepAmount`, `stepCount`, `mergeQuantity`, `scaleRecipe` | Calculs, conversions et arrondis (y compris rendements « 1 cake », − / + qui changent d'unité ; en base, appuis rapprochés tous comptés et achat qui suit)                                |
+| `convert`, `changeUnit`, `simplify`, `stepAmount`, `stepCount`, `mergeQuantity`, `scaleRecipe` | Calculs, conversions et arrondis (y compris rendements « 1 cake », − / + qui changent d'unité ; en base, appuis rapprochés tous comptés et achat qui suit)                                |
 | `parseMarkdown`, `toggleBold`, `toggleLineStyle`, `continueList`                               | Étapes mises en forme : titres, listes, gras, un texte simple lu tel quel ; boutons de la barre et suite d'une liste                                                                      |
 | Suggestions anti-oubli                                                                         | Logique statistique                                                                                                                                                                       |
 | `slugify` sur d'autres alphabets                                                               | Jamais de slug vide (cyrillique, chinois…)                                                                                                                                                |
-| `resolveImport`, `suggestCandidates`, `uniqueRecipeName`                                       | Partage entre deux catalogues différents : clé, alias, dictionnaire du catalogue, candidats par icône/catégorie ; recette reçue sous un nom libre (« Cake (3) », jamais « Cake (2) (2) ») |
+| `resolveImport`, `suggestCandidates`, `uniqueRecipeName`                                       | Partage entre deux catalogues différents : clé, alias, dictionnaire du catalogue, candidats par icône/catégorie ; recette reçue sous un nom libre (« Cake (3) », jamais « Cake (2) (2) ») |
 | `findLikelyDuplicates`                                                                         | Détection des doublons sans faux positifs grossiers                                                                                                                                       |
 | Données initiales et premier lancement                                                         | Slugs et alias sans doublon, icônes du pack, un rayon principal par catégorie ; copie unique au premier lancement                                                                         |
 | Migrations Dexie                                                                               | Ne jamais perdre les données d'une version à l'autre                                                                                                                                      |
@@ -67,20 +67,20 @@ Principe : **tester ce qui peut casser silencieusement et ce qui fait la valeur 
 Chaque scénario tourne sur deux configurations : **WebKit + iPhone émulé** (cible principale) et **Chromium + Android émulé** (Pixel récent, cible secondaire).
 
 1. Premier lancement → données de départ créées → liste vide affichée.
-2. Ajout éclair (`3 tom` + Entrée), article déjà présent (« Ne rien faire »), création d'un article inconnu.
-3. Liste rangée par catégorie ; la première course dans un nouveau magasin le construit (tout « À placer », on coche dans l'ordre du parcours avec « Rayon suivant », bulles d'aide) ; la course suivante est rangée par rayon dans cet ordre, sans rien à placer.
-4. Mode courses (premières courses dans un nouveau magasin) : cocher un rayon entier → repli ; ajout d'un article d'un rayon passé → « À récupérer » ; terminer les courses → lignes cochées retirées ; rouvrir → elles réapparaissent cochées ; terminer à nouveau.
+2. Ajout éclair (`3 tom` + Entrée), article déjà présent (« Ne rien faire »), création d'un article inconnu, liste à puces collée.
+3. Liste rangée par catégorie ; la première course dans un nouveau magasin le construit (tout « À placer », on coche dans l'ordre du parcours avec « Rayon suivant », bulles d'aide) ; la course suivante est rangée par rayon dans cet ordre, sans rien à placer.
+4. Mode courses (premières courses dans un nouveau magasin) : cocher un rayon entier → repli ; ajout d'un article d'un rayon passé → « À récupérer » ; terminer les courses → lignes cochées retirées ; rouvrir → elles réapparaissent cochées ; terminer à nouveau.
 5. Modifier un magasin : réordonner les rayons, déplacer une catégorie, rendre un rayon principal pour une catégorie → la liste suit. Le magasin est d'abord construit par une course.
 6. Rechargement de la page → les données sont toujours là.
-7. _(v1.0)_ Recette ajoutée pour un autre rendement (personnes et « cakes ») → quantités correctes dans la liste : fusion avec la farine déjà présente, quantité fixe inchangée, origine « via … » sur les lignes.
-8. _(v1.1)_ Partage puis import dans un profil vierge → aperçu correct, association « C'est le même que… » mémorisée, articles créés.
+7. _(v1.0)_ Recette ajoutée pour un autre rendement (personnes et « cakes ») → quantités correctes dans la liste : fusion avec la farine déjà présente, quantité fixe inchangée, origine « via … » sur les lignes.
+8. _(v1.1)_ Partage puis import dans un profil vierge → aperçu correct, association « C'est le même que… » mémorisée, articles créés.
 9. _(v1.1)_ Recette partagée puis importée dans un profil vierge → ingrédients reconnus, quantité fixe conservée, recette créée et ouverte.
 
 **Stabilité des scénarios iPhone.** Le WebKit de Playwright sous Windows a des pauses (il cesse un moment de redessiner la page, parfois une dizaine de secondes), plus nombreuses avec la charge, et il écrit lentement dans IndexedDB (environ 15,6 ms par requête, un tic de l'horloge de Windows, contre quelques millisecondes sous Chromium). Rien de cela ne vient de l'app. D'où :
 
-- les scénarios iPhone sont rejoués une fois en cas d'échec (`retries: 1` dans `playwright.config.ts`) : un scénario qui passe au second essai est signalé « flaky » dans le rapport sans bloquer `npm run e2e` ni `npm run release` ; s'il échoue deux fois, c'est un vrai problème. Un scénario souvent « flaky » mérite d'être examiné ;
+- les scénarios iPhone sont rejoués une fois en cas d'échec (`retries: 1` dans `playwright.config.ts`) : un scénario qui passe au second essai est signalé « flaky » dans le rapport sans bloquer `npm run e2e` ni `npm run release` ; s'il échoue deux fois, c'est un vrai problème. Un scénario souvent « flaky » mérite d'être examiné ;
 - trois scénarios à la fois au plus (`workers: 3`) : davantage fait dépasser leur délai aux scénarios iPhone ;
-- les gestes du mode courses qu'un second toucher ne défait pas (cocher, « Rayon suivant », « Terminer », « Retour à la liste ») sont rejoués tant que leur effet n'est pas visible (`tapUntil` dans `tests/e2e/app.ts`) : la ligne visée peut bouger juste après que Playwright l'a jugée immobile. Un scénario iPhone a 60 s au lieu de 30 ;
+- les gestes du mode courses qu'un second toucher ne défait pas (cocher, « Rayon suivant », « Terminer », « Retour à la liste ») sont rejoués tant que leur effet n'est pas visible (`tapUntil` dans `tests/e2e/app.ts`) : la ligne visée peut bouger juste après que Playwright l'a jugée immobile. Un scénario iPhone a 60 s au lieu de 30 ;
 - `enterApp` attend la barre d'ajout, signe que les données de départ sont créées (environ 540 écritures, une dizaine de secondes sous WebKit), avec un délai de 30 s propre au premier lancement ;
 - avant de toucher un bouton, un scénario attend que les lignes qui pourraient le décaler soient affichées.
 

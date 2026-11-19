@@ -151,7 +151,7 @@ describe("aperçu de l'ajout à une liste (docs/02 § 7)", () => {
         acceptedTypes: [],
       },
     ];
-    const plan = planRecipeAdd(tart, 6, target, units);
+    const plan = planRecipeAdd(tart, 6, target, units, []);
     expect(plan.map((line) => line.checked)).toEqual([true, true, false]);
     expect(plan[0]?.existing).toBeUndefined();
     expect(plan[0]?.result.kind).toBe("new");
@@ -185,7 +185,7 @@ describe("aperçu de l'ajout à une liste (docs/02 § 7)", () => {
         acceptedTypes: ["golden"],
       },
     ];
-    const [line] = planRecipeAdd(apples, 4, target, units);
+    const [line] = planRecipeAdd(apples, 4, target, units, []);
     expect(line?.existing?.id).toBe("golden");
     expect(line?.result).toMatchObject({ quantity: 4, kind: "merged" });
   });
@@ -200,7 +200,7 @@ describe("aperçu de l'ajout à une liste (docs/02 § 7)", () => {
         acceptedTypes: [],
       },
     ];
-    const [line] = planRecipeAdd(tart, 4, target, units);
+    const [line] = planRecipeAdd(tart, 4, target, units, []);
     expect(line?.result).toMatchObject({
       existingId: "l1",
       quantity: 1,
@@ -210,13 +210,61 @@ describe("aperçu de l'ajout à une liste (docs/02 § 7)", () => {
     });
   });
 
+  it("unité de cuisine : la quantité de l'article sur la liste, celle de la recette en note", () => {
+    const bottle = unit("bouteille").id;
+    const sauce = recipe(4, "personnes", [
+      ingredient("vin", 1, "verre"),
+      ingredient("huile", 2, "c-a-s"),
+      ingredient("sel", 1, "pincee"),
+    ]);
+    const articles = [
+      { id: "vin", defaultUnitId: bottle },
+      { id: "huile", defaultUnitId: bottle },
+      // Unité par défaut elle-même de cuisine : la quantité de la recette reste.
+      { id: "sel", defaultUnitId: unit("pincee").id },
+    ];
+    const target = [
+      {
+        id: "h",
+        articleId: "huile",
+        quantity: 2,
+        unitId: bottle,
+        acceptedTypes: [],
+        // La même recette, déjà ajoutée une fois.
+        note: "4 c. à s.",
+      },
+    ];
+    const plan = planRecipeAdd(sauce, 8, target, units, articles);
+    expect(plan[0]).toMatchObject({
+      quantity: 1,
+      unitId: bottle,
+      note: "2 verres",
+      result: { kind: "new", quantity: 1, unitId: bottle, note: "2 verres" },
+    });
+    // Déjà dans la liste : la quantité ne bouge pas, la recette passe en note, même
+    // répétée.
+    expect(plan[1]?.result).toMatchObject({
+      existingId: "h",
+      quantity: 2,
+      unitId: bottle,
+      note: "4 c. à s. · 4 c. à s.",
+      kind: "note",
+    });
+    expect(plan[2]).toMatchObject({ quantity: 2, unitId: unit("pincee").id });
+    expect(recipeMerge(plan, target, units)).toEqual([
+      expect.objectContaining({ existingId: "h", quantity: 2 }),
+      expect.objectContaining({ articleId: "vin", quantity: 1, kind: "new" }),
+      expect.objectContaining({ articleId: "sel", quantity: 2 }),
+    ]);
+  });
+
   it("n'ajoute que les ingrédients cochés, en additionnant un article présent deux fois", () => {
     const doubled = recipe(4, "personnes", [
       ingredient("beurre", 100, "g"),
       ingredient("farine", 500, "g"),
       ingredient("beurre", 150, "g"),
     ]);
-    const plan = planRecipeAdd(doubled, 4, [], units).map((line) =>
+    const plan = planRecipeAdd(doubled, 4, [], units, []).map((line) =>
       line.articleId === "farine" ? { ...line, checked: false } : line,
     );
     expect(recipeMerge(plan, [], units)).toEqual([
@@ -300,6 +348,7 @@ describe("recettes dans la base (docs/02 § 7)", () => {
       2,
       await activeItems(db, list.id),
       await db.units.toArray(),
+      await db.articles.toArray(),
     );
     expect(await addRecipeToList(db, recipeId, list.id, 2, preview)).toBe(2);
 

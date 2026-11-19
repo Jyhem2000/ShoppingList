@@ -58,6 +58,25 @@ test("2. ajout éclair, article déjà présent, création d'un article inconnu"
   await expect(line(page, "Beurre")).toBeVisible();
   await expect(line(page, "Œufs")).toContainText("× 6");
 
+  // Liste à puces collée (Notes) : une ligne par article dans le champ, puces retirées.
+  const input = page.getByRole("textbox", { name: fr.list.addPlaceholder });
+  await input.click();
+  await input.evaluate((element, text) => {
+    const data = new DataTransfer();
+    data.setData("text/plain", text);
+    element.dispatchEvent(
+      new ClipboardEvent("paste", {
+        clipboardData: data,
+        bubbles: true,
+        cancelable: true,
+      }),
+    );
+  }, "- 1 L de lait\n- [ ] 500 g de farine\n");
+  await expect(input).toHaveValue("1 L de lait, 500 g de farine");
+  await input.press("Enter");
+  await expect(line(page, "Lait")).toContainText("1 L");
+  await expect(line(page, "Farine")).toContainText("500 g");
+
   // Un même article avec des types différents : une ligne par choix de types.
   await addToList(page, "2 pommes golden, 3 pommes granny smith");
   await expect(line(page, "Pommes")).toHaveCount(2);

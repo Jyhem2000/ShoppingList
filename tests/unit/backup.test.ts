@@ -140,11 +140,19 @@ describe("mise à jour du catalogue sans réinstaller (docs/06 § 7)", () => {
       updatedAt: 1,
     });
     await database.articles.update(tomates.id, { countable: undefined });
+    // Base d'avant le catalogue 9 : pas encore d'unité « verre ».
+    await database.units.where("slug").equals("verre").delete();
     await updateSettings(database, { catalogVersion: 1 });
 
     // 3 articles, 1 catégorie, la litière et les 21 corrections du catalogue 8
-    // (17 articles qui se comptent, pommes supprimées ; 6 à la pièce, sauf les poireaux).
-    expect(await updateCatalog(database)).toBe(26);
+    // (17 articles qui se comptent, pommes supprimées ; 6 à la pièce, sauf les poireaux),
+    // l'unité « verre » du catalogue 9 (« dl », déjà là, n'est pas doublée).
+    expect(await updateCatalog(database)).toBe(27);
+    for (const slug of ["verre", "dl"])
+      expect(
+        await database.units.where("slug").equals(slug).count(),
+        slug,
+      ).toBe(1);
     expect(await database.articles.get(oignons.id)).toMatchObject({
       defaultUnitId: unitId("piece"),
     });

@@ -36,12 +36,12 @@ Application web installée sur l'écran d'accueil (PWA). **Optimisée pour Chrom
 | **Android** récent                 | Chrome     | Secondaire (ton conjoint)                          |
 | Autres (Firefox, ordinateur)       | —          | Devraient fonctionner, non testés systématiquement |
 
-> **Important — le cas de l'iPhone.** Apple impose à tous les navigateurs sur iPhone d'utiliser son moteur **WebKit** (celui de Safari). Chrome ou Firefox sur iPhone ne sont « que » l'interface de Chrome ou Firefox autour de ce moteur. Et une app installée sur l'écran d'accueil d'un iPhone tourne toujours dans WebKit, quel que soit le navigateur qui l'a installée. **On ne peut donc pas « ne pas supporter Safari » sur iPhone** : c'est le même moteur. Les capacités réelles de l'app sur ton iPhone sont celles de WebKit.
+> **Important — le cas de l'iPhone.** Apple impose à tous les navigateurs sur iPhone d'utiliser son moteur **WebKit** (celui de Safari). Chrome ou Firefox sur iPhone ne sont « que » l'interface de Chrome ou Firefox autour de ce moteur. Et une app installée sur l'écran d'accueil d'un iPhone tourne toujours dans WebKit, quel que soit le navigateur qui l'a installée. **On ne peut donc pas « ne pas supporter Safari » sur iPhone** : c'est le même moteur. Les capacités réelles de l'app sur ton iPhone sont celles de WebKit.
 
 ### Règle d'utilisation des fonctionnalités du navigateur
 
 - Une fonctionnalité **essentielle** (ajout, liste, mode courses, sauvegarde…) doit marcher sur **les deux téléphones**.
-- Une fonctionnalité **de confort** peut être utilisée si elle marche sur **au moins un** des deux (ex. le bouton « Installer » d'Android), à condition que **rien ne casse** là où elle n'existe pas : elle est simplement absente.
+- Une fonctionnalité **de confort** peut être utilisée si elle marche sur **au moins un** des deux (ex. le bouton « Installer » d'Android), à condition que **rien ne casse** là où elle n'existe pas : elle est simplement absente.
 - On n'utilise pas ce qui ne marche nulle part.
 
 Détail des fonctionnalités du navigateur et de leur support : [07 § 3](07-architecture-technique.md#3-fonctionnalités-du-navigateur).

@@ -11,7 +11,7 @@ import { Sheet } from "@/ui/Sheet";
 import { lineQuantity } from "./format";
 import type { PendingAdd } from "./useAddToList";
 import type { ListData } from "./useListData";
-import { mergeNotes } from "@/domain/listMerge";
+import { addQuantityNote } from "@/domain/listMerge";
 
 const t = fr.list.exists;
 
@@ -95,7 +95,7 @@ export function ExistsSheet({
               variant="outline"
               onClick={() =>
                 void apply({
-                  note: mergeNotes(item.note, `+ ${added}`),
+                  note: addQuantityNote(item.note, `+ ${added}`),
                 })
               }
             >

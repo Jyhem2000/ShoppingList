@@ -1,4 +1,4 @@
-import { ChefHat, ClipboardPaste } from "lucide-react";
+import { ChefHat, ClipboardPaste, Plus } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import { recipePath, routes } from "@/app/routes";
@@ -13,7 +13,8 @@ import { reportSaveError } from "@/ui/toast";
 import { pasteOrAsk } from "@/common/paste";
 import { AddButton } from "@/ui/AddButton";
 import { Button } from "@/ui/button";
-import { Field, TextInput } from "@/ui/form";
+import { Field, MenuItem, TextInput } from "@/ui/form";
+import { MenuButton } from "@/ui/MenuButton";
 import { EmptyHint, EmptyState, PageHeader, Section } from "@/ui/Page";
 import { RowButton } from "@/ui/RowButton";
 import { SearchField } from "@/ui/SearchField";
@@ -25,15 +26,20 @@ const t = fr.recipes;
 
 /**
  * Onglet Recettes (docs/04 § 2.6) : les recettes (icône, nom, rendement), une recherche,
- * « Nouvelle recette » et « Coller une recette » (docs/03 E3 : lit le presse-papiers ;
- * s'il est refusé, un champ où coller à la main).
+ * et le menu ⋯ : « Nouvelle recette » et « Coller une recette » (docs/03 E3 : lit le
+ * presse-papiers ; s'il est refusé, un champ où coller à la main). Sans recette, les deux
+ * actions sont aussi des boutons de l'écran vide.
  */
 export function RecipesPage() {
   const navigate = useNavigate();
   const recipes = useRecipes();
   const [query, setQuery] = useState("");
   const [creating, setCreating] = useState(false);
-  const [pasting, setPasting] = useState(false);
+  /**
+   * Menu ⋯ ouvert ; « coller à la main » depuis le menu (retour possible) ou depuis le
+   * bouton de l'écran vide.
+   */
+  const [menu, setMenu] = useState<"menu" | "menu-paste" | "paste">();
   const paste = (text: string) => {
     void navigate(routes.import, { state: { text, expected: "recipe" } });
   };
@@ -45,21 +51,24 @@ export function RecipesPage() {
     );
   }, [recipes, query]);
 
+  const create = () => {
+    setMenu(undefined);
+    setCreating(true);
+  };
+  const askPaste = (fromMenu: boolean) => {
+    pasteOrAsk(paste, () => {
+      setMenu(fromMenu ? "menu-paste" : "paste");
+    });
+  };
+
   const actions = (
     <div className="flex flex-col gap-3">
-      <AddButton
-        label={t.create}
-        onClick={() => {
-          setCreating(true);
-        }}
-      />
+      <AddButton label={t.create} onClick={create} />
       <Button
         variant="outline"
         className="w-full"
         onClick={() => {
-          pasteOrAsk(paste, () => {
-            setPasting(true);
-          });
+          askPaste(false);
         }}
       >
         <ClipboardPaste />
@@ -70,7 +79,17 @@ export function RecipesPage() {
 
   return (
     <>
-      <PageHeader title={t.title} />
+      <PageHeader
+        title={t.title}
+        action={
+          <MenuButton
+            label={t.menu}
+            onClick={() => {
+              setMenu("menu");
+            }}
+          />
+        }
+      />
       {recipes?.length === 0 ? (
         <EmptyState icon={<ChefHat />} title={t.emptyTitle} action={actions}>
           {t.emptyText}
@@ -78,13 +97,12 @@ export function RecipesPage() {
       ) : (
         recipes && (
           <>
-            <div className="flex flex-col gap-3 px-4 pb-1">
+            <div className="px-4 pb-1">
               <SearchField
                 label={t.search}
                 value={query}
                 onValueChange={setQuery}
               />
-              {actions}
             </div>
             <Section title={t.count(shown.length)} className="pb-6">
               {shown.length === 0 ? (
@@ -111,19 +129,44 @@ export function RecipesPage() {
           </>
         )
       )}
-      {pasting && (
+      {menu && (
         <Sheet
           onClose={() => {
-            setPasting(false);
+            setMenu(undefined);
           }}
-          title={fr.share.pasteRecipe}
-          description={fr.share.pasteRecipeText}
+          onBack={
+            menu === "menu-paste"
+              ? () => {
+                  setMenu("menu");
+                }
+              : undefined
+          }
+          title={menu === "menu" ? t.title : fr.share.pasteRecipe}
+          description={
+            menu === "menu" ? t.menuDescription : fr.share.pasteRecipeText
+          }
         >
-          <PasteForm
-            label={fr.share.pasteRecipe}
-            placeholder={fr.share.pasteRecipePlaceholder}
-            onPaste={paste}
-          />
+          {menu === "menu" ? (
+            <div className="flex flex-col">
+              <MenuItem icon={<Plus />} onClick={create}>
+                {t.create}
+              </MenuItem>
+              <MenuItem
+                icon={<ClipboardPaste />}
+                onClick={() => {
+                  askPaste(true);
+                }}
+              >
+                {fr.share.pasteRecipe}
+              </MenuItem>
+            </div>
+          ) : (
+            <PasteForm
+              label={fr.share.pasteRecipe}
+              placeholder={fr.share.pasteRecipePlaceholder}
+              onPaste={paste}
+            />
+          )}
         </Sheet>
       )}
       {creating && (

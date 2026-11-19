@@ -21,6 +21,8 @@ export interface UnitData {
   factor?: number;
   step: number;
   aliases?: ByLanguage<string[]>;
+  /** Version du catalogue qui l'a introduite (docs/06 § 7) ; absente : 1. */
+  since?: number;
 }
 
 export interface CategoryData {

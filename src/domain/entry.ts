@@ -1,5 +1,11 @@
 import type { Article, Unit } from "./model";
-import { parseNumber, pieceUnit, simplify, type Amount } from "./quantity";
+import {
+  parseNumber,
+  pieceUnit,
+  simplify,
+  unitGroup,
+  type Amount,
+} from "./quantity";
 import { searchArticles } from "./search";
 import { accentKey, coreWords, searchKey, slugify } from "./slug";
 
@@ -16,7 +22,7 @@ export interface ParsedEntry {
 
 export type ParsingUnit = Pick<
   Unit,
-  "slug" | "singular" | "plural" | "abbr" | "aliases"
+  "slug" | "singular" | "plural" | "abbr" | "aliases" | "group" | "dimension"
 >;
 
 const NUMBER_WORDS: Record<string, number> = {
@@ -46,21 +52,50 @@ const NUMBER_WORDS: Record<string, number> = {
 const DOZEN = new Set(["douzaine", "douzaines"]);
 const HALF_DOZEN = new Set(["demi-douzaine", "demi-douzaines"]);
 
-/** Segments : `,` (sauf virgule décimale), `;`, `et`, retour à la ligne. */
-// Virgule (jamais dans un nombre : 1,5), point-virgule, retour à la ligne, « et »,
-// « puis » (se dit naturellement entre deux articles), et le point d'une fin de phrase
-// suivi d'une majuscule (« Des pommes. Du lait. », ajouté par la dictée) : pas celui
-// d'une abréviation (« 2 tr. de jambon »).
-const SEPARATORS =
-  /\s*(?:[;\n]|(?<!\d),|,(?!\d)|\.(?=\s+\p{Lu})|\s+(?:[Ee][Tt]|[Pp][Uu][Ii][Ss])\s+)\s*/u;
+// Segments : virgule (jamais dans un nombre : 1,5), point-virgule, retour à la ligne,
+// « et », « puis » (se dit naturellement entre deux articles), et le point d'une fin de
+// phrase suivi d'une majuscule (« Des pommes. Du lait. », ajouté par la dictée) : pas
+// celui d'une abréviation (« 2 tr. de jambon »).
+const SEPARATOR = String.raw`[;\n]|(?<!\d),|,(?!\d)|\.(?=\s+\p{Lu})|\s+(?:[Ee][Tt]|[Pp][Uu][Ii][Ss])\s+`;
+// Dans la barre d'ajout seulement, une puce restée d'une liste dont les retours à la
+// ligne ont sauté : entourée d'espaces (« - beurre - lait »), ou collée au mot d'avant
+// quand le retour à la ligne a disparu sans laisser d'espace (« beurre- lait »). Pas le
+// trait d'union (« dix-sept »), ni « * 3 » (« lait * 3 »).
+const BULLET_SEPARATOR = String.raw`\s+[•·▪◦‣∙\-–—]\s+|\s+\*\s+(?!\d)|(?<=[\p{L}\p{N}])[•·▪◦‣∙\-–—]\s+|(?<=\p{L})\*\s+(?!\d)`;
+const SEPARATORS = new RegExp(String.raw`\s*(?:${SEPARATOR})\s*`, "u");
+const BULLET_SEPARATORS = new RegExp(
+  String.raw`\s*(?:${SEPARATOR}|${BULLET_SEPARATOR})\s*`,
+  "u",
+);
+/**
+ * Puce en début de ligne : •, -, *, case à cocher, ou numéro suivi d'une espace
+ * (« 1. pain », mais pas « 2.5 kg de farine »).
+ */
+export const LINE_BULLET =
+  /^\s*(?:(?:[•·▪◦‣∙*\-–—✓✔☐☑]|\[[ xX]?\])\s*|\d+[.)]\s+)(?:\[[ xX]?\]\s*)?(?=\S)/u;
+/** Puce en tête d'un segment de la saisie (« - beurre ») : la même, sans les numéros. */
+const SEGMENT_BULLET =
+  /^(?:[•·▪◦‣∙*\-–—✓✔☐☑]|\[[ xX]?\])\s*(?:\[[ xX]?\]\s*)?(?=\S)/u;
 /** Partitifs et articles en tête : du, de la, de l', des, d', de, l'. */
 const PARTITIVE = /^(?:(?:de\s+l|d|l)['’]\s*|(?:du|des|de\s+la|de)\s+)/i;
 const NUMBER = /^(\d+(?:[.,]\d+)?)(.*)$/;
 const TIMES = /^[x×*](\d+(?:[.,]\d+)?)$/i;
 
-function unitIndex(units: readonly ParsingUnit[]): Map<string, string> {
+interface UnitIndex {
+  /** Nom, abréviation ou alias (clé de recherche) → slug. */
+  names: Map<string, string>;
+  /**
+   * Unités de cuisine (verre, cuillère, pincée, décilitre) quand elles ne s'achètent pas
+   * (saisie d'une liste) ; vide pour les ingrédients d'une recette.
+   */
+  kitchen: Set<string>;
+}
+
+function unitIndex(units: readonly ParsingUnit[], recipe: boolean): UnitIndex {
   const index = new Map<string, string>();
+  const kitchen = new Set<string>();
   for (const unit of units) {
+    if (!recipe && unitGroup(unit) === "kitchen") kitchen.add(unit.slug);
     const names = [
       unit.slug,
       unit.singular,
@@ -73,7 +108,7 @@ function unitIndex(units: readonly ParsingUnit[]): Map<string, string> {
       if (key && !index.has(key)) index.set(key, unit.slug);
     }
   }
-  return index;
+  return { names: index, kitchen };
 }
 
 interface Quantity {
@@ -86,7 +121,7 @@ interface Quantity {
 /** Quantité au début des mots : `3`, `500g`, `1,5 kg`, `deux`, `une douzaine`. */
 function leadingQuantity(
   words: string[],
-  units: Map<string, string>,
+  { names: units, kitchen }: UnitIndex,
 ): Quantity | undefined {
   const [first = "", second = ""] = words;
   const firstKey = slugify(first);
@@ -111,16 +146,23 @@ function leadingQuantity(
     return { quantity: result.quantity * 12, length: 2 };
   if (HALF_DOZEN.has(secondKey))
     return { quantity: result.quantity * 6, length: 2 };
-  // Unité séparée du nombre, s'il reste un article après : « 2 pots de moutarde ».
+  // Unité séparée du nombre, s'il reste un article après : « 2 pots de moutarde ». Une
+  // unité de cuisine seulement devant « de » (« 1 verre de vin ») : « 6 verres en
+  // plastique » sont des verres.
   const unit = result.unitSlug ? undefined : units.get(searchKey(second));
-  if (unit && words.length > 2) return { ...result, unitSlug: unit, length: 2 };
+  if (
+    unit &&
+    words.length > 2 &&
+    (!kitchen.has(unit) || PARTITIVE.test(words.slice(2).join(" ")))
+  )
+    return { ...result, unitSlug: unit, length: 2 };
   return result;
 }
 
 /** Quantité à la fin des mots : `x3`, `*3`, `x 3`, `500 g`, `500g`, `3`. */
 function trailingQuantity(
   words: string[],
-  units: Map<string, string>,
+  { names: units }: UnitIndex,
 ): Quantity | undefined {
   if (words.length < 2) return undefined;
   const last = words.at(-1) ?? "";
@@ -146,9 +188,9 @@ function trailingQuantity(
 
 function parseSegment(
   segment: string,
-  units: Map<string, string>,
+  units: UnitIndex,
 ): ParsedEntry | undefined {
-  let words = segment.split(/\s+/).filter(Boolean);
+  let words = segment.replace(SEGMENT_BULLET, "").split(/\s+/).filter(Boolean);
   let found = leadingQuantity(words, units);
   if (found) {
     words = words.slice(found.length);
@@ -156,23 +198,56 @@ function parseSegment(
     found = trailingQuantity(words, units);
     if (found) words = words.slice(0, words.length - found.length);
   }
-  const text = words.join(" ").replace(PARTITIVE, "").trim();
+  // Sans le tiret ou les deux-points qui séparaient la quantité (« Lait - 2 L »).
+  const text = words
+    .join(" ")
+    .replace(PARTITIVE, "")
+    .replace(/\s*[-–—:]$/u, "")
+    .trim();
   if (!text) return undefined;
   const entry: ParsedEntry = { text };
+  // Unité de cuisine : on n'achète pas « 1 verre » de vin, la ligne prend la quantité
+  // habituelle de l'article (comme l'ajout d'une recette, docs/02 § 7).
+  if (found?.unitSlug && units.kitchen.has(found.unitSlug)) return entry;
   if (found) entry.quantity = found.quantity;
   if (found?.unitSlug) entry.unitSlug = found.unitSlug;
   return entry;
 }
 
-/** Découpe une saisie en lignes et lit leurs quantités et unités. */
+/**
+ * Liste collée dans la barre d'ajout (Notes, une autre app) : le champ n'a qu'une ligne
+ * et perdrait les retours à la ligne, qui deviennent des virgules ; puces et numéros
+ * tombent (« - 200 g de beurre ⏎ - 3 cl de lait » → « 200 g de beurre, 3 cl de lait »).
+ * Un texte d'une seule ligne reste tel quel.
+ */
+export function pastedEntry(text: string): string {
+  const lines = text.split(/\r?\n|\r/);
+  if (lines.length < 2) return text;
+  return lines
+    .map((line) => line.replace(LINE_BULLET, "").trim())
+    .filter(Boolean)
+    .join(", ");
+}
+
+/**
+ * Découpe une saisie en lignes et lit leurs quantités et unités. `bullets` : une puce
+ * au milieu du texte sépare aussi deux articles (barre d'ajout) ; pas dans les lignes
+ * d'un texte importé, où « Lait - 2 L » est un seul article. `recipe` : ingrédients
+ * d'une recette, où les unités de cuisine se lisent comme les autres ; ailleurs, elles
+ * ne s'achètent pas et l'article garde sa quantité habituelle.
+ */
 export function parseEntry(
   text: string,
   units: readonly ParsingUnit[],
+  {
+    bullets = true,
+    recipe = false,
+  }: { bullets?: boolean; recipe?: boolean } = {},
 ): ParsedEntry[] {
-  const index = unitIndex(units);
+  const index = unitIndex(units, recipe);
   return text
     .trim()
-    .split(SEPARATORS)
+    .split(bullets ? BULLET_SEPARATORS : SEPARATORS)
     .map((segment) => parseSegment(segment.trim(), index))
     .filter((entry) => entry !== undefined);
 }

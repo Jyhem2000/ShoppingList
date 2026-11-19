@@ -412,6 +412,7 @@ function IngredientBar({ recipe, data }: { recipe: Recipe; data: ListData }) {
     data,
     add,
     keepEntry,
+    { recipe: true },
   );
 
   return (
@@ -421,6 +422,7 @@ function IngredientBar({ recipe, data }: { recipe: Recipe; data: ListData }) {
         placeholder={t.addPlaceholder}
         addLabel={t.addLabel}
         showInList={false}
+        recipe
         onSubmit={(text) => {
           void submit(text);
         }}

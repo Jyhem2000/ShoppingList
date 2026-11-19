@@ -1,6 +1,11 @@
 import { Plus } from "lucide-react";
 import { type ReactNode, useMemo, useState } from "react";
-import { parseEntry, typeSuggestions, type ParsedEntry } from "@/domain/entry";
+import {
+  parseEntry,
+  pastedEntry,
+  typeSuggestions,
+  type ParsedEntry,
+} from "@/domain/entry";
 import type { Article } from "@/domain/model";
 import { searchArticles } from "@/domain/search";
 import { searchKey } from "@/domain/slug";
@@ -31,12 +36,15 @@ export function AddArticleBar({
   placeholder = t.addPlaceholder,
   addLabel = t.addLabel,
   showInList = true,
+  recipe = false,
 }: {
   /** Texte du champ vide (« Ajouter un ingrédient… » dans une recette). */
   placeholder?: string;
   addLabel?: string;
   /** Indique ce que la liste courante contient déjà (pas dans une recette). */
   showInList?: boolean;
+  /** Ingrédients d'une recette : les unités de cuisine se lisent (docs/03 A2). */
+  recipe?: boolean;
   /** À droite de la barre (« Terminer » en mode courses). */
   trailing?: ReactNode;
   /** Au-dessus de la barre, quand il n'y a pas de suggestions (« Rayon suivant »). */
@@ -53,7 +61,7 @@ export function AddArticleBar({
   const [text, setText] = useState("");
 
   const { entry, suggestions, canCreate } = useMemo(() => {
-    const entries = parseEntry(text, data.units);
+    const entries = parseEntry(text, data.units, { recipe });
     const [first] = entries;
     if (!first || entries.length > 1)
       return { entry: undefined, suggestions: [], canCreate: false };
@@ -75,7 +83,7 @@ export function AddArticleBar({
       suggestions: results,
       canCreate: !exact && byType.length === 0,
     };
-  }, [text, data]);
+  }, [text, data, recipe]);
 
   const inList = useMemo(
     () => quantitiesInList(data.items, data.unitById),
@@ -144,6 +152,7 @@ export function AddArticleBar({
             addLabel={addLabel}
             value={text}
             onValueChange={setText}
+            onPasteLines={pastedEntry}
             onSubmit={(value) => {
               onSubmit(value);
             }}

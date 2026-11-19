@@ -1,6 +1,6 @@
 # Documentation développeur
 
-Spécification complète de l'application, telle qu'elle fonctionne aujourd'hui. **Validée** : elle fait foi pour le développement. Toute modification ultérieure passe par une mise à jour de ces documents (statut « 🔁 En révision » le temps de la valider).
+Spécification complète de l'application, telle qu'elle fonctionne aujourd'hui. **Validée** : elle fait foi pour le développement. Toute modification ultérieure passe par une mise à jour de ces documents (statut « 🔁 En révision » le temps de la valider).
 
 ## Documents
 
@@ -26,7 +26,7 @@ Statuts : 📝 À valider · 🔁 En révision · ✅ Validé
 
 | Version                               | Contenu                                                                                                                                                                                                                                                |
 | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **v1.0 — Cœur et recettes** (publiée) | Ajout éclair, catalogue, liste triée par rayon, mode courses avec clôture/réouverture et apprentissage, tout modifiable, réglages, sons, sauvegarde ; recettes avec rendement (personnes ou « 1 cake »), ajout à une liste avec recalcul des quantités |
+| **v1.0 — Cœur et recettes** (publiée) | Ajout éclair, catalogue, liste triée par rayon, mode courses avec clôture/réouverture et apprentissage, tout modifiable, réglages, sons, sauvegarde ; recettes avec rendement (personnes ou « 1 cake »), ajout à une liste avec recalcul des quantités |
 | **v1.1 — Partage** (publiée)          | Envoyer / importer une liste ou une recette (iPhone ↔ Android), coller une liste en texte                                                                                                                                                              |
 | **v1.2 — Anti-oubli et saisonnalité** | Suggestions d'articles habituels, revue rapide par catégorie, fruits et légumes de saison (France)                                                                                                                                                     |
 | **v1.3 — Anglais**                    | Interface et catalogue en anglais                                                                                                                                                                                                                      |
@@ -35,9 +35,9 @@ Détail : [03 § Versions](03-fonctionnalites.md) et [09](09-feuille-de-route.md
 
 ## Glossaire express
 
-- **Article** : un produit que l'on achète (« Pommes », « Lessive »). Fait partie du _catalogue personnel_.
-- **Alias** : autre nom d'un article (« coca » pour _Coca-Cola_, « chocolatine » pour _Pain au chocolat_).
-- **Catégorie** : le type d'un article, indépendant de tout magasin (« Charcuterie », « Conserves »).
+- **Article** : un produit que l'on achète (« Pommes », « Lessive »). Fait partie du _catalogue personnel_.
+- **Alias** : autre nom d'un article (« coca » pour _Coca-Cola_, « chocolatine » pour _Pain au chocolat_).
+- **Catégorie** : le type d'un article, indépendant de tout magasin (« Charcuterie », « Conserves »).
 - **Rayon** : une zone d'un magasin donné, qui regroupe des catégories ; une catégorie peut être dans plusieurs rayons, dont un **principal**.
 - **Magasin** : un lieu de courses, avec ses rayons dans l'ordre du parcours.
 - **Unité** : la façon de compter un article (pièce, g, kg, pack…).
@@ -51,7 +51,7 @@ Détail : [03 § Versions](03-fonctionnalites.md) et [09](09-feuille-de-route.md
 
 - **Nom** : ShoppingList.
 - **Plateformes** : app web installée, **optimisée pour Chrome**, sur iPhone (dernière version d'iOS, cible principale) et Android récent (cible secondaire). Sur iPhone, tous les navigateurs utilisent le moteur WebKit : ses limites s'appliquent quel que soit le navigateur ([01](01-vision.md#plateformes-cibles)).
-- **Fonctionnalités du navigateur** : essentielles = marchent sur les deux téléphones ; confort (bouton « Installer » d'Android…) = au moins un, sans rien casser ailleurs.
+- **Fonctionnalités du navigateur** : essentielles = marchent sur les deux téléphones ; confort (bouton « Installer » d'Android…) = au moins un, sans rien casser ailleurs.
 - **Hébergement** : **Cloudflare Pages** connecté au dépôt GitHub ; préproduction sur `dev`, production sur `main` (`https://shoppinglist.jyhem.cloud`), qui n'avance que par `npm run release` ([07 § 9](07-architecture-technique.md#9-hébergement-versions-et-déploiement)).
 - **Versions** : v1.0 cœur et recettes, v1.1 partage, v1.2 anti-oubli et saisonnalité, v1.3 anglais.
 

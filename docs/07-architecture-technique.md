@@ -38,7 +38,7 @@ Versions des bibliothèques : Vite 8, React 19, TypeScript 6.0 (la 7, compilateu
 
 Toutes ces fonctionnalités sont **gratuites** : elles sont intégrées au navigateur, sans compte ni clé.
 
-Rappel ([01](01-vision.md#plateformes-cibles)) : sur iPhone, **tous les navigateurs et l'app installée utilisent WebKit** ; la colonne « iPhone » vaut donc pour Chrome iPhone comme pour Safari. Règle : _essentiel_ = doit marcher sur les deux ; _confort_ = au moins un des deux, sans rien casser ailleurs (détection systématique avant usage).
+Rappel ([01](01-vision.md#plateformes-cibles)) : sur iPhone, **tous les navigateurs et l'app installée utilisent WebKit** ; la colonne « iPhone » vaut donc pour Chrome iPhone comme pour Safari. Règle : _essentiel_ = doit marcher sur les deux ; _confort_ = au moins un des deux, sans rien casser ailleurs (détection systématique avant usage).
 
 | Fonctionnalité                     | Usage                                   | iPhone (WebKit)                      | Android (Chrome) | Rôle             | Décision                                                                     |
 | ---------------------------------- | --------------------------------------- | ------------------------------------ | ---------------- | ---------------- | ---------------------------------------------------------------------------- |
@@ -48,10 +48,10 @@ Rappel ([01](01-vision.md#plateformes-cibles)) : sur iPhone, **tous les navigate
 | Web Audio                          | Sons (H6)                               | ✅ (après un premier geste)          | ✅               | Confort          | Utilisée                                                                     |
 | Audio Session API                  | Suivre le mode silencieux (H6)          | ✅ (iOS 17+)                         | ❌               | Confort          | Utilisée sur iPhone (`type = "ambient"`)                                     |
 | Web Share                          | Export de sauvegarde (H4), partage (F1) | ✅ texte, lien, fichiers             | ✅               | Essentiel        | Utilisée                                                                     |
-| Clipboard                          | « Coller une liste » (F2)               | ✅ sur geste de l'utilisateur        | ✅               | Essentiel (v1.1) | Utilisée                                                                     |
+| Clipboard                          | « Coller une liste » (F2)               | ✅ sur geste de l'utilisateur        | ✅               | Essentiel (v1.1) | Utilisée                                                                     |
 | `navigator.storage.persist()`      | Limiter l'effacement des données        | ✅                                   | ✅               | Confort          | Demandée automatiquement au démarrage de l'app installée, sans rien afficher |
 | Vibration                          | Retour haptique                         | ❌                                   | ✅               | —                | **Non retenue** : absente sur iPhone, l'astuce haptique n'y fonctionne pas   |
-| `beforeinstallprompt`              | Bouton « Installer » (H5)               | ❌ (installation manuelle expliquée) | ✅               | Confort          | Utilisée sur Android                                                         |
+| `beforeinstallprompt`              | Bouton « Installer » (H5)               | ❌ (installation manuelle expliquée) | ✅               | Confort          | Utilisée sur Android                                                         |
 | Web Speech (reconnaissance vocale) | Dictée                                  | ⚠️ peu fiable en app installée       | ✅               | —                | **Non retenue** : le micro du clavier fait la même chose partout (A7)        |
 
 ## 4. Stockage : points d'attention
@@ -63,7 +63,7 @@ Rappel ([01](01-vision.md#plateformes-cibles)) : sur iPhone, **tous les navigate
 1. **L'app installée sur l'écran d'accueil a son propre stockage**, séparé de celui de Chrome (et de Safari). Les données saisies dans le navigateur avant l'installation ne se retrouvent pas dans l'app. → L'écran de premier lancement (04 § 2.11) pousse à installer **avant** toute saisie.
 2. **Effacement automatique** : WebKit peut effacer les données d'un _site_ non visité depuis 7 jours ; une app installée n'est pas concernée de la même façon (son compteur dépend de son propre usage). → Installation fortement recommandée + export en fichier expliqué dans Réglages → Sauvegarde (H4). Les copies automatiques internes (H4) ne couvrent pas ce risque : elles sont effacées avec le reste.
 3. **Hauteur au lancement** : bug connu d'iOS. Au lancement de l'app installée, la zone d'affichage mesure la hauteur de l'écran moins celle de la barre d'état (797 au lieu de 844 sur l'iPhone de test) jusqu'au premier défilement de la page. La page est peinte sur tout l'écran, mais un élément en position fixe est coupé au bas de cette zone : la barre d'onglets remonterait, ou ses libellés seraient coupés. Tant que la zone est trop courte (iPhone, app installée, portrait), le cadre de l'app est donc posé dans la page (position absolue) à la hauteur de l'écran ; dès qu'iOS l'a corrigée, il redevient fixe à 100 % de la zone d'affichage, pour que le rebond de la page ne le déplace pas (`src/platform/viewport.ts`). Ce passage attend qu'aucun champ n'ait le focus : au premier clavier, iOS fait défiler la page pour montrer le champ, ce qui corrige la zone, et le cadre redevenu fixe descendrait sous un curseur resté à l'ancienne place, hors du champ. Un défilement invisible d'un pixel au lancement ne corrige pas la hauteur et fait trembler l'affichage. Seul le contenu défile. La page ne rebondit pas (`overscroll-behavior: none` sur `html`) : sur iPhone, un rebond de la page fait ignorer l'appui suivant sur la barre d'onglets. Le contenu garde son effet élastique, mais sa barre de défilement est masquée : iOS la dessinerait au-dessus du titre, sous la barre d'état. Barre d'état en `black-translucent`, avec une bande opaque sur sa zone.
-4. **Liens** : un lien ouvert depuis Messages s'ouvre dans le navigateur, jamais dans l'app installée → mécanisme « Coller une liste partagée » (F2).
+4. **Liens** : un lien ouvert depuis Messages s'ouvre dans le navigateur, jamais dans l'app installée → mécanisme « Coller une liste partagée » (F2).
 
 **Partout** : chaque adresse (production, préproduction — § 9) est une app distincte avec ses propres données. Installer la préproduction pour tester n'affecte pas l'app de production.
 
@@ -73,7 +73,7 @@ Conventions :
 
 - `id` : `crypto.randomUUID()`, jamais modifié.
 - `createdAt`, `updatedAt` : horodatages (ms).
-- Aucune donnée dérivée stockée (« est dans la liste courante », fréquences d'achat… se calculent).
+- Aucune donnée dérivée stockée (« est dans la liste courante », fréquences d'achat… se calculent).
 - Le libellé d'un article n'est jamais recopié ailleurs (lignes, ingrédients, historique pointent vers l'`id`).
 
 ```ts
@@ -115,7 +115,7 @@ interface Article extends Base {
   categoryId: ID;
   defaultUnitId: ID;
   defaultQuantity?: number; // ex. 6 pour les œufs ; sinon 1 (ou le pas de l'unité)
-  generic?: boolean; // « Fruits au choix » : en tête de sa catégorie et de son rayon
+  generic?: boolean; // « Fruits au choix » : en tête de sa catégorie et de son rayon
   types: string[]; // [] par défaut
   aliases: string[]; // slugifiés pour la comparaison
   icon?: string;
@@ -139,7 +139,7 @@ interface Aisle extends Base {
   color: string;
   position: number; // score 0..1, appris ou manuel ; tri croissant
   categories: { categoryId: ID; primary: boolean }[];
-  isUnsorted: boolean; // rayon spécial « À placer »
+  isUnsorted: boolean; // rayon spécial « À placer »
 }
 // Invariant : dans un magasin, une catégorie a au plus UN rayon où primary = true.
 
@@ -213,7 +213,7 @@ interface Purchase {
 
 interface Settings {
   lastBackupAt?: number;
-  lastSeenVersion?: string; // pour afficher « Quoi de neuf »
+  lastSeenVersion?: string; // pour afficher « Quoi de neuf »
   catalogVersion: number;
   currentListId?: ID;
   dismissedSuggestions: { articleId: ID; until: number }[];
@@ -242,8 +242,8 @@ db.version(6).stores({
 ```
 
 - **Préférences de l'appareil** (sons, son par son, écran allumé, thème) : hors de `Settings`, dans `localStorage` (`src/app/preferences.ts`). Elles dépendent du téléphone, ne sont pas exportées et ne sont pas écrasées par l'import d'une sauvegarde venant d'un autre appareil.
-- Unicité « un article et un choix de types par liste » (`src/domain/lines.ts`) vérifiée par la couche d'accès aux données (les lignes archivées `closedInSessionId` sont exclues).
-- **La version du schéma de données est indépendante de la version de l'app** : elle n'augmente que si la structure change (nouvelle table, nouvel index). Version actuelle : **6** ; les versions 1 à 5 restent déclarées dans `src/db/database.ts` pour ouvrir une base plus ancienne. Toute évolution = nouvelle `version(n)` déclarée. Tant que l'app n'a pas d'autres utilisateurs (« vraie production »), pas de migration de données ni de test de migration : un changement incompatible se règle en effaçant les données de l'app ou en la réinstallant. Ensuite, chaque évolution aura sa fonction `upgrade` et son test de migration, exécutés automatiquement au premier lancement de la nouvelle version. Une sauvegarde exportée avec un schéma plus récent n'est pas lisible par une app au schéma plus ancien. Champs sans index, ajoutés sans nouvelle version : `Aisle.description`, `Category.shortName`, `ShoppingSession.openedAisle`, `ShoppingSession.placedCategories`.
+- Unicité « un article et un choix de types par liste » (`src/domain/lines.ts`) vérifiée par la couche d'accès aux données (les lignes archivées `closedInSessionId` sont exclues).
+- **La version du schéma de données est indépendante de la version de l'app** : elle n'augmente que si la structure change (nouvelle table, nouvel index). Version actuelle : **6** ; les versions 1 à 5 restent déclarées dans `src/db/database.ts` pour ouvrir une base plus ancienne. Toute évolution = nouvelle `version(n)` déclarée. Tant que l'app n'a pas d'autres utilisateurs (« vraie production »), pas de migration de données ni de test de migration : un changement incompatible se règle en effaçant les données de l'app ou en la réinstallant. Ensuite, chaque évolution aura sa fonction `upgrade` et son test de migration, exécutés automatiquement au premier lancement de la nouvelle version. Une sauvegarde exportée avec un schéma plus récent n'est pas lisible par une app au schéma plus ancien. Champs sans index, ajoutés sans nouvelle version : `Aisle.description`, `Category.shortName`, `ShoppingSession.openedAisle`, `ShoppingSession.placedCategories`.
 
 ## 6. App installée, hors ligne et mises à jour
 
@@ -259,10 +259,10 @@ db.version(6).stores({
 
 1. À chaque ouverture de l'app, au retour au premier plan et toutes les heures, le navigateur vérifie discrètement si le fichier du service worker a changé sur le serveur. Ce fichier contient la liste de tous les fichiers de l'app avec une empreinte de leur contenu : **la moindre modification déployée est détectée** (ce n'est pas le numéro de version qui est comparé).
 2. Si une nouvelle version existe, elle est **téléchargée en arrière-plan**, sans interrompre l'utilisation.
-3. L'app affiche « Version 1.2.0 disponible — Mettre à jour » (mode `prompt` de vite-plugin-pwa). Jamais en mode courses, jamais de rechargement forcé.
-4. Au tap : activation de la nouvelle version, rechargement, migrations de données éventuelles, puis « Quoi de neuf » (comparaison avec `lastSeenVersion`).
+3. L'app affiche « Version 1.2.0 disponible — Mettre à jour » (mode `prompt` de vite-plugin-pwa). Jamais en mode courses, jamais de rechargement forcé.
+4. Au tap : activation de la nouvelle version, rechargement, migrations de données éventuelles, puis « Quoi de neuf » (comparaison avec `lastSeenVersion`).
 5. Hors ligne : l'app continue avec la version déjà installée ; la mise à jour attendra le retour du réseau.
-6. Chaque vérification (automatique ou bouton « Rechercher une mise à jour » de l'écran À propos) a un **délai maximal de 10 s** : sur un réseau de magasin très lent, elle échoue proprement au lieu de rester en suspens.
+6. Chaque vérification (automatique ou bouton « Rechercher une mise à jour » de l'écran À propos) a un **délai maximal de 10 s** : sur un réseau de magasin très lent, elle échoue proprement au lieu de rester en suspens.
 
 ### Manifest et iOS
 
@@ -280,26 +280,26 @@ Règles en [02 § 1](02-modele-metier.md#1-libellé-identifiant-et-slug). Implé
 ### 7.2 `searchArticles(query, articles, stats)`
 
 - Normalise la requête avec `searchKey`, compare aux libellés **et aux alias**.
-- Score : libellé commençant par la requête > un mot commençant par la requête > alias > début du libellé suivi de types de l'article (« citron vert », « jus d'orange ») > contient la requête > faute de frappe d'une lettre (mots de 5 lettres et plus, première lettre juste).
-- **Accents** : sans accents, tout ce qui correspond est proposé (« pate » : _Pâté_, _Pâtes_, _Pâte à tartiner_…). Si la requête en porte, les libellés qui les contiennent passent devant (`accentKey`, qui garde les accents) : « pâté » met _Pâté_ en tête, « pâtes » _Pâtes_. Deux articles peuvent donc ne différer que par leurs accents ; jamais par rien d'autre.
-- Départage par position du mot trouvé dans le libellé (« tomtes » : _Tomates_ avant _Sauce tomate_), puis par fréquence d'achat, puis ordre alphabétique (`Intl.Collator('fr')`).
+- Score : libellé commençant par la requête > un mot commençant par la requête > alias > début du libellé suivi de types de l'article (« citron vert », « jus d'orange ») > contient la requête > faute de frappe d'une lettre (mots de 5 lettres et plus, première lettre juste).
+- **Accents** : sans accents, tout ce qui correspond est proposé (« pate » : _Pâté_, _Pâtes_, _Pâte à tartiner_…). Si la requête en porte, les libellés qui les contiennent passent devant (`accentKey`, qui garde les accents) : « pâté » met _Pâté_ en tête, « pâtes » _Pâtes_. Deux articles peuvent donc ne différer que par leurs accents ; jamais par rien d'autre.
+- Départage par position du mot trouvé dans le libellé (« tomtes » : _Tomates_ avant _Sauce tomate_), puis par fréquence d'achat, puis ordre alphabétique (`Intl.Collator('fr')`).
 
 ### 7.3 `parseEntry(text, units)` → `ParsedEntry[]`
 
-1. Découpe en segments sur `,` `;` `et` et retours à la ligne.
-2. Pour chaque segment : retire les partitifs (`du`, `de la`, `des`, `d'`, `de`) ; détecte une quantité (chiffres avec virgule ou point, nombres en lettres jusqu'à vingt, `douzaine`, `demi-douzaine`), avant ou après (`x3`, `*3`) ; détecte une unité (slug, abréviation, alias, pluriel des unités **de l'utilisateur**) collée ou non au nombre.
+1. Découpe en segments sur `,` `;` `et` `puis`, retours à la ligne et, dans la barre d'ajout seulement (`bullets`), puces entourées d'espaces ou collées au mot d'avant (`-`, `•`) ; une puce en tête de segment est retirée. Un texte de plusieurs lignes collé dans la barre d'ajout passe d'abord par `pastedEntry` : retours à la ligne → virgules, puces et numéros retirés.
+2. Pour chaque segment : retire les partitifs (`du`, `de la`, `des`, `d'`, `de`) ; détecte une quantité (chiffres avec virgule ou point, nombres en lettres jusqu'à vingt, `douzaine`, `demi-douzaine`), avant ou après (`x3`, `*3`) ; détecte une unité (slug, abréviation, alias, pluriel des unités **de l'utilisateur**) collée ou non au nombre. Hors d'une recette (`recipe`), une unité de cuisine n'est lue que devant `de`, et le segment perd alors quantité et unité : l'article prendra sa quantité habituelle.
 3. Retourne `{ text, quantity?, unitSlug? }`.
 4. Résolution ensuite (hors parsing) : recherche de l'article sur le texte complet, puis sur des préfixes de plus en plus courts ; si plusieurs libellés ont la même clé (_Pâté_, _Pâtes_), la saisie exacte l'emporte, puis le pluriel tapé (`slugify`), puis les accents tapés (`accentKey`), sinon le premier résultat de recherche ; les mots restants sont comparés aux **types** de l'article trouvé, en ignorant les mots de liaison (`de`, `d'`, `du`, `à`, `en`, `ou`…) : `pommes gala` → _Pommes_ + type _Gala_ ; `jus d'orange` → _Jus de fruits_ + type _orange_ ; `pommes gala ou golden` → deux types acceptés.
 
 ### 7.4 `effectiveAisle(article, store, aisles, overrides)`
 
-Exception de l'article → rayon **principal** de sa catégorie → « À placer » ([02 § 4](02-modele-metier.md#rayon-effectif-dun-article-dans-un-magasin)).
+Exception de l'article → rayon **principal** de sa catégorie → « À placer » ([02 § 4](02-modele-metier.md#rayon-effectif-dun-article-dans-un-magasin)).
 
 ### 7.5 `groupListForStore(items, articles, store, aisles, overrides, articleOrder)` → `AisleGroup[]`
 
 Mode courses (03 B1). La liste, elle, est groupée par catégorie : `groupListByCategory` (`src/domain/categories.ts`), catégories dans l'ordre du catalogue (`sortCategories`, partagé avec l'écran Catalogue).
 
-Groupes par rayon effectif, rayons triés par `position` (« À placer » en dernier), rayons vides omis ; dans un groupe : lignes `todo` puis `checked` puis `unavailable`, chacune avec les articles génériques en tête, puis triée par ordre appris (`articleOrder` : score par article, plus petit d'abord ; les articles sans ordre appris viennent après) puis alphabétique. Lignes archivées exclues.
+Groupes par rayon effectif, rayons triés par `position` (« À placer » en dernier), rayons vides omis ; dans un groupe : lignes `todo` puis `checked` puis `unavailable`, chacune avec les articles génériques en tête, puis triée par ordre appris (`articleOrder` : score par article, plus petit d'abord ; les articles sans ordre appris viennent après) puis alphabétique. Lignes archivées exclues.
 
 `articleOrder` est l'ordre appris des articles du magasin (`Store.articleOrder`, § 7.6) : un champ sans index, donc sans changement du schéma Dexie.
 
@@ -311,7 +311,7 @@ Groupes par rayon effectif, rayons triés par `position` (« À placer » en der
 2. Si le magasin n'est pas verrouillé, appliquer l'apprentissage (`learnAislePositions`, `learnArticleOrder` dans `src/domain/shopping.ts`) à partir de **tous** les achats de la session :
    - les achats sont numérotés dans l'**ordre des coches** (rang 0, 1, 2…) : l'heure ne sert qu'à les trier, une pause en magasin ne pèse rien ;
    - pour chaque rayon ayant au moins un achat : rang **médian** de ses achats (robuste aux allers-retours : un oubli repris à la fin ne fait pas passer le rayon en dernier) ;
-   - les rayons visités se **répartissent entre leurs propres positions**, dans l'ordre de ces médianes : les rayons non visités et « À placer » ne bougent pas ;
+   - les rayons visités se **répartissent entre leurs propres positions**, dans l'ordre de ces médianes : les rayons non visités et « À placer » ne bougent pas ;
    - même principe pour les articles, rayon par rayon (`Store.articleOrder`) ; un article sans ordre appris prend une place après les articles connus.
 
    Pas de moyenne pondérée entre ancien et nouveau rang : elle tirerait les rayons visités vers les extrémités, devant ou derrière des rayons non visités, alors que la session ne dit rien de leur place relative. L'ordre observé est donc repris tel quel ; un parcours inhabituel se corrige à la course suivante, ou en verrouillant l'ordre.
@@ -349,13 +349,13 @@ Calculées à la demande à partir des achats des sessions **clôturées**. Pour
   2. slug ;
   3. alias croisés ;
   4. **dictionnaire du catalogue** : index `slug → clé catalogue` construit sur tous les libellés et alias du catalogue embarqué, **toutes langues** ; si le libellé reçu y figure, on cherche l'article du destinataire portant cette clé ;
-  5. recherche floue → « à confirmer » ;
-  6. sinon « non reconnu » avec `suggestCandidates(article, userArticles, stats)` : même icône + même catégorie, puis même icône, puis même catégorie triée par fréquence d'achat (5 candidats max).
+  5. recherche floue → « à confirmer » ;
+  6. sinon « non reconnu » avec `suggestCandidates(article, userArticles, stats)` : même icône + même catégorie, puis même icône, puis même catégorie triée par fréquence d'achat (5 candidats max).
 
-  Les étapes 2 et 3 (slug, alias croisés) passent par `resolveEntry` (libellés et alias par clé de recherche, types reconnus : « Pommes Gala » → _Pommes_, type Gala) ; l'étape 5 par sa recherche. Deux articles du catalogue de clés différentes ne sont jamais proposés l'un pour l'autre (_Tomates_ ≠ _Tomates concassées_). Un article reçu introuvable mais présent au catalogue (supprimé chez le destinataire, ou trouvé par le dictionnaire) se recrée tel que le catalogue le décrit, avec sa clé.
+  Les étapes 2 et 3 (slug, alias croisés) passent par `resolveEntry` (libellés et alias par clé de recherche, types reconnus : « Pommes Gala » → _Pommes_, type Gala) ; l'étape 5 par sa recherche. Deux articles du catalogue de clés différentes ne sont jamais proposés l'un pour l'autre (_Tomates_ ≠ _Tomates concassées_). Un article reçu introuvable mais présent au catalogue (supprimé chez le destinataire, ou trouvé par le dictionnaire) se recrée tel que le catalogue le décrit, avec sa clé.
 
 - Texte collé (A8) : `textImportLines(texte, …)` lit chaque ligne avec `parseEntry` (lignes à puces seulement s'il y en a) ; un article inconnu prend catégorie, unité et icône du dictionnaire de mots-clés ; sa quantité se calcule selon l'article finalement choisi (`entryAmount`).
-- Application en une transaction (`applyImport`) ; une association manuelle ou confirmée ajoute le libellé reçu aux alias de l'article choisi ; une création utilise le libellé saisi par le destinataire et garde le libellé reçu en alias ; catégories et unités inconnues créées ; types acceptés absents ajoutés à l'article ; lignes ajoutées par `planListMerge` (quantités fusionnées avec la liste cible). Une recette (`applyRecipeImport`) passe par la même création d'articles, puis est créée avec ses ingrédients, sous un nom libre (`uniqueRecipeName` : « Raclette (2) »).
+- Application en une transaction (`applyImport`) ; une association manuelle ou confirmée ajoute le libellé reçu aux alias de l'article choisi ; une création utilise le libellé saisi par le destinataire et garde le libellé reçu en alias ; catégories et unités inconnues créées ; types acceptés absents ajoutés à l'article ; lignes ajoutées par `planListMerge` (quantités fusionnées avec la liste cible). Une recette (`applyRecipeImport`) passe par la même création d'articles, puis est créée avec ses ingrédients, sous un nom libre (`uniqueRecipeName` : « Raclette (2) »).
 
 ### 7.12 Doublons probables (G1)
 
@@ -410,7 +410,7 @@ ShoppingList/
 
 ### Hébergement
 
-**Cloudflare Pages** (gratuit), **connecté directement au dépôt GitHub** `Jyhem2000/ShoppingList` (privé pour l'instant ; le site publié, lui, est public). Cloudflare construit et met en ligne l'app à chaque push : aucun jeton ni secret à gérer, aucun workflow GitHub Actions. Mise en place : [guide](deploiement-cloudflare.md).
+**Cloudflare Pages** (gratuit), **connecté directement au dépôt GitHub** `Jyhem2000/ShoppingList` (public). Cloudflare construit et met en ligne l'app à chaque push : aucun jeton ni secret à gérer, aucun workflow GitHub Actions. Mise en place : [guide](deploiement-cloudflare.md).
 
 Projet Cloudflare Pages : `shoppinglist-app`. Version de Node : **`.node-version`** à la racine (`26`), seule source, lue par Cloudflare au build et par les gestionnaires de versions de Node en local ; `engines` de `package.json` la rappelle.
 
@@ -418,12 +418,12 @@ Commande de build côté Cloudflare : `npm run build:checked` (format, lint, typ
 
 ### Branches et environnements
 
-| Branche                    | Rôle                                                                                        | Environnement     | Adresse                                                                              |
-| -------------------------- | ------------------------------------------------------------------------------------------- | ----------------- | ------------------------------------------------------------------------------------ |
-| `dev` (branche par défaut) | **Travail quotidien** : on y commite et pousse directement ; tout ce qui n'est pas publié   | **Préproduction** | `dev.shoppinglist-app.pages.dev`                                                     |
-| `main`                     | **Uniquement les versions publiées** : n'avance que par `npm run release`, jamais à la main | **Production**    | `shoppinglist.jyhem.cloud` (domaine perso ; `shoppinglist-app.pages.dev` y redirige) |
+| Branche                    | Rôle                                                                                     | Environnement     | Adresse                                                                              |
+| -------------------------- | ---------------------------------------------------------------------------------------- | ----------------- | ------------------------------------------------------------------------------------ |
+| `dev` (branche par défaut) | **Travail quotidien** : on y commite et pousse directement ; tout l'historique           | **Préproduction** | `dev.shoppinglist-app.pages.dev`                                                     |
+| `main`                     | **Un commit par version publiée** : n'avance que par `npm run release`, jamais à la main | **Production**    | `shoppinglist.jyhem.cloud` (domaine perso ; `shoppinglist-app.pages.dev` y redirige) |
 
-Il n'y a pas d'autre branche : pas de branche de travail ni de pull request. Seules `dev` et `main` sont construites par Cloudflare (réglage « Custom branches ») ; les essais sur téléphone se font en préproduction. On ne travaille jamais directement sur `main`. Le canal affiché dans l'app (§ 6) est déduit de la branche construite (`CF_PAGES_BRANCH`). Hors production, l'app installée s'appelle **« ShoppingList DEV »** (manifeste et titre), pour distinguer les deux apps installées côte à côte sur le téléphone.
+Il n'y a pas d'autre branche : pas de branche de travail ni de pull request. Seules `dev` et `main` sont construites par Cloudflare (réglage « Custom branches ») ; les essais sur téléphone se font en préproduction. On ne travaille jamais directement sur `main` : elle ne contient qu'un commit par version (« Release MINOR 1.1.0 »), copie exacte de `dev` à cette version, sans l'historique de développement, qui reste sur `dev`. Le canal affiché dans l'app (§ 6) est déduit de la branche construite (`CF_PAGES_BRANCH`). Hors production, l'app installée s'appelle **« ShoppingList DEV »** (manifeste et titre), pour distinguer les deux apps installées côte à côte sur le téléphone.
 
 ### Numéro de version
 
@@ -434,7 +434,7 @@ Il n'y a pas d'autre branche : pas de branche de travail ni de pull request. Seu
 
 ### Nouveautés
 
-L'historique git sert aux développeurs ; ses messages sont trop techniques pour l'utilisateur. Les **nouveautés** de chaque version sont donc écrites pour l'utilisateur dans `src/i18n/fr.ts` (`releaseNotes`), affichées dans Réglages → À propos → Nouveautés, et reprises par l'écran « Quoi de neuf » après une mise à jour (H5). `npm run release` refuse de publier une version dont les nouveautés ne sont pas écrites. On peut les écrire à l'avance : l'écran n'affiche que les versions égales ou antérieures à celle de l'app. L'entrée « 1.0.0 » présente l'app ; ensuite, une entrée par version publiée.
+L'historique git sert aux développeurs ; ses messages sont trop techniques pour l'utilisateur. Les **nouveautés** de chaque version sont donc écrites pour l'utilisateur dans `src/i18n/fr.ts` (`releaseNotes`), affichées dans Réglages → À propos → Nouveautés, et reprises par l'écran « Quoi de neuf » après une mise à jour (H5). `npm run release` refuse de publier une version dont les nouveautés ne sont pas écrites. On peut les écrire à l'avance : l'écran n'affiche que les versions égales ou antérieures à celle de l'app. L'entrée « 1.0.0 » présente l'app ; ensuite, une entrée par version publiée.
 
 ### Cycle des versions
 
@@ -447,9 +447,16 @@ Versions publiées : les tags git `vX.Y.Z` ; ce qui a changé pour l'utilisateur
 Depuis `dev`, à jour, sans modification en cours, et seulement **sur demande explicite** :
 
 1. Le script calcule la version à partir du type demandé et vérifie que ses nouveautés sont écrites. `npm run release -- minor --dry-run` affiche la version sans rien modifier.
-2. Il lance tous les contrôles : format, lint, types, tests unitaires et E2E.
-3. Il fige la version : `package.json`, commit `chore: version 1.1.0`, tag `v1.1.0`.
-4. Il pousse `dev` (avec le tag), puis avance `main` sur `dev`. Cloudflare construit `main` : **la production est à jour**.
+2. Il lance tous les contrôles : format, lint, types, tests unitaires et E2E. Les E2E ont besoin des navigateurs de test de Playwright ; si l'erreur `browserType.launch: Executable doesn't exist` apparaît, les (ré)installer, puis relancer la publication :
+
+   ```bash
+   npx playwright install chromium webkit
+   ```
+
+3. Il fige la version sur `dev` : `package.json`, commit `Release MINOR 1.1.0` (`Release PATCH …`, `Release MAJOR …` selon le type), tag `v1.1.0` sur ce commit. Ce commit est indispensable : la version est lue dans `package.json` au build.
+4. Il pousse `dev` (avec le tag), puis ajoute sur `main` **un seul commit**, de même titre, dont le contenu est exactement celui de `dev` à cette version et dont le seul parent est la version précédente sur `main` (`git commit-tree`). Cloudflare construit `main` : **la production est à jour**.
+
+Avant tout, le script vérifie que `main` a le même contenu que le dernier tag : si quelque chose y a été poussé hors de `npm run release`, il refuse de publier.
 
 Les téléphones détectent la nouvelle version et proposent la mise à jour (§ 6).
 

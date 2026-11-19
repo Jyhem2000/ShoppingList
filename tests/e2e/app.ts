@@ -197,7 +197,19 @@ export async function createRecipe(
     .getByRole("navigation", { name: fr.tabs.navigation })
     .getByRole("link", { name: fr.tabs.recipes })
     .click();
-  await page.getByRole("button", { name: fr.recipes.create }).click();
+  // Sans recette, le bouton de l'écran vide ; sinon le menu ⋯.
+  const empty = page.getByText(fr.recipes.emptyTitle);
+  const search = page.getByRole("searchbox", { name: fr.recipes.search });
+  await expect(empty.or(search)).toBeVisible();
+  if (await empty.isVisible()) {
+    await page.getByRole("button", { name: fr.recipes.create }).click();
+  } else {
+    await page.getByRole("button", { name: fr.recipes.menu }).click();
+    await page
+      .getByRole("dialog", { name: fr.recipes.title })
+      .getByRole("button", { name: fr.recipes.create })
+      .click();
+  }
   const sheet = page.getByRole("dialog", { name: fr.recipes.newTitle });
   await sheet.getByRole("textbox", { name: fr.recipes.name }).fill(name);
   await sheet
