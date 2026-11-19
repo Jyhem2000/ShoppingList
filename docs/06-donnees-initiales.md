@@ -28,22 +28,22 @@ Fichiers prévus dans `src/data/` : `categories.json`, `units.json`, `store-temp
 
 Affichage :
 
-- dans les listes, le **symbole** pour les poids et volumes (`1,2 kg`, `50 cl`) ; le litre s'écrit **`L`** majuscule (symbole admis par le système international) pour ne jamais confondre `1 l` et `11` ; les autres unités **en toutes lettres** (« 2 tranches », « 1 barquette ») : une abréviation comme « tr. » ou « barq. » n'est pas claire (elles restent reconnues à la saisie) ;
+- dans les listes, le **symbole** pour les poids et volumes (`1,2 kg`, `50 cl`) ; le litre s'écrit **`L`** majuscule (symbole admis par le système international) pour ne jamais confondre `1 l` et `11` ; les autres unités **en toutes lettres** (« 2 tranches », « 1 barquette ») : une abréviation comme « tr. » ou « barq. » n'est pas claire (elles restent reconnues à la saisie) ;
 - dans le sélecteur d'unité, les unités sont **rangées par groupe** (`group`) : _Poids_ (gramme (g), kilogramme (kg)), _Volume_ (millilitre (ml), centilitre (cl), litre (L)), _Contenants_ (pack, boîte, bouteille, sachet, paquet, pot, barquette), _À l'unité_ (pièce, botte, tranche) ; les unités de _Cuisine_ ci-dessous ne servent qu'aux recettes ;
-- dans la fiche d'une ligne, des **puces « unités habituelles »** proposent en un tap, dans un **ordre fixe** (choisir une puce ne la déplace pas) : l'unité par défaut de l'article, l'unité habituelle de sa catégorie, « pièce », puis celles déjà utilisées pour lui sur d'autres lignes (crevettes : au poids, en barquette ou à la pièce) — 4 au plus, aucune donnée en plus ;
-- dans les phrases (panneaux, messages), l'unité **en toutes lettres** : « Déjà dans la liste : 6 litres », « Ajouter 1 litre ».
+- dans la fiche d'une ligne, des **puces « unités habituelles »** proposent en un tap, dans un **ordre fixe** (choisir une puce ne la déplace pas) : l'unité par défaut de l'article, l'unité habituelle de sa catégorie, « pièce », puis celles déjà utilisées pour lui sur d'autres lignes (crevettes : au poids, en barquette ou à la pièce) — 4 au plus, aucune donnée en plus ;
+- dans les phrases (panneaux, messages), l'unité **en toutes lettres** : « Déjà dans la liste : 6 litres », « Ajouter 1 litre ».
 
-Pour les recettes, de petites unités sont utiles : `c-a-s` (cuillère à soupe), `c-a-c` (cuillère à café), `pincee` — dimension « autre », non convertibles.
+Pour les recettes, de petites unités sont utiles : `c-a-s` (cuillère à soupe), `c-a-c` (cuillère à café), `pincee`, `verre`, `dl` (décilitre) — dimension « autre », non convertibles : on ne les achète pas, l'ajout d'une recette à une liste prend à leur place la quantité par défaut de l'article (02 § 7). Le décilitre reste hors des volumes pour que `50 cl` ne devienne jamais `5 dl`.
 
 ### Unité et quantité par défaut d'un article : règles
 
 L'unité par défaut doit correspondre à **ce qu'on compte devant le rayon**, et la quantité par défaut à **ce qu'on achète le plus souvent**.
 
-1. **On compte les objets quand la taille des lots varie** : éponges (par 2, 3, 6), piles (4, 8), yaourts (4, 8, 12), œufs (6, 12), rouleaux de papier toilette (6, 9, 12…). Unité `pièce` et une quantité par défaut : « Éponges × 3 », « Papier toilette × 6 », jamais « 1 paquet d'éponges ». Il n'y a pas d'unité « rouleau » (ce serait une pièce sous un autre nom) ; le mot reste compris à la saisie (« 12 rouleaux de PQ »).
+1. **On compte les objets quand la taille des lots varie** : éponges (par 2, 3, 6), piles (4, 8), yaourts (4, 8, 12), œufs (6, 12), rouleaux de papier toilette (6, 9, 12…). Unité `pièce` et une quantité par défaut : « Éponges × 3 », « Papier toilette × 6 », jamais « 1 paquet d'éponges ». Il n'y a pas d'unité « rouleau » (ce serait une pièce sous un autre nom) ; le mot reste compris à la saisie (« 12 rouleaux de PQ »).
 2. **Le contenant n'est l'unité que s'il est toujours le même** et que son contenu importe peu : un paquet de pâtes, un pot de moutarde, une bouteille d'huile, une boîte de thon, un pack d'eau de 6. Ce qu'on prend toujours **en lot** prend le lot pour unité : un pack de berlingots de lait aromatisé, un paquet de sachets de levure ou de barres chocolatées.
 3. **Le poids pour le vrac et la coupe** : fruits et légumes vendus au poids, fromage, viande et charcuterie à la coupe. Un article au poids a **toujours une quantité par défaut** (250 g de fromage, 500 g de viande ou de poisson…) : sans elle, la saisie prendrait le pas de l'unité, soit 50 g.
-4. **Le volume** pour ce qu'on achète en litres (lait, crème liquide) : « Lait 6 L ».
-5. **Un nombre tapé seul compte des objets** (03 A2) : l'unité par défaut ne sert donc qu'à la saisie sans nombre. Les articles vendus au poids qui se comptent sont marqués **« se compte à la pièce »** (`countable` dans le catalogue) : fruits et légumes qu'on compte (pommes, poires, oranges, clémentines, pêches, nectarines, abricots, prunes, tomates, pommes de terre, carottes, navets, betteraves, panais, topinambours), blancs de poulet, noix de Saint-Jacques… Ce qui ne se compte pas (beurre, fromage à la coupe, cerises, raisin, haricots verts, viande et poisson à la coupe) compte en portions de la quantité par défaut.
+4. **Le volume** pour ce qu'on achète en litres (lait, crème liquide) : « Lait 6 L ».
+5. **Un nombre tapé seul compte des objets** (03 A2) : l'unité par défaut ne sert donc qu'à la saisie sans nombre. Les articles vendus au poids qui se comptent sont marqués **« se compte à la pièce »** (`countable` dans le catalogue) : fruits et légumes qu'on compte (pommes, poires, oranges, clémentines, pêches, nectarines, abricots, prunes, tomates, pommes de terre, carottes, navets, betteraves, panais, topinambours), blancs de poulet, noix de Saint-Jacques… Ce qui ne se compte pas (beurre, fromage à la coupe, cerises, raisin, haricots verts, viande et poisson à la coupe) compte en portions de la quantité par défaut.
 6. **Ce qu'on achète rarement au poids passe à la pièce**, × 1 par défaut, même quand on ne sait pas combien : oignons, échalotes, poireaux, courgettes, endives, patates douces (plutôt qu'une ligne sans quantité).
 7. Tout reste modifiable : l'utilisateur change l'unité ou la quantité d'une ligne, et peut changer les valeurs par défaut dans la fiche article.
 
@@ -61,11 +61,11 @@ Articles de base (extrait du catalogue) :
 | Lait                          | L         | 6              | Bouteilles de 1 L, souvent par 6                        |
 | Crème fraîche                 | pièce     | 1              | Un seul article ; types épaisse, liquide…               |
 | Beurre                        | g         | 250            | Plaquettes de 125, 250, 500 g                           |
-| Pommes, oranges, tomates      | kg        | 1              | Vendues au poids ; se comptent (« 3 pommes » → × 3)     |
+| Pommes, oranges, tomates      | kg        | 1              | Vendues au poids ; se comptent (« 3 pommes » → × 3)     |
 | Oignons, échalotes, poireaux  | pièce     | 1              | Rarement achetés au poids                               |
 | Bananes, citrons, avocats     | pièce     | 6 / 3 / 2      | On les compte                                           |
 | Carottes, pommes de terre     | kg        | 1 / 2,5        | Vendues au poids ou en filet ; se comptent              |
-| Cerises, haricots verts…      | g         | 500            | Barquettes ou sachets de 500 g, jamais « 0,5 kg »       |
+| Cerises, haricots verts…      | g         | 500            | Barquettes ou sachets de 500 g, jamais « 0,5 kg »       |
 | Salade, chou-fleur, concombre | pièce     | 1              | À l'unité                                               |
 | Persil, coriandre, menthe     | botte     | 1              |                                                         |
 | Baguette                      | pièce     | 1              |                                                         |
@@ -88,15 +88,15 @@ Articles de base (extrait du catalogue) :
 
 ### Libellés, alias, types et articles génériques : règles
 
-1. **Libellé** comme sur une liste écrite à la main : **pluriel** pour ce qui se compte et s'achète à plusieurs (« Pommes », « Œufs », « Citrons »), **singulier** pour ce qui ne se compte pas ou s'achète seul (« Lait », « Farine », « Melon », « Salade »).
+1. **Libellé** comme sur une liste écrite à la main : **pluriel** pour ce qui se compte et s'achète à plusieurs (« Pommes », « Œufs », « Citrons »), **singulier** pour ce qui ne se compte pas ou s'achète seul (« Lait », « Farine », « Melon », « Salade »).
 2. **Alias** : synonymes, abréviations, marques passées dans le langage courant, variantes régionales. **Jamais** la simple variante singulier/pluriel du libellé : la recherche ignore déjà le `s` ou `x` final.
-3. **Types plutôt que doublons** : une variété, une couleur, un parfum ou une forme est un **type** de l'article, pas un article à part (_Citrons_ : jaunes, verts ; _Jus de fruits_ : orange, pomme… ; _Chocolat_ : noir, au lait, pâtissier ; _Crème fraîche_ : épaisse, liquide, entière, allégée). Une ligne peut accepter **plusieurs types** (« Gala ou Golden »). La saisie les reconnaît : `citron vert`, `jus d'orange`, `crème liquide`.
-4. **Articles génériques** pour noter un besoin sans choisir encore, nommés **« … au choix »** : _Fruits au choix_, _Légumes au choix_, _Légumes verts au choix_, _Viande au choix_, _Poisson au choix_, _Fromage au choix_, _Dessert au choix_, _Apéritif au choix_, _Boissons au choix_ — chacun dans sa catégorie, `× 1`, sans type. Marqués `generic` dans le catalogue : **en tête** de leur catégorie dans le catalogue (séparés des autres articles) et de leur rayon dans la liste. Pas de « Surgelés au choix » : trop vague (dessert, légumes, plat…).
-5. Chaque ligne de liste peut aussi recevoir une **note** libre (« bio », « la marque verte »).
+3. **Types plutôt que doublons** : une variété, une couleur, un parfum ou une forme est un **type** de l'article, pas un article à part (_Citrons_ : jaunes, verts ; _Jus de fruits_ : orange, pomme… ; _Chocolat_ : noir, au lait, pâtissier ; _Crème fraîche_ : épaisse, liquide, entière, allégée). Une ligne peut accepter **plusieurs types** (« Gala ou Golden »). La saisie les reconnaît : `citron vert`, `jus d'orange`, `crème liquide`.
+4. **Articles génériques** pour noter un besoin sans choisir encore, nommés **« … au choix »** : _Fruits au choix_, _Légumes au choix_, _Légumes verts au choix_, _Viande au choix_, _Poisson au choix_, _Fromage au choix_, _Dessert au choix_, _Apéritif au choix_, _Boissons au choix_ — chacun dans sa catégorie, `× 1`, sans type. Marqués `generic` dans le catalogue : **en tête** de leur catégorie dans le catalogue (séparés des autres articles) et de leur rayon dans la liste. Pas de « Surgelés au choix » : trop vague (dessert, légumes, plat…).
+5. Chaque ligne de liste peut aussi recevoir une **note** libre (« bio », « la marque verte »).
 
 ## 2. Catégories (~35)
 
-Volontairement fines pour être regroupées différemment selon les magasins. Unité par défaut suggérée pour les nouveaux articles de la catégorie. Dans un nom double, **chaque partie prend une majuscule** (« Pain & Viennoiseries », « Crèmerie & Œufs ») : ce sont des étiquettes. Pas de catégorie pour un seul article : les œufs sont rangés avec la crèmerie. Les deux catégories système vont dans « À placer » de chaque magasin.
+Volontairement fines pour être regroupées différemment selon les magasins. Unité par défaut suggérée pour les nouveaux articles de la catégorie. Dans un nom double, **chaque partie prend une majuscule** (« Pain & Viennoiseries », « Crèmerie & Œufs ») : ce sont des étiquettes. Pas de catégorie pour un seul article : les œufs sont rangés avec la crèmerie. Les deux catégories système vont dans « À placer » de chaque magasin.
 
 Chaque catégorie (sauf les catégories système) a aussi un **nom court** et une **famille**, qui servent au titre des rayons sans nom (02 § 4). Ils sont dans `src/data/categories.json` (`short`, `family`) et `src/data/families.json`. Familles : Fruits & légumes, Boulangerie, Viandes & poissons, Frais, Épicerie salée, Épicerie sucrée, Boissons, Surgelés, Hygiène, Maison.
 
@@ -143,7 +143,7 @@ Chaque catégorie (sauf les catégories système) a aussi un **nom court** et un
 
 ## 3. Magasins
 
-Pas de modèles de magasin : ils regrouperaient les catégories de façon arbitraire, et faux pour le vrai magasin de l'utilisateur. Aucun magasin n'est créé au premier lancement ; un magasin se crée vide (au premier « C'est parti », ou dans Réglages) et ses rayons se rangent pendant les courses (03 C4).
+Pas de modèles de magasin : ils regrouperaient les catégories de façon arbitraire, et faux pour le vrai magasin de l'utilisateur. Aucun magasin n'est créé au premier lancement ; un magasin se crée vide (au premier « C'est parti », ou dans Réglages) et ses rayons se rangent pendant les courses (03 C4).
 
 ## 3 bis. Rendements de recette proposés
 
@@ -207,7 +207,7 @@ Sert à deviner, pour un **article créé par l'utilisateur** (absent du catalog
 ]
 ```
 
-Règles : comparaison sur les mots du slug ; première règle trouvée gagnante ; mots plus spécifiques avant mots génériques. Si rien ne correspond : catégorie « Autres », unité « pièce », icône de la catégorie ou monogramme.
+Règles : comparaison sur les mots du slug ; première règle trouvée gagnante ; mots plus spécifiques avant mots génériques. Si rien ne correspond : catégorie « Autres », unité « pièce », icône de la catégorie ou monogramme.
 
 Les choix de l'utilisateur ne modifient pas le dictionnaire : ils sont enregistrés sur l'article lui-même.
 
@@ -217,12 +217,12 @@ Voir [05 § 4](05-identite-visuelle.md#4-icônes). Une icône dessinée par arti
 
 ## 7. Mise à jour du catalogue sans réinstaller
 
-Le catalogue embarqué a un numéro de version (`CATALOG_VERSION`, `src/data/catalogVersion.ts` : le lancement la compare à celle de la base sans charger le catalogue), gardé dans les réglages de l'app (`Settings.catalogVersion`). Une catégorie ou un article ajouté au catalogue porte `since` : la version qui l'a introduit (absent : 1).
+Le catalogue embarqué a un numéro de version (`CATALOG_VERSION`, `src/data/catalogVersion.ts` : le lancement la compare à celle de la base sans charger le catalogue), gardé dans les réglages de l'app (`Settings.catalogVersion`). Une unité, une catégorie ou un article ajouté au catalogue porte `since` : la version qui l'a introduit (absent : 1).
 
 Au lancement, si le catalogue de l'app est plus récent que celui de la base (`src/db/catalogUpdate.ts`) :
 
-- les catégories et articles apparus depuis sont **ajoutés**, sauf s'ils existent déjà (même clé, ou même nom pour un article créé à la main) ;
+- les unités, catégories et articles apparus depuis sont **ajoutés**, sauf s'ils existent déjà (même clé, ou même nom pour un article créé à la main) ;
 - rien de ce que l'utilisateur a créé, modifié ou supprimé n'est touché : un article du catalogue qu'il a supprimé ne revient pas ;
-- une nouvelle catégorie n'est rangée dans aucun rayon : elle apparaît dans les « Catégories non rattachées » de chaque magasin (G3).
+- une nouvelle catégorie n'est rangée dans aucun rayon : elle apparaît dans les « Catégories non rattachées » de chaque magasin (G3).
 
-Les changements apportés à un article existant ne sont pas recopiés, sauf une **correction** listée dans `catalogFixes` (`src/data/catalog.ts` : unité par défaut, quantité par défaut, « se compte à la pièce ») : elle ne s'applique qu'à un article que l'utilisateur n'a jamais modifié (date de mise à jour égale à la date de création). Pas besoin de réinstaller l'app pour profiter des nouveautés. Chaque enrichissement du catalogue augmente `CATALOG_VERSION`.
+Les changements apportés à un article existant ne sont pas recopiés, sauf une **correction** listée dans `catalogFixes` (`src/data/catalog.ts` : unité par défaut, quantité par défaut, « se compte à la pièce ») : elle ne s'applique qu'à un article que l'utilisateur n'a jamais modifié (date de mise à jour égale à la date de création). Pas besoin de réinstaller l'app pour profiter des nouveautés. Chaque enrichissement du catalogue augmente `CATALOG_VERSION`.

@@ -4,6 +4,7 @@ import {
 } from "lz-string";
 import {
   entryAmount,
+  LINE_BULLET,
   exactEntry,
   parseEntry,
   resolveEntry,
@@ -707,17 +708,20 @@ export function textImportLines(
     .split(/\r?\n/)
     .map((line) => line.replace(FORMATTING, "$1$3"))
     .filter((line) => isLabel(line));
-  const bulleted = lines.filter((line) => BULLET.test(line));
+  const bulleted = lines.filter((line) => LINE_BULLET.test(line));
   const kept = (bulleted.length ? bulleted : lines)
+    .flatMap(collapsedBullets)
     .map((line) =>
       line
-        .replace(BULLET, "")
+        .replace(LINE_BULLET, "")
         // Précisions entre parenthèses en fin de ligne (« (Gala uniquement) »).
         .replace(/\s*\([^()]*\)\s*$/, "")
         .trim(),
     )
     .filter(Boolean);
-  const entries = parseEntry(kept.join("\n"), context.units);
+  const entries = parseEntry(kept.join("\n"), context.units, {
+    bullets: false,
+  });
   const { catalog } = context;
   const fallbackCategory = catalogCategory(catalog, OTHERS_CATEGORY);
 
@@ -753,15 +757,18 @@ export function textImportLines(
  * `~barré~` de WhatsApp) : retirée avant de lire le texte collé. Une puce `* pain`
  * n'est pas touchée (l'étoile n'est pas collée au mot).
  */
+/**
+ * Liste à puces dont les retours à la ligne ont sauté : la puce de tête revient au
+ * milieu de la ligne (« - beurre - lait » → « - beurre », « lait »). Une autre puce
+ * reste dans l'article (« • Lait - 2 L »).
+ */
+function collapsedBullets(line: string): string[] {
+  const bullet = /^\s*([•·▪◦‣∙*\-–—])\s/u.exec(line)?.[1];
+  return bullet ? line.replace(/\s+/g, " ").split(` ${bullet} `) : [line];
+}
+
 const FORMATTING =
   /(^|[^\p{L}\p{N}])([*_~])(?=\S)(.+?)(?<=\S)\2(?![\p{L}\p{N}])/gu;
-
-/**
- * Puce en début de ligne : •, -, *, case à cocher, ou numéro suivi d'une espace
- * (« 1. pain », mais pas « 2.5 kg de farine »).
- */
-const BULLET =
-  /^\s*(?:(?:[•·▪◦‣∙*\-–—✓✔☐☑]|\[[ xX]?\])\s*|\d+[.)]\s+)(?:\[[ xX]?\]\s*)?(?=\S)/u;
 
 /**
  * Correspondance d'un article reçu chez le destinataire. `received` peut s'enrichir :

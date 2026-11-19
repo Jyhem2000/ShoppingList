@@ -48,7 +48,7 @@ _Facultatif_ : **Settings** → **Rules** → **Rulesets** → **New branch rule
 Projet → **Settings** → **Build** → **Branch control** → crayon :
 
 1. **Preview branch** : **Custom branches**.
-2. **Include Preview branches** : taper `dev` puis **appuyer sur Entrée**, pour que `dev` devienne une étiquette. Sans Entrée, le champ reste vide pour Cloudflare (« Please specify custom branches… ») et rien n'est enregistré.
+2. **Include Preview branches** : taper `dev` puis **appuyer sur Entrée**, pour que `dev` devienne une étiquette. Sans Entrée, le champ reste vide pour Cloudflare (« Please specify custom branches… ») et rien n'est enregistré.
 3. **Exclude Preview branches** : laisser vide.
 4. **Save**.
 
@@ -57,7 +57,7 @@ Ainsi seules `main` (production) et `dev` (préproduction) sont construites.
 ## 5. Vérifier
 
 1. Projet → **Deployments** : un déploiement par branche poussée. Un projet relié à Git n'a **pas de bouton pour lancer un déploiement** : seul un push (ou un _Deploy Hook_, ci-dessous) déclenche un build. **Retry deployment** reconstruit le _même_ commit qu'à l'origine, pas le dernier.
-2. Si un push ne déclenche rien, ou si Cloudflare affiche « This project is disconnected from your Git account » : GitHub → **Settings** (du compte) → **Applications** → **Installed GitHub Apps** → **Cloudflare Workers and Pages** → **Configure** → vérifier que `ShoppingList` est autorisé → **Save**. Cela arrive notamment après un changement de visibilité du dépôt.
+2. Si un push ne déclenche rien, ou si Cloudflare affiche « This project is disconnected from your Git account » : GitHub → **Settings** (du compte) → **Applications** → **Installed GitHub Apps** → **Cloudflare Workers and Pages** → **Configure** → vérifier que `ShoppingList` est autorisé → **Save**. Cela arrive notamment après un changement de visibilité du dépôt.
 3. Ouvrir la préproduction (`https://dev.shoppinglist-app.pages.dev`) sur les téléphones, installer l'app et suivre la checklist de [08 § 5](08-tests-et-qualite.md#5-checklist-manuelle-sur-téléphone-avant-chaque-version).
 4. Si un build échoue, son journal indique quel contrôle (format, lint, types, tests) a échoué ; rien n'est mis en ligne dans ce cas.
 

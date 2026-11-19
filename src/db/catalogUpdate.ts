@@ -1,14 +1,14 @@
-import { categoriesData } from "@/data";
+import { categoriesData, unitsData } from "@/data";
 import { CATALOG_VERSION, catalogData, catalogFixes } from "@/data/catalog";
-import type { Article, Category } from "@/domain/model";
+import type { Article, ID } from "@/domain/model";
 import type { ShoppingDatabase } from "./database";
 import { buildInitialData } from "./seed";
 
 /**
  * Mise à jour du catalogue sans réinstaller (docs/06 § 7) : à chaque nouvelle version du
- * catalogue embarqué, les catégories et articles apparus depuis (`since`) sont ajoutés à
- * la base, s'ils n'y sont pas déjà (même clé, ou même nom pour un article créé à la
- * main). Rien de ce que l'utilisateur a créé, modifié ou supprimé avant n'est touché.
+ * catalogue embarqué, les unités, catégories et articles apparus depuis (`since`) sont
+ * ajoutés à la base, s'ils n'y sont pas déjà (même clé, ou même nom pour une ligne créée
+ * à la main). Rien de ce que l'utilisateur a créé, modifié ou supprimé avant n'est touché.
  * Une nouvelle catégorie n'est rangée dans aucun rayon : elle apparaît dans les
  * « Catégories non rattachées » de chaque magasin. Les corrections (`catalogFixes`)
  * ne touchent qu'un article jamais modifié. Renvoie le nombre d'ajouts et de corrections.
@@ -32,25 +32,28 @@ export async function updateCatalog(
       const categoryByKey = new Map(
         categories.map((c) => [c.catalogKey, c.id]),
       );
-      const categorySlugs = new Set(categories.map((c) => c.slug));
-      const freshCategories = new Map(
-        fresh.categories.map((c) => [c.catalogKey, c]),
+      const newCategories = newRows(
+        categoriesData.filter((data) => isNew(data.since)),
+        fresh.categories,
+        categories,
+        categoryByKey,
       );
-      const newCategories: Category[] = [];
-      for (const data of categoriesData) {
-        if (!isNew(data.since) || categoryByKey.has(data.key)) continue;
-        const category = freshCategories.get(data.key);
-        if (!category || categorySlugs.has(category.slug)) continue;
-        newCategories.push(category);
-        categoryByKey.set(data.key, category.id);
-      }
       await database.categories.bulkAdd(newCategories);
       added += newCategories.length;
 
       const units = await database.units.toArray();
-      const unitByKey = new Map(
+      const unitByKey = new Map<string | undefined, ID>(
         units.map((u) => [u.catalogKey ?? u.slug, u.id]),
       );
+      const newUnits = newRows(
+        unitsData.filter((data) => isNew(data.since)),
+        fresh.units,
+        units,
+        unitByKey,
+      );
+      await database.units.bulkAdd(newUnits);
+      added += newUnits.length;
+
       const articles = await database.articles.toArray();
       const articleKeys = new Set(articles.map((a) => a.catalogKey));
       const articleSlugs = new Set(articles.map((a) => a.slug));
@@ -106,4 +109,27 @@ export async function updateCatalog(
       return added;
     },
   );
+}
+
+/**
+ * Lignes du catalogue à ajouter (catégories, unités) : celles de `data` qui ne sont pas
+ * déjà dans la base, ni par leur clé (`idByKey`), ni par leur slug (créées à la main).
+ * `idByKey` reçoit les ajouts : les articles nouveaux s'y rattachent.
+ */
+function newRows<T extends { id: ID; slug: string; catalogKey?: string }>(
+  data: readonly { key: string }[],
+  fresh: readonly T[],
+  existing: readonly { slug: string }[],
+  idByKey: Map<string | undefined, ID>,
+): T[] {
+  const freshByKey = new Map(fresh.map((row) => [row.catalogKey, row]));
+  const slugs = new Set(existing.map((row) => row.slug));
+  const rows: T[] = [];
+  for (const { key } of data) {
+    const row = freshByKey.get(key);
+    if (idByKey.has(key) || !row || slugs.has(row.slug)) continue;
+    rows.push(row);
+    idByKey.set(key, row.id);
+  }
+  return rows;
 }

@@ -1,6 +1,6 @@
-import { ChevronDown, Ellipsis } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { fr } from "@/i18n/fr";
-import { Button } from "@/ui/button";
+import { MenuButton } from "@/ui/MenuButton";
 import { PageHeader, PageTitle } from "@/ui/Page";
 
 const t = fr.list;
@@ -36,17 +36,7 @@ export function ListHeader({
           />
         </button>
       }
-      action={
-        <Button
-          variant="icon"
-          size="icon"
-          onClick={onMenu}
-          aria-label={t.menu}
-          className="-mr-2"
-        >
-          <Ellipsis className="size-6" aria-hidden />
-        </Button>
-      }
+      action={<MenuButton label={t.menu} onClick={onMenu} />}
     />
   );
 }

@@ -1,13 +1,17 @@
+import { entryAmount } from "./entry";
 import { lineKey } from "./lines";
 import { planListMerge, type MergeLine, type MergeSource } from "./listMerge";
-import type { ID, Recipe, Unit } from "./model";
+import { byId } from "./collections";
+import type { Article, ID, Recipe, Unit } from "./model";
 import { slugify } from "./slug";
 import {
   clean,
   convert,
   convertible,
   formatNumber,
+  formatQuantity,
   simplify,
+  unitGroup,
 } from "./quantity";
 
 /**
@@ -71,15 +75,56 @@ export function scaleRecipe(
   }));
 }
 
+/** Ce que l'ajout d'une recette à une liste lit d'un article. */
+export type ShoppingArticle = Pick<
+  Article,
+  "id" | "defaultUnitId" | "defaultQuantity" | "countable"
+>;
+
+/**
+ * Ce qui part sur la liste pour un ingrédient (docs/02 § 7) : sa quantité, sauf en unité
+ * de cuisine (cuillère, verre, décilitre, pincée), qui ne s'achète pas. La ligne prend
+ * alors la quantité par défaut de l'article (1 bouteille de vin blanc) et la quantité de
+ * la recette passe en note (« 1 verre ») ; une ligne déjà dans la liste garde la sienne
+ * et reçoit seulement la note.
+ */
+function shoppingAmount(
+  quantity: number,
+  unitId: ID,
+  article: ShoppingArticle | undefined,
+  units: readonly Unit[],
+  unitById: ReadonlyMap<ID, Unit>,
+): Pick<MergeSource, "quantity" | "unitId" | "note" | "onlyIfNew"> {
+  const unit = unitById.get(unitId);
+  // Quantité habituelle de l'article : celle d'un article tapé sans quantité (A2).
+  const usual = article && entryAmount({ text: "" }, article, units, false);
+  if (
+    !unit ||
+    unitGroup(unit) !== "kitchen" ||
+    !usual ||
+    unitGroup(usual.unit) === "kitchen"
+  )
+    return { quantity, unitId };
+  return {
+    quantity: usual.quantity,
+    unitId: usual.unit.id,
+    note: formatQuantity(quantity, unit),
+    onlyIfNew: true,
+  };
+}
+
 /** Une ligne de l'aperçu « Ajouter à une liste » (docs/02 § 7, étape 3). */
 export interface RecipeAddLine {
   /** Rang de l'ingrédient dans la recette. */
   index: number;
   articleId: ID;
   acceptedTypes: string[];
-  /** Quantité recalculée, à ajouter. */
+  /** Quantité recalculée, à ajouter (celle de l'article pour une unité de cuisine). */
   quantity: number;
   unitId: ID;
+  /** Quantité de la recette en unité de cuisine, notée sur la ligne. */
+  note?: string;
+  onlyIfNew?: boolean;
   optional: boolean;
   /** Coché par défaut, sauf les ingrédients facultatifs. */
   checked: boolean;
@@ -102,14 +147,22 @@ export function planRecipeAdd(
   requested: number,
   target: readonly (MergeSource & { id: ID })[],
   units: readonly Unit[],
+  articles: readonly ShoppingArticle[],
 ): RecipeAddLine[] {
   const byKey = new Map(target.map((item) => [lineKey(item), item]));
+  const unitById = byId(units);
+  const articleById = byId(articles);
   return scaleRecipe(recipe, requested, units).map((ingredient, index) => {
     const source: MergeSource = {
       articleId: ingredient.articleId,
-      quantity: ingredient.quantity,
-      unitId: ingredient.unitId,
       acceptedTypes: ingredient.acceptedTypes,
+      ...shoppingAmount(
+        ingredient.quantity,
+        ingredient.unitId,
+        articleById.get(ingredient.articleId),
+        units,
+        unitById,
+      ),
     };
     const existing = byKey.get(lineKey(source));
     const [result] = planListMerge(existing ? [existing] : [], [source], units);
@@ -117,8 +170,10 @@ export function planRecipeAdd(
       index,
       articleId: ingredient.articleId,
       acceptedTypes: ingredient.acceptedTypes,
-      quantity: ingredient.quantity,
-      unitId: ingredient.unitId,
+      quantity: source.quantity,
+      unitId: source.unitId,
+      note: source.note,
+      onlyIfNew: source.onlyIfNew,
       optional: ingredient.optional,
       checked: !ingredient.optional,
       existing: existing && {
@@ -140,7 +195,13 @@ export function planRecipeAdd(
 export function recipeMerge(
   lines: readonly Pick<
     RecipeAddLine,
-    "articleId" | "acceptedTypes" | "quantity" | "unitId" | "checked"
+    | "articleId"
+    | "acceptedTypes"
+    | "quantity"
+    | "unitId"
+    | "note"
+    | "onlyIfNew"
+    | "checked"
   >[],
   target: readonly (MergeSource & { id: ID })[],
   units: readonly Unit[],
@@ -149,12 +210,16 @@ export function recipeMerge(
     target,
     lines
       .filter((line) => line.checked)
-      .map(({ articleId, acceptedTypes, quantity, unitId }) => ({
-        articleId,
-        acceptedTypes,
-        quantity,
-        unitId,
-      })),
+      .map(
+        ({ articleId, acceptedTypes, quantity, unitId, note, onlyIfNew }) => ({
+          articleId,
+          acceptedTypes,
+          quantity,
+          unitId,
+          note,
+          onlyIfNew,
+        }),
+      ),
     units,
   );
 }

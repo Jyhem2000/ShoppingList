@@ -8,7 +8,7 @@ Fini les allers-retours au rayon frais parce que tu avais oublié le beurre : l'
 
 ## Ce qu'elle fait
 
-- ⚡ **Ajout éclair** : tape `3 tom`, Entrée, c'est ajouté. Comprend « 500 g de farine », « une douzaine d'œufs », « pommes gala ».
+- ⚡ **Ajout éclair** : tape `3 tom`, Entrée, c'est ajouté. Comprend « 500 g de farine », « une douzaine d'œufs », « pommes gala ».
 - 🗺️ **Tri par rayon** selon le magasin choisi : ses rayons se créent pendant tes premières courses, tels qu'ils sont vraiment.
 - 🧠 **Apprend l'ordre des rayons** à partir de l'ordre dans lequel tu coches tes articles.
 - 🛒 **Mode courses** : grosses lignes, rayons qui se replient une fois terminés, écran qui reste allumé, alerte si tu ajoutes un article d'un rayon déjà passé, clôture des courses (et réouverture en cas d'oubli à la caisse).
@@ -21,14 +21,14 @@ Fini les allers-retours au rayon frais parce que tu avais oublié le beurre : l'
 ## Mode d'emploi
 
 1. **Remplis ta liste** avec la barre du bas (`2 baguettes, du beurre`) ou le catalogue. Elle se range toute seule par catégorie ; en magasin, elle se range par rayon, dans l'ordre de ton parcours.
-2. **En magasin**, touche **C'est parti** et choisis le magasin (ou nomme-le, la première fois). La première fois, tout est « À placer » : touche chaque article quand il est dans le caddie, et **Rayon suivant** quand tu changes de rayon ; le magasin est enregistré tel que tu l'as parcouru. Touche une ligne quand l'article est dans le caddie ; glisse-la vers la gauche si tu ne le prends pas (introuvable, plus besoin…) : il reste dans la liste ; appui long pour dire qu'il est dans un autre rayon.
-3. **Tu penses à un article en passant** : ajoute-le avec la barre. Si tu l'as déjà pris, choisis « Je l'ai déjà dans le caddie » ; s'il n'est pas dans le rayon prévu, « Il est dans un autre rayon… ». Si son rayon est déjà passé, il t'attend en haut dans « À récupérer ».
-4. **À la caisse**, touche **Terminer**. Un oubli ? « Rouvrir les courses » sur la liste, tant que tu n'as pas recommencé de nouvelles courses.
-5. **Partager** : `⋯` → « Partager la liste » (ou, sur une recette, « Partager la recette ») envoie un message par Messages, WhatsApp… La personne copie le message, puis dans son app `⋯` → « Coller une liste » (ou Recettes → « Coller une recette ») ; sur Android, toucher le lien suffit souvent.
+2. **En magasin**, touche **C'est parti** et choisis le magasin (ou nomme-le, la première fois). La première fois, tout est « À placer » : touche chaque article quand il est dans le caddie, et **Rayon suivant** quand tu changes de rayon ; le magasin est enregistré tel que tu l'as parcouru. Touche une ligne quand l'article est dans le caddie ; glisse-la vers la gauche si tu ne le prends pas (introuvable, plus besoin…) : il reste dans la liste ; appui long pour dire qu'il est dans un autre rayon.
+3. **Tu penses à un article en passant** : ajoute-le avec la barre. Si tu l'as déjà pris, choisis « Je l'ai déjà dans le caddie » ; s'il n'est pas dans le rayon prévu, « Il est dans un autre rayon… ». Si son rayon est déjà passé, il t'attend en haut dans « À récupérer ».
+4. **À la caisse**, touche **Terminer**. Un oubli ? « Rouvrir les courses » sur la liste, tant que tu n'as pas recommencé de nouvelles courses.
+5. **Partager** : `⋯` → « Partager la liste » (ou, sur une recette, « Partager la recette ») envoie un message par Messages, WhatsApp… La personne copie le message, puis dans son app `⋯` → « Coller une liste » (ou Recettes → `⋯` → « Coller une recette ») ; sur Android, toucher le lien suffit souvent.
 
 ### Tes données
 
-Tout reste sur ton téléphone. Pense à **Réglages → Sauvegarde → Exporter un fichier** de temps en temps : le fichier se range dans Fichiers ou Drive, et « Importer un fichier » remet tout en place (nouveau téléphone, réinstallation). L'app garde aussi une copie automatique par jour (7 jours), pour revenir sur une fausse manipulation. Les nouveaux articles du catalogue arrivent avec les mises à jour, sans réinstaller.
+Tout reste sur ton téléphone. Pense à **Réglages → Sauvegarde → Exporter un fichier** de temps en temps : le fichier se range dans Fichiers ou Drive, et « Importer un fichier » remet tout en place (nouveau téléphone, réinstallation). L'app garde aussi une copie automatique par jour (7 jours), pour revenir sur une fausse manipulation. Les nouveaux articles du catalogue arrivent avec les mises à jour, sans réinstaller.
 
 ### Ce que l'app règle toute seule
 

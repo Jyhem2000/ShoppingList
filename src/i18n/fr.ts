@@ -204,7 +204,7 @@ export const fr = {
       description: "Actions sur cette liste",
       rename: "Renommer",
       duplicate: "Dupliquer",
-      addLists: "Y ajouter le contenu d'une autre liste",
+      addLists: "Compléter avec une liste",
       clear: "Vider la liste",
       delete: "Supprimer la liste",
       confirmClear: "Vider la liste ?",
@@ -224,7 +224,7 @@ export const fr = {
       newList: "Nouvelle liste",
       newTitle: "Nouvelle liste",
       name: "Nom de la liste",
-      include: "Y ajouter le contenu de",
+      include: "Reprendre le contenu de",
       create: "Créer la liste",
     },
     merge: {
@@ -770,6 +770,8 @@ export const fr = {
     title: "Recettes",
     search: "Rechercher une recette",
     create: "Nouvelle recette",
+    menu: "Actions sur les recettes",
+    menuDescription: "Ajouter une recette",
     count: (count: number) =>
       count > 1 ? `${count} recettes` : count === 1 ? "1 recette" : "Recettes",
     noResult: "Aucune recette ne correspond.",
@@ -1021,6 +1023,15 @@ export const fr = {
     title: "Nouveautés",
     version: (version: string) => `Version ${version}`,
     versions: [
+      {
+        version: "1.1.1",
+        date: "2026-11-19",
+        items: [
+          "Recettes : nouvelles unités «\u00a0verre\u00a0» et «\u00a0décilitre\u00a0». Une cuillère, une pincée ou un verre ne s'achète pas : à l'ajout à une liste, l'article arrive dans son unité habituelle (1 bouteille de vin blanc) et la quantité de la recette passe en note. Tapé dans la liste, «\u00a01 verre de vin\u00a0» ajoute aussi le vin dans son unité habituelle.",
+          "Une liste à puces copiée depuis Notes ou une autre app se colle d'un coup dans la barre d'ajout : un article par puce.",
+          "Recettes : «\u00a0Nouvelle recette\u00a0» et «\u00a0Coller une recette\u00a0» passent dans le menu ⋯, pour laisser la place aux recettes.",
+        ],
+      },
       {
         version: "1.1.0",
         date: "2026-11-19",

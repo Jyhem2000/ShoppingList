@@ -534,6 +534,29 @@ describe("coller une liste en texte (docs/03 A8)", () => {
       entry: { quantity: 2.5, unitSlug: "kg" },
     });
   });
+
+  it("une liste à puces sur une seule ligne se découpe ; une autre puce reste dans l'article", async () => {
+    const recipient = await seeded();
+    const collapsed = textImportLines(
+      "- 200 g de beurre - 3 cl de lait",
+      await context(recipient),
+    );
+    expect(collapsed.map((line) => line.received.label)).toEqual([
+      "beurre",
+      "lait",
+    ]);
+    const dashed = textImportLines(
+      "• Lait - 2 L\n• Jambon : 4 tranches",
+      await context(recipient),
+    );
+    expect(dashed.map((line) => line.received.label)).toEqual([
+      "Lait",
+      "Jambon",
+    ]);
+    expect(dashed[0]?.amount).toMatchObject({
+      entry: { quantity: 2, unitSlug: "l" },
+    });
+  });
 });
 
 describe("partage d'une recette (docs/03 E3)", () => {

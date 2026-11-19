@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   entryAmount,
   parseEntry,
+  pastedEntry,
   resolveEntry,
   typeSuggestions,
 } from "@/domain/entry";
@@ -210,6 +211,63 @@ describe("saisie naturelle : tableau de docs/03 § A2", () => {
     expect(enter("sauce nuoc-mâm")).toEqual(["? sauce nuoc-mâm"]);
     expect(parseEntry("2 sauce nuoc-mâm", units)).toEqual([
       { text: "sauce nuoc-mâm", quantity: 2 },
+    ]);
+  });
+});
+
+describe("listes à puces (docs/03 A2)", () => {
+  it("une puce en tête ou entre deux articles sépare, pas le trait d'union", () => {
+    expect(enter("- 200g de beurre - 3cl de lait • 2 pommes")).toEqual([
+      "Beurre : 200 g",
+      "Lait : 3 cl",
+      "Pommes : × 2",
+    ]);
+    expect(enter("* beurre * lait * 3")).toEqual([
+      "Beurre : 250 g",
+      "Lait : 3 L",
+    ]);
+    expect(parseEntry("dix-sept pommes", units)).toEqual([
+      { text: "pommes", quantity: 17 },
+    ]);
+    // Retour à la ligne disparu sans espace (clavier Android).
+    expect(enter("- 200 g de beurre- 3 cl de lait")).toEqual([
+      "Beurre : 200 g",
+      "Lait : 3 cl",
+    ]);
+  });
+
+  it("hors de la barre d'ajout, une puce au milieu reste dans l'article", () => {
+    expect(parseEntry("lait - demi-écrémé", units, { bullets: false })).toEqual(
+      [{ text: "lait - demi-écrémé" }],
+    );
+  });
+
+  it("une liste collée devient une ligne séparée par des virgules", () => {
+    expect(
+      pastedEntry("- 200 g de beurre\n- [ ] 3 cl de lait\r\n\n1. du pain\n"),
+    ).toBe("200 g de beurre, 3 cl de lait, du pain");
+    expect(pastedEntry("2 pommes")).toBe("2 pommes");
+  });
+});
+
+describe("unités de cuisine dans la barre d'ajout (docs/03 A2)", () => {
+  it("ne s'achètent pas : l'article prend sa quantité habituelle", () => {
+    expect(enter("1 verre de lait")).toEqual(["Lait : 6 L"]);
+    expect(enter("2 cas de beurre")).toEqual(["Beurre : 250 g"]);
+  });
+
+  it("seulement devant « de » : « 6 verres en plastique » sont des verres", () => {
+    expect(parseEntry("6 verres en plastique", units)).toEqual([
+      { text: "verres en plastique", quantity: 6 },
+    ]);
+  });
+
+  it("dans une recette, elles se lisent comme les autres", () => {
+    expect(
+      parseEntry("1 verre de vin, 2 cas de sucre", units, { recipe: true }),
+    ).toEqual([
+      { text: "vin", quantity: 1, unitSlug: "verre" },
+      { text: "sucre", quantity: 2, unitSlug: "c-a-s" },
     ]);
   });
 });

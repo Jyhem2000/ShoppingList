@@ -28,7 +28,7 @@ Chaque objet nommé (article, catégorie, unité, rayon, magasin, liste, recette
 - un **libellé** affiché, librement modifiable ;
 - pour les articles, catégories et unités : un **slug**, version normalisée du libellé, qui sert à détecter les doublons, à la recherche et à reconnaître les objets lors d'un import.
 
-L'identifiant **n'est pas** le slug : renommer « Tomates » en « Tomates cerises » change le slug (`tomates` → `tomates-cerises`) mais pas l'identifiant, donc les listes, recettes et l'historique qui pointent vers l'article restent intacts.
+L'identifiant **n'est pas** le slug : renommer « Tomates » en « Tomates cerises » change le slug (`tomates` → `tomates-cerises`) mais pas l'identifiant, donc les listes, recettes et l'historique qui pointent vers l'article restent intacts.
 
 ### Règles de `slugify`
 
@@ -49,15 +49,15 @@ L'identifiant **n'est pas** le slug : renommer « Tomates » en « Tomates ceris
 
 ### Langues : libellé, slug et clé
 
-**`slugify` ne traduit rien** : il normalise seulement les caractères du libellé tel qu'il est écrit, dans la langue où il a été écrit. Le slug ne sert donc qu'à repérer « la même écriture » (« tomates » = « Tomates »), jamais « le même produit dans une autre langue ».
+**`slugify` ne traduit rien** : il normalise seulement les caractères du libellé tel qu'il est écrit, dans la langue où il a été écrit. Le slug ne sert donc qu'à repérer « la même écriture » (« tomates » = « Tomates »), jamais « le même produit dans une autre langue ».
 
 Trois niveaux à distinguer :
 
 | Niveau                                  | Exemple                                               | Langue                                                          | Voyage dans un partage ?                         |
 | --------------------------------------- | ----------------------------------------------------- | --------------------------------------------------------------- | ------------------------------------------------ |
 | **Clé catalogue**                       | `beurre-de-cacahuete`                                 | Aucune : identifiant technique figé, qui aurait pu être `a0042` | ✅ et c'est elle qui permet la correspondance    |
-| **Libellé du catalogue**                | fr : « Beurre de cacahuète » · en : « Peanut butter » | Une par langue disponible                                       | Non : chacun affiche le libellé de **sa** langue |
-| **Libellé d'un article créé à la main** | « Peanut butter »                                     | Celle dans laquelle il a été tapé                               | ✅ tel quel (aucune traduction possible)         |
+| **Libellé du catalogue**                | fr : « Beurre de cacahuète » · en : « Peanut butter » | Une par langue disponible                                       | Non : chacun affiche le libellé de **sa** langue |
+| **Libellé d'un article créé à la main** | « Peanut butter »                                     | Celle dans laquelle il a été tapé                               | ✅ tel quel (aucune traduction possible)         |
 
 Conséquence : **tant que les articles viennent du catalogue, le multilingue est automatique** (même clé, chacun lit sa langue). La seule difficulté concerne les articles créés à la main, traitée en § 9.
 
@@ -65,8 +65,8 @@ L'app est **en français** ; l'anglais (interface + catalogue) arrive en v1.3 ([
 
 ### Règles d'unicité
 
-- Deux articles ne peuvent pas avoir le même slug. Créer « tomates » quand « Tomates » existe → l'app propose l'article existant.
-- Un libellé saisi qui correspond à l'**alias** d'un article existant (« coca » → _Coca-Cola_) → l'app propose aussi l'article existant.
+- Deux articles ne peuvent pas avoir le même slug. Créer « tomates » quand « Tomates » existe → l'app propose l'article existant.
+- Un libellé saisi qui correspond à l'**alias** d'un article existant (« coca » → _Coca-Cola_) → l'app propose aussi l'article existant.
 - Renommer un article met à jour son slug ; si le nouveau slug est déjà pris, l'app propose de **fusionner** les deux articles.
 - Même règle pour les catégories et les unités.
 
@@ -82,16 +82,16 @@ Un produit que l'on achète.
 
 | Propriété            | Obligatoire  | Description                                                                                                                                                                                   |
 | -------------------- | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Libellé              | ✅           | « Pommes »                                                                                                                                                                                    |
+| Libellé              | ✅           | « Pommes »                                                                                                                                                                                    |
 | Slug                 | ✅ (calculé) | `pommes`                                                                                                                                                                                      |
-| Catégorie            | ✅           | « Fruits ». Par défaut « Autres » si l'app ne devine pas                                                                                                                                      |
-| Unité par défaut     | ✅           | « kg ». Devinée à la création (voir 06), modifiable                                                                                                                                           |
-| Quantité par défaut  | —            | Quantité ajoutée quand on n'en précise pas : **6** pour les œufs (unité « pièce »), 1 sinon (ou le pas de l'unité). Modifiable                                                                |
-| Se compte à la pièce | —            | Pour un article vendu au poids qui se compte (pommes, échalotes, blancs de poulet) : un nombre tapé seul compte des pièces (« 3 pommes » → × 3), voir 03 A2. Modifiable dans la fiche article |
+| Catégorie            | ✅           | « Fruits ». Par défaut « Autres » si l'app ne devine pas                                                                                                                                      |
+| Unité par défaut     | ✅           | « kg ». Devinée à la création (voir 06), modifiable                                                                                                                                           |
+| Quantité par défaut  | —            | Quantité ajoutée quand on n'en précise pas : **6** pour les œufs (unité « pièce »), 1 sinon (ou le pas de l'unité). Modifiable                                                                |
+| Se compte à la pièce | —            | Pour un article vendu au poids qui se compte (pommes, échalotes, blancs de poulet) : un nombre tapé seul compte des pièces (« 3 pommes » → × 3), voir 03 A2. Modifiable dans la fiche article |
 | Types                | —            | Liste des variétés possibles, **vide par défaut** : `Gala`, `Golden`, `Granny Smith`                                                                                                          |
 | Alias                | —            | Autres noms : synonymes, abréviations, marques passées dans le langage courant, variantes régionales (voir ci-dessous)                                                                        |
 | Icône                | —            | Icône choisie ; si absente, l'app en déduit une ou affiche un monogramme (voir 05)                                                                                                            |
-| Favori               | —            | Épinglé dans les « Habituels »                                                                                                                                                                |
+| Favori               | —            | Épinglé dans les « Habituels »                                                                                                                                                                |
 | Mois de saison       | —            | _v1.2_ — fruits, légumes et herbes : mois où l'article est de saison en France (D3)                                                                                                           |
 | Clé catalogue        | —            | Présente si l'article vient du catalogue de départ (§ 10) ; ne change jamais                                                                                                                  |
 
@@ -108,9 +108,9 @@ Les alias évitent les doublons et rendent la recherche naturelle. Exemples :
 | Pommes de terre  | pdt, patates            |
 | Sauce nuoc-mâm   | nuoc mam, sauce poisson |
 
-- Ils sont fournis par le catalogue de départ et **s'enrichissent automatiquement** : quand, lors d'un import, l'utilisateur indique qu'un article reçu « est le même que » un des siens, le libellé reçu devient un alias de son article (§ 9).
+- Ils sont fournis par le catalogue de départ et **s'enrichissent automatiquement** : quand, lors d'un import, l'utilisateur indique qu'un article reçu « est le même que » un des siens, le libellé reçu devient un alias de son article (§ 9).
 - Pas d'alias anglais systématiques : l'app est en français. Les anglicismes courants (cookies, chips, ketchup) sont déjà des libellés français.
-- Une marque précise que l'on veut **vraiment** (« Nutella, pas une autre ») se gère plutôt comme un **type** de l'article (_Pâte à tartiner_ → type _Nutella_).
+- Une marque précise que l'on veut **vraiment** (« Nutella, pas une autre ») se gère plutôt comme un **type** de l'article (_Pâte à tartiner_ → type _Nutella_).
 
 **Suppression** : possible ; si l'article est utilisé dans des listes ou des recettes, l'app le signale et propose de le retirer de celles-ci ou d'annuler.
 
@@ -124,11 +124,11 @@ Le type d'un article, **indépendant de tout magasin**. Volontairement **fine** 
 
 | Propriété      | Description                        |
 | -------------- | ---------------------------------- |
-| Libellé, slug  | « Charcuterie », `charcuterie`     |
+| Libellé, slug  | « Charcuterie », `charcuterie`     |
 | Icône, couleur | Pour l'affichage dans le catalogue |
 
-- La catégorie **« Autres »** existe toujours et ne peut pas être supprimée.
-- Supprimer une catégorie : ses articles passent dans une catégorie choisie (« Autres » par défaut).
+- La catégorie **« Autres »** existe toujours et ne peut pas être supprimée.
+- Supprimer une catégorie : ses articles passent dans une catégorie choisie (« Autres » par défaut).
 - Deux catégories peuvent être fusionnées.
 
 ---
@@ -137,40 +137,40 @@ Le type d'un article, **indépendant de tout magasin**. Volontairement **fine** 
 
 ### Le problème
 
-Tous les magasins n'ont pas les mêmes rayons. Dans une supérette, la charcuterie est dans un « Frais » générique avec les yaourts ; ailleurs, les conserves et l'apéritif partagent le même rayon ; dans un hypermarché, la viande se trouve à la fois au rayon boucherie à la coupe, en libre-service au rayon frais et au rayon terroir. **Un rayon est donc un regroupement de catégories propre à chaque magasin, et une catégorie peut se trouver dans plusieurs rayons.**
+Tous les magasins n'ont pas les mêmes rayons. Dans une supérette, la charcuterie est dans un « Frais » générique avec les yaourts ; ailleurs, les conserves et l'apéritif partagent le même rayon ; dans un hypermarché, la viande se trouve à la fois au rayon boucherie à la coupe, en libre-service au rayon frais et au rayon terroir. **Un rayon est donc un regroupement de catégories propre à chaque magasin, et une catégorie peut se trouver dans plusieurs rayons.**
 
 ### Magasin
 
 | Propriété        | Description                                                                                                    |
 | ---------------- | -------------------------------------------------------------------------------------------------------------- |
-| Libellé          | « Carrefour Market », « Marché du samedi »                                                                     |
+| Libellé          | « Carrefour Market », « Marché du samedi »                                                                     |
 | Rayons           | Liste **ordonnée** selon le parcours                                                                           |
-| Ordre verrouillé | Si oui, l'apprentissage automatique ne modifie plus l'ordre (affiché « Apprentissage de l'ordre : désactivé ») |
+| Ordre verrouillé | Si oui, l'apprentissage automatique ne modifie plus l'ordre (affiché « Apprentissage de l'ordre : désactivé ») |
 
-Aucun magasin n'existe au premier lancement : le premier se crée au premier « C'est parti » (03 B5). Un magasin part :
+Aucun magasin n'existe au premier lancement : le premier se crée au premier « C'est parti » (03 B5). Un magasin part :
 
-- de **zéro** (un seul rayon spécial, « À placer ») : **ses rayons se créent pendant les courses**, en cochant (03 C4) ;
+- de **zéro** (un seul rayon spécial, « À placer ») : **ses rayons se créent pendant les courses**, en cochant (03 C4) ;
 - ou d'une **copie** d'un magasin existant.
 
-Il n'y a pas de modèles de magasin (« Hypermarché », « Supermarché »…) : des rayons préremplis seraient faux pour presque tout le monde (dans un vrai supermarché, le pain peut être avec le sucré, le petit-déjeuner et le café). Même le dernier magasin peut être supprimé.
+Il n'y a pas de modèles de magasin (« Hypermarché », « Supermarché »…) : des rayons préremplis seraient faux pour presque tout le monde (dans un vrai supermarché, le pain peut être avec le sucré, le petit-déjeuner et le café). Même le dernier magasin peut être supprimé.
 
 ### Rayon
 
 | Propriété      | Description                                                                              |
 | -------------- | ---------------------------------------------------------------------------------------- |
-| Libellé        | **Facultatif** : « Frais libre-service », « Sucré & petit-déj »                          |
-| Repère         | Facultatif : « au fond du magasin »                                                      |
+| Libellé        | **Facultatif** : « Frais libre-service », « Sucré & petit-déj »                          |
+| Repère         | Facultatif : « au fond du magasin »                                                      |
 | Icône, couleur | Pour l'en-tête dans la liste                                                             |
 | Catégories     | Les catégories présentes dans ce rayon, chacune marquée **principale** ou **secondaire** |
 | Position       | Sa place dans le parcours du magasin                                                     |
 
 **Titre d'un rayon** : un rayon réel ne porte pas toujours le nom d'une catégorie. Sans nom donné par l'utilisateur, son titre vient de **ses catégories principales**, sans jamais être à rallonge, et sans numéro (un numéro bougerait avec l'apprentissage et ne correspondrait pas aux panneaux du magasin) :
 
-1. une seule catégorie : son **nom court** (« Fromages ») ;
-2. toutes de la même **famille** : le nom de la famille (« Épicerie sucrée ») ;
-3. sinon : les **deux catégories les plus achetées** (à égalité, l'ordre où elles y ont été rangées), puis le nombre des autres (« Pain · Café & thé +2 »).
+1. une seule catégorie : son **nom court** (« Fromages ») ;
+2. toutes de la même **famille** : le nom de la famille (« Épicerie sucrée ») ;
+3. sinon : les **deux catégories les plus achetées** (à égalité, l'ordre où elles y ont été rangées), puis le nombre des autres (« Pain · Café & thé +2 »).
 
-Le nom court et la famille de chaque catégorie sont dans 06 § 2 (nom court modifiable, 03 G2). La famille ne sert qu'à ce titre. Au-dessus du titre, le mot « RAYON » seul, pour ne pas confondre un rayon avec une catégorie ; la liste complète des catégories reste dans la fiche du rayon.
+Le nom court et la famille de chaque catégorie sont dans 06 § 2 (nom court modifiable, 03 G2). La famille ne sert qu'à ce titre. Au-dessus du titre, le mot « RAYON » seul, pour ne pas confondre un rayon avec une catégorie ; la liste complète des catégories reste dans la fiche du rayon.
 
 ### Catégorie présente dans plusieurs rayons
 
@@ -192,8 +192,8 @@ L'ajout d'un article ne pose **jamais** de question : il va dans le rayon princi
 
 Autres règles :
 
-- Chaque magasin possède un rayon spécial **« À placer »** qui reçoit les catégories rattachées à aucun rayon. En mode courses, il s'affiche juste après le rayon en cours : ce qu'on y coche se range dans ce rayon (03 C4).
-- On peut créer, renommer, réordonner, fusionner, scinder (créer un rayon, puis y ranger une partie des catégories) et supprimer des rayons. Supprimer un rayon renvoie les catégories dont il était le rayon principal dans « À placer » (ou vers un de leurs rayons secondaires, au choix).
+- Chaque magasin possède un rayon spécial **« À placer »** qui reçoit les catégories rattachées à aucun rayon. En mode courses, il s'affiche juste après le rayon en cours : ce qu'on y coche se range dans ce rayon (03 C4).
+- On peut créer, renommer, réordonner, fusionner, scinder (créer un rayon, puis y ranger une partie des catégories) et supprimer des rayons. Supprimer un rayon renvoie les catégories dont il était le rayon principal dans « À placer » (ou vers un de leurs rayons secondaires, au choix).
 
 ### Exception par article
 
@@ -204,21 +204,21 @@ Un article peut être placé dans un autre rayon **pour un magasin donné**. L'e
 ```
 1. exception de l'article pour ce magasin, si elle existe
 2. sinon, le rayon principal de sa catégorie dans ce magasin
-3. sinon, « À placer »
+3. sinon, « À placer »
 ```
 
 ### Déplacer un article
 
 Quand on déplace un article vers un autre rayon (en mode courses ou en édition), l'app propose d'abord les rayons où sa catégorie est présente, puis tous les autres, et demande :
 
-- **« Seulement _Steak haché_ dans ce magasin »** → exception pour cet article ;
-- **« Toute la catégorie _Viande_ dans ce magasin »** → ce rayon devient le rayon principal de la catégorie (l'ancien devient secondaire).
+- **« Seulement _Steak haché_ dans ce magasin »** → exception pour cet article ;
+- **« Toute la catégorie _Viande_ dans ce magasin »** → ce rayon devient le rayon principal de la catégorie (l'ancien devient secondaire).
 
 ---
 
 ## 5. Unité
 
-La façon de compter un article. Les unités sont **éditables** (on peut ajouter « botte », « barquette », « tranche »).
+La façon de compter un article. Les unités sont **éditables** (on peut ajouter « botte », « barquette », « tranche »).
 
 | Propriété                                    | Exemple `kg`             | Exemple `pièce`     |
 | -------------------------------------------- | ------------------------ | ------------------- |
@@ -232,10 +232,10 @@ Dimensions : **masse** (base g), **volume** (base ml), **autre** (pièce, pack, 
 
 ### Conversions
 
-- Deux unités sont **convertibles** si elles ont la même dimension et que cette dimension n'est pas « autre » (g ↔ kg, cl ↔ l). Une boîte et une bouteille ne sont jamais convertibles.
+- Deux unités sont **convertibles** si elles ont la même dimension et que cette dimension n'est pas « autre » (g ↔ kg, cl ↔ l). Une boîte et une bouteille ne sont jamais convertibles.
 - **Changer l'unité d'une ligne convertit la quantité** quand c'est possible : 1200 g → passer en kg → **1,2 kg** (et non 1200 kg). Si les unités ne sont pas convertibles, la quantité est conservée telle quelle.
-- **Simplification des quantités** (réglage, activée par défaut) : une quantité est exprimée dans **la plus grande unité de même dimension qui donne une valeur ≥ 1 avec 3 décimales au plus**. Exemples : 1200 g → 1,2 kg ; 1250 ml → 1,25 l ; 250 g reste 250 g ; 33 cl reste 33 cl. Appliquée après une saisie, une fusion ou un calcul de recette, avec un message d'information « Converti en 1,2 kg — Annuler ». **Jamais à la quantité par défaut d'un article** : elle s'affiche telle qu'elle est définie (_Cerises_ ajoutées sans quantité : « 500 g »). Les quantités par défaut du catalogue s'écrivent donc déjà comme on les lit en magasin : 500 g plutôt que 0,5 kg.
-- **Boutons − / +** (réglage rapide du catalogue et des courses, fiche d'une ligne, ingrédient) : ils avancent d'un **pas de l'unité en cours**, calé sur ses multiples (1,25 kg → + 1,5 kg, − 1 kg), et changent d'unité en chemin (pour monter vite : 3 kg de cerises sans 50 clics). En montant, la ligne passe à la plus grande unité dès que la valeur s'y simplifie : 950 g → 1 kg, puis 1,5 kg, 2 kg… (pas de 0,5 kg) ; 950 ml → 1 l. En descendant sous 1, elle repasse à l'unité de l'article (sinon celle juste en dessous) : 1 kg → 950 g ; 1 l → 95 cl ; mais on ne descend jamais sous l'unité de l'article elle-même (pommes de terre au kg : 1 kg → 0,5 kg ; lait au litre : − s'arrête à 1 l). Même règle pour un ingrédient de recette : le recalcul arrondit dans la plus petite unité (§ 7), l'unité où l'ingrédient est écrit ne change rien. Une quantité gardée exprès dans la petite unité (1200 g après « Annuler ») y reste. Pas de message « Converti en… » : le changement se voit sur place. Pour une valeur hors des pas (1,25 kg), la saisie de la fiche d'une ligne.
+- **Simplification des quantités** (réglage, activée par défaut) : une quantité est exprimée dans **la plus grande unité de même dimension qui donne une valeur ≥ 1 avec 3 décimales au plus**. Exemples : 1200 g → 1,2 kg ; 1250 ml → 1,25 l ; 250 g reste 250 g ; 33 cl reste 33 cl. Appliquée après une saisie, une fusion ou un calcul de recette, avec un message d'information « Converti en 1,2 kg — Annuler ». **Jamais à la quantité par défaut d'un article** : elle s'affiche telle qu'elle est définie (_Cerises_ ajoutées sans quantité : « 500 g »). Les quantités par défaut du catalogue s'écrivent donc déjà comme on les lit en magasin : 500 g plutôt que 0,5 kg.
+- **Boutons − / +** (réglage rapide du catalogue et des courses, fiche d'une ligne, ingrédient) : ils avancent d'un **pas de l'unité en cours**, calé sur ses multiples (1,25 kg → + 1,5 kg, − 1 kg), et changent d'unité en chemin (pour monter vite : 3 kg de cerises sans 50 clics). En montant, la ligne passe à la plus grande unité dès que la valeur s'y simplifie : 950 g → 1 kg, puis 1,5 kg, 2 kg… (pas de 0,5 kg) ; 950 ml → 1 l. En descendant sous 1, elle repasse à l'unité de l'article (sinon celle juste en dessous) : 1 kg → 950 g ; 1 l → 95 cl ; mais on ne descend jamais sous l'unité de l'article elle-même (pommes de terre au kg : 1 kg → 0,5 kg ; lait au litre : − s'arrête à 1 l). Même règle pour un ingrédient de recette : le recalcul arrondit dans la plus petite unité (§ 7), l'unité où l'ingrédient est écrit ne change rien. Une quantité gardée exprès dans la petite unité (1200 g après « Annuler ») y reste. Pas de message « Converti en… » : le changement se voit sur place. Pour une valeur hors des pas (1,25 kg), la saisie de la fiche d'une ligne.
 - Le **pas** sert aux boutons `+`/`−` et à l'arrondi des recettes.
 - Supprimer une unité utilisée impose de choisir une unité de remplacement.
 
@@ -247,7 +247,7 @@ Dimensions : **masse** (base g), **volume** (base ml), **autre** (pièce, pack, 
 
 | Propriété               | Description                                                                                                                                                 |
 | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Libellé                 | « Courses de la semaine », « Anniversaire »                                                                                                                 |
+| Libellé                 | « Courses de la semaine », « Anniversaire »                                                                                                                 |
 | Dernier magasin utilisé | Proposé au départ des courses, mais **la liste n'appartient à aucun magasin** : elle se range par catégorie, et par rayon seulement en mode courses (03 B1) |
 
 ### Ligne
@@ -258,22 +258,22 @@ Dimensions : **masse** (base g), **volume** (base ml), **autre** (pièce, pack, 
 | Quantité       | ✅          | Quantité par défaut de l'article (1 si non définie, ou le pas de l'unité)       |
 | Unité          | ✅          | Par défaut, l'unité par défaut de l'article ; modifiable (avec conversion, § 5) |
 | Types acceptés | —           | Sous-ensemble des types de l'article. **Vide = peu importe**                    |
-| Note           | —           | « bio », « la marque verte »                                                    |
+| Note           | —           | « bio », « la marque verte »                                                    |
 | Statut         | ✅          | à acheter / dans le caddie / pas pris                                           |
-| Origine        | —           | « via recette Raclette (6 pers.) »                                              |
+| Origine        | —           | « via recette Raclette (6 pers.) »                                              |
 
-**Affichage des types acceptés** : vide → rien ; un type → « Gala uniquement » ; plusieurs → « Gala ou Golden ». On peut ajouter un nouveau type à la volée depuis la ligne ; il est alors ajouté aux types de l'article.
+**Affichage des types acceptés** : vide → rien ; un type → « Gala uniquement » ; plusieurs → « Gala ou Golden ». On peut ajouter un nouveau type à la volée depuis la ligne ; il est alors ajouté aux types de l'article.
 
 ### Une ligne par article et par choix de types
 
-Une liste a **une ligne par article et par choix de types** : « Pommes · Golden × 2 » et « Pommes · Granny Smith × 3 » sont deux lignes, comme « Sucre · en poudre 1 kg » et « Sucre · glace 250 g ». Les mêmes types, dans n'importe quel ordre, font la même ligne ; « peu importe » (aucun type) est un choix comme un autre, donc « Pommes » et « Pommes · Golden » sont aussi deux lignes. Dans une ligne, les types gardent leur sens « l'un ou l'autre » (« Gala ou Golden »). Les lignes d'un même article restent côte à côte, dans la liste comme en magasin. Le premier ajout d'un article (catalogue, suggestion, saisie sans type) est toujours « peu importe » : dans la plupart des cas, on choisit la sorte en magasin. Pour une autre sorte, le panneau qui s'ouvre au deuxième ajout (« Déjà dans la liste », réglage du catalogue) propose **une autre sorte** : les types de l'article qui n'ont pas encore leur propre ligne ; en toucher un ajoute cette ligne (dans le catalogue, elle apparaît dans le panneau, réglable sur place ; voir 03 A3 et A5). Préciser la sorte d'une ligne existante se fait dans son panneau (types acceptés), ou d'emblée en tapant `pommes golden`. Quand on change les types d'une ligne pour ceux d'une autre ligne du même article, les deux fusionnent à la fermeture du panneau (quantités additionnées, ou ajoutées en note si les unités ne se convertissent pas).
+Une liste a **une ligne par article et par choix de types** : « Pommes · Golden × 2 » et « Pommes · Granny Smith × 3 » sont deux lignes, comme « Sucre · en poudre 1 kg » et « Sucre · glace 250 g ». Les mêmes types, dans n'importe quel ordre, font la même ligne ; « peu importe » (aucun type) est un choix comme un autre, donc « Pommes » et « Pommes · Golden » sont aussi deux lignes. Dans une ligne, les types gardent leur sens « l'un ou l'autre » (« Gala ou Golden »). Les lignes d'un même article restent côte à côte, dans la liste comme en magasin. Le premier ajout d'un article (catalogue, suggestion, saisie sans type) est toujours « peu importe » : dans la plupart des cas, on choisit la sorte en magasin. Pour une autre sorte, le panneau qui s'ouvre au deuxième ajout (« Déjà dans la liste », réglage du catalogue) propose **une autre sorte** : les types de l'article qui n'ont pas encore leur propre ligne ; en toucher un ajoute cette ligne (dans le catalogue, elle apparaît dans le panneau, réglable sur place ; voir 03 A3 et A5). Préciser la sorte d'une ligne existante se fait dans son panneau (types acceptés), ou d'emblée en tapant `pommes golden`. Quand on change les types d'une ligne pour ceux d'une autre ligne du même article, les deux fusionnent à la fermeture du panneau (quantités additionnées, ou ajoutées en note si les unités ne se convertissent pas).
 
-Quand on ajoute un article **déjà présent avec les mêmes types** dans la liste, l'app **ne modifie rien d'office** : elle affiche « Déjà dans la liste : 2 kg » avec deux choix :
+Quand on ajoute un article **déjà présent avec les mêmes types** dans la liste, l'app **ne modifie rien d'office** : elle affiche « Déjà dans la liste : 2 kg » avec deux choix :
 
 - **Ajouter** une quantité (sélecteur prérempli avec la quantité saisie, ou le pas de l'unité) ;
 - **Ne rien faire** (choix par défaut : `Entrée` ou fermer = ne rien faire).
 
-Fusion des quantités quand on choisit « Ajouter » (ou lors d'un ajout de recette, ligne aux mêmes types seulement) :
+Fusion des quantités quand on choisit « Ajouter » (ou lors d'un ajout de recette, ligne aux mêmes types seulement) :
 
 - même unité → addition ;
 - unités convertibles → conversion puis addition (300 g + 1 kg = 1,3 kg), puis simplification (§ 5) ;
@@ -281,7 +281,7 @@ Fusion des quantités quand on choisit « Ajouter » (ou lors d'un ajout de rece
 
 ### Ajouter une liste dans une autre
 
-On peut ajouter le contenu d'une ou plusieurs autres listes à une liste, par exemple à sa création : « Courses du samedi » = « Base de la semaine » + « Apéro ». Aperçu avec cases à cocher (on décoche ce qu'on a déjà), puis ajout ou fusion des lignes selon les règles ci-dessus ; une ligne aux unités non convertibles garde la quantité existante et reçoit l'autre en note. Les listes ajoutées ne changent pas ; seules leurs lignes non cochées et non archivées sont reprises, avec leurs types acceptés et leur note.
+On peut ajouter le contenu d'une ou plusieurs autres listes à une liste, par exemple à sa création : « Courses du samedi » = « Base de la semaine » + « Apéro ». Aperçu avec cases à cocher (on décoche ce qu'on a déjà), puis ajout ou fusion des lignes selon les règles ci-dessus ; une ligne aux unités non convertibles garde la quantité existante et reçoit l'autre en note. Les listes ajoutées ne changent pas ; seules leurs lignes non cochées et non archivées sont reprises, avec leurs types acceptés et leur note.
 
 ---
 
@@ -289,23 +289,25 @@ On peut ajouter le contenu d'une ou plusieurs autres listes à une liste, par ex
 
 | Propriété      | Description                                                                                                                                   |
 | -------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| Libellé, icône | « Raclette », 🧀                                                                                                                              |
-| **Rendement**  | Quantité de référence + unité de rendement : **« 4 personnes »** (par défaut), ou **« 1 cake »**, « 2 tartes », « 24 cookies », « 3 bocaux »… |
-| Ingrédients    | Article + quantité + unité + types acceptés + « facultatif » + **« quantité fixe »**                                                          |
+| Libellé, icône | « Raclette », 🧀                                                                                                                              |
+| **Rendement**  | Quantité de référence + unité de rendement : **« 4 personnes »** (par défaut), ou **« 1 cake »**, « 2 tartes », « 24 cookies », « 3 bocaux »… |
+| Ingrédients    | Article + quantité + unité + types acceptés + « facultatif » + **« quantité fixe »**                                                          |
 | Étapes / notes | Texte libre, facultatif                                                                                                                       |
 
 Une **quantité fixe** ne suit pas le nombre de personnes : le pot de crème fraîche de la raclette sert pour 4 comme pour 10 ; les ingrédients ordinaires, eux, sont recalculés.
 
-**Liste ou recette ?** Une **recette** convient à ce qui se cuisine et dépend du nombre de convives (raclette, cake). Une **liste** convient à un ensemble fixe qu'on rachète tel quel (« Base de la semaine », « Apéro ») : on l'ajoute à la liste du jour (§ 6, « Ajouter une liste »).
+Les **unités de cuisine** (cuillère à soupe ou à café, pincée, verre, décilitre) servent à cuisiner, pas à acheter : on n'achète pas « 1 verre » de vin blanc. À l'ajout à une liste, la ligne prend l'unité et la quantité par défaut de l'article (1 bouteille) et la quantité de la recette passe en note (« 1 verre ») ; un article déjà dans la liste garde sa quantité, seule la note s'ajoute. Un article dont l'unité par défaut est elle-même de cuisine garde la quantité de la recette.
 
-Le rendement « personnes » convient aux plats ; un rendement libre convient aux recettes qu'on fait « en un exemplaire pour tout le monde » : _Cake aux olives — 1 cake_. Pour en avoir plus, on en fait 2.
+**Liste ou recette ?** Une **recette** convient à ce qui se cuisine et dépend du nombre de convives (raclette, cake). Une **liste** convient à un ensemble fixe qu'on rachète tel quel (« Base de la semaine », « Apéro ») : on l'ajoute à la liste du jour (§ 6, « Ajouter une liste »).
+
+Le rendement « personnes » convient aux plats ; un rendement libre convient aux recettes qu'on fait « en un exemplaire pour tout le monde » : _Cake aux olives — 1 cake_. Pour en avoir plus, on en fait 2.
 
 ### Ajouter une recette à une liste
 
-1. Choisir la liste, puis la quantité voulue dans l'unité de rendement : **« Pour combien de personnes ? »** ou **« Combien de cakes ? »** (prérempli avec le rendement de la recette, nombres entiers).
+1. Choisir la liste, puis la quantité voulue dans l'unité de rendement : **« Pour combien de personnes ? »** ou **« Combien de cakes ? »** (prérempli avec le rendement de la recette, nombres entiers).
 2. Les quantités sont recalculées, sauf les quantités fixes : `quantité × demandé ÷ rendement de référence`, puis **arrondies au pas supérieur de la plus petite unité de même dimension** (3 personnes au lieu de 4 pour 2 oignons → 1,5 → 2 oignons ; 375 g de farine avec un pas de 50 g → 400 g ; 1 kg de farine pour 3 au lieu de 4 → 750 g, et non 1 kg au pas de 0,5 kg : l'unité où l'ingrédient est écrit ne change rien), puis simplifiées (§ 5). Pour le rendement de la fiche lui-même, les quantités restent celles de la fiche, sans arrondi (20 g de beurre pour 4 restent 20 g).
 3. Aperçu des ingrédients avec cases à cocher (on décoche ce qu'on a déjà ; les ingrédients facultatifs sont décochés par défaut) et indication des articles déjà présents dans la liste.
-4. Validation → ajout ou fusion des lignes (§ 6), avec l'origine « via recette ».
+4. Validation → ajout ou fusion des lignes (§ 6), avec l'origine « via recette ».
 
 ---
 
@@ -318,7 +320,7 @@ Le rendement « personnes » convient aux plats ; un rendement libre convient au
 
 ### Clôture
 
-Un bouton **« Terminer les courses »** clôture explicitement la session. C'est ce signal qui déclenche les calculs :
+Un bouton **« Terminer les courses »** clôture explicitement la session. C'est ce signal qui déclenche les calculs :
 
 - **ordre des rayons** du magasin (apprentissage, 07 § 7) ;
 - **ordre des articles** dans les rayons ;
@@ -326,11 +328,11 @@ Un bouton **« Terminer les courses »** clôture explicitement la session. C'es
 - **articles pas pris** dans ce magasin ;
 - récapitulatif : articles achetés, pas pris, durée.
 
-À la clôture, les lignes cochées quittent la liste (elles sont dans l'historique) ; les lignes pas prises et non cochées restent. Les lignes pas prises sont signalées « Pas pris la dernière fois » et redeviennent à acheter au début des courses suivantes.
+À la clôture, les lignes cochées quittent la liste (elles sont dans l'historique) ; les lignes pas prises et non cochées restent. Les lignes pas prises sont signalées « Pas pris la dernière fois » et redeviennent à acheter au début des courses suivantes.
 
 ### Réouverture
 
-Oubli constaté à la caisse ? **« Rouvrir les courses »** est disponible sur la liste après la clôture, **le jour même**, **tant qu'aucune nouvelle session n'a démarré** sur cette liste et que le magasin existe encore :
+Oubli constaté à la caisse ? **« Rouvrir les courses »** est disponible sur la liste après la clôture, **le jour même**, **tant qu'aucune nouvelle session n'a démarré** sur cette liste et que le magasin existe encore :
 
 - l'app revient en mode courses avec la même session ; les articles déjà achetés réapparaissent cochés ;
 - on ajoute et coche les oublis ;
@@ -338,7 +340,7 @@ Oubli constaté à la caisse ? **« Rouvrir les courses »** est disponible sur 
 
 ### Session oubliée
 
-Si une session est restée ouverte et que l'app est rouverte plusieurs heures après le dernier article coché, l'app propose : « Tu as terminé tes courses de _hier 18 h_ ? — **Terminer** · **Continuer** ».
+Si une session est restée ouverte et que l'app est rouverte plusieurs heures après le dernier article coché, l'app propose : « Tu as terminé tes courses de _hier 18 h_ ? — **Terminer** · **Continuer** ».
 
 ---
 
@@ -354,7 +356,7 @@ Le partage est **autonome** : chaque ligne embarque de quoi retrouver ou recrée
 
 ### Partager une recette
 
-Même mécanisme, même format ([03 E3](03-fonctionnalites.md#e3-partager-une-recette--v11)) : le lien dit ce qu'il porte, une **liste** ou une **recette**. Une recette envoie ses ingrédients comme des lignes (article, quantité, unité, types acceptés, plus « facultatif » et « quantité fixe »), son rendement, son icône et ses étapes. À l'import, chaque ingrédient est reconnu comme un article reçu (ci-dessous) ; la recette est **créée**, jamais remplacée (« Raclette (2) » si le nom est pris). Un ingrédient non reconnu est créé par défaut dans le catalogue, pas « juste cette fois ».
+Même mécanisme, même format ([03 E3](03-fonctionnalites.md#e3-partager-une-recette--v11)) : le lien dit ce qu'il porte, une **liste** ou une **recette**. Une recette envoie ses ingrédients comme des lignes (article, quantité, unité, types acceptés, plus « facultatif » et « quantité fixe »), son rendement, son icône et ses étapes. À l'import, chaque ingrédient est reconnu comme un article reçu (ci-dessous) ; la recette est **créée**, jamais remplacée (« Raclette (2) » si le nom est pris). Un ingrédient non reconnu est créé par défaut dans le catalogue, pas « juste cette fois ».
 
 ### Import chez le destinataire
 
@@ -362,34 +364,34 @@ Même mécanisme, même format ([03 E3](03-fonctionnalites.md#e3-partager-une-re
 2. Pour chaque article reçu, l'app cherche automatiquement une correspondance chez lui, dans cet ordre :
    1. même **clé catalogue** (article issu du catalogue, même renommé, quelle que soit la langue de chacun) ;
    2. même **slug** ;
-   3. **alias croisés** : le slug reçu correspond à un alias du destinataire, ou un alias reçu correspond à un de ses articles (« Coca » ↔ _Coca-Cola_) ;
-   4. **le catalogue comme dictionnaire** : le libellé reçu est cherché dans **tous** les libellés et alias du catalogue de départ, toutes langues confondues (le catalogue complet est embarqué dans l'app). S'il y est trouvé, on obtient une clé catalogue, et donc l'article correspondant du destinataire. Exemple : « Peanut butter » créé à la main → trouvé dans les libellés anglais du catalogue → clé `beurre-de-cacahuete` → _Beurre de cacahuète_ du destinataire ;
+   3. **alias croisés** : le slug reçu correspond à un alias du destinataire, ou un alias reçu correspond à un de ses articles (« Coca » ↔ _Coca-Cola_) ;
+   4. **le catalogue comme dictionnaire** : le libellé reçu est cherché dans **tous** les libellés et alias du catalogue de départ, toutes langues confondues (le catalogue complet est embarqué dans l'app). S'il y est trouvé, on obtient une clé catalogue, et donc l'article correspondant du destinataire. Exemple : « Peanut butter » créé à la main → trouvé dans les libellés anglais du catalogue → clé `beurre-de-cacahuete` → _Beurre de cacahuète_ du destinataire ;
    5. sinon un article ressemblant (recherche floue) → **proposé**, à confirmer.
-3. Ce qui reste est **« non reconnu »** et passe par l'aide décrite ci-dessous.
+3. Ce qui reste est **« non reconnu »** et passe par l'aide décrite ci-dessous.
 4. Catégories et unités : par clé catalogue, puis par slug ; créées si inconnues.
-5. Un **écran d'aperçu** résume avant validation : « 12 articles reconnus, 1 à confirmer, 2 non reconnus ».
+5. Un **écran d'aperçu** résume avant validation : « 12 articles reconnus, 1 à confirmer, 2 non reconnus ».
 
 ### Aider à trouver un article qu'on ne sait pas avoir
 
-On ne peut pas demander « C'est le même que… ? » à quelqu'un qui ne sait pas qu'il possède l'article. L'aperçu fait donc le travail de recherche à sa place. Pour chaque article non reconnu, il affiche :
+On ne peut pas demander « C'est le même que… ? » à quelqu'un qui ne sait pas qu'il possède l'article. L'aperçu fait donc le travail de recherche à sa place. Pour chaque article non reconnu, il affiche :
 
 - l'article reçu : **icône**, libellé, **catégorie** (dans la langue du destinataire si la catégorie vient du catalogue), quantité ;
-- **« Peut-être chez toi : »** une courte liste de candidats, classés ainsi :
+- **« Peut-être chez toi : »** une courte liste de candidats, classés ainsi :
   1. articles du destinataire ayant **la même icône et la même catégorie** (🥜 _Confitures & pâtes à tartiner_ → _Beurre de cacahuète_) ;
   2. articles ayant la même icône ;
   3. articles de la même catégorie qu'il achète souvent ;
-- un bouton **« Voir tous mes articles de cette catégorie »** (quelques dizaines au plus, parcourus en un coup d'œil), et une recherche libre.
+- un bouton **« Voir tous mes articles de cette catégorie »** (quelques dizaines au plus, parcourus en un coup d'œil), et une recherche libre.
 
 Deux issues, toutes deux en un tap :
 
-- **« C'est celui-là »** → association : le libellé reçu devient un alias de l'article choisi ; la prochaine fois, la correspondance est automatique ;
-- **« Créer »** (par défaut) → nouvel article, avec un **libellé modifiable** au moment de la création (on peut taper « Beurre de cacahuète » à la place de « Peanut butter ») ; le libellé reçu est gardé en alias. Un article créé à la main ou tapé est créé par défaut **juste cette fois** (catégorie « Achats ponctuels ») ; décoché, il est gardé dans le catalogue, dans la catégorie reçue (sauf s'il était déjà un achat ponctuel chez l'expéditeur). Un article décrit par le catalogue reprend toujours sa vraie catégorie. Un nom qui est déjà celui d'un article reprend cet article.
+- **« C'est celui-là »** → association : le libellé reçu devient un alias de l'article choisi ; la prochaine fois, la correspondance est automatique ;
+- **« Créer »** (par défaut) → nouvel article, avec un **libellé modifiable** au moment de la création (on peut taper « Beurre de cacahuète » à la place de « Peanut butter ») ; le libellé reçu est gardé en alias. Un article créé à la main ou tapé est créé par défaut **juste cette fois** (catégorie « Achats ponctuels ») ; décoché, il est gardé dans le catalogue, dans la catégorie reçue (sauf s'il était déjà un achat ponctuel chez l'expéditeur). Un article décrit par le catalogue reprend toujours sa vraie catégorie. Un nom qui est déjà celui d'un article reprend cet article.
 
 Et si un doublon passe quand même, ce n'est pas grave : on **fusionne** les deux articles plus tard, et l'écran Articles signale les **doublons probables** (même icône et même catégorie, libellés proches ou alias en commun).
 
 ### En résumé : pourquoi deux noms différents sont un problème, et comment on le traite
 
-Aucune méthode automatique (slug, n-grammes…) ne peut deviner que « Coca » et « Coca-Cola », ou « Peanut butter » et « Beurre de cacahuète », désignent le même produit. La solution combine :
+Aucune méthode automatique (slug, n-grammes…) ne peut deviner que « Coca » et « Coca-Cola », ou « Peanut butter » et « Beurre de cacahuète », désignent le même produit. La solution combine :
 
 1. **En amont, un grand catalogue de départ avec alias** (§ 10) : on choisit l'article du catalogue au lieu d'en créer un → même clé des deux côtés → correspondance garantie, dans n'importe quelle langue.
 2. **À l'import, le catalogue sert de dictionnaire** pour les articles créés à la main.

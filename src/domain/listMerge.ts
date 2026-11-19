@@ -11,7 +11,13 @@ import { byId } from "./collections";
 export type MergeSource = Pick<
   ListItem,
   "articleId" | "quantity" | "unitId" | "acceptedTypes" | "note"
->;
+> & {
+  /**
+   * Quantité à créer seulement s'il n'y a pas encore de ligne (ingrédient en unité de
+   * cuisine, docs/02 § 7) : une ligne déjà là garde sa quantité et reçoit `note`.
+   */
+  onlyIfNew?: boolean;
+};
 
 export interface MergeLine {
   articleId: ID;
@@ -25,10 +31,22 @@ export interface MergeLine {
   kind: "new" | "merged" | "note";
 }
 
-/** Deux notes réunies sans doublon : « bio · + 2 kg ». */
+/** Deux notes réunies sans doublon : « bio » et « bio » restent « bio ». */
 export function mergeNotes(a?: string, b?: string): string | undefined {
   const notes = [a, b].filter((note): note is string => Boolean(note?.trim()));
   return notes.length ? [...new Set(notes)].join(" · ") : undefined;
+}
+
+/**
+ * Une quantité ajoutée en note (« + 2 kg », « 1 verre ») : gardée même si elle est déjà
+ * dans la note, car elle s'ajoute (la même recette deux fois : « 1 verre · 1 verre »).
+ */
+export function addQuantityNote(
+  note: string | undefined,
+  quantity: string | undefined,
+): string | undefined {
+  if (!quantity) return note;
+  return note?.trim() ? `${note} · ${quantity}` : quantity;
 }
 
 /**
@@ -75,7 +93,23 @@ export function planListMerge(
     touched.add(key);
     const line = current.get(key);
     if (!line) {
-      current.set(key, { ...source, kind: "new" });
+      const { articleId, quantity, unitId, acceptedTypes, note } = source;
+      current.set(key, {
+        articleId,
+        quantity,
+        unitId,
+        acceptedTypes,
+        ...(note !== undefined && { note }),
+        kind: "new",
+      });
+      continue;
+    }
+    if (source.onlyIfNew) {
+      current.set(key, {
+        ...line,
+        note: addQuantityNote(line.note, source.note),
+        kind: line.kind === "new" ? "new" : "note",
+      });
       continue;
     }
     const existingUnit = unitById.get(line.unitId);
@@ -101,7 +135,7 @@ export function planListMerge(
         : undefined;
       current.set(key, {
         ...line,
-        note: mergeNotes(mergeNotes(line.note, extra), source.note),
+        note: mergeNotes(addQuantityNote(line.note, extra), source.note),
         kind: line.kind === "new" ? "new" : "note",
       });
     }

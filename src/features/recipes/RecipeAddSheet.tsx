@@ -48,13 +48,17 @@ export function RecipeAddSheet({
 
   const lines = useMemo(
     () =>
-      planRecipeAdd(recipe, requested, target ?? [], data.units).map(
-        (line) => ({
-          ...line,
-          checked: overrides.get(line.index) ?? line.checked,
-        }),
-      ),
-    [recipe, requested, target, data.units, overrides],
+      planRecipeAdd(
+        recipe,
+        requested,
+        target ?? [],
+        data.units,
+        data.articles,
+      ).map((line) => ({
+        ...line,
+        checked: overrides.get(line.index) ?? line.checked,
+      })),
+    [recipe, requested, target, data.units, data.articles, overrides],
   );
   const count = lines.filter((line) => line.checked).length;
 

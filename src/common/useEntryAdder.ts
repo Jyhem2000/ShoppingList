@@ -9,6 +9,7 @@ import { reportSaveError } from "@/ui/toast";
  * qui peut demander une réponse (renvoie ce qui attend) ; un article inconnu attend
  * d'être créé (`toCreate`). Les attentes forment une file, montrée une à la fois
  * (`pending`, puis `next`) ; `enqueue` y ajoute une attente venue d'ailleurs.
+ * `recipe` : ingrédients d'une recette, unités de cuisine comprises.
  */
 export function useEntryAdder<Pending>(
   data: { units: readonly Unit[]; articles: readonly Article[] } | undefined,
@@ -18,6 +19,7 @@ export function useEntryAdder<Pending>(
     acceptedTypes: string[],
   ) => Promise<Pending | undefined>,
   toCreate: (entry: ParsedEntry) => Pending,
+  { recipe = false } = {},
 ) {
   const [queue, setQueue] = useState<Pending[]>([]);
 
@@ -30,7 +32,7 @@ export function useEntryAdder<Pending>(
       if (!data) return;
       const waiting: Pending[] = [];
       try {
-        for (const entry of parseEntry(text, data.units)) {
+        for (const entry of parseEntry(text, data.units, { recipe })) {
           const { article, acceptedTypes } = resolveEntry(
             entry.text,
             data.articles,
@@ -45,7 +47,7 @@ export function useEntryAdder<Pending>(
       }
       enqueue(...waiting);
     },
-    [data, add, toCreate, enqueue],
+    [data, add, toCreate, enqueue, recipe],
   );
 
   const next = useCallback(() => {

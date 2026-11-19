@@ -269,5 +269,33 @@
     "dimension": "other",
     "group": "kitchen",
     "step": 1
+  },
+  {
+    "key": "verre",
+    "name": {
+      "fr": {
+        "singular": "verre",
+        "plural": "verres",
+        "abbr": "verre"
+      }
+    },
+    "dimension": "other",
+    "group": "kitchen",
+    "step": 1,
+    "since": 9
+  },
+  {
+    "key": "dl",
+    "name": {
+      "fr": {
+        "singular": "décilitre",
+        "plural": "décilitres",
+        "abbr": "dl"
+      }
+    },
+    "dimension": "other",
+    "group": "kitchen",
+    "step": 1,
+    "since": 9
   }
 ]
