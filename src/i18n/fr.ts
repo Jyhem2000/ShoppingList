@@ -624,7 +624,7 @@ export const fr = {
       unitHint:
         "Sans unité précisée, l'article prend celle que tu achètes le plus, à partir de 3 achats. Une unité choisie ici l'emporte.",
       unitFromUsage: (amount: string) =>
-        `D'après tes achats\u00a0: \u00a0${amount} à l'ajout.`,
+        `D'après tes achats\u00a0: ${amount} à l'ajout.`,
       unitChosen: "Choisie à la main\u00a0: elle l'emporte sur tes achats.",
       unitFollowUsage: "Suivre mes achats",
       quantity: "Quantité par défaut",
@@ -1101,6 +1101,15 @@ export const fr = {
     title: "Nouveautés",
     version: (version: string) => `Version ${version}`,
     versions: [
+      {
+        version: "1.2.0",
+        date: "2026-11-20",
+        items: [
+          "«\u00a0Rien oublié\u00a0? Faire le tour\u00a0», au-dessus de la liste : d'abord ce qu'il est temps de racheter d'après le rythme de tes achats («\u00a0Pas cette fois\u00a0» le met de côté jusqu'aux prochaines courses), puis tes articles habituels, catégorie par catégorie.",
+          "Saisonnalité : une feuille verte signale les fruits, légumes et herbes de saison ce mois-ci, et la puce «\u00a0De saison\u00a0» du Catalogue les montre tous. Les mois se changent dans la fiche de l'article.",
+          "Un article ajouté sans unité prend celle que tu achètes le plus pour lui, à partir de 3 achats («\u00a01 kg de pommes\u00a0» si c'est ton habitude). Une unité choisie dans sa fiche l'emporte.",
+        ],
+      },
       {
         version: "1.1.1",
         date: "2026-11-19",
