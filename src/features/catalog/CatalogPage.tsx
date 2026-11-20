@@ -7,8 +7,9 @@ import { fr } from "@/i18n/fr";
 import { CategoryCard } from "@/ui/CategoryCard";
 import { EmptyHint, PageHeader, SectionTitle } from "@/ui/Page";
 import { useListData } from "@/common/useListData";
+import { useRestock } from "@/common/useRestock";
 import { catalogOrder } from "@/common/format";
-import { ArticleGrid } from "./ArticleGrid";
+import { ArticleGrid } from "@/common/ArticleGrid";
 import { CatalogSearch } from "./CatalogSearch";
 import { byName } from "@/domain/slug";
 import { countBy } from "@/domain/collections";
@@ -31,7 +32,8 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
 
 /**
  * Catalogue (docs/03 A5, A6) : recherche avec suggestions, favoris et habituels en
- * tête, puis la grille des catégories. Les habituels viennent de l'historique des courses.
+ * tête, puis la grille des catégories. Les habituels viennent de l'historique des courses :
+ * ce qu'il est temps de racheter d'abord (docs/03 D1), puis les plus achetés.
  * Filtre « De saison » (docs/03 D3) : les articles de saison ce mois-ci, par catégorie.
  */
 export function CatalogPage() {
@@ -43,17 +45,22 @@ export function CatalogPage() {
   const [seasonOnly, setSeasonOnly] = useState(false);
   const month = monthOf(useNow());
 
+  const restock = useRestock(data);
   const { articles, articleById, purchaseCounts, categories } = data ?? {};
   // Ce qui ne dépend pas de la saisie : calculé une fois, pas à chaque lettre.
   const home = useMemo(() => {
     if (!articles || !articleById || !purchaseCounts || !categories)
       return undefined;
     const favorites = articles.filter((a) => a.favorite).sort(byName);
-    const usual = [...purchaseCounts.entries()]
+    // Ce qu'il est temps de racheter d'abord (anti-oubli, docs/03 D1), puis les plus achetés.
+    const due = restock?.suggestions.map((s) => s.articleId) ?? [];
+    const mostBought = [...purchaseCounts.entries()]
       .sort((a, b) => b[1] - a[1])
-      .slice(0, MAX_USUAL)
-      .map(([id]) => articleById.get(id))
-      .filter((a) => a !== undefined);
+      .map(([id]) => id);
+    const usual = [...new Set([...due, ...mostBought])]
+      .map((id) => articleById.get(id))
+      .filter((a) => a !== undefined)
+      .slice(0, MAX_USUAL);
     const counts = countBy(articles, (article) => article.categoryId);
     // Même ordre que la liste (docs/06 § 2) : catalogue de départ, puis les catégories
     // créées par l'utilisateur, les catégories système en dernier.
@@ -62,7 +69,7 @@ export function CatalogPage() {
       catalogOrder,
     );
     return { favorites, usual, categories: shown, counts };
-  }, [articles, articleById, purchaseCounts, categories]);
+  }, [articles, articleById, purchaseCounts, categories, restock]);
   const season = useMemo(() => {
     if (!articles || !home) return [];
     const now = articles.filter((a) => inSeason(a, month));

@@ -217,7 +217,7 @@ interface Settings {
   lastSeenVersion?: string; // pour afficher « Quoi de neuf »
   catalogVersion: number;
   currentListId?: ID;
-  dismissedSuggestions: { articleId: ID; until: number }[];
+  dismissedSuggestions: { articleId: ID; at: number }[]; // « Pas cette fois » (§ 7.7)
 }
 ```
 
@@ -327,7 +327,12 @@ Groupes par rayon effectif, rayons triés par `position` (« À placer » en d
 
 ### 7.7 Suggestions anti-oubli (D1)
 
-Calculées à la demande à partir des achats des sessions **clôturées**. Pour chaque article acheté au moins 3 fois : intervalle médian `I` entre achats, dernier achat `t`. Suggéré si `maintenant − t ≥ 0,9 × I`, absent de la liste et non écarté. Classement par `(maintenant − t) / I` décroissant ; 5 maximum.
+`src/domain/suggestions.ts`, calculé à chaque lecture des achats des sessions **clôturées** (`purchaseStats`), jamais stocké.
+
+- `purchaseRhythms(achats)` : les achats d'un article à moins de 12 heures d'intervalle comptent pour un (deux lignes, deux magasins le même jour) ; pour chaque article acheté ainsi au moins 3 fois : intervalle médian `I` entre achats (une absence isolée ne le fausse pas), dernier achat `t`.
+- `restockSuggestions(rythmes, …)` : suggéré si `maintenant − t ≥ 0,9 × I`, absent de la liste courante, article existant et non écarté. Classement par `(maintenant − t) / I` décroissant ; 5 maximum. Lu par `useRestock` (`src/common`) : bouton de la liste, tour et Habituels du catalogue.
+- « Pas cette fois » : `Settings.dismissedSuggestions` reçoit `{ articleId, at }` ; l'écart vaut tant qu'aucune session n'a été clôturée depuis `at` (`purchaseStats` donne la dernière clôture). Les écarts caducs sont retirés au suivant (`dismissSuggestion`).
+- `tourCategories(catégories, articles, achats)` (D2) : par catégorie, les favoris et les articles achetés au moins 2 fois, les plus achetés d'abord ; catégories vides sautées.
 
 ### 7.8 Quantités
 
@@ -393,9 +398,9 @@ ShoppingList/
 │  ├─ features/
 │  │  ├─ list/                # liste, lignes, fiche ligne
 │  │  ├─ shopping/            # mode courses, wake lock, clôture, réouverture
-│  │  ├─ catalog/             # grille catégories / articles, habituels
+│  │  ├─ catalog/             # catalogue : recherche, catégories, habituels, saison
 │  │  ├─ recipes/             # recettes, ajout à une liste (v1.0)
-│  │  ├─ suggestions/         # anti-oubli (v1.2)
+│  │  ├─ suggestions/         # faire le tour : à racheter, habituels par catégorie (v1.2)
 │  │  ├─ share/               # partage, import, aperçu (v1.1)
 │  │  ├─ manage/              # articles, catégories, magasins/rayons, unités
 │  │  ├─ settings/            # réglages, fonctionnalités, sons, sauvegarde, premier lancement, à propos
@@ -403,7 +408,7 @@ ShoppingList/
 │  ├─ domain/                 # fonctions pures (§ 7) — aucun import React ni Dexie
 │  ├─ db/                     # schéma Dexie, migrations, accès aux données, initialisation
 │  ├─ data/                   # données initiales (06)
-│  ├─ common/                 # modules propres à l'app partagés entre fonctionnalités (données d'une liste, ajout à une liste, barre d'ajout, mise en forme, message de partage…) ; n'importe jamais features/
+│  ├─ common/                 # modules propres à l'app partagés entre fonctionnalités (données d'une liste, ajout à une liste, barre d'ajout, grille d'articles, anti-oubli, mise en forme, message de partage…) ; n'importe jamais features/
 │  ├─ ui/                     # composants génériques partagés (shadcn + ProductIcon, ItemRow, AisleHeader, AddBar, CatalogCard, Sheet)
 │  ├─ icons/                  # icônes dessinées (drawn/*.svg), pack des articles assemblé au build (packData.ts), icônes Lucide des catégories et rayons (lucide.ts)
 │  ├─ feedback/               # sons

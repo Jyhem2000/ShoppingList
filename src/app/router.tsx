@@ -7,6 +7,7 @@ import { RecipesPage } from "@/features/recipes/RecipesPage";
 import { RecapPage } from "@/features/shopping/RecapPage";
 import { ShoppingPage } from "@/features/shopping/ShoppingPage";
 import { SettingsPage } from "@/features/settings/SettingsPage";
+import { TourPage } from "@/features/suggestions/TourPage";
 import { fr } from "@/i18n/fr";
 import { Loading } from "@/ui/Page";
 import { Layout } from "./Layout";
@@ -38,6 +39,7 @@ export const router = createHashRouter([
         errorElement: <ScreenError />,
         children: [
           { path: routes.list, element: <ListPage /> },
+          { path: routes.tour, element: <TourPage /> },
           { path: routes.catalog, element: <CatalogPage /> },
           { path: routes.catalogCategory, element: <CategoryPage /> },
           { path: routes.recipes, element: <RecipesPage /> },

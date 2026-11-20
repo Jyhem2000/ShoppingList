@@ -4,8 +4,9 @@ Les prochaines versions. Le détail de chaque fonctionnalité (critères, écran
 
 ## 1.2.0 — Anti-oubli et saisonnalité
 
-- **Suggestions anti-oubli** ([03 D1](03-fonctionnalites.md#d1-suggestions-anti-oubli--v12)) : « Tu prends souvent : 🥛 Lait, 🧈 Beurre », d'après la fréquence d'achat (07 § 7) ; un toucher ajoute, « Pas cette fois » masque jusqu'aux prochaines courses.
-- **Revue rapide par catégorie** ([03 D2](03-fonctionnalites.md#d2-revue-rapide-par-catégorie--v12)) : « Tour de la cuisine », un écran par catégorie avec ses articles habituels.
+- **Faire le tour** : un bouton « Rien oublié ? Faire le tour » au-dessus des lignes de la liste, avec le nombre d'articles à racheter.
+  - **À racheter** ([03 D1](03-fonctionnalites.md#d1-suggestions-anti-oubli--v12)) : ce qu'il est temps de reprendre d'après le rythme des achats (07 § 7.7) ; un toucher ajoute, « Pas cette fois » masque jusqu'aux prochaines courses ; en tête des Habituels du catalogue.
+  - **Revue par catégorie** ([03 D2](03-fonctionnalites.md#d2-revue-rapide-par-catégorie--v12)) : un écran par catégorie avec ses articles habituels.
 - **Saisonnalité des fruits et légumes** ([03 D3](03-fonctionnalites.md#d3-saisonnalité--v12)) :
   - le catalogue donne les mois de saison des fruits, légumes et herbes aromatiques par zone (`season`, 06 § 4) : l'endroit où l'on fait ses courses, pas la langue ; seule zone, la France métropolitaine, sans réglage ;
   - mois copiés dans l'article à sa création, modifiables dans sa fiche (calendrier des 12 mois) ; un article créé à la main n'a pas de mois, on peut les saisir ;

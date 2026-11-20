@@ -27,6 +27,8 @@ import { ListsSheet } from "./ListsSheet";
 import { MergeListsSheet } from "./MergeListsSheet";
 import { useAddToList } from "@/common/useAddToList";
 import { useListData } from "@/common/useListData";
+import { useRestock } from "@/common/useRestock";
+import { TourButton } from "./TourButton";
 
 import { useNow } from "@/ui/useNow";
 const t = fr.list;
@@ -45,6 +47,7 @@ export function ListPage() {
   const adding = useAddToList(data);
   const [panel, setPanel] = useState<Panel | null>(null);
   const session = useLatestSession(data?.list.id);
+  const restock = useRestock(data);
   const now = useNow();
   const close = () => {
     setPanel(null);
@@ -119,6 +122,11 @@ export function ListPage() {
               {fr.shopping.reopen(formatClock(session.closedAt))}
             </Button>
           </div>
+        )}
+
+      {restock &&
+        (restock.suggestions.length > 0 || restock.categories.length > 0) && (
+          <TourButton count={restock.suggestions.length} />
         )}
 
       {data.items.length === 0 ? (

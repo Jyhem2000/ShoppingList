@@ -682,5 +682,8 @@ describe("unité selon l'usage (docs/03 A2)", () => {
     const stats = await purchaseStats(db);
     expect(stats.purchaseCounts.get(lait.id)).toBe(3);
     expect(stats.usual.get(lait.id)).toEqual({ unitId: pack.id, quantity: 1 });
+    // Anti-oubli : un achat par jour, fin des dernières courses terminées.
+    expect(stats.rhythms.get(lait.id)?.interval).toBe(86_400_000);
+    expect(stats.lastClosedAt).toBe(3 * 86_400_000 + 60_000);
   });
 });

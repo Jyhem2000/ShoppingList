@@ -222,5 +222,9 @@ export interface Settings {
   lastSeenVersion?: string;
   catalogVersion: number;
   currentListId?: ID;
-  dismissedSuggestions: { articleId: ID; until: number }[];
+  /**
+   * « Pas cette fois » (anti-oubli, docs/03 D1) : article écarté à `at`, masqué tant
+   * qu'aucunes courses n'ont été terminées depuis.
+   */
+  dismissedSuggestions: { articleId: ID; at: number }[];
 }

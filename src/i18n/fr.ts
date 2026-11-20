@@ -3,6 +3,11 @@
  * Guillemets « » toujours avec une espace insécable, écrite `\u00a0`, à l'intérieur :
  * un guillemet ne se retrouve jamais seul en début ou en fin de ligne.
  */
+
+/** « 1 jour », « 7 jours » (espace insécable). */
+const days = (count: number) =>
+  count > 1 ? `${count}\u00a0jours` : `${count}\u00a0jour`;
+
 export const fr = {
   appName: "ShoppingList",
   /** Noms donnés aux données créées au premier lancement (docs/04 § 2.11). */
@@ -36,6 +41,7 @@ export const fr = {
           "Une sorte précise ? Tape-la après le nom («\u00a0pommes golden\u00a0») ou choisis-la dans les suggestions. Pour une autre sorte du même article, retouche-le : «\u00a0Une autre sorte\u00a0» ajoute une ligne à part, avec sa propre quantité.",
           "Touche une ligne pour changer sa quantité, sa note ou les types qui te vont ; glisse-la vers la gauche pour la retirer.",
           "Plusieurs listes : touche le nom de la liste en haut. Le menu ⋯ agit sur la liste affichée.",
+          "«\u00a0Rien oublié\u00a0? Faire le tour\u00a0», au-dessus de la liste : d'abord ce qu'il est temps de racheter («\u00a0Pas cette fois\u00a0» le met de côté jusqu'aux prochaines courses), puis tes articles habituels, catégorie par catégorie.",
           "La feuille verte signale un fruit, un légume ou une herbe de saison ce mois-ci ; la puce «\u00a0De saison\u00a0» du Catalogue les montre tous. Ses mois se changent dans la fiche de l'article.",
         ],
       },
@@ -61,7 +67,7 @@ export const fr = {
           "L'ordre des rayons et des articles, d'après l'ordre de tes coches, magasin par magasin.",
           "Le rayon d'un article : celui de sa catégorie, sauf si tu l'as rangé ailleurs.",
           "L'unité d'un article ajouté sans unité\u00a0: celle que tu achètes le plus pour lui, à partir de 3 achats, avec la quantité que tu prends d'habitude. Une unité choisie dans sa fiche l'emporte.",
-          "Tes habitudes : ce que tu achètes souvent remonte dans la recherche et dans «\u00a0Habituels\u00a0» du Catalogue.",
+          "Tes habitudes : ce que tu achètes souvent remonte dans la recherche et dans «\u00a0Habituels\u00a0» du Catalogue ; ce qu'il est temps de racheter passe en tête, d'après le rythme de tes achats.",
           "Si l'ordre d'un magasin te convient, fige-le : Réglages → Magasins & rayons → ton magasin → «\u00a0Apprendre l'ordre de mes courses\u00a0».",
         ],
       },
@@ -930,6 +936,34 @@ export const fr = {
     done: "Terminé",
     count: (count: number) =>
       count > 1 ? `${count} articles` : `${count} article`,
+  },
+  tour: {
+    open: "Rien oublié\u00a0? Faire le tour",
+    openHint: (count: number) =>
+      count > 1
+        ? `${count} articles à racheter`
+        : `${count} article à racheter`,
+    title: "Faire le tour",
+    restock: "À racheter",
+    restockIntro:
+      "Tu en reprends d'habitude à ce rythme : c'est peut-être le moment.",
+    restockDone: "Rien d'autre à racheter pour l'instant.",
+    rhythm: (every: number, ago: number) =>
+      // Insécables : la coupure tombe après « · », jamais dans « tous les 7 jours ».
+      `Il y a ${days(ago)} · tous\u00a0les\u00a0${days(every)}`,
+    notThisTime: "Pas cette fois",
+    notThisTimeLabel: (name: string) => `Pas cette fois : ${name}`,
+    categoryIntro:
+      "Ce que tu prends d'habitude. Un toucher l'ajoute à la liste.",
+    wholeCategory: (name: string) => `Voir tous les articles : ${name}`,
+    step: (index: number, total: number) => `${index}/${total}`,
+    previous: "Précédent",
+    nextTo: (name: string) => `Suivant : ${name}`,
+    finish: "Terminer",
+    emptyTitle: "Pas encore d'habitudes",
+    emptyText:
+      "Après quelques courses terminées, l'app saura ce que tu prends souvent et te le proposera ici.",
+    backToList: "Retour à la liste",
   },
   settings: {
     title: "Réglages",

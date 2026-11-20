@@ -5,7 +5,7 @@ import { fr } from "@/i18n/fr";
 import { GroupIcon } from "@/ui/GroupIcon";
 import { EmptyState, PageHeader } from "@/ui/Page";
 import { useListData } from "@/common/useListData";
-import { ArticleGrid } from "./ArticleGrid";
+import { ArticleGrid } from "@/common/ArticleGrid";
 import { byName } from "@/domain/slug";
 
 /**

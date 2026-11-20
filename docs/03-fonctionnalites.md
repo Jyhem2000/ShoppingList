@@ -194,13 +194,19 @@ Bouton **« Terminer les courses »**, toujours visible en mode courses → co
 
 ## D. Ne rien oublier
 
+Anti-oubli et revue par catégorie sont réunis dans un seul parcours, **« Faire le tour »**, ouvert par un bouton compact au-dessus des lignes de la liste : « Rien oublié ? Faire le tour », avec en pastille le nombre d'articles à racheter. Rien ne s'intercale entre les lignes. Le bouton n'apparaît qu'une fois des habitudes connues (au moins un article à racheter ou une catégorie à parcourir).
+
 ### D1. Suggestions anti-oubli — _v1.2_
 
-Bandeau « Tu prends souvent : 🥛 Lait, 🧈 Beurre » basé sur la fréquence d'achat de chaque article (algorithme en 07 § 7). Tap = ajout ; « Pas cette fois » = masqué jusqu'aux prochaines courses.
+- Premier écran du tour, **« À racheter »** : les articles qu'il est temps de reprendre d'après leur rythme d'achat (07 § 7.7), **5 au plus**, les plus en retard d'abord, chacun avec « Il y a 8 jours · tous les 7 jours ». Écran sauté s'il n'y en a aucun.
+- Un toucher ajoute l'article (déjà dans la liste : le réglage de sa quantité, comme au catalogue) ; l'article reste affiché avec sa quantité. **« Pas cette fois »** l'écarte jusqu'aux prochaines courses terminées.
+- Dans le catalogue, les **Habituels** mettent en tête ces mêmes articles, puis les plus achetés.
 
 ### D2. Revue rapide par catégorie — _v1.2_
 
-Mode « Tour de la cuisine » : un écran par catégorie présentant ses articles habituels ; tap pour ajouter, glisser pour passer à la suivante.
+Après « À racheter », un écran par catégorie (dans l'ordre du catalogue) avec ses **articles habituels** : favoris et articles achetés au moins 2 fois, les plus achetés d'abord ; les catégories sans habituel sont sautées. Même grille que le catalogue (un toucher ajoute, pastille de quantité si déjà dans la liste), et un lien vers tous les articles de la catégorie. On passe d'un écran à l'autre par les boutons du bas (« Suivant : Légumes », ‹) ou en glissant ; « Terminer » revient à la liste.
+
+**Critères** : trois courses à une semaine d'intervalle avec du lait et du beurre, puis une semaine sans courses → le bouton annonce 2 articles ; « Pas cette fois » sur le beurre le retire, le lait touché s'ajoute à la liste ; plus rien à racheter ensuite.
 
 ### D3. Saisonnalité — _v1.2_
 

@@ -27,6 +27,7 @@ import type {
 import { categoryWeights } from "./format";
 import { byId } from "@/domain/collections";
 import type { UsualAmount } from "@/domain/usage";
+import type { Rhythm } from "@/domain/suggestions";
 
 export interface ListData {
   settings: Settings;
@@ -46,6 +47,10 @@ export interface ListData {
   purchaseCounts: Map<ID, number>;
   /** Unité habituelle des articles achetés assez souvent (unité selon l'usage). */
   usual: ReadonlyMap<ID, UsualAmount>;
+  /** Rythme d'achat des articles achetés assez souvent (anti-oubli). */
+  rhythms: ReadonlyMap<ID, Rhythm>;
+  /** Fin des dernières courses terminées : « Pas cette fois » dure jusque-là. */
+  lastClosedAt: number | undefined;
   recipes: Recipe[];
   /** Origine « via Raclette » des lignes (docs/03 E2). */
   recipeById: Map<ID, Recipe>;

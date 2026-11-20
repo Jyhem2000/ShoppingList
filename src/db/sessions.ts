@@ -22,6 +22,7 @@ import {
 } from "@/domain/stores";
 import { countBy } from "@/domain/collections";
 import { usualAmounts } from "@/domain/usage";
+import { purchaseRhythms } from "@/domain/suggestions";
 import type { ShoppingDatabase } from "./database";
 import { activeItems } from "./items";
 import { updateSettings } from "./settings";
@@ -49,27 +50,34 @@ export async function openSession(
     .first();
 }
 
-/** Dernière session de la liste (la plus récente). */
 /**
  * Ce que l'historique apprend, d'après les achats des courses terminées : nombre d'achats
- * par article (recherche, habituels) et unité habituelle de chaque article
- * (`usualAmounts`, unité selon l'usage).
+ * par article (recherche, habituels), unité habituelle de chaque article
+ * (`usualAmounts`, unité selon l'usage), rythme d'achat (`purchaseRhythms`, anti-oubli)
+ * et fin des dernières courses (« Pas cette fois » dure jusque-là).
  */
 export async function purchaseStats(database: ShoppingDatabase) {
   const closed = await database.sessions
     .where("status")
     .equals("closed")
-    .primaryKeys();
+    .toArray();
   const [purchases, units] = await Promise.all([
-    database.purchases.where("sessionId").anyOf(closed).toArray(),
+    database.purchases
+      .where("sessionId")
+      .anyOf(closed.map((session) => session.id))
+      .toArray(),
     database.units.toArray(),
   ]);
+  const closedAt = closed.map((session) => session.closedAt ?? 0);
   return {
     purchaseCounts: countBy(purchases, (purchase) => purchase.articleId),
     usual: usualAmounts(purchases, units),
+    rhythms: purchaseRhythms(purchases),
+    lastClosedAt: closedAt.length > 0 ? Math.max(...closedAt) : undefined,
   };
 }
 
+/** Dernière session de la liste (la plus récente). */
 export async function latestSession(
   database: ShoppingDatabase,
   listId: ID,
