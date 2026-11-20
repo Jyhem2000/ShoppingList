@@ -1,5 +1,5 @@
 import { categoriesData, unitsData } from "@/data";
-import { CATALOG_VERSION, catalogData } from "@/data/catalog";
+import { CATALOG_VERSION, SEASON_ZONE, catalogData } from "@/data/catalog";
 import type {
   Article,
   Category,
@@ -85,6 +85,7 @@ export function buildInitialData(
       aliases,
       icon: article.icon,
       favorite: false,
+      seasonMonths: article.season?.[SEASON_ZONE],
       notDuplicateOf: [],
       catalogKey: article.key,
     };

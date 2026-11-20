@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router";
 import { manageArticlePath } from "@/app/routes";
 import type { Article } from "@/domain/model";
+import { inSeason, monthOf } from "@/domain/season";
+import { useNow } from "@/ui/useNow";
 import { fr } from "@/i18n/fr";
 import { CatalogCard } from "@/ui/CatalogCard";
 import { EmptyHint } from "@/ui/Page";
@@ -22,6 +24,7 @@ export function ArticleGrid({
   const { pick, sheet } = useCatalogPick(data);
   const navigate = useNavigate();
   const inList = quantitiesInList(data.items, data.unitById);
+  const month = monthOf(useNow());
 
   if (articles.length === 0)
     return <EmptyHint inset>{fr.catalog.noResult}</EmptyHint>;
@@ -39,6 +42,7 @@ export function ArticleGrid({
               icon={article.icon}
               color={category?.color}
               quantity={quantity}
+              inSeason={inSeason(article, month)}
               onClick={() => {
                 pick(article);
               }}

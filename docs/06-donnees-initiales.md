@@ -177,7 +177,7 @@ Pas de modèles de magasin : ils regrouperaient les catégories de façon arbitr
 - `types` uniquement quand c'est utile (pommes, pommes de terre, lait, farine…), sinon absent.
 - `aliases` : synonymes, abréviations (`pdt`), marques passées dans le langage courant (`sopalin`, `kleenex`, `coca`), variantes régionales (`chocolatine`), orthographes alternatives (`nuoc mam`).
 - **Même structure pour les catégories et les unités** : `key` sans langue + `name` (et pluriel, abréviation pour les unités) par langue.
-- _v1.2 (D3)_ : `season` pour les fruits, légumes et herbes aromatiques, liste des mois de saison en France métropolitaine (`[9, 10, 11, 12, 1, 2]`).
+- _v1.2 (D3)_ : `season` pour les fruits, légumes et herbes aromatiques : mois de saison **par zone**, la zone étant l'endroit où l'on fait ses courses, sans lien avec la langue (`"season": { "FR": [9, 10, 11, 12, 1, 2] }`, mois de début à fin). Seule zone : `FR`, la France métropolitaine (`SEASON_ZONE`, `src/data/catalog.ts`) ; une autre zone (autre pays, hémisphère sud) = une clé de plus, et un réglage de la zone. Écrits d'après les calendriers publics (ADEME, Interfel), relus par catégorie. Absent pour les produits importés (bananes, ananas, mangues, avocats, litchis, noix de coco, fruits de la passion, grenades, patates douces, gingembre, citronnelle) et les articles génériques ; les douze mois pour un produit de toute l'année (pommes de terre, carottes, oignons, champignons, thym, laurier, romarin).
 - **Production** : généré par l'agent IA pendant le développement, puis **relu par catégorie** avant validation. C'est la donnée qui fait la qualité perçue de l'app.
 
 ## 5. Dictionnaire de mots-clés

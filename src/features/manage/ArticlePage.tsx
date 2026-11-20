@@ -13,6 +13,9 @@ import { db } from "@/db/database";
 import type { Article } from "@/domain/model";
 import { formatNumber, parseNumber } from "@/domain/quantity";
 import { searchArticles } from "@/domain/search";
+import { monthOf, showsSeason, toggleMonth } from "@/domain/season";
+import { MonthCalendar } from "@/ui/MonthCalendar";
+import { useNow } from "@/ui/useNow";
 import { addAlias as withAlias, mergeTypes } from "@/domain/slug";
 import { UnitSelect } from "@/ui/UnitSelect";
 import { type ListData, useListData } from "@/common/useListData";
@@ -46,7 +49,7 @@ const aliasLabel = (alias: string) => alias.replaceAll("-", " ");
 
 /**
  * Fiche article (docs/03 G1, docs/04 § 2.9) : nom, catégorie, unité et quantité par
- * défaut, types, autres noms, icône, favori ; fusion et suppression en bas, en rouge,
+ * défaut, types, autres noms, icône, favori, mois de saison (D3) ; fusion et suppression en bas, en rouge,
  * avec leurs conséquences. Tout est enregistré au fil de l'eau.
  */
 export function ArticlePage() {
@@ -76,6 +79,7 @@ function ArticleForm({ article, data }: { article: Article; data: ListData }) {
   );
   const usage = useLiveQuery(() => articleUsage(db, article.id), [article.id]);
   const category = data.categoryById.get(article.categoryId);
+  const month = monthOf(useNow());
   const color = paletteColor(category?.color);
   const save = (changes: Parameters<typeof updateArticle>[2]) =>
     void updateArticle(db, article.id, changes).then((result) => {
@@ -184,6 +188,23 @@ function ArticleForm({ article, data }: { article: Article; data: ListData }) {
           />
         </Row>
       </Section>
+
+      {showsSeason(article, category?.catalogKey) && (
+        <Section title={t.season}>
+          <div className="flex flex-col gap-3 px-4 py-4">
+            <p className="text-sm text-muted-foreground">{t.seasonHint}</p>
+            <MonthCalendar
+              months={article.seasonMonths ?? []}
+              current={month}
+              onToggle={(month) => {
+                save({
+                  seasonMonths: toggleMonth(article.seasonMonths, month),
+                });
+              }}
+            />
+          </div>
+        </Section>
+      )}
 
       <Section title={t.types}>
         <TagEditor

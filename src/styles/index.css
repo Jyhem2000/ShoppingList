@@ -48,6 +48,8 @@
   --info: #3d9bff;
   --warning: #ff7b3a;
   --danger: #f2484f;
+  /* Feuille « de saison » : vert, pour ne pas la confondre avec les repères or */
+  --season: #5fd38a;
 
   /* Voile sous les panneaux et les bulles d'aide, ombre des éléments flottants */
   --overlay: rgb(0 0 0 / 0.6);
@@ -104,6 +106,7 @@
   --info: #1d4ed8;
   --warning: #c2410c;
   --danger: #dc2626;
+  --season: #15803d;
 
   /* Palette : mêmes teintes, plus soutenues pour rester lisibles sur blanc */
   --pal-sauge: #28763c;
@@ -146,6 +149,7 @@
   --color-success: var(--success);
   --color-info: var(--info);
   --color-warning: var(--warning);
+  --color-season: var(--season);
   --color-danger: var(--danger);
 
   /* Alias attendus par les composants shadcn/ui */

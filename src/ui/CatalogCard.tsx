@@ -1,9 +1,11 @@
 import { ProductIcon } from "@/ui/ProductIcon";
+import { SeasonBadge } from "@/ui/SeasonBadge";
 import { useLongPress } from "@/ui/useLongPress";
 
 /**
  * Carte du catalogue (docs/05 § 5.4) : grande icône, libellé sur 2 lignes au plus,
- * pastille or de quantité si l'article est déjà dans la liste. Sans bordure ; fond 2 en
+ * pastille or de quantité si l'article est déjà dans la liste, feuille verte en haut à
+ * gauche s'il est de saison (docs/03 D3). Sans bordure ; fond 2 en
  * sombre, pas de fond en clair.
  */
 export function CatalogCard({
@@ -11,6 +13,7 @@ export function CatalogCard({
   icon,
   color,
   quantity,
+  inSeason = false,
   onClick,
   onLongPress,
 }: {
@@ -18,6 +21,7 @@ export function CatalogCard({
   icon?: string;
   color?: string;
   quantity?: string;
+  inSeason?: boolean;
   onClick?: () => void;
   /** Appui long : la fiche de l'article (docs/04 § 2.5). */
   onLongPress?: () => void;
@@ -35,6 +39,7 @@ export function CatalogCard({
           {quantity}
         </span>
       )}
+      {inSeason && <SeasonBadge className="absolute top-2.5 left-2.5" />}
       <ProductIcon icon={icon} label={label} color={color} size={56} />
       <span className="line-clamp-2 text-sm leading-tight font-semibold">
         {label}

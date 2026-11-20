@@ -104,7 +104,8 @@ Articles achetés, pas pris (restés dans la liste), durée, éventuellement «�
 ### 2.5 Catalogue
 
 - Haut : recherche avec suggestions sous le champ (A5), puis **Habituels** (défilement horizontal) et **Favoris**.
-- Grille de catégories (icône, libellé, couleur) → grille d'articles (grande icône, libellé, pastille de quantité si déjà dans la liste courante, pastille « de saison » _v1.2_).
+- Puce **« De saison »** sous la recherche _(v1.2, D3)_ : remplace l'accueil par les articles de saison ce mois-ci (« De saison en novembre »), une grille par catégorie ; un second toucher revient à l'accueil.
+- Grille de catégories (icône, libellé, couleur) → grille d'articles (grande icône, libellé, pastille de quantité si déjà dans la liste courante, feuille verte « de saison » en haut à gauche _v1.2_).
 - Appui long sur un article → fiche article (G1).
 
 ### 2.6 Recettes _(v1.0)_

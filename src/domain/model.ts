@@ -73,6 +73,10 @@ export interface Article extends Base {
   aliases: string[];
   icon?: string;
   favorite: boolean;
+  /**
+   * Mois de saison (1 à 12) là où l'on fait ses courses (docs/03 D3) : copiés du
+   * catalogue, modifiables dans la fiche article ; absents ou vides : pas de saison.
+   */
   seasonMonths?: number[];
   /** Paires écartées de la détection de doublons. */
   notDuplicateOf: ID[];

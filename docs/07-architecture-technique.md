@@ -120,7 +120,7 @@ interface Article extends Base {
   aliases: string[]; // slugifiés pour la comparaison
   icon?: string;
   favorite: boolean;
-  seasonMonths?: number[]; // v1.2 (D3) : 1..12
+  seasonMonths?: number[]; // v1.2 (D3) : 1..12, copiés du catalogue pour la zone (06 § 4)
   notDuplicateOf: ID[]; // paires écartées de la détection de doublons
   catalogKey?: string;
 }
@@ -360,6 +360,10 @@ Calculées à la demande à partir des achats des sessions **clôturées**. Pour
 ### 7.12 Doublons probables (G1)
 
 `findLikelyDuplicates(articles)` : paires d'articles de même catégorie et même icône dont les clés de recherche sont proches (distance d'édition ≤ 2, ou l'une contient l'autre) ou qui partagent un alias ; paires présentes dans `notDuplicateOf` exclues.
+
+### 7.13 Saisonnalité (D3)
+
+`src/domain/season.ts` : `inSeason(article, mois)` — l'article a des mois, pas les douze, et le mois en fait partie ; `toggleMonth` (calendrier de la fiche, mois triés) ; `monthOf(date)` (mois à l'heure du téléphone, tenu à jour par `useNow`). Les mois de la zone `SEASON_ZONE` sont copiés dans `Article.seasonMonths` à la création depuis le catalogue (`buildInitialData`), puis ne sont plus lus que dans l'article.
 
 ### 7.10 Animations
 

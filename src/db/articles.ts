@@ -23,6 +23,7 @@ export type ArticleChanges = Partial<
     | "icon"
     | "favorite"
     | "generic"
+    | "seasonMonths"
   >
 >;
 

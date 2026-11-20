@@ -5,13 +5,17 @@ import { sortCategories } from "@/domain/categories";
 import { searchArticles } from "@/domain/search";
 import { fr } from "@/i18n/fr";
 import { CategoryCard } from "@/ui/CategoryCard";
-import { PageHeader, SectionTitle } from "@/ui/Page";
+import { EmptyHint, PageHeader, SectionTitle } from "@/ui/Page";
 import { useListData } from "@/common/useListData";
 import { catalogOrder } from "@/common/format";
 import { ArticleGrid } from "./ArticleGrid";
 import { CatalogSearch } from "./CatalogSearch";
 import { byName } from "@/domain/slug";
 import { countBy } from "@/domain/collections";
+import { inSeason, monthOf } from "@/domain/season";
+import { Chip } from "@/ui/form";
+import { SeasonBadge } from "@/ui/SeasonBadge";
+import { useNow } from "@/ui/useNow";
 const t = fr.catalog;
 const MAX_USUAL = 9;
 function Section({ title, children }: { title: string; children: ReactNode }) {
@@ -28,6 +32,7 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
 /**
  * Catalogue (docs/03 A5, A6) : recherche avec suggestions, favoris et habituels en
  * tête, puis la grille des catégories. Les habituels viennent de l'historique des courses.
+ * Filtre « De saison » (docs/03 D3) : les articles de saison ce mois-ci, par catégorie.
  */
 export function CatalogPage() {
   const data = useListData();
@@ -35,6 +40,8 @@ export function CatalogPage() {
   const [query, setQuery] = useState("");
   // « Voir les N résultats » : la grille complète de la recherche.
   const [showAll, setShowAll] = useState(false);
+  const [seasonOnly, setSeasonOnly] = useState(false);
+  const month = monthOf(useNow());
 
   const { articles, articleById, purchaseCounts, categories } = data ?? {};
   // Ce qui ne dépend pas de la saisie : calculé une fois, pas à chaque lettre.
@@ -56,6 +63,17 @@ export function CatalogPage() {
     );
     return { favorites, usual, categories: shown, counts };
   }, [articles, articleById, purchaseCounts, categories]);
+  const season = useMemo(() => {
+    if (!articles || !home) return [];
+    const now = articles.filter((a) => inSeason(a, month));
+    return home.categories
+      .map((category) => ({
+        category,
+        articles: now.filter((a) => a.categoryId === category.id).sort(byName),
+      }))
+      .filter((group) => group.articles.length > 0);
+  }, [articles, home, month]);
+  const searching = query.trim() !== "";
   // Une seule recherche, pour les suggestions et pour « Voir les N résultats ».
   const results = useMemo(
     () =>
@@ -87,8 +105,36 @@ export function CatalogPage() {
 
       {data && home && (
         <>
-          {showAll && query.trim() ? (
+          {!searching && (
+            <div className="px-4 pt-3">
+              <Chip
+                selected={seasonOnly}
+                className="inline-flex items-center gap-1.5"
+                onClick={() => {
+                  setSeasonOnly(!seasonOnly);
+                }}
+              >
+                <SeasonBadge decorative className="fill-transparent" />
+                {t.seasonFilter}
+              </Chip>
+            </div>
+          )}
+          {showAll && searching ? (
             <ArticleGrid articles={results} data={data} />
+          ) : seasonOnly && !searching ? (
+            <>
+              <p className="px-4 pt-3 text-sm text-muted-foreground">
+                {t.seasonTitle(fr.season.monthNames[month - 1] ?? "")}
+              </p>
+              {season.length === 0 && (
+                <EmptyHint inset>{t.seasonEmpty}</EmptyHint>
+              )}
+              {season.map(({ category, articles: inThisCategory }) => (
+                <Section key={category.id} title={category.name}>
+                  <ArticleGrid articles={inThisCategory} data={data} />
+                </Section>
+              ))}
+            </>
           ) : (
             <>
               {home.favorites.length > 0 && (

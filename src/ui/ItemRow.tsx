@@ -1,5 +1,6 @@
 import { Check } from "lucide-react";
 import { ProductIcon } from "@/ui/ProductIcon";
+import { SeasonBadge } from "@/ui/SeasonBadge";
 import { useLongPress } from "@/ui/useLongPress";
 import { cn } from "@/ui/utils";
 
@@ -10,6 +11,7 @@ import { cn } from "@/ui/utils";
  * `shopping` : mode courses (cible de 48 px, texte de 18 px, coche).
  * `unavailable` : pas pris (grisée). `onLongPress` : appui long (changer de rayon).
  * `onQuantityClick` : la quantité devient un bouton à part (la changer en magasin).
+ * `inSeason` : pastille « de saison » après le libellé (docs/03 D3).
  */
 export function ItemRow({
   label,
@@ -24,6 +26,7 @@ export function ItemRow({
   onLongPress,
   onQuantityClick,
   quantityLabel,
+  inSeason = false,
 }: {
   label: string;
   icon?: string;
@@ -38,6 +41,7 @@ export function ItemRow({
   onQuantityClick?: () => void;
   /** Nom accessible du bouton de quantité (« Changer la quantité de Lait »). */
   quantityLabel?: string;
+  inSeason?: boolean;
 }) {
   const { handlers, wrapClick } = useLongPress(onLongPress);
   const muted = checked || unavailable;
@@ -78,7 +82,7 @@ export function ItemRow({
       <span className="min-w-0 flex-1">
         <span
           className={cn(
-            "block truncate font-semibold",
+            "flex min-w-0 items-center gap-1.5 font-semibold",
             shopping && "text-lg",
             muted && "text-muted-foreground",
           )}
@@ -86,12 +90,13 @@ export function ItemRow({
           {/* Trait barré qui se trace de gauche à droite en cochant (docs/05 § 6). */}
           <span
             className={cn(
-              "bg-[linear-gradient(currentColor,currentColor)] bg-[length:0%_2px] bg-[position:0_55%] bg-no-repeat transition-[background-size] duration-300 ease-out motion-reduce:transition-none",
+              "truncate bg-[linear-gradient(currentColor,currentColor)] bg-[length:0%_2px] bg-[position:0_55%] bg-no-repeat transition-[background-size] duration-300 ease-out motion-reduce:transition-none",
               checked && "bg-[length:100%_2px]",
             )}
           >
             {label}
           </span>
+          {inSeason && !muted && <SeasonBadge />}
         </span>
         {details && (
           <span className="block truncate text-sm text-muted-foreground">

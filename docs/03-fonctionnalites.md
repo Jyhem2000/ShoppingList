@@ -201,9 +201,12 @@ Mode « Tour de la cuisine » : un écran par catégorie présentant ses artic
 
 ### D3. Saisonnalité — _v1.2_
 
-- Propriété **« mois de saison »** sur les articles des catégories Fruits, Légumes et Herbes aromatiques, pour la **France métropolitaine** (aucune autre zone, pas de réglage de pays). Les mois viennent du catalogue embarqué, lus par la clé de l'article tant que l'utilisateur ne les a pas modifiés dans la fiche article : les articles déjà installés en profitent sans migration. Un article créé à la main n'a pas de mois ; on peut les saisir.
-- Pastille « de saison » sur ces articles dans le catalogue, la liste et les suggestions ; petit calendrier des 12 mois dans la fiche article.
-- Filtre « De saison » dans le catalogue.
+- Propriété **« mois de saison »** sur les articles des catégories Fruits, Légumes et Herbes aromatiques. Les saisons dépendent de **l'endroit où l'on fait ses courses**, pas de la langue de l'interface : le catalogue les donne par zone (06 § 4) ; seule zone pour l'instant, la **France métropolitaine**, sans réglage. Les mois de la zone sont copiés dans l'article à sa création depuis le catalogue ; produits importés (bananes, ananas…) et articles génériques n'en ont pas. Un article créé à la main n'a pas de mois ; on peut les saisir dans sa fiche.
+- **Pastille « de saison »** (feuille verte, distincte des repères or) sur les articles de saison ce mois-ci : catalogue, liste, suggestions. Un article de saison toute l'année (carottes, thym) ou sans mois n'en a pas : elle ne signale que ce qui ne se trouve bien qu'une partie de l'année.
+- **Calendrier des 12 mois** dans la fiche article (un toucher ajoute ou retire un mois, le mois en cours est souligné), pour les fruits, légumes et herbes, et pour tout article qui a déjà des mois.
+- **Filtre « De saison »** dans le catalogue : les articles de saison ce mois-ci, rangés par catégorie.
+
+**Critères** : à la mi-novembre, le filtre montre les poireaux, pas les fraises ; un article ajouté depuis le filtre porte la pastille dans la liste ; novembre ajouté aux fraises dans leur fiche → elles apparaissent dans le filtre.
 
 ---
 

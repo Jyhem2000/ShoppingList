@@ -21,7 +21,20 @@ export interface CatalogArticleData {
   icon?: string;
   /** Version du catalogue qui l'a ajouté (absente : 1), pour la mise à jour sans réinstaller. */
   since?: number;
+  /**
+   * Mois de saison (1 à 12) par zone (docs/06 § 4) : fruits, légumes et herbes
+   * aromatiques. Absent : pas de saison connue (produit importé, article générique).
+   */
+  season?: Partial<Record<SeasonZone, number[]>>;
 }
+
+/**
+ * Zone des saisons : l'endroit où l'on fait ses courses, sans lien avec la langue de
+ * l'interface (docs/06 § 4). Seule zone connue : la France métropolitaine, sans réglage.
+ * Une autre zone (pays, hémisphère sud) = une clé de plus dans `season`.
+ */
+export type SeasonZone = "FR";
+export const SEASON_ZONE: SeasonZone = "FR";
 
 export { CATALOG_VERSION } from "./catalogVersion";
 

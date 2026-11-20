@@ -92,7 +92,7 @@ Un produit que l'on achète.
 | Alias                | —            | Autres noms : synonymes, abréviations, marques passées dans le langage courant, variantes régionales (voir ci-dessous)                                                                        |
 | Icône                | —            | Icône choisie ; si absente, l'app en déduit une ou affiche un monogramme (voir 05)                                                                                                            |
 | Favori               | —            | Épinglé dans les « Habituels »                                                                                                                                                                |
-| Mois de saison       | —            | _v1.2_ — fruits, légumes et herbes : mois où l'article est de saison en France (D3)                                                                                                           |
+| Mois de saison       | —            | _v1.2_ — fruits, légumes et herbes : mois où l'article est de saison là où l'on fait ses courses (D3)                                                                                         |
 | Clé catalogue        | —            | Présente si l'article vient du catalogue de départ (§ 10) ; ne change jamais                                                                                                                  |
 
 ### Alias

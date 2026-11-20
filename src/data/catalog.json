@@ -26,7 +26,8 @@
     "category": "fruits",
     "unit": "kg",
     "countable": true,
-    "icon": "pommes"
+    "icon": "pommes",
+    "season": { "FR": [8, 9, 10, 11, 12, 1, 2, 3, 4] }
   },
   {
     "key": "poires",
@@ -39,7 +40,8 @@
     "category": "fruits",
     "unit": "kg",
     "countable": true,
-    "icon": "poires"
+    "icon": "poires",
+    "season": { "FR": [8, 9, 10, 11, 12, 1, 2, 3] }
   },
   {
     "key": "bananes",
@@ -62,7 +64,8 @@
     "category": "fruits",
     "unit": "kg",
     "countable": true,
-    "icon": "oranges"
+    "icon": "oranges",
+    "season": { "FR": [12, 1, 2, 3, 4] }
   },
   {
     "key": "clementines",
@@ -75,7 +78,8 @@
     "category": "fruits",
     "unit": "kg",
     "countable": true,
-    "icon": "clementines"
+    "icon": "clementines",
+    "season": { "FR": [11, 12, 1, 2] }
   },
   {
     "key": "citrons",
@@ -91,7 +95,8 @@
     "category": "fruits",
     "unit": "piece",
     "quantity": 3,
-    "icon": "citrons"
+    "icon": "citrons",
+    "season": { "FR": [11, 12, 1, 2, 3, 4] }
   },
   {
     "key": "pamplemousses",
@@ -107,7 +112,8 @@
     "category": "fruits",
     "unit": "piece",
     "quantity": 2,
-    "icon": "pamplemousses"
+    "icon": "pamplemousses",
+    "season": { "FR": [12, 1, 2, 3, 4] }
   },
   {
     "key": "fraises",
@@ -119,7 +125,8 @@
     },
     "category": "fruits",
     "unit": "barquette",
-    "icon": "fraises"
+    "icon": "fraises",
+    "season": { "FR": [4, 5, 6, 7, 8, 9] }
   },
   {
     "key": "framboises",
@@ -128,7 +135,8 @@
     },
     "category": "fruits",
     "unit": "barquette",
-    "icon": "framboises"
+    "icon": "framboises",
+    "season": { "FR": [6, 7, 8, 9] }
   },
   {
     "key": "myrtilles",
@@ -137,7 +145,8 @@
     },
     "category": "fruits",
     "unit": "barquette",
-    "icon": "myrtilles"
+    "icon": "myrtilles",
+    "season": { "FR": [7, 8, 9] }
   },
   {
     "key": "mures",
@@ -146,7 +155,8 @@
     },
     "category": "fruits",
     "unit": "barquette",
-    "icon": "mures"
+    "icon": "mures",
+    "season": { "FR": [8, 9] }
   },
   {
     "key": "groseilles",
@@ -155,7 +165,8 @@
     },
     "category": "fruits",
     "unit": "barquette",
-    "icon": "groseilles"
+    "icon": "groseilles",
+    "season": { "FR": [6, 7, 8] }
   },
   {
     "key": "raisin",
@@ -168,7 +179,8 @@
     "category": "fruits",
     "unit": "g",
     "quantity": 500,
-    "icon": "raisin"
+    "icon": "raisin",
+    "season": { "FR": [8, 9, 10] }
   },
   {
     "key": "kiwis",
@@ -178,7 +190,8 @@
     "category": "fruits",
     "unit": "piece",
     "quantity": 6,
-    "icon": "kiwis"
+    "icon": "kiwis",
+    "season": { "FR": [11, 12, 1, 2, 3, 4] }
   },
   {
     "key": "avocats",
@@ -204,7 +217,8 @@
     "category": "fruits",
     "unit": "kg",
     "countable": true,
-    "icon": "peches"
+    "icon": "peches",
+    "season": { "FR": [6, 7, 8, 9] }
   },
   {
     "key": "nectarines",
@@ -214,7 +228,8 @@
     "category": "fruits",
     "unit": "kg",
     "countable": true,
-    "icon": "nectarines"
+    "icon": "nectarines",
+    "season": { "FR": [6, 7, 8, 9] }
   },
   {
     "key": "abricots",
@@ -225,7 +240,8 @@
     "unit": "g",
     "quantity": 500,
     "countable": true,
-    "icon": "abricots"
+    "icon": "abricots",
+    "season": { "FR": [6, 7, 8] }
   },
   {
     "key": "cerises",
@@ -235,7 +251,8 @@
     "category": "fruits",
     "unit": "g",
     "quantity": 500,
-    "icon": "cerises"
+    "icon": "cerises",
+    "season": { "FR": [5, 6, 7] }
   },
   {
     "key": "prunes",
@@ -252,7 +269,8 @@
     "unit": "g",
     "quantity": 500,
     "countable": true,
-    "icon": "prunes"
+    "icon": "prunes",
+    "season": { "FR": [7, 8, 9] }
   },
   {
     "key": "figues",
@@ -261,7 +279,8 @@
     },
     "category": "fruits",
     "unit": "barquette",
-    "icon": "figues"
+    "icon": "figues",
+    "season": { "FR": [8, 9, 10] }
   },
   {
     "key": "litchis",
@@ -283,7 +302,8 @@
     },
     "category": "fruits",
     "unit": "piece",
-    "icon": "melon"
+    "icon": "melon",
+    "season": { "FR": [6, 7, 8, 9] }
   },
   {
     "key": "pasteque",
@@ -292,7 +312,8 @@
     },
     "category": "fruits",
     "unit": "piece",
-    "icon": "pasteque"
+    "icon": "pasteque",
+    "season": { "FR": [7, 8, 9] }
   },
   {
     "key": "ananas",
@@ -352,7 +373,8 @@
     "category": "fruits",
     "unit": "piece",
     "quantity": 2,
-    "icon": "kakis"
+    "icon": "kakis",
+    "season": { "FR": [10, 11, 12] }
   },
   {
     "key": "rhubarbe",
@@ -361,7 +383,8 @@
     },
     "category": "fruits",
     "unit": "botte",
-    "icon": "rhubarbe"
+    "icon": "rhubarbe",
+    "season": { "FR": [4, 5, 6] }
   },
   {
     "key": "legumes",
@@ -394,7 +417,8 @@
     "category": "legumes",
     "unit": "kg",
     "countable": true,
-    "icon": "tomates"
+    "icon": "tomates",
+    "season": { "FR": [6, 7, 8, 9, 10] }
   },
   {
     "key": "pommes-de-terre",
@@ -411,7 +435,8 @@
     "unit": "kg",
     "quantity": 2.5,
     "countable": true,
-    "icon": "pommes-de-terre"
+    "icon": "pommes-de-terre",
+    "season": { "FR": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] }
   },
   {
     "key": "carottes",
@@ -421,7 +446,8 @@
     "category": "legumes",
     "unit": "kg",
     "countable": true,
-    "icon": "carottes"
+    "icon": "carottes",
+    "season": { "FR": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] }
   },
   {
     "key": "oignons",
@@ -433,7 +459,8 @@
     },
     "category": "legumes",
     "unit": "piece",
-    "icon": "oignons"
+    "icon": "oignons",
+    "season": { "FR": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] }
   },
   {
     "key": "echalotes",
@@ -442,7 +469,8 @@
     },
     "category": "legumes",
     "unit": "piece",
-    "icon": "echalotes"
+    "icon": "echalotes",
+    "season": { "FR": [7, 8, 9, 10, 11, 12, 1, 2, 3] }
   },
   {
     "key": "ail",
@@ -454,7 +482,8 @@
     },
     "category": "legumes",
     "unit": "piece",
-    "icon": "ail"
+    "icon": "ail",
+    "season": { "FR": [6, 7, 8, 9, 10, 11, 12, 1, 2, 3] }
   },
   {
     "key": "salade",
@@ -476,7 +505,8 @@
     },
     "category": "legumes",
     "unit": "piece",
-    "icon": "salade"
+    "icon": "salade",
+    "season": { "FR": [4, 5, 6, 7, 8, 9, 10, 11] }
   },
   {
     "key": "courgettes",
@@ -485,7 +515,8 @@
     },
     "category": "legumes",
     "unit": "piece",
-    "icon": "courgettes"
+    "icon": "courgettes",
+    "season": { "FR": [6, 7, 8, 9, 10] }
   },
   {
     "key": "concombre",
@@ -494,7 +525,8 @@
     },
     "category": "legumes",
     "unit": "piece",
-    "icon": "concombre"
+    "icon": "concombre",
+    "season": { "FR": [5, 6, 7, 8, 9] }
   },
   {
     "key": "poivrons",
@@ -507,7 +539,8 @@
     "category": "legumes",
     "unit": "piece",
     "quantity": 2,
-    "icon": "poivrons"
+    "icon": "poivrons",
+    "season": { "FR": [7, 8, 9, 10] }
   },
   {
     "key": "aubergines",
@@ -517,7 +550,8 @@
     "category": "legumes",
     "unit": "piece",
     "quantity": 2,
-    "icon": "aubergines"
+    "icon": "aubergines",
+    "season": { "FR": [6, 7, 8, 9, 10] }
   },
   {
     "key": "brocoli",
@@ -526,7 +560,8 @@
     },
     "category": "legumes",
     "unit": "piece",
-    "icon": "brocoli"
+    "icon": "brocoli",
+    "season": { "FR": [6, 7, 8, 9, 10, 11] }
   },
   {
     "key": "chou-fleur",
@@ -535,7 +570,8 @@
     },
     "category": "legumes",
     "unit": "piece",
-    "icon": "chou-fleur"
+    "icon": "chou-fleur",
+    "season": { "FR": [9, 10, 11, 12, 1, 2, 3, 4] }
   },
   {
     "key": "chou",
@@ -547,7 +583,8 @@
     },
     "category": "legumes",
     "unit": "piece",
-    "icon": "chou"
+    "icon": "chou",
+    "season": { "FR": [10, 11, 12, 1, 2, 3] }
   },
   {
     "key": "choux-de-bruxelles",
@@ -557,7 +594,8 @@
     "category": "legumes",
     "unit": "g",
     "quantity": 500,
-    "icon": "choux-de-bruxelles"
+    "icon": "choux-de-bruxelles",
+    "season": { "FR": [10, 11, 12, 1, 2] }
   },
   {
     "key": "champignons",
@@ -569,7 +607,8 @@
     },
     "category": "legumes",
     "unit": "barquette",
-    "icon": "champignons"
+    "icon": "champignons",
+    "season": { "FR": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] }
   },
   {
     "key": "haricots-verts",
@@ -579,7 +618,8 @@
     "category": "legumes",
     "unit": "g",
     "quantity": 500,
-    "icon": "haricots-verts"
+    "icon": "haricots-verts",
+    "season": { "FR": [6, 7, 8, 9] }
   },
   {
     "key": "petits-pois",
@@ -589,7 +629,8 @@
     "category": "legumes",
     "unit": "g",
     "quantity": 500,
-    "icon": "petits-pois"
+    "icon": "petits-pois",
+    "season": { "FR": [5, 6, 7] }
   },
   {
     "key": "poireaux",
@@ -598,7 +639,8 @@
     },
     "category": "legumes",
     "unit": "piece",
-    "icon": "poireaux"
+    "icon": "poireaux",
+    "season": { "FR": [9, 10, 11, 12, 1, 2, 3, 4] }
   },
   {
     "key": "epinards",
@@ -610,7 +652,8 @@
     },
     "category": "legumes",
     "unit": "sachet",
-    "icon": "epinards"
+    "icon": "epinards",
+    "season": { "FR": [3, 4, 5, 6, 9, 10, 11] }
   },
   {
     "key": "patates-douces",
@@ -628,7 +671,8 @@
     },
     "category": "legumes",
     "unit": "botte",
-    "icon": "radis"
+    "icon": "radis",
+    "season": { "FR": [4, 5, 6, 7, 8, 9] }
   },
   {
     "key": "navets",
@@ -638,7 +682,8 @@
     "category": "legumes",
     "unit": "kg",
     "countable": true,
-    "icon": "navets"
+    "icon": "navets",
+    "season": { "FR": [10, 11, 12, 1, 2, 3] }
   },
   {
     "key": "betteraves",
@@ -652,7 +697,8 @@
     "unit": "g",
     "quantity": 500,
     "countable": true,
-    "icon": "betteraves"
+    "icon": "betteraves",
+    "season": { "FR": [7, 8, 9, 10, 11, 12, 1, 2, 3] }
   },
   {
     "key": "celeri",
@@ -667,7 +713,8 @@
     },
     "category": "legumes",
     "unit": "piece",
-    "icon": "celeri"
+    "icon": "celeri",
+    "season": { "FR": [9, 10, 11, 12, 1, 2, 3] }
   },
   {
     "key": "courge",
@@ -682,7 +729,8 @@
     },
     "category": "legumes",
     "unit": "piece",
-    "icon": "courge"
+    "icon": "courge",
+    "season": { "FR": [9, 10, 11, 12, 1, 2] }
   },
   {
     "key": "fenouil",
@@ -691,7 +739,8 @@
     },
     "category": "legumes",
     "unit": "piece",
-    "icon": "fenouil"
+    "icon": "fenouil",
+    "season": { "FR": [6, 7, 8, 9, 10] }
   },
   {
     "key": "endives",
@@ -703,7 +752,8 @@
     },
     "category": "legumes",
     "unit": "piece",
-    "icon": "endives"
+    "icon": "endives",
+    "season": { "FR": [10, 11, 12, 1, 2, 3, 4] }
   },
   {
     "key": "artichauts",
@@ -713,7 +763,8 @@
     "category": "legumes",
     "unit": "piece",
     "quantity": 2,
-    "icon": "artichauts"
+    "icon": "artichauts",
+    "season": { "FR": [5, 6, 7, 8, 9] }
   },
   {
     "key": "asperges",
@@ -725,7 +776,8 @@
     },
     "category": "legumes",
     "unit": "botte",
-    "icon": "asperges"
+    "icon": "asperges",
+    "season": { "FR": [4, 5, 6] }
   },
   {
     "key": "panais",
@@ -736,7 +788,8 @@
     "unit": "g",
     "quantity": 500,
     "countable": true,
-    "icon": "panais"
+    "icon": "panais",
+    "season": { "FR": [10, 11, 12, 1, 2, 3] }
   },
   {
     "key": "gingembre",
@@ -754,7 +807,8 @@
     "category": "legumes",
     "unit": "botte",
     "icon": "blettes",
-    "since": 7
+    "since": 7,
+    "season": { "FR": [6, 7, 8, 9, 10, 11] }
   },
   {
     "key": "topinambours",
@@ -763,7 +817,8 @@
     "unit": "kg",
     "countable": true,
     "icon": "topinambours",
-    "since": 7
+    "since": 7,
+    "season": { "FR": [10, 11, 12, 1, 2, 3] }
   },
   {
     "key": "persil",
@@ -775,7 +830,8 @@
     },
     "category": "herbes-aromatiques",
     "unit": "botte",
-    "icon": "persil"
+    "icon": "persil",
+    "season": { "FR": [3, 4, 5, 6, 7, 8, 9, 10, 11] }
   },
   {
     "key": "coriandre",
@@ -784,7 +840,8 @@
     },
     "category": "herbes-aromatiques",
     "unit": "botte",
-    "icon": "coriandre"
+    "icon": "coriandre",
+    "season": { "FR": [4, 5, 6, 7, 8, 9, 10] }
   },
   {
     "key": "basilic",
@@ -793,7 +850,8 @@
     },
     "category": "herbes-aromatiques",
     "unit": "botte",
-    "icon": "basilic"
+    "icon": "basilic",
+    "season": { "FR": [6, 7, 8, 9] }
   },
   {
     "key": "menthe",
@@ -802,7 +860,8 @@
     },
     "category": "herbes-aromatiques",
     "unit": "botte",
-    "icon": "menthe"
+    "icon": "menthe",
+    "season": { "FR": [5, 6, 7, 8, 9] }
   },
   {
     "key": "ciboulette",
@@ -811,7 +870,8 @@
     },
     "category": "herbes-aromatiques",
     "unit": "botte",
-    "icon": "ciboulette"
+    "icon": "ciboulette",
+    "season": { "FR": [3, 4, 5, 6, 7, 8, 9, 10] }
   },
   {
     "key": "thym",
@@ -820,7 +880,8 @@
     },
     "category": "herbes-aromatiques",
     "unit": "botte",
-    "icon": "thym"
+    "icon": "thym",
+    "season": { "FR": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] }
   },
   {
     "key": "laurier",
@@ -829,7 +890,8 @@
     },
     "category": "herbes-aromatiques",
     "unit": "botte",
-    "icon": "laurier"
+    "icon": "laurier",
+    "season": { "FR": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] }
   },
   {
     "key": "romarin",
@@ -838,7 +900,8 @@
     },
     "category": "herbes-aromatiques",
     "unit": "botte",
-    "icon": "romarin"
+    "icon": "romarin",
+    "season": { "FR": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] }
   },
   {
     "key": "aneth",
@@ -847,7 +910,8 @@
     },
     "category": "herbes-aromatiques",
     "unit": "botte",
-    "icon": "aneth"
+    "icon": "aneth",
+    "season": { "FR": [5, 6, 7, 8, 9] }
   },
   {
     "key": "estragon",
@@ -856,7 +920,8 @@
     },
     "category": "herbes-aromatiques",
     "unit": "botte",
-    "icon": "estragon"
+    "icon": "estragon",
+    "season": { "FR": [5, 6, 7, 8, 9] }
   },
   {
     "key": "bouquet-garni",
@@ -876,7 +941,8 @@
     "category": "herbes-aromatiques",
     "unit": "botte",
     "icon": "cerfeuil",
-    "since": 7
+    "since": 7,
+    "season": { "FR": [4, 5, 6, 7, 8, 9, 10] }
   },
   {
     "key": "sauge",
@@ -884,7 +950,8 @@
     "category": "herbes-aromatiques",
     "unit": "botte",
     "icon": "sauge",
-    "since": 7
+    "since": 7,
+    "season": { "FR": [4, 5, 6, 7, 8, 9, 10] }
   },
   {
     "key": "marjolaine",
@@ -892,7 +959,8 @@
     "category": "herbes-aromatiques",
     "unit": "botte",
     "icon": "marjolaine",
-    "since": 7
+    "since": 7,
+    "season": { "FR": [5, 6, 7, 8, 9] }
   },
   {
     "key": "citronnelle",
