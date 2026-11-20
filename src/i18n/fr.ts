@@ -60,6 +60,7 @@ export const fr = {
         points: [
           "L'ordre des rayons et des articles, d'après l'ordre de tes coches, magasin par magasin.",
           "Le rayon d'un article : celui de sa catégorie, sauf si tu l'as rangé ailleurs.",
+          "L'unité d'un article ajouté sans unité\u00a0: celle que tu achètes le plus pour lui, à partir de 3 achats, avec la quantité que tu prends d'habitude. Une unité choisie dans sa fiche l'emporte.",
           "Tes habitudes : ce que tu achètes souvent remonte dans la recherche et dans «\u00a0Habituels\u00a0» du Catalogue.",
           "Si l'ordre d'un magasin te convient, fige-le : Réglages → Magasins & rayons → ton magasin → «\u00a0Apprendre l'ordre de mes courses\u00a0».",
         ],
@@ -614,6 +615,12 @@ export const fr = {
       nameTaken: "Un autre article porte déjà ce nom.",
       category: "Catégorie",
       unit: "Unité par défaut",
+      unitHint:
+        "Sans unité précisée, l'article prend celle que tu achètes le plus, à partir de 3 achats. Une unité choisie ici l'emporte.",
+      unitFromUsage: (amount: string) =>
+        `D'après tes achats\u00a0: \u00a0${amount} à l'ajout.`,
+      unitChosen: "Choisie à la main\u00a0: elle l'emporte sur tes achats.",
+      unitFollowUsage: "Suivre mes achats",
       quantity: "Quantité par défaut",
       quantityHint: "Ajoutée quand tu n'en précises pas (vide : 1).",
       types: "Types",

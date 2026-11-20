@@ -16,6 +16,7 @@ export type ArticleChanges = Partial<
     | "name"
     | "categoryId"
     | "defaultUnitId"
+    | "defaultUnitChosen"
     | "defaultQuantity"
     | "countable"
     | "types"

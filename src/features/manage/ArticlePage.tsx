@@ -11,7 +11,7 @@ import {
 } from "@/db/articles";
 import { db } from "@/db/database";
 import type { Article } from "@/domain/model";
-import { formatNumber, parseNumber } from "@/domain/quantity";
+import { formatNumber, formatQuantity, parseNumber } from "@/domain/quantity";
 import { searchArticles } from "@/domain/search";
 import { monthOf, showsSeason, toggleMonth } from "@/domain/season";
 import { MonthCalendar } from "@/ui/MonthCalendar";
@@ -143,10 +143,20 @@ function ArticleForm({ article, data }: { article: Article; data: ListData }) {
                 units={data.units}
                 value={article.defaultUnitId}
                 onChange={(event) => {
-                  save({ defaultUnitId: event.target.value });
+                  save({
+                    defaultUnitId: event.target.value,
+                    defaultUnitChosen: true,
+                  });
                 }}
               />
             </Field>
+            <UnitUsage
+              article={article}
+              data={data}
+              onFollow={() => {
+                save({ defaultUnitChosen: false });
+              }}
+            />
             {/* Champ étroit, intitulé sur toute la largeur (sinon sur 2 lignes). */}
             <Field label={t.quantity}>
               <TextInput
@@ -300,6 +310,47 @@ function ArticleForm({ article, data }: { article: Article; data: ListData }) {
         </Sheet>
       )}
     </>
+  );
+}
+
+/**
+ * Sous l'unité par défaut (unité selon l'usage) : ce qui l'emporte, l'unité de ses
+ * achats ou celle choisie ici, et de quoi revenir à ses achats.
+ */
+function UnitUsage({
+  article,
+  data,
+  onFollow,
+}: {
+  article: Article;
+  data: ListData;
+  onFollow: () => void;
+}) {
+  const usual = data.usual.get(article.id);
+  const unit = usual && data.unitById.get(usual.unitId);
+  const fromUsage =
+    !article.defaultUnitChosen &&
+    usual &&
+    unit &&
+    usual.unitId !== article.defaultUnitId;
+  return (
+    <div className="-mt-2 flex flex-col items-start gap-1 text-sm text-muted-foreground">
+      <p>{t.unitHint}</p>
+      {article.defaultUnitChosen ? (
+        <p className="font-semibold text-text">{t.unitChosen}</p>
+      ) : (
+        fromUsage && (
+          <p className="font-semibold text-text">
+            {t.unitFromUsage(formatQuantity(usual.quantity, unit, "long"))}
+          </p>
+        )
+      )}
+      {article.defaultUnitChosen && (
+        <Button variant="link" className="px-0 text-sm" onClick={onFollow}>
+          {t.unitFollowUsage}
+        </Button>
+      )}
+    </div>
   );
 }
 

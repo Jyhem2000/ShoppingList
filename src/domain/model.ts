@@ -59,6 +59,11 @@ export interface Article extends Base {
   name: string;
   categoryId: ID;
   defaultUnitId: ID;
+  /**
+   * Unité par défaut choisie à la main dans la fiche article : elle l'emporte sur
+   * l'unité la plus achetée (docs/03 A2, unité selon l'usage).
+   */
+  defaultUnitChosen?: boolean;
   /** Ex. 6 pour les œufs ; sinon 1 (ou le pas de l'unité). */
   defaultQuantity?: number;
   /**

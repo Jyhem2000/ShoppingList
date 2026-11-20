@@ -114,6 +114,7 @@ interface Article extends Base {
   name: string;
   categoryId: ID;
   defaultUnitId: ID;
+  defaultUnitChosen?: boolean; // v1.2 : choisie à la main dans la fiche, l'emporte sur l'usage (§ 7.14)
   defaultQuantity?: number; // ex. 6 pour les œufs ; sinon 1 (ou le pas de l'unité)
   generic?: boolean; // « Fruits au choix » : en tête de sa catégorie et de son rayon
   types: string[]; // [] par défaut
@@ -364,6 +365,10 @@ Calculées à la demande à partir des achats des sessions **clôturées**. Pour
 ### 7.13 Saisonnalité (D3)
 
 `src/domain/season.ts` : `inSeason(article, mois)` — l'article a des mois, pas les douze, et le mois en fait partie ; `toggleMonth` (calendrier de la fiche, mois triés) ; `monthOf(date)` (mois à l'heure du téléphone, tenu à jour par `useNow`). Les mois de la zone `SEASON_ZONE` sont copiés dans `Article.seasonMonths` à la création depuis le catalogue (`buildInitialData`), puis ne sont plus lus que dans l'article.
+
+### 7.14 Unité selon l'usage (A2)
+
+`usualAmounts(achats, unités)` (`src/domain/usage.ts`), calculé à chaque lecture des achats des sessions clôturées (`purchaseStats`, `src/db/sessions.ts`), jamais stocké : pour chaque article acheté au moins 3 fois, l'unité la plus fréquente, puis la quantité la plus fréquente dans cette unité (à égalité, la plus récente) ; unités de cuisine et unités supprimées ignorées. `withUsualAmount(article, habitude)` rend l'article tel qu'un ajout le lit (unité et quantité par défaut remplacées), sauf `defaultUnitChosen` ou même unité que celle par défaut (sa quantité par défaut est alors gardée) ; `entryAmount` (§ 7.3) le lit ensuite comme d'habitude. Appliqué par `useAddToList` (barre d'ajout, catalogue), `planRecipeAdd` (unité de cuisine) et `applyImport` (liste collée).
 
 ### 7.10 Animations
 

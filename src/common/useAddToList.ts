@@ -5,6 +5,7 @@ import { updateItem } from "@/db/lists";
 import { entryAmount, type ParsedEntry } from "@/domain/entry";
 import type { Article, ListItem, Unit } from "@/domain/model";
 import { formatQuantity, type Amount } from "@/domain/quantity";
+import { withUsualAmount } from "@/domain/usage";
 import { feedback } from "@/feedback";
 import { fr } from "@/i18n/fr";
 import { reportSaveError, showToast } from "@/ui/toast";
@@ -50,8 +51,10 @@ export function useAddToList(
       acceptedTypes: string[] = [],
     ): Promise<PendingAdd | undefined> => {
       if (!data) return undefined;
+      // Sans unité précisée : celle qu'on achète le plus (unité selon l'usage).
+      const usual = withUsualAmount(article, data.usual.get(article.id));
       // Toujours simplifiée (docs/03 H8).
-      const amount = entryAmount(entry, article, data.units, true);
+      const amount = entryAmount(entry, usual, data.units, true);
       if (!amount) return undefined;
       const result = await addListItem(db, {
         listId: data.list.id,
@@ -72,7 +75,7 @@ export function useAddToList(
       feedback.add();
       added.current?.(result.item, article);
       // Simplifiée (1200 g → 1,2 kg) : on le dit, avec « Annuler » (docs/03 H8).
-      const raw = entryAmount(entry, article, data.units, false);
+      const raw = entryAmount(entry, usual, data.units, false);
       if (raw && raw.unit.id !== amount.unit.id) {
         const item = result.item;
         showToast(

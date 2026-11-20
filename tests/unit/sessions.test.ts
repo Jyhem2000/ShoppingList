@@ -12,6 +12,7 @@ import {
   moveArticle,
   openNextAisle,
   placeAndCheck,
+  purchaseStats,
   reopenSession,
   startSession,
   uncheckItem,
@@ -645,5 +646,41 @@ describe("rouvrir depuis le bilan", () => {
     expect((await getSettings(db))?.currentListId).toBe(other.id);
     expect(await reopenSession(db, session.id, 3000)).toBe(true);
     expect((await getSettings(db))?.currentListId).toBe(list.id);
+  });
+});
+
+describe("unité selon l'usage (docs/03 A2)", () => {
+  it("apprise des courses terminées seulement, à partir de 3 achats", async () => {
+    const { db, list, store, article, aisleOf } = await setup();
+    const lait = await article("lait");
+    const pack = await db.units.where("slug").equals("pack").first();
+    if (!pack) throw new Error("pack");
+    const aisle = await aisleOf("Crèmerie");
+    const buy = async (day: number, close: boolean) => {
+      const { item } = await addListItem(db, {
+        listId: list.id,
+        articleId: lait.id,
+        quantity: 1,
+        unitId: pack.id,
+      });
+      const session = await startSession(
+        db,
+        list.id,
+        store.id,
+        day * 86_400_000,
+      );
+      await checkItem(db, session, item, aisle.id, day * 86_400_000 + 1000);
+      if (close) await closeSession(db, session.id, day * 86_400_000 + 60_000);
+    };
+    await buy(1, true);
+    await buy(2, true);
+    await buy(3, false);
+    // Deux courses terminées, la troisième encore ouverte : pas encore d'habitude.
+    expect((await purchaseStats(db)).usual.has(lait.id)).toBe(false);
+    const open = await db.sessions.where("status").equals("open").first();
+    if (open) await closeSession(db, open.id, 3 * 86_400_000 + 60_000);
+    const stats = await purchaseStats(db);
+    expect(stats.purchaseCounts.get(lait.id)).toBe(3);
+    expect(stats.usual.get(lait.id)).toEqual({ unitId: pack.id, quantity: 1 });
   });
 });

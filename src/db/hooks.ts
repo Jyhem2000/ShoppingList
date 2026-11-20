@@ -2,7 +2,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 import type { ID, ShoppingSession } from "@/domain/model";
 import { db } from "./database";
 import { activeItems } from "./items";
-import { latestSession } from "./sessions";
+import { latestSession, purchaseStats } from "./sessions";
 import { storeAisles } from "./stores";
 import { countBy } from "@/domain/collections";
 import { byName } from "@/domain/slug";
@@ -93,21 +93,13 @@ export function useOverrides() {
 }
 
 /**
- * Nombre d'achats par article (sessions clôturées), pour la recherche et les habituels.
+ * Ce que l'historique apprend (sessions clôturées) : nombre d'achats par article, pour la
+ * recherche et les habituels, et unité habituelle de chaque article (`usualAmounts`).
  * Lus par l'index `sessionId` : une coche pendant les courses (achat d'une session
  * ouverte) ne fait pas tout relire.
  */
-export function usePurchaseCounts() {
-  return useLiveQuery(async () => {
-    const closed = await db.sessions
-      .where("status")
-      .equals("closed")
-      .primaryKeys();
-    return countBy(
-      await db.purchases.where("sessionId").anyOf(closed).toArray(),
-      (purchase) => purchase.articleId,
-    );
-  });
+export function usePurchaseStats() {
+  return useLiveQuery(() => purchaseStats(db));
 }
 
 /**

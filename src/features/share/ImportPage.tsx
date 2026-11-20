@@ -1,4 +1,5 @@
 import { Link2Off, Smartphone } from "lucide-react";
+import { withUsualAmount } from "@/domain/usage";
 import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { recipePath, routes } from "@/app/routes";
@@ -8,7 +9,7 @@ import {
   useArticles,
   useCategories,
   useLists,
-  usePurchaseCounts,
+  usePurchaseStats,
   useUnits,
 } from "@/db/hooks";
 import { applyImport, applyRecipeImport } from "@/db/share";
@@ -135,7 +136,8 @@ export function ImportPage() {
   const categories = useCategories();
   const units = useUnits();
   const lists = useLists();
-  const purchaseCounts = usePurchaseCounts();
+  const stats = usePurchaseStats();
+  const purchaseCounts = stats?.purchaseCounts;
   const [catalog, setCatalog] = useState<ImportCatalog | "failed">();
   useEffect(() => {
     // Le catalogue embarqué, chargé à part (comme au premier lancement).
@@ -298,7 +300,11 @@ export function ImportPage() {
         ? formatQuantity(line.amount.quantity, { ...line.amount.unit, id: "" })
         : "";
     if (chosen) {
-      const amount = importAmount(line, chosen, units);
+      const amount = importAmount(
+        line,
+        withUsualAmount(chosen, stats?.usual.get(chosen.id)),
+        units,
+      );
       const same = match.kind !== "unknown" && match.articleId === chosen.id;
       return {
         article: chosen,
@@ -495,6 +501,8 @@ export function ImportPage() {
                   targetList
                     ? { kind: "list", listId: targetList.id }
                     : { kind: "new", name: preview.name },
+                  undefined,
+                  stats?.usual,
                 ).then(
                   (result) =>
                     [t.done(result.count, listName), routes.list] as const,

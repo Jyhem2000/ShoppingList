@@ -20,6 +20,8 @@ import {
   placementScope,
   withPrimaryCategory,
 } from "@/domain/stores";
+import { countBy } from "@/domain/collections";
+import { usualAmounts } from "@/domain/usage";
 import type { ShoppingDatabase } from "./database";
 import { activeItems } from "./items";
 import { updateSettings } from "./settings";
@@ -48,6 +50,26 @@ export async function openSession(
 }
 
 /** Dernière session de la liste (la plus récente). */
+/**
+ * Ce que l'historique apprend, d'après les achats des courses terminées : nombre d'achats
+ * par article (recherche, habituels) et unité habituelle de chaque article
+ * (`usualAmounts`, unité selon l'usage).
+ */
+export async function purchaseStats(database: ShoppingDatabase) {
+  const closed = await database.sessions
+    .where("status")
+    .equals("closed")
+    .primaryKeys();
+  const [purchases, units] = await Promise.all([
+    database.purchases.where("sessionId").anyOf(closed).toArray(),
+    database.units.toArray(),
+  ]);
+  return {
+    purchaseCounts: countBy(purchases, (purchase) => purchase.articleId),
+    usual: usualAmounts(purchases, units),
+  };
+}
+
 export async function latestSession(
   database: ShoppingDatabase,
   listId: ID,

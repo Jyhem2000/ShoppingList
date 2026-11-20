@@ -8,7 +8,7 @@ import {
   useArticles,
   useCategories,
   useOverrides,
-  usePurchaseCounts,
+  usePurchaseStats,
   useStores,
 } from "@/db/hooks";
 import {
@@ -65,7 +65,7 @@ export function StorePage() {
   const categories = useCategories();
   const overrides = useOverrides();
   const articles = useArticles();
-  const purchaseCounts = usePurchaseCounts();
+  const purchaseCounts = usePurchaseStats()?.purchaseCounts;
   const [panel, setPanel] = useState<Panel>(null);
 
   const sorted = useMemo(() => sortAisles(aisles ?? []), [aisles]);

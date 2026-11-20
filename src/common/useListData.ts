@@ -6,7 +6,7 @@ import {
   useCurrentList,
   useListItems,
   useOverrides,
-  usePurchaseCounts,
+  usePurchaseStats,
   useRecipes,
   useStores,
   useUnits,
@@ -26,6 +26,7 @@ import type {
 } from "@/domain/model";
 import { categoryWeights } from "./format";
 import { byId } from "@/domain/collections";
+import type { UsualAmount } from "@/domain/usage";
 
 export interface ListData {
   settings: Settings;
@@ -43,6 +44,8 @@ export interface ListData {
   aisles: Aisle[];
   overrides: ArticleAisleOverride[];
   purchaseCounts: Map<ID, number>;
+  /** Unité habituelle des articles achetés assez souvent (unité selon l'usage). */
+  usual: ReadonlyMap<ID, UsualAmount>;
   recipes: Recipe[];
   /** Origine « via Raclette » des lignes (docs/03 E2). */
   recipeById: Map<ID, Recipe>;
@@ -78,7 +81,7 @@ export function useListDataOf(
     stores?.find((s) => s.id === (storeId ?? list?.lastStoreId)) ?? stores?.[0];
   const aisles = useAisles(store?.id);
   const overrides = useOverrides();
-  const purchaseCounts = usePurchaseCounts();
+  const purchaseStats = usePurchaseStats();
   const recipes = useRecipes();
 
   // Chaque table avec ses dérivées : refaites seulement quand elle change.
@@ -101,11 +104,14 @@ export function useListDataOf(
   const purchaseTables = useMemo(
     () =>
       articles &&
-      purchaseCounts && {
-        purchaseCounts,
-        categoryWeights: categoryWeights(articles, purchaseCounts),
+      purchaseStats && {
+        ...purchaseStats,
+        categoryWeights: categoryWeights(
+          articles,
+          purchaseStats.purchaseCounts,
+        ),
       },
-    [articles, purchaseCounts],
+    [articles, purchaseStats],
   );
 
   return useMemo(() => {
