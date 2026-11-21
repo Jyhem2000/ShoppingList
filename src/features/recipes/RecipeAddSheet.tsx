@@ -4,7 +4,6 @@ import { useListItems } from "@/db/hooks";
 import { addRecipeToList } from "@/db/recipes";
 import type { ID, Recipe } from "@/domain/model";
 import { planRecipeAdd, yieldLabel } from "@/domain/recipes";
-import { withUsualAmount } from "@/domain/usage";
 import { stepCount } from "@/domain/quantity";
 import { feedback } from "@/feedback";
 import { ingredientDetails, lineDetails, lineQuantity } from "@/common/format";
@@ -54,22 +53,12 @@ export function RecipeAddSheet({
         requested,
         target ?? [],
         data.units,
-        data.articles.map((article) =>
-          withUsualAmount(article, data.usual.get(article.id)),
-        ),
+        data.addableArticles,
       ).map((line) => ({
         ...line,
         checked: overrides.get(line.index) ?? line.checked,
       })),
-    [
-      recipe,
-      requested,
-      target,
-      data.units,
-      data.articles,
-      data.usual,
-      overrides,
-    ],
+    [recipe, requested, target, data.units, data.addableArticles, overrides],
   );
   const count = lines.filter((line) => line.checked).length;
 

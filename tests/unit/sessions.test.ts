@@ -5,6 +5,7 @@ import { ShoppingDatabase } from "@/db/database";
 import { addListItem } from "@/db/items";
 import { seedDatabase } from "@/db/seed";
 import { addTestStore } from "./fixtures";
+import { purchaseStats } from "@/domain/history";
 import {
   checkItem,
   closeSession,
@@ -12,7 +13,7 @@ import {
   moveArticle,
   openNextAisle,
   placeAndCheck,
-  purchaseStats,
+  closedPurchases,
   reopenSession,
   startSession,
   uncheckItem,
@@ -650,6 +651,8 @@ describe("rouvrir depuis le bilan", () => {
 });
 
 describe("unité selon l'usage (docs/03 A2)", () => {
+  const statsOf = async (db: ShoppingDatabase) =>
+    purchaseStats(await closedPurchases(db), await db.units.toArray());
   it("apprise des courses terminées seulement, à partir de 3 achats", async () => {
     const { db, list, store, article, aisleOf } = await setup();
     const lait = await article("lait");
@@ -676,10 +679,10 @@ describe("unité selon l'usage (docs/03 A2)", () => {
     await buy(2, true);
     await buy(3, false);
     // Deux courses terminées, la troisième encore ouverte : pas encore d'habitude.
-    expect((await purchaseStats(db)).usual.has(lait.id)).toBe(false);
+    expect((await statsOf(db)).usual.has(lait.id)).toBe(false);
     const open = await db.sessions.where("status").equals("open").first();
     if (open) await closeSession(db, open.id, 3 * 86_400_000 + 60_000);
-    const stats = await purchaseStats(db);
+    const stats = await statsOf(db);
     expect(stats.purchaseCounts.get(lait.id)).toBe(3);
     expect(stats.usual.get(lait.id)).toEqual({ unitId: pack.id, quantity: 1 });
     // Anti-oubli : un achat par jour, fin des dernières courses terminées.

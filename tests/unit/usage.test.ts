@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { entryAmount } from "@/domain/entry";
 import type { Purchase, Unit } from "@/domain/model";
-import { usualAmounts, withUsualAmount } from "@/domain/usage";
+import { addableArticles, usualAmounts, withUsualAmount } from "@/domain/usage";
 
 const unit = (id: string, extra: Partial<Unit> = {}): Unit => ({
   id,
@@ -22,7 +22,9 @@ const units = [
   unit("g", { dimension: "mass", group: "mass", factor: 1, step: 50 }),
   unit("verre", { group: "kitchen" }),
 ];
+const DAY = 86_400_000;
 let at = 0;
+/** Un achat par jour : chacun est une occasion d'achat. */
 const bought = (
   articleId: string,
   unitId: string,
@@ -31,7 +33,7 @@ const bought = (
   articleId,
   unitId,
   quantity,
-  at: ++at,
+  at: ++at * DAY,
 });
 
 describe("unité selon l'usage (docs/03 A2)", () => {
@@ -48,6 +50,19 @@ describe("unité selon l'usage (docs/03 A2)", () => {
     );
     expect(usual.get("lait")).toEqual({ unitId: "pack", quantity: 1 });
     expect(usual.has("beurre")).toBe(false);
+  });
+
+  it("deux lignes des mêmes courses comptent pour un achat", () => {
+    const first = bought("pommes", "g", 1000);
+    const usual = usualAmounts(
+      [
+        first,
+        { ...first, at: first.at + 1000 }, // une autre sorte, mêmes courses
+        bought("pommes", "g", 1000),
+      ],
+      units,
+    );
+    expect(usual.has("pommes")).toBe(false);
   });
 
   it("la quantité la plus prise dans cette unité ; à égalité, la plus récente", () => {
@@ -108,5 +123,31 @@ describe("unité selon l'usage (docs/03 A2)", () => {
   it("même unité que celle par défaut : la quantité par défaut est gardée", () => {
     const oeufs = { defaultUnitId: "pack", defaultQuantity: 6 };
     expect(withUsualAmount(oeufs, { unitId: "pack", quantity: 1 })).toBe(oeufs);
+  });
+});
+
+describe("articles tels qu'un ajout les lit", () => {
+  it("unité habituelle appliquée, sauf choisie à la main ; les autres inchangés", () => {
+    const lait = { id: "lait", defaultUnitId: "bouteille" };
+    const beurre = { id: "beurre", defaultUnitId: "g", defaultQuantity: 250 };
+    const vin = {
+      id: "vin",
+      defaultUnitId: "bouteille",
+      defaultUnitChosen: true,
+    };
+    const usual = new Map([
+      ["lait", { unitId: "pack", quantity: 1 }],
+      ["vin", { unitId: "verre", quantity: 2 }],
+    ]);
+    const [addLait, addBeurre, addVin] = addableArticles(
+      [lait, beurre, vin],
+      usual,
+    );
+    expect(addLait).toMatchObject({
+      defaultUnitId: "pack",
+      defaultQuantity: 1,
+    });
+    expect(addBeurre).toBe(beurre);
+    expect(addVin).toBe(vin);
   });
 });

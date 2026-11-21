@@ -51,6 +51,22 @@ describe("rythme d'achat (docs/07 § 7.7)", () => {
     // Deux occasions seulement : pas encore de rythme.
     expect(rhythms.has("pain")).toBe(false);
   });
+
+  it("une occasion ne s'étire pas d'achat en achat", () => {
+    const HOUR = 3600_000;
+    // 11 h d'écart à chaque fois : une occasion dure 12 h depuis son premier achat,
+    // d'où trois occasions (8 h-19 h, 30 h-41 h, 52 h), pas une seule.
+    const rhythms = purchaseRhythms(
+      [8, 19, 30, 41, 52].map((hour) => ({
+        articleId: "pain",
+        at: hour * HOUR,
+      })),
+    );
+    expect(rhythms.get("pain")).toEqual({
+      interval: 16.5 * HOUR,
+      last: 52 * HOUR,
+    });
+  });
 });
 
 describe("suggestions anti-oubli (docs/03 D1)", () => {

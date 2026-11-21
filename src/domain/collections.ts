@@ -23,6 +23,21 @@ export function countBy<T, K>(
   return counts;
 }
 
+/** Éléments regroupés par clé (`key`), dans l'ordre d'arrivée. */
+export function groupBy<T, K>(
+  items: Iterable<T>,
+  key: (item: T) => K,
+): Map<K, T[]> {
+  const groups = new Map<K, T[]>();
+  for (const item of items) {
+    const k = key(item);
+    const group = groups.get(k);
+    if (group) group.push(item);
+    else groups.set(k, [item]);
+  }
+  return groups;
+}
+
 /** Copie de l'ensemble avec `value` présent ou absent (état React immuable). */
 export function withMember<T>(
   set: ReadonlySet<T>,

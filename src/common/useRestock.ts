@@ -1,41 +1,45 @@
 import { useMemo } from "react";
 import { sortCategories } from "@/domain/categories";
 import { restockSuggestions, tourCategories } from "@/domain/suggestions";
-import { useNow } from "@/ui/useNow";
 import { catalogOrder } from "./format";
 import type { ListData } from "./useListData";
 
 /**
- * Anti-oubli et tour de la cuisine (docs/03 D1, D2) pour la liste courante : les
- * articles qu'il est temps de racheter (`suggestions`, les plus en retard d'abord) et les
- * catégories du tour avec leurs articles habituels, dans l'ordre du catalogue.
- * Le bouton de la liste, le tour et les « Habituels » du catalogue lisent les mêmes.
+ * Anti-oubli (docs/03 D1) pour la liste courante : les articles qu'il est temps de
+ * racheter, les plus en retard d'abord. Le bouton de la liste, le tour et les
+ * « Habituels » du catalogue lisent les mêmes.
  */
-export function useRestock(data: ListData | undefined) {
-  const now = useNow();
-  const categories = useMemo(
-    () =>
-      data &&
-      tourCategories(
-        sortCategories(data.categories, catalogOrder),
-        data.articles,
-        data.purchaseCounts,
-      ),
-    [data],
-  );
-  const suggestions = useMemo(() => {
-    if (!data) return undefined;
-    return restockSuggestions(data.rhythms, {
-      inList: new Set(data.items.map((item) => item.articleId)),
-      exists: (id) => data.articleById.has(id),
-      dismissed: data.settings.dismissedSuggestions,
-      lastClosedAt: data.lastClosedAt,
+export function useRestockSuggestions(data: ListData | undefined, now: number) {
+  const { items, articleById, rhythms, lastClosedAt } = data ?? {};
+  const dismissed = data?.settings.dismissedSuggestions;
+  return useMemo(() => {
+    if (!items || !articleById || !rhythms || !dismissed) return undefined;
+    return restockSuggestions(rhythms, {
+      inList: new Set(items.map((item) => item.articleId)),
+      exists: (id) => articleById.has(id),
+      dismissed,
+      lastClosedAt,
       now,
     });
-  }, [data, now]);
+  }, [items, articleById, rhythms, dismissed, lastClosedAt, now]);
+}
+
+/**
+ * Tour de la cuisine (docs/03 D2) : les catégories avec leurs articles habituels, dans
+ * l'ordre du catalogue. Ne dépend pas de la liste : une coche ne refait pas le tour.
+ */
+export function useTourCategories(data: ListData | undefined) {
+  const { categories, articles, purchaseCounts } = data ?? {};
   return useMemo(
     () =>
-      categories && suggestions ? { categories, suggestions, now } : undefined,
-    [categories, suggestions, now],
+      categories &&
+      articles &&
+      purchaseCounts &&
+      tourCategories(
+        sortCategories(categories, catalogOrder),
+        articles,
+        purchaseCounts,
+      ),
+    [categories, articles, purchaseCounts],
   );
 }

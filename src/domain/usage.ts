@@ -1,4 +1,6 @@
 import type { Article, ID, Purchase, Unit } from "./model";
+import { groupBy } from "./collections";
+import { purchaseOccasions } from "./occasions";
 import { unitGroup } from "./quantity";
 
 /**
@@ -6,8 +8,11 @@ import { unitGroup } from "./quantity";
  * prend celle qu'on achète le plus pour lui, d'après l'historique, sans compteur stocké.
  */
 
-/** À partir de combien d'achats d'un article l'historique l'emporte sur son unité. */
-export const USUAL_MIN_PURCHASES = 3;
+/**
+ * À partir de combien d'occasions d'achat d'un article (`purchaseOccasions` : deux lignes
+ * des mêmes courses comptent pour une) l'historique l'emporte sur son unité.
+ */
+const USUAL_MIN_PURCHASES = 3;
 
 /** Unité la plus achetée d'un article, et la quantité la plus prise dans cette unité. */
 export interface UsualAmount {
@@ -49,7 +54,7 @@ function mostFrequent<T>(
 
 /**
  * Unité et quantité habituelles de chaque article acheté au moins
- * `USUAL_MIN_PURCHASES` fois (achats des courses terminées). Les achats dans une unité
+ * `USUAL_MIN_PURCHASES` fois (occasions d'achat des courses terminées). Les achats dans une unité
  * qui n'existe plus, ou une unité de cuisine, ne comptent pas.
  */
 export function usualAmounts(
@@ -59,16 +64,14 @@ export function usualAmounts(
   const buyable = new Set(
     units.filter((unit) => unitGroup(unit) !== "kitchen").map((u) => u.id),
   );
-  const byArticle = new Map<ID, PurchaseUse[]>();
-  for (const purchase of purchases) {
-    if (!buyable.has(purchase.unitId)) continue;
-    const list = byArticle.get(purchase.articleId) ?? [];
-    list.push(purchase);
-    byArticle.set(purchase.articleId, list);
-  }
+  const byArticle = groupBy(
+    purchases.filter((purchase) => buyable.has(purchase.unitId)),
+    (purchase) => purchase.articleId,
+  );
   const result = new Map<ID, UsualAmount>();
   for (const [articleId, list] of byArticle) {
-    if (list.length < USUAL_MIN_PURCHASES) continue;
+    if (purchaseOccasions(list.map((p) => p.at)).length < USUAL_MIN_PURCHASES)
+      continue;
     const unitId = mostFrequent(list, (p) => p.unitId);
     if (unitId === undefined) continue;
     const quantity = mostFrequent(
@@ -78,6 +81,14 @@ export function usualAmounts(
     if (quantity !== undefined) result.set(articleId, { unitId, quantity });
   }
   return result;
+}
+
+/** Les achats donnent une autre unité que celle de la fiche article. */
+export function usualDiffers(
+  article: Pick<Article, "defaultUnitId">,
+  usual: UsualAmount | undefined,
+): usual is UsualAmount {
+  return usual !== undefined && usual.unitId !== article.defaultUnitId;
 }
 
 type Defaults = Pick<
@@ -94,15 +105,25 @@ export function withUsualAmount<A extends Defaults>(
   article: A,
   usual: UsualAmount | undefined,
 ): A {
-  if (
-    article.defaultUnitChosen === true ||
-    !usual ||
-    usual.unitId === article.defaultUnitId
-  )
+  if (article.defaultUnitChosen === true || !usualDiffers(article, usual))
     return article;
   return {
     ...article,
     defaultUnitId: usual.unitId,
     defaultQuantity: usual.quantity,
   };
+}
+
+/**
+ * Tous les articles tels qu'un ajout sans unité les lit (`withUsualAmount`) : fournis
+ * une fois par les données de la liste, pour que chaque chemin d'ajout (barre d'ajout,
+ * catalogue, recette) lise la même chose.
+ */
+export function addableArticles<A extends Defaults & { id: ID }>(
+  articles: readonly A[],
+  usual: ReadonlyMap<ID, UsualAmount>,
+): A[] {
+  return articles.map((article) =>
+    withUsualAmount(article, usual.get(article.id)),
+  );
 }

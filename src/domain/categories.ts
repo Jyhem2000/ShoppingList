@@ -1,5 +1,6 @@
 import type { Article, Category, ID, ListItem } from "./model";
 import { compareLines } from "./lines";
+import { groupBy } from "./collections";
 import { byName } from "./slug";
 
 /**
@@ -93,5 +94,22 @@ export function groupListByCategory<
   return sortCategories(categories, catalogOrder).flatMap((category) => {
     const lines = byCategory.get(category.id);
     return lines ? [{ category, items: lines.sort(byLine) }] : [];
+  });
+}
+
+/**
+ * Articles rangés par catégorie, dans l'ordre des catégories données, triés par
+ * `compare` ; les catégories sans article sont sautées (tour de la cuisine, filtre
+ * « De saison » du catalogue).
+ */
+export function groupArticlesByCategory<A extends Pick<Article, "categoryId">>(
+  categories: readonly Category[],
+  articles: readonly A[],
+  compare: (a: A, b: A) => number,
+): { category: Category; articles: A[] }[] {
+  const byCategory = groupBy(articles, (article) => article.categoryId);
+  return categories.flatMap((category) => {
+    const inCategory = byCategory.get(category.id);
+    return inCategory ? [{ category, articles: inCategory.sort(compare) }] : [];
   });
 }

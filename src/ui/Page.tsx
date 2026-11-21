@@ -115,6 +115,24 @@ export function EmptyState({
  * section vide) : une phrase discrète, centrée. `inset` : dans une section (marges
  * latérales) plutôt que dans un panneau (qui a les siennes).
  */
+/**
+ * Phrase d'introduction discrète, en tête d'un écran ou d'une section. `className` :
+ * son espacement vertical.
+ */
+export function Intro({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <p className={cn("px-4 text-sm text-muted-foreground", className)}>
+      {children}
+    </p>
+  );
+}
+
 export function EmptyHint({
   children,
   inset = false,

@@ -1,4 +1,7 @@
+import { groupArticlesByCategory } from "./categories";
+import { groupBy } from "./collections";
 import type { Article, Category, ID, Purchase, Settings } from "./model";
+import { purchaseOccasions } from "./occasions";
 import { byName } from "./slug";
 
 /**
@@ -7,16 +10,14 @@ import { byName } from "./slug";
  * catégorie. Rien n'est stocké : tout se recalcule à la lecture de l'historique.
  */
 
-/** Achats d'un article à moins de 12 heures d'intervalle : une seule fois (même jour). */
-const SAME_OCCASION_MS = 12 * 60 * 60 * 1000;
 /** À partir de combien d'occasions d'achat un article a un rythme (deux intervalles). */
-export const RHYTHM_MIN_PURCHASES = 3;
+const RHYTHM_MIN_PURCHASES = 3;
 /** Suggéré dès 90 % de l'intervalle habituel écoulé. */
 const DUE_RATIO = 0.9;
 /** Suggestions « À racheter » au plus. */
-export const MAX_SUGGESTIONS = 5;
+const MAX_SUGGESTIONS = 5;
 /** Achats à partir desquels un article est « habituel » dans le tour (favoris : toujours). */
-export const TOUR_MIN_PURCHASES = 2;
+const TOUR_MIN_PURCHASES = 2;
 
 /** Rythme d'achat d'un article : intervalle médian entre deux achats, dernier achat. */
 export interface Rhythm {
@@ -35,28 +36,16 @@ function median(values: readonly number[]): number {
 }
 
 /**
- * Rythme de chaque article acheté au moins `RHYTHM_MIN_PURCHASES` fois. Deux achats du
- * même jour (deux lignes, deux magasins) comptent pour un.
+ * Rythme de chaque article acheté au moins `RHYTHM_MIN_PURCHASES` fois (occasions
+ * d'achat, `purchaseOccasions`).
  */
 export function purchaseRhythms(
   purchases: readonly PurchaseTime[],
 ): Map<ID, Rhythm> {
-  const times = new Map<ID, number[]>();
-  for (const purchase of purchases) {
-    const list = times.get(purchase.articleId) ?? [];
-    list.push(purchase.at);
-    times.set(purchase.articleId, list);
-  }
   const result = new Map<ID, Rhythm>();
-  for (const [articleId, list] of times) {
-    list.sort((a, b) => a - b);
-    const occasions: number[] = [];
-    for (const at of list) {
-      const previous = occasions.at(-1);
-      if (previous !== undefined && at - previous < SAME_OCCASION_MS)
-        occasions[occasions.length - 1] = at;
-      else occasions.push(at);
-    }
+  const byArticle = groupBy(purchases, (purchase) => purchase.articleId);
+  for (const [articleId, list] of byArticle) {
+    const occasions = purchaseOccasions(list.map((purchase) => purchase.at));
     if (occasions.length < RHYTHM_MIN_PURCHASES) continue;
     const intervals = occasions
       .slice(1)
@@ -67,6 +56,14 @@ export function purchaseRhythms(
   return result;
 }
 
+/** Écart encore valable : aucunes courses terminées depuis. */
+function stillDismissed(
+  entry: Settings["dismissedSuggestions"][number],
+  lastClosedAt: number | undefined,
+): boolean {
+  return lastClosedAt === undefined || entry.at > lastClosedAt;
+}
+
 /** « Pas cette fois » : masqué tant qu'aucunes courses n'ont été terminées depuis. */
 export function isDismissed(
   articleId: ID,
@@ -75,8 +72,7 @@ export function isDismissed(
 ): boolean {
   return dismissed.some(
     (entry) =>
-      entry.articleId === articleId &&
-      (lastClosedAt === undefined || entry.at > lastClosedAt),
+      entry.articleId === articleId && stillDismissed(entry, lastClosedAt),
   );
 }
 
@@ -93,8 +89,7 @@ export function dismissSuggestion(
   return [
     ...dismissed.filter(
       (entry) =>
-        entry.articleId !== articleId &&
-        (lastClosedAt === undefined || entry.at > lastClosedAt),
+        entry.articleId !== articleId && stillDismissed(entry, lastClosedAt),
     ),
     { articleId, at: now },
   ];
@@ -119,14 +114,12 @@ export function restockSuggestions(
     dismissed,
     lastClosedAt,
     now,
-    max = MAX_SUGGESTIONS,
   }: {
     inList: ReadonlySet<ID>;
     exists: (articleId: ID) => boolean;
     dismissed: Settings["dismissedSuggestions"];
     lastClosedAt: number | undefined;
     now: number;
-    max?: number;
   },
 ): Suggestion[] {
   return [...rhythms]
@@ -144,7 +137,7 @@ export function restockSuggestions(
       late: (now - rhythm.last) / rhythm.interval,
     }))
     .sort((a, b) => b.late - a.late)
-    .slice(0, max)
+    .slice(0, MAX_SUGGESTIONS)
     .map(({ articleId, rhythm }) => ({ articleId, rhythm }));
 }
 
@@ -162,12 +155,9 @@ export function tourCategories(
   const usual = articles.filter(
     (article) => article.favorite || count(article) >= TOUR_MIN_PURCHASES,
   );
-  return categories
-    .map((category) => ({
-      category,
-      articles: usual
-        .filter((article) => article.categoryId === category.id)
-        .sort((a, b) => count(b) - count(a) || byName(a, b)),
-    }))
-    .filter((group) => group.articles.length > 0);
+  return groupArticlesByCategory(
+    categories,
+    usual,
+    (a, b) => count(b) - count(a) || byName(a, b),
+  );
 }

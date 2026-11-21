@@ -37,8 +37,9 @@ export function monthOf(time: number): number {
 
 /** A une saison : des mois, mais pas toute l'année. */
 export function hasSeason(article: Seasonal): boolean {
-  const months = new Set(article.seasonMonths);
-  return months.size > 0 && months.size < MONTHS.length;
+  // Mois sans doublon (catalogue, `toggleMonth`).
+  const count = article.seasonMonths?.length ?? 0;
+  return count > 0 && count < MONTHS.length;
 }
 
 /** De saison ce mois-ci (pastille, filtre « De saison »). */

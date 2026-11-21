@@ -5,7 +5,6 @@ import { updateItem } from "@/db/lists";
 import { entryAmount, type ParsedEntry } from "@/domain/entry";
 import type { Article, ListItem, Unit } from "@/domain/model";
 import { formatQuantity, type Amount } from "@/domain/quantity";
-import { withUsualAmount } from "@/domain/usage";
 import { feedback } from "@/feedback";
 import { fr } from "@/i18n/fr";
 import { reportSaveError, showToast } from "@/ui/toast";
@@ -51,8 +50,9 @@ export function useAddToList(
       acceptedTypes: string[] = [],
     ): Promise<PendingAdd | undefined> => {
       if (!data) return undefined;
-      // Sans unité précisée : celle qu'on achète le plus (unité selon l'usage).
-      const usual = withUsualAmount(article, data.usual.get(article.id));
+      // Sans unité précisée : celle qu'on achète le plus (unité selon l'usage). Un
+      // article tout juste créé n'a pas encore d'achats : tel quel.
+      const usual = data.addableById.get(article.id) ?? article;
       // Toujours simplifiée (docs/03 H8).
       const amount = entryAmount(entry, usual, data.units, true);
       if (!amount) return undefined;

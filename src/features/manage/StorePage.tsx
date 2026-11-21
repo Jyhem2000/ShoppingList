@@ -8,7 +8,7 @@ import {
   useArticles,
   useCategories,
   useOverrides,
-  usePurchaseStats,
+  usePurchaseCounts,
   useStores,
 } from "@/db/hooks";
 import {
@@ -27,7 +27,7 @@ import { AddButton } from "@/ui/AddButton";
 import { Button } from "@/ui/button";
 import { useGoBack } from "@/ui/navigation";
 import { GroupIcon } from "@/ui/GroupIcon";
-import { EmptyState, PageHeader, Row, Section } from "@/ui/Page";
+import { EmptyState, Intro, PageHeader, Row, Section } from "@/ui/Page";
 import { palette, paletteColor } from "@/ui/palette";
 import { Sheet } from "@/ui/Sheet";
 import { useSortableRow } from "@/ui/sortable";
@@ -65,7 +65,7 @@ export function StorePage() {
   const categories = useCategories();
   const overrides = useOverrides();
   const articles = useArticles();
-  const purchaseCounts = usePurchaseStats()?.purchaseCounts;
+  const purchaseCounts = usePurchaseCounts();
   const [panel, setPanel] = useState<Panel>(null);
 
   const sorted = useMemo(() => sortAisles(aisles ?? []), [aisles]);
@@ -193,9 +193,7 @@ export function StorePage() {
 
       {exceptions.length > 0 && (
         <Section title={t.overrides}>
-          <p className="px-4 pt-3 text-sm text-muted-foreground">
-            {t.overridesHint}
-          </p>
+          <Intro className="pt-3">{t.overridesHint}</Intro>
           <ul className="py-1">
             {exceptions.map((o) => {
               const article = articleById.get(o.articleId);

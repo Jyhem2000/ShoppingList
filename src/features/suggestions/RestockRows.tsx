@@ -4,16 +4,16 @@ import { inSeason, monthOf } from "@/domain/season";
 import type { Suggestion } from "@/domain/suggestions";
 import { fr } from "@/i18n/fr";
 import { quantitiesInList } from "@/common/format";
+import { DAY_MS } from "@/common/time";
 import { useCatalogPick } from "@/common/useCatalogPick";
 import type { ListData } from "@/common/useListData";
 import { Button } from "@/ui/button";
 import { QuantityText } from "@/ui/PreviewRow";
-import { ProductIcon } from "@/ui/ProductIcon";
+import { ArticleIcon } from "@/ui/ArticleIcon";
 import { RowButton, RowText } from "@/ui/RowButton";
-import { SeasonBadge } from "@/ui/SeasonBadge";
+import { SeasonLabel } from "@/ui/SeasonBadge";
 
 const t = fr.tour;
-const DAY = 24 * 60 * 60 * 1000;
 
 /**
  * Articles à racheter (docs/03 D1) : icône, nom, rythme d'achat et dernier achat. Un
@@ -43,7 +43,6 @@ export function RestockRows({
             const article = data.articleById.get(articleId);
             if (!article) return null;
             const quantity = inList.get(articleId);
-            const color = data.categoryById.get(article.categoryId)?.color;
             return (
               <motion.li
                 key={articleId}
@@ -58,10 +57,9 @@ export function RestockRows({
                 <RowButton
                   className="min-w-0 flex-1 pr-2"
                   icon={
-                    <ProductIcon
-                      icon={article.icon}
-                      label={article.name}
-                      color={color}
+                    <ArticleIcon
+                      article={article}
+                      category={data.categoryById.get(article.categoryId)}
                       size={32}
                     />
                   }
@@ -77,14 +75,13 @@ export function RestockRows({
                   <RowText
                     wrap
                     title={
-                      <span className="flex min-w-0 items-center gap-1.5">
+                      <SeasonLabel inSeason={inSeason(article, month)}>
                         <span className="truncate">{article.name}</span>
-                        {inSeason(article, month) && <SeasonBadge />}
-                      </span>
+                      </SeasonLabel>
                     }
                     detail={t.rhythm(
-                      Math.max(1, Math.round(rhythm.interval / DAY)),
-                      Math.max(1, Math.round((now - rhythm.last) / DAY)),
+                      Math.max(1, Math.round(rhythm.interval / DAY_MS)),
+                      Math.max(1, Math.round((now - rhythm.last) / DAY_MS)),
                     )}
                   />
                 </RowButton>

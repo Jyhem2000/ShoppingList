@@ -297,6 +297,6 @@ describe("copies automatiques internes (docs/03 H4)", () => {
     databases.push(database);
     expect(await database.lists.get("l1")).toMatchObject({ name: "Liste 1" });
     expect(await database.copies.count()).toBe(0);
-    expect(database.verno).toBe(6);
+    expect(database.verno).toBe(7);
   });
 });

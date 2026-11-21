@@ -13,9 +13,10 @@ import { db } from "@/db/database";
 import type { Article } from "@/domain/model";
 import { formatNumber, formatQuantity, parseNumber } from "@/domain/quantity";
 import { searchArticles } from "@/domain/search";
-import { monthOf, showsSeason, toggleMonth } from "@/domain/season";
+import { showsSeason, toggleMonth } from "@/domain/season";
 import { MonthCalendar } from "@/ui/MonthCalendar";
-import { useNow } from "@/ui/useNow";
+import { usualDiffers } from "@/domain/usage";
+import { useMonth } from "@/ui/useNow";
 import { addAlias as withAlias, mergeTypes } from "@/domain/slug";
 import { UnitSelect } from "@/ui/UnitSelect";
 import { type ListData, useListData } from "@/common/useListData";
@@ -79,18 +80,20 @@ function ArticleForm({ article, data }: { article: Article; data: ListData }) {
   );
   const usage = useLiveQuery(() => articleUsage(db, article.id), [article.id]);
   const category = data.categoryById.get(article.categoryId);
-  const month = monthOf(useNow());
+  const month = useMonth();
   const color = paletteColor(category?.color);
   const save = (changes: Parameters<typeof updateArticle>[2]) =>
     void updateArticle(db, article.id, changes).then((result) => {
       if (result === "nameTaken") showToast(t.nameTaken, { tone: "warning" });
     });
 
+  // Quantité saisie ici : avec l'unité de la fiche, elle l'emporte sur les achats.
   const saveQuantity = () => {
     const value = parseNumber(quantity);
-    if (!quantity.trim()) save({ defaultQuantity: undefined });
+    if (!quantity.trim())
+      save({ defaultQuantity: undefined, defaultUnitChosen: true });
     else if (Number.isFinite(value) && value > 0)
-      save({ defaultQuantity: value });
+      save({ defaultQuantity: value, defaultUnitChosen: true });
     else setQuantity(quantityText(article.defaultQuantity));
   };
   const { edited: quantityEdited, commit: commitQuantity } =
@@ -176,8 +179,11 @@ function ArticleForm({ article, data }: { article: Article; data: ListData }) {
             {t.quantityHint}
           </p>
         </div>
-        {data.units.find((u) => u.id === article.defaultUnitId)?.dimension ===
-          "mass" && (
+        {/* Unité de la fiche ou unité de ses achats : « 3 pommes » passe par la masse. */}
+        {[
+          article.defaultUnitId,
+          (data.addableById.get(article.id) ?? article).defaultUnitId,
+        ].some((id) => data.unitById.get(id)?.dimension === "mass") && (
           <Row label={t.countable} hint={t.countableHint}>
             <Switch
               checked={article.countable === true}
@@ -328,28 +334,24 @@ function UnitUsage({
 }) {
   const usual = data.usual.get(article.id);
   const unit = usual && data.unitById.get(usual.unitId);
-  const fromUsage =
-    !article.defaultUnitChosen &&
-    usual &&
-    unit &&
-    usual.unitId !== article.defaultUnitId;
+  // Rien à dire sans unité habituelle, ou si c'est déjà celle de la fiche.
+  const differs = usualDiffers(article, usual) && unit;
   return (
     <div className="-mt-2 flex flex-col items-start gap-1 text-sm text-muted-foreground">
       <p>{t.unitHint}</p>
-      {article.defaultUnitChosen ? (
-        <p className="font-semibold text-text">{t.unitChosen}</p>
-      ) : (
-        fromUsage && (
+      {differs &&
+        (article.defaultUnitChosen ? (
+          <>
+            <p className="font-semibold text-text">{t.unitChosen}</p>
+            <Button variant="link" className="px-0 text-sm" onClick={onFollow}>
+              {t.unitFollowUsage}
+            </Button>
+          </>
+        ) : (
           <p className="font-semibold text-text">
             {t.unitFromUsage(formatQuantity(usual.quantity, unit, "long"))}
           </p>
-        )
-      )}
-      {article.defaultUnitChosen && (
-        <Button variant="link" className="px-0 text-sm" onClick={onFollow}>
-          {t.unitFollowUsage}
-        </Button>
-      )}
+        ))}
     </div>
   );
 }

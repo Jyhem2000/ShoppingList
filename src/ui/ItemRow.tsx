@@ -1,6 +1,6 @@
 import { Check } from "lucide-react";
 import { ProductIcon } from "@/ui/ProductIcon";
-import { SeasonBadge } from "@/ui/SeasonBadge";
+import { SeasonLabel } from "@/ui/SeasonBadge";
 import { useLongPress } from "@/ui/useLongPress";
 import { cn } from "@/ui/utils";
 
@@ -80,9 +80,10 @@ export function ItemRow({
         )}
       </span>
       <span className="min-w-0 flex-1">
-        <span
+        <SeasonLabel
+          inSeason={inSeason && !muted}
           className={cn(
-            "flex min-w-0 items-center gap-1.5 font-semibold",
+            "font-semibold",
             shopping && "text-lg",
             muted && "text-muted-foreground",
           )}
@@ -96,8 +97,7 @@ export function ItemRow({
           >
             {label}
           </span>
-          {inSeason && !muted && <SeasonBadge />}
-        </span>
+        </SeasonLabel>
         {details && (
           <span className="block truncate text-sm text-muted-foreground">
             {details}

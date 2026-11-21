@@ -11,7 +11,7 @@ Les prochaines versions. Le détail de chaque fonctionnalité (critères, écran
   - le catalogue donne les mois de saison des fruits, légumes et herbes aromatiques par zone (`season`, 06 § 4) : l'endroit où l'on fait ses courses, pas la langue ; seule zone, la France métropolitaine, sans réglage ;
   - mois copiés dans l'article à sa création, modifiables dans sa fiche (calendrier des 12 mois) ; un article créé à la main n'a pas de mois, on peut les saisir ;
   - pastille « de saison » (feuille verte) dans le catalogue, la liste et les suggestions anti-oubli ; calendrier des 12 mois dans la fiche article ; filtre « De saison » dans le catalogue.
-- **Unité selon l'usage** ([03 A2](03-fonctionnalites.md#a2-saisie-naturelle--v10)) : un article ajouté sans unité prend celle qu'on achète le plus pour lui (à partir de 3 achats), sauf unité choisie à la main dans sa fiche.
+- **Unité selon l'usage** ([03 A2](03-fonctionnalites.md#a2-saisie-naturelle--v10)) : un article ajouté sans unité prend celle qu'on achète le plus pour lui (à partir de 3 achats), sauf unité ou quantité choisie à la main dans sa fiche.
 
 ## 1.3.0 — Anglais
 

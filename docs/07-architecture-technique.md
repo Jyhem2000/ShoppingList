@@ -114,7 +114,7 @@ interface Article extends Base {
   name: string;
   categoryId: ID;
   defaultUnitId: ID;
-  defaultUnitChosen?: boolean; // v1.2 : choisie à la main dans la fiche, l'emporte sur l'usage (§ 7.14)
+  defaultUnitChosen?: boolean; // v1.2 : unité ou quantité choisie à la main dans la fiche, l'emporte sur l'usage (§ 7.14)
   defaultQuantity?: number; // ex. 6 pour les œufs ; sinon 1 (ou le pas de l'unité)
   generic?: boolean; // « Fruits au choix » : en tête de sa catégorie et de son rayon
   types: string[]; // [] par défaut
@@ -224,7 +224,7 @@ interface Settings {
 ### Tables Dexie
 
 ```ts
-db.version(6).stores({
+db.version(7).stores({
   units: "id, &slug",
   categories: "id, &slug",
   articles: "id, &slug, *aliases, categoryId, favorite, catalogKey",
@@ -234,7 +234,8 @@ db.version(6).stores({
   lists: "id, position",
   items: "id, listId, articleId, closedInSessionId",
   recipes: "id",
-  sessions: "id, listId, storeId, status, startedAt, [listId+startedAt]", // dernière course d'une liste
+  sessions:
+    "id, listId, storeId, status, startedAt, closedAt, [listId+startedAt]", // dernière course d'une liste ; fin des dernières courses terminées
   purchases: "id, sessionId, storeId, articleId, at",
   meta: "key", // settings, version du catalogue…
   copies: "id, at", // copies automatiques : date et résumé, hors fichier de sauvegarde
@@ -244,7 +245,7 @@ db.version(6).stores({
 
 - **Préférences de l'appareil** (sons, son par son, écran allumé, thème) : hors de `Settings`, dans `localStorage` (`src/app/preferences.ts`). Elles dépendent du téléphone, ne sont pas exportées et ne sont pas écrasées par l'import d'une sauvegarde venant d'un autre appareil.
 - Unicité « un article et un choix de types par liste » (`src/domain/lines.ts`) vérifiée par la couche d'accès aux données (les lignes archivées `closedInSessionId` sont exclues).
-- **La version du schéma de données est indépendante de la version de l'app** : elle n'augmente que si la structure change (nouvelle table, nouvel index). Version actuelle : **6** ; les versions 1 à 5 restent déclarées dans `src/db/database.ts` pour ouvrir une base plus ancienne. Toute évolution = nouvelle `version(n)` déclarée. Tant que l'app n'a pas d'autres utilisateurs (« vraie production »), pas de migration de données ni de test de migration : un changement incompatible se règle en effaçant les données de l'app ou en la réinstallant. Ensuite, chaque évolution aura sa fonction `upgrade` et son test de migration, exécutés automatiquement au premier lancement de la nouvelle version. Une sauvegarde exportée avec un schéma plus récent n'est pas lisible par une app au schéma plus ancien. Champs sans index, ajoutés sans nouvelle version : `Aisle.description`, `Category.shortName`, `ShoppingSession.openedAisle`, `ShoppingSession.placedCategories`.
+- **La version du schéma de données est indépendante de la version de l'app** : elle n'augmente que si la structure change (nouvelle table, nouvel index). Version actuelle : **7** ; les versions 1 à 6 restent déclarées dans `src/db/database.ts` pour ouvrir une base plus ancienne. Toute évolution = nouvelle `version(n)` déclarée. Tant que l'app n'a pas d'autres utilisateurs (« vraie production »), pas de migration de données ni de test de migration : un changement incompatible se règle en effaçant les données de l'app ou en la réinstallant. Ensuite, chaque évolution aura sa fonction `upgrade` et son test de migration, exécutés automatiquement au premier lancement de la nouvelle version. Une sauvegarde exportée avec un schéma plus récent n'est pas lisible par une app au schéma plus ancien. Champs sans index, ajoutés sans nouvelle version : `Aisle.description`, `Category.shortName`, `ShoppingSession.openedAisle`, `ShoppingSession.placedCategories`.
 
 ## 6. App installée, hors ligne et mises à jour
 
@@ -329,7 +330,8 @@ Groupes par rayon effectif, rayons triés par `position` (« À placer » en d
 
 `src/domain/suggestions.ts`, calculé à chaque lecture des achats des sessions **clôturées** (`purchaseStats`), jamais stocké.
 
-- `purchaseRhythms(achats)` : les achats d'un article à moins de 12 heures d'intervalle comptent pour un (deux lignes, deux magasins le même jour) ; pour chaque article acheté ainsi au moins 3 fois : intervalle médian `I` entre achats (une absence isolée ne le fausse pas), dernier achat `t`.
+- `purchaseOccasions(heures)` (`src/domain/occasions.ts`, partagé avec l'unité selon l'usage) : les achats d'un article à moins de 12 heures du premier achat de l'occasion comptent pour un (deux lignes, deux magasins le même jour ; une occasion ne s'étire pas d'achat en achat).
+- `purchaseRhythms(achats)` : par occasion d'achat ; pour chaque article acheté ainsi au moins 3 fois : intervalle médian `I` entre achats (une absence isolée ne le fausse pas), dernier achat `t`.
 - `restockSuggestions(rythmes, …)` : suggéré si `maintenant − t ≥ 0,9 × I`, absent de la liste courante, article existant et non écarté. Classement par `(maintenant − t) / I` décroissant ; 5 maximum. Lu par `useRestock` (`src/common`) : bouton de la liste, tour et Habituels du catalogue.
 - « Pas cette fois » : `Settings.dismissedSuggestions` reçoit `{ articleId, at }` ; l'écart vaut tant qu'aucune session n'a été clôturée depuis `at` (`purchaseStats` donne la dernière clôture). Les écarts caducs sont retirés au suivant (`dismissSuggestion`).
 - `tourCategories(catégories, articles, achats)` (D2) : par catégorie, les favoris et les articles achetés au moins 2 fois, les plus achetés d'abord ; catégories vides sautées.
@@ -373,7 +375,7 @@ Groupes par rayon effectif, rayons triés par `position` (« À placer » en d
 
 ### 7.14 Unité selon l'usage (A2)
 
-`usualAmounts(achats, unités)` (`src/domain/usage.ts`), calculé à chaque lecture des achats des sessions clôturées (`purchaseStats`, `src/db/sessions.ts`), jamais stocké : pour chaque article acheté au moins 3 fois, l'unité la plus fréquente, puis la quantité la plus fréquente dans cette unité (à égalité, la plus récente) ; unités de cuisine et unités supprimées ignorées. `withUsualAmount(article, habitude)` rend l'article tel qu'un ajout le lit (unité et quantité par défaut remplacées), sauf `defaultUnitChosen` ou même unité que celle par défaut (sa quantité par défaut est alors gardée) ; `entryAmount` (§ 7.3) le lit ensuite comme d'habitude. Appliqué par `useAddToList` (barre d'ajout, catalogue), `planRecipeAdd` (unité de cuisine) et `applyImport` (liste collée).
+`usualAmounts(achats, unités)` (`src/domain/usage.ts`), calculé à partir des achats des sessions clôturées (`closedPurchases`, `src/db/sessions.ts`, puis `purchaseStats`, `src/domain/history.ts`, avec le nombre d'achats et les rythmes), jamais stocké : pour chaque article acheté au moins 3 fois (occasions d'achat, § 7.7), l'unité la plus fréquente, puis la quantité la plus fréquente dans cette unité (à égalité, la plus récente) ; unités de cuisine et unités supprimées ignorées. `withUsualAmount(article, habitude)` rend l'article tel qu'un ajout le lit (unité et quantité par défaut remplacées), sauf `defaultUnitChosen` (unité ou quantité changée dans la fiche) ou même unité que celle par défaut (sa quantité par défaut est alors gardée) ; `entryAmount` (§ 7.3) le lit ensuite comme d'habitude. `addableArticles` l'applique à tous les articles une fois : les données de la liste (`useListData`) les fournissent (`addableArticles`, `addableById`), lus par tout ajout à une liste (`useAddToList` : barre d'ajout, catalogue, tour ; `planRecipeAdd` : unité de cuisine) et par la fiche article, jamais pour afficher un article. L'import d'une liste collée ne passe pas par ces données : son aperçu et `applyImport` appliquent `withUsualAmount` eux-mêmes.
 
 ### 7.10 Animations
 

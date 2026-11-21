@@ -1,22 +1,23 @@
 import { type ReactNode, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import { catalogCategoryPath } from "@/app/routes";
-import { sortCategories } from "@/domain/categories";
+import { groupArticlesByCategory, sortCategories } from "@/domain/categories";
 import { searchArticles } from "@/domain/search";
 import { fr } from "@/i18n/fr";
 import { CategoryCard } from "@/ui/CategoryCard";
-import { EmptyHint, PageHeader, SectionTitle } from "@/ui/Page";
+import { EmptyHint, Intro, PageHeader, SectionTitle } from "@/ui/Page";
 import { useListData } from "@/common/useListData";
-import { useRestock } from "@/common/useRestock";
+import { useRestockSuggestions } from "@/common/useRestock";
+import { useFirstDefined } from "@/ui/useFirstDefined";
 import { catalogOrder } from "@/common/format";
 import { ArticleGrid } from "@/common/ArticleGrid";
 import { CatalogSearch } from "./CatalogSearch";
 import { byName } from "@/domain/slug";
 import { countBy } from "@/domain/collections";
-import { inSeason, monthOf } from "@/domain/season";
+import { inSeason } from "@/domain/season";
 import { Chip } from "@/ui/form";
 import { SeasonBadge } from "@/ui/SeasonBadge";
-import { useNow } from "@/ui/useNow";
+import { useMonth, useNow } from "@/ui/useNow";
 const t = fr.catalog;
 const MAX_USUAL = 9;
 function Section({ title, children }: { title: string; children: ReactNode }) {
@@ -43,9 +44,11 @@ export function CatalogPage() {
   // « Voir les N résultats » : la grille complète de la recherche.
   const [showAll, setShowAll] = useState(false);
   const [seasonOnly, setSeasonOnly] = useState(false);
-  const month = monthOf(useNow());
+  const month = useMonth();
 
-  const restock = useRestock(data);
+  // À racheter, figé à l'ouverture (comme dans le tour) : un article touché reste à sa
+  // place dans les habituels, avec sa pastille de quantité, au lieu de sauter.
+  const due = useFirstDefined(useRestockSuggestions(data, useNow()));
   const { articles, articleById, purchaseCounts, categories } = data ?? {};
   // Ce qui ne dépend pas de la saisie : calculé une fois, pas à chaque lettre.
   const home = useMemo(() => {
@@ -53,11 +56,11 @@ export function CatalogPage() {
       return undefined;
     const favorites = articles.filter((a) => a.favorite).sort(byName);
     // Ce qu'il est temps de racheter d'abord (anti-oubli, docs/03 D1), puis les plus achetés.
-    const due = restock?.suggestions.map((s) => s.articleId) ?? [];
     const mostBought = [...purchaseCounts.entries()]
       .sort((a, b) => b[1] - a[1])
       .map(([id]) => id);
-    const usual = [...new Set([...due, ...mostBought])]
+    const dueIds = (due ?? []).map((s) => s.articleId);
+    const usual = [...new Set([...dueIds, ...mostBought])]
       .map((id) => articleById.get(id))
       .filter((a) => a !== undefined)
       .slice(0, MAX_USUAL);
@@ -69,17 +72,19 @@ export function CatalogPage() {
       catalogOrder,
     );
     return { favorites, usual, categories: shown, counts };
-  }, [articles, articleById, purchaseCounts, categories, restock]);
-  const season = useMemo(() => {
-    if (!articles || !home) return [];
-    const now = articles.filter((a) => inSeason(a, month));
-    return home.categories
-      .map((category) => ({
-        category,
-        articles: now.filter((a) => a.categoryId === category.id).sort(byName),
-      }))
-      .filter((group) => group.articles.length > 0);
-  }, [articles, home, month]);
+  }, [articles, articleById, purchaseCounts, categories, due]);
+  // Calculé seulement quand le filtre « De saison » est actif.
+  const season = useMemo(
+    () =>
+      seasonOnly && articles && home
+        ? groupArticlesByCategory(
+            home.categories,
+            articles.filter((a) => inSeason(a, month)),
+            byName,
+          )
+        : [],
+    [seasonOnly, articles, home, month],
+  );
   const searching = query.trim() !== "";
   // Une seule recherche, pour les suggestions et pour « Voir les N résultats ».
   const results = useMemo(
@@ -130,9 +135,9 @@ export function CatalogPage() {
             <ArticleGrid articles={results} data={data} />
           ) : seasonOnly && !searching ? (
             <>
-              <p className="px-4 pt-3 text-sm text-muted-foreground">
+              <Intro className="pt-3">
                 {t.seasonTitle(fr.season.monthNames[month - 1] ?? "")}
-              </p>
+              </Intro>
               {season.length === 0 && (
                 <EmptyHint inset>{t.seasonEmpty}</EmptyHint>
               )}

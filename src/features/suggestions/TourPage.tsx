@@ -5,14 +5,15 @@ import { useNavigate, useSearchParams } from "react-router";
 import { catalogCategoryPath, routes } from "@/app/routes";
 import { db } from "@/db/database";
 import { dismissRestock } from "@/db/settings";
-import type { Suggestion } from "@/domain/suggestions";
 import { isDismissed } from "@/domain/suggestions";
 import { fr } from "@/i18n/fr";
 import { ArticleGrid } from "@/common/ArticleGrid";
 import { useListData } from "@/common/useListData";
-import { useRestock } from "@/common/useRestock";
+import { useRestockSuggestions, useTourCategories } from "@/common/useRestock";
 import { Button } from "@/ui/button";
-import { EmptyState, Loading, PageHeader } from "@/ui/Page";
+import { EmptyState, Intro, Loading, PageHeader } from "@/ui/Page";
+import { useFirstDefined } from "@/ui/useFirstDefined";
+import { useNow } from "@/ui/useNow";
 import { RestockRows } from "./RestockRows";
 
 const t = fr.tour;
@@ -31,21 +32,22 @@ const SWIPE_SPEED = 500;
  */
 export function TourPage() {
   const data = useListData();
-  const restock = useRestock(data);
+  const now = useNow();
+  const categories = useTourCategories(data);
+  // Suggestions figées à l'ouverture : un article ajouté reste affiché, avec sa quantité.
+  const shown = useFirstDefined(useRestockSuggestions(data, now));
   const navigate = useNavigate();
   const [params, setParams] = useSearchParams();
-  // Suggestions figées à l'ouverture : un article ajouté reste affiché, avec sa quantité.
-  const [shown, setShown] = useState<Suggestion[] | undefined>(undefined);
-  if (restock && shown === undefined) setShown(restock.suggestions);
   const [direction, setDirection] = useState(1);
   // Un glissement ne doit pas compter comme un toucher sur la carte où il a commencé.
   const swiped = useRef(false);
 
-  if (!data || !restock || !shown) return <Loading>{fr.list.loading}</Loading>;
+  if (!data || !categories || !shown)
+    return <Loading>{fr.list.loading}</Loading>;
 
   const steps = [
     ...(shown.length > 0 ? [{ key: RESTOCK, title: t.restock }] : []),
-    ...restock.categories.map(({ category }) => ({
+    ...categories.map(({ category }) => ({
       key: category.id,
       title: category.name,
     })),
@@ -74,10 +76,11 @@ export function TourPage() {
 
   const requested = steps.findIndex((s) => s.key === params.get("etape"));
   const index = Math.max(requested, 0);
-  const step = steps[index] ?? steps[0];
+  const step = steps[index];
+  if (!step) return null;
   const previous = steps[index - 1];
   const next = steps[index + 1];
-  const go = (target: typeof step | undefined, dir: number) => {
+  const go = (target: (typeof steps)[number] | undefined, dir: number) => {
     if (!target) return;
     setDirection(dir);
     setParams({ etape: target.key }, { replace: true });
@@ -92,7 +95,7 @@ export function TourPage() {
       swiped.current = false;
     }, 50);
   };
-  const group = restock.categories.find((g) => g.category.id === step?.key);
+  const group = categories.find((g) => g.category.id === step.key);
   const visible = shown.filter(
     (s) =>
       data.articleById.has(s.articleId) &&
@@ -106,7 +109,7 @@ export function TourPage() {
   return (
     <>
       <PageHeader
-        title={step?.title ?? t.title}
+        title={step.title}
         backTo={routes.list}
         action={
           <span className="text-sm font-semibold text-muted-foreground tabular-nums">
@@ -118,7 +121,7 @@ export function TourPage() {
           suivant l'attendrait, et elle ne se termine pas toujours sous le WebKit des
           tests (docs/08 § 3). */}
       <motion.div
-        key={step?.key}
+        key={step.key}
         initial={{ x: direction * 48, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{ duration: 0.18, ease: "easeOut" }}
@@ -138,15 +141,15 @@ export function TourPage() {
         // Assez haut pour glisser même sous une catégorie de deux articles.
         className="min-h-[50vh]"
       >
-        {step?.key === RESTOCK ? (
+        {step.key === RESTOCK ? (
           <>
-            <p className="px-4 pb-3 text-sm text-muted-foreground">
+            <Intro className="pb-3">
               {visible.length > 0 ? t.restockIntro : t.restockDone}
-            </p>
+            </Intro>
             <RestockRows
               suggestions={visible}
               data={data}
-              now={restock.now}
+              now={now}
               onDismiss={(articleId) => {
                 void dismissRestock(db, articleId, data.lastClosedAt);
               }}
@@ -155,9 +158,7 @@ export function TourPage() {
         ) : (
           group && (
             <>
-              <p className="px-4 pb-3 text-sm text-muted-foreground">
-                {t.categoryIntro}
-              </p>
+              <Intro className="pb-3">{t.categoryIntro}</Intro>
               <ArticleGrid articles={group.articles} data={data} />
               <div className="px-3 pt-3">
                 <Button

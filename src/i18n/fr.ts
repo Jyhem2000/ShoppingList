@@ -66,7 +66,7 @@ export const fr = {
         points: [
           "L'ordre des rayons et des articles, d'après l'ordre de tes coches, magasin par magasin.",
           "Le rayon d'un article : celui de sa catégorie, sauf si tu l'as rangé ailleurs.",
-          "L'unité d'un article ajouté sans unité\u00a0: celle que tu achètes le plus pour lui, à partir de 3 achats, avec la quantité que tu prends d'habitude. Une unité choisie dans sa fiche l'emporte.",
+          "L'unité d'un article ajouté sans unité\u00a0: celle que tu achètes le plus pour lui, à partir de 3 achats, avec la quantité que tu prends d'habitude. Une unité ou une quantité choisie dans sa fiche l'emporte.",
           "Tes habitudes : ce que tu achètes souvent remonte dans la recherche et dans «\u00a0Habituels\u00a0» du Catalogue ; ce qu'il est temps de racheter passe en tête, d'après le rythme de tes achats.",
           "Si l'ordre d'un magasin te convient, fige-le : Réglages → Magasins & rayons → ton magasin → «\u00a0Apprendre l'ordre de mes courses\u00a0».",
         ],
@@ -622,7 +622,7 @@ export const fr = {
       category: "Catégorie",
       unit: "Unité par défaut",
       unitHint:
-        "Sans unité précisée, l'article prend celle que tu achètes le plus, à partir de 3 achats. Une unité choisie ici l'emporte.",
+        "Sans unité précisée, l'article prend celle que tu achètes le plus, à partir de 3 achats. Une unité ou une quantité choisie ici l'emporte.",
       unitFromUsage: (amount: string) =>
         `D'après tes achats\u00a0: ${amount} à l'ajout.`,
       unitChosen: "Choisie à la main\u00a0: elle l'emporte sur tes achats.",
@@ -1107,7 +1107,7 @@ export const fr = {
         items: [
           "«\u00a0Rien oublié\u00a0? Faire le tour\u00a0», au-dessus de la liste : d'abord ce qu'il est temps de racheter d'après le rythme de tes achats («\u00a0Pas cette fois\u00a0» le met de côté jusqu'aux prochaines courses), puis tes articles habituels, catégorie par catégorie.",
           "Saisonnalité : une feuille verte signale les fruits, légumes et herbes de saison ce mois-ci, et la puce «\u00a0De saison\u00a0» du Catalogue les montre tous. Les mois se changent dans la fiche de l'article.",
-          "Un article ajouté sans unité prend celle que tu achètes le plus pour lui, à partir de 3 achats («\u00a01 kg de pommes\u00a0» si c'est ton habitude). Une unité choisie dans sa fiche l'emporte.",
+          "Un article ajouté sans unité prend celle que tu achètes le plus pour lui, à partir de 3 achats («\u00a01 kg de pommes\u00a0» si c'est ton habitude). Une unité ou une quantité choisie dans sa fiche l'emporte.",
         ],
       },
       {

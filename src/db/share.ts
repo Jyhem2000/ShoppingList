@@ -13,11 +13,16 @@ import {
 } from "@/domain/share";
 import { uniqueRecipeName } from "@/domain/recipes";
 import { mergeTypes, slugify } from "@/domain/slug";
-import { type UsualAmount, withUsualAmount } from "@/domain/usage";
+import {
+  type UsualAmount,
+  usualAmounts,
+  withUsualAmount,
+} from "@/domain/usage";
 import type { ShoppingDatabase } from "./database";
 import { activeItems } from "./items";
 import { applyListMerge, createList } from "./lists";
 import { createRecipe, type RecipeInput } from "./recipes";
+import { closedPurchases } from "./sessions";
 import { updateSettings } from "./settings";
 
 /**
@@ -44,7 +49,6 @@ export async function applyImport(
   choices: readonly (ImportChoice | undefined)[],
   target: ImportTarget,
   now = Date.now(),
-  usual: ReadonlyMap<ID, UsualAmount> = new Map(),
 ): Promise<{ listId: ID; count: number }> {
   return database.transaction(
     "rw",
@@ -55,8 +59,15 @@ export async function applyImport(
       database.items,
       database.lists,
       database.meta,
+      database.sessions,
+      database.purchases,
     ],
     async () => {
+      // Unité selon l'usage (docs/07 § 7.14), comme pour un ajout depuis la liste.
+      const usual = usualAmounts(
+        (await closedPurchases(database)).purchases,
+        await database.units.toArray(),
+      );
       const imported = await importArticles(
         database,
         lines,

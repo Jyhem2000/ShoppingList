@@ -136,7 +136,7 @@ export function ImportPage() {
   const categories = useCategories();
   const units = useUnits();
   const lists = useLists();
-  const stats = usePurchaseStats();
+  const stats = usePurchaseStats(units);
   const purchaseCounts = stats?.purchaseCounts;
   const [catalog, setCatalog] = useState<ImportCatalog | "failed">();
   useEffect(() => {
@@ -501,8 +501,6 @@ export function ImportPage() {
                   targetList
                     ? { kind: "list", listId: targetList.id }
                     : { kind: "new", name: preview.name },
-                  undefined,
-                  stats?.usual,
                 ).then(
                   (result) =>
                     [t.done(result.count, listName), routes.list] as const,

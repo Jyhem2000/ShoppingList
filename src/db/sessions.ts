@@ -20,9 +20,7 @@ import {
   placementScope,
   withPrimaryCategory,
 } from "@/domain/stores";
-import { countBy } from "@/domain/collections";
-import { usualAmounts } from "@/domain/usage";
-import { purchaseRhythms } from "@/domain/suggestions";
+import type { PurchaseHistory } from "@/domain/history";
 import type { ShoppingDatabase } from "./database";
 import { activeItems } from "./items";
 import { updateSettings } from "./settings";
@@ -51,30 +49,23 @@ export async function openSession(
 }
 
 /**
- * Ce que l'historique apprend, d'après les achats des courses terminées : nombre d'achats
- * par article (recherche, habituels), unité habituelle de chaque article
- * (`usualAmounts`, unité selon l'usage), rythme d'achat (`purchaseRhythms`, anti-oubli)
- * et fin des dernières courses (« Pas cette fois » dure jusque-là).
+ * Achats des courses terminées et fin des dernières courses terminées : ce que
+ * l'historique apprend (`purchaseStats`) se calcule à partir de là.
  */
-export async function purchaseStats(database: ShoppingDatabase) {
+export async function closedPurchases(
+  database: ShoppingDatabase,
+): Promise<PurchaseHistory> {
+  // Clés seulement : une session porte l'ordre appris du magasin, inutile ici.
   const closed = await database.sessions
     .where("status")
     .equals("closed")
-    .toArray();
-  const [purchases, units] = await Promise.all([
-    database.purchases
-      .where("sessionId")
-      .anyOf(closed.map((session) => session.id))
-      .toArray(),
-    database.units.toArray(),
+    .primaryKeys();
+  const [purchases, last] = await Promise.all([
+    database.purchases.where("sessionId").anyOf(closed).toArray(),
+    // `closedAt` n'existe que sur des courses terminées (effacé à la réouverture).
+    database.sessions.orderBy("closedAt").last(),
   ]);
-  const closedAt = closed.map((session) => session.closedAt ?? 0);
-  return {
-    purchaseCounts: countBy(purchases, (purchase) => purchase.articleId),
-    usual: usualAmounts(purchases, units),
-    rhythms: purchaseRhythms(purchases),
-    lastClosedAt: closedAt.length > 0 ? Math.max(...closedAt) : undefined,
-  };
+  return { purchases, lastClosedAt: last?.closedAt };
 }
 
 /** Dernière session de la liste (la plus récente). */

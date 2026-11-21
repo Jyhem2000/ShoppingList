@@ -80,20 +80,20 @@ Pour la recherche, on utilise en plus une **clé de recherche** plus tolérante 
 
 Un produit que l'on achète.
 
-| Propriété            | Obligatoire  | Description                                                                                                                                                                                   |
-| -------------------- | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Libellé              | ✅           | « Pommes »                                                                                                                                                                                    |
-| Slug                 | ✅ (calculé) | `pommes`                                                                                                                                                                                      |
-| Catégorie            | ✅           | « Fruits ». Par défaut « Autres » si l'app ne devine pas                                                                                                                                      |
-| Unité par défaut     | ✅           | « kg ». Devinée à la création (voir 06), modifiable. _v1.2_ : à l'ajout, l'unité la plus achetée l'emporte (à partir de 3 achats), sauf si elle a été choisie à la main dans la fiche (03 A2) |
-| Quantité par défaut  | —            | Quantité ajoutée quand on n'en précise pas : **6** pour les œufs (unité « pièce »), 1 sinon (ou le pas de l'unité). Modifiable                                                                |
-| Se compte à la pièce | —            | Pour un article vendu au poids qui se compte (pommes, échalotes, blancs de poulet) : un nombre tapé seul compte des pièces (« 3 pommes » → × 3), voir 03 A2. Modifiable dans la fiche article |
-| Types                | —            | Liste des variétés possibles, **vide par défaut** : `Gala`, `Golden`, `Granny Smith`                                                                                                          |
-| Alias                | —            | Autres noms : synonymes, abréviations, marques passées dans le langage courant, variantes régionales (voir ci-dessous)                                                                        |
-| Icône                | —            | Icône choisie ; si absente, l'app en déduit une ou affiche un monogramme (voir 05)                                                                                                            |
-| Favori               | —            | Épinglé dans les « Habituels »                                                                                                                                                                |
-| Mois de saison       | —            | _v1.2_ — fruits, légumes et herbes : mois où l'article est de saison là où l'on fait ses courses (D3)                                                                                         |
-| Clé catalogue        | —            | Présente si l'article vient du catalogue de départ (§ 10) ; ne change jamais                                                                                                                  |
+| Propriété            | Obligatoire  | Description                                                                                                                                                                                                  |
+| -------------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Libellé              | ✅           | « Pommes »                                                                                                                                                                                                   |
+| Slug                 | ✅ (calculé) | `pommes`                                                                                                                                                                                                     |
+| Catégorie            | ✅           | « Fruits ». Par défaut « Autres » si l'app ne devine pas                                                                                                                                                     |
+| Unité par défaut     | ✅           | « kg ». Devinée à la création (voir 06), modifiable. _v1.2_ : à l'ajout, l'unité la plus achetée l'emporte (à partir de 3 achats), sauf unité ou quantité par défaut choisie à la main dans la fiche (03 A2) |
+| Quantité par défaut  | —            | Quantité ajoutée quand on n'en précise pas : **6** pour les œufs (unité « pièce »), 1 sinon (ou le pas de l'unité). Modifiable                                                                               |
+| Se compte à la pièce | —            | Pour un article vendu au poids qui se compte (pommes, échalotes, blancs de poulet) : un nombre tapé seul compte des pièces (« 3 pommes » → × 3), voir 03 A2. Modifiable dans la fiche article                |
+| Types                | —            | Liste des variétés possibles, **vide par défaut** : `Gala`, `Golden`, `Granny Smith`                                                                                                                         |
+| Alias                | —            | Autres noms : synonymes, abréviations, marques passées dans le langage courant, variantes régionales (voir ci-dessous)                                                                                       |
+| Icône                | —            | Icône choisie ; si absente, l'app en déduit une ou affiche un monogramme (voir 05)                                                                                                                           |
+| Favori               | —            | Épinglé dans les « Habituels »                                                                                                                                                                               |
+| Mois de saison       | —            | _v1.2_ — fruits, légumes et herbes : mois où l'article est de saison là où l'on fait ses courses (D3)                                                                                                        |
+| Clé catalogue        | —            | Présente si l'article vient du catalogue de départ (§ 10) ; ne change jamais                                                                                                                                 |
 
 ### Alias
 

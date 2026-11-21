@@ -2,8 +2,8 @@ import { AnimatePresence, motion } from "motion/react";
 import { useMemo, useState } from "react";
 import { groupListByCategory } from "@/domain/categories";
 import type { ID, ListItem } from "@/domain/model";
-import { inSeason, monthOf } from "@/domain/season";
-import { useNow } from "@/ui/useNow";
+import { inSeason } from "@/domain/season";
+import { useMonth } from "@/ui/useNow";
 import { fr } from "@/i18n/fr";
 import { AisleSection } from "@/ui/AisleHeader";
 import { ItemRow } from "@/ui/ItemRow";
@@ -36,7 +36,7 @@ export function ListLines({
   onRemove: (item: ListItem) => void;
 }) {
   const [collapsed, setCollapsed] = useState<ReadonlySet<ID>>(new Set());
-  const month = monthOf(useNow());
+  const month = useMonth();
   // Une ligne qui doit se montrer (article déjà dans la liste) : sa catégorie se déplie.
   useOnPulse((id) => {
     const item = data.items.find((i) => i.id === id);
