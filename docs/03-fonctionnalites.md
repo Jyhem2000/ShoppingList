@@ -115,7 +115,7 @@ Tap sur une ligne → fiche : quantité (boutons `−`/`+` selon le pas de l'uni
 
 ### B4. Supprimer une ligne — _v1.0_
 
-Glisser vers la gauche ou bouton dans la fiche ; message « Annuler » pendant 4 secondes. Le glissé doit être long (ou rapide) et nettement horizontal : faire défiler la liste du pouce en partant d'une ligne, un peu en diagonale, ne la supprime pas.
+Glisser vers la gauche ou bouton dans la fiche ; message « Annuler » pendant 4 secondes. Le glissé doit être long (le doigt peut sortir de la ligne en chemin, la page ne défile plus), ou rapide et nettement horizontal : faire défiler la liste du pouce en partant d'une ligne, un peu en diagonale, ne la supprime pas.
 
 ### B5. Choisir le magasin — _v1.0_
 

@@ -1102,6 +1102,13 @@ export const fr = {
     version: (version: string) => `Version ${version}`,
     versions: [
       {
+        version: "1.2.1",
+        date: "2026-11-23",
+        items: [
+          "Le glissé pour supprimer une ligne ne fait plus défiler la page une fois la ligne partie vers la gauche, et un long glissé supprime même si le doigt a un peu dévié.",
+        ],
+      },
+      {
         version: "1.2.0",
         date: "2026-11-23",
         items: [
