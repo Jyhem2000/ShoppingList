@@ -13,10 +13,9 @@ test("10. saison : filtre du catalogue, pastille dans la liste, mois de la fiche
     .getByRole("navigation", { name: fr.tabs.navigation })
     .getByRole("link", { name: fr.tabs.catalog })
     .click();
-  await page.getByRole("button", { name: fr.catalog.seasonFilter }).click();
-  await expect(
-    page.getByText(fr.catalog.seasonTitle("novembre")),
-  ).toBeVisible();
+  await page
+    .getByRole("button", { name: fr.catalog.seasonFilter("novembre") })
+    .click();
   const main = page.getByRole("main");
   await expect(
     main.getByRole("button", { name: /Poireaux/ }).first(),
@@ -53,7 +52,9 @@ test("10. saison : filtre du catalogue, pastille dans la liste, mois de la fiche
     .getByRole("navigation", { name: fr.tabs.navigation })
     .getByRole("link", { name: fr.tabs.catalog })
     .click();
-  await page.getByRole("button", { name: fr.catalog.seasonFilter }).click();
+  await page
+    .getByRole("button", { name: fr.catalog.seasonFilter("novembre") })
+    .click();
   await expect(
     main.getByRole("button", { name: /Fraises/ }).first(),
   ).toBeVisible();

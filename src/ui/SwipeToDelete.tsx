@@ -3,11 +3,22 @@ import { motion, useMotionValue, useTransform } from "motion/react";
 import { type ReactNode, useRef } from "react";
 import { cn } from "@/ui/utils";
 
-const THRESHOLD = 100;
+/**
+ * Distance du doigt (px) au-delà de laquelle le geste agit : 40 % d'une ligne de 390 px.
+ * Un geste rapide suffit, mais pas en dessous de la moitié de cette distance.
+ */
+const DISTANCE = 150;
+const FLICK_SPEED = 900;
+/** Le geste doit être nettement horizontal : un défilement en diagonale n'agit pas. */
+const MAX_SLOPE = 0.5;
+/** Retenue de la ligne : elle avance moins vite que le doigt. */
+const ELASTIC = 0.7;
 
 /**
  * Glisser une ligne vers la gauche pour une action (retirer, introuvable). Le
  * défilement vertical reste libre ; un glissement ne déclenche pas le tap de la ligne.
+ * Le geste doit être long (ou rapide) et horizontal : le pouce qui fait défiler la
+ * liste en partant d'une ligne, un peu en diagonale, ne la retire pas.
  */
 export function SwipeAction({
   label,
@@ -24,7 +35,8 @@ export function SwipeAction({
   children: ReactNode;
 }) {
   const x = useMotionValue(0);
-  const opacity = useTransform(x, [-THRESHOLD, -24], [1, 0]);
+  // L'icône est pleine quand le geste agirait.
+  const opacity = useTransform(x, [-DISTANCE * ELASTIC, -24], [1, 0]);
   const dragged = useRef(false);
 
   return (
@@ -43,7 +55,7 @@ export function SwipeAction({
         drag="x"
         dragDirectionLock
         dragConstraints={{ left: 0, right: 0 }}
-        dragElastic={{ left: 0.7, right: 0 }}
+        dragElastic={{ left: ELASTIC, right: 0 }}
         dragSnapToOrigin
         style={{ x, touchAction: "pan-y" }}
         onDragStart={() => {
@@ -53,7 +65,11 @@ export function SwipeAction({
           setTimeout(() => {
             dragged.current = false;
           }, 50);
-          if (info.offset.x < -THRESHOLD || info.velocity.x < -700) onSwipe();
+          const { offset, velocity } = info;
+          const horizontal = Math.abs(offset.y) <= -offset.x * MAX_SLOPE;
+          const far = offset.x < -DISTANCE;
+          const flick = velocity.x < -FLICK_SPEED && offset.x < -DISTANCE / 2;
+          if (horizontal && (far || flick)) onSwipe();
         }}
         onClickCapture={(event) => {
           if (!dragged.current) return;

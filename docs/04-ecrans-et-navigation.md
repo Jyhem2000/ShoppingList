@@ -29,7 +29,7 @@ Sur Android, le geste ou bouton **Retour** du système ferme d'abord le panneau 
 ┌──────────────────────────────────┐
 │ Courses semaine ▾             ⋯  │  ← liste courante (changer), menu
 ├──────────────────────────────────┤
-│ ↺ Rouvrir les courses (18 h 02)  │  ← C8, si courses récemment clôturées
+│ [      🛒 C'est parti        ]   │  ← au-dessus des lignes, sans défiler
 │ 💡 Rien oublié ? Faire le tour ③ │  ← D1, D2 (v1.2) : à racheter
 │                                  │
 │ ● Fruits                      1  │  ← en-tête de catégorie (couleur)
@@ -42,7 +42,7 @@ Sur Android, le geste ou bouton **Retour** du système ferme d'abord le panneau 
 │ ● Autres                      1  │
 │  SN Sauce nuoc-mâm           × 1 │  ← monogramme
 │                                  │
-│        [ 🛒 C'est parti ]        │
+│ [↺ Rouvrir les courses (18 h 02)]│  ← C8, si courses récemment clôturées
 ├──────────────────────────────────┤
 │ 🔍 Ajouter un ou plusieurs arti… │  ← A1 (micro = celui du clavier)
 ├──────────────────────────────────┤
@@ -96,7 +96,7 @@ Sur Android, le geste ou bouton **Retour** du système ferme d'abord le panneau 
 - `✕` = quitter le mode courses **sans clôturer** (la session reste ouverte, on peut y revenir).
 - **« Terminer les courses »** (bouton or « Terminer », à droite de la barre d'ajout) = clôture (C6), après confirmation.
 - Article ajouté pendant les courses : panneau « OK, à prendre » · « Je l'ai déjà dans le caddie » · « Il est dans un autre rayon… » (C4).
-- Sur la liste : **« C'est parti »** sous les lignes (puis choix du magasin, ou « Un autre magasin » à nommer ; sans magasin, seulement son nom) ; **« Reprendre les courses »** si une session est restée ouverte.
+- Sur la liste : **« C'est parti »** au-dessus des lignes, pour partir sans faire défiler la liste (puis choix du magasin, ou « Un autre magasin » à nommer ; sans magasin, seulement son nom) ; **« Reprendre les courses »** si une session est restée ouverte.
 
 ### 2.4 Récapitulatif de fin de courses
 
@@ -105,7 +105,7 @@ Articles achetés, pas pris (restés dans la liste), durée, éventuellement «�
 ### 2.5 Catalogue
 
 - Haut : recherche avec suggestions sous le champ (A5), puis **Favoris** et **Habituels** (ce qu'il est temps de racheter d'abord, _v1.2_, puis les plus achetés ; 9 au plus).
-- Puce **« De saison »** sous la recherche _(v1.2, D3)_ : remplace l'accueil par les articles de saison ce mois-ci (« De saison en novembre »), une grille par catégorie ; un second toucher revient à l'accueil.
+- Puce **« De saison (novembre) »** sous la recherche _(v1.2, D3)_, avec le mois en cours : remplace l'accueil par les articles de saison ce mois-ci, une grille par catégorie ; un second toucher revient à l'accueil.
 - Grille de catégories (icône, libellé, couleur) → grille d'articles (grande icône, libellé, pastille de quantité si déjà dans la liste courante, feuille verte « de saison » en haut à gauche _v1.2_).
 - Appui long sur un article → fiche article (G1).
 

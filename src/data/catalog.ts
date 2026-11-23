@@ -35,6 +35,11 @@ export interface CatalogArticleData {
  */
 export type SeasonZone = "FR";
 export const SEASON_ZONE: SeasonZone = "FR";
+/**
+ * Version du catalogue qui a apporté les mois de saison : copiés à la mise à jour dans
+ * les articles du catalogue qui n'en ont pas encore (docs/06 § 7).
+ */
+export const SEASONS_SINCE = 10;
 
 export { CATALOG_VERSION } from "./catalogVersion";
 

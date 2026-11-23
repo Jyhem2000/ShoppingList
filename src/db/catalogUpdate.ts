@@ -1,5 +1,10 @@
 import { categoriesData, unitsData } from "@/data";
-import { CATALOG_VERSION, catalogData, catalogFixes } from "@/data/catalog";
+import {
+  CATALOG_VERSION,
+  SEASONS_SINCE,
+  catalogData,
+  catalogFixes,
+} from "@/data/catalog";
 import type { Article, ID } from "@/domain/model";
 import type { ShoppingDatabase } from "./database";
 import { buildInitialData } from "./seed";
@@ -11,7 +16,8 @@ import { buildInitialData } from "./seed";
  * à la main). Rien de ce que l'utilisateur a créé, modifié ou supprimé avant n'est touché.
  * Une nouvelle catégorie n'est rangée dans aucun rayon : elle apparaît dans les
  * « Catégories non rattachées » de chaque magasin. Les corrections (`catalogFixes`)
- * ne touchent qu'un article jamais modifié. Renvoie le nombre d'ajouts et de corrections.
+ * ne touchent qu'un article jamais modifié ; les mois de saison, qu'un article qui n'en
+ * a pas encore. Renvoie le nombre d'ajouts et de corrections.
  */
 export async function updateCatalog(
   database: ShoppingDatabase,
@@ -100,6 +106,20 @@ export async function updateCatalog(
           ...(fix.countable !== undefined && { countable: fix.countable }),
         });
         added++;
+      }
+
+      // Mois de saison, arrivés après les articles : un champ nouveau, que l'utilisateur
+      // n'a donc pas pu choisir. Copiés même dans un article modifié depuis, sauf s'il a
+      // déjà des mois (calendrier de la fiche, même vidé).
+      if (isNew(SEASONS_SINCE)) {
+        const seasons = articles.flatMap((article) => {
+          const months = freshArticles.get(article.catalogKey)?.seasonMonths;
+          return months && article.seasonMonths === undefined
+            ? [{ key: article.id, changes: { seasonMonths: months } }]
+            : [];
+        });
+        await database.articles.bulkUpdate(seasons);
+        added += seasons.length;
       }
 
       await database.meta.put({

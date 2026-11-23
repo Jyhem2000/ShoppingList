@@ -5,7 +5,7 @@ import { groupArticlesByCategory, sortCategories } from "@/domain/categories";
 import { searchArticles } from "@/domain/search";
 import { fr } from "@/i18n/fr";
 import { CategoryCard } from "@/ui/CategoryCard";
-import { EmptyHint, Intro, PageHeader, SectionTitle } from "@/ui/Page";
+import { EmptyHint, PageHeader, SectionTitle } from "@/ui/Page";
 import { useListData } from "@/common/useListData";
 import { useRestockSuggestions } from "@/common/useRestock";
 import { useFirstDefined } from "@/ui/useFirstDefined";
@@ -127,7 +127,7 @@ export function CatalogPage() {
                 }}
               >
                 <SeasonBadge decorative className="fill-transparent" />
-                {t.seasonFilter}
+                {t.seasonFilter(fr.season.monthNames[month - 1] ?? "")}
               </Chip>
             </div>
           )}
@@ -135,9 +135,6 @@ export function CatalogPage() {
             <ArticleGrid articles={results} data={data} />
           ) : seasonOnly && !searching ? (
             <>
-              <Intro className="pt-3">
-                {t.seasonTitle(fr.season.monthNames[month - 1] ?? "")}
-              </Intro>
               {season.length === 0 && (
                 <EmptyHint inset>{t.seasonEmpty}</EmptyHint>
               )}
