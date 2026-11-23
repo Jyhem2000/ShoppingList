@@ -2,7 +2,7 @@ import { Link2Off, Smartphone } from "lucide-react";
 import { withUsualAmount } from "@/domain/usage";
 import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
-import { recipePath, routes } from "@/app/routes";
+import { routes } from "@/app/routes";
 import { categoriesData, keywordRules, unitsData } from "@/data";
 import { db } from "@/db/database";
 import {
@@ -489,10 +489,7 @@ export function ImportPage() {
                   chosen,
                 ).then(
                   (result) =>
-                    [
-                      t.recipeDone(result.name),
-                      recipePath(result.recipeId),
-                    ] as const,
+                    [t.recipeDone(result.name), routes.recipes] as const,
                 )
               : applyImport(
                   db,

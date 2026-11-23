@@ -1105,8 +1105,7 @@ export const fr = {
         version: "1.2.2",
         date: "2026-11-23",
         items: [
-          "Sur iPhone, coller une recette, une liste ou une sauvegarde ouvre tout de suite le champ où coller, sans bulle qui bloque l'écran ; une recette ou une liste collée dans ce champ part sans toucher «\u00a0Continuer\u00a0».",
-          "Recherche d'une icône ou d'un article à fusionner : les résultats restent au-dessus du clavier, même quand il y en a peu.",
+          "Corrections de bugs et améliorations de l'expérience utilisateur.",
         ],
       },
       {

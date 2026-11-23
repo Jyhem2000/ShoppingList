@@ -278,7 +278,7 @@ export function LinkRow({
       className="flex min-h-14 w-full items-center gap-3 px-4 py-3 text-left active:bg-raised"
     >
       {icon && (
-        <span className="shrink-0 text-secondary [&_svg]:size-5">{icon}</span>
+        <span className="shrink-0 text-primary [&_svg]:size-5">{icon}</span>
       )}
       <span className="min-w-0 flex-1">
         <span className="block font-semibold">{label}</span>
@@ -286,7 +286,7 @@ export function LinkRow({
           <span className="block text-sm text-muted-foreground">{hint}</span>
         )}
       </span>
-      <ChevronRight className="size-5 text-muted-foreground" aria-hidden />
+      <ChevronRight className="size-5 text-secondary" aria-hidden />
     </NavButton>
   );
 }

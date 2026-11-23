@@ -95,9 +95,9 @@ export function AboutPage() {
           rel="noreferrer"
           className="flex min-h-14 items-center gap-3 px-4 py-3 active:bg-raised"
         >
-          <Code className="size-5 shrink-0 text-secondary" aria-hidden />
+          <Code className="size-5 shrink-0 text-primary" aria-hidden />
           <span className="flex-1 font-semibold">{t.source}</span>
-          <ExternalLink className="size-5 text-muted-foreground" aria-hidden />
+          <ExternalLink className="size-5 text-secondary" aria-hidden />
         </a>
       </Section>
     </>

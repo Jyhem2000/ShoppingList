@@ -191,7 +191,7 @@ Articles, catégories, unités : liste + recherche → fiche d'édition. La fich
 
 Tap sur un candidat = « C'est celui-là ». Bouton « Ajouter N lignes ». Dans le navigateur de l'iPhone, un lien ouvre d'abord une explication : « Copier le lien » (puis `⋯` → « Coller une liste » dans l'app) ou « Ajouter la liste ici quand même ».
 
-**Recette reçue** (03 E3) : même écran, titre « Recette reçue ». À la place de « Ajouter à » : l'icône, le nom et le rendement de la recette ; chaque ingrédient dit en plus s'il est facultatif ou à quantité fixe ; les étapes suivent les ingrédients. Un ingrédient non reconnu est créé par défaut dans le catalogue. « Ajouter la recette (N ingrédients) » crée la recette et ouvre sa fiche. Dans le navigateur de l'iPhone, l'explication renvoie à Recettes → « Coller une recette ». Un texte collé sans le lien attendu ne donne pas d'aperçu : « Pas de recette » (collé dans les recettes), « C'est une recette » ou « C'est une liste » (lien de l'autre type, avec l'endroit où le coller).
+**Recette reçue** (03 E3) : même écran, titre « Recette reçue ». À la place de « Ajouter à » : l'icône, le nom et le rendement de la recette ; chaque ingrédient dit en plus s'il est facultatif ou à quantité fixe ; les étapes suivent les ingrédients. Un ingrédient non reconnu est créé par défaut dans le catalogue. « Ajouter la recette (N ingrédients) » crée la recette et revient à l'écran Recettes. Dans le navigateur de l'iPhone, l'explication renvoie à Recettes → « Coller une recette ». Un texte collé sans le lien attendu ne donne pas d'aperçu : « Pas de recette » (collé dans les recettes), « C'est une recette » ou « C'est une liste » (lien de l'autre type, avec l'endroit où le coller).
 
 ### 2.11 Premier lancement
 
