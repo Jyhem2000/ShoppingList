@@ -17,3 +17,9 @@ Les prochaines versions. Le détail de chaque fonctionnalité (critères, écran
 
 - **Interface et catalogue en anglais** ([03 I3](03-fonctionnalites.md#i3-anglais--v13)), langue choisie dans les réglages. Les données sont déjà organisées pour (02 § 1, 06 § 4) : rien à migrer.
 - **Saisie naturelle en anglais** ([03 A2](03-fonctionnalites.md#a2-saisie-naturelle--v10), [07 § 7.3](07-architecture-technique.md#73-parseentrytext-units--parsedentry)) : les mots lus par `parseEntry` sont en français (`et`, `puis`, nombres en lettres, « douzaine », partitifs `du`, `de`, `d'`…) ; il les faut par langue (`and`, `one`, `dozen`, `of`…), avec les noms d'unités anglais dans `units.json`. Une unité de cuisine n'est lue dans une liste que devant « de » : en anglais, il faut aussi l'accepter sans « of » quand c'est une abréviation (« 2 tbsp sugar »), sinon l'article deviendrait « tbsp sugar ». Ce qui ne lit pas de mots (puces, collage, notes) marche déjà dans toutes les langues.
+
+## 1.4.0 — Saisons selon la région
+
+- **Zone des saisons au choix** ([03 D3](03-fonctionnalites.md#d3-saisonnalité--v12)) : un réglage pour l'endroit où l'on fait ses courses, toujours indépendant de la langue.
+- **Zones climatiques** : les saisons dépendent du climat, pas des frontières. Le catalogue donne les mois par zone climatique (une clé de plus dans `season`, 06 § 4), et le réglage propose des pays et régions, chacun rattaché à une zone (France métropolitaine, Belgique, Luxembourg et Suisse dans une même zone tempérée ; Sud-Est méditerranéen plus précoce ; hémisphère sud décalé de six mois). Les mois ne s'écrivent qu'une fois par zone.
+- **Changer de zone** recopie les mois de la nouvelle zone dans les articles du catalogue, sauf ceux dont le calendrier a été changé à la main dans la fiche (à mémoriser dans l'article, comme l'unité choisie à la main ; même mécanisme que la mise à jour du catalogue, 06 § 7).
