@@ -1103,11 +1103,12 @@ export const fr = {
     versions: [
       {
         version: "1.2.0",
-        date: "2026-11-20",
+        date: "2026-11-23",
         items: [
           "«\u00a0Rien oublié\u00a0? Faire le tour\u00a0», au-dessus de la liste : d'abord ce qu'il est temps de racheter d'après le rythme de tes achats («\u00a0Pas cette fois\u00a0» le met de côté jusqu'aux prochaines courses), puis tes articles habituels, catégorie par catégorie.",
           "Saisonnalité : une feuille verte signale les fruits, légumes et herbes de saison ce mois-ci, et la puce «\u00a0De saison\u00a0» du Catalogue les montre tous. Les mois se changent dans la fiche de l'article.",
           "Un article ajouté sans unité prend celle que tu achètes le plus pour lui, à partir de 3 achats («\u00a01 kg de pommes\u00a0» si c'est ton habitude). Une unité ou une quantité choisie dans sa fiche l'emporte.",
+          "Plus besoin de faire défiler : «\u00a0C'est parti\u00a0» est en haut de la liste, et le récapitulatif de fin de courses commence par «\u00a0Retour à la liste\u00a0». Le glissé pour supprimer une ligne demande un geste plus franc, pour ne plus supprimer en faisant défiler.",
         ],
       },
       {
