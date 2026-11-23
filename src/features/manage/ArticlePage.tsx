@@ -466,6 +466,7 @@ function MergeArticleSheet({
   return (
     <Sheet
       autoFocus={false}
+      tall={!other}
       onClose={() => {
         onClose();
       }}
