@@ -16,7 +16,7 @@ import { reopenSession } from "@/db/sessions";
 import { aisleOrderChanged, canReopen } from "@/domain/shopping";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
-import { EmptyState, PageHeader, Section } from "@/ui/Page";
+import { EmptyState, PageHeader, Section, SectionTitle } from "@/ui/Page";
 import { InfoRow } from "@/ui/RowButton";
 import { HelpTip } from "./HelpTip";
 import { formatDuration } from "@/common/time";
@@ -27,7 +27,8 @@ const t = fr.shopping.recap;
 
 /**
  * Bilan de fin de courses (docs/04 § 2.4) : articles achetés, introuvables restés dans
- * la liste, durée, ordre des rayons appris ; « Retour à la liste » et « Rouvrir » (C8).
+ * la liste, durée, ordre des rayons appris. « Retour à la liste » et « Rouvrir » (C8)
+ * en haut, sous le titre.
  */
 export function RecapPage() {
   const { sessionId } = useParams();
@@ -74,7 +75,32 @@ export function RecapPage() {
   return (
     <>
       <PageHeader title={t.title} />
-      <div className="flex flex-col gap-1 px-5 pb-4">
+      {/* En haut : pas d'onglets sur cet écran, on n'en sort que par ces boutons. */}
+      <div className="flex flex-col gap-3 px-5 pb-2">
+        <Button
+          onClick={() => {
+            void navigate(routes.list, { replace: true });
+          }}
+        >
+          {t.back}
+        </Button>
+        {reopenable && (
+          <Button
+            variant="outline"
+            onClick={() => {
+              void reopenSession(db, session.id).then((reopened) => {
+                if (reopened) void navigate(routes.shopping, { replace: true });
+              });
+            }}
+          >
+            {t.reopen}
+          </Button>
+        )}
+      </div>
+      <div className="px-4 pt-6">
+        <SectionTitle>{t.summary}</SectionTitle>
+      </div>
+      <div className="flex flex-col gap-1 px-5">
         <p className="flex items-center gap-2 text-lg font-bold text-success">
           <CircleCheck className="size-6" aria-hidden />
           {t.bought(purchases.length)}
@@ -90,7 +116,7 @@ export function RecapPage() {
         {learned && <p className="text-secondary">{t.learned}</p>}
       </div>
       {purchases.length > 0 && (
-        <Section>
+        <Section className="pt-3 pb-6">
           <ul className="divide-y divide-border">
             {purchases.map((purchase) => {
               const article = articleById.get(purchase.articleId);
@@ -114,27 +140,6 @@ export function RecapPage() {
           </ul>
         </Section>
       )}
-      <div className="flex flex-col gap-3 px-5 pt-6">
-        <Button
-          onClick={() => {
-            void navigate(routes.list, { replace: true });
-          }}
-        >
-          {t.back}
-        </Button>
-        {reopenable && (
-          <Button
-            variant="outline"
-            onClick={() => {
-              void reopenSession(db, session.id).then((reopened) => {
-                if (reopened) void navigate(routes.shopping, { replace: true });
-              });
-            }}
-          >
-            {t.reopen}
-          </Button>
-        )}
-      </div>
       <HelpTip id="shopping-stored" text={fr.tips.stored} />
     </>
   );

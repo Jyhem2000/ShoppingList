@@ -1,6 +1,8 @@
 /** Chemins de l'app (routage par hash : `#/reglages`…). */
 export const routes = {
   list: "/",
+  /** Faire le tour : à racheter, puis les habituels de chaque catégorie (docs/03 D1, D2). */
+  tour: "/faire-le-tour",
   catalog: "/catalogue",
   catalogCategory: "/catalogue/:categoryId",
   recipes: "/recettes",

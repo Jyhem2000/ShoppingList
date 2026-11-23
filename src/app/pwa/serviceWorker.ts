@@ -1,3 +1,5 @@
+import { useSyncExternalStore } from "react";
+
 /**
  * Accès partagé à l'enregistrement du service worker (docs/07 § 6), utilisé par
  * le bandeau de mise à jour et l'écran « À propos ».
@@ -28,6 +30,38 @@ function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
       },
     );
   });
+}
+
+/**
+ * Nouvelle version prête (bandeau de mise à jour) : partagé avec « À propos », qui
+ * ne dit jamais « à jour » quand le bandeau propose de mettre à jour.
+ */
+export interface UpdateState {
+  phase: "none" | "available" | "updating";
+  version: string | null;
+  /** Active la nouvelle version (absent tant qu'aucune n'est prête). */
+  apply?: () => void;
+}
+
+let state: UpdateState = { phase: "none", version: null };
+const listeners = new Set<() => void>();
+
+export function setUpdateState(next: Partial<UpdateState>): void {
+  state = { ...state, ...next };
+  for (const listener of listeners) listener();
+}
+
+function subscribe(listener: () => void): () => void {
+  listeners.add(listener);
+  return () => listeners.delete(listener);
+}
+
+export function updateState(): UpdateState {
+  return state;
+}
+
+export function useUpdateState(): UpdateState {
+  return useSyncExternalStore(subscribe, () => state);
 }
 
 export type UpdateCheckResult =

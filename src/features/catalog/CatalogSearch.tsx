@@ -9,7 +9,7 @@ import { fr } from "@/i18n/fr";
 import { GroupIcon } from "@/ui/GroupIcon";
 import { SearchField } from "@/ui/SearchField";
 import { showToast } from "@/ui/toast";
-import { useCatalogPick } from "./useCatalogPick";
+import { useCatalogPick } from "@/common/useCatalogPick";
 import { RowButton } from "@/ui/RowButton";
 import { SuggestionList } from "@/ui/SuggestionList";
 import { ArticleIcon } from "@/ui/ArticleIcon";

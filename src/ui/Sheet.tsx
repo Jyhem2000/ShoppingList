@@ -18,6 +18,10 @@ const CLOSE_DISTANCE = 90;
  * retour à l'étape précédente. Le contenu défile sous l'en-tête.
  * `autoFocus={false}` : aucun champ ne prend le focus à l'ouverture, donc le clavier
  * ne s'ouvre pas et ne cache pas le reste du panneau (fiches à consulter d'abord).
+ * Posé dans le cadre de l'app, pas dans la page : au lancement sur iPhone, le cadre est
+ * à la hauteur de l'écran alors que la zone d'affichage est trop courte. Un panneau fixe
+ * suivrait cette zone, et bougerait quand le premier clavier la corrige, en laissant le
+ * curseur à l'ancienne place, hors du champ (src/platform/viewport.ts).
  */
 export function Sheet({
   onClose,
@@ -43,8 +47,8 @@ export function Sheet({
         if (!open) onClose();
       }}
     >
-      <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 z-50 bg-overlay motion-safe:data-[state=open]:animate-[fade-in_200ms_ease-out]" />
+      <Dialog.Portal container={appFrame()}>
+        <Dialog.Overlay className="absolute inset-0 z-50 bg-overlay motion-safe:data-[state=open]:animate-[fade-in_200ms_ease-out]" />
         <Dialog.Content
           asChild
           onOpenAutoFocus={(event) => {
@@ -66,7 +70,7 @@ export function Sheet({
             initial={{ y: "100%" }}
             animate={{ y: 0 }}
             transition={{ type: "spring", stiffness: 380, damping: 36 }}
-            className="fixed inset-x-0 bottom-0 z-50 mx-auto flex max-h-[92dvh] max-w-xl flex-col rounded-t-3xl border-t border-border bg-surface outline-none"
+            className="absolute inset-x-0 bottom-0 z-50 mx-auto flex max-h-[92dvh] max-w-xl flex-col rounded-t-3xl border-t border-border bg-surface outline-none"
           >
             <div
               onPointerDown={(event) => {
@@ -124,4 +128,9 @@ export function Sheet({
       </Dialog.Portal>
     </Dialog.Root>
   );
+}
+
+/** Le cadre de l'app (`App`) ; à défaut (maquette, tests), la page. */
+function appFrame(): HTMLElement | undefined {
+  return document.querySelector<HTMLElement>("[data-app-frame]") ?? undefined;
 }

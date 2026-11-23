@@ -3,6 +3,11 @@
  * Guillemets « » toujours avec une espace insécable, écrite `\u00a0`, à l'intérieur :
  * un guillemet ne se retrouve jamais seul en début ou en fin de ligne.
  */
+
+/** « 1 jour », « 7 jours » (espace insécable). */
+const days = (count: number) =>
+  count > 1 ? `${count}\u00a0jours` : `${count}\u00a0jour`;
+
 export const fr = {
   appName: "ShoppingList",
   /** Noms donnés aux données créées au premier lancement (docs/04 § 2.11). */
@@ -36,6 +41,8 @@ export const fr = {
           "Une sorte précise ? Tape-la après le nom («\u00a0pommes golden\u00a0») ou choisis-la dans les suggestions. Pour une autre sorte du même article, retouche-le : «\u00a0Une autre sorte\u00a0» ajoute une ligne à part, avec sa propre quantité.",
           "Touche une ligne pour changer sa quantité, sa note ou les types qui te vont ; glisse-la vers la gauche pour la retirer.",
           "Plusieurs listes : touche le nom de la liste en haut. Le menu ⋯ agit sur la liste affichée.",
+          "«\u00a0Rien oublié\u00a0? Faire le tour\u00a0», au-dessus de la liste : d'abord ce qu'il est temps de racheter («\u00a0Pas cette fois\u00a0» le met de côté jusqu'aux prochaines courses), puis tes articles habituels, catégorie par catégorie.",
+          "La feuille verte signale un fruit, un légume ou une herbe de saison ce mois-ci ; la puce «\u00a0De saison\u00a0» du Catalogue les montre tous. Ses mois se changent dans la fiche de l'article.",
         ],
       },
       {
@@ -59,7 +66,8 @@ export const fr = {
         points: [
           "L'ordre des rayons et des articles, d'après l'ordre de tes coches, magasin par magasin.",
           "Le rayon d'un article : celui de sa catégorie, sauf si tu l'as rangé ailleurs.",
-          "Tes habitudes : ce que tu achètes souvent remonte dans la recherche et dans «\u00a0Habituels\u00a0» du Catalogue.",
+          "L'unité d'un article ajouté sans unité\u00a0: celle que tu achètes le plus pour lui, à partir de 3 achats, avec la quantité que tu prends d'habitude. Une unité ou une quantité choisie dans sa fiche l'emporte.",
+          "Tes habitudes : ce que tu achètes souvent remonte dans la recherche et dans «\u00a0Habituels\u00a0» du Catalogue ; ce qu'il est temps de racheter passe en tête, d'après le rythme de tes achats.",
           "Si l'ordre d'un magasin te convient, fige-le : Réglages → Magasins & rayons → ton magasin → «\u00a0Apprendre l'ordre de mes courses\u00a0».",
         ],
       },
@@ -435,6 +443,7 @@ export const fr = {
     },
     recap: {
       title: "Courses terminées",
+      summary: "Récapitulatif",
       bought: (count: number) =>
         count > 1
           ? `${count} articles achetés`
@@ -613,6 +622,12 @@ export const fr = {
       nameTaken: "Un autre article porte déjà ce nom.",
       category: "Catégorie",
       unit: "Unité par défaut",
+      unitHint:
+        "Sans unité précisée, l'article prend celle que tu achètes le plus, à partir de 3 achats. Une unité ou une quantité choisie ici l'emporte.",
+      unitFromUsage: (amount: string) =>
+        `D'après tes achats\u00a0: ${amount} à l'ajout.`,
+      unitChosen: "Choisie à la main\u00a0: elle l'emporte sur tes achats.",
+      unitFollowUsage: "Suivre mes achats",
       quantity: "Quantité par défaut",
       quantityHint: "Ajoutée quand tu n'en précises pas (vide : 1).",
       types: "Types",
@@ -629,6 +644,8 @@ export const fr = {
       removeAlias: (alias: string) => `Retirer le nom ${alias}`,
       favorite: "Favori",
       favoriteHint: "Toujours en tête du catalogue.",
+      season: "Mois de saison",
+      seasonHint: `Les mois où il est de saison là où tu fais tes courses (France métropolitaine). Touche un mois pour l'ajouter ou le retirer. Aucun mois ou les douze\u00a0: pas de pastille «\u00a0de saison\u00a0».`,
       countable: "Se compte à la pièce",
       countableHint:
         "Un nombre tapé seul compte des pièces\u00a0: 3\u00a0pommes. Sinon, des portions de la quantité par défaut\u00a0: 2\u00a0beurres → 500\u00a0g.",
@@ -862,12 +879,45 @@ export const fr = {
           : `1 ingrédient ajouté à «\u00a0${list}\u00a0»`,
     },
   },
+  season: {
+    badge: "De saison",
+    months: [
+      "janv.",
+      "févr.",
+      "mars",
+      "avr.",
+      "mai",
+      "juin",
+      "juil.",
+      "août",
+      "sept.",
+      "oct.",
+      "nov.",
+      "déc.",
+    ],
+    monthNames: [
+      "janvier",
+      "février",
+      "mars",
+      "avril",
+      "mai",
+      "juin",
+      "juillet",
+      "août",
+      "septembre",
+      "octobre",
+      "novembre",
+      "décembre",
+    ],
+  },
   catalog: {
     title: "Catalogue",
     search: "Chercher un article",
     favorites: "Favoris",
     usual: "Habituels",
     categories: "Catégories",
+    seasonFilter: (month: string) => `De saison (${month})`,
+    seasonEmpty: "Aucun article de saison ce mois-ci.",
     noResult: "Aucun article trouvé.",
     emptyCategory: "Aucun article ici",
     emptyCategoryText:
@@ -886,6 +936,34 @@ export const fr = {
     done: "Terminé",
     count: (count: number) =>
       count > 1 ? `${count} articles` : `${count} article`,
+  },
+  tour: {
+    open: "Rien oublié\u00a0? Faire le tour",
+    openHint: (count: number) =>
+      count > 1
+        ? `${count} articles à racheter`
+        : `${count} article à racheter`,
+    title: "Faire le tour",
+    restock: "À racheter",
+    restockIntro:
+      "Tu en reprends d'habitude à ce rythme : c'est peut-être le moment.",
+    restockDone: "Rien d'autre à racheter pour l'instant.",
+    rhythm: (every: number, ago: number) =>
+      // Insécables : la coupure tombe après « · », jamais dans « tous les 7 jours ».
+      `Il y a ${days(ago)} · tous\u00a0les\u00a0${days(every)}`,
+    notThisTime: "Pas cette fois",
+    notThisTimeLabel: (name: string) => `Pas cette fois : ${name}`,
+    categoryIntro:
+      "Ce que tu prends d'habitude. Un toucher l'ajoute à la liste.",
+    wholeCategory: (name: string) => `Voir tous les articles : ${name}`,
+    step: (index: number, total: number) => `${index}/${total}`,
+    previous: "Précédent",
+    nextTo: (name: string) => `Suivant : ${name}`,
+    finish: "Terminer",
+    emptyTitle: "Pas encore d'habitudes",
+    emptyText:
+      "Après quelques courses terminées, l'app saura ce que tu prends souvent et te le proposera ici.",
+    backToList: "Retour à la liste",
   },
   settings: {
     title: "Réglages",
@@ -963,7 +1041,7 @@ export const fr = {
       checking: "Recherche…",
       upToDate: "L'app est à jour.",
       available:
-        "Une nouvelle version est prête : touche «\u00a0Mettre à jour\u00a0» en haut de l'écran.",
+        "Une nouvelle version est prête : touche «\u00a0Mettre à jour\u00a0» en bas de l'écran.",
       failed: "Pas de réponse du serveur. Vérifie ta connexion et réessaie.",
       unavailable:
         "Mises à jour indisponibles dans cette version de développement.",
@@ -1023,6 +1101,16 @@ export const fr = {
     title: "Nouveautés",
     version: (version: string) => `Version ${version}`,
     versions: [
+      {
+        version: "1.2.0",
+        date: "2026-11-23",
+        items: [
+          "«\u00a0Rien oublié\u00a0? Faire le tour\u00a0», au-dessus de la liste : d'abord ce qu'il est temps de racheter d'après le rythme de tes achats («\u00a0Pas cette fois\u00a0» le met de côté jusqu'aux prochaines courses), puis tes articles habituels, catégorie par catégorie.",
+          "Saisonnalité : une feuille verte signale les fruits, légumes et herbes de saison ce mois-ci, et la puce «\u00a0De saison\u00a0» du Catalogue les montre tous. Les mois se changent dans la fiche de l'article.",
+          "Un article ajouté sans unité prend celle que tu achètes le plus pour lui, à partir de 3 achats («\u00a01 kg de pommes\u00a0» si c'est ton habitude). Une unité ou une quantité choisie dans sa fiche l'emporte.",
+          "Plus besoin de faire défiler : «\u00a0C'est parti\u00a0» est en haut de la liste, et le récapitulatif de fin de courses commence par «\u00a0Retour à la liste\u00a0». Le glissé pour supprimer une ligne demande un geste plus franc, pour ne plus supprimer en faisant défiler.",
+        ],
+      },
       {
         version: "1.1.1",
         date: "2026-11-19",

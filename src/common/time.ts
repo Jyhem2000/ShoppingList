@@ -1,7 +1,7 @@
 import { fr } from "@/i18n/fr";
 
 const t = fr.shopping;
-const DAY_MS = 24 * 60 * 60 * 1000;
+export const DAY_MS = 24 * 60 * 60 * 1000;
 
 /** « 18 h 02 », « 18 h » à l'heure pile. */
 export function formatClock(at: number): string {

@@ -1,11 +1,13 @@
 import { useLiveQuery } from "dexie-react-hooks";
-import type { ID, ShoppingSession } from "@/domain/model";
+import { useMemo } from "react";
+import type { ID, ShoppingSession, Unit } from "@/domain/model";
 import { db } from "./database";
 import { activeItems } from "./items";
-import { latestSession } from "./sessions";
+import { closedPurchases, latestSession } from "./sessions";
 import { storeAisles } from "./stores";
 import { countBy } from "@/domain/collections";
 import { byName } from "@/domain/slug";
+import { purchaseStats } from "@/domain/history";
 
 /**
  * Lectures de la base pour les écrans : chaque hook se met à jour tout seul quand
@@ -93,21 +95,33 @@ export function useOverrides() {
 }
 
 /**
- * Nombre d'achats par article (sessions clôturées), pour la recherche et les habituels.
- * Lus par l'index `sessionId` : une coche pendant les courses (achat d'une session
- * ouverte) ne fait pas tout relire.
+ * Achats des courses terminées, lus par l'index `sessionId` : une coche pendant les
+ * courses (achat d'une session ouverte) ne fait pas tout relire.
  */
+function useClosedPurchases() {
+  return useLiveQuery(() => closedPurchases(db));
+}
+
+/** Nombre d'achats par article (courses terminées), sans le reste des statistiques. */
 export function usePurchaseCounts() {
-  return useLiveQuery(async () => {
-    const closed = await db.sessions
-      .where("status")
-      .equals("closed")
-      .primaryKeys();
-    return countBy(
-      await db.purchases.where("sessionId").anyOf(closed).toArray(),
-      (purchase) => purchase.articleId,
-    );
-  });
+  const history = useClosedPurchases();
+  return useMemo(
+    () =>
+      history && countBy(history.purchases, (purchase) => purchase.articleId),
+    [history],
+  );
+}
+
+/**
+ * Ce que l'historique apprend (`purchaseStats`) : nombre d'achats, unité habituelle,
+ * rythme d'achat, fin des dernières courses terminées.
+ */
+export function usePurchaseStats(units: readonly Unit[] | undefined) {
+  const history = useClosedPurchases();
+  return useMemo(
+    () => history && units && purchaseStats(history, units),
+    [history, units],
+  );
 }
 
 /**

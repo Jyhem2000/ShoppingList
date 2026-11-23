@@ -13,10 +13,16 @@ import {
 } from "@/domain/share";
 import { uniqueRecipeName } from "@/domain/recipes";
 import { mergeTypes, slugify } from "@/domain/slug";
+import {
+  type UsualAmount,
+  usualAmounts,
+  withUsualAmount,
+} from "@/domain/usage";
 import type { ShoppingDatabase } from "./database";
 import { activeItems } from "./items";
 import { applyListMerge, createList } from "./lists";
 import { createRecipe, type RecipeInput } from "./recipes";
+import { closedPurchases } from "./sessions";
 import { updateSettings } from "./settings";
 
 /**
@@ -53,9 +59,22 @@ export async function applyImport(
       database.items,
       database.lists,
       database.meta,
+      database.sessions,
+      database.purchases,
     ],
     async () => {
-      const imported = await importArticles(database, lines, choices, now);
+      // Unité selon l'usage (docs/07 § 7.14), comme pour un ajout depuis la liste.
+      const usual = usualAmounts(
+        (await closedPurchases(database)).purchases,
+        await database.units.toArray(),
+      );
+      const imported = await importArticles(
+        database,
+        lines,
+        choices,
+        now,
+        usual,
+      );
       const sources: MergeSource[] = imported.map(
         ({ line, articleId, quantity, unitId }) => ({
           articleId,
@@ -133,6 +152,7 @@ async function importArticles(
   lines: readonly ImportLine[],
   choices: readonly (ImportChoice | undefined)[],
   now: number,
+  usual: ReadonlyMap<ID, UsualAmount> = new Map(),
 ): Promise<ImportedLine[]> {
   const units = await database.units.toArray();
   const categories = await database.categories.toArray();
@@ -262,7 +282,11 @@ async function importArticles(
     } else article = await create(line, choice.name, choice.oneOff);
     if (!article) continue;
     if ("quantity" in line.amount) await ensureUnit(line.amount.unit);
-    const amount = importAmount(line, article, units);
+    const amount = importAmount(
+      line,
+      withUsualAmount(article, usual.get(article.id)),
+      units,
+    );
     if (!amount) continue;
     imported.push({
       line,

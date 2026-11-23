@@ -29,8 +29,8 @@ Sur Android, le geste ou bouton **Retour** du système ferme d'abord le panneau 
 ┌──────────────────────────────────┐
 │ Courses semaine ▾             ⋯  │  ← liste courante (changer), menu
 ├──────────────────────────────────┤
-│ ↺ Rouvrir les courses (18 h 02)  │  ← C8, si courses récemment clôturées
-│ 💡 Tu prends souvent : 🥛 🧈  +  │  ← D1 (v1.2)
+│ [      🛒 C'est parti        ]   │  ← au-dessus des lignes, sans défiler
+│ 💡 Rien oublié ? Faire le tour ③ │  ← D1, D2 (v1.2) : à racheter
 │                                  │
 │ ● Fruits                      1  │  ← en-tête de catégorie (couleur)
 │  🍎 Pommes   Gala ou Golden 1 kg │
@@ -42,7 +42,7 @@ Sur Android, le geste ou bouton **Retour** du système ferme d'abord le panneau 
 │ ● Autres                      1  │
 │  SN Sauce nuoc-mâm           × 1 │  ← monogramme
 │                                  │
-│        [ 🛒 C'est parti ]        │
+│ [↺ Rouvrir les courses (18 h 02)]│  ← C8, si courses récemment clôturées
 ├──────────────────────────────────┤
 │ 🔍 Ajouter un ou plusieurs arti… │  ← A1 (micro = celui du clavier)
 ├──────────────────────────────────┤
@@ -53,6 +53,7 @@ Sur Android, le geste ou bouton **Retour** du système ferme d'abord le panneau 
 - Menu `⋯` : **seulement des actions sur la liste courante** (« Actions sur cette liste ») — renommer, dupliquer, « Compléter avec une liste » (panneau « Compléter « Liste 1 » »), « Partager la liste » _(v1.1)_, « Coller une liste » _(v1.1)_, vider, supprimer la liste. Les autres listes s'ouvrent en touchant le nom de la liste (pas dans ce menu, pour ne pas mélanger cette liste et les autres).
 - Tap sur le nom de la liste → **Mes listes** : changer de liste, réordonner (poignée), créer une liste en y ajoutant le contenu d'autres listes.
 - La liste est rangée **par catégorie** (03 B1) ; le magasin se choisit au départ des courses (« C'est parti »), et les magasins se gèrent dans Réglages → Magasins & rayons.
+- **« Rien oublié ? Faire le tour »** _(v1.2, 03 D1, D2)_ : bouton compact au-dessus des lignes (et au-dessus de l'écran vide), pastille or du nombre d'articles à racheter ; ouvre l'écran Faire le tour (§ 2.13). Absent tant qu'aucune habitude n'est connue.
 - Tap sur une ligne → **fiche ligne** (B3). Glisser à gauche → supprimer (B4), avec « Annuler » pendant 4 secondes.
 - État vide : illustration + « Ajoute ton premier article » + raccourci vers le Catalogue.
 
@@ -95,16 +96,17 @@ Sur Android, le geste ou bouton **Retour** du système ferme d'abord le panneau 
 - `✕` = quitter le mode courses **sans clôturer** (la session reste ouverte, on peut y revenir).
 - **« Terminer les courses »** (bouton or « Terminer », à droite de la barre d'ajout) = clôture (C6), après confirmation.
 - Article ajouté pendant les courses : panneau « OK, à prendre » · « Je l'ai déjà dans le caddie » · « Il est dans un autre rayon… » (C4).
-- Sur la liste : **« C'est parti »** sous les lignes (puis choix du magasin, ou « Un autre magasin » à nommer ; sans magasin, seulement son nom) ; **« Reprendre les courses »** si une session est restée ouverte.
+- Sur la liste : **« C'est parti »** au-dessus des lignes, pour partir sans faire défiler la liste (puis choix du magasin, ou « Un autre magasin » à nommer ; sans magasin, seulement son nom) ; **« Reprendre les courses »** si une session est restée ouverte.
 
 ### 2.4 Récapitulatif de fin de courses
 
-Articles achetés, pas pris (restés dans la liste), durée, éventuellement « Ordre des rayons mis à jour ». Boutons « Retour à la liste » et « Rouvrir » (C8).
+En haut, sous le titre, les boutons « Retour à la liste » et « Rouvrir » (C8) : l'écran n'a pas d'onglets, on n'en sort que par là. Puis la section « Récapitulatif » : articles achetés, pas pris (restés dans la liste), durée, éventuellement « Ordre des rayons mis à jour », et la liste des articles achetés.
 
 ### 2.5 Catalogue
 
-- Haut : recherche avec suggestions sous le champ (A5), puis **Habituels** (défilement horizontal) et **Favoris**.
-- Grille de catégories (icône, libellé, couleur) → grille d'articles (grande icône, libellé, pastille de quantité si déjà dans la liste courante, pastille « de saison » _v1.2_).
+- Haut : recherche avec suggestions sous le champ (A5), puis **Favoris** et **Habituels** (ce qu'il est temps de racheter d'abord, _v1.2_, puis les plus achetés ; 9 au plus).
+- Puce **« De saison (novembre) »** sous la recherche _(v1.2, D3)_, avec le mois en cours : remplace l'accueil par les articles de saison ce mois-ci, une grille par catégorie ; un second toucher revient à l'accueil.
+- Grille de catégories (icône, libellé, couleur) → grille d'articles (grande icône, libellé, pastille de quantité si déjà dans la liste courante, feuille verte « de saison » en haut à gauche _v1.2_).
 - Appui long sur un article → fiche article (G1).
 
 ### 2.6 Recettes _(v1.0)_
@@ -203,6 +205,28 @@ Tap sur un candidat = « C'est celui-là ». Bouton « Ajouter N lignes ». 
 
 - Bandeau en bas, juste au-dessus de la barre d'onglets (hors de la zone floutée par iOS en haut) : « Version 1.2.0 disponible — **Mettre à jour** ». Au toucher, le bouton passe à « Mise à jour… » et l'app se recharge ; si le navigateur ne recharge pas de lui-même (vu sur iPhone), l'app le fait au bout de 3 s. Jamais affiché en mode courses.
 - Après la mise à jour : panneau « Quoi de neuf dans la 1.2.0 » (liste courte issue du journal des versions).
+
+### 2.13 Faire le tour _(v1.2)_
+
+```
+┌──────────────────────────────────┐
+│ ‹  À racheter                1/7 │  ← titre = l'étape ; numéro de l'étape
+├──────────────────────────────────┤
+│ Tu en reprends d'habitude à ce   │
+│ rythme : c'est peut-être le…     │
+│ 🥛 Lait           Pas cette fois │
+│    Il y a 8 jours ·              │
+│    tous les 7 jours              │
+│ 🥬 Poireaux 🍃               × 1 │  ← ajouté : sa quantité
+├──────────────────────────────────┤
+│ [‹]  [   Suivant : Fruits   ›  ] │  ← barre fixe au-dessus des onglets
+└──────────────────────────────────┘
+```
+
+- Étapes : « À racheter » (03 D1, si des articles sont à racheter), puis une par catégorie qui a des habituels (03 D2), titrée du nom de la catégorie : texte d'introduction, grille du catalogue, « Voir tous les articles : Fruits ».
+- Passer d'une étape à l'autre : boutons du bas, ou glisser à gauche / à droite ; le nouvel écran arrive du côté où l'on va. « Terminer » à la dernière étape, ‹ de l'en-tête : retour à la liste. L'onglet Liste reste actif.
+- L'étape est dans l'adresse : au retour d'une catégorie du catalogue, on la retrouve.
+- Les articles à racheter sont figés à l'ouverture : un article ajouté reste affiché avec sa quantité ; un article écarté disparaît.
 
 ## 3. Parcours clés
 

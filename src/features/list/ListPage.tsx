@@ -27,6 +27,8 @@ import { ListsSheet } from "./ListsSheet";
 import { MergeListsSheet } from "./MergeListsSheet";
 import { useAddToList } from "@/common/useAddToList";
 import { useListData } from "@/common/useListData";
+import { useRestockSuggestions, useTourCategories } from "@/common/useRestock";
+import { TourButton } from "./TourButton";
 
 import { useNow } from "@/ui/useNow";
 const t = fr.list;
@@ -46,6 +48,8 @@ export function ListPage() {
   const [panel, setPanel] = useState<Panel | null>(null);
   const session = useLatestSession(data?.list.id);
   const now = useNow();
+  const suggestions = useRestockSuggestions(data, now);
+  const tour = useTourCategories(data);
   const close = () => {
     setPanel(null);
   };
@@ -98,28 +102,40 @@ export function ListPage() {
         }}
       />
 
-      {session?.closedAt &&
-        canReopen(
-          session,
-          session.id,
-          data.stores.some((store) => store.id === session.storeId),
-          now,
-        ) && (
+      {/* Au-dessus des lignes : partir sans faire défiler toute la liste. */}
+      {session?.status === "open" ? (
+        <div className="px-3 pb-3">
+          <Button
+            size="lg"
+            className="w-full"
+            onClick={() => {
+              void navigate(routes.shopping);
+            }}
+          >
+            <ShoppingCart />
+            {fr.shopping.resume}
+          </Button>
+        </div>
+      ) : (
+        data.items.some((item) => item.status === "todo") && (
           <div className="px-3 pb-3">
             <Button
-              variant="outline"
+              size="lg"
               className="w-full"
               onClick={() => {
-                void reopenSession(db, session.id).then((reopened) => {
-                  if (reopened) void navigate(routes.shopping);
-                });
+                setPanel({ kind: "start" });
               }}
             >
-              <RotateCcw />
-              {fr.shopping.reopen(formatClock(session.closedAt))}
+              <ShoppingCart />
+              {fr.shopping.start}
             </Button>
           </div>
-        )}
+        )
+      )}
+
+      {suggestions && tour && (suggestions.length > 0 || tour.length > 0) && (
+        <TourButton count={suggestions.length} />
+      )}
 
       {data.items.length === 0 ? (
         <EmptyState
@@ -147,33 +163,28 @@ export function ListPage() {
           onRemove={removeItem}
         />
       )}
-      {session?.status === "open" ? (
-        <div className="flex justify-center px-3 pt-6">
-          <Button
-            size="lg"
-            onClick={() => {
-              void navigate(routes.shopping);
-            }}
-          >
-            <ShoppingCart />
-            {fr.shopping.resume}
-          </Button>
-        </div>
-      ) : (
-        data.items.some((item) => item.status === "todo") && (
+      {/* Oubli à la caisse (C8) : sous les lignes, la liste est courte après les courses. */}
+      {session?.closedAt &&
+        canReopen(
+          session,
+          session.id,
+          data.stores.some((store) => store.id === session.storeId),
+          now,
+        ) && (
           <div className="flex justify-center px-3 pt-6">
             <Button
-              size="lg"
+              variant="outline"
               onClick={() => {
-                setPanel({ kind: "start" });
+                void reopenSession(db, session.id).then((reopened) => {
+                  if (reopened) void navigate(routes.shopping);
+                });
               }}
             >
-              <ShoppingCart />
-              {fr.shopping.start}
+              <RotateCcw />
+              {fr.shopping.reopen(formatClock(session.closedAt))}
             </Button>
           </div>
-        )
-      )}
+        )}
       {/* Place pour la barre d'ajout flottante. */}
       <div aria-hidden className="h-24" />
 

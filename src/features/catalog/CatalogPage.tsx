@@ -1,17 +1,23 @@
 import { type ReactNode, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import { catalogCategoryPath } from "@/app/routes";
-import { sortCategories } from "@/domain/categories";
+import { groupArticlesByCategory, sortCategories } from "@/domain/categories";
 import { searchArticles } from "@/domain/search";
 import { fr } from "@/i18n/fr";
 import { CategoryCard } from "@/ui/CategoryCard";
-import { PageHeader, SectionTitle } from "@/ui/Page";
+import { EmptyHint, PageHeader, SectionTitle } from "@/ui/Page";
 import { useListData } from "@/common/useListData";
+import { useRestockSuggestions } from "@/common/useRestock";
+import { useFirstDefined } from "@/ui/useFirstDefined";
 import { catalogOrder } from "@/common/format";
-import { ArticleGrid } from "./ArticleGrid";
+import { ArticleGrid } from "@/common/ArticleGrid";
 import { CatalogSearch } from "./CatalogSearch";
 import { byName } from "@/domain/slug";
 import { countBy } from "@/domain/collections";
+import { inSeason } from "@/domain/season";
+import { Chip } from "@/ui/form";
+import { SeasonBadge } from "@/ui/SeasonBadge";
+import { useMonth, useNow } from "@/ui/useNow";
 const t = fr.catalog;
 const MAX_USUAL = 9;
 function Section({ title, children }: { title: string; children: ReactNode }) {
@@ -27,7 +33,9 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
 
 /**
  * Catalogue (docs/03 A5, A6) : recherche avec suggestions, favoris et habituels en
- * tête, puis la grille des catégories. Les habituels viennent de l'historique des courses.
+ * tête, puis la grille des catégories. Les habituels viennent de l'historique des courses :
+ * ce qu'il est temps de racheter d'abord (docs/03 D1), puis les plus achetés.
+ * Filtre « De saison » (docs/03 D3) : les articles de saison ce mois-ci, par catégorie.
  */
 export function CatalogPage() {
   const data = useListData();
@@ -35,18 +43,27 @@ export function CatalogPage() {
   const [query, setQuery] = useState("");
   // « Voir les N résultats » : la grille complète de la recherche.
   const [showAll, setShowAll] = useState(false);
+  const [seasonOnly, setSeasonOnly] = useState(false);
+  const month = useMonth();
 
+  // À racheter, figé à l'ouverture (comme dans le tour) : un article touché reste à sa
+  // place dans les habituels, avec sa pastille de quantité, au lieu de sauter.
+  const due = useFirstDefined(useRestockSuggestions(data, useNow()));
   const { articles, articleById, purchaseCounts, categories } = data ?? {};
   // Ce qui ne dépend pas de la saisie : calculé une fois, pas à chaque lettre.
   const home = useMemo(() => {
     if (!articles || !articleById || !purchaseCounts || !categories)
       return undefined;
     const favorites = articles.filter((a) => a.favorite).sort(byName);
-    const usual = [...purchaseCounts.entries()]
+    // Ce qu'il est temps de racheter d'abord (anti-oubli, docs/03 D1), puis les plus achetés.
+    const mostBought = [...purchaseCounts.entries()]
       .sort((a, b) => b[1] - a[1])
-      .slice(0, MAX_USUAL)
-      .map(([id]) => articleById.get(id))
-      .filter((a) => a !== undefined);
+      .map(([id]) => id);
+    const dueIds = (due ?? []).map((s) => s.articleId);
+    const usual = [...new Set([...dueIds, ...mostBought])]
+      .map((id) => articleById.get(id))
+      .filter((a) => a !== undefined)
+      .slice(0, MAX_USUAL);
     const counts = countBy(articles, (article) => article.categoryId);
     // Même ordre que la liste (docs/06 § 2) : catalogue de départ, puis les catégories
     // créées par l'utilisateur, les catégories système en dernier.
@@ -55,7 +72,20 @@ export function CatalogPage() {
       catalogOrder,
     );
     return { favorites, usual, categories: shown, counts };
-  }, [articles, articleById, purchaseCounts, categories]);
+  }, [articles, articleById, purchaseCounts, categories, due]);
+  // Calculé seulement quand le filtre « De saison » est actif.
+  const season = useMemo(
+    () =>
+      seasonOnly && articles && home
+        ? groupArticlesByCategory(
+            home.categories,
+            articles.filter((a) => inSeason(a, month)),
+            byName,
+          )
+        : [],
+    [seasonOnly, articles, home, month],
+  );
+  const searching = query.trim() !== "";
   // Une seule recherche, pour les suggestions et pour « Voir les N résultats ».
   const results = useMemo(
     () =>
@@ -87,8 +117,33 @@ export function CatalogPage() {
 
       {data && home && (
         <>
-          {showAll && query.trim() ? (
+          {!searching && (
+            <div className="px-4 pt-3">
+              <Chip
+                selected={seasonOnly}
+                className="inline-flex items-center gap-1.5"
+                onClick={() => {
+                  setSeasonOnly(!seasonOnly);
+                }}
+              >
+                <SeasonBadge decorative className="fill-transparent" />
+                {t.seasonFilter(fr.season.monthNames[month - 1] ?? "")}
+              </Chip>
+            </div>
+          )}
+          {showAll && searching ? (
             <ArticleGrid articles={results} data={data} />
+          ) : seasonOnly && !searching ? (
+            <>
+              {season.length === 0 && (
+                <EmptyHint inset>{t.seasonEmpty}</EmptyHint>
+              )}
+              {season.map(({ category, articles: inThisCategory }) => (
+                <Section key={category.id} title={category.name}>
+                  <ArticleGrid articles={inThisCategory} data={data} />
+                </Section>
+              ))}
+            </>
           ) : (
             <>
               {home.favorites.length > 0 && (

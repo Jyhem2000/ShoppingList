@@ -59,6 +59,11 @@ export interface Article extends Base {
   name: string;
   categoryId: ID;
   defaultUnitId: ID;
+  /**
+   * Unité par défaut choisie à la main dans la fiche article : elle l'emporte sur
+   * l'unité la plus achetée (docs/03 A2, unité selon l'usage).
+   */
+  defaultUnitChosen?: boolean;
   /** Ex. 6 pour les œufs ; sinon 1 (ou le pas de l'unité). */
   defaultQuantity?: number;
   /**
@@ -73,6 +78,10 @@ export interface Article extends Base {
   aliases: string[];
   icon?: string;
   favorite: boolean;
+  /**
+   * Mois de saison (1 à 12) là où l'on fait ses courses (docs/03 D3) : copiés du
+   * catalogue, modifiables dans la fiche article ; absents ou vides : pas de saison.
+   */
   seasonMonths?: number[];
   /** Paires écartées de la détection de doublons. */
   notDuplicateOf: ID[];
@@ -213,5 +222,9 @@ export interface Settings {
   lastSeenVersion?: string;
   catalogVersion: number;
   currentListId?: ID;
-  dismissedSuggestions: { articleId: ID; until: number }[];
+  /**
+   * « Pas cette fois » (anti-oubli, docs/03 D1) : article écarté à `at`, masqué tant
+   * qu'aucunes courses n'ont été terminées depuis.
+   */
+  dismissedSuggestions: { articleId: ID; at: number }[];
 }

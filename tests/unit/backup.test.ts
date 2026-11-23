@@ -184,6 +184,39 @@ describe("mise à jour du catalogue sans réinstaller (docs/06 § 7)", () => {
     // Une seule fois.
     expect(await updateCatalog(database)).toBe(0);
   });
+
+  it("copie les mois de saison dans les articles d'avant les saisons", async () => {
+    const database = open();
+    await seedDatabase(database, 0);
+    const article = async (key: string) => {
+      const found = await database.articles
+        .where("catalogKey")
+        .equals(key)
+        .first();
+      if (!found) throw new Error(key);
+      return found;
+    };
+    const poireaux = await article("poireaux");
+    const kiwis = await article("kiwis");
+    const persil = await article("persil");
+    // Base d'avant le catalogue 10 : aucun mois. Les kiwis ont été modifiés depuis, le
+    // calendrier du persil vidé dans sa fiche.
+    await database.articles.toCollection().modify((a) => {
+      delete a.seasonMonths;
+    });
+    await database.articles.update(kiwis.id, { favorite: true, updatedAt: 1 });
+    await database.articles.update(persil.id, { seasonMonths: [] });
+    await updateSettings(database, { catalogVersion: 9 });
+
+    await updateCatalog(database);
+    expect((await database.articles.get(poireaux.id))?.seasonMonths).toEqual(
+      poireaux.seasonMonths,
+    );
+    expect((await database.articles.get(kiwis.id))?.seasonMonths).toEqual(
+      kiwis.seasonMonths,
+    );
+    expect((await database.articles.get(persil.id))?.seasonMonths).toEqual([]);
+  });
 });
 
 describe("copies automatiques internes (docs/03 H4)", () => {
@@ -297,6 +330,6 @@ describe("copies automatiques internes (docs/03 H4)", () => {
     databases.push(database);
     expect(await database.lists.get("l1")).toMatchObject({ name: "Liste 1" });
     expect(await database.copies.count()).toBe(0);
-    expect(database.verno).toBe(6);
+    expect(database.verno).toBe(7);
   });
 });

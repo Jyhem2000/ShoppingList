@@ -1,4 +1,4 @@
-const DAY_MS = 24 * 60 * 60 * 1000;
+import { DAY_MS } from "@/common/time";
 
 /** Jours entiers depuis la dernière sauvegarde, `undefined` s'il n'y en a jamais eu. */
 export function daysSince(

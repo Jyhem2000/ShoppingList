@@ -62,7 +62,7 @@ Rappel ([01](01-vision.md#plateformes-cibles)) : sur iPhone, **tous les navigate
 
 1. **L'app installée sur l'écran d'accueil a son propre stockage**, séparé de celui de Chrome (et de Safari). Les données saisies dans le navigateur avant l'installation ne se retrouvent pas dans l'app. → L'écran de premier lancement (04 § 2.11) pousse à installer **avant** toute saisie.
 2. **Effacement automatique** : WebKit peut effacer les données d'un _site_ non visité depuis 7 jours ; une app installée n'est pas concernée de la même façon (son compteur dépend de son propre usage). → Installation fortement recommandée + export en fichier expliqué dans Réglages → Sauvegarde (H4). Les copies automatiques internes (H4) ne couvrent pas ce risque : elles sont effacées avec le reste.
-3. **Hauteur au lancement** : bug connu d'iOS. Au lancement de l'app installée, la zone d'affichage mesure la hauteur de l'écran moins celle de la barre d'état (797 au lieu de 844 sur l'iPhone de test) jusqu'au premier défilement de la page. La page est peinte sur tout l'écran, mais un élément en position fixe est coupé au bas de cette zone : la barre d'onglets remonterait, ou ses libellés seraient coupés. Tant que la zone est trop courte (iPhone, app installée, portrait), le cadre de l'app est donc posé dans la page (position absolue) à la hauteur de l'écran ; dès qu'iOS l'a corrigée, il redevient fixe à 100 % de la zone d'affichage, pour que le rebond de la page ne le déplace pas (`src/platform/viewport.ts`). Ce passage attend qu'aucun champ n'ait le focus : au premier clavier, iOS fait défiler la page pour montrer le champ, ce qui corrige la zone, et le cadre redevenu fixe descendrait sous un curseur resté à l'ancienne place, hors du champ. Un défilement invisible d'un pixel au lancement ne corrige pas la hauteur et fait trembler l'affichage. Seul le contenu défile. La page ne rebondit pas (`overscroll-behavior: none` sur `html`) : sur iPhone, un rebond de la page fait ignorer l'appui suivant sur la barre d'onglets. Le contenu garde son effet élastique, mais sa barre de défilement est masquée : iOS la dessinerait au-dessus du titre, sous la barre d'état. Barre d'état en `black-translucent`, avec une bande opaque sur sa zone.
+3. **Hauteur au lancement** : bug connu d'iOS. Au lancement de l'app installée, la zone d'affichage mesure la hauteur de l'écran moins celle de la barre d'état (797 au lieu de 844 sur l'iPhone de test) jusqu'au premier défilement de la page. La page est peinte sur tout l'écran, mais un élément en position fixe est coupé au bas de cette zone : la barre d'onglets remonterait, ou ses libellés seraient coupés. Tant que la zone est trop courte (iPhone, app installée, portrait), le cadre de l'app est donc posé dans la page (position absolue) à la hauteur de l'écran ; dès qu'iOS l'a corrigée, il redevient fixe à 100 % de la zone d'affichage, pour que le rebond de la page ne le déplace pas (`src/platform/viewport.ts`). Ce passage attend qu'aucun champ n'ait le focus : au premier clavier, iOS fait défiler la page pour montrer le champ, ce qui corrige la zone, et le cadre redevenu fixe descendrait sous un curseur resté à l'ancienne place, hors du champ. Pour la même raison, les panneaux glissants sont posés dans le cadre (position absolue), pas dans la page : un panneau fixe suivrait la zone trop courte et bougerait au premier clavier. Un défilement invisible d'un pixel au lancement ne corrige pas la hauteur et fait trembler l'affichage. Seul le contenu défile. La page ne rebondit pas (`overscroll-behavior: none` sur `html`) : sur iPhone, un rebond de la page fait ignorer l'appui suivant sur la barre d'onglets. Le contenu garde son effet élastique, mais sa barre de défilement est masquée : iOS la dessinerait au-dessus du titre, sous la barre d'état. Barre d'état en `black-translucent`, avec une bande opaque sur sa zone.
 4. **Liens** : un lien ouvert depuis Messages s'ouvre dans le navigateur, jamais dans l'app installée → mécanisme « Coller une liste partagée » (F2).
 
 **Partout** : chaque adresse (production, préproduction — § 9) est une app distincte avec ses propres données. Installer la préproduction pour tester n'affecte pas l'app de production.
@@ -114,13 +114,14 @@ interface Article extends Base {
   name: string;
   categoryId: ID;
   defaultUnitId: ID;
+  defaultUnitChosen?: boolean; // v1.2 : unité ou quantité choisie à la main dans la fiche, l'emporte sur l'usage (§ 7.14)
   defaultQuantity?: number; // ex. 6 pour les œufs ; sinon 1 (ou le pas de l'unité)
   generic?: boolean; // « Fruits au choix » : en tête de sa catégorie et de son rayon
   types: string[]; // [] par défaut
   aliases: string[]; // slugifiés pour la comparaison
   icon?: string;
   favorite: boolean;
-  seasonMonths?: number[]; // v1.2 (D3) : 1..12
+  seasonMonths?: number[]; // v1.2 (D3) : 1..12, copiés du catalogue pour la zone (06 § 4)
   notDuplicateOf: ID[]; // paires écartées de la détection de doublons
   catalogKey?: string;
 }
@@ -216,14 +217,14 @@ interface Settings {
   lastSeenVersion?: string; // pour afficher « Quoi de neuf »
   catalogVersion: number;
   currentListId?: ID;
-  dismissedSuggestions: { articleId: ID; until: number }[];
+  dismissedSuggestions: { articleId: ID; at: number }[]; // « Pas cette fois » (§ 7.7)
 }
 ```
 
 ### Tables Dexie
 
 ```ts
-db.version(6).stores({
+db.version(7).stores({
   units: "id, &slug",
   categories: "id, &slug",
   articles: "id, &slug, *aliases, categoryId, favorite, catalogKey",
@@ -233,7 +234,8 @@ db.version(6).stores({
   lists: "id, position",
   items: "id, listId, articleId, closedInSessionId",
   recipes: "id",
-  sessions: "id, listId, storeId, status, startedAt, [listId+startedAt]", // dernière course d'une liste
+  sessions:
+    "id, listId, storeId, status, startedAt, closedAt, [listId+startedAt]", // dernière course d'une liste ; fin des dernières courses terminées
   purchases: "id, sessionId, storeId, articleId, at",
   meta: "key", // settings, version du catalogue…
   copies: "id, at", // copies automatiques : date et résumé, hors fichier de sauvegarde
@@ -243,7 +245,7 @@ db.version(6).stores({
 
 - **Préférences de l'appareil** (sons, son par son, écran allumé, thème) : hors de `Settings`, dans `localStorage` (`src/app/preferences.ts`). Elles dépendent du téléphone, ne sont pas exportées et ne sont pas écrasées par l'import d'une sauvegarde venant d'un autre appareil.
 - Unicité « un article et un choix de types par liste » (`src/domain/lines.ts`) vérifiée par la couche d'accès aux données (les lignes archivées `closedInSessionId` sont exclues).
-- **La version du schéma de données est indépendante de la version de l'app** : elle n'augmente que si la structure change (nouvelle table, nouvel index). Version actuelle : **6** ; les versions 1 à 5 restent déclarées dans `src/db/database.ts` pour ouvrir une base plus ancienne. Toute évolution = nouvelle `version(n)` déclarée. Tant que l'app n'a pas d'autres utilisateurs (« vraie production »), pas de migration de données ni de test de migration : un changement incompatible se règle en effaçant les données de l'app ou en la réinstallant. Ensuite, chaque évolution aura sa fonction `upgrade` et son test de migration, exécutés automatiquement au premier lancement de la nouvelle version. Une sauvegarde exportée avec un schéma plus récent n'est pas lisible par une app au schéma plus ancien. Champs sans index, ajoutés sans nouvelle version : `Aisle.description`, `Category.shortName`, `ShoppingSession.openedAisle`, `ShoppingSession.placedCategories`.
+- **La version du schéma de données est indépendante de la version de l'app** : elle n'augmente que si la structure change (nouvelle table, nouvel index). Version actuelle : **7** ; les versions 1 à 6 restent déclarées dans `src/db/database.ts` pour ouvrir une base plus ancienne. Toute évolution = nouvelle `version(n)` déclarée. Tant que l'app n'a pas d'autres utilisateurs (« vraie production »), pas de migration de données ni de test de migration : un changement incompatible se règle en effaçant les données de l'app ou en la réinstallant. Ensuite, chaque évolution aura sa fonction `upgrade` et son test de migration, exécutés automatiquement au premier lancement de la nouvelle version. Une sauvegarde exportée avec un schéma plus récent n'est pas lisible par une app au schéma plus ancien. Champs sans index, ajoutés sans nouvelle version : `Aisle.description`, `Category.shortName`, `ShoppingSession.openedAisle`, `ShoppingSession.placedCategories`.
 
 ## 6. App installée, hors ligne et mises à jour
 
@@ -326,7 +328,13 @@ Groupes par rayon effectif, rayons triés par `position` (« À placer » en d
 
 ### 7.7 Suggestions anti-oubli (D1)
 
-Calculées à la demande à partir des achats des sessions **clôturées**. Pour chaque article acheté au moins 3 fois : intervalle médian `I` entre achats, dernier achat `t`. Suggéré si `maintenant − t ≥ 0,9 × I`, absent de la liste et non écarté. Classement par `(maintenant − t) / I` décroissant ; 5 maximum.
+`src/domain/suggestions.ts`, calculé à chaque lecture des achats des sessions **clôturées** (`purchaseStats`), jamais stocké.
+
+- `purchaseOccasions(heures)` (`src/domain/occasions.ts`, partagé avec l'unité selon l'usage) : les achats d'un article à moins de 12 heures du premier achat de l'occasion comptent pour un (deux lignes, deux magasins le même jour ; une occasion ne s'étire pas d'achat en achat).
+- `purchaseRhythms(achats)` : par occasion d'achat ; pour chaque article acheté ainsi au moins 3 fois : intervalle médian `I` entre achats (une absence isolée ne le fausse pas), dernier achat `t`.
+- `restockSuggestions(rythmes, …)` : suggéré si `maintenant − t ≥ 0,9 × I`, absent de la liste courante, article existant et non écarté. Classement par `(maintenant − t) / I` décroissant ; 5 maximum. Lu par `useRestock` (`src/common`) : bouton de la liste, tour et Habituels du catalogue.
+- « Pas cette fois » : `Settings.dismissedSuggestions` reçoit `{ articleId, at }` ; l'écart vaut tant qu'aucune session n'a été clôturée depuis `at` (`purchaseStats` donne la dernière clôture). Les écarts caducs sont retirés au suivant (`dismissSuggestion`).
+- `tourCategories(catégories, articles, achats)` (D2) : par catégorie, les favoris et les articles achetés au moins 2 fois, les plus achetés d'abord ; catégories vides sautées.
 
 ### 7.8 Quantités
 
@@ -361,6 +369,14 @@ Calculées à la demande à partir des achats des sessions **clôturées**. Pour
 
 `findLikelyDuplicates(articles)` : paires d'articles de même catégorie et même icône dont les clés de recherche sont proches (distance d'édition ≤ 2, ou l'une contient l'autre) ou qui partagent un alias ; paires présentes dans `notDuplicateOf` exclues.
 
+### 7.13 Saisonnalité (D3)
+
+`src/domain/season.ts` : `inSeason(article, mois)` — l'article a des mois, pas les douze, et le mois en fait partie ; `toggleMonth` (calendrier de la fiche, mois triés) ; `monthOf(date)` (mois à l'heure du téléphone, tenu à jour par `useNow`). Les mois de la zone `SEASON_ZONE` sont copiés dans `Article.seasonMonths` à la création depuis le catalogue (`buildInitialData`), ou à la mise à jour du catalogue pour les articles d'avant les saisons (`updateCatalog`, 06 § 7), puis ne sont plus lus que dans l'article.
+
+### 7.14 Unité selon l'usage (A2)
+
+`usualAmounts(achats, unités)` (`src/domain/usage.ts`), calculé à partir des achats des sessions clôturées (`closedPurchases`, `src/db/sessions.ts`, puis `purchaseStats`, `src/domain/history.ts`, avec le nombre d'achats et les rythmes), jamais stocké : pour chaque article acheté au moins 3 fois (occasions d'achat, § 7.7), l'unité la plus fréquente, puis la quantité la plus fréquente dans cette unité (à égalité, la plus récente) ; unités de cuisine et unités supprimées ignorées. `withUsualAmount(article, habitude)` rend l'article tel qu'un ajout le lit (unité et quantité par défaut remplacées), sauf `defaultUnitChosen` (unité ou quantité changée dans la fiche) ou même unité que celle par défaut (sa quantité par défaut est alors gardée) ; `entryAmount` (§ 7.3) le lit ensuite comme d'habitude. `addableArticles` l'applique à tous les articles une fois : les données de la liste (`useListData`) les fournissent (`addableArticles`, `addableById`), lus par tout ajout à une liste (`useAddToList` : barre d'ajout, catalogue, tour ; `planRecipeAdd` : unité de cuisine) et par la fiche article, jamais pour afficher un article. L'import d'une liste collée ne passe pas par ces données : son aperçu et `applyImport` appliquent `withUsualAmount` eux-mêmes.
+
 ### 7.10 Animations
 
 `<MotionConfig reducedMotion="user">` : Motion suit `prefers-reduced-motion` du téléphone ; les animations CSS passent par `motion-safe:`. Pas de réglage dans l'app (03 H1).
@@ -384,9 +400,9 @@ ShoppingList/
 │  ├─ features/
 │  │  ├─ list/                # liste, lignes, fiche ligne
 │  │  ├─ shopping/            # mode courses, wake lock, clôture, réouverture
-│  │  ├─ catalog/             # grille catégories / articles, habituels
+│  │  ├─ catalog/             # catalogue : recherche, catégories, habituels, saison
 │  │  ├─ recipes/             # recettes, ajout à une liste (v1.0)
-│  │  ├─ suggestions/         # anti-oubli (v1.2)
+│  │  ├─ suggestions/         # faire le tour : à racheter, habituels par catégorie (v1.2)
 │  │  ├─ share/               # partage, import, aperçu (v1.1)
 │  │  ├─ manage/              # articles, catégories, magasins/rayons, unités
 │  │  ├─ settings/            # réglages, fonctionnalités, sons, sauvegarde, premier lancement, à propos
@@ -394,7 +410,7 @@ ShoppingList/
 │  ├─ domain/                 # fonctions pures (§ 7) — aucun import React ni Dexie
 │  ├─ db/                     # schéma Dexie, migrations, accès aux données, initialisation
 │  ├─ data/                   # données initiales (06)
-│  ├─ common/                 # modules propres à l'app partagés entre fonctionnalités (données d'une liste, ajout à une liste, barre d'ajout, mise en forme, message de partage…) ; n'importe jamais features/
+│  ├─ common/                 # modules propres à l'app partagés entre fonctionnalités (données d'une liste, ajout à une liste, barre d'ajout, grille d'articles, anti-oubli, mise en forme, message de partage…) ; n'importe jamais features/
 │  ├─ ui/                     # composants génériques partagés (shadcn + ProductIcon, ItemRow, AisleHeader, AddBar, CatalogCard, Sheet)
 │  ├─ icons/                  # icônes dessinées (drawn/*.svg), pack des articles assemblé au build (packData.ts), icônes Lucide des catégories et rayons (lucide.ts)
 │  ├─ feedback/               # sons

@@ -51,6 +51,9 @@ Barre de saisie fixée en bas de l'écran Liste, accessible au pouce. Son libell
   - volume : le nombre dans cette unité (« 2 laits » → 2 L).
 - Sans nombre, rien ne change : la quantité et l'unité par défaut de l'article (« pommes » → 1 kg). Des pièces ajoutées à une ligne au poids ne se convertissent pas : elles vont en note (02 § 5).
 - Si l'unité saisie est incompatible avec l'unité par défaut de l'article, l'unité saisie l'emporte pour cette ligne.
+- **Unité selon l'usage** _(v1.2)_ : sans unité tapée, l'article prend l'unité qu'on achète le plus pour lui, d'après les achats des courses terminées, à partir de 3 achats (deux lignes des mêmes courses comptent pour un ; recalculée à chaque fois, aucun compteur stocké), avec la quantité la plus prise dans cette unité ; à égalité, la plus récente. Les règles ci-dessus (nombre seul…) s'appliquent à cette unité. Une unité ou une quantité par défaut **choisie à la main dans la fiche article** l'emporte ; « Suivre mes achats » y revient (proposé seulement quand les achats donnent une autre unité). « Se compte à la pièce » s'affiche quand l'unité de la fiche ou celle des achats est une masse. La fiche le dit sous « Unité par défaut » (« D'après tes achats : 1 pack à l'ajout »), l'aide aussi. Vaut pour la barre d'ajout, le catalogue, une liste collée et un ingrédient en unité de cuisine ajouté à une liste ; pas pour les ingrédients d'une recette.
+
+**Critères** (unité selon l'usage) : lait acheté 3 fois en pack (courses terminées) → « lait » ajoute 1 pack, « 2 lait » 2 packs, « 1 bouteille de lait » 1 bouteille ; une course encore ouverte ne compte pas ; deux lignes de lait dans les mêmes courses → un achat ; unité ou quantité choisie dans la fiche → elle l'emporte.
 
 **Critères** : batterie de tests unitaires couvrant chaque ligne du tableau.
 
@@ -112,7 +115,7 @@ Tap sur une ligne → fiche : quantité (boutons `−`/`+` selon le pas de l'uni
 
 ### B4. Supprimer une ligne — _v1.0_
 
-Glisser vers la gauche ou bouton dans la fiche ; message « Annuler » pendant 4 secondes.
+Glisser vers la gauche ou bouton dans la fiche ; message « Annuler » pendant 4 secondes. Le glissé doit être long (ou rapide) et nettement horizontal : faire défiler la liste du pouce en partant d'une ligne, un peu en diagonale, ne la supprime pas.
 
 ### B5. Choisir le magasin — _v1.0_
 
@@ -191,19 +194,28 @@ Bouton **« Terminer les courses »**, toujours visible en mode courses → co
 
 ## D. Ne rien oublier
 
+Anti-oubli et revue par catégorie sont réunis dans un seul parcours, **« Faire le tour »**, ouvert par un bouton compact au-dessus des lignes de la liste : « Rien oublié ? Faire le tour », avec en pastille le nombre d'articles à racheter. Rien ne s'intercale entre les lignes. Le bouton n'apparaît qu'une fois des habitudes connues (au moins un article à racheter ou une catégorie à parcourir).
+
 ### D1. Suggestions anti-oubli — _v1.2_
 
-Bandeau « Tu prends souvent : 🥛 Lait, 🧈 Beurre » basé sur la fréquence d'achat de chaque article (algorithme en 07 § 7). Tap = ajout ; « Pas cette fois » = masqué jusqu'aux prochaines courses.
+- Premier écran du tour, **« À racheter »** : les articles qu'il est temps de reprendre d'après leur rythme d'achat (07 § 7.7), **5 au plus**, les plus en retard d'abord, chacun avec « Il y a 8 jours · tous les 7 jours ». Écran sauté s'il n'y en a aucun.
+- Un toucher ajoute l'article (déjà dans la liste : le réglage de sa quantité, comme au catalogue) ; l'article reste affiché avec sa quantité. **« Pas cette fois »** l'écarte jusqu'aux prochaines courses terminées.
+- Dans le catalogue, les **Habituels** mettent en tête ces mêmes articles, puis les plus achetés.
 
 ### D2. Revue rapide par catégorie — _v1.2_
 
-Mode « Tour de la cuisine » : un écran par catégorie présentant ses articles habituels ; tap pour ajouter, glisser pour passer à la suivante.
+Après « À racheter », un écran par catégorie (dans l'ordre du catalogue) avec ses **articles habituels** : favoris et articles achetés au moins 2 fois, les plus achetés d'abord ; les catégories sans habituel sont sautées. Même grille que le catalogue (un toucher ajoute, pastille de quantité si déjà dans la liste), et un lien vers tous les articles de la catégorie. On passe d'un écran à l'autre par les boutons du bas (« Suivant : Légumes », ‹) ou en glissant ; « Terminer » revient à la liste.
+
+**Critères** : trois courses à une semaine d'intervalle avec du lait et du beurre, puis une semaine sans courses → le bouton annonce 2 articles ; « Pas cette fois » sur le beurre le retire, le lait touché s'ajoute à la liste ; plus rien à racheter ensuite.
 
 ### D3. Saisonnalité — _v1.2_
 
-- Propriété **« mois de saison »** sur les articles des catégories Fruits, Légumes et Herbes aromatiques, pour la **France métropolitaine** (aucune autre zone, pas de réglage de pays). Les mois viennent du catalogue embarqué, lus par la clé de l'article tant que l'utilisateur ne les a pas modifiés dans la fiche article : les articles déjà installés en profitent sans migration. Un article créé à la main n'a pas de mois ; on peut les saisir.
-- Pastille « de saison » sur ces articles dans le catalogue, la liste et les suggestions ; petit calendrier des 12 mois dans la fiche article.
-- Filtre « De saison » dans le catalogue.
+- Propriété **« mois de saison »** sur les articles des catégories Fruits, Légumes et Herbes aromatiques. Les saisons dépendent de **l'endroit où l'on fait ses courses**, pas de la langue de l'interface : le catalogue les donne par zone (06 § 4) ; seule zone pour l'instant, la **France métropolitaine**, sans réglage. Les mois de la zone sont copiés dans l'article à sa création depuis le catalogue ; produits importés (bananes, ananas…) et articles génériques n'en ont pas. Un article créé à la main n'a pas de mois ; on peut les saisir dans sa fiche.
+- **Pastille « de saison »** (feuille verte, distincte des repères or) sur les articles de saison ce mois-ci : catalogue, liste, suggestions. Un article de saison toute l'année (carottes, thym) ou sans mois n'en a pas : elle ne signale que ce qui ne se trouve bien qu'une partie de l'année.
+- **Calendrier des 12 mois** dans la fiche article (un toucher ajoute ou retire un mois, le mois en cours est souligné), pour les fruits, légumes et herbes, et pour tout article qui a déjà des mois.
+- **Filtre « De saison »** dans le catalogue : les articles de saison ce mois-ci, rangés par catégorie.
+
+**Critères** : à la mi-novembre, le filtre montre les poireaux, pas les fraises ; un article ajouté depuis le filtre porte la pastille dans la liste ; novembre ajouté aux fraises dans leur fiche → elles apparaissent dans le filtre.
 
 ---
 

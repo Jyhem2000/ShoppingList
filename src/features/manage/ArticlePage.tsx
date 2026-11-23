@@ -11,8 +11,12 @@ import {
 } from "@/db/articles";
 import { db } from "@/db/database";
 import type { Article } from "@/domain/model";
-import { formatNumber, parseNumber } from "@/domain/quantity";
+import { formatNumber, formatQuantity, parseNumber } from "@/domain/quantity";
 import { searchArticles } from "@/domain/search";
+import { showsSeason, toggleMonth } from "@/domain/season";
+import { MonthCalendar } from "@/ui/MonthCalendar";
+import { usualDiffers } from "@/domain/usage";
+import { useMonth } from "@/ui/useNow";
 import { addAlias as withAlias, mergeTypes } from "@/domain/slug";
 import { UnitSelect } from "@/ui/UnitSelect";
 import { type ListData, useListData } from "@/common/useListData";
@@ -46,7 +50,7 @@ const aliasLabel = (alias: string) => alias.replaceAll("-", " ");
 
 /**
  * Fiche article (docs/03 G1, docs/04 § 2.9) : nom, catégorie, unité et quantité par
- * défaut, types, autres noms, icône, favori ; fusion et suppression en bas, en rouge,
+ * défaut, types, autres noms, icône, favori, mois de saison (D3) ; fusion et suppression en bas, en rouge,
  * avec leurs conséquences. Tout est enregistré au fil de l'eau.
  */
 export function ArticlePage() {
@@ -76,17 +80,20 @@ function ArticleForm({ article, data }: { article: Article; data: ListData }) {
   );
   const usage = useLiveQuery(() => articleUsage(db, article.id), [article.id]);
   const category = data.categoryById.get(article.categoryId);
+  const month = useMonth();
   const color = paletteColor(category?.color);
   const save = (changes: Parameters<typeof updateArticle>[2]) =>
     void updateArticle(db, article.id, changes).then((result) => {
       if (result === "nameTaken") showToast(t.nameTaken, { tone: "warning" });
     });
 
+  // Quantité saisie ici : avec l'unité de la fiche, elle l'emporte sur les achats.
   const saveQuantity = () => {
     const value = parseNumber(quantity);
-    if (!quantity.trim()) save({ defaultQuantity: undefined });
+    if (!quantity.trim())
+      save({ defaultQuantity: undefined, defaultUnitChosen: true });
     else if (Number.isFinite(value) && value > 0)
-      save({ defaultQuantity: value });
+      save({ defaultQuantity: value, defaultUnitChosen: true });
     else setQuantity(quantityText(article.defaultQuantity));
   };
   const { edited: quantityEdited, commit: commitQuantity } =
@@ -139,10 +146,20 @@ function ArticleForm({ article, data }: { article: Article; data: ListData }) {
                 units={data.units}
                 value={article.defaultUnitId}
                 onChange={(event) => {
-                  save({ defaultUnitId: event.target.value });
+                  save({
+                    defaultUnitId: event.target.value,
+                    defaultUnitChosen: true,
+                  });
                 }}
               />
             </Field>
+            <UnitUsage
+              article={article}
+              data={data}
+              onFollow={() => {
+                save({ defaultUnitChosen: false });
+              }}
+            />
             {/* Champ étroit, intitulé sur toute la largeur (sinon sur 2 lignes). */}
             <Field label={t.quantity}>
               <TextInput
@@ -162,8 +179,11 @@ function ArticleForm({ article, data }: { article: Article; data: ListData }) {
             {t.quantityHint}
           </p>
         </div>
-        {data.units.find((u) => u.id === article.defaultUnitId)?.dimension ===
-          "mass" && (
+        {/* Unité de la fiche ou unité de ses achats : « 3 pommes » passe par la masse. */}
+        {[
+          article.defaultUnitId,
+          (data.addableById.get(article.id) ?? article).defaultUnitId,
+        ].some((id) => data.unitById.get(id)?.dimension === "mass") && (
           <Row label={t.countable} hint={t.countableHint}>
             <Switch
               checked={article.countable === true}
@@ -184,6 +204,23 @@ function ArticleForm({ article, data }: { article: Article; data: ListData }) {
           />
         </Row>
       </Section>
+
+      {showsSeason(article, category?.catalogKey) && (
+        <Section title={t.season}>
+          <div className="flex flex-col gap-3 px-4 py-4">
+            <p className="text-sm text-muted-foreground">{t.seasonHint}</p>
+            <MonthCalendar
+              months={article.seasonMonths ?? []}
+              current={month}
+              onToggle={(month) => {
+                save({
+                  seasonMonths: toggleMonth(article.seasonMonths, month),
+                });
+              }}
+            />
+          </div>
+        </Section>
+      )}
 
       <Section title={t.types}>
         <TagEditor
@@ -279,6 +316,43 @@ function ArticleForm({ article, data }: { article: Article; data: ListData }) {
         </Sheet>
       )}
     </>
+  );
+}
+
+/**
+ * Sous l'unité par défaut (unité selon l'usage) : ce qui l'emporte, l'unité de ses
+ * achats ou celle choisie ici, et de quoi revenir à ses achats.
+ */
+function UnitUsage({
+  article,
+  data,
+  onFollow,
+}: {
+  article: Article;
+  data: ListData;
+  onFollow: () => void;
+}) {
+  const usual = data.usual.get(article.id);
+  const unit = usual && data.unitById.get(usual.unitId);
+  // Rien à dire sans unité habituelle, ou si c'est déjà celle de la fiche.
+  const differs = usualDiffers(article, usual) && unit;
+  return (
+    <div className="-mt-2 flex flex-col items-start gap-1 text-sm text-muted-foreground">
+      <p>{t.unitHint}</p>
+      {differs &&
+        (article.defaultUnitChosen ? (
+          <>
+            <p className="font-semibold text-text">{t.unitChosen}</p>
+            <Button variant="link" className="px-0 text-sm" onClick={onFollow}>
+              {t.unitFollowUsage}
+            </Button>
+          </>
+        ) : (
+          <p className="font-semibold text-text">
+            {t.unitFromUsage(formatQuantity(usual.quantity, unit, "long"))}
+          </p>
+        ))}
+    </div>
   );
 }
 

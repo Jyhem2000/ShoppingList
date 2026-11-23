@@ -1,12 +1,15 @@
 import { useRegisterSW } from "virtual:pwa-register/react";
 import { RefreshCw } from "lucide-react";
-import { useEffect, useSyncExternalStore } from "react";
+import { useEffect } from "react";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
 import {
   checkForUpdate,
   fetchPublishedVersion,
   setRegistration,
+  setUpdateState as setState,
+  updateState,
+  useUpdateState,
 } from "./serviceWorker";
 
 const HOURLY = 60 * 60 * 1000;
@@ -19,26 +22,6 @@ const RELOAD_FALLBACK_MS = 3000;
  * - `UpdateWatcher`, toujours monté (App), enregistre le service worker et guette les versions ;
  * - `UpdateBanner`, dans la coquille (Layout), affiche le bandeau en bas, au-dessus des onglets.
  */
-interface UpdateState {
-  phase: "none" | "available" | "updating";
-  version: string | null;
-  /** Active la nouvelle version (absent tant qu'aucune n'est prête). */
-  apply?: () => void;
-}
-
-let state: UpdateState = { phase: "none", version: null };
-const listeners = new Set<() => void>();
-
-function setState(next: Partial<UpdateState>): void {
-  state = { ...state, ...next };
-  for (const listener of listeners) listener();
-}
-
-function subscribe(listener: () => void): () => void {
-  listeners.add(listener);
-  return () => listeners.delete(listener);
-}
-
 let reloading = false;
 function reloadOnce(): void {
   if (reloading) return;
@@ -70,7 +53,7 @@ export function UpdateWatcher() {
   }, []);
 
   useEffect(() => {
-    if (!needRefresh || state.phase === "updating") return;
+    if (!needRefresh || updateState().phase === "updating") return;
     setState({
       phase: "available",
       apply: () => {
@@ -94,10 +77,7 @@ export function UpdateWatcher() {
 }
 
 export function UpdateBanner() {
-  const { phase, version, apply } = useSyncExternalStore(
-    subscribe,
-    () => state,
-  );
+  const { phase, version, apply } = useUpdateState();
   if (phase === "none") return null;
   const updating = phase === "updating";
 

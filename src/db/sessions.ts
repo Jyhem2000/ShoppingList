@@ -20,6 +20,7 @@ import {
   placementScope,
   withPrimaryCategory,
 } from "@/domain/stores";
+import type { PurchaseHistory } from "@/domain/history";
 import type { ShoppingDatabase } from "./database";
 import { activeItems } from "./items";
 import { updateSettings } from "./settings";
@@ -45,6 +46,26 @@ export async function openSession(
     .equals(listId)
     .filter((session) => session.status === "open")
     .first();
+}
+
+/**
+ * Achats des courses terminées et fin des dernières courses terminées : ce que
+ * l'historique apprend (`purchaseStats`) se calcule à partir de là.
+ */
+export async function closedPurchases(
+  database: ShoppingDatabase,
+): Promise<PurchaseHistory> {
+  // Clés seulement : une session porte l'ordre appris du magasin, inutile ici.
+  const closed = await database.sessions
+    .where("status")
+    .equals("closed")
+    .primaryKeys();
+  const [purchases, last] = await Promise.all([
+    database.purchases.where("sessionId").anyOf(closed).toArray(),
+    // `closedAt` n'existe que sur des courses terminées (effacé à la réouverture).
+    database.sessions.orderBy("closedAt").last(),
+  ]);
+  return { purchases, lastClosedAt: last?.closedAt };
 }
 
 /** Dernière session de la liste (la plus récente). */

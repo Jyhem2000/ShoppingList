@@ -4,15 +4,22 @@ Les prochaines versions. Le détail de chaque fonctionnalité (critères, écran
 
 ## 1.2.0 — Anti-oubli et saisonnalité
 
-- **Suggestions anti-oubli** ([03 D1](03-fonctionnalites.md#d1-suggestions-anti-oubli--v12)) : « Tu prends souvent : 🥛 Lait, 🧈 Beurre », d'après la fréquence d'achat (07 § 7) ; un toucher ajoute, « Pas cette fois » masque jusqu'aux prochaines courses.
-- **Revue rapide par catégorie** ([03 D2](03-fonctionnalites.md#d2-revue-rapide-par-catégorie--v12)) : « Tour de la cuisine », un écran par catégorie avec ses articles habituels.
-- **Saisonnalité des fruits et légumes** ([03 D3](03-fonctionnalites.md#d3-saisonnalité--v12)), pour la **France métropolitaine** :
-  - le catalogue donne les mois de saison des fruits, légumes et herbes aromatiques (`season`, 06 § 4), écrits d'après les calendriers publics et relus par catégorie ;
-  - l'app les lit dans le catalogue embarqué par la clé de l'article, tant que l'utilisateur ne les a pas modifiés : les articles déjà installés en profitent sans réinstaller ni migrer ; un article créé à la main n'a pas de mois, on peut les saisir dans sa fiche ;
-  - pastille « de saison » dans le catalogue, la liste et les suggestions anti-oubli ; calendrier des 12 mois dans la fiche article ; filtre « De saison » dans le catalogue ;
-  - aucune autre zone : l'app est pensée pour la France (pas de réglage de pays ni d'hémisphère).
+- **Faire le tour** : un bouton « Rien oublié ? Faire le tour » au-dessus des lignes de la liste, avec le nombre d'articles à racheter.
+  - **À racheter** ([03 D1](03-fonctionnalites.md#d1-suggestions-anti-oubli--v12)) : ce qu'il est temps de reprendre d'après le rythme des achats (07 § 7.7) ; un toucher ajoute, « Pas cette fois » masque jusqu'aux prochaines courses ; en tête des Habituels du catalogue.
+  - **Revue par catégorie** ([03 D2](03-fonctionnalites.md#d2-revue-rapide-par-catégorie--v12)) : un écran par catégorie avec ses articles habituels.
+- **Saisonnalité des fruits et légumes** ([03 D3](03-fonctionnalites.md#d3-saisonnalité--v12)) :
+  - le catalogue donne les mois de saison des fruits, légumes et herbes aromatiques par zone (`season`, 06 § 4) : l'endroit où l'on fait ses courses, pas la langue ; seule zone, la France métropolitaine, sans réglage ;
+  - mois copiés dans l'article à sa création, modifiables dans sa fiche (calendrier des 12 mois) ; un article créé à la main n'a pas de mois, on peut les saisir ;
+  - pastille « de saison » (feuille verte) dans le catalogue, la liste et les suggestions anti-oubli ; calendrier des 12 mois dans la fiche article ; filtre « De saison » dans le catalogue.
+- **Unité selon l'usage** ([03 A2](03-fonctionnalites.md#a2-saisie-naturelle--v10)) : un article ajouté sans unité prend celle qu'on achète le plus pour lui (à partir de 3 achats), sauf unité ou quantité choisie à la main dans sa fiche.
 
 ## 1.3.0 — Anglais
 
 - **Interface et catalogue en anglais** ([03 I3](03-fonctionnalites.md#i3-anglais--v13)), langue choisie dans les réglages. Les données sont déjà organisées pour (02 § 1, 06 § 4) : rien à migrer.
 - **Saisie naturelle en anglais** ([03 A2](03-fonctionnalites.md#a2-saisie-naturelle--v10), [07 § 7.3](07-architecture-technique.md#73-parseentrytext-units--parsedentry)) : les mots lus par `parseEntry` sont en français (`et`, `puis`, nombres en lettres, « douzaine », partitifs `du`, `de`, `d'`…) ; il les faut par langue (`and`, `one`, `dozen`, `of`…), avec les noms d'unités anglais dans `units.json`. Une unité de cuisine n'est lue dans une liste que devant « de » : en anglais, il faut aussi l'accepter sans « of » quand c'est une abréviation (« 2 tbsp sugar »), sinon l'article deviendrait « tbsp sugar ». Ce qui ne lit pas de mots (puces, collage, notes) marche déjà dans toutes les langues.
+
+## 1.4.0 — Saisons selon la région
+
+- **Zone des saisons au choix** ([03 D3](03-fonctionnalites.md#d3-saisonnalité--v12)) : un réglage pour l'endroit où l'on fait ses courses, toujours indépendant de la langue.
+- **Zones climatiques** : les saisons dépendent du climat, pas des frontières. Le catalogue donne les mois par zone climatique (une clé de plus dans `season`, 06 § 4), et le réglage propose des pays et régions, chacun rattaché à une zone (France métropolitaine, Belgique, Luxembourg et Suisse dans une même zone tempérée ; Sud-Est méditerranéen plus précoce ; hémisphère sud décalé de six mois). Les mois ne s'écrivent qu'une fois par zone.
+- **Changer de zone** recopie les mois de la nouvelle zone dans tous les articles du catalogue, y compris ceux dont le calendrier a été changé à la main dans la fiche : un message le précise avant de confirmer le changement.

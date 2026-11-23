@@ -53,6 +53,16 @@ export const SCHEMA_V6 = {
   articles: "id, &slug, *aliases, categoryId, favorite, catalogKey",
 } as const;
 
+/**
+ * Version 7 : index de la fin des courses (`closedAt`), absent tant qu'elles sont
+ * ouvertes : fin des dernières courses terminées lue directement (« Pas cette fois »).
+ */
+export const SCHEMA_V7 = {
+  ...SCHEMA_V6,
+  sessions:
+    "id, listId, storeId, status, startedAt, closedAt, [listId+startedAt]",
+} as const;
+
 /** Ligne de la table `meta` : réglages, version du catalogue… */
 export interface MetaRow {
   key: "settings";
@@ -96,6 +106,8 @@ export class ShoppingDatabase extends Dexie {
     this.version(5).stores(SCHEMA_V5);
     // Version 6 : index des codes-barres retiré ; aucune donnée modifiée.
     this.version(6).stores(SCHEMA_V6);
+    // Version 7 : index de la fin des courses ; aucune donnée modifiée.
+    this.version(7).stores(SCHEMA_V7);
   }
 }
 

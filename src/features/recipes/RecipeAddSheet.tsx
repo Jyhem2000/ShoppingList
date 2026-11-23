@@ -53,12 +53,12 @@ export function RecipeAddSheet({
         requested,
         target ?? [],
         data.units,
-        data.articles,
+        data.addableArticles,
       ).map((line) => ({
         ...line,
         checked: overrides.get(line.index) ?? line.checked,
       })),
-    [recipe, requested, target, data.units, data.articles, overrides],
+    [recipe, requested, target, data.units, data.addableArticles, overrides],
   );
   const count = lines.filter((line) => line.checked).length;
 

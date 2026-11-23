@@ -6,7 +6,7 @@ import {
   useCurrentList,
   useListItems,
   useOverrides,
-  usePurchaseCounts,
+  usePurchaseStats,
   useRecipes,
   useStores,
   useUnits,
@@ -26,6 +26,8 @@ import type {
 } from "@/domain/model";
 import { categoryWeights } from "./format";
 import { byId } from "@/domain/collections";
+import { addableArticles, type UsualAmount } from "@/domain/usage";
+import type { Rhythm } from "@/domain/suggestions";
 
 export interface ListData {
   settings: Settings;
@@ -43,6 +45,19 @@ export interface ListData {
   aisles: Aisle[];
   overrides: ArticleAisleOverride[];
   purchaseCounts: Map<ID, number>;
+  /** Unité habituelle des articles achetés assez souvent (unité selon l'usage). */
+  usual: ReadonlyMap<ID, UsualAmount>;
+  /**
+   * Les articles tels qu'un ajout sans unité les lit (unité selon l'usage, docs/07
+   * § 7.14) : à lire pour tout ajout à une liste, jamais pour afficher ou modifier un
+   * article (fiche, catalogue, recherche : `articles`).
+   */
+  addableArticles: Article[];
+  addableById: Map<ID, Article>;
+  /** Rythme d'achat des articles achetés assez souvent (anti-oubli). */
+  rhythms: ReadonlyMap<ID, Rhythm>;
+  /** Fin des dernières courses terminées : « Pas cette fois » dure jusque-là. */
+  lastClosedAt: number | undefined;
   recipes: Recipe[];
   /** Origine « via Raclette » des lignes (docs/03 E2). */
   recipeById: Map<ID, Recipe>;
@@ -78,7 +93,7 @@ export function useListDataOf(
     stores?.find((s) => s.id === (storeId ?? list?.lastStoreId)) ?? stores?.[0];
   const aisles = useAisles(store?.id);
   const overrides = useOverrides();
-  const purchaseCounts = usePurchaseCounts();
+  const purchaseStats = usePurchaseStats(units);
   const recipes = useRecipes();
 
   // Chaque table avec ses dérivées : refaites seulement quand elle change.
@@ -101,11 +116,20 @@ export function useListDataOf(
   const purchaseTables = useMemo(
     () =>
       articles &&
-      purchaseCounts && {
-        purchaseCounts,
-        categoryWeights: categoryWeights(articles, purchaseCounts),
-      },
-    [articles, purchaseCounts],
+      purchaseStats &&
+      (() => {
+        const addable = addableArticles(articles, purchaseStats.usual);
+        return {
+          ...purchaseStats,
+          categoryWeights: categoryWeights(
+            articles,
+            purchaseStats.purchaseCounts,
+          ),
+          addableArticles: addable,
+          addableById: byId(addable),
+        };
+      })(),
+    [articles, purchaseStats],
   );
 
   return useMemo(() => {
