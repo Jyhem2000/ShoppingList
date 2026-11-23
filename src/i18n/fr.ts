@@ -443,6 +443,7 @@ export const fr = {
     },
     recap: {
       title: "Courses terminées",
+      summary: "Récapitulatif",
       bought: (count: number) =>
         count > 1
           ? `${count} articles achetés`
@@ -1040,7 +1041,7 @@ export const fr = {
       checking: "Recherche…",
       upToDate: "L'app est à jour.",
       available:
-        "Une nouvelle version est prête : touche «\u00a0Mettre à jour\u00a0» en haut de l'écran.",
+        "Une nouvelle version est prête : touche «\u00a0Mettre à jour\u00a0» en bas de l'écran.",
       failed: "Pas de réponse du serveur. Vérifie ta connexion et réessaie.",
       unavailable:
         "Mises à jour indisponibles dans cette version de développement.",

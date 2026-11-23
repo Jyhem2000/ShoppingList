@@ -3,6 +3,7 @@ import { useState } from "react";
 import {
   checkForUpdate,
   type UpdateCheckResult,
+  useUpdateState,
 } from "@/app/pwa/serviceWorker";
 import { routes } from "@/app/routes";
 import { fr } from "@/i18n/fr";
@@ -15,7 +16,11 @@ const t = fr.about;
 
 /** Écran « À propos » : version, mises à jour, licences (docs/03 H5). */
 export function AboutPage() {
-  const [update, setUpdate] = useState<UpdateCheckResult | "checking">();
+  const [checked, setUpdate] = useState<UpdateCheckResult | "checking">();
+  // Une version prête (bandeau affiché, même trouvée entre-temps) l'emporte sur
+  // le résultat de la recherche.
+  const ready = useUpdateState().phase !== "none";
+  const update = ready && checked !== "checking" ? "available" : checked;
   const buildDate = new Date(buildInfo.buildDate).toLocaleString("fr-FR", {
     dateStyle: "long",
     timeStyle: "short",

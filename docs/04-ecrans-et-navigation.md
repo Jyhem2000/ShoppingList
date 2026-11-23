@@ -100,7 +100,7 @@ Sur Android, le geste ou bouton **Retour** du système ferme d'abord le panneau 
 
 ### 2.4 Récapitulatif de fin de courses
 
-Articles achetés, pas pris (restés dans la liste), durée, éventuellement « Ordre des rayons mis à jour ». Boutons « Retour à la liste » et « Rouvrir » (C8).
+En haut, sous le titre, les boutons « Retour à la liste » et « Rouvrir » (C8) : l'écran n'a pas d'onglets, on n'en sort que par là. Puis la section « Récapitulatif » : articles achetés, pas pris (restés dans la liste), durée, éventuellement « Ordre des rayons mis à jour », et la liste des articles achetés.
 
 ### 2.5 Catalogue
 
