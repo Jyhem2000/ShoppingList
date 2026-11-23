@@ -1,7 +1,7 @@
 {
   "name": "shoppinglist",
   "private": true,
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Liste de courses triée par rayon, dans l'ordre de ton magasin.",
   "type": "module",
   "engines": {
