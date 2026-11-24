@@ -20,9 +20,9 @@
 
   /* Fonds, du plus profond au plus haut */
   --bg: #111114; /* fond 1 : l'app */
-  --surface: #1a1a20; /* fond 2 : cartes, lignes, panneaux (et filet des icônes) */
-  --raised: #2a2a32; /* fond 3 : éléments surélevés, champs, boutons neutres */
-  --border: #3a3a45;
+  --surface: #1f1f26; /* fond 2 : cartes, lignes, panneaux */
+  --raised: #2e2e38; /* fond 3 : éléments surélevés, champs, boutons neutres */
+  --border: #3e3e4a;
   /* Filet qui détache deux objets dans une icône d'article (src/icons/packData.ts) */
   --icon-gap: #18181d;
   /* Bordure des champs mis en avant (barre d'ajout, recherche du catalogue) */

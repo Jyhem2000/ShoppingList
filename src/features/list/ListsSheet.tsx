@@ -40,7 +40,7 @@ function ListRow({
         aria-current={current || undefined}
         icon={<ChoiceMark selected={current} />}
       >
-        <span className={cn("truncate", current && "text-primary")}>
+        <span className={cn("truncate", current && "text-secondary")}>
           {list.name}
         </span>
       </RowButton>

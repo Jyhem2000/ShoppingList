@@ -126,8 +126,8 @@ export function CheckOption({
 }
 
 /**
- * Repère d'un choix dans une liste : une coche s'il est choisi, sinon son icône. En
- * violet, comme le nom du choix retenu.
+ * Repère d'un choix dans une liste : une coche s'il est choisi (couleur des repères,
+ * violet clair en sombre), sinon son icône (violette : elle s'actionne).
  */
 export function ChoiceMark({
   selected,
@@ -137,7 +137,12 @@ export function ChoiceMark({
   icon?: ReactNode;
 }) {
   return (
-    <span className="flex size-5 shrink-0 items-center justify-center text-primary [&_svg]:size-5">
+    <span
+      className={cn(
+        "flex size-5 shrink-0 items-center justify-center [&_svg]:size-5",
+        selected ? "text-secondary" : "text-primary",
+      )}
+    >
       {selected ? <Check aria-hidden /> : icon}
     </span>
   );

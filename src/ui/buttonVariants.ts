@@ -8,27 +8,31 @@ import { cva } from "class-variance-authority";
  * seule (en violet : ⋯, retour, ▶), `iconMuted` (fermer, retirer) et `iconDanger`
  * (supprimer une ligne) ses variantes ; `link` un lien.
  * Une icône dans un bouton avec texte prend la couleur du texte.
- * Appui bien visible : le bouton rétrécit et fonce pendant le toucher.
+ * Appui bien visible : le bouton rétrécit et fonce pendant le toucher. Désactivé : gris
+ * (fond 3 en sombre, séparateur en clair ; texte secondaire), pas la couleur pâlie.
  */
 export const buttonVariants = cva(
-  "inline-flex shrink-0 select-none items-center justify-center gap-2 whitespace-nowrap rounded-xl font-semibold outline-none transition-[transform,background-color,filter] duration-100 focus-visible:ring-[3px] focus-visible:ring-ring/50 active:scale-95 active:brightness-90 disabled:pointer-events-none disabled:opacity-50 [&_svg:not([class*='size-'])]:size-5 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+  "inline-flex shrink-0 select-none items-center justify-center gap-2 whitespace-nowrap rounded-xl font-semibold outline-none transition-[transform,background-color,filter] duration-100 focus-visible:ring-[3px] focus-visible:ring-ring/50 active:scale-95 active:brightness-90 disabled:pointer-events-none [&_svg:not([class*='size-'])]:size-5 [&_svg]:pointer-events-none [&_svg]:shrink-0",
   {
     variants: {
       variant: {
         default:
-          "bg-primary text-on-primary hover:bg-primary-strong active:bg-primary-strong",
+          "bg-primary text-on-primary hover:bg-primary-strong active:bg-primary-strong disabled:bg-raised disabled:text-muted-foreground light:disabled:bg-border",
         outline:
-          "border border-primary/50 bg-transparent text-primary hover:bg-primary/10 active:bg-primary/20",
-        destructive: "bg-danger text-bg hover:bg-danger/90 active:bg-danger/80",
+          "border border-primary/50 bg-transparent text-primary hover:bg-primary/10 active:bg-primary/20 disabled:border-border disabled:text-muted-foreground",
+        destructive:
+          "bg-danger text-bg hover:bg-danger/90 active:bg-danger/80 disabled:bg-raised disabled:text-muted-foreground light:disabled:bg-border",
         // Action destructrice qui ouvre sa confirmation (Supprimer, Retirer) : rouge en contour.
         dangerOutline:
-          "border border-danger/50 bg-transparent text-danger hover:bg-danger/10 active:bg-danger/20",
+          "border border-danger/50 bg-transparent text-danger hover:bg-danger/10 active:bg-danger/20 disabled:border-border disabled:text-muted-foreground",
         // « Terminer les courses » (docs/04 § 2.3) : le seul bouton plein en or.
-        gold: "bg-secondary-fill text-on-secondary hover:bg-secondary-fill-strong active:bg-secondary-fill-strong",
-        link: "text-primary underline-offset-4 hover:underline",
-        icon: "text-primary hover:bg-primary/10 active:bg-primary/20",
-        iconMuted: "text-muted-foreground hover:bg-raised active:bg-raised",
-        iconDanger: "text-danger hover:bg-danger/10 active:bg-danger/20",
+        gold: "bg-secondary-fill text-on-secondary hover:bg-secondary-fill-strong active:bg-secondary-fill-strong disabled:bg-raised disabled:text-muted-foreground light:disabled:bg-border",
+        link: "text-primary underline-offset-4 hover:underline disabled:text-muted-foreground",
+        icon: "text-primary hover:bg-primary/10 active:bg-primary/20 disabled:text-muted-foreground",
+        iconMuted:
+          "text-muted-foreground hover:bg-raised active:bg-raised disabled:opacity-50",
+        iconDanger:
+          "text-danger hover:bg-danger/10 active:bg-danger/20 disabled:text-muted-foreground",
       },
       size: {
         default: "h-11 px-5 text-base",

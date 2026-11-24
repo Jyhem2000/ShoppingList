@@ -210,10 +210,10 @@ export function SectionTitle({
   action?: ReactNode;
 }) {
   const title = (
-    <h2 className="flex items-center gap-2 text-lg font-bold tracking-tight text-text">
+    <h2 className="flex items-center gap-2 text-xl font-bold tracking-tight text-text">
       <span
         aria-hidden
-        className="h-5 w-1 shrink-0 rounded-full bg-secondary-fill"
+        className="h-6 w-1 shrink-0 rounded-full bg-secondary-fill"
       />
       {children}
     </h2>

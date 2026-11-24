@@ -105,7 +105,7 @@ export function AddBar({
         type="submit"
         aria-label={addLabel}
         disabled={!text.trim()}
-        className="flex size-11 shrink-0 items-center justify-center rounded-full bg-primary text-on-primary transition-opacity disabled:opacity-40"
+        className="flex size-11 shrink-0 items-center justify-center rounded-full bg-primary text-on-primary transition-colors disabled:bg-raised disabled:text-muted-foreground light:disabled:bg-border"
       >
         <Plus className="size-5" aria-hidden />
       </button>

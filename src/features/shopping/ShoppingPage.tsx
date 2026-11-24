@@ -438,6 +438,7 @@ function Shopping({
                 current={aisle.id === view.current}
                 currentLabel={t.current}
                 kicker={text.kicker}
+                wrap
                 onToggle={() => {
                   setOpen(aisle.id, !open);
                 }}
@@ -517,6 +518,7 @@ function Shopping({
         id="shopping-place"
         text={fr.tips.place}
         target='[data-tip="first-unplaced"]'
+        pad={-3}
         show={!panel && toPlace > 0 && !view.placing}
       />
       <HelpTip

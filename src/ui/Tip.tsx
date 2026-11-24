@@ -2,22 +2,27 @@ import { motion } from "motion/react";
 import { useLayoutEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { fr } from "@/i18n/fr";
+import { cn } from "@/ui/utils";
 
 /**
  * Bulle d'aide (docs/03 H12) : l'écran s'assombrit sauf
  * l'élément visé (`target`, sélecteur CSS), une bulle avec une flèche l'explique ; un
  * toucher n'importe où la ferme (`onDismiss`). Sans élément visé, la bulle est au
- * centre. Ce qui a déjà été vu est géré par l'appelant (`show`).
+ * centre. Ce qui a déjà été vu est géré par l'appelant (`show`). `pad` : écart entre
+ * l'élément et sa découpe (négatif : la découpe reste à l'intérieur, pour une ligne
+ * d'un bloc de rayon qui ne doit pas déborder du bloc).
  */
 export function Tip({
   text,
   target,
   show = true,
+  pad = 6,
   onDismiss,
 }: {
   text: string;
   target?: string;
   show?: boolean;
+  pad?: number;
   onDismiss: () => void;
 }) {
   const [rect, setRect] = useState<DOMRect | null>(null);
@@ -41,7 +46,6 @@ export function Tip({
 
   if (!show || (target && !rect)) return null;
 
-  const pad = 6;
   const below = rect ? rect.bottom + 180 < window.innerHeight : false;
   // La bulle : 16 px de marge, 384 px au plus, centrée ; la flèche vise l'élément.
   const width = Math.min(window.innerWidth - 32, 384);
@@ -63,7 +67,10 @@ export function Tip({
         // L'élément visé reste éclairé : une découpe dans le voile sombre.
         <div
           aria-hidden
-          className="pointer-events-none absolute rounded-2xl ring-2 ring-primary"
+          className={cn(
+            "pointer-events-none absolute ring-2 ring-primary",
+            pad > 0 ? "rounded-2xl" : "rounded-lg",
+          )}
           style={{
             top: rect.top - pad,
             left: rect.left - pad,
