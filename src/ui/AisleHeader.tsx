@@ -7,16 +7,19 @@ import {
 } from "motion/react";
 import { type ReactNode, useEffect, useRef } from "react";
 import { GroupIcon } from "@/ui/GroupIcon";
-import { palette, paletteColor } from "@/ui/palette";
+import { palette, paletteColor, type PaletteColor } from "@/ui/palette";
 import { cn } from "@/ui/utils";
 
 /**
  * Bloc d'un rayon (docs/05 § 5.2) : la couleur du rayon forme la bordure gauche de
- * tout le bloc ; icône Lucide du rayon dans sa couleur ; l'en-tête teinté (icône · libellé · compteur, repliable) est plus
- * grand que les articles, indentés en dessous. `done` : rayon terminé en mode courses ;
- * `current` : rayon en cours, avec l'étiquette or « Tu es ici » (`currentLabel`) et un
- * rebond quand il le devient. Dans la liste comme en mode courses, et dans les deux
- * thèmes : pas de fond sous les articles, une bordure fine de sa couleur.
+ * tout le bloc et colore son icône. L'en-tête (icône · libellé · compteur, repliable) est
+ * plus grand que les articles, indentés en dessous. Sobre en sombre (l'écran a déjà les
+ * couleurs des icônes d'articles) : en-tête sur le fond 2, nom dans la couleur du rayon ;
+ * en clair : en-tête teinté de sa couleur, nom de la couleur du texte. Nom sur une ligne,
+ * deux avec `wrap` (titre d'un rayon tiré de ses catégories en mode courses). `done` : rayon terminé en mode courses ; `current` : rayon en cours, avec
+ * l'étiquette or « Tu es ici » (`currentLabel`) et un rebond quand il le devient. Pas de
+ * fond sous les articles ; en clair, un trait fin de sa couleur fait le tour du bloc, en
+ * sombre seule la bordure gauche reste (moins de couleurs à l'écran).
  */
 export function AisleSection({
   id,
@@ -30,6 +33,7 @@ export function AisleSection({
   currentLabel,
   kicker,
   description,
+  wrap = false,
   onToggle,
   children,
 }: {
@@ -49,6 +53,8 @@ export function AisleSection({
   kicker?: string;
   /** Repère sous le nom : « au fond du magasin ». */
   description?: string;
+  /** Nom sur deux lignes au plus (sinon une, tronquée). */
+  wrap?: boolean;
   onToggle: () => void;
   children: ReactNode;
 }) {
@@ -70,7 +76,7 @@ export function AisleSection({
   const badge = current && currentLabel !== undefined && (
     <span
       aria-hidden
-      className="inline-flex items-center gap-1 rounded-full bg-secondary-fill px-2 py-0.5 text-xs font-extrabold tracking-wide text-on-secondary uppercase"
+      className="inline-flex items-center gap-1 rounded-full bg-gold px-2 py-0.5 text-xs font-extrabold tracking-wide text-on-gold uppercase"
     >
       <MapPin className="size-3.5" strokeWidth={2.5} />
       {currentLabel}
@@ -91,8 +97,8 @@ export function AisleSection({
       className={cn(
         "overflow-hidden rounded-2xl border-l-4 transition-shadow",
         palette[color].border,
-        // Liste comme courses, dans les deux thèmes : pas de fond sous les articles.
-        "border border-l-4 [--row-bg:var(--bg)]",
+        // Pas de fond sous les articles ; cadre complet en clair seulement.
+        "[--row-bg:var(--bg)] light:border-y light:border-r",
       )}
     >
       <button
@@ -101,7 +107,8 @@ export function AisleSection({
         onClick={onToggle}
         className={cn(
           "flex min-h-13 w-full items-center gap-2.5 px-3 py-2 text-left transition-colors active:brightness-125",
-          palette[color].tint,
+          "bg-surface",
+          palette[color].tintLight,
         )}
       >
         <GroupIcon
@@ -126,8 +133,9 @@ export function AisleSection({
           )}
           <span
             className={cn(
-              "line-clamp-2 text-lg leading-snug font-extrabold",
-              done ? "text-success" : palette[color].text,
+              "text-lg leading-snug font-extrabold",
+              wrap ? "line-clamp-2" : "block truncate",
+              done ? "text-success" : labelColor(color),
             )}
           >
             {label}
@@ -141,7 +149,7 @@ export function AisleSection({
         {done ? (
           <Check className="size-5 text-success" strokeWidth={3} aria-hidden />
         ) : (
-          <CountBadge count={count} />
+          <CountBadge count={count} color={color} />
         )}
         <FoldChevron expanded={expanded} className="size-5" />
       </button>
@@ -154,8 +162,9 @@ export function AisleSection({
 
 /**
  * Sous-groupe repliable d'un bloc (une catégorie dans « À placer », docs/03 C4) :
- * intertitre (icône · nom dans sa couleur · compteur · chevron), plus discret que
- * l'en-tête du rayon ; toucher l'intertitre replie ou déplie ses articles.
+ * intertitre (icône · nom · compteur · chevron) de la taille des articles, moins appuyé
+ * que l'en-tête du rayon ; nom sur une ligne, dans la couleur de la catégorie en sombre ;
+ * toucher l'intertitre replie ou déplie ses articles.
  */
 export function AisleSubgroup({
   label,
@@ -182,13 +191,13 @@ export function AisleSubgroup({
         type="button"
         aria-expanded={expanded}
         onClick={onToggle}
-        className="flex min-h-12 w-full items-center gap-2 px-4 pt-2 pb-1 text-left text-sm font-bold transition-colors active:bg-raised"
+        className="flex min-h-12 w-full items-center gap-2 px-4 pt-2 pb-1 text-left text-lg font-bold transition-colors active:bg-raised"
       >
-        <GroupIcon name={icon} palette={color} className="size-4 shrink-0" />
-        <span className={cn("min-w-0 flex-1 truncate", palette[color].text)}>
+        <GroupIcon name={icon} palette={color} className="size-5 shrink-0" />
+        <span className={cn("min-w-0 flex-1 truncate", labelColor(color))}>
           {label}
         </span>
-        <CountBadge count={count} />
+        <CountBadge count={count} color={color} />
         <FoldChevron expanded={expanded} className="size-4" />
       </button>
       <Fold expanded={expanded}>{children}</Fold>
@@ -196,10 +205,23 @@ export function AisleSubgroup({
   );
 }
 
-/** Nombre d'articles encore à prendre, en pastille (en-tête de rayon ou de catégorie). */
-function CountBadge({ count }: { count: number }) {
+/** Nom d'un rayon ou d'une catégorie : de sa couleur en sombre, du texte en clair. */
+function labelColor(color: PaletteColor): string {
+  return cn(palette[color].text, "light:text-foreground");
+}
+
+/**
+ * Nombre d'articles encore à prendre, en pastille de la couleur du rayon ou de la
+ * catégorie (teintée en sombre, pleine en clair).
+ */
+function CountBadge({ count, color }: { count: number; color: PaletteColor }) {
   return (
-    <span className="rounded-full bg-raised px-2 py-0.5 text-xs font-bold text-muted-foreground tabular-nums">
+    <span
+      className={cn(
+        "rounded-full px-2 py-0.5 text-xs font-bold tabular-nums",
+        palette[color].badge,
+      )}
+    >
       {count}
     </span>
   );

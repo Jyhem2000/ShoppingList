@@ -87,6 +87,7 @@ export function IconPickerSheet({
   return (
     <Sheet
       autoFocus={false}
+      tall
       onClose={() => {
         onClose();
       }}

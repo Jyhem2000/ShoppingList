@@ -5,7 +5,8 @@ import { TextArea } from "@/ui/form";
 
 /**
  * Coller à la main un message reçu (docs/03 F2, E3), quand le presse-papiers n'a pas
- * pu être lu : un champ, puis « Continuer ».
+ * pu être lu (toujours sur iPhone) : un champ, puis « Continuer ». Un texte collé dans
+ * le champ vide part tout de suite, sans « Continuer ».
  */
 export function PasteForm({
   label,
@@ -33,6 +34,12 @@ export function PasteForm({
         className="font-sans"
         onChange={(event) => {
           setPasted(event.target.value);
+        }}
+        onPaste={(event) => {
+          const text = event.clipboardData.getData("text");
+          if (pasted.trim() || !text.trim()) return;
+          event.preventDefault();
+          onPaste(text);
         }}
       />
       <Button type="submit" disabled={!pasted.trim()}>

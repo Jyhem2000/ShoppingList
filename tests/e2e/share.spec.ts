@@ -173,7 +173,7 @@ test("9. recette partagée puis importée dans un profil vierge : ingrédients, 
   expect(message).toContain(`• Crème fraîche × 1 (${fr.recipes.fixed})`);
   const link = message.slice(message.indexOf("http"));
 
-  // Destinataire : tout est reconnu ; la recette est créée et sa fiche s'ouvre.
+  // Destinataire : tout est reconnu ; la recette est créée, retour à l'écran Recettes.
   const other = await otherPhone(browser);
   const recipient = await other.newPage();
   await enterApp(recipient);
@@ -182,14 +182,18 @@ test("9. recette partagée puis importée dans un profil vierge : ingrédients, 
   await expect(
     recipient.getByText(fr.recipes.serves("4 personnes")),
   ).toBeVisible();
-  const heading = recipient.getByRole("heading", { name: "Gratin" });
+  const received = recipient.getByRole("link", { name: /Gratin/ });
   await tapUntil(
     () =>
       recipient
         .getByRole("button", { name: t.applyRecipe(2) })
         .click({ timeout: 3000 }),
-    (timeout) => expect(heading).toBeVisible({ timeout }),
+    (timeout) => expect(received).toBeVisible({ timeout }),
   );
+  await received.click();
+  await expect(
+    recipient.getByRole("heading", { name: "Gratin" }),
+  ).toBeVisible();
   await expect(ingredient(recipient, "Pommes de terre")).toContainText("1 kg");
   await expect(ingredient(recipient, "Crème fraîche")).toContainText(
     fr.recipes.fixed,

@@ -15,7 +15,7 @@ function Steps({ steps }: { steps: readonly string[] }) {
     <ol className="space-y-3">
       {steps.map((step, index) => (
         <li key={step} className="flex items-start gap-3">
-          <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-secondary/15 font-bold text-secondary">
+          <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary/15 font-bold text-primary">
             {index + 1}
           </span>
           <span className="pt-1">{step}</span>
@@ -54,7 +54,7 @@ export function InstallScreen({
           {context.kind === "ios" && (
             <>
               <div className="rounded-2xl bg-surface p-4">
-                <div className="mb-4 flex items-center gap-2 font-bold text-secondary">
+                <div className="mb-4 flex items-center gap-2 font-bold text-primary">
                   <Share className="size-5" aria-hidden />
                   iPhone
                 </div>

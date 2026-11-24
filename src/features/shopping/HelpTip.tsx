@@ -15,6 +15,7 @@ export function HelpTip({
   text: string;
   target?: string;
   show?: boolean;
+  pad?: number;
 }) {
   const { seenTips } = usePreferences();
   return (

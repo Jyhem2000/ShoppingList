@@ -14,7 +14,7 @@ import { dismissToast, type ToastTone, useToast } from "@/ui/toast";
 import { cn } from "@/ui/utils";
 
 const tones: Record<ToastTone, { icon: LucideIcon; className: string }> = {
-  neutral: { icon: Undo2, className: "border-secondary text-secondary" },
+  neutral: { icon: Undo2, className: "border-primary text-primary" },
   success: { icon: CircleCheck, className: "border-success text-success" },
   info: { icon: Info, className: "border-info text-info" },
   warning: { icon: CircleAlert, className: "border-warning text-warning" },

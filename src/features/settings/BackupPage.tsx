@@ -198,7 +198,7 @@ export function BackupPage() {
         {copies?.map((copy) => (
           <RowButton
             key={copy.id}
-            icon={<History className="size-5 shrink-0 text-secondary" />}
+            icon={<History className="size-5 shrink-0 text-primary" />}
             title={t.copies.title(
               new Date(copy.at).toLocaleDateString("fr-FR", {
                 weekday: "long",

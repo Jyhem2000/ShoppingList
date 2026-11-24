@@ -115,9 +115,9 @@ export const mockColors: { token: string; label: string; className: string }[] =
       className: "bg-primary",
     },
     {
-      token: "--secondary-fill",
+      token: "--gold",
       label: "Secondaire · or",
-      className: "bg-secondary-fill",
+      className: "bg-gold",
     },
     { token: "--success", label: "Succès", className: "bg-success" },
     { token: "--warning", label: "Attention", className: "bg-warning" },

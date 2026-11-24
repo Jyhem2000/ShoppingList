@@ -236,7 +236,7 @@ Le rendement de la fiche est **fixe** (« 4 personnes », « 1 cake ») : on
 
 Même mécanisme que F1 et F2, même format de lien (voir [02 § 9](02-modele-metier.md#partager-une-recette)). Fiche recette → « Partager la recette » → feuille de partage du téléphone. Le message contient le nom et le rendement, les ingrédients (une puce chacun, avec « facultatif » ou « quantité fixe »), les étapes en texte simple, puis le mode d'emploi et le lien d'import.
 
-Le destinataire colle le message dans Recettes → `⋯` → « Coller une recette » (sur Android, toucher le lien suffit souvent). Même aperçu que pour une liste (À vérifier, Reconnus, choix de l'article), avec le nom, l'icône, le rendement et les étapes de la recette à la place de « Ajouter à » ; « Ajouter la recette » la crée et ouvre sa fiche. Un ingrédient non reconnu est créé par défaut **dans le catalogue**, dans la catégorie reçue : la recette resservira (« Juste cette fois » reste possible). Si une recette porte déjà ce nom, la reçue s'appelle « Raclette (2) » (puis « Raclette (3) »…, au premier numéro libre) : rien n'est remplacé.
+Le destinataire colle le message dans Recettes → `⋯` → « Coller une recette » (sur Android, toucher le lien suffit souvent). Même aperçu que pour une liste (À vérifier, Reconnus, choix de l'article), avec le nom, l'icône, le rendement et les étapes de la recette à la place de « Ajouter à » ; « Ajouter la recette » la crée et revient à l'écran Recettes. Un ingrédient non reconnu est créé par défaut **dans le catalogue**, dans la catégorie reçue : la recette resservira (« Juste cette fois » reste possible). Si une recette porte déjà ce nom, la reçue s'appelle « Raclette (2) » (puis « Raclette (3) »…, au premier numéro libre) : rien n'est remplacé.
 
 « Coller une recette » n'accepte qu'un message de recette partagé par l'app : un autre texte affiche qu'il ne s'agit pas d'une recette partagée par l'app. Un lien de recette collé dans une liste, ou de liste collé dans les recettes, dit où le coller.
 
@@ -259,7 +259,7 @@ Seules les lignes encore à acheter partent. Sans feuille de partage (rare), le 
 
 Deux manières, toutes deux aboutissant à l'écran d'aperçu décrit en [02 § 9](02-modele-metier.md#9-partage-dune-liste) : correspondances automatiques (clé catalogue, slug, alias, catalogue utilisé comme dictionnaire), puis pour les articles non reconnus des **candidats proposés** (même icône, même catégorie), « C'est celui-là » mémorisé en alias, ou « Créer » avec libellé modifiable :
 
-1. **Liste → `⋯` → « Coller une liste »** dans l'app : lit le presse-papier (sur iPhone, une bulle « Coller » à toucher), reconnaît le lien d'import ou, à défaut, analyse le texte ligne par ligne (A8). Si la lecture est refusée, un champ où coller à la main ; sur iPhone, ce champ s'ouvre aussi tant que la bulle reste sans réponse (un instant après le toucher), et toucher « Coller » ensuite suffit encore. _Méthode principale sur iPhone_ (voir encadré).
+1. **Liste → `⋯` → « Coller une liste »** dans l'app : lit le presse-papier, reconnaît le lien d'import ou, à défaut, analyse le texte ligne par ligne (A8). Si la lecture est refusée, un champ où coller à la main. Sur iPhone, ce champ s'ouvre tout de suite, clavier ouvert, sans lire le presse-papier (la lecture y montrait une bulle « Coller » qui bloquait l'écran) : un toucher dans le champ propose « Coller ». Un texte collé dans le champ vide part sans attendre « Continuer » (de même pour une recette, E3). _Méthode principale sur iPhone_ (voir encadré).
 2. Ouvrir le lien d'import. _Méthode principale sur Android._
 
 L'aperçu propose d'ajouter les lignes à une **nouvelle liste** (au nom reçu) ou à une liste existante (« Coller une liste » propose la liste courante) ; les quantités s'additionnent à celles déjà présentes, comme pour « Y ajouter le contenu d'une autre liste ».
@@ -366,5 +366,7 @@ Interface et catalogue de départ en anglais, langue choisie dans les réglages 
 
 - Interface : un fichier de textes par langue (`src/i18n/en.ts` à côté de `fr.ts`).
 - Catalogue : ajout des libellés, alias et types anglais aux entrées existantes (même clé), ainsi qu'aux catégories et unités.
+- Anglais britannique ; les mots américains sont des alias. Au premier lancement, l'anglais si le téléphone est en anglais, sinon le français.
+- Changer de langue renomme ce qui vient du catalogue et n'a jamais été renommé (articles, catégories, unités), après un message qui le précise ; le reste garde son nom.
 - Les articles du catalogue s'affichent alors dans la langue de chacun et se reconnaissent par leur clé lors d'un partage ; les articles créés à la main gardent le libellé tapé (voir [02 § 1](02-modele-metier.md#langues--libellé-slug-et-clé) et [§ 9](02-modele-metier.md#9-partage-dune-liste)).
 - Rien à migrer : les données sont déjà organisées pour (06 § 4).

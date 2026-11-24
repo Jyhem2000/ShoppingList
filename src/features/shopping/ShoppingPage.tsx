@@ -384,7 +384,7 @@ function Shopping({
             <span
               data-testid="shopping-progress"
               aria-hidden
-              className="text-lg font-extrabold text-secondary tabular-nums"
+              className="text-lg font-extrabold text-primary tabular-nums"
             >
               {t.progress(checked, total)}
             </span>
@@ -397,7 +397,7 @@ function Shopping({
             className="mt-2 h-1.5 overflow-hidden rounded-full bg-raised"
           >
             <motion.div
-              className="h-full rounded-full bg-secondary-fill"
+              className="h-full rounded-full bg-gold"
               initial={false}
               animate={{ width: `${total ? (checked / total) * 100 : 0}%` }}
             />
@@ -438,6 +438,7 @@ function Shopping({
                 current={aisle.id === view.current}
                 currentLabel={t.current}
                 kicker={text.kicker}
+                wrap
                 onToggle={() => {
                   setOpen(aisle.id, !open);
                 }}
@@ -517,6 +518,7 @@ function Shopping({
         id="shopping-place"
         text={fr.tips.place}
         target='[data-tip="first-unplaced"]'
+        pad={-3}
         show={!panel && toPlace > 0 && !view.placing}
       />
       <HelpTip

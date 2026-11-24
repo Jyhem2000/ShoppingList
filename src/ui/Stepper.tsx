@@ -30,7 +30,7 @@ export function Stepper({
     <div className={cn("flex items-center gap-2", className)}>
       <Button
         type="button"
-        variant="iconOutline"
+        variant="outline"
         size="icon"
         aria-label={lessLabel}
         disabled={lessDisabled}
@@ -41,7 +41,7 @@ export function Stepper({
       {children}
       <Button
         type="button"
-        variant="iconOutline"
+        variant="outline"
         size="icon"
         aria-label={moreLabel}
         onClick={onMore}
@@ -52,7 +52,7 @@ export function Stepper({
   );
 }
 
-/** Valeur affichée entre − et + : en or, en gras (« 750 g », « 6 personnes »). */
+/** Valeur affichée entre − et + : en violet, en gras (« 750 g », « 6 personnes »). */
 export function StepperValue({
   size = "md",
   children,
@@ -64,7 +64,7 @@ export function StepperValue({
     <span
       aria-live="polite"
       className={cn(
-        "text-center font-extrabold text-secondary tabular-nums",
+        "text-center font-extrabold text-primary tabular-nums",
         size === "lg" ? "min-w-28 text-2xl" : "min-w-16 text-lg",
       )}
     >

@@ -43,7 +43,7 @@ export function AboutPage() {
         <Row label={t.version}>
           <span
             data-testid="app-version"
-            className="text-right font-semibold text-secondary tabular-nums"
+            className="text-right font-semibold text-primary tabular-nums"
           >
             {formatVersion(buildInfo)}
           </span>
@@ -95,9 +95,9 @@ export function AboutPage() {
           rel="noreferrer"
           className="flex min-h-14 items-center gap-3 px-4 py-3 active:bg-raised"
         >
-          <Code className="size-5 shrink-0 text-secondary" aria-hidden />
+          <Code className="size-5 shrink-0 text-primary" aria-hidden />
           <span className="flex-1 font-semibold">{t.source}</span>
-          <ExternalLink className="size-5 text-muted-foreground" aria-hidden />
+          <ExternalLink className="size-5 text-primary" aria-hidden />
         </a>
       </Section>
     </>

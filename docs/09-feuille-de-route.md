@@ -16,6 +16,9 @@ Les prochaines versions. Le détail de chaque fonctionnalité (critères, écran
 ## 1.3.0 — Anglais
 
 - **Interface et catalogue en anglais** ([03 I3](03-fonctionnalites.md#i3-anglais--v13)), langue choisie dans les réglages. Les données sont déjà organisées pour (02 § 1, 06 § 4) : rien à migrer.
+  - **Anglais britannique** (aubergine, courgette, coriander) ; les mots américains (eggplant, zucchini, cilantro) sont des alias.
+  - **Premier lancement** : l'anglais si le téléphone est en anglais, sinon le français. Une installation existante reste en français.
+  - **Changer de langue** renomme dans la nouvelle langue ce qui vient du catalogue et n'a jamais été renommé (articles, catégories, unités) ; ce que l'utilisateur a renommé ou créé garde son nom. Un message le précise avant de confirmer. Dates, nombres et tri suivent la langue.
 - **Saisie naturelle en anglais** ([03 A2](03-fonctionnalites.md#a2-saisie-naturelle--v10), [07 § 7.3](07-architecture-technique.md#73-parseentrytext-units--parsedentry)) : les mots lus par `parseEntry` sont en français (`et`, `puis`, nombres en lettres, « douzaine », partitifs `du`, `de`, `d'`…) ; il les faut par langue (`and`, `one`, `dozen`, `of`…), avec les noms d'unités anglais dans `units.json`. Une unité de cuisine n'est lue dans une liste que devant « de » : en anglais, il faut aussi l'accepter sans « of » quand c'est une abréviation (« 2 tbsp sugar »), sinon l'article deviendrait « tbsp sugar ». Ce qui ne lit pas de mots (puces, collage, notes) marche déjà dans toutes les langues.
 
 ## 1.4.0 — Saisons selon la région

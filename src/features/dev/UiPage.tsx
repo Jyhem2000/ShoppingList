@@ -138,7 +138,7 @@ export function UiPage() {
           </p>
           <p className="text-[17px] font-semibold">{t.typeBody}</p>
           <p className="text-sm text-muted-foreground">{t.typeMuted}</p>
-          <p className="font-bold text-secondary tabular-nums">1,2 kg · × 6</p>
+          <p className="font-bold text-primary tabular-nums">1,2 kg · × 6</p>
         </div>
       </Block>
 

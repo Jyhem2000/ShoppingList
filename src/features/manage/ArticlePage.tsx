@@ -429,7 +429,7 @@ function TagEditor({
         <Button
           type="submit"
           size="icon"
-          variant="iconOutline"
+          variant="outline"
           aria-label={addLabel}
           disabled={!input.trim()}
         >
@@ -466,6 +466,7 @@ function MergeArticleSheet({
   return (
     <Sheet
       autoFocus={false}
+      tall={!other}
       onClose={() => {
         onClose();
       }}

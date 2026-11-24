@@ -5,6 +5,7 @@ import type { ReactNode } from "react";
 import { fr } from "@/i18n/fr";
 import { Button } from "@/ui/button";
 import { buttonVariants } from "@/ui/buttonVariants";
+import { cn } from "@/ui/utils";
 
 /** Au-delà de ce glissement vers le bas (ou d'un geste rapide), le panneau se ferme. */
 const CLOSE_DISTANCE = 90;
@@ -18,6 +19,9 @@ const CLOSE_DISTANCE = 90;
  * retour à l'étape précédente. Le contenu défile sous l'en-tête.
  * `autoFocus={false}` : aucun champ ne prend le focus à l'ouverture, donc le clavier
  * ne s'ouvre pas et ne cache pas le reste du panneau (fiches à consulter d'abord).
+ * `tall` : toujours à sa hauteur maximale, pour un panneau de recherche. Sinon, avec peu
+ * de résultats, il rapetisse et ses résultats passent sous le clavier ; ainsi, ils
+ * restent juste sous le champ, en haut de l'écran.
  * Posé dans le cadre de l'app, pas dans la page : au lancement sur iPhone, le cadre est
  * à la hauteur de l'écran alors que la zone d'affichage est trop courte. Un panneau fixe
  * suivrait cette zone, et bougerait quand le premier clavier la corrige, en laissant le
@@ -29,9 +33,11 @@ export function Sheet({
   description,
   children,
   autoFocus = true,
+  tall = false,
   onBack,
 }: {
   autoFocus?: boolean;
+  tall?: boolean;
   onClose: () => void;
   title: string;
   description?: string;
@@ -70,7 +76,10 @@ export function Sheet({
             initial={{ y: "100%" }}
             animate={{ y: 0 }}
             transition={{ type: "spring", stiffness: 380, damping: 36 }}
-            className="absolute inset-x-0 bottom-0 z-50 mx-auto flex max-h-[92dvh] max-w-xl flex-col rounded-t-3xl border-t border-border bg-surface outline-none"
+            className={cn(
+              "absolute inset-x-0 bottom-0 z-50 mx-auto flex max-h-[92dvh] max-w-xl flex-col rounded-t-3xl border-t border-border bg-surface outline-none",
+              tall && "h-[92dvh]",
+            )}
           >
             <div
               onPointerDown={(event) => {

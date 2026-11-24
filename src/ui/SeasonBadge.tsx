@@ -5,7 +5,7 @@ import { cn } from "@/ui/utils";
 
 /**
  * Pastille « de saison » (docs/05 § 5) : une feuille verte, couleur propre à la saison
- * pour ne pas la confondre avec les repères or. Lue « De saison » par le lecteur d'écran,
+ * pour ne pas la confondre avec l'or des aplats. Lue « De saison » par le lecteur d'écran,
  * sauf `decorative` : à côté d'un texte qui le dit déjà (filtre « De saison »).
  */
 export function SeasonBadge({

@@ -1102,6 +1102,14 @@ export const fr = {
     version: (version: string) => `Version ${version}`,
     versions: [
       {
+        version: "1.2.2",
+        date: "2026-11-24",
+        items: [
+          "Corrections de bugs et améliorations de l'expérience utilisateur.",
+          "Améliorations graphiques des thèmes clair et sombre.",
+        ],
+      },
+      {
         version: "1.2.1",
         date: "2026-11-23",
         items: [

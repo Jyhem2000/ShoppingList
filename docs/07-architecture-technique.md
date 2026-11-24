@@ -269,7 +269,7 @@ db.version(7).stores({
 ### Manifest et iOS
 
 - Thème (H11) : `src/app/theme.ts` pose `<html data-theme="dark|light">` et la couleur de la barre d'état ; un petit script dans `index.html` le fait avant l'affichage, depuis la préférence enregistrée. Sur iPhone, le style de la barre d'état (`apple-mobile-web-app-status-bar-style`) n'est lu qu'au lancement : texte blanc en sombre, noir en clair.
-- Manifest : nom, icônes (dont `apple-touch-icon` 180×180 et icône adaptative Android), `display: standalone`, couleurs `#0b0b0e`.
+- Manifest : nom, icônes (dont `apple-touch-icon` 180×180 et icône adaptative Android), `display: standalone`, couleurs `#111114`.
 - `<meta name="viewport" content="…, viewport-fit=cover">` + gestion des `safe-area-inset-*`.
 - Précache de toute l'app : JS, CSS, police, pack d'icônes, sons.
 

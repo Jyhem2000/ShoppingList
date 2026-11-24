@@ -75,7 +75,7 @@ export function AddBar({
         className,
       )}
     >
-      <Search className="size-5 shrink-0 text-secondary" aria-hidden />
+      <Search className="size-5 shrink-0 text-muted-foreground" aria-hidden />
       <input
         key={generation}
         ref={element}
@@ -105,7 +105,7 @@ export function AddBar({
         type="submit"
         aria-label={addLabel}
         disabled={!text.trim()}
-        className="flex size-11 shrink-0 items-center justify-center rounded-full bg-primary text-on-primary transition-opacity disabled:opacity-40"
+        className="flex size-11 shrink-0 items-center justify-center rounded-full bg-primary text-on-primary transition-colors disabled:bg-disabled disabled:text-muted-foreground"
       >
         <Plus className="size-5" aria-hidden />
       </button>

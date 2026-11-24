@@ -113,7 +113,7 @@ export function RecapPage() {
             {t.duration(formatDuration(session.closedAt - session.startedAt))}
           </p>
         )}
-        {learned && <p className="text-secondary">{t.learned}</p>}
+        {learned && <p className="text-primary">{t.learned}</p>}
       </div>
       {purchases.length > 0 && (
         <Section className="pt-3 pb-6">

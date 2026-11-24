@@ -19,7 +19,7 @@ export function HelpPage() {
 
       <div className="px-4 pt-2">
         <p className="flex gap-3 rounded-2xl bg-raised p-4 text-sm">
-          <Lightbulb className="size-5 shrink-0 text-secondary" aria-hidden />
+          <Lightbulb className="size-5 shrink-0 text-primary" aria-hidden />
           <span>
             <span className="block font-bold">{t.advice.title}</span>
             {t.advice.text}

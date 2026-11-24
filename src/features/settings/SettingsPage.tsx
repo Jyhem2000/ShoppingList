@@ -113,7 +113,7 @@ function Tile({
       to={to}
       className="flex min-h-28 flex-col items-start justify-between gap-3 rounded-2xl bg-surface p-4 text-left active:bg-raised"
     >
-      <span className="text-secondary [&_svg]:size-7">{icon}</span>
+      <span className="text-primary [&_svg]:size-7">{icon}</span>
       <span>
         <span className="block leading-tight font-bold">{label}</span>
         <span className="block text-sm text-muted-foreground">
