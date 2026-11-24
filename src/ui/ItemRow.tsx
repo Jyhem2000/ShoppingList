@@ -83,7 +83,8 @@ export function ItemRow({
         <SeasonLabel
           inSeason={inSeason && !muted}
           className={cn(
-            "font-semibold",
+            // Sur fond sombre, un texte clair paraît plus gras : poids moyen.
+            "font-medium light:font-semibold",
             shopping && "text-lg",
             muted && "text-muted-foreground",
           )}

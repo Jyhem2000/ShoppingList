@@ -12,11 +12,12 @@ import { cn } from "@/ui/utils";
 
 /**
  * Bloc d'un rayon (docs/05 § 5.2) : la couleur du rayon forme la bordure gauche de
- * tout le bloc ; icône Lucide du rayon dans sa couleur ; l'en-tête teinté (icône · libellé · compteur, repliable) est plus
- * grand que les articles, indentés en dessous. `done` : rayon terminé en mode courses ;
- * `current` : rayon en cours, avec l'étiquette or « Tu es ici » (`currentLabel`) et un
- * rebond quand il le devient. Dans la liste comme en mode courses, et dans les deux
- * thèmes : pas de fond sous les articles, une bordure fine de sa couleur.
+ * tout le bloc et colore son icône ; le nom reste de la couleur du texte. L'en-tête teinté
+ * (icône · libellé · compteur, repliable) est plus grand que les articles, indentés en
+ * dessous. `done` : rayon terminé en mode courses ; `current` : rayon en cours, avec
+ * l'étiquette or « Tu es ici » (`currentLabel`) et un rebond quand il le devient. Pas de
+ * fond sous les articles ; en clair, un trait fin de sa couleur fait le tour du bloc, en
+ * sombre seule la bordure gauche reste (moins de couleurs à l'écran).
  */
 export function AisleSection({
   id,
@@ -91,8 +92,8 @@ export function AisleSection({
       className={cn(
         "overflow-hidden rounded-2xl border-l-4 transition-shadow",
         palette[color].border,
-        // Liste comme courses, dans les deux thèmes : pas de fond sous les articles.
-        "border border-l-4 [--row-bg:var(--bg)]",
+        // Pas de fond sous les articles ; cadre complet en clair seulement.
+        "[--row-bg:var(--bg)] light:border-y light:border-r",
       )}
     >
       <button
@@ -127,7 +128,7 @@ export function AisleSection({
           <span
             className={cn(
               "line-clamp-2 text-lg leading-snug font-extrabold",
-              done ? "text-success" : palette[color].text,
+              done && "text-success",
             )}
           >
             {label}
@@ -185,9 +186,7 @@ export function AisleSubgroup({
         className="flex min-h-12 w-full items-center gap-2 px-4 pt-2 pb-1 text-left text-sm font-bold transition-colors active:bg-raised"
       >
         <GroupIcon name={icon} palette={color} className="size-4 shrink-0" />
-        <span className={cn("min-w-0 flex-1 truncate", palette[color].text)}>
-          {label}
-        </span>
+        <span className="min-w-0 flex-1 truncate">{label}</span>
         <CountBadge count={count} />
         <FoldChevron expanded={expanded} className="size-4" />
       </button>

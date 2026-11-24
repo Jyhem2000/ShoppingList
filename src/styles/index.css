@@ -9,17 +9,18 @@
  * Réglages → Thème et posés sur <html data-theme="dark|light"> (src/app/theme.ts).
  * Fonds neutres ; deux couleurs :
  * - principale, violet : tout ce qui s'actionne (boutons, interrupteurs, liens) et les titres d'écran ;
- * - secondaire, or : les repères (icônes, onglet actif, quantités, progression).
- *   `--secondary` sert aux textes et icônes, `--secondary-fill` aux aplats (bouton Terminer,
- *   barre de progression, pastilles) ; identiques en sombre, l'aplat reste jaune vif en clair.
+ * - secondaire : les repères (icônes, onglet actif, quantités, progression).
+ *   `--secondary` sert aux textes et icônes (violet clair en sombre, violet en clair),
+ *   `--secondary-fill` aux aplats (bouton Terminer, barre de progression, pastilles),
+ *   en or dans les deux thèmes : l'or reste rare.
  * Une icône placée dans un bouton prend la couleur du texte du bouton.
  */
 :root {
   color-scheme: dark;
 
   /* Fonds, du plus profond au plus haut */
-  --bg: #0b0b0e; /* fond 1 : l'app */
-  --surface: #18181d; /* fond 2 : cartes, lignes, panneaux (et filet des icônes) */
+  --bg: #111114; /* fond 1 : l'app */
+  --surface: #1a1a20; /* fond 2 : cartes, lignes, panneaux (et filet des icônes) */
   --raised: #2a2a32; /* fond 3 : éléments surélevés, champs, boutons neutres */
   --border: #3a3a45;
   /* Filet qui détache deux objets dans une icône d'article (src/icons/packData.ts) */
@@ -28,7 +29,7 @@
   --field-border: color-mix(in srgb, var(--primary) 60%, transparent);
 
   /* Textes */
-  --text: #ededf0; /* texte principal */
+  --text: #e4e4e8; /* texte principal */
   --text-muted: #a3a3ad; /* texte secondaire */
 
   /* Couleur principale : violet */
@@ -36,9 +37,9 @@
   --primary-strong: #8e67e4;
   --on-primary: #140d22; /* texte sur fond violet */
 
-  /* Couleur secondaire : or */
-  --secondary: #f5c451;
-  --secondary-strong: #e0a92e;
+  /* Couleur secondaire : violet clair pour les repères (texte, icônes), or pour les aplats */
+  --secondary: #c3b0fd;
+  --secondary-strong: #b199f4;
   --secondary-fill: #f5c451;
   --secondary-fill-strong: #e0a92e;
   --on-secondary: #1d1606; /* texte sur fond or */
@@ -55,21 +56,22 @@
   --overlay: rgb(0 0 0 / 0.6);
   --shadow: rgb(0 0 0 / 0.4);
 
-  /* Palette des rayons et catégories : tons doux, lisibles sur fond sombre */
-  --pal-sauge: #8fcf9c;
-  --pal-ble: #e6c27a;
-  --pal-corail: #f29b85;
-  --pal-canard: #6fc3d0;
-  --pal-rose: #f2a7c3;
-  --pal-creme: #f3e3a1;
-  --pal-ambre: #f0b35e;
-  --pal-terre: #c9a27e;
-  --pal-prune: #d38fc4;
-  --pal-ciel: #8fb2f2;
-  --pal-glacier: #a5e1f0;
-  --pal-lilas: #b9a4f0;
-  --pal-ardoise: #9aa7bd;
-  --pal-gris: #85858f;
+  /* Palette des rayons et catégories : tons doux, de même clarté, teintes bien écartées
+     (un seul jaune : blé), pour qu'aucun rayon ne ressorte plus qu'un autre */
+  --pal-sauge: #90c79b;
+  --pal-ble: #c8b778;
+  --pal-corail: #e8a493;
+  --pal-canard: #72c9c3;
+  --pal-rose: #e5a1b5;
+  --pal-creme: #aec083;
+  --pal-ambre: #deac7d;
+  --pal-terre: #c5a793;
+  --pal-prune: #d7a4d1;
+  --pal-ciel: #96b9ee;
+  --pal-glacier: #76c4dd;
+  --pal-lilas: #bbade9;
+  --pal-ardoise: #a2afc1;
+  --pal-gris: #94949e;
 
   --radius: 1rem;
 }
