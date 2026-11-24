@@ -125,7 +125,10 @@ export function CheckOption({
   );
 }
 
-/** Repère d'un choix dans une liste : une coche s'il est choisi, sinon son icône. */
+/**
+ * Repère d'un choix dans une liste : une coche s'il est choisi, sinon son icône. En
+ * violet, comme le nom du choix retenu.
+ */
 export function ChoiceMark({
   selected,
   icon,
@@ -134,7 +137,7 @@ export function ChoiceMark({
   icon?: ReactNode;
 }) {
   return (
-    <span className="flex size-5 shrink-0 items-center justify-center text-secondary [&_svg]:size-5">
+    <span className="flex size-5 shrink-0 items-center justify-center text-primary [&_svg]:size-5">
       {selected ? <Check aria-hidden /> : icon}
     </span>
   );
@@ -301,7 +304,10 @@ export function ChipChoice({
   );
 }
 
-/** Ligne d'action d'un menu en panneau : icône (couleur du texte) et libellé. */
+/**
+ * Ligne d'action d'un menu en panneau : icône (violette, rouge pour une suppression)
+ * et libellé.
+ */
 export function MenuItem({
   icon,
   danger = false,
@@ -320,7 +326,13 @@ export function MenuItem({
         className,
       )}
     >
-      <span className="text-secondary [&_svg]:size-5" aria-hidden>
+      <span
+        className={cn(
+          danger ? "text-danger" : "text-primary",
+          "[&_svg]:size-5",
+        )}
+        aria-hidden
+      >
         {icon}
       </span>
       {children}

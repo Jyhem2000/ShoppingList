@@ -47,7 +47,7 @@ export function PageHeader({
             // Cible de 44 px, mais occupe la hauteur d'une ligne de titre (32 px) :
             // le titre reste au même niveau, avec ou sans bouton de retour.
             className={buttonVariants({
-              variant: "iconPrimary",
+              variant: "icon",
               size: "icon",
               className: "-my-1.5 -ml-2",
             })}
@@ -226,7 +226,10 @@ export function SectionTitle({
   );
 }
 
-/** Ligne d'information ou d'action dans une section, grisée si indisponible. */
+/**
+ * Ligne d'information ou d'action dans une section, grisée si indisponible. Son icône
+ * est violette, comme celle d'une ligne de menu (LinkRow) : la ligne porte un réglage.
+ */
 export function Row({
   label,
   hint,
@@ -249,7 +252,7 @@ export function Row({
       )}
     >
       {icon && (
-        <span className="shrink-0 text-secondary [&_svg]:size-5">{icon}</span>
+        <span className="shrink-0 text-primary [&_svg]:size-5">{icon}</span>
       )}
       <div className="min-w-0 flex-1">
         <div className="font-semibold">{label}</div>

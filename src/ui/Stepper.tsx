@@ -30,7 +30,7 @@ export function Stepper({
     <div className={cn("flex items-center gap-2", className)}>
       <Button
         type="button"
-        variant="iconOutline"
+        variant="outline"
         size="icon"
         aria-label={lessLabel}
         disabled={lessDisabled}
@@ -41,7 +41,7 @@ export function Stepper({
       {children}
       <Button
         type="button"
-        variant="iconOutline"
+        variant="outline"
         size="icon"
         aria-label={moreLabel}
         onClick={onMore}

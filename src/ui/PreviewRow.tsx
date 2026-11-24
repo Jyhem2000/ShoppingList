@@ -66,10 +66,7 @@ export function PreviewRow({
         {icon}
         <RowText title={title} detail={detail} />
         <QuantityText>{quantity}</QuantityText>
-        <ChevronRight
-          className="size-5 shrink-0 text-muted-foreground"
-          aria-hidden
-        />
+        <ChevronRight className="size-5 shrink-0 text-secondary" aria-hidden />
       </button>
     </div>
   );

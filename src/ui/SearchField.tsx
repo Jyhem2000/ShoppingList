@@ -28,7 +28,7 @@ export function SearchField({
         className,
       )}
     >
-      <Search className="size-5 shrink-0 text-secondary" aria-hidden />
+      <Search className="size-5 shrink-0 text-muted-foreground" aria-hidden />
       <input
         ref={(element) => {
           own.current = element;

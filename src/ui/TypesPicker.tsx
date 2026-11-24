@@ -71,7 +71,7 @@ export function TypesPicker({
         />
         <Button
           type="submit"
-          variant="iconOutline"
+          variant="outline"
           size="icon"
           aria-label={t.addType}
           disabled={!newType.trim()}
