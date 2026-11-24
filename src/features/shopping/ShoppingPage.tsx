@@ -54,7 +54,7 @@ import {
 } from "@/common/format";
 import { useAddToList } from "@/common/useAddToList";
 import { type ListData, useListDataOf } from "@/common/useListData";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { AisleSection, AisleSubgroup } from "@/ui/AisleHeader";
 import { Button } from "@/ui/button";
 import { ConfirmActions } from "@/ui/form";
@@ -72,7 +72,7 @@ import { StaleSessionPrompt } from "@/common/StaleSessionPrompt";
 import { useWakeLock } from "@/app/useWakeLock";
 import { withMember } from "@/domain/collections";
 
-const t = fr.shopping;
+const t = texts.shopping;
 /** Identifiant du bloc d'un rayon dans la page, pour y faire défiler l'écran. */
 const aisleElementId = (id: ID) => `aisle-${id}`;
 
@@ -115,7 +115,8 @@ export function ShoppingPage() {
   // Courses terminées (ici ou depuis la question « Tu as terminé… ? ») : le bilan.
   if (session?.status === "closed")
     return <Navigate to={shoppingRecapPath(session.id)} replace />;
-  if (!session || !data || !view) return <Loading>{fr.list.loading}</Loading>;
+  if (!session || !data || !view)
+    return <Loading>{texts.list.loading}</Loading>;
   return <Shopping session={session} data={data} view={view} />;
 }
 
@@ -222,7 +223,7 @@ function Shopping({
     void markUnavailable(db, session.id, item).then(() => {
       showToast(t.unavailableToast(name), {
         action: {
-          label: fr.list.undo,
+          label: texts.list.undo,
           run: () => {
             if (previous === "checked") check(item);
             else void uncheckItem(db, session.id, item);
@@ -303,7 +304,7 @@ function Shopping({
   const pickUpOpen = expanded.get(PICK_UP) ?? true;
   const unplacedBlock = unplacedGroups.length > 0 && (
     <AisleSection
-      label={fr.aisles.unplaced}
+      label={texts.aisles.unplaced}
       icon={DEFAULT_AISLE_STYLE.icon}
       color={DEFAULT_AISLE_STYLE.color}
       count={toPlace}
@@ -516,14 +517,14 @@ function Shopping({
       {/* Bulles d'aide de la première course (docs/03 H12), une à la fois. */}
       <HelpTip
         id="shopping-place"
-        text={fr.tips.place}
+        text={texts.tips.place}
         target='[data-tip="first-unplaced"]'
         pad={-3}
         show={!panel && toPlace > 0 && !view.placing}
       />
       <HelpTip
         id="shopping-next"
-        text={fr.tips.next}
+        text={texts.tips.next}
         target='[data-tip="next-aisle"]'
         show={!panel && toPlace > 0 && view.placing !== undefined}
       />

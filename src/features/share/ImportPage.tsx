@@ -37,7 +37,7 @@ import {
 import { feedback } from "@/feedback";
 import { ingredientDetails, lineDetails } from "@/common/format";
 import { RecipeHeader } from "@/common/RecipeHeader";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { copyText } from "@/platform/clipboard";
 import {
   currentInstallEnvironment,
@@ -53,7 +53,7 @@ import { showToast, reportSaveError } from "@/ui/toast";
 import { ImportChoiceSheet } from "./ImportChoiceSheet";
 import { byId, withMember } from "@/domain/collections";
 
-const t = fr.share;
+const t = texts.share;
 
 /**
  * D'où vient ce qu'on importe : le lien de la page (déjà relu), ou un texte collé
@@ -465,7 +465,7 @@ export function ImportPage() {
         </Section>
       )}
       {recipe?.s && (
-        <Section title={fr.recipes.steps}>
+        <Section title={texts.recipes.steps}>
           <MarkdownText text={recipe.s} className="px-4 py-3" />
         </Section>
       )}

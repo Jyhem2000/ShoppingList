@@ -22,7 +22,7 @@ import {
 import type { Aisle, Category, ID } from "@/domain/model";
 import { sortAisles, unattachedCategories } from "@/domain/stores";
 import { type AisleText, aisleText, categoryWeights } from "@/common/format";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { AddButton } from "@/ui/AddButton";
 import { Button } from "@/ui/button";
 import { useGoBack } from "@/ui/navigation";
@@ -41,7 +41,7 @@ import { RowButton, RowText } from "@/ui/RowButton";
 import { ConfirmActions } from "@/ui/form";
 import { feedback } from "@/feedback";
 import { byId } from "@/domain/collections";
-const t = fr.manage.store;
+const t = texts.manage.store;
 
 /** Panneau ouvert : un rayon, une catégorie à placer, ou la suppression du magasin. */
 type Panel =
@@ -77,7 +77,7 @@ export function StorePage() {
     return (
       <>
         <PageHeader
-          title={fr.manage.stores.title}
+          title={texts.manage.stores.title}
           backTo={routes.manageStores}
         />
         <EmptyState icon={<X />} title={t.missing} />

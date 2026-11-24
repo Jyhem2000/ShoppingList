@@ -9,14 +9,14 @@ import {
 import type { Article } from "@/domain/model";
 import { searchArticles } from "@/domain/search";
 import { searchKey } from "@/domain/slug";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { AddBar } from "@/ui/AddBar";
 import { quantitiesInList } from "./format";
 import type { ListData } from "./useListData";
 import { RowButton } from "@/ui/RowButton";
 import { SuggestionList } from "@/ui/SuggestionList";
 import { ArticleIcon } from "@/ui/ArticleIcon";
-const t = fr.list;
+const t = texts.list;
 const MAX_SUGGESTIONS = 5;
 
 /**

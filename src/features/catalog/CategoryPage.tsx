@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useParams } from "react-router";
 import { routes } from "@/app/routes";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { GroupIcon } from "@/ui/GroupIcon";
 import { EmptyState, PageHeader } from "@/ui/Page";
 import { useListData } from "@/common/useListData";
@@ -16,7 +16,7 @@ export function CategoryPage() {
   const { categoryId } = useParams();
   const data = useListData();
   const category = categoryId ? data?.categoryById.get(categoryId) : undefined;
-  const t = fr.catalog;
+  const t = texts.catalog;
   const { generic, others } = useMemo(() => {
     const articles =
       data?.articles.filter((a) => a.categoryId === categoryId).sort(byName) ??

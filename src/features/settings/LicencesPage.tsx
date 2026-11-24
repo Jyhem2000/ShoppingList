@@ -1,7 +1,7 @@
 import { ChevronDown } from "lucide-react";
 import { useEffect, useState } from "react";
 import { routes } from "@/app/routes";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { PageHeader, Section } from "@/ui/Page";
 
 interface Licence {
@@ -11,7 +11,7 @@ interface Licence {
   text: string;
 }
 
-const t = fr.licences;
+const t = texts.licences;
 
 /**
  * Bibliothèques incluses dans l'app et texte de leur licence (`licences.json`,

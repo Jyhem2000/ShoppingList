@@ -1,21 +1,31 @@
 import { ChefHat, LayoutGrid, ListChecks, Settings } from "lucide-react";
 import { NavLink, useLocation } from "react-router";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { cn } from "@/ui/utils";
 import { routes } from "./routes";
 
 const tabs = [
   {
     to: routes.list,
-    label: fr.tabs.list,
+    label: texts.tabs.list,
     icon: ListChecks,
     end: true,
     // « Faire le tour » part de la liste et y revient.
     also: routes.tour,
   },
-  { to: routes.catalog, label: fr.tabs.catalog, icon: LayoutGrid, end: false },
-  { to: routes.recipes, label: fr.tabs.recipes, icon: ChefHat, end: false },
-  { to: routes.settings, label: fr.tabs.settings, icon: Settings, end: false },
+  {
+    to: routes.catalog,
+    label: texts.tabs.catalog,
+    icon: LayoutGrid,
+    end: false,
+  },
+  { to: routes.recipes, label: texts.tabs.recipes, icon: ChefHat, end: false },
+  {
+    to: routes.settings,
+    label: texts.tabs.settings,
+    icon: Settings,
+    end: false,
+  },
 ];
 
 /**
@@ -27,7 +37,7 @@ export function TabBar() {
   const { pathname } = useLocation();
   return (
     <nav
-      aria-label={fr.tabs.navigation}
+      aria-label={texts.tabs.navigation}
       className="shrink-0 border-t border-border bg-surface pb-[calc(env(safe-area-inset-bottom)_/_3)]"
     >
       <ul className="mx-auto flex max-w-xl">

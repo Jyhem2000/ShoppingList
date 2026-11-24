@@ -6,7 +6,7 @@ import { catalogCategoryPath, routes } from "@/app/routes";
 import { db } from "@/db/database";
 import { dismissRestock } from "@/db/settings";
 import { isDismissed } from "@/domain/suggestions";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { ArticleGrid } from "@/common/ArticleGrid";
 import { useListData } from "@/common/useListData";
 import { useRestockSuggestions, useTourCategories } from "@/common/useRestock";
@@ -16,7 +16,7 @@ import { useFirstDefined } from "@/ui/useFirstDefined";
 import { useNow } from "@/ui/useNow";
 import { RestockRows } from "./RestockRows";
 
-const t = fr.tour;
+const t = texts.tour;
 /** Étape « À racheter » ; les autres étapes sont désignées par leur catégorie. */
 const RESTOCK = "racheter";
 /** Glisser d'au moins 80 px (ou d'un geste vif) : étape suivante ou précédente. */
@@ -43,7 +43,7 @@ export function TourPage() {
   const swiped = useRef(false);
 
   if (!data || !categories || !shown)
-    return <Loading>{fr.list.loading}</Loading>;
+    return <Loading>{texts.list.loading}</Loading>;
 
   const steps = [
     ...(shown.length > 0 ? [{ key: RESTOCK, title: t.restock }] : []),

@@ -8,8 +8,9 @@ import type {
   ShoppingList,
   Unit,
 } from "@/domain/model";
+import { appLanguage } from "@/domain/language";
 import { slugify } from "@/domain/slug";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import type { ShoppingDatabase } from "./database";
 
 /**
@@ -93,11 +94,13 @@ export function buildInitialData(
 
   const list: ShoppingList = {
     ...base(),
-    name: fr.defaults.listName,
+    name: texts.defaults.listName,
     position: 0,
   };
 
   const settings: Settings = {
+    // Celle posée au démarrage : au premier lancement, la langue du téléphone.
+    language: appLanguage(),
     catalogVersion: CATALOG_VERSION,
     currentListId: list.id,
     dismissedSuggestions: [],

@@ -15,12 +15,12 @@ import {
   lineQuantity,
 } from "./format";
 import type { ListData } from "./useListData";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { copyText } from "@/platform/clipboard";
 import { shareText } from "@/platform/share";
 import { showToast } from "@/ui/toast";
 
-const t = fr.share;
+const t = texts.share;
 
 /** Adresse de l'app, sans `#` : base du lien d'import. */
 export function appAddress(): string {
@@ -78,7 +78,7 @@ export function recipeMessage(recipe: Recipe, data: ListData): string {
     ),
   ];
   if (recipe.ingredients.length) {
-    lines.push("", fr.recipes.ingredients);
+    lines.push("", texts.recipes.ingredients);
     for (const ingredient of recipe.ingredients) {
       const name = data.articleById.get(ingredient.articleId)?.name;
       if (!name) continue;
@@ -92,7 +92,7 @@ export function recipeMessage(recipe: Recipe, data: ListData): string {
     }
   }
   const steps = recipe.steps?.trim();
-  if (steps) lines.push("", fr.recipes.steps, markdownToText(steps));
+  if (steps) lines.push("", texts.recipes.steps, markdownToText(steps));
   lines.push("", t.recipeMessageLink, shareLink(appAddress(), shared));
   return lines.join("\n");
 }

@@ -1,5 +1,6 @@
 import { countBy } from "./collections";
 import type { Unit, UnitGroup } from "./model";
+import { appLocale } from "./language";
 
 /**
  * Quantités et unités (docs/02 § 5, docs/07 § 7.8). Deux unités sont convertibles
@@ -179,12 +180,17 @@ export function mergeQuantity<U extends QuantityUnit>(
   };
 }
 
-const numberFormat = new Intl.NumberFormat("fr-FR", {
-  maximumFractionDigits: 3,
-});
+const numberFormats = new Map<string, Intl.NumberFormat>();
 
+/** Nombre écrit dans la langue de l'app (« 1,5 », « 1.5 »). */
 export function formatNumber(value: number): string {
-  return numberFormat.format(value);
+  const locale = appLocale();
+  let format = numberFormats.get(locale);
+  if (!format) {
+    format = new Intl.NumberFormat(locale, { maximumFractionDigits: 3 });
+    numberFormats.set(locale, format);
+  }
+  return format.format(value);
 }
 
 /** Pluriel à partir de 2, comme en français (« 1,5 kilogramme », « 2 kilogrammes »). */

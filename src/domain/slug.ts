@@ -4,9 +4,12 @@
  * Le slug sert à l'unicité et à reconnaître un objet ; il ne traduit rien. La clé
  * de recherche, plus tolérante (singulier approximatif), ne sert qu'à la recherche.
  */
+import { appLocale } from "./language";
+
+/** Le même dans toutes les langues : minuscules sans règle de langue, accents retirés. */
 export function slugify(label: string): string {
   return label
-    .toLocaleLowerCase("fr")
+    .toLowerCase()
     .normalize("NFD")
     .replace(/[̀-ͯ]/g, "")
     .replace(/œ/g, "oe")
@@ -62,7 +65,7 @@ export function searchKey(label: string): string {
  */
 export function accentKey(label: string): string {
   return label
-    .toLocaleLowerCase("fr")
+    .toLowerCase()
     .normalize("NFC")
     .replace(/[^\p{L}\p{N}]+/gu, "-")
     .replace(/^-+|-+$/g, "")
@@ -74,7 +77,7 @@ export function accentKey(label: string): string {
 /** « pommes » → « Pommes » : première lettre en majuscule, espaces autour retirés. */
 export function capitalize(text: string): string {
   const clean = text.trim();
-  return clean.charAt(0).toLocaleUpperCase("fr") + clean.slice(1);
+  return clean.charAt(0).toUpperCase() + clean.slice(1);
 }
 
 /** Clé d'un type : son slug, ou son texte s'il n'en a pas (« 🌶️ »). */
@@ -115,20 +118,30 @@ export function addAlias(
     : [...article.aliases];
 }
 
-const collator = new Intl.Collator("fr");
+const collators = new Map<string, Intl.Collator>();
 
 /**
- * Comparaison de deux textes dans l'ordre alphabétique français. Un seul
- * `Intl.Collator` pour toute l'app : `localeCompare(…, "fr")` en recrée un à chaque
- * appel, lent sous WebKit.
+ * Un seul `Intl.Collator` par langue pour toute l'app : `localeCompare(…, langue)` en
+ * recrée un à chaque appel, lent sous WebKit.
  */
-export function compareText(a: string, b: string): number {
-  return collator.compare(a, b);
+function collator(): Intl.Collator {
+  const locale = appLocale();
+  let found = collators.get(locale);
+  if (!found) {
+    found = new Intl.Collator(locale);
+    collators.set(locale, found);
+  }
+  return found;
 }
 
-/** Tri par nom, dans l'ordre alphabétique français. */
+/** Comparaison de deux textes dans l'ordre alphabétique de la langue de l'app. */
+export function compareText(a: string, b: string): number {
+  return collator().compare(a, b);
+}
+
+/** Tri par nom, dans l'ordre alphabétique de la langue de l'app. */
 export function byName(a: { name: string }, b: { name: string }): number {
-  return collator.compare(a.name, b.name);
+  return collator().compare(a.name, b.name);
 }
 
 /** La saisie contient-elle des accents ? (sinon, on ne départage pas par eux) */

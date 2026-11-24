@@ -9,7 +9,7 @@ import {
   type ImportChoice,
   type ImportLine,
 } from "@/domain/share";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { ArticleIcon } from "@/ui/ArticleIcon";
 import { Button } from "@/ui/button";
 import {
@@ -25,7 +25,7 @@ import { SearchField } from "@/ui/SearchField";
 import { Sheet } from "@/ui/Sheet";
 import { byName } from "@/domain/slug";
 
-const t = fr.share;
+const t = texts.share;
 const MAX_RESULTS = 8;
 
 /**
@@ -181,16 +181,16 @@ export function ImportChoiceSheet({
               onToggle={() => {
                 setOneOff(!oneOff);
               }}
-              label={fr.list.createSheet.oneOff}
+              label={texts.list.createSheet.oneOff}
               hint={
                 oneOff
-                  ? fr.list.createSheet.oneOffOn
+                  ? texts.list.createSheet.oneOffOn
                   : t.inCategory(category?.name ?? received.category.name)
               }
             />
           ) : (
             <p className="text-sm text-muted-foreground">
-              {fr.list.createSheet.oneOffOn}
+              {texts.list.createSheet.oneOffOn}
             </p>
           )}
           <Button

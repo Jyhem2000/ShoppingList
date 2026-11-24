@@ -1,9 +1,9 @@
 import { DatabaseZap, RotateCcw } from "lucide-react";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { Button } from "@/ui/button";
 import { EmptyState } from "@/ui/Page";
 
-const t = fr.startup;
+const t = texts.startup;
 
 /**
  * Affiché à la place de l'app quand la base ne s'ouvre pas au démarrage (navigation

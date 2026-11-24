@@ -1,7 +1,7 @@
 import type { ChangeEvent } from "react";
 import type { Unit } from "@/domain/model";
 import { UNIT_GROUPS, unitGroup, unitOptionLabel } from "@/domain/quantity";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { Select } from "@/ui/form";
 
 /**
@@ -36,7 +36,7 @@ export function UnitSelect({
         const inGroup = units.filter((u) => unitGroup(u) === group);
         if (inGroup.length === 0) return null;
         return (
-          <optgroup key={group} label={fr.list.unitGroups[group]}>
+          <optgroup key={group} label={texts.list.unitGroups[group]}>
             {inGroup.map((u) => (
               <option key={u.id} value={u.id}>
                 {unitOptionLabel(u)}

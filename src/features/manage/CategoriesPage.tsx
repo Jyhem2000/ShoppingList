@@ -11,7 +11,7 @@ import { useArticles, useCategories } from "@/db/hooks";
 import type { Category, ID } from "@/domain/model";
 import { othersCategory } from "@/domain/categories";
 import { categoryShortName } from "@/common/format";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { AddButton } from "@/ui/AddButton";
 import { Button } from "@/ui/button";
 import {
@@ -32,7 +32,7 @@ import { RowButton } from "@/ui/RowButton";
 import { feedback } from "@/feedback";
 import { byName } from "@/domain/slug";
 import { countBy } from "@/domain/collections";
-const t = fr.manage.categories;
+const t = texts.manage.categories;
 /** Catégories (docs/03 G2) : la liste, la création, et la fiche de chacune. */
 export function CategoriesPage() {
   const categories = useCategories();

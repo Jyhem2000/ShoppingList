@@ -1,11 +1,11 @@
 import { useState } from "react";
 import type { Aisle, Article } from "@/domain/model";
 import type { AisleText } from "@/common/format";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { Button } from "@/ui/button";
 import { Sheet } from "@/ui/Sheet";
 
-const t = fr.shopping;
+const t = texts.shopping;
 
 /**
  * Article ajouté pendant les courses (docs/03 C4) : à prendre (dans son rayon, ou dans

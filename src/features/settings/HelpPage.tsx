@@ -1,12 +1,12 @@
 import { Lightbulb } from "lucide-react";
 import { routes } from "@/app/routes";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { Button } from "@/ui/button";
 import { PageHeader, Row, Section } from "@/ui/Page";
 import { resetTips } from "@/app/tips";
 import { showToast } from "@/ui/toast";
 
-const t = fr.help;
+const t = texts.help;
 
 /**
  * Aide (docs/03 H10) : un mode d'emploi court, ce que l'app règle toute seule, le
@@ -42,17 +42,17 @@ export function HelpPage() {
       <Section className="pb-6">
         <Row
           icon={<Lightbulb />}
-          label={fr.tips.reset}
-          hint={fr.tips.resetHint}
+          label={texts.tips.reset}
+          hint={texts.tips.resetHint}
         >
           <Button
             variant="outline"
             onClick={() => {
               resetTips();
-              showToast(fr.tips.resetDone, { tone: "success" });
+              showToast(texts.tips.resetDone, { tone: "success" });
             }}
           >
-            {fr.tips.resetAction}
+            {texts.tips.resetAction}
           </Button>
         </Row>
       </Section>

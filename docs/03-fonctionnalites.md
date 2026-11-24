@@ -366,7 +366,7 @@ Interface et catalogue de départ en anglais, langue choisie dans les réglages 
 
 - Interface : un fichier de textes par langue (`src/i18n/en.ts` à côté de `fr.ts`).
 - Catalogue : ajout des libellés, alias et types anglais aux entrées existantes (même clé), ainsi qu'aux catégories et unités.
-- Anglais britannique ; les mots américains sont des alias. Au premier lancement, l'anglais si le téléphone est en anglais, sinon le français.
+- Anglais britannique ; les mots américains sont des alias. Au premier lancement, l'anglais si le téléphone est en anglais, sinon le français. Réglages → Préférences → **Langue** (Français · English) ; l'app redémarre dans la langue choisie.
 - Changer de langue renomme ce qui vient du catalogue et n'a jamais été renommé (articles, catégories, unités), après un message qui le précise ; le reste garde son nom.
 - Les articles du catalogue s'affichent alors dans la langue de chacun et se reconnaissent par leur clé lors d'un partage ; les articles créés à la main gardent le libellé tapé (voir [02 § 1](02-modele-metier.md#langues--libellé-slug-et-clé) et [§ 9](02-modele-metier.md#9-partage-dune-liste)).
 - Rien à migrer : les données sont déjà organisées pour (06 § 4).

@@ -20,7 +20,7 @@ import {
   unitGroup,
   unitOptionLabel,
 } from "@/domain/quantity";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { AddButton } from "@/ui/AddButton";
 import { Button } from "@/ui/button";
 import { Field, Select, TextInput, ConfirmActions } from "@/ui/form";
@@ -31,8 +31,8 @@ import { showToast } from "@/ui/toast";
 import { feedback } from "@/feedback";
 import { compareText } from "@/domain/slug";
 
-const t = fr.manage.units;
-const groupLabel = fr.list.unitGroups;
+const t = texts.manage.units;
+const groupLabel = texts.list.unitGroups;
 
 const dimensionOf = (group: UnitGroup): Unit["dimension"] =>
   group === "mass" ? "mass" : group === "volume" ? "volume" : "other";

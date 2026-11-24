@@ -6,7 +6,7 @@ import { otherTypes, typesKey } from "@/domain/lines";
 import type { Article, ListItem, Unit } from "@/domain/model";
 import { stepAmount } from "@/domain/quantity";
 import { feedback } from "@/feedback";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { Button } from "@/ui/button";
 import { OtherTypes } from "@/ui/OtherTypes";
 import { Sheet } from "@/ui/Sheet";
@@ -16,7 +16,7 @@ import { lineQuantity } from "./format";
 import { KeepOneOff } from "./KeepOneOff";
 import type { ListData } from "./useListData";
 
-const t = fr.catalog;
+const t = texts.catalog;
 
 /**
  * Réglage rapide d'un article déjà dans la liste (docs/03 A5) : **toutes ses lignes**,
@@ -54,9 +54,9 @@ export function QuantitySheet({
     if (lines.length === 1) onClose();
     void deleteItems(db, [line.id]).then((removed) => {
       feedback.remove();
-      showToast(fr.list.removed(article.name), {
+      showToast(texts.list.removed(article.name), {
         action: {
-          label: fr.list.undo,
+          label: texts.list.undo,
           run: () => {
             void restoreItems(db, removed);
           },
@@ -84,8 +84,8 @@ export function QuantitySheet({
               label={
                 labelled
                   ? line.acceptedTypes.length
-                    ? fr.list.typesMany(line.acceptedTypes)
-                    : fr.list.line.anyType
+                    ? texts.list.typesMany(line.acceptedTypes)
+                    : texts.list.line.anyType
                   : undefined
               }
               onRemove={() => {

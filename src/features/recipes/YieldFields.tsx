@@ -1,11 +1,11 @@
 import type { Recipe } from "@/domain/model";
 import { stepCount } from "@/domain/quantity";
 import { searchKey } from "@/domain/slug";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { Chip, Field, TextInput } from "@/ui/form";
 import { QuantityInput } from "@/ui/QuantityInput";
 
-const t = fr.recipes;
+const t = texts.recipes;
 
 /**
  * Rendement d'une recette (docs/04 § 2.6) : un nombre (− / +) et une unité, choisie

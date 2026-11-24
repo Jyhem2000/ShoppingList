@@ -374,7 +374,7 @@ export function exactEntry<A extends ResolvableArticle>(
     const same = (key: (s: string) => string) =>
       found.filter((f) => key(f.label) === key(typed));
     for (const key of [
-      (s: string) => s.toLocaleLowerCase("fr").normalize("NFC").trim(),
+      (s: string) => s.toLowerCase().normalize("NFC").trim(),
       slugify,
       accentKey,
     ]) {

@@ -10,9 +10,9 @@ import type {
   Unit,
 } from "@/domain/model";
 import { aisleContents, aisleTitle } from "@/domain/stores";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 
-const t = fr.list;
+const t = texts.list;
 
 /** Détails d'une ligne joints par « · », sans les vides ; `undefined` s'il n'y en a aucun. */
 export function joinDetails(
@@ -34,8 +34,8 @@ export function ingredientDetails(
 ): string | undefined {
   return joinDetails(
     detail,
-    ingredient?.optional && fr.recipes.optional,
-    ingredient?.fixed && fr.recipes.fixed,
+    ingredient?.optional && texts.recipes.optional,
+    ingredient?.fixed && texts.recipes.fixed,
     after,
   );
 }
@@ -183,7 +183,7 @@ export function aisleText(
   >,
   weights: ReadonlyMap<ID, number> = new Map(),
 ): AisleText {
-  const a = fr.aisles;
+  const a = texts.aisles;
   // Chaînes vides = absentes.
   const name = aisle.name.trim() ? aisle.name.trim() : undefined;
   const description = aisle.description?.trim()

@@ -29,11 +29,11 @@ export function monogram(label: string): string {
     .map((word) => word.replace(/^[ldLD]['’]/, ""))
     .filter((word) => /\p{L}|\p{N}/u.test(word));
   const significant = words.filter(
-    (word) => !SMALL_WORDS.has(word.toLocaleLowerCase("fr")),
+    (word) => !SMALL_WORDS.has(word.toLowerCase()),
   );
   const chosen = (significant.length > 0 ? significant : words).slice(0, 2);
   const letters = chosen
     .map((word) => /[\p{L}\p{N}]/u.exec(word)?.[0] ?? "")
     .join("");
-  return letters.toLocaleUpperCase("fr") || "?";
+  return letters.toUpperCase() || "?";
 }

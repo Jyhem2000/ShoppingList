@@ -24,7 +24,8 @@ import {
 import { db } from "@/db/database";
 import { useSettings } from "@/db/hooks";
 import { updateSettings } from "@/db/settings";
-import { fr } from "@/i18n/fr";
+import { appLocale } from "@/domain/language";
+import { texts } from "@/i18n";
 import { canCopyText, copyText } from "@/platform/clipboard";
 import { shareOrDownload } from "@/platform/share";
 import { Button } from "@/ui/button";
@@ -38,7 +39,7 @@ import { daysSince } from "./backupAge";
 import { formatDate } from "@/common/time";
 import { pasteOrAsk } from "@/common/paste";
 
-const t = fr.manage.backup;
+const t = texts.manage.backup;
 
 /** Tout l'état de l'app repart des données remplacées. */
 const reloadApp = () => {
@@ -200,7 +201,7 @@ export function BackupPage() {
             key={copy.id}
             icon={<History className="size-5 shrink-0 text-primary" />}
             title={t.copies.title(
-              new Date(copy.at).toLocaleDateString("fr-FR", {
+              new Date(copy.at).toLocaleDateString(appLocale(), {
                 weekday: "long",
                 day: "numeric",
                 month: "long",

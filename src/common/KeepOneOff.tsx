@@ -3,14 +3,14 @@ import { isOneOff } from "@/domain/categories";
 import { setArticleCategory } from "@/db/catalog";
 import { db } from "@/db/database";
 import type { Article } from "@/domain/model";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { Button } from "@/ui/button";
 import { Field } from "@/ui/form";
 import { CategorySelect } from "@/ui/CategorySelect";
 import { showToast, reportSaveError } from "@/ui/toast";
 import type { ListData } from "./useListData";
 
-const t = fr.list.keepOneOff;
+const t = texts.list.keepOneOff;
 /**
  * Achat ponctuel gardé dans le catalogue (docs/03 A4) : il faut lui choisir une
  * vraie catégorie, qui décide aussi de son rayon. Rien n'apparaît pour un article normal.

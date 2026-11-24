@@ -1,6 +1,6 @@
 import { Leaf } from "lucide-react";
 import type { ReactNode } from "react";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { cn } from "@/ui/utils";
 
 /**
@@ -19,7 +19,7 @@ export function SeasonBadge({
     <Leaf
       {...(decorative
         ? { "aria-hidden": true }
-        : { role: "img", "aria-label": fr.season.badge })}
+        : { role: "img", "aria-label": texts.season.badge })}
       strokeWidth={2.5}
       className={cn("size-4 shrink-0 fill-season/25 text-season", className)}
     />

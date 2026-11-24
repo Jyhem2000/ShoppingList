@@ -5,7 +5,7 @@ import { lineKey } from "@/domain/lines";
 import type { MergeLine } from "@/domain/listMerge";
 import type { ID } from "@/domain/model";
 import { feedback } from "@/feedback";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { Button } from "@/ui/button";
 import { CheckRow, FieldLabel } from "@/ui/form";
 import { PreviewRow } from "@/ui/PreviewRow";
@@ -16,7 +16,7 @@ import type { ListData } from "@/common/useListData";
 import { ArticleIcon } from "@/ui/ArticleIcon";
 import { EmptyHint } from "@/ui/Page";
 import { withMember } from "@/domain/collections";
-const t = fr.list.merge;
+const t = texts.list.merge;
 
 /**
  * Compléter la liste courante avec le contenu d'autres listes (docs/02 § 6) :

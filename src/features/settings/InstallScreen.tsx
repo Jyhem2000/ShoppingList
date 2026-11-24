@@ -1,6 +1,6 @@
 import { Download, Share, TriangleAlert } from "lucide-react";
 import { useSyncExternalStore } from "react";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { PageTitle } from "@/ui/Page";
 import {
   canPromptInstall,
@@ -47,8 +47,8 @@ export function InstallScreen({
           alt=""
           className="mx-auto mb-6 size-20 rounded-3xl"
         />
-        <PageTitle className="mb-3 text-3xl">{fr.install.title}</PageTitle>
-        <p className="mb-6 text-muted-foreground">{fr.install.intro}</p>
+        <PageTitle className="mb-3 text-3xl">{texts.install.title}</PageTitle>
+        <p className="mb-6 text-muted-foreground">{texts.install.intro}</p>
 
         <div className="flex-1 space-y-6">
           {context.kind === "ios" && (
@@ -61,14 +61,14 @@ export function InstallScreen({
                 <Steps
                   steps={
                     context.browser === "safari"
-                      ? fr.install.iosSafariSteps
-                      : fr.install.iosChromeSteps
+                      ? texts.install.iosSafariSteps
+                      : texts.install.iosChromeSteps
                   }
                 />
               </div>
               <p className="flex items-start gap-2 text-sm text-warning">
                 <TriangleAlert className="mt-0.5 size-4 shrink-0" aria-hidden />
-                {fr.install.iosWarning}
+                {texts.install.iosWarning}
               </p>
             </>
           )}
@@ -83,21 +83,21 @@ export function InstallScreen({
                 onClick={() => void promptInstall()}
               >
                 <Download aria-hidden />
-                {fr.install.androidButton}
+                {texts.install.androidButton}
               </Button>
               <p className="text-sm text-muted-foreground">
-                {fr.install.androidManual}
+                {texts.install.androidManual}
               </p>
             </div>
           )}
 
           {context.kind === "other" && (
-            <p className="text-muted-foreground">{fr.install.otherText}</p>
+            <p className="text-muted-foreground">{texts.install.otherText}</p>
           )}
         </div>
 
         <Button variant="outline" className="mt-8" onClick={onContinue}>
-          {fr.install.continue}
+          {texts.install.continue}
         </Button>
       </div>
     </div>

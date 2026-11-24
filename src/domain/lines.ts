@@ -8,7 +8,7 @@ import { compareText } from "./slug";
  * importe » (aucun type) est un choix comme un autre.
  */
 export function typesKey(types: readonly string[]): string {
-  return [...new Set(types.map((type) => type.trim().toLocaleLowerCase("fr")))]
+  return [...new Set(types.map((type) => type.trim().toLowerCase()))]
     .sort()
     .join("|");
 }

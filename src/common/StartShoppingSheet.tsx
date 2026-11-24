@@ -7,14 +7,14 @@ import { startSession } from "@/db/sessions";
 import { createEmptyStore } from "@/db/stores";
 import type { ID } from "@/domain/model";
 import type { ListData } from "./useListData";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { reportSaveError } from "@/ui/toast";
 import { Button } from "@/ui/button";
 import { Field, TextInput, ChoiceMark } from "@/ui/form";
 import { Sheet } from "@/ui/Sheet";
 import { cn } from "@/ui/utils";
 import { RowButton } from "@/ui/RowButton";
-const t = fr.shopping;
+const t = texts.shopping;
 
 /** Choix « un autre magasin » : on le crée en partant. */
 const NEW = "new";

@@ -13,7 +13,7 @@ import { othersCategory } from "@/domain/categories";
 import { unitByKey } from "@/domain/quantity";
 import { suggestedUnitKey } from "./format";
 import type { Article } from "@/domain/model";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { reportSaveError } from "@/ui/toast";
 import { Button } from "@/ui/button";
 import { ChipChoice, Field, TextInput } from "@/ui/form";
@@ -22,7 +22,7 @@ import { ProductIcon } from "@/ui/ProductIcon";
 import { Sheet } from "@/ui/Sheet";
 import { UnitSelect } from "@/ui/UnitSelect";
 import type { ListData } from "./useListData";
-const t = fr.list.createSheet;
+const t = texts.list.createSheet;
 /**
  * Fiche rapide de création d'un article inconnu (docs/03 A4) : catégorie, unité et
  * icône devinées par le dictionnaire de mots-clés, toujours remplies (au pire

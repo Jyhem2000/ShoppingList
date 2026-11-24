@@ -129,7 +129,7 @@ Mes données       (« Le cœur de l'app… Tout se modifie ici. »)
   [ rayons : 2  ]  [ 18 unités  ]
   Sauvegarde ▸   Dernière sauvegarde : il y a 12 j
 Application
-  Préférences ▸   Sons, écran allumé, thème
+  Préférences ▸   Sons, écran allumé, thème, langue
   Aide ▸          mode d'emploi, ce que l'app règle toute seule, « Revoir les conseils » (H10, H12)
   À propos ▸      Version 1.0.0 · Quoi de neuf ▸ · Licences ▸
 ```
@@ -142,6 +142,7 @@ Fonctionnalités   (grisée « Non disponible sur ce téléphone » si besoin)
   Écran allumé                     ●  (« Seulement sur deux écrans : le mode courses et la fiche d'une recette… »)
 Affichage
   Thème ................. Automatique · Sombre · Clair
+  Langue ................ Français · English  (« L'app redémarre dans la langue choisie. »)
 ```
 
 **Sauvegarde** : quatre actions de **même poids** (boutons secondaires), aucune n'étant l'action principale de l'écran ; seule la confirmation d'un import est en rouge.

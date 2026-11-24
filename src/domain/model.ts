@@ -2,6 +2,8 @@
  * Types des données (docs/07 § 5). Partagés par la logique métier (`src/domain/`)
  * et la base de données (`src/db/`) ; aucune dépendance à React ni à Dexie.
  */
+import type { Language } from "./language";
+
 export type ID = string;
 
 export interface Base {
@@ -217,6 +219,11 @@ export interface Purchase {
 }
 
 export interface Settings {
+  /**
+   * Langue de l'app (docs/03 I3), choisie au premier lancement d'après le téléphone.
+   * Absente des réglages d'avant la 1.3.0 : le français.
+   */
+  language?: Language;
   lastBackupAt?: number;
   /** Pour afficher « Quoi de neuf ». */
   lastSeenVersion?: string;

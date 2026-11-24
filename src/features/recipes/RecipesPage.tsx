@@ -8,7 +8,7 @@ import { createRecipe, DEFAULT_YIELD } from "@/db/recipes";
 import { yieldLabel } from "@/domain/recipes";
 import { searchKey } from "@/domain/slug";
 import { PasteForm } from "@/common/PasteForm";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { reportSaveError } from "@/ui/toast";
 import { pasteOrAsk } from "@/common/paste";
 import { AddButton } from "@/ui/AddButton";
@@ -22,7 +22,7 @@ import { Sheet } from "@/ui/Sheet";
 import { RecipeIcon } from "@/common/RecipeIcon";
 import { YieldFields } from "./YieldFields";
 
-const t = fr.recipes;
+const t = texts.recipes;
 
 /**
  * Onglet Recettes (docs/04 § 2.6) : les recettes (icône, nom, rendement), une recherche,
@@ -72,7 +72,7 @@ export function RecipesPage() {
         }}
       >
         <ClipboardPaste />
-        {fr.share.pasteRecipe}
+        {texts.share.pasteRecipe}
       </Button>
     </div>
   );
@@ -141,9 +141,9 @@ export function RecipesPage() {
                 }
               : undefined
           }
-          title={menu === "menu" ? t.title : fr.share.pasteRecipe}
+          title={menu === "menu" ? t.title : texts.share.pasteRecipe}
           description={
-            menu === "menu" ? t.menuDescription : fr.share.pasteRecipeText
+            menu === "menu" ? t.menuDescription : texts.share.pasteRecipeText
           }
         >
           {menu === "menu" ? (
@@ -157,13 +157,13 @@ export function RecipesPage() {
                   askPaste(true);
                 }}
               >
-                {fr.share.pasteRecipe}
+                {texts.share.pasteRecipe}
               </MenuItem>
             </div>
           ) : (
             <PasteForm
-              label={fr.share.pasteRecipe}
-              placeholder={fr.share.pasteRecipePlaceholder}
+              label={texts.share.pasteRecipe}
+              placeholder={texts.share.pasteRecipePlaceholder}
               onPaste={paste}
             />
           )}

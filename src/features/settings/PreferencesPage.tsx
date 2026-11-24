@@ -1,4 +1,4 @@
-import { Palette, Sun, Volume2 } from "lucide-react";
+import { Languages, Palette, Sun, Volume2 } from "lucide-react";
 import {
   soundEvents,
   themePreferences,
@@ -6,14 +6,17 @@ import {
   usePreferences,
 } from "@/app/preferences";
 import { routes } from "@/app/routes";
+import { db } from "@/db/database";
+import { updateSettings } from "@/db/settings";
+import { appLanguage, languages } from "@/domain/language";
 import { isAudioSupported } from "@/feedback";
-import { fr } from "@/i18n/fr";
+import { languageNames, texts } from "@/i18n";
 import { isWakeLockSupported } from "@/platform/wakeLock";
-import { Chip } from "@/ui/form";
+import { ChipRadios } from "@/ui/form";
 import { LinkRow, PageHeader, Row, Section } from "@/ui/Page";
 import { Switch } from "@/ui/switch";
 
-const t = fr.settings;
+const t = texts.settings;
 
 /**
  * Préférences de l'app (docs/04 § 2.7), réglées une fois pour toutes : section
@@ -77,26 +80,40 @@ export function PreferencesPage() {
           hint={
             <>
               {t.theme.hint}
-              <span
-                role="radiogroup"
-                aria-label={t.theme.title}
-                className="mt-2.5 flex flex-wrap gap-2"
-              >
-                {themePreferences.map((theme) => (
-                  <Chip
-                    key={theme}
-                    role="radio"
-                    aria-pressed={undefined}
-                    aria-checked={preferences.theme === theme}
-                    selected={preferences.theme === theme}
-                    onClick={() => {
-                      updatePreferences((p) => ({ ...p, theme }));
-                    }}
-                  >
-                    {t.theme.options[theme]}
-                  </Chip>
-                ))}
-              </span>
+              <ChipRadios
+                label={t.theme.title}
+                options={themePreferences.map((theme) => ({
+                  value: theme,
+                  label: t.theme.options[theme],
+                }))}
+                value={preferences.theme}
+                onChange={(theme) => {
+                  updatePreferences((p) => ({ ...p, theme }));
+                }}
+              />
+            </>
+          }
+        />
+        <Row
+          icon={<Languages />}
+          label={t.language.title}
+          hint={
+            <>
+              {t.language.hint}
+              <ChipRadios
+                label={t.language.title}
+                options={languages.map((language) => ({
+                  value: language,
+                  label: languageNames[language],
+                }))}
+                value={appLanguage()}
+                onChange={(language) => {
+                  if (language === appLanguage()) return;
+                  void updateSettings(db, { language }).then(() => {
+                    window.location.reload();
+                  });
+                }}
+              />
             </>
           }
         />

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { usePreferences } from "@/app/preferences";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { keepScreenOn } from "@/platform/wakeLock";
 import { showToast } from "@/ui/toast";
 
@@ -18,7 +18,7 @@ export function useWakeLock(): void {
     void keepScreenOn((state) => {
       if ((state === "unsupported" || state === "error") && !warned) {
         warned = true;
-        showToast(fr.shopping.screenOnFailed, { tone: "info" });
+        showToast(texts.shopping.screenOnFailed, { tone: "info" });
       }
     }).then((handle) => {
       if (cancelled) void handle.release();

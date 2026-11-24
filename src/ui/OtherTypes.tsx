@@ -1,4 +1,4 @@
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { Chip, FieldLabel } from "@/ui/form";
 
 /**
@@ -8,7 +8,7 @@ import { Chip, FieldLabel } from "@/ui/form";
 export function OtherTypes({
   types,
   onPick,
-  label = fr.list.otherType,
+  label = texts.list.otherType,
 }: {
   types: readonly string[];
   onPick: (type: string) => void;

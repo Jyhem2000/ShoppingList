@@ -1,6 +1,6 @@
 import { Minus, Plus } from "lucide-react";
 import type { ReactNode } from "react";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { Button } from "@/ui/button";
 import { cn } from "@/ui/utils";
 
@@ -13,8 +13,8 @@ export function Stepper({
   onLess,
   onMore,
   lessDisabled = false,
-  lessLabel = fr.list.line.less,
-  moreLabel = fr.list.line.more,
+  lessLabel = texts.list.line.less,
+  moreLabel = texts.list.line.more,
   className,
   children,
 }: {

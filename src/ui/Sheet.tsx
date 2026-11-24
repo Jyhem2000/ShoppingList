@@ -2,7 +2,7 @@ import { ArrowLeft, X } from "lucide-react";
 import { motion, useDragControls } from "motion/react";
 import { Dialog } from "radix-ui";
 import type { ReactNode } from "react";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { Button } from "@/ui/button";
 import { buttonVariants } from "@/ui/buttonVariants";
 import { cn } from "@/ui/utils";
@@ -96,7 +96,7 @@ export function Sheet({
                   <Button
                     variant="icon"
                     size="icon"
-                    aria-label={fr.sheet.back}
+                    aria-label={texts.sheet.back}
                     onClick={onBack}
                     className="-ml-2"
                   >
@@ -118,7 +118,7 @@ export function Sheet({
                   )}
                 </div>
                 <Dialog.Close
-                  aria-label={fr.sheet.close}
+                  aria-label={texts.sheet.close}
                   className={buttonVariants({
                     variant: "iconMuted",
                     size: "icon",

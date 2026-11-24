@@ -1,6 +1,6 @@
 import { Check, ChevronDown, Trash2, GitMerge } from "lucide-react";
 import type { ComponentProps, ReactNode } from "react";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { Button } from "@/ui/button";
 import { rowClass } from "@/ui/rowClass";
 import { cn } from "@/ui/utils";
@@ -159,7 +159,7 @@ export function ConfirmActions({
   onCancel,
   disabled,
   variant = "destructive",
-  cancelLabel = fr.manage.confirmCancel,
+  cancelLabel = texts.manage.confirmCancel,
 }: {
   label: ReactNode;
   onConfirm: () => void;
@@ -282,6 +282,42 @@ export function Chip({
         className,
       )}
     />
+  );
+}
+
+/** Un choix parmi quelques-uns, en puces (Réglages → Thème, Langue). */
+export function ChipRadios<T extends string>({
+  label,
+  options,
+  value,
+  onChange,
+}: {
+  label: string;
+  options: readonly { value: T; label: string }[];
+  value: T;
+  onChange: (value: T) => void;
+}) {
+  return (
+    <span
+      role="radiogroup"
+      aria-label={label}
+      className="mt-2.5 flex flex-wrap gap-2"
+    >
+      {options.map((option) => (
+        <Chip
+          key={option.value}
+          role="radio"
+          aria-pressed={undefined}
+          aria-checked={value === option.value}
+          selected={value === option.value}
+          onClick={() => {
+            onChange(option.value);
+          }}
+        >
+          {option.label}
+        </Chip>
+      ))}
+    </span>
   );
 }
 

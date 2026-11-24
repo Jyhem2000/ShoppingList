@@ -1,5 +1,5 @@
 import { catalogData } from "@/data/catalog";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { DISH_CATEGORY, DISH_PREFIX, type IconPack } from "./pack";
 import { compareText, searchKey } from "@/domain/slug";
 
@@ -62,8 +62,9 @@ for (const [path, body] of Object.entries(drawings)) {
 
 for (const [path, body] of Object.entries(dishDrawings)) {
   const name = path.slice("./dishes/".length, -".svg".length);
-  const dish = fr.recipes.dishes[name];
-  if (!dish) throw new Error(`${path} : aucun libellé dans fr.recipes.dishes`);
+  const dish = texts.recipes.dishes[name];
+  if (!dish)
+    throw new Error(`${path} : aucun libellé dans texts.recipes.dishes`);
   entries.push({
     name: `${DISH_PREFIX}${name}`,
     body,
@@ -78,7 +79,7 @@ for (const [path, body] of Object.entries(dishDrawings)) {
 // d'icône n'a pas à le trier.
 const pack = Object.create(null) as IconPack;
 for (const entry of entries.sort((a, b) => compareText(a.label, b.label))) {
-  const label = entry.label.toLocaleLowerCase("fr");
+  const label = entry.label.toLowerCase();
   pack[entry.name] = {
     b: entry.body,
     l: label,

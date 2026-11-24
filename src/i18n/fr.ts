@@ -434,7 +434,18 @@ export const fr = {
       wholeCategoryHint: (into: string) => `Tous ses articles iront ${into}.`,
       done: (name: string, label: string) => `${name} → ${label}`,
     },
-    when: { today: "aujourd'hui", yesterday: "hier" },
+    when: {
+      today: "aujourd'hui",
+      yesterday: "hier",
+      /** « 18 h 02 », « 18 h » à l'heure pile. */
+      clock: (hours: number, minutes: number) =>
+        `${hours} h${minutes ? ` ${String(minutes).padStart(2, "0")}` : ""}`,
+      /** « 42 min », « 1 h 05 ». */
+      duration: (hours: number, minutes: number) =>
+        hours
+          ? `${hours} h ${String(minutes).padStart(2, "0")}`
+          : `${minutes} min`,
+    },
     stale: {
       title: (when: string) => `Tu as terminé tes courses de ${when} ?`,
       text: "Elles sont restées ouvertes.",
@@ -978,7 +989,7 @@ export const fr = {
     },
     preferences: {
       title: "Préférences",
-      hint: "Sons, écran allumé, thème",
+      hint: "Sons, écran allumé, thème, langue",
     },
     sectionFeatures: "Fonctionnalités",
     sectionApp: "Application",
@@ -987,6 +998,10 @@ export const fr = {
       title: "Thème",
       hint: "Automatique : suit le réglage clair ou sombre du téléphone.",
       options: { auto: "Automatique", dark: "Sombre", light: "Clair" },
+    },
+    language: {
+      title: "Langue",
+      hint: "L'app redémarre dans la langue choisie.",
     },
     about: "À propos",
     unavailable: "Non disponible sur ce téléphone",

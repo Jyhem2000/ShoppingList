@@ -1,4 +1,4 @@
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { cn } from "@/ui/utils";
 
 /**
@@ -17,7 +17,7 @@ export function MonthCalendar({
 }) {
   return (
     <div className="grid grid-cols-6 gap-1.5">
-      {fr.season.months.map((label, index) => {
+      {texts.season.months.map((label, index) => {
         const month = index + 1;
         const selected = months.includes(month);
         return (
@@ -25,7 +25,7 @@ export function MonthCalendar({
             key={month}
             type="button"
             aria-pressed={selected}
-            aria-label={fr.season.monthNames[index]}
+            aria-label={texts.season.monthNames[index]}
             onClick={() => {
               onToggle(month);
             }}

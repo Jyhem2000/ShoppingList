@@ -1,7 +1,7 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion } from "motion/react";
 import type { ReactNode } from "react";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { buttonVariants } from "@/ui/buttonVariants";
 import { NavButton } from "@/ui/NavButton";
 import { useGoBack } from "@/ui/navigation";
@@ -39,7 +39,7 @@ export function PageHeader({
           <NavButton
             to={backTo}
             back
-            aria-label={fr.sheet.back}
+            aria-label={texts.sheet.back}
             onClick={(event) => {
               event.preventDefault();
               goBack();

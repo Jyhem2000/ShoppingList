@@ -226,7 +226,7 @@ export function recipeMerge(
 
 /** Accorde le premier mot de l'unité de rendement : « personnes » → « personne », « cake » → « cakes ». */
 function agree(word: string, plural: boolean): string {
-  const lower = word.toLocaleLowerCase("fr");
+  const lower = word.toLowerCase();
   if (plural) {
     if (/[sxz]$/.test(lower)) return word;
     if (/(au|eu)$/.test(lower)) return `${word}x`;

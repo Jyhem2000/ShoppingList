@@ -1,10 +1,10 @@
 import { Plus } from "lucide-react";
 import { useState } from "react";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { Button } from "@/ui/button";
 import { Chip, FieldLabel, TextInput } from "@/ui/form";
 
-const t = fr.list.line;
+const t = texts.list.line;
 
 /**
  * Sortes acceptées (docs/02 § 6) d'une ligne ou d'un ingrédient : « Peu importe » ou

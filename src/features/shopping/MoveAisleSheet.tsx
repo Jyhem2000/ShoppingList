@@ -5,12 +5,12 @@ import type { Aisle, Article, ID } from "@/domain/model";
 import { sortAisles } from "@/domain/stores";
 import { aisleText } from "@/common/format";
 import type { ListData } from "@/common/useListData";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { GroupIcon } from "@/ui/GroupIcon";
 import { Sheet } from "@/ui/Sheet";
 import { showToast } from "@/ui/toast";
 import { RowButton } from "@/ui/RowButton";
-const t = fr.shopping.move;
+const t = texts.shopping.move;
 
 /**
  * Changer un article de rayon dans ce magasin (docs/03 C5, docs/02 § 4), en deux étapes :

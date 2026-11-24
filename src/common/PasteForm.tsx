@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { Button } from "@/ui/button";
 import { TextArea } from "@/ui/form";
 
@@ -43,7 +43,7 @@ export function PasteForm({
         }}
       />
       <Button type="submit" disabled={!pasted.trim()}>
-        {fr.share.pasteContinue}
+        {texts.share.pasteContinue}
       </Button>
     </form>
   );

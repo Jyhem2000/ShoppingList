@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from "motion/react";
 import type { ID } from "@/domain/model";
 import { inSeason, monthOf } from "@/domain/season";
 import type { Suggestion } from "@/domain/suggestions";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { quantitiesInList } from "@/common/format";
 import { DAY_MS } from "@/common/time";
 import { useCatalogPick } from "@/common/useCatalogPick";
@@ -13,7 +13,7 @@ import { ArticleIcon } from "@/ui/ArticleIcon";
 import { RowButton, RowText } from "@/ui/RowButton";
 import { SeasonLabel } from "@/ui/SeasonBadge";
 
-const t = fr.tour;
+const t = texts.tour;
 
 /**
  * Articles à racheter (docs/03 D1) : icône, nom, rythme d'achat et dernier achat. Un

@@ -14,7 +14,7 @@ import {
 } from "@/db/hooks";
 import { reopenSession } from "@/db/sessions";
 import { aisleOrderChanged, canReopen } from "@/domain/shopping";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { Button } from "@/ui/button";
 import { EmptyState, PageHeader, Section, SectionTitle } from "@/ui/Page";
 import { InfoRow } from "@/ui/RowButton";
@@ -23,7 +23,7 @@ import { formatDuration } from "@/common/time";
 import { ArticleIcon } from "@/ui/ArticleIcon";
 import { useNow } from "@/ui/useNow";
 import { byId } from "@/domain/collections";
-const t = fr.shopping.recap;
+const t = texts.shopping.recap;
 
 /**
  * Bilan de fin de courses (docs/04 § 2.4) : articles achetés, introuvables restés dans
@@ -140,7 +140,7 @@ export function RecapPage() {
           </ul>
         </Section>
       )}
-      <HelpTip id="shopping-stored" text={fr.tips.stored} />
+      <HelpTip id="shopping-stored" text={texts.tips.stored} />
     </>
   );
 }
