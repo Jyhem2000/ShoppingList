@@ -5,8 +5,8 @@
 export const markdownClass = {
   root: "flex flex-col gap-2",
   heading: "pt-1 text-xl font-bold tracking-tight text-secondary",
-  bullets: "flex list-disc flex-col gap-1 pl-5 marker:text-secondary",
+  bullets: "flex list-disc flex-col gap-1 pl-5 marker:text-primary",
   numbers:
-    "flex list-decimal flex-col gap-1 pl-6 marker:font-bold marker:text-secondary",
+    "flex list-decimal flex-col gap-1 pl-6 marker:font-bold marker:text-primary",
   bold: "font-bold",
 };
