@@ -166,7 +166,7 @@ export function CatalogSearch({
                   detail={category?.name}
                   trailing={
                     quantity && (
-                      <span className="shrink-0 text-sm font-bold text-secondary tabular-nums">
+                      <span className="shrink-0 text-sm font-bold text-primary tabular-nums">
                         {quantity}
                       </span>
                     )

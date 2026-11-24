@@ -6,7 +6,7 @@ import { cn } from "@/ui/utils";
 
 /**
  * Ligne d'article (docs/05 § 5.1), indentée sous l'en-tête de son rayon : icône ·
- * libellé · détails (types acceptés, note) · quantité en or à droite. Toute la ligne
+ * libellé · détails (types acceptés, note) · quantité en violet à droite. Toute la ligne
  * est cliquable. Texte en 16 px, plus petit que l'en-tête du rayon (18 px).
  * `shopping` : mode courses (cible de 48 px, texte de 18 px, coche).
  * `unavailable` : pas pris (grisée). `onLongPress` : appui long (changer de rayon).
@@ -49,7 +49,7 @@ export function ItemRow({
   const quantityClass = cn(
     "shrink-0 font-bold tabular-nums",
     shopping && "text-lg",
-    muted ? "text-muted-foreground" : "text-secondary",
+    muted ? "text-muted-foreground" : "text-primary",
   );
   const separate = quantity !== undefined && onQuantityClick !== undefined;
 

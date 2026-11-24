@@ -126,8 +126,9 @@ export function CheckOption({
 }
 
 /**
- * Repère d'un choix dans une liste : une coche s'il est choisi (couleur des repères,
- * violet clair en sombre), sinon son icône (violette : elle s'actionne).
+ * Repère d'un choix dans une liste : une coche s'il est choisi, en or en sombre (seul
+ * repère en or hors des aplats) et en violet en clair (l'or est trop pâle au trait sur
+ * blanc) ; sinon son icône (violette : elle s'actionne).
  */
 export function ChoiceMark({
   selected,
@@ -140,7 +141,7 @@ export function ChoiceMark({
     <span
       className={cn(
         "flex size-5 shrink-0 items-center justify-center [&_svg]:size-5",
-        selected ? "text-secondary" : "text-primary",
+        selected ? "text-gold light:text-primary" : "text-primary",
       )}
     >
       {selected ? <Check aria-hidden /> : icon}

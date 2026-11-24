@@ -43,7 +43,7 @@ export function AboutPage() {
         <Row label={t.version}>
           <span
             data-testid="app-version"
-            className="text-right font-semibold text-secondary tabular-nums"
+            className="text-right font-semibold text-primary tabular-nums"
           >
             {formatVersion(buildInfo)}
           </span>
@@ -97,7 +97,7 @@ export function AboutPage() {
         >
           <Code className="size-5 shrink-0 text-primary" aria-hidden />
           <span className="flex-1 font-semibold">{t.source}</span>
-          <ExternalLink className="size-5 text-secondary" aria-hidden />
+          <ExternalLink className="size-5 text-primary" aria-hidden />
         </a>
       </Section>
     </>

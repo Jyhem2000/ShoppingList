@@ -76,7 +76,7 @@ export function AisleSection({
   const badge = current && currentLabel !== undefined && (
     <span
       aria-hidden
-      className="inline-flex items-center gap-1 rounded-full bg-secondary-fill px-2 py-0.5 text-xs font-extrabold tracking-wide text-on-secondary uppercase"
+      className="inline-flex items-center gap-1 rounded-full bg-gold px-2 py-0.5 text-xs font-extrabold tracking-wide text-on-gold uppercase"
     >
       <MapPin className="size-3.5" strokeWidth={2.5} />
       {currentLabel}

@@ -89,8 +89,8 @@ export function UpdateBanner() {
       <RefreshCw
         className={
           updating
-            ? "size-5 shrink-0 text-secondary motion-safe:animate-spin"
-            : "size-5 shrink-0 text-secondary"
+            ? "size-5 shrink-0 text-primary motion-safe:animate-spin"
+            : "size-5 shrink-0 text-primary"
         }
         aria-hidden
       />

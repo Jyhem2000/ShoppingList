@@ -36,7 +36,7 @@ export function RowButton({
       {children}
       {trailing}
       {chevron && (
-        <ChevronRight className="size-5 shrink-0 text-secondary" aria-hidden />
+        <ChevronRight className="size-5 shrink-0 text-primary" aria-hidden />
       )}
     </>
   );

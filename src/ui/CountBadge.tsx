@@ -15,7 +15,7 @@ export function CountBadge({
   return (
     <span
       className={cn(
-        "rounded-full bg-secondary-fill px-2 py-0.5 text-xs font-extrabold text-on-secondary tabular-nums",
+        "rounded-full bg-gold px-2 py-0.5 text-xs font-extrabold text-on-gold tabular-nums",
         className,
       )}
     >

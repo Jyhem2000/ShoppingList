@@ -76,7 +76,7 @@ export function Loading({ children }: { children: ReactNode }) {
 }
 
 /**
- * Écran vide illustré : icône en or, titre, une phrase qui dit quoi
+ * Écran vide illustré : icône en violet, titre, une phrase qui dit quoi
  * faire, et au besoin le bouton qui le fait. Apparaît en fondu.
  */
 export function EmptyState({
@@ -99,7 +99,7 @@ export function EmptyState({
     >
       <div
         aria-hidden
-        className="mb-5 flex size-20 items-center justify-center rounded-3xl bg-raised text-secondary [&_svg]:size-10"
+        className="mb-5 flex size-20 items-center justify-center rounded-3xl bg-raised text-primary [&_svg]:size-10"
       >
         {icon}
       </div>
@@ -200,7 +200,7 @@ export function PageTitle({
 
 /**
  * Sous-titre d'une partie d'écran (Mes données, Application, Favoris…) : le même partout.
- * Un trait or le signale, dans les deux thèmes (aplat `--secondary-fill` : l'or marque les repères, docs/05 § 2) ; le texte reste sobre.
+ * Un trait or le signale, dans les deux thèmes (aplat `--gold`, docs/05 § 2) ; le texte reste sobre.
  */
 export function SectionTitle({
   children,
@@ -211,10 +211,7 @@ export function SectionTitle({
 }) {
   const title = (
     <h2 className="flex items-center gap-2 text-xl font-bold tracking-tight text-text">
-      <span
-        aria-hidden
-        className="h-6 w-1 shrink-0 rounded-full bg-secondary-fill"
-      />
+      <span aria-hidden className="h-6 w-1 shrink-0 rounded-full bg-gold" />
       {children}
     </h2>
   );
@@ -289,7 +286,7 @@ export function LinkRow({
           <span className="block text-sm text-muted-foreground">{hint}</span>
         )}
       </span>
-      <ChevronRight className="size-5 text-secondary" aria-hidden />
+      <ChevronRight className="size-5 text-primary" aria-hidden />
     </NavButton>
   );
 }

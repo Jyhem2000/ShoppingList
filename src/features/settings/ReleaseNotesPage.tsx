@@ -28,7 +28,7 @@ export function ReleaseNotesPage() {
             <ul className="space-y-2 px-4 py-3">
               {release.items.map((item) => (
                 <li key={item} className="flex gap-2">
-                  <span className="pt-0.5 text-secondary" aria-hidden>
+                  <span className="pt-0.5 text-primary" aria-hidden>
                     •
                   </span>
                   <span>{item}</span>

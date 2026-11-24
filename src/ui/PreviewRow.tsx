@@ -3,10 +3,10 @@ import type { ReactNode } from "react";
 import { CheckRow } from "@/ui/form";
 import { RowText } from "@/ui/RowButton";
 
-/** Quantité à droite d'une ligne (aperçu, ingrédient) : en or, en gras. */
+/** Quantité à droite d'une ligne (aperçu, ingrédient) : en violet, en gras. */
 export function QuantityText({ children }: { children: ReactNode }) {
   return (
-    <span className="shrink-0 font-bold text-secondary tabular-nums">
+    <span className="shrink-0 font-bold text-primary tabular-nums">
       {children}
     </span>
   );
@@ -66,7 +66,7 @@ export function PreviewRow({
         {icon}
         <RowText title={title} detail={detail} />
         <QuantityText>{quantity}</QuantityText>
-        <ChevronRight className="size-5 shrink-0 text-secondary" aria-hidden />
+        <ChevronRight className="size-5 shrink-0 text-primary" aria-hidden />
       </button>
     </div>
   );

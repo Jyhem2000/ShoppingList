@@ -46,7 +46,7 @@ export function SoundsPage() {
       </Section>
       {audio && (
         <p className="flex gap-2 px-5 pt-2 text-sm text-muted-foreground">
-          <Info className="mt-0.5 size-4 shrink-0 text-secondary" aria-hidden />
+          <Info className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden />
           {canFollowSilentMode() ? t.silentIos : t.silentOther}
         </p>
       )}

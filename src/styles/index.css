@@ -7,12 +7,11 @@
 /*
  * Design system — thème sombre (par défaut) et thème clair (docs/05 § 2), choisis dans
  * Réglages → Thème et posés sur <html data-theme="dark|light"> (src/app/theme.ts).
- * Fonds neutres ; deux couleurs :
- * - principale, violet : tout ce qui s'actionne (boutons, interrupteurs, liens) et les titres d'écran ;
- * - secondaire : les repères (icônes, onglet actif, quantités, progression).
- *   `--secondary` sert aux textes et icônes (violet clair en sombre, violet en clair),
- *   `--secondary-fill` aux aplats (bouton Terminer, barre de progression, pastilles),
- *   en or dans les deux thèmes : l'or reste rare.
+ * Fonds neutres ; deux couleurs, les mêmes rôles dans les deux thèmes :
+ * - `--primary`, violet : tout ce qui s'actionne (boutons, interrupteurs, liens), les titres
+ *   d'écran et les repères au trait (quantités, onglet actif, chevrons) ;
+ * - `--gold`, or : les aplats, rares (bouton Terminer, barre de progression, pastilles,
+ *   trait de l'onglet actif) et, en sombre, la coche du choix retenu.
  * Une icône placée dans un bouton prend la couleur du texte du bouton.
  */
 :root {
@@ -37,12 +36,13 @@
   --primary-strong: #8e67e4;
   --on-primary: #140d22; /* texte sur fond violet */
 
-  /* Couleur secondaire : violet clair pour les repères (texte, icônes), or pour les aplats */
-  --secondary: #c3b0fd;
-  --secondary-strong: #b199f4;
-  --secondary-fill: #f5c451;
-  --secondary-fill-strong: #e0a92e;
-  --on-secondary: #1d1606; /* texte sur fond or */
+  /* Or : les aplats */
+  --gold: #f5c451;
+  --gold-strong: #e0a92e;
+  --on-gold: #1d1606; /* texte sur fond or */
+
+  /* Fond d'un bouton désactivé : gris */
+  --disabled: var(--raised);
 
   /* États : couleurs franches, ce sont des messages importants */
   --success: #2ec27e;
@@ -96,13 +96,13 @@
   --primary-strong: #4c1d95;
   --on-primary: #ffffff;
 
-  /* Or : aplats en #FBBF24 ; trop pâle pour un texte ou une icône au trait sur blanc,
-     les repères (icônes, quantités) passent en violet. */
-  --secondary: #5b21b6;
-  --secondary-strong: #4c1d95;
-  --secondary-fill: #fbbf24;
-  --secondary-fill-strong: #f59e0b;
-  --on-secondary: #1d1606;
+  /* Or : aplats seulement, trop pâle sur blanc pour un texte ou une icône au trait. */
+  --gold: #fbbf24;
+  --gold-strong: #f59e0b;
+  --on-gold: #1d1606;
+
+  /* Le fond 3 est violet très clair : un bouton désactivé prend le gris du séparateur. */
+  --disabled: var(--border);
 
   --success: #15803d;
   --info: #1d4ed8;
@@ -143,11 +143,10 @@
   --color-primary: var(--primary);
   --color-primary-strong: var(--primary-strong);
   --color-on-primary: var(--on-primary);
-  --color-secondary: var(--secondary);
-  --color-secondary-strong: var(--secondary-strong);
-  --color-secondary-fill: var(--secondary-fill);
-  --color-secondary-fill-strong: var(--secondary-fill-strong);
-  --color-on-secondary: var(--on-secondary);
+  --color-gold: var(--gold);
+  --color-gold-strong: var(--gold-strong);
+  --color-on-gold: var(--on-gold);
+  --color-disabled: var(--disabled);
   --color-success: var(--success);
   --color-info: var(--info);
   --color-warning: var(--warning);
@@ -162,7 +161,6 @@
   --color-popover: var(--surface);
   --color-popover-foreground: var(--text);
   --color-primary-foreground: var(--on-primary);
-  --color-secondary-foreground: var(--on-secondary);
   --color-muted: var(--raised);
   --color-muted-foreground: var(--text-muted);
   --color-accent: var(--raised);
