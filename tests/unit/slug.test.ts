@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { setAppLanguage } from "@/domain/language";
 import { searchKey, slugify } from "@/domain/slug";
 
 describe("slugify (docs/02 § 1)", () => {
@@ -34,5 +35,23 @@ describe("searchKey", () => {
     expect(searchKey("Riz")).toBe("riz");
     expect(searchKey("Gaz")).toBe("gaz");
     expect(searchKey("Борщс")).toBe("борщс");
+  });
+
+  it("en anglais, singulier et pluriel ont la même clé", () => {
+    setAppLanguage("en");
+    try {
+      const same = (a: string, b: string) =>
+        expect(searchKey(a)).toBe(searchKey(b));
+      same("Cherries", "cherry");
+      same("Tomatoes", "tomato");
+      same("Glasses", "glass");
+      same("Peaches", "peach");
+      same("Cookies", "cookie");
+      same("Cheeses", "cheese");
+      same("Eggs", "egg");
+      expect(searchKey("Peas")).toBe("pea");
+    } finally {
+      setAppLanguage("fr");
+    }
   });
 });

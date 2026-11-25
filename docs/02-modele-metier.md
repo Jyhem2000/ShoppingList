@@ -72,7 +72,7 @@ L'app est **en français** ; l'anglais (interface + catalogue) arrive en v1.3 ([
 
 ### Recherche (distinct du slug)
 
-Pour la recherche, on utilise en plus une **clé de recherche** plus tolérante : slug + singulier approximatif (suppression d'un `s` ou `x` final par mot). Ainsi `tomate` trouve _Tomates_, `oeuf` trouve _Œufs_. Cette clé n'est jamais utilisée pour l'unicité.
+Pour la recherche, on utilise en plus une **clé de recherche** plus tolérante : slug + singulier approximatif de chaque mot, selon la langue de l'app (en français, suppression d'un `s` ou `x` final ; en anglais, `cherry` et `cherries` ont la même clé, 07 § 7.1). Ainsi `tomate` trouve _Tomates_, `oeuf` trouve _Œufs_, `cherry` trouve _Cherries_. Cette clé n'est jamais utilisée pour l'unicité.
 
 ---
 

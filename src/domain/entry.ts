@@ -1,3 +1,4 @@
+import { appLanguage, type ByLanguage, type Language } from "./language";
 import type { Article, Unit } from "./model";
 import {
   parseNumber,
@@ -25,48 +26,126 @@ export type ParsingUnit = Pick<
   "slug" | "singular" | "plural" | "abbr" | "aliases" | "group" | "dimension"
 >;
 
-const NUMBER_WORDS: Record<string, number> = {
-  un: 1,
-  une: 1,
-  deux: 2,
-  trois: 3,
-  quatre: 4,
-  cinq: 5,
-  six: 6,
-  sept: 7,
-  huit: 8,
-  neuf: 9,
-  dix: 10,
-  onze: 11,
-  douze: 12,
-  treize: 13,
-  quatorze: 14,
-  quinze: 15,
-  seize: 16,
-  "dix-sept": 17,
-  "dix-huit": 18,
-  "dix-neuf": 19,
-  vingt: 20,
+/** Mots lus par la saisie, dans la langue de l'app (slugs pour les mots seuls). */
+interface EntryWords {
+  /** Nombres en lettres, jusqu'à vingt ; « a » vaut un en anglais. */
+  numbers: Readonly<Record<string, number>>;
+  /** Douzaine et demi-douzaine, en un à trois mots (« half-a-dozen »). */
+  dozen: ReadonlySet<string>;
+  halfDozen: ReadonlySet<string>;
+  /** Mots dits entre deux articles (« et », « puis »), en minuscules. */
+  separators: readonly string[];
+  /** Partitifs et articles en tête, retirés (« du », « de la », « some », « of »). */
+  partitive: RegExp;
+}
+
+const WORDS: ByLanguage<EntryWords> = {
+  fr: {
+    numbers: {
+      un: 1,
+      une: 1,
+      deux: 2,
+      trois: 3,
+      quatre: 4,
+      cinq: 5,
+      six: 6,
+      sept: 7,
+      huit: 8,
+      neuf: 9,
+      dix: 10,
+      onze: 11,
+      douze: 12,
+      treize: 13,
+      quatorze: 14,
+      quinze: 15,
+      seize: 16,
+      "dix-sept": 17,
+      "dix-huit": 18,
+      "dix-neuf": 19,
+      vingt: 20,
+    },
+    dozen: new Set(["douzaine", "douzaines"]),
+    halfDozen: new Set(["demi-douzaine", "demi-douzaines"]),
+    separators: ["et", "puis"],
+    // du, de la, de l', des, d', de, l'
+    partitive: /^(?:(?:de\s+l|d|l)['’]\s*|(?:du|des|de\s+la|de)\s+)/i,
+  },
+  en: {
+    numbers: {
+      a: 1,
+      an: 1,
+      one: 1,
+      two: 2,
+      three: 3,
+      four: 4,
+      five: 5,
+      six: 6,
+      seven: 7,
+      eight: 8,
+      nine: 9,
+      ten: 10,
+      eleven: 11,
+      twelve: 12,
+      thirteen: 13,
+      fourteen: 14,
+      fifteen: 15,
+      sixteen: 16,
+      seventeen: 17,
+      eighteen: 18,
+      nineteen: 19,
+      twenty: 20,
+    },
+    dozen: new Set(["dozen", "dozens"]),
+    halfDozen: new Set(["half-dozen", "half-dozens", "half-a-dozen"]),
+    separators: ["and", "then"],
+    // some, of (« 2 jars of mustard »)
+    partitive: /^(?:some|of)\s+/i,
+  },
 };
 
-const DOZEN = new Set(["douzaine", "douzaines"]);
-const HALF_DOZEN = new Set(["demi-douzaine", "demi-douzaines"]);
+/** Un mot en majuscules ou en minuscules : `et` → `[Ee][Tt]`. */
+function anyCase(word: string): string {
+  return word.replace(/\p{L}/gu, (c) => `[${c.toUpperCase()}${c}]`);
+}
 
 // Segments : virgule (jamais dans un nombre : 1,5), point-virgule, retour à la ligne,
-// « et », « puis » (se dit naturellement entre deux articles), et le point d'une fin de
-// phrase suivi d'une majuscule (« Des pommes. Du lait. », ajouté par la dictée) : pas
-// celui d'une abréviation (« 2 tr. de jambon »).
-const SEPARATOR = String.raw`[;\n]|(?<!\d),|,(?!\d)|\.(?=\s+\p{Lu})|\s+(?:[Ee][Tt]|[Pp][Uu][Ii][Ss])\s+`;
+// les mots qui se disent naturellement entre deux articles (« et », « puis »), et le
+// point d'une fin de phrase suivi d'une majuscule (« Des pommes. Du lait. », ajouté par
+// la dictée) : pas celui d'une abréviation (« 2 tr. de jambon »). Pas de drapeau `i`,
+// qui rendrait `\p{Lu}` insensible à la casse : les mots passent par `anyCase`.
+function separator({ separators }: EntryWords): string {
+  const said = separators.map(anyCase).join("|");
+  return String.raw`[;\n]|(?<!\d),|,(?!\d)|\.(?=\s+\p{Lu})|\s+(?:${said})\s+`;
+}
 // Dans la barre d'ajout seulement, une puce restée d'une liste dont les retours à la
 // ligne ont sauté : entourée d'espaces (« - beurre - lait »), ou collée au mot d'avant
 // quand le retour à la ligne a disparu sans laisser d'espace (« beurre- lait »). Pas le
 // trait d'union (« dix-sept »), ni « * 3 » (« lait * 3 »).
 const BULLET_SEPARATOR = String.raw`\s+[•·▪◦‣∙\-–—]\s+|\s+\*\s+(?!\d)|(?<=[\p{L}\p{N}])[•·▪◦‣∙\-–—]\s+|(?<=\p{L})\*\s+(?!\d)`;
-const SEPARATORS = new RegExp(String.raw`\s*(?:${SEPARATOR})\s*`, "u");
-const BULLET_SEPARATORS = new RegExp(
-  String.raw`\s*(?:${SEPARATOR}|${BULLET_SEPARATOR})\s*`,
-  "u",
-);
+
+interface Splitters {
+  plain: RegExp;
+  bullets: RegExp;
+}
+
+const splitters = new Map<Language, Splitters>();
+
+/** Expressions de découpe d'une langue, construites une seule fois. */
+function splittersOf(language: Language): Splitters {
+  let found = splitters.get(language);
+  if (!found) {
+    const words = separator(WORDS[language]);
+    found = {
+      plain: new RegExp(String.raw`\s*(?:${words})\s*`, "u"),
+      bullets: new RegExp(
+        String.raw`\s*(?:${words}|${BULLET_SEPARATOR})\s*`,
+        "u",
+      ),
+    };
+    splitters.set(language, found);
+  }
+  return found;
+}
 /**
  * Puce en début de ligne : •, -, *, case à cocher, ou numéro suivi d'une espace
  * (« 1. pain », mais pas « 2.5 kg de farine »).
@@ -76,8 +155,6 @@ export const LINE_BULLET =
 /** Puce en tête d'un segment de la saisie (« - beurre ») : la même, sans les numéros. */
 const SEGMENT_BULLET =
   /^(?:[•·▪◦‣∙*\-–—✓✔☐☑]|\[[ xX]?\])\s*(?:\[[ xX]?\]\s*)?(?=\S)/u;
-/** Partitifs et articles en tête : du, de la, de l', des, d', de, l'. */
-const PARTITIVE = /^(?:(?:de\s+l|d|l)['’]\s*|(?:du|des|de\s+la|de)\s+)/i;
 const NUMBER = /^(\d+(?:[.,]\d+)?)(.*)$/;
 const TIMES = /^[x×*](\d+(?:[.,]\d+)?)$/i;
 
@@ -89,13 +166,25 @@ interface UnitIndex {
    * (saisie d'une liste) ; vide pour les ingrédients d'une recette.
    */
   kitchen: Set<string>;
+  /**
+   * Noms écrits en entier (singulier, pluriel, clés de recherche) : une unité de cuisine
+   * tapée autrement (abréviation, alias : « tbsp », « cas ») se lit aussi sans « de ».
+   */
+  spelled: Set<string>;
+  words: EntryWords;
 }
 
-function unitIndex(units: readonly ParsingUnit[], recipe: boolean): UnitIndex {
+function unitIndex(
+  units: readonly ParsingUnit[],
+  recipe: boolean,
+  words: EntryWords,
+): UnitIndex {
   const index = new Map<string, string>();
   const kitchen = new Set<string>();
+  const spelled = new Set<string>();
   for (const unit of units) {
     if (!recipe && unitGroup(unit) === "kitchen") kitchen.add(unit.slug);
+    spelled.add(searchKey(unit.singular)).add(searchKey(unit.plural));
     const names = [
       unit.slug,
       unit.singular,
@@ -108,7 +197,7 @@ function unitIndex(units: readonly ParsingUnit[], recipe: boolean): UnitIndex {
       if (key && !index.has(key)) index.set(key, unit.slug);
     }
   }
-  return { names: index, kitchen };
+  return { names: index, kitchen, spelled, words };
 }
 
 interface Quantity {
@@ -118,13 +207,32 @@ interface Quantity {
   length: number;
 }
 
-/** Quantité au début des mots : `3`, `500g`, `1,5 kg`, `deux`, `une douzaine`. */
+/**
+ * Douzaine ou demi-douzaine au mot `from`, en un à trois mots (« douzaine »,
+ * « half a dozen »).
+ */
+function dozens(
+  words: string[],
+  from: number,
+  { dozen, halfDozen }: EntryWords,
+): Quantity | undefined {
+  for (let length = Math.min(3, words.length - from); length > 0; length--) {
+    const key = slugify(words.slice(from, from + length).join(" "));
+    if (halfDozen.has(key)) return { quantity: 6, length };
+    if (dozen.has(key)) return { quantity: 12, length };
+  }
+  return undefined;
+}
+
+/**
+ * Quantité au début des mots : `3`, `500g`, `1,5 kg`, `deux`, `une douzaine`,
+ * `half a dozen`.
+ */
 function leadingQuantity(
   words: string[],
-  { names: units, kitchen }: UnitIndex,
+  { names: units, kitchen, spelled, words: said }: UnitIndex,
 ): Quantity | undefined {
   const [first = "", second = ""] = words;
-  const firstKey = slugify(first);
   let result: Quantity | undefined;
   const numeric = NUMBER.exec(first);
   if (numeric) {
@@ -132,28 +240,30 @@ function leadingQuantity(
     const gluedUnit = glued ? units.get(searchKey(glued)) : undefined;
     if (glued && !gluedUnit) return undefined;
     result = { quantity: parseNumber(digits), unitSlug: gluedUnit, length: 1 };
-  } else if (HALF_DOZEN.has(firstKey)) {
-    return { quantity: 6, length: 1 };
-  } else if (DOZEN.has(firstKey)) {
-    return { quantity: 12, length: 1 };
-  } else if (Object.hasOwn(NUMBER_WORDS, firstKey)) {
-    result = { quantity: NUMBER_WORDS[firstKey] ?? 1, length: 1 };
   } else {
-    return undefined;
+    const dozen = dozens(words, 0, said);
+    if (dozen) return dozen;
+    const key = slugify(first);
+    if (!Object.hasOwn(said.numbers, key)) return undefined;
+    result = { quantity: said.numbers[key] ?? 1, length: 1 };
   }
-  const secondKey = slugify(second);
-  if (DOZEN.has(secondKey))
-    return { quantity: result.quantity * 12, length: 2 };
-  if (HALF_DOZEN.has(secondKey))
-    return { quantity: result.quantity * 6, length: 2 };
+  const times = dozens(words, 1, said);
+  if (times)
+    return {
+      quantity: result.quantity * times.quantity,
+      length: 1 + times.length,
+    };
   // Unité séparée du nombre, s'il reste un article après : « 2 pots de moutarde ». Une
-  // unité de cuisine seulement devant « de » (« 1 verre de vin ») : « 6 verres en
-  // plastique » sont des verres.
-  const unit = result.unitSlug ? undefined : units.get(searchKey(second));
+  // unité de cuisine seulement devant « de » (« 1 verre de vin ») ou abrégée (« 2 tbsp
+  // sugar ») : « 6 verres en plastique » sont des verres.
+  const secondKey = searchKey(second);
+  const unit = result.unitSlug ? undefined : units.get(secondKey);
   if (
     unit &&
     words.length > 2 &&
-    (!kitchen.has(unit) || PARTITIVE.test(words.slice(2).join(" ")))
+    (!kitchen.has(unit) ||
+      !spelled.has(secondKey) ||
+      said.partitive.test(words.slice(2).join(" ")))
   )
     return { ...result, unitSlug: unit, length: 2 };
   return result;
@@ -201,7 +311,7 @@ function parseSegment(
   // Sans le tiret ou les deux-points qui séparaient la quantité (« Lait - 2 L »).
   const text = words
     .join(" ")
-    .replace(PARTITIVE, "")
+    .replace(units.words.partitive, "")
     .replace(/\s*[-–—:]$/u, "")
     .trim();
   if (!text) return undefined;
@@ -234,7 +344,8 @@ export function pastedEntry(text: string): string {
  * au milieu du texte sépare aussi deux articles (barre d'ajout) ; pas dans les lignes
  * d'un texte importé, où « Lait - 2 L » est un seul article. `recipe` : ingrédients
  * d'une recette, où les unités de cuisine se lisent comme les autres ; ailleurs, elles
- * ne s'achètent pas et l'article garde sa quantité habituelle.
+ * ne s'achètent pas et l'article garde sa quantité habituelle. Les mots lus (« et »,
+ * « deux », « douzaine », « du ») sont ceux de la langue de l'app.
  */
 export function parseEntry(
   text: string,
@@ -244,10 +355,12 @@ export function parseEntry(
     recipe = false,
   }: { bullets?: boolean; recipe?: boolean } = {},
 ): ParsedEntry[] {
-  const index = unitIndex(units, recipe);
+  const language = appLanguage();
+  const index = unitIndex(units, recipe, WORDS[language]);
+  const split = splittersOf(language);
   return text
     .trim()
-    .split(bullets ? BULLET_SEPARATORS : SEPARATORS)
+    .split(bullets ? split.bullets : split.plain)
     .map((segment) => parseSegment(segment.trim(), index))
     .filter((entry) => entry !== undefined);
 }

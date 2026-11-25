@@ -4,7 +4,7 @@
  * Le slug sert à l'unicité et à reconnaître un objet ; il ne traduit rien. La clé
  * de recherche, plus tolérante (singulier approximatif), ne sert qu'à la recherche.
  */
-import { appLocale } from "./language";
+import { appLanguage, appLocale, type ByLanguage } from "./language";
 
 /** Le même dans toutes les langues : minuscules sans règle de langue, accents retirés. */
 export function slugify(label: string): string {
@@ -21,40 +21,64 @@ export function slugify(label: string): string {
 const LATIN_WORD = /^[a-z0-9]+$/;
 
 /**
- * Mots de liaison ignorés quand on compare des types (« jus d'orange » → type
- * « orange », « champignons de Paris » → type « de Paris »).
+ * Mots de liaison de la langue de l'app (slugs), ignorés quand on compare des types
+ * (« jus d'orange » → type « orange », « champignons de Paris » → type « de Paris »,
+ * « gala ou golden », « gala or golden »).
  */
-export const LINK_WORDS: ReadonlySet<string> = new Set([
-  "a",
-  "au",
-  "aux",
-  "d",
-  "de",
-  "des",
-  "du",
-  "en",
-  "l",
-  "la",
-  "le",
-  "ou",
-]);
+const LINK_WORDS: ByLanguage<ReadonlySet<string>> = {
+  fr: new Set([
+    "a",
+    "au",
+    "aux",
+    "d",
+    "de",
+    "des",
+    "du",
+    "en",
+    "l",
+    "la",
+    "le",
+    "ou",
+  ]),
+  en: new Set(["a", "an", "of", "or", "the"]),
+};
 
 /** Mots d'une clé de recherche, sans les mots de liaison. */
 export function coreWords(key: string): string[] {
-  return key.split("-").filter((word) => word && !LINK_WORDS.has(word));
+  const links = LINK_WORDS[appLanguage()];
+  return key.split("-").filter((word) => word && !links.has(word));
 }
 
 /**
- * Slug puis retrait d'un `s` ou `x` final de chaque mot de plus de 3 lettres
- * (règle du français, mots en alphabet latin seulement) : `oeufs` → `oeuf`.
+ * Racine anglaise d'un mot : sans `s` final (sauf `ss`), sans `e` final, `y` final
+ * après une consonne → `i`. Le singulier et le pluriel tombent sur la même :
+ * `cherries`, `cherry` → `cherri` ; `glasses`, `glass` → `glass` ;
+ * `tomatoes`, `tomato` → `tomato`.
+ */
+function englishStem(word: string): string {
+  let stem = word.endsWith("ss") ? word : word.replace(/s$/, "");
+  if (stem.length > 3) stem = stem.replace(/e$/, "");
+  if (stem.length > 3) stem = stem.replace(/([^aeiou])y$/, "$1i");
+  return stem;
+}
+
+/** Singulier approximatif d'un mot de plus de 3 lettres, selon la langue. */
+const SINGULAR: ByLanguage<(word: string) => string> = {
+  fr: (word) => word.replace(/[sx]$/, ""),
+  en: englishStem,
+};
+
+/**
+ * Slug puis singulier approximatif de chaque mot de plus de 3 lettres, mots en
+ * alphabet latin seulement, selon la langue de l'app : en français, retrait d'un `s`
+ * ou `x` final (`oeufs` → `oeuf`) ; en anglais, la racine de `englishStem`.
  */
 export function searchKey(label: string): string {
+  const singular = SINGULAR[appLanguage()];
   return slugify(label)
     .split("-")
     .map((word) =>
-      word.length > 3 && LATIN_WORD.test(word)
-        ? word.replace(/[sx]$/, "")
-        : word,
+      word.length > 3 && LATIN_WORD.test(word) ? singular(word) : word,
     )
     .join("-");
 }

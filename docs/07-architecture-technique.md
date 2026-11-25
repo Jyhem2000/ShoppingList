@@ -279,7 +279,7 @@ db.version(7).stores({
 
 ### 7.1 `slugify(label)` et `searchKey(label)`
 
-Règles en [02 § 1](02-modele-metier.md#1-libellé-identifiant-et-slug). Implémentation : `toLowerCase('fr')` → `normalize('NFD')` → retrait de `̀-ͯ` → ligatures → remplacement de `[^\p{L}\p{N}]+` par `-` (expression régulière avec le drapeau `u`) → nettoyage des tirets. `searchKey` = `slugify` puis suppression d'un `s`/`x` final de chaque mot de plus de 3 lettres (règle propre au français, appliquée uniquement aux mots en alphabet latin).
+Règles en [02 § 1](02-modele-metier.md#1-libellé-identifiant-et-slug). Implémentation : `toLowerCase('fr')` → `normalize('NFD')` → retrait de `̀-ͯ` → ligatures → remplacement de `[^\p{L}\p{N}]+` par `-` (expression régulière avec le drapeau `u`) → nettoyage des tirets. `searchKey` = `slugify` puis singulier approximatif de chaque mot de plus de 3 lettres en alphabet latin, selon la langue de l'app : en français, suppression d'un `s`/`x` final ; en anglais, d'un `s` final (sauf `ss`), puis d'un `e` final, et `y` après une consonne → `i` (`cherries`, `cherry` → `cherri` ; `glasses`, `glass` → `glass`). Les pluriels irréguliers (`loaves`) ne sont pas ramenés au singulier.
 
 ### 7.2 `searchArticles(query, articles, stats)`
 
@@ -290,10 +290,12 @@ Règles en [02 § 1](02-modele-metier.md#1-libellé-identifiant-et-slug). Implé
 
 ### 7.3 `parseEntry(text, units)` → `ParsedEntry[]`
 
-1. Découpe en segments sur `,` `;` `et` `puis`, retours à la ligne et, dans la barre d'ajout seulement (`bullets`), puces entourées d'espaces ou collées au mot d'avant (`-`, `•`) ; une puce en tête de segment est retirée. Un texte de plusieurs lignes collé dans la barre d'ajout passe d'abord par `pastedEntry` : retours à la ligne → virgules, puces et numéros retirés.
-2. Pour chaque segment : retire les partitifs (`du`, `de la`, `des`, `d'`, `de`) ; détecte une quantité (chiffres avec virgule ou point, nombres en lettres jusqu'à vingt, `douzaine`, `demi-douzaine`), avant ou après (`x3`, `*3`) ; détecte une unité (slug, abréviation, alias, pluriel des unités **de l'utilisateur**) collée ou non au nombre. Hors d'une recette (`recipe`), une unité de cuisine n'est lue que devant `de`, et le segment perd alors quantité et unité : l'article prendra sa quantité habituelle.
+Les mots lus sont ceux de la langue de l'app (`appLanguage()`) ; ce qui ne lit pas de mots (puces, collage, nombres, unités de l'utilisateur) est commun aux deux langues.
+
+1. Découpe en segments sur `,` `;`, les mots dits entre deux articles (`et` `puis` ; `and` `then`), retours à la ligne et, dans la barre d'ajout seulement (`bullets`), puces entourées d'espaces ou collées au mot d'avant (`-`, `•`) ; une puce en tête de segment est retirée. Un texte de plusieurs lignes collé dans la barre d'ajout passe d'abord par `pastedEntry` : retours à la ligne → virgules, puces et numéros retirés.
+2. Pour chaque segment : retire les partitifs (`du`, `de la`, `des`, `d'`, `de` ; `some`, `of`) ; détecte une quantité (chiffres avec virgule ou point, nombres en lettres jusqu'à vingt — `a` vaut un en anglais —, `douzaine`, `demi-douzaine` ; `dozen`, `half-dozen`, `half a dozen`), avant ou après (`x3`, `*3`) ; détecte une unité (slug, abréviation, alias, pluriel des unités **de l'utilisateur**) collée ou non au nombre. Hors d'une recette (`recipe`), une unité de cuisine n'est lue que devant `de` (`of`) ou tapée autrement que par son nom en entier (abréviation, alias : `2 tbsp sugar`, `2 cas beurre`), et le segment perd alors quantité et unité : l'article prendra sa quantité habituelle.
 3. Retourne `{ text, quantity?, unitSlug? }`.
-4. Résolution ensuite (hors parsing) : recherche de l'article sur le texte complet, puis sur des préfixes de plus en plus courts ; si plusieurs libellés ont la même clé (_Pâté_, _Pâtes_), la saisie exacte l'emporte, puis le pluriel tapé (`slugify`), puis les accents tapés (`accentKey`), sinon le premier résultat de recherche ; les mots restants sont comparés aux **types** de l'article trouvé, en ignorant les mots de liaison (`de`, `d'`, `du`, `à`, `en`, `ou`…) : `pommes gala` → _Pommes_ + type _Gala_ ; `jus d'orange` → _Jus de fruits_ + type _orange_ ; `pommes gala ou golden` → deux types acceptés.
+4. Résolution ensuite (hors parsing) : recherche de l'article sur le texte complet, puis sur des préfixes de plus en plus courts ; si plusieurs libellés ont la même clé (_Pâté_, _Pâtes_), la saisie exacte l'emporte, puis le pluriel tapé (`slugify`), puis les accents tapés (`accentKey`), sinon le premier résultat de recherche ; les mots restants sont comparés aux **types** de l'article trouvé, en ignorant les mots de liaison de la langue de l'app (`de`, `d'`, `du`, `à`, `en`, `ou`… ; `a`, `an`, `of`, `or`, `the`) : `pommes gala` → _Pommes_ + type _Gala_ ; `jus d'orange` → _Jus de fruits_ + type _orange_ ; `pommes gala ou golden` → deux types acceptés.
 
 ### 7.4 `effectiveAisle(article, store, aisles, overrides)`
 

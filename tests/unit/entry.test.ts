@@ -1,4 +1,5 @@
-import { describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { buildInitialData } from "@/db/seed";
 import {
   entryAmount,
   parseEntry,
@@ -6,8 +7,11 @@ import {
   resolveEntry,
   typeSuggestions,
 } from "@/domain/entry";
+import { setAppLanguage } from "@/domain/language";
+import type { Article } from "@/domain/model";
 import { formatQuantity } from "@/domain/quantity";
-import { articles, units } from "./fixtures";
+import { slugify } from "@/domain/slug";
+import { article, articles, units } from "./fixtures";
 
 /** Saisie complète, comme dans la barre d'ajout : lignes « Article : quantité (types) ». */
 function enter(text: string, simplify = true): string[] {
@@ -256,6 +260,11 @@ describe("unités de cuisine dans la barre d'ajout (docs/03 A2)", () => {
     expect(enter("2 cas de beurre")).toEqual(["Beurre : 250 g"]);
   });
 
+  it("abrégées, elles se lisent aussi sans « de »", () => {
+    expect(enter("2 cas beurre")).toEqual(["Beurre : 250 g"]);
+    expect(parseEntry("1 dl lait", units)).toEqual([{ text: "lait" }]);
+  });
+
   it("seulement devant « de » : « 6 verres en plastique » sont des verres", () => {
     expect(parseEntry("6 verres en plastique", units)).toEqual([
       { text: "verres en plastique", quantity: 6 },
@@ -268,6 +277,106 @@ describe("unités de cuisine dans la barre d'ajout (docs/03 A2)", () => {
     ).toEqual([
       { text: "vin", quantity: 1, unitSlug: "verre" },
       { text: "sucre", quantity: 2, unitSlug: "c-a-s" },
+    ]);
+  });
+});
+
+describe("saisie en anglais (docs/03 A2, I3)", () => {
+  const en = buildInitialData(0, () => crypto.randomUUID(), "en");
+  const unitId = (slug: string) =>
+    en.units.find((u) => u.slug === slug)?.id ?? slug;
+  const englishArticles: [string, string, number, Partial<Article>][] = [
+    ["Eggs", "piece", 6, { countable: true }],
+    ["Apples", "kg", 1, { countable: true, types: ["Gala", "Golden"] }],
+    ["Cherries", "kg", 0.5, {}],
+    ["Butter", "g", 250, {}],
+    ["Milk", "l", 1, {}],
+    ["Sugar", "kg", 1, {}],
+    ["Wine", "bouteille", 1, {}],
+    ["Chopped tomatoes", "boite", 1, {}],
+    ["Crisps", "sachet", 1, {}],
+  ];
+  const enArticles: Article[] = englishArticles.map(
+    ([name, unit, quantity, extra]) => ({
+      ...article("Lait"),
+      id: `en-${slugify(name)}`,
+      slug: slugify(name),
+      name,
+      aliases: [],
+      types: [],
+      countable: undefined,
+      defaultUnitId: unitId(unit),
+      defaultQuantity: quantity,
+      ...extra,
+    }),
+  );
+
+  /** Comme `enter`, avec les unités et les articles anglais. */
+  function enterEn(text: string): string[] {
+    return parseEntry(text, en.units).map((entry) => {
+      const { article, acceptedTypes } = resolveEntry(entry.text, enArticles);
+      if (!article) return `? ${entry.text}`;
+      const amount = entryAmount(entry, article, en.units, true);
+      const quantity = amount
+        ? formatQuantity(amount.quantity, amount.unit)
+        : "?";
+      const types = acceptedTypes.length
+        ? ` (${acceptedTypes.join(", ")})`
+        : "";
+      return `${article.name} : ${quantity}${types}`;
+    });
+  }
+
+  beforeAll(() => setAppLanguage("en"));
+  afterAll(() => setAppLanguage("fr"));
+
+  it("sépare les articles par « and » et « then », pas par « et »", () => {
+    expect(enterEn("milk and butter then 6 eggs")).toEqual([
+      "Milk : 1 L",
+      "Butter : 250 g",
+      "Eggs : × 6",
+    ]);
+    expect(parseEntry("Milk And butter", en.units)).toHaveLength(2);
+    expect(parseEntry("pommes et poires", en.units)).toHaveLength(1);
+  });
+
+  it("nombres en lettres, « a », douzaines", () => {
+    expect(enterEn("three apples")).toEqual(["Apples : × 3"]);
+    expect(enterEn("an apple")).toEqual(["Apples : × 1"]);
+    expect(enterEn("a dozen eggs")).toEqual(["Eggs : × 12"]);
+    expect(enterEn("two dozen eggs")).toEqual(["Eggs : × 24"]);
+    expect(enterEn("half a dozen eggs")).toEqual(["Eggs : × 6"]);
+    expect(enterEn("a half-dozen eggs")).toEqual(["Eggs : × 6"]);
+  });
+
+  it("unités et « of », « some »", () => {
+    expect(enterEn("2 tins of chopped tomatoes")).toEqual([
+      "Chopped tomatoes : 2 tins",
+    ]);
+    expect(enterEn("a bag of crisps")).toEqual(["Crisps : 1 bag"]);
+    expect(enterEn("some butter")).toEqual(["Butter : 250 g"]);
+    expect(enterEn("500g of butter")).toEqual(["Butter : 500 g"]);
+  });
+
+  it("singulier ou pluriel, et types séparés par « or »", () => {
+    expect(enterEn("1 cherry")).toEqual(["Cherries : 500 g"]);
+    expect(enterEn("tomato")).toEqual(["Chopped tomatoes : 1 tin"]);
+    expect(enterEn("apples gala or golden")).toEqual([
+      "Apples : 1 kg (Gala, Golden)",
+    ]);
+  });
+
+  it("unités de cuisine : devant « of » ou abrégées (« 2 tbsp sugar »)", () => {
+    expect(enterEn("2 tbsp sugar")).toEqual(["Sugar : 1 kg"]);
+    expect(enterEn("1 glass of wine")).toEqual(["Wine : 1 bottle"]);
+    expect(parseEntry("2 glass bottles", en.units)).toEqual([
+      { text: "glass bottles", quantity: 2 },
+    ]);
+    expect(
+      parseEntry("2 tbsp sugar, a pinch of salt", en.units, { recipe: true }),
+    ).toEqual([
+      { text: "sugar", quantity: 2, unitSlug: "c-a-s" },
+      { text: "salt", quantity: 1, unitSlug: "pincee" },
     ]);
   });
 });
