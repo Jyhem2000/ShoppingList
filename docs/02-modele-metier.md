@@ -170,7 +170,7 @@ Il n'y a pas de modèles de magasin (« Hypermarché », « Supermarché »�
 2. toutes de la même **famille** : le nom de la famille (« Épicerie sucrée ») ;
 3. sinon : les **deux catégories les plus achetées** (à égalité, l'ordre où elles y ont été rangées), puis le nombre des autres (« Pain · Café & thé +2 »).
 
-Le nom court et la famille de chaque catégorie sont dans 06 § 2 (nom court modifiable, 03 G2). La famille ne sert qu'à ce titre. Au-dessus du titre, le mot « RAYON » seul, pour ne pas confondre un rayon avec une catégorie ; la liste complète des catégories reste dans la fiche du rayon.
+Le nom court et la famille de chaque catégorie sont dans 06 § 2 (nom court modifiable, 03 G2) ; une catégorie renommée n'en a plus, sauf le nom court qu'on lui donne : son titre est alors son nom. La famille ne sert qu'à ce titre. Au-dessus du titre, le mot « RAYON » seul, pour ne pas confondre un rayon avec une catégorie ; la liste complète des catégories reste dans la fiche du rayon.
 
 ### Catégorie présente dans plusieurs rayons
 

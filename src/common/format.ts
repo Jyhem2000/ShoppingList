@@ -123,24 +123,31 @@ export function categoryShortName(
 ): string {
   const own = category.shortName?.trim();
   if (own) return own;
-  const data = category.catalogKey
-    ? catalogCategories.get(category.catalogKey)
-    : undefined;
-  return data?.short?.[appLanguage()] ?? category.name;
+  return catalogCategory(category)?.short?.[appLanguage()] ?? category.name;
 }
 
 const catalogCategories = new Map(categoriesData.map((c) => [c.key, c]));
+
+/**
+ * La catégorie du catalogue dont celle-ci a gardé le nom : une catégorie renommée par
+ * l'utilisateur ne prend ni le nom court ni la famille du catalogue (ils ne diraient
+ * plus la même chose, ni forcément dans la même langue).
+ */
+function catalogCategory(category: Pick<Category, "name" | "catalogKey">) {
+  const data = category.catalogKey
+    ? catalogCategories.get(category.catalogKey)
+    : undefined;
+  return data?.name[appLanguage()] === category.name ? data : undefined;
+}
 const familyNames = new Map(
   familiesData.map((f) => [f.key, f.name[appLanguage()]]),
 );
 
 /** Nom de la famille d'une catégorie du catalogue (« Épicerie sucrée »). */
 function categoryFamily(
-  category: Pick<Category, "catalogKey">,
+  category: Pick<Category, "name" | "catalogKey">,
 ): string | undefined {
-  const key = category.catalogKey
-    ? catalogCategories.get(category.catalogKey)?.family
-    : undefined;
+  const key = catalogCategory(category)?.family;
   return key ? familyNames.get(key) : undefined;
 }
 

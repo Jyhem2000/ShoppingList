@@ -278,7 +278,7 @@ L'aperçu propose d'ajouter les lignes à une **nouvelle liste** (au nom reçu) 
 
 ### G2. Catégories
 
-Créer, renommer, changer icône/couleur, **nom court** facultatif (titre des rayons, 02 § 4 ; par défaut celui du catalogue), supprimer (réaffectation des articles), fusionner.
+Créer, renommer, changer icône/couleur, **nom court** facultatif (titre des rayons, 02 § 4 ; par défaut celui du catalogue, si la catégorie n'a pas été renommée), supprimer (réaffectation des articles), fusionner.
 
 ### G3. Magasins et rayons
 

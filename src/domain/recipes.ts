@@ -238,20 +238,40 @@ function agreeFr(word: string, plural: boolean): string {
   return word;
 }
 
+/**
+ * Pluriels anglais irréguliers des rendements (singulier → pluriel) : la règle
+ * générale ne les devine pas (« loaf » → « loaves », mais « chef » → « chefs »).
+ */
+const IRREGULAR_EN: readonly (readonly [string, string])[] = [
+  ["person", "people"],
+  ["loaf", "loaves"],
+  ["half", "halves"],
+  ["leaf", "leaves"],
+  ["knife", "knives"],
+];
+
+/** Même casse que `model` pour la première lettre (« People » ↔ « Person »). */
+function sameCase(model: string, word: string): string {
+  return /^\p{Lu}/u.test(model)
+    ? word.charAt(0).toUpperCase() + word.slice(1)
+    : word;
+}
+
 /** En anglais : « people » ↔ « person », « servings » → « serving », « loaf » → « loaves ». */
 function agreeEn(word: string, plural: boolean): string {
   const lower = word.toLowerCase();
+  const irregular = IRREGULAR_EN.find(([one, many]) =>
+    plural ? one === lower : many === lower,
+  );
+  if (irregular) return sameCase(word, plural ? irregular[1] : irregular[0]);
   if (plural) {
-    if (lower === "person") return word.startsWith("P") ? "People" : "people";
-    if (lower === "people" || lower.endsWith("s")) return word;
+    if (IRREGULAR_EN.some(([, many]) => many === lower) || lower.endsWith("s"))
+      return word;
     if (/[^aeiou]y$/.test(lower)) return `${word.slice(0, -1)}ies`;
     if (/(ch|sh|x)$/.test(lower)) return `${word}es`;
-    if (/[^aeiou]f$/.test(lower)) return `${word.slice(0, -1)}ves`;
     return `${word}s`;
   }
-  if (lower === "people") return word.startsWith("P") ? "Person" : "person";
   if (/[^aeiou]ies$/.test(lower)) return `${word.slice(0, -3)}y`;
-  if (/[^aeiou]ves$/.test(lower)) return `${word.slice(0, -3)}f`;
   if (/(ch|sh|x)es$/.test(lower)) return word.slice(0, -2);
   if (/[^s]s$/.test(lower)) return word.slice(0, -1);
   return word;

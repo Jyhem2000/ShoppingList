@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { categoryShortName } from "@/common/format";
 import { effectiveAisle, groupListForStore } from "@/domain/aisles";
 import { placingAisle } from "@/domain/shopping";
 import {
@@ -231,6 +232,20 @@ describe("titre d'un rayon sans nom (docs/02 § 4)", () => {
 
   it("aucune catégorie principale : pas de titre", () => {
     expect(aisleTitle({ categories: [] }, label)).toBeUndefined();
+  });
+
+  it("une catégorie renommée perd le nom court du catalogue, pas celui qu'on lui donne", () => {
+    const bread = {
+      name: "Pain & Viennoiseries",
+      catalogKey: "pain-viennoiseries",
+    };
+    expect(categoryShortName(bread)).toBe("Pain");
+    expect(categoryShortName({ ...bread, name: "Boulangerie" })).toBe(
+      "Boulangerie",
+    );
+    expect(
+      categoryShortName({ ...bread, name: "Boulangerie", shortName: "Boul." }),
+    ).toBe("Boul.");
   });
 });
 

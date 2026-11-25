@@ -42,7 +42,7 @@ export interface Category extends Base {
   name: string;
   /**
    * Nom court choisi par l'utilisateur, pour le titre d'un rayon (docs/02 § 4) ; absent :
-   * celui du catalogue (`catalogKey`), sinon le nom.
+   * celui du catalogue (`catalogKey`) si la catégorie a gardé son nom, sinon le nom.
    */
   shortName?: string;
   /** Nom d'icône Lucide (docs/05 § 4). */

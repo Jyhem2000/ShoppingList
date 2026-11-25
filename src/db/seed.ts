@@ -10,7 +10,7 @@ import type {
 } from "@/domain/model";
 import { appLanguage, type Language } from "@/domain/language";
 import { slugify } from "@/domain/slug";
-import { texts } from "@/i18n";
+import { textsByLanguage } from "@/i18n";
 import type { ShoppingDatabase } from "./database";
 
 /**
@@ -96,7 +96,7 @@ export function buildInitialData(
 
   const list: ShoppingList = {
     ...base(),
-    name: texts.defaults.listName,
+    name: textsByLanguage[language].defaults.listName,
     position: 0,
   };
 
