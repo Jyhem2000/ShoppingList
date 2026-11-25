@@ -12,8 +12,11 @@ type Widen<T> = T extends string
       : { readonly [K in keyof T]: Widen<T[K]> };
 export type Texts = Widen<typeof fr>;
 
-/** Textes par langue. */
-const byLanguage: Record<Language, Texts> = { fr, en };
+/**
+ * Textes par langue. Seuls ceux de la langue de l'app s'affichent (`texts`) ; les
+ * autres servent au changement de langue (noms donnés par l'app, docs/03 I3).
+ */
+export const textsByLanguage: Record<Language, Texts> = { fr, en };
 
 /** Nom de chaque langue, écrit dans cette langue (Réglages → Langue). */
 export const languageNames: Record<Language, string> = {
@@ -25,4 +28,4 @@ export const languageNames: Record<Language, string> = {
  * Tous les textes de l'interface, dans la langue de l'app. Lue au chargement de ce
  * module : `src/main.tsx` pose la langue avant de charger le reste de l'app.
  */
-export const texts: Texts = byLanguage[appLanguage()];
+export const texts: Texts = textsByLanguage[appLanguage()];

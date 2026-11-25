@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Languages, Palette, Sun, Volume2 } from "lucide-react";
 import {
   soundEvents,
@@ -7,14 +8,15 @@ import {
 } from "@/app/preferences";
 import { routes } from "@/app/routes";
 import { db } from "@/db/database";
-import { updateSettings } from "@/db/settings";
-import { appLanguage, languages } from "@/domain/language";
+import { appLanguage, languages, type Language } from "@/domain/language";
 import { isAudioSupported } from "@/feedback";
 import { languageNames, texts } from "@/i18n";
 import { isWakeLockSupported } from "@/platform/wakeLock";
-import { ChipRadios } from "@/ui/form";
+import { ConfirmActions, ChipRadios } from "@/ui/form";
 import { LinkRow, PageHeader, Row, Section } from "@/ui/Page";
+import { Sheet } from "@/ui/Sheet";
 import { Switch } from "@/ui/switch";
+import { reportSaveError } from "@/ui/toast";
 
 const t = texts.settings;
 
@@ -26,6 +28,13 @@ export function PreferencesPage() {
   const preferences = usePreferences();
   const wakeLock = isWakeLockSupported();
   const audio = isAudioSupported();
+  /** Langue choisie, à confirmer : en changer renomme le catalogue (docs/03 I3). */
+  const [language, setLanguage] = useState<Language | null>(null);
+  /** Changement en cours : la feuille reste ouverte jusqu'au rechargement. */
+  const [changing, setChanging] = useState(false);
+  const cancelLanguage = () => {
+    if (!changing) setLanguage(null);
+  };
 
   const soundsOn = soundEvents.filter(
     (name) => preferences.soundEvents[name],
@@ -107,17 +116,44 @@ export function PreferencesPage() {
                   label: languageNames[language],
                 }))}
                 value={appLanguage()}
-                onChange={(language) => {
-                  if (language === appLanguage()) return;
-                  void updateSettings(db, { language }).then(() => {
-                    window.location.reload();
-                  });
+                onChange={(chosen) => {
+                  if (chosen !== appLanguage()) setLanguage(chosen);
                 }}
               />
             </>
           }
         />
       </Section>
+      {language && (
+        <Sheet
+          onClose={cancelLanguage}
+          title={t.language.confirmTitle(languageNames[language])}
+          description={t.language.confirmText}
+        >
+          <ConfirmActions
+            variant="gold"
+            label={t.language.confirm}
+            disabled={changing}
+            onConfirm={() => {
+              setChanging(true);
+              import("@/db/language")
+                .then(({ changeLanguage }) => changeLanguage(db, language))
+                .then(
+                  () => {
+                    window.location.reload();
+                  },
+                  (error: unknown) => {
+                    console.error("Changement de langue impossible", error);
+                    setChanging(false);
+                    setLanguage(null);
+                    reportSaveError();
+                  },
+                );
+            }}
+            onCancel={cancelLanguage}
+          />
+        </Sheet>
+      )}
     </>
   );
 }

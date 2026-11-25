@@ -13,6 +13,7 @@ import {
   useUnits,
 } from "@/db/hooks";
 import { applyImport, applyRecipeImport } from "@/db/share";
+import { appLanguage } from "@/domain/language";
 import type { ID } from "@/domain/model";
 import { formatQuantity } from "@/domain/quantity";
 import {
@@ -144,11 +145,14 @@ export function ImportPage() {
     import("@/data/catalog")
       .then(({ catalogData }) => {
         setCatalog(
-          buildImportCatalog({
-            articles: catalogData,
-            categories: categoriesData,
-            units: unitsData,
-          }),
+          buildImportCatalog(
+            {
+              articles: catalogData,
+              categories: categoriesData,
+              units: unitsData,
+            },
+            appLanguage(),
+          ),
         );
       })
       .catch(() => {

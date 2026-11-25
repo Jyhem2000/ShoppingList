@@ -12,6 +12,7 @@ import {
 } from "./entry";
 import { isOneOff, OTHERS_CATEGORY, oneOffCategory } from "./categories";
 import { guessFromKeywords, type KeywordGuess } from "./keywords";
+import type { ByLanguage, Language } from "./language";
 import type {
   Article,
   Category,
@@ -152,6 +153,11 @@ export interface ShareSource {
   articleById: ReadonlyMap<ID, Article>;
   categoryById: ReadonlyMap<ID, Category>;
   unitById: ReadonlyMap<ID, Unit>;
+  /**
+   * Nom d'un article du catalogue dans la langue de l'expéditeur (sa clé) : un article
+   * qui l'a gardé part sans son nom. Inconnu (catalogue pas encore chargé) : le nom part.
+   */
+  catalogName: (key: string) => string | undefined;
 }
 
 /** Ligne de liste ou ingrédient, tel qu'il part. */
@@ -165,7 +171,7 @@ export function buildSharedList(
   name: string,
   items: readonly LineSource[],
   source: ShareSource,
-  language = "fr",
+  language: Language,
 ): SharedList {
   return {
     v: SHARE_VERSION,
@@ -180,7 +186,7 @@ export function buildSharedList(
 export function buildSharedRecipe(
   recipe: Pick<Recipe, "name" | "icon" | "yield" | "ingredients" | "steps">,
   source: ShareSource,
-  language = "fr",
+  language: Language,
 ): SharedRecipe {
   const steps = recipe.steps?.trim();
   return {
@@ -198,7 +204,7 @@ export function buildSharedRecipe(
 /** Les lignes, et les catégories et unités créées à la main qu'elles citent. */
 function sharedLines(
   items: readonly LineSource[],
-  { articleById, categoryById, unitById }: ShareSource,
+  { articleById, categoryById, unitById, catalogName }: ShareSource,
 ): Pick<SharedBase, "i" | "c" | "u"> {
   const categories = new Map<string, SharedCategory>();
   const units = new Map<string, SharedUnit>();
@@ -240,7 +246,10 @@ function sharedLines(
     const line: SharedItem = { q: item.quantity, u: unit };
     if (article.catalogKey) {
       line.k = article.catalogKey;
-      if (slugify(article.name) !== article.catalogKey) line.n = article.name;
+      // Renommé par l'expéditeur : son nom part avec la clé.
+      const original = catalogName(article.catalogKey);
+      if (original === undefined || slugify(article.name) !== slugify(original))
+        line.n = article.name;
     } else {
       line.n = article.name;
       line.a = {
@@ -456,9 +465,6 @@ export interface ImportCatalog {
   units: ReadonlyMap<string, UnitDesc>;
 }
 
-/** Données du catalogue, rangées par langue (`src/data`). */
-type ByLanguage<T> = Readonly<Record<"fr", T>>;
-
 export interface CatalogSource {
   articles: readonly {
     key: string;
@@ -490,21 +496,24 @@ export interface CatalogSource {
   }[];
 }
 
-export function buildImportCatalog(source: CatalogSource): ImportCatalog {
+export function buildImportCatalog(
+  source: CatalogSource,
+  language: Language,
+): ImportCatalog {
   const units = new Map<string, UnitDesc>(
     source.units.map((unit) => [
       unit.key,
       {
         catalogKey: unit.key,
         slug: unit.key,
-        singular: unit.name.fr.singular,
-        plural: unit.name.fr.plural,
-        abbr: unit.name.fr.abbr,
+        singular: unit.name[language].singular,
+        plural: unit.name[language].plural,
+        abbr: unit.name[language].abbr,
         dimension: unit.dimension,
         group: unit.group,
         factor: unit.factor,
         step: unit.step,
-        aliases: unit.aliases?.fr ?? [],
+        aliases: unit.aliases?.[language] ?? [],
       },
     ]),
   );
@@ -513,8 +522,8 @@ export function buildImportCatalog(source: CatalogSource): ImportCatalog {
       category.key,
       {
         catalogKey: category.key,
-        slug: slugify(category.name.fr),
-        name: category.name.fr,
+        slug: slugify(category.name[language]),
+        name: category.name[language],
         color: category.color,
         icon: category.icon,
         unitKey: category.unit,
@@ -527,16 +536,17 @@ export function buildImportCatalog(source: CatalogSource): ImportCatalog {
     const category = categories.get(data.category);
     const unit = units.get(data.unit);
     if (!category || !unit) continue;
-    const slug = slugify(data.name.fr);
+    const name = data.name[language];
+    const slug = slugify(name);
     articles.set(data.key, {
-      name: data.name.fr,
-      label: data.name.fr,
+      name,
+      label: name,
       catalogKey: data.key,
       icon: data.icon,
-      aliases: [...new Set((data.aliases?.fr ?? []).map(slugify))].filter(
-        (alias) => alias !== slug,
-      ),
-      types: data.types?.fr ?? [],
+      aliases: [
+        ...new Set((data.aliases?.[language] ?? []).map(slugify)),
+      ].filter((alias) => alias !== slug),
+      types: data.types?.[language] ?? [],
       category,
       unit,
       defaultQuantity: data.quantity,

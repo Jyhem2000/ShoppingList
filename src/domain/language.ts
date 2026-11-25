@@ -5,6 +5,9 @@
 export const languages = ["fr", "en"] as const;
 export type Language = (typeof languages)[number];
 
+/** Un texte (ou une donnée) dans chaque langue. */
+export type ByLanguage<T> = Record<Language, T>;
+
 /** Langue des installations d'avant le choix de la langue : elles restent en français. */
 export const DEFAULT_LANGUAGE: Language = "fr";
 

@@ -145,6 +145,8 @@ Affichage
   Langue ................ Français · English  (« L'app redémarre dans la langue choisie. »)
 ```
 
+Choisir une autre langue ouvre une confirmation (« Passer en English ? ») qui dit ce qui sera renommé (03 I3) ; « Changer de langue » (or, rien n'est effacé) redémarre l'app.
+
 **Sauvegarde** : quatre actions de **même poids** (boutons secondaires), aucune n'étant l'action principale de l'écran ; seule la confirmation d'un import est en rouge.
 
 ```

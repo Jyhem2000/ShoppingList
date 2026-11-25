@@ -1,4 +1,4 @@
-import { appLanguage, type Language } from "@/domain/language";
+import { appLanguage, type ByLanguage } from "@/domain/language";
 import type { Dimension, UnitGroup } from "@/domain/model";
 import categoriesJson from "./categories.json";
 import familiesJson from "./families.json";
@@ -10,7 +10,7 @@ import unitsJson from "./units.json";
  * sont rangés par langue (français, anglais). Les `key` sont les clés catalogue :
  * identifiants techniques figés pour toujours, jamais affichés.
  */
-export type ByLanguage<T> = Record<Language, T>;
+export type { ByLanguage };
 
 export interface UnitData {
   key: string;

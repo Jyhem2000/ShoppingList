@@ -7,6 +7,7 @@ import { createRoot } from "react-dom/client";
 import { App } from "@/app/App";
 import { StartupError } from "@/app/StartupError";
 import { trackTheme } from "@/app/theme";
+import { loadCatalogNames } from "@/common/catalogNames";
 import { CATALOG_VERSION } from "@/data/catalogVersion";
 import { db } from "@/db/database";
 import { loadIconPack } from "@/icons/pack";
@@ -85,5 +86,11 @@ reactRoot.render(
   </StrictMode>,
 );
 
-// Pack d'icônes chargé dès que l'app est affichée : prêt avant d'en avoir besoin.
-setTimeout(() => void loadIconPack(), 1000);
+// Pack d'icônes et noms du catalogue (pour les partages) chargés dès que l'app est
+// affichée : prêts avant d'en avoir besoin.
+setTimeout(() => {
+  void loadIconPack();
+  loadCatalogNames().catch((error: unknown) => {
+    console.error("Noms du catalogue introuvables", error);
+  });
+}, 1000);
