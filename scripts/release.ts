@@ -3,7 +3,8 @@
  *
  * 1. Vérifie qu'on est sur `dev`, à jour, sans modification en cours.
  * 2. Calcule la version à partir du type demandé (jamais des messages de commit).
- * 3. Vérifie que ses nouveautés sont écrites (src/i18n/fr.ts → releaseNotes).
+ * 3. Vérifie que ses nouveautés sont écrites dans chaque langue (src/i18n/fr.ts et en.ts
+ *    → releaseNotes).
  * 4. Lance tous les contrôles : format, lint, types, tests unitaires et E2E.
  * 5. Fige la version sur `dev` (package.json, commit « Release MINOR X.Y.0 », tag vX.Y.0).
  * 6. Pousse `dev`, puis ajoute sur `main` un seul commit, copie exacte de `dev` à cette
@@ -12,6 +13,7 @@
  */
 import { execSync } from "node:child_process";
 import { readFileSync } from "node:fs";
+import { en } from "../src/i18n/en.ts";
 import { fr } from "../src/i18n/fr.ts";
 import { isBump, nextVersion, releaseTitle } from "./versioning.ts";
 
@@ -86,10 +88,14 @@ console.log(
 );
 
 // 3. Nouveautés
-if (!fr.releaseNotes.versions.some((notes) => notes.version === version))
-  fail(
-    `Écris d'abord les nouveautés de la version ${version} dans src/i18n/fr.ts (releaseNotes).`,
-  );
+for (const [file, texts] of [
+  ["fr.ts", fr],
+  ["en.ts", en],
+] as const)
+  if (!texts.releaseNotes.versions.some((notes) => notes.version === version))
+    fail(
+      `Écris d'abord les nouveautés de la version ${version} dans src/i18n/${file} (releaseNotes).`,
+    );
 
 if (dryRun) {
   console.log("Simulation (--dry-run) : rien n'a été modifié.");

@@ -3,6 +3,7 @@ import { lineKey } from "./lines";
 import { planListMerge, type MergeLine, type MergeSource } from "./listMerge";
 import { byId } from "./collections";
 import type { Article, ID, Recipe, Unit } from "./model";
+import { appLanguage, isPlural } from "./language";
 import { slugify } from "./slug";
 import {
   clean,
@@ -225,7 +226,7 @@ export function recipeMerge(
 }
 
 /** Accorde le premier mot de l'unité de rendement : « personnes » → « personne », « cake » → « cakes ». */
-function agree(word: string, plural: boolean): string {
+function agreeFr(word: string, plural: boolean): string {
   const lower = word.toLowerCase();
   if (plural) {
     if (/[sxz]$/.test(lower)) return word;
@@ -233,6 +234,25 @@ function agree(word: string, plural: boolean): string {
     return `${word}s`;
   }
   if (/(eaux|eux)$/.test(lower)) return word.slice(0, -1);
+  if (/[^s]s$/.test(lower)) return word.slice(0, -1);
+  return word;
+}
+
+/** En anglais : « people » ↔ « person », « servings » → « serving », « loaf » → « loaves ». */
+function agreeEn(word: string, plural: boolean): string {
+  const lower = word.toLowerCase();
+  if (plural) {
+    if (lower === "person") return word.startsWith("P") ? "People" : "people";
+    if (lower === "people" || lower.endsWith("s")) return word;
+    if (/[^aeiou]y$/.test(lower)) return `${word.slice(0, -1)}ies`;
+    if (/(ch|sh|x)$/.test(lower)) return `${word}es`;
+    if (/[^aeiou]f$/.test(lower)) return `${word.slice(0, -1)}ves`;
+    return `${word}s`;
+  }
+  if (lower === "people") return word.startsWith("P") ? "Person" : "person";
+  if (/[^aeiou]ies$/.test(lower)) return `${word.slice(0, -3)}y`;
+  if (/[^aeiou]ves$/.test(lower)) return `${word.slice(0, -3)}f`;
+  if (/(ch|sh|x)es$/.test(lower)) return word.slice(0, -2);
   if (/[^s]s$/.test(lower)) return word.slice(0, -1);
   return word;
 }
@@ -245,7 +265,8 @@ function agree(word: string, plural: boolean): string {
 export function yieldLabel(quantity: number, unit: string): string {
   const [first = "", ...rest] = unit.trim().split(/\s+/);
   if (!first) return formatNumber(quantity);
-  const words = [agree(first, quantity >= 2), ...rest].join(" ");
+  const agree = appLanguage() === "en" ? agreeEn : agreeFr;
+  const words = [agree(first, isPlural(quantity)), ...rest].join(" ");
   return `${formatNumber(quantity)} ${words}`;
 }
 

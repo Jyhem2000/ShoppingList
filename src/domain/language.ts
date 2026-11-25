@@ -42,3 +42,11 @@ export function appLanguage(): Language {
 export function appLocale(): string {
   return locales[current];
 }
+
+/**
+ * Un nombre demande-t-il le pluriel ? À partir de 2 en français (« 1,5 kilo »), tout
+ * sauf 1 en anglais (« 1.5 kilos », « 0 items »).
+ */
+export function isPlural(quantity: number): boolean {
+  return current === "en" ? quantity !== 1 : quantity >= 2;
+}

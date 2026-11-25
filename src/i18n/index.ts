@@ -1,4 +1,5 @@
 import { appLanguage, type Language } from "@/domain/language";
+import { en } from "./en";
 import { fr } from "./fr";
 
 /** Les textes d'une langue : la forme de `fr`, chaque texte libre (docs/03 I3). */
@@ -11,8 +12,8 @@ type Widen<T> = T extends string
       : { readonly [K in keyof T]: Widen<T[K]> };
 export type Texts = Widen<typeof fr>;
 
-/** Textes par langue. L'anglais reprend le français en attendant `en.ts`. */
-const byLanguage: Record<Language, Texts> = { fr, en: fr };
+/** Textes par langue. */
+const byLanguage: Record<Language, Texts> = { fr, en };
 
 /** Nom de chaque langue, écrit dans cette langue (Réglages → Langue). */
 export const languageNames: Record<Language, string> = {

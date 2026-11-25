@@ -246,7 +246,7 @@ db.version(7).stores({
 
 - **Préférences de l'appareil** (sons, son par son, écran allumé, thème) : hors de `Settings`, dans `localStorage` (`src/app/preferences.ts`). Elles dépendent du téléphone, ne sont pas exportées et ne sont pas écrasées par l'import d'une sauvegarde venant d'un autre appareil.
 - Unicité « un article et un choix de types par liste » (`src/domain/lines.ts`) vérifiée par la couche d'accès aux données (les lignes archivées `closedInSessionId` sont exclues).
-- **Langue** (03 I3) : dans `Settings`, et non dans les préférences de l'appareil, car les noms du catalogue copiés dans la base sont dans cette langue. Au premier lancement, celle du téléphone. `src/main.tsx` la lit avant de charger le reste de l'app (`src/app/start.tsx`), car les textes (`texts`, `src/i18n/index.ts`) se lisent au chargement des modules ; dates, nombres et tri alphabétique la suivent (`appLocale()`, `src/domain/language.ts`). En changer recharge l'app.
+- **Langue** (03 I3) : dans `Settings`, et non dans les préférences de l'appareil, car les noms du catalogue copiés dans la base sont dans cette langue. Au premier lancement, celle du téléphone. `src/main.tsx` la lit avant de charger le reste de l'app (`src/app/start.tsx`), car les textes (`texts`, `src/i18n/index.ts`) se lisent au chargement des modules ; dates, nombres, tri alphabétique et pluriel la suivent (`appLocale()`, `isPlural()`, `src/domain/language.ts` : pluriel à partir de 2 en français, pour tout sauf 1 en anglais). En changer recharge l'app. Les textes anglais (`src/i18n/en.ts`, anglais britannique) ont le type `Texts`, la forme de `fr.ts` : aucun ne peut manquer. Le manifeste est unique (nom « ShoppingList », description en français) : il ne suit pas la langue.
 - **La version du schéma de données est indépendante de la version de l'app** : elle n'augmente que si la structure change (nouvelle table, nouvel index). Version actuelle : **7** ; les versions 1 à 6 restent déclarées dans `src/db/database.ts` pour ouvrir une base plus ancienne. Toute évolution = nouvelle `version(n)` déclarée. Tant que l'app n'a pas d'autres utilisateurs (« vraie production »), pas de migration de données ni de test de migration : un changement incompatible se règle en effaçant les données de l'app ou en la réinstallant. Ensuite, chaque évolution aura sa fonction `upgrade` et son test de migration, exécutés automatiquement au premier lancement de la nouvelle version. Une sauvegarde exportée avec un schéma plus récent n'est pas lisible par une app au schéma plus ancien. Champs sans index, ajoutés sans nouvelle version : `Aisle.description`, `Category.shortName`, `ShoppingSession.openedAisle`, `ShoppingSession.placedCategories`.
 
 ## 6. App installée, hors ligne et mises à jour
@@ -417,7 +417,7 @@ ShoppingList/
 │  ├─ icons/                  # icônes dessinées (drawn/*.svg), pack des articles assemblé au build (packData.ts), icônes Lucide des catégories et rayons (lucide.ts)
 │  ├─ feedback/               # sons
 │  ├─ platform/               # installation, écran allumé (fonctionnalités du navigateur)
-│  ├─ i18n/                   # tous les textes de l'interface : fr.ts, et index.ts (`texts`, ceux de la langue de l'app)
+│  ├─ i18n/                   # tous les textes de l'interface : fr.ts, en.ts, et index.ts (`texts`, ceux de la langue de l'app)
 │  └─ version.ts              # expose version, commit, canal (injectés au build)
 └─ tests/
    ├─ unit/                   # Vitest
@@ -452,7 +452,7 @@ Il n'y a pas d'autre branche : pas de branche de travail ni de pull request. Seu
 
 ### Nouveautés
 
-L'historique git sert aux développeurs ; ses messages sont trop techniques pour l'utilisateur. Les **nouveautés** de chaque version sont donc écrites pour l'utilisateur dans `src/i18n/fr.ts` (`releaseNotes`), affichées dans Réglages → À propos → Nouveautés, et reprises par l'écran « Quoi de neuf » après une mise à jour (H5). `npm run release` refuse de publier une version dont les nouveautés ne sont pas écrites. On peut les écrire à l'avance : l'écran n'affiche que les versions égales ou antérieures à celle de l'app. L'entrée « 1.0.0 » présente l'app ; ensuite, une entrée par version publiée.
+L'historique git sert aux développeurs ; ses messages sont trop techniques pour l'utilisateur. Les **nouveautés** de chaque version sont donc écrites pour l'utilisateur dans `src/i18n/fr.ts` et `src/i18n/en.ts` (`releaseNotes`), affichées dans Réglages → À propos → Nouveautés, et reprises par l'écran « Quoi de neuf » après une mise à jour (H5). `npm run release` refuse de publier une version dont les nouveautés ne sont pas écrites dans les deux langues. On peut les écrire à l'avance : l'écran n'affiche que les versions égales ou antérieures à celle de l'app. L'entrée « 1.0.0 » présente l'app ; ensuite, une entrée par version publiée.
 
 ### Cycle des versions
 
