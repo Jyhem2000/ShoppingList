@@ -1,3 +1,4 @@
+import { appLanguage, type Language } from "@/domain/language";
 import type { Dimension, UnitGroup } from "@/domain/model";
 import categoriesJson from "./categories.json";
 import familiesJson from "./families.json";
@@ -6,12 +7,10 @@ import unitsJson from "./units.json";
 
 /**
  * Données initiales (docs/06), copiées dans la base au premier lancement. Les textes
- * sont rangés par langue ; la v1 ne remplit que `fr`. Les `key` sont les clés
- * catalogue : identifiants techniques figés pour toujours, jamais affichés.
+ * sont rangés par langue (français, anglais). Les `key` sont les clés catalogue :
+ * identifiants techniques figés pour toujours, jamais affichés.
  */
-export interface ByLanguage<T> {
-  fr: T;
-}
+export type ByLanguage<T> = Record<Language, T>;
 
 export interface UnitData {
   key: string;
@@ -48,16 +47,27 @@ export interface FamilyData {
   name: ByLanguage<string>;
 }
 
-/** Règle du dictionnaire de mots-clés (docs/06 § 5). */
-export interface KeywordRule {
-  match: string[];
+/** Règle du dictionnaire de mots-clés (docs/06 § 5), mots par langue. */
+export interface KeywordRuleData {
+  match: ByLanguage<string[]>;
   category: string;
   unit: string;
   icon?: string;
+}
+
+/** Règle du dictionnaire, avec les mots de la langue de l'app. */
+export interface KeywordRule extends Omit<KeywordRuleData, "match"> {
+  match: string[];
 }
 
 export const unitsData = unitsJson as UnitData[];
 export const categoriesData = categoriesJson as CategoryData[];
 export const familiesData = familiesJson as FamilyData[];
 
-export const keywordRules = keywordsJson as KeywordRule[];
+export const keywordsData = keywordsJson as KeywordRuleData[];
+
+/** Dictionnaire de mots-clés dans la langue de l'app, posée avant le chargement. */
+export const keywordRules: KeywordRule[] = keywordsData.map((rule) => ({
+  ...rule,
+  match: rule.match[appLanguage()],
+}));

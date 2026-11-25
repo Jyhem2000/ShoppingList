@@ -5,13 +5,18 @@
       "fr": {
         "singular": "pièce",
         "plural": "pièces"
+      },
+      "en": {
+        "singular": "piece",
+        "plural": "pieces"
       }
     },
     "dimension": "other",
     "group": "count",
     "step": 1,
     "aliases": {
-      "fr": ["pc", "pcs", "unité", "unités", "rouleau", "rouleaux"]
+      "fr": ["pc", "pcs", "unité", "unités", "rouleau", "rouleaux"],
+      "en": ["pc", "pcs", "item", "items", "unit", "units", "roll", "rolls"]
     }
   },
   {
@@ -21,6 +26,11 @@
         "singular": "gramme",
         "plural": "grammes",
         "abbr": "g"
+      },
+      "en": {
+        "singular": "gram",
+        "plural": "grams",
+        "abbr": "g"
       }
     },
     "dimension": "mass",
@@ -28,7 +38,8 @@
     "factor": 1,
     "step": 50,
     "aliases": {
-      "fr": ["gr", "grs"]
+      "fr": ["gr", "grs"],
+      "en": ["gr", "grs", "gramme", "grammes"]
     }
   },
   {
@@ -38,6 +49,11 @@
         "singular": "kilogramme",
         "plural": "kilogrammes",
         "abbr": "kg"
+      },
+      "en": {
+        "singular": "kilogram",
+        "plural": "kilograms",
+        "abbr": "kg"
       }
     },
     "dimension": "mass",
@@ -45,7 +61,8 @@
     "factor": 1000,
     "step": 0.5,
     "aliases": {
-      "fr": ["kilo", "kilos", "kgs"]
+      "fr": ["kilo", "kilos", "kgs"],
+      "en": ["kilo", "kilos", "kgs", "kilogramme", "kilogrammes"]
     }
   },
   {
@@ -55,12 +72,21 @@
         "singular": "millilitre",
         "plural": "millilitres",
         "abbr": "ml"
+      },
+      "en": {
+        "singular": "millilitre",
+        "plural": "millilitres",
+        "abbr": "ml"
       }
     },
     "dimension": "volume",
     "group": "volume",
     "factor": 1,
-    "step": 50
+    "step": 50,
+    "aliases": {
+      "fr": [],
+      "en": ["milliliter", "milliliters"]
+    }
   },
   {
     "key": "cl",
@@ -69,17 +95,31 @@
         "singular": "centilitre",
         "plural": "centilitres",
         "abbr": "cl"
+      },
+      "en": {
+        "singular": "centilitre",
+        "plural": "centilitres",
+        "abbr": "cl"
       }
     },
     "dimension": "volume",
     "group": "volume",
     "factor": 10,
-    "step": 5
+    "step": 5,
+    "aliases": {
+      "fr": [],
+      "en": ["centiliter", "centiliters"]
+    }
   },
   {
     "key": "l",
     "name": {
       "fr": {
+        "singular": "litre",
+        "plural": "litres",
+        "abbr": "L"
+      },
+      "en": {
         "singular": "litre",
         "plural": "litres",
         "abbr": "L"
@@ -90,7 +130,8 @@
     "factor": 1000,
     "step": 1,
     "aliases": {
-      "fr": ["lt"]
+      "fr": ["lt"],
+      "en": ["lt", "liter", "liters"]
     }
   },
   {
@@ -100,11 +141,20 @@
         "singular": "pack",
         "plural": "packs",
         "abbr": "pack"
+      },
+      "en": {
+        "singular": "pack",
+        "plural": "packs",
+        "abbr": "pack"
       }
     },
     "dimension": "other",
     "group": "container",
-    "step": 1
+    "step": 1,
+    "aliases": {
+      "fr": [],
+      "en": ["multipack", "multipacks"]
+    }
   },
   {
     "key": "boite",
@@ -113,13 +163,19 @@
         "singular": "boîte",
         "plural": "boîtes",
         "abbr": "boîte"
+      },
+      "en": {
+        "singular": "tin",
+        "plural": "tins",
+        "abbr": "tin"
       }
     },
     "dimension": "other",
     "group": "container",
     "step": 1,
     "aliases": {
-      "fr": ["bte", "btes"]
+      "fr": ["bte", "btes"],
+      "en": ["can", "cans"]
     }
   },
   {
@@ -129,13 +185,19 @@
         "singular": "bouteille",
         "plural": "bouteilles",
         "abbr": "bouteille"
+      },
+      "en": {
+        "singular": "bottle",
+        "plural": "bottles",
+        "abbr": "bottle"
       }
     },
     "dimension": "other",
     "group": "container",
     "step": 1,
     "aliases": {
-      "fr": ["bout.", "btl"]
+      "fr": ["bout.", "btl"],
+      "en": ["btl"]
     }
   },
   {
@@ -145,11 +207,20 @@
         "singular": "sachet",
         "plural": "sachets",
         "abbr": "sachet"
+      },
+      "en": {
+        "singular": "bag",
+        "plural": "bags",
+        "abbr": "bag"
       }
     },
     "dimension": "other",
     "group": "container",
-    "step": 1
+    "step": 1,
+    "aliases": {
+      "fr": [],
+      "en": ["sachet", "sachets", "pouch", "pouches"]
+    }
   },
   {
     "key": "paquet",
@@ -158,13 +229,19 @@
         "singular": "paquet",
         "plural": "paquets",
         "abbr": "paquet"
+      },
+      "en": {
+        "singular": "packet",
+        "plural": "packets",
+        "abbr": "packet"
       }
     },
     "dimension": "other",
     "group": "container",
     "step": 1,
     "aliases": {
-      "fr": ["pqt"]
+      "fr": ["pqt"],
+      "en": ["pkt", "package", "packages", "box", "boxes"]
     }
   },
   {
@@ -174,11 +251,20 @@
         "singular": "pot",
         "plural": "pots",
         "abbr": "pot"
+      },
+      "en": {
+        "singular": "jar",
+        "plural": "jars",
+        "abbr": "jar"
       }
     },
     "dimension": "other",
     "group": "container",
-    "step": 1
+    "step": 1,
+    "aliases": {
+      "fr": [],
+      "en": ["pot", "pots", "tub", "tubs"]
+    }
   },
   {
     "key": "botte",
@@ -187,6 +273,11 @@
         "singular": "botte",
         "plural": "bottes",
         "abbr": "botte"
+      },
+      "en": {
+        "singular": "bunch",
+        "plural": "bunches",
+        "abbr": "bunch"
       }
     },
     "dimension": "other",
@@ -200,13 +291,19 @@
         "singular": "barquette",
         "plural": "barquettes",
         "abbr": "barquette"
+      },
+      "en": {
+        "singular": "tray",
+        "plural": "trays",
+        "abbr": "tray"
       }
     },
     "dimension": "other",
     "group": "container",
     "step": 1,
     "aliases": {
-      "fr": ["barq."]
+      "fr": ["barq."],
+      "en": ["punnet", "punnets"]
     }
   },
   {
@@ -216,13 +313,19 @@
         "singular": "tranche",
         "plural": "tranches",
         "abbr": "tranche"
+      },
+      "en": {
+        "singular": "slice",
+        "plural": "slices",
+        "abbr": "slice"
       }
     },
     "dimension": "other",
     "group": "count",
     "step": 1,
     "aliases": {
-      "fr": ["tr."]
+      "fr": ["tr."],
+      "en": []
     }
   },
   {
@@ -232,13 +335,19 @@
         "singular": "cuillère à soupe",
         "plural": "cuillères à soupe",
         "abbr": "c. à s."
+      },
+      "en": {
+        "singular": "tablespoon",
+        "plural": "tablespoons",
+        "abbr": "tbsp"
       }
     },
     "dimension": "other",
     "group": "kitchen",
     "step": 1,
     "aliases": {
-      "fr": ["cas", "càs"]
+      "fr": ["cas", "càs"],
+      "en": ["tbs", "tbsp."]
     }
   },
   {
@@ -248,13 +357,19 @@
         "singular": "cuillère à café",
         "plural": "cuillères à café",
         "abbr": "c. à c."
+      },
+      "en": {
+        "singular": "teaspoon",
+        "plural": "teaspoons",
+        "abbr": "tsp"
       }
     },
     "dimension": "other",
     "group": "kitchen",
     "step": 1,
     "aliases": {
-      "fr": ["cac", "càc"]
+      "fr": ["cac", "càc"],
+      "en": ["tsp."]
     }
   },
   {
@@ -264,6 +379,11 @@
         "singular": "pincée",
         "plural": "pincées",
         "abbr": "pincée"
+      },
+      "en": {
+        "singular": "pinch",
+        "plural": "pinches",
+        "abbr": "pinch"
       }
     },
     "dimension": "other",
@@ -277,6 +397,11 @@
         "singular": "verre",
         "plural": "verres",
         "abbr": "verre"
+      },
+      "en": {
+        "singular": "glass",
+        "plural": "glasses",
+        "abbr": "glass"
       }
     },
     "dimension": "other",
@@ -291,11 +416,20 @@
         "singular": "décilitre",
         "plural": "décilitres",
         "abbr": "dl"
+      },
+      "en": {
+        "singular": "decilitre",
+        "plural": "decilitres",
+        "abbr": "dl"
       }
     },
     "dimension": "other",
     "group": "kitchen",
     "step": 1,
-    "since": 9
+    "since": 9,
+    "aliases": {
+      "fr": [],
+      "en": ["deciliter", "deciliters"]
+    }
   }
 ]

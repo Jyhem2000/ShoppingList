@@ -2,10 +2,12 @@
   {
     "key": "fruits",
     "name": {
-      "fr": "Fruits"
+      "fr": "Fruits",
+      "en": "Fruit"
     },
     "short": {
-      "fr": "Fruits"
+      "fr": "Fruits",
+      "en": "Fruit"
     },
     "family": "fruits-legumes",
     "unit": "kg",
@@ -15,10 +17,12 @@
   {
     "key": "legumes",
     "name": {
-      "fr": "Légumes"
+      "fr": "Légumes",
+      "en": "Vegetables"
     },
     "short": {
-      "fr": "Légumes"
+      "fr": "Légumes",
+      "en": "Veg"
     },
     "family": "fruits-legumes",
     "unit": "kg",
@@ -28,10 +32,12 @@
   {
     "key": "herbes-aromatiques",
     "name": {
-      "fr": "Herbes aromatiques"
+      "fr": "Herbes aromatiques",
+      "en": "Fresh herbs"
     },
     "short": {
-      "fr": "Herbes"
+      "fr": "Herbes",
+      "en": "Herbs"
     },
     "family": "fruits-legumes",
     "unit": "botte",
@@ -41,10 +47,12 @@
   {
     "key": "pain-viennoiseries",
     "name": {
-      "fr": "Pain & Viennoiseries"
+      "fr": "Pain & Viennoiseries",
+      "en": "Bread & Pastries"
     },
     "short": {
-      "fr": "Pain"
+      "fr": "Pain",
+      "en": "Bread"
     },
     "family": "boulangerie",
     "unit": "piece",
@@ -54,10 +62,12 @@
   {
     "key": "viande",
     "name": {
-      "fr": "Viande"
+      "fr": "Viande",
+      "en": "Meat"
     },
     "short": {
-      "fr": "Viande"
+      "fr": "Viande",
+      "en": "Meat"
     },
     "family": "viandes-poissons",
     "unit": "g",
@@ -67,10 +77,12 @@
   {
     "key": "volaille",
     "name": {
-      "fr": "Volaille"
+      "fr": "Volaille",
+      "en": "Poultry"
     },
     "short": {
-      "fr": "Volaille"
+      "fr": "Volaille",
+      "en": "Poultry"
     },
     "family": "viandes-poissons",
     "unit": "g",
@@ -80,10 +92,12 @@
   {
     "key": "charcuterie",
     "name": {
-      "fr": "Charcuterie"
+      "fr": "Charcuterie",
+      "en": "Cooked meats & Charcuterie"
     },
     "short": {
-      "fr": "Charcuterie"
+      "fr": "Charcuterie",
+      "en": "Cooked meats"
     },
     "family": "frais",
     "unit": "paquet",
@@ -93,10 +107,12 @@
   {
     "key": "poisson-fruits-de-mer",
     "name": {
-      "fr": "Poisson & Fruits de mer"
+      "fr": "Poisson & Fruits de mer",
+      "en": "Fish & Seafood"
     },
     "short": {
-      "fr": "Poisson"
+      "fr": "Poisson",
+      "en": "Fish"
     },
     "family": "viandes-poissons",
     "unit": "g",
@@ -106,10 +122,12 @@
   {
     "key": "traiteur",
     "name": {
-      "fr": "Traiteur & Plats préparés"
+      "fr": "Traiteur & Plats préparés",
+      "en": "Deli & Ready meals"
     },
     "short": {
-      "fr": "Traiteur"
+      "fr": "Traiteur",
+      "en": "Deli"
     },
     "family": "frais",
     "unit": "barquette",
@@ -119,10 +137,12 @@
   {
     "key": "lait-creme-beurre",
     "name": {
-      "fr": "Crèmerie & Œufs"
+      "fr": "Crèmerie & Œufs",
+      "en": "Dairy & Eggs"
     },
     "short": {
-      "fr": "Crèmerie & Œufs"
+      "fr": "Crèmerie & Œufs",
+      "en": "Dairy & eggs"
     },
     "family": "frais",
     "unit": "piece",
@@ -132,10 +152,12 @@
   {
     "key": "yaourts-desserts",
     "name": {
-      "fr": "Yaourts & Desserts frais"
+      "fr": "Yaourts & Desserts frais",
+      "en": "Yoghurts & Chilled desserts"
     },
     "short": {
-      "fr": "Yaourts"
+      "fr": "Yaourts",
+      "en": "Yoghurts"
     },
     "family": "frais",
     "unit": "piece",
@@ -145,10 +167,12 @@
   {
     "key": "fromages",
     "name": {
-      "fr": "Fromages"
+      "fr": "Fromages",
+      "en": "Cheese"
     },
     "short": {
-      "fr": "Fromages"
+      "fr": "Fromages",
+      "en": "Cheese"
     },
     "family": "frais",
     "unit": "piece",
@@ -158,10 +182,12 @@
   {
     "key": "pates-riz-feculents",
     "name": {
-      "fr": "Pâtes, Riz & Féculents"
+      "fr": "Pâtes, Riz & Féculents",
+      "en": "Pasta, Rice & Grains"
     },
     "short": {
-      "fr": "Pâtes & riz"
+      "fr": "Pâtes & riz",
+      "en": "Pasta & rice"
     },
     "family": "epicerie-salee",
     "unit": "paquet",
@@ -171,10 +197,12 @@
   {
     "key": "conserves-bocaux",
     "name": {
-      "fr": "Conserves & Bocaux"
+      "fr": "Conserves & Bocaux",
+      "en": "Tins & Jars"
     },
     "short": {
-      "fr": "Conserves"
+      "fr": "Conserves",
+      "en": "Tins"
     },
     "family": "epicerie-salee",
     "unit": "boite",
@@ -184,10 +212,12 @@
   {
     "key": "sauces-condiments",
     "name": {
-      "fr": "Sauces & Condiments"
+      "fr": "Sauces & Condiments",
+      "en": "Sauces & Condiments"
     },
     "short": {
-      "fr": "Sauces"
+      "fr": "Sauces",
+      "en": "Sauces"
     },
     "family": "epicerie-salee",
     "unit": "pot",
@@ -197,10 +227,12 @@
   {
     "key": "epices",
     "name": {
-      "fr": "Sel, Poivre & Épices"
+      "fr": "Sel, Poivre & Épices",
+      "en": "Salt, Pepper & Spices"
     },
     "short": {
-      "fr": "Épices"
+      "fr": "Épices",
+      "en": "Spices"
     },
     "family": "epicerie-salee",
     "unit": "pot",
@@ -211,10 +243,12 @@
   {
     "key": "huiles-vinaigres",
     "name": {
-      "fr": "Huiles & Vinaigres"
+      "fr": "Huiles & Vinaigres",
+      "en": "Oils & Vinegars"
     },
     "short": {
-      "fr": "Huiles"
+      "fr": "Huiles",
+      "en": "Oils"
     },
     "family": "epicerie-salee",
     "unit": "bouteille",
@@ -224,10 +258,12 @@
   {
     "key": "aperitif",
     "name": {
-      "fr": "Apéritif"
+      "fr": "Apéritif",
+      "en": "Snacks & Nibbles"
     },
     "short": {
-      "fr": "Apéro"
+      "fr": "Apéro",
+      "en": "Snacks"
     },
     "family": "epicerie-salee",
     "unit": "sachet",
@@ -237,10 +273,12 @@
   {
     "key": "cuisine-du-monde",
     "name": {
-      "fr": "Cuisine du monde"
+      "fr": "Cuisine du monde",
+      "en": "World foods"
     },
     "short": {
-      "fr": "Monde"
+      "fr": "Monde",
+      "en": "World"
     },
     "family": "epicerie-salee",
     "unit": "piece",
@@ -250,10 +288,12 @@
   {
     "key": "farine-sucre-patisserie",
     "name": {
-      "fr": "Farine, Sucre & Pâtisserie"
+      "fr": "Farine, Sucre & Pâtisserie",
+      "en": "Flour, Sugar & Baking"
     },
     "short": {
-      "fr": "Pâtisserie"
+      "fr": "Pâtisserie",
+      "en": "Baking"
     },
     "family": "epicerie-sucree",
     "unit": "paquet",
@@ -263,10 +303,12 @@
   {
     "key": "petit-dejeuner",
     "name": {
-      "fr": "Céréales & Petit-déjeuner"
+      "fr": "Céréales & Petit-déjeuner",
+      "en": "Cereals & Breakfast"
     },
     "short": {
-      "fr": "Petit-déj"
+      "fr": "Petit-déj",
+      "en": "Breakfast"
     },
     "family": "epicerie-sucree",
     "unit": "paquet",
@@ -276,10 +318,12 @@
   {
     "key": "biscuits-gateaux",
     "name": {
-      "fr": "Biscuits & Gâteaux"
+      "fr": "Biscuits & Gâteaux",
+      "en": "Biscuits & Cakes"
     },
     "short": {
-      "fr": "Biscuits"
+      "fr": "Biscuits",
+      "en": "Biscuits"
     },
     "family": "epicerie-sucree",
     "unit": "paquet",
@@ -289,10 +333,12 @@
   {
     "key": "chocolat-confiserie",
     "name": {
-      "fr": "Chocolat & Confiserie"
+      "fr": "Chocolat & Confiserie",
+      "en": "Chocolate & Sweets"
     },
     "short": {
-      "fr": "Chocolat"
+      "fr": "Chocolat",
+      "en": "Chocolate"
     },
     "family": "epicerie-sucree",
     "unit": "piece",
@@ -302,10 +348,12 @@
   {
     "key": "confitures-tartiner",
     "name": {
-      "fr": "Confitures & Pâtes à tartiner"
+      "fr": "Confitures & Pâtes à tartiner",
+      "en": "Jams & Spreads"
     },
     "short": {
-      "fr": "Confitures"
+      "fr": "Confitures",
+      "en": "Jams"
     },
     "family": "epicerie-sucree",
     "unit": "pot",
@@ -315,10 +363,12 @@
   {
     "key": "cafe-the",
     "name": {
-      "fr": "Café & Thé"
+      "fr": "Café & Thé",
+      "en": "Tea & Coffee"
     },
     "short": {
-      "fr": "Café & thé"
+      "fr": "Café & thé",
+      "en": "Tea & coffee"
     },
     "family": "epicerie-sucree",
     "unit": "paquet",
@@ -328,10 +378,12 @@
   {
     "key": "eaux",
     "name": {
-      "fr": "Eaux"
+      "fr": "Eaux",
+      "en": "Water"
     },
     "short": {
-      "fr": "Eaux"
+      "fr": "Eaux",
+      "en": "Water"
     },
     "family": "boissons",
     "unit": "pack",
@@ -341,10 +393,12 @@
   {
     "key": "jus-sodas",
     "name": {
-      "fr": "Jus & Sodas"
+      "fr": "Jus & Sodas",
+      "en": "Juices & Soft drinks"
     },
     "short": {
-      "fr": "Jus & sodas"
+      "fr": "Jus & sodas",
+      "en": "Soft drinks"
     },
     "family": "boissons",
     "unit": "bouteille",
@@ -354,10 +408,12 @@
   {
     "key": "alcools",
     "name": {
-      "fr": "Bières, Vins & Alcools"
+      "fr": "Bières, Vins & Alcools",
+      "en": "Beer, Wine & Spirits"
     },
     "short": {
-      "fr": "Alcools"
+      "fr": "Alcools",
+      "en": "Alcohol"
     },
     "family": "boissons",
     "unit": "bouteille",
@@ -367,10 +423,12 @@
   {
     "key": "surgeles",
     "name": {
-      "fr": "Surgelés"
+      "fr": "Surgelés",
+      "en": "Frozen"
     },
     "short": {
-      "fr": "Surgelés"
+      "fr": "Surgelés",
+      "en": "Frozen"
     },
     "family": "surgeles",
     "unit": "sachet",
@@ -380,10 +438,12 @@
   {
     "key": "glaces",
     "name": {
-      "fr": "Glaces"
+      "fr": "Glaces",
+      "en": "Ice cream"
     },
     "short": {
-      "fr": "Glaces"
+      "fr": "Glaces",
+      "en": "Ice cream"
     },
     "family": "surgeles",
     "unit": "piece",
@@ -393,10 +453,12 @@
   {
     "key": "hygiene-beaute",
     "name": {
-      "fr": "Hygiène & Beauté"
+      "fr": "Hygiène & Beauté",
+      "en": "Health & Beauty"
     },
     "short": {
-      "fr": "Hygiène"
+      "fr": "Hygiène",
+      "en": "Toiletries"
     },
     "family": "hygiene",
     "unit": "piece",
@@ -406,10 +468,12 @@
   {
     "key": "papier-mouchoirs",
     "name": {
-      "fr": "Papier toilette & Mouchoirs"
+      "fr": "Papier toilette & Mouchoirs",
+      "en": "Toilet roll & Tissues"
     },
     "short": {
-      "fr": "Papier"
+      "fr": "Papier",
+      "en": "Paper"
     },
     "family": "hygiene",
     "unit": "piece",
@@ -419,10 +483,12 @@
   {
     "key": "entretien",
     "name": {
-      "fr": "Entretien & Lessive"
+      "fr": "Entretien & Lessive",
+      "en": "Cleaning & Laundry"
     },
     "short": {
-      "fr": "Entretien"
+      "fr": "Entretien",
+      "en": "Cleaning"
     },
     "family": "maison",
     "unit": "piece",
@@ -432,10 +498,12 @@
   {
     "key": "cuisine-maison",
     "name": {
-      "fr": "Cuisine & Maison"
+      "fr": "Cuisine & Maison",
+      "en": "Kitchen & Home"
     },
     "short": {
-      "fr": "Maison"
+      "fr": "Maison",
+      "en": "Home"
     },
     "family": "maison",
     "unit": "piece",
@@ -445,10 +513,12 @@
   {
     "key": "bebe",
     "name": {
-      "fr": "Bébé"
+      "fr": "Bébé",
+      "en": "Baby"
     },
     "short": {
-      "fr": "Bébé"
+      "fr": "Bébé",
+      "en": "Baby"
     },
     "family": "hygiene",
     "unit": "piece",
@@ -458,10 +528,12 @@
   {
     "key": "animaux",
     "name": {
-      "fr": "Animaux"
+      "fr": "Animaux",
+      "en": "Pets"
     },
     "short": {
-      "fr": "Animaux"
+      "fr": "Animaux",
+      "en": "Pets"
     },
     "family": "maison",
     "unit": "piece",
@@ -471,7 +543,8 @@
   {
     "key": "autres",
     "name": {
-      "fr": "Autres"
+      "fr": "Autres",
+      "en": "Other"
     },
     "unit": "piece",
     "color": "gris",
@@ -481,7 +554,8 @@
   {
     "key": "achats-ponctuels",
     "name": {
-      "fr": "Achats ponctuels"
+      "fr": "Achats ponctuels",
+      "en": "One-off purchases"
     },
     "unit": "piece",
     "color": "lilas",

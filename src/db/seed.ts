@@ -8,7 +8,7 @@ import type {
   ShoppingList,
   Unit,
 } from "@/domain/model";
-import { appLanguage } from "@/domain/language";
+import { appLanguage, type Language } from "@/domain/language";
 import { slugify } from "@/domain/slug";
 import { texts } from "@/i18n";
 import type { ShoppingDatabase } from "./database";
@@ -18,6 +18,7 @@ import type { ShoppingDatabase } from "./database";
  * dans la base et création de la liste « Courses ». Aucun magasin : le premier se crée
  * au premier « C'est parti », et ses rayons pendant les courses.
  * Ensuite, ce sont les données de l'utilisateur : rien n'est jamais recopié par-dessus.
+ * Les noms du catalogue sont ceux de la langue de l'app.
  */
 export interface InitialData {
   units: Unit[];
@@ -30,28 +31,29 @@ export interface InitialData {
 export function buildInitialData(
   now: number,
   newId: () => ID = () => crypto.randomUUID(),
+  language: Language = appLanguage(),
 ): InitialData {
   const base = () => ({ id: newId(), createdAt: now, updatedAt: now });
 
   const units: Unit[] = unitsData.map((unit) => ({
     ...base(),
     slug: unit.key,
-    singular: unit.name.fr.singular,
-    plural: unit.name.fr.plural,
-    abbr: unit.name.fr.abbr,
+    singular: unit.name[language].singular,
+    plural: unit.name[language].plural,
+    abbr: unit.name[language].abbr,
     dimension: unit.dimension,
     group: unit.group,
     factor: unit.factor,
     step: unit.step,
-    aliases: unit.aliases?.fr ?? [],
+    aliases: unit.aliases?.[language] ?? [],
     catalogKey: unit.key,
   }));
   const unitByKey = new Map(units.map((unit) => [unit.slug, unit]));
 
   const categories: Category[] = categoriesData.map((category) => ({
     ...base(),
-    slug: slugify(category.name.fr),
-    name: category.name.fr,
+    slug: slugify(category.name[language]),
+    name: category.name[language],
     icon: category.icon,
     color: category.color,
     useIconAsFallback: false,
@@ -68,21 +70,21 @@ export function buildInitialData(
   };
 
   const articles: Article[] = catalogData.map((article) => {
-    const slug = slugify(article.name.fr);
+    const slug = slugify(article.name[language]);
     const aliases = [
-      ...new Set((article.aliases?.fr ?? []).map(slugify)),
+      ...new Set((article.aliases?.[language] ?? []).map(slugify)),
     ].filter((alias) => alias !== slug);
     return {
       ...base(),
       slug,
-      name: article.name.fr,
+      name: article.name[language],
       categoryId: require(categoryByKey.get(article.category), article.category)
         .id,
       defaultUnitId: require(unitByKey.get(article.unit), article.unit).id,
       defaultQuantity: article.quantity,
       countable: article.countable,
       generic: article.generic,
-      types: article.types?.fr ?? [],
+      types: article.types?.[language] ?? [],
       aliases,
       icon: article.icon,
       favorite: false,
@@ -100,7 +102,7 @@ export function buildInitialData(
 
   const settings: Settings = {
     // Celle posée au démarrage : au premier lancement, la langue du téléphone.
-    language: appLanguage(),
+    language,
     catalogVersion: CATALOG_VERSION,
     currentListId: list.id,
     dismissedSuggestions: [],

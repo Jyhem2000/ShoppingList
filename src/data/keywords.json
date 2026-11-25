@@ -1,287 +1,537 @@
 [
   {
-    "match": ["jus"],
+    "match": {
+      "fr": ["jus"],
+      "en": ["juice"]
+    },
     "category": "jus-sodas",
     "unit": "bouteille",
     "icon": "jus-de-fruits"
   },
   {
-    "match": ["sirop", "soda", "limonade", "cola"],
+    "match": {
+      "fr": ["sirop", "soda", "limonade", "cola"],
+      "en": ["cordial", "soda", "lemonade", "cola", "pop", "fizzy"]
+    },
     "category": "jus-sodas",
     "unit": "bouteille"
   },
   {
-    "match": [
-      "biere",
-      "vin",
-      "rhum",
-      "whisky",
-      "vodka",
-      "pastis",
-      "cidre",
-      "champagne"
-    ],
+    "match": {
+      "fr": [
+        "biere",
+        "vin",
+        "rhum",
+        "whisky",
+        "vodka",
+        "pastis",
+        "cidre",
+        "champagne"
+      ],
+      "en": [
+        "beer",
+        "lager",
+        "ale",
+        "wine",
+        "rum",
+        "whisky",
+        "whiskey",
+        "vodka",
+        "gin",
+        "cider",
+        "champagne",
+        "prosecco"
+      ]
+    },
     "category": "alcools",
     "unit": "bouteille",
     "icon": "vin"
   },
   {
-    "match": [
-      "lessive",
-      "nettoyant",
-      "detergent",
-      "javel",
-      "vaisselle",
-      "eponge"
-    ],
+    "match": {
+      "fr": [
+        "lessive",
+        "nettoyant",
+        "detergent",
+        "javel",
+        "vaisselle",
+        "eponge"
+      ],
+      "en": [
+        "detergent",
+        "cleaner",
+        "bleach",
+        "washing",
+        "dishwasher",
+        "sponge"
+      ]
+    },
     "category": "entretien",
     "unit": "piece",
     "icon": "eponges"
   },
   {
-    "match": ["eau"],
+    "match": {
+      "fr": ["eau"],
+      "en": ["water"]
+    },
     "category": "eaux",
     "unit": "pack"
   },
   {
-    "match": ["surgele", "surgelee", "surgeles", "surgelees"],
+    "match": {
+      "fr": ["surgele", "surgelee", "surgeles", "surgelees"],
+      "en": ["frozen"]
+    },
     "category": "surgeles",
     "unit": "sachet",
     "icon": "legumes-surgeles"
   },
   {
-    "match": ["glace", "sorbet", "esquimau"],
+    "match": {
+      "fr": ["glace", "sorbet", "esquimau"],
+      "en": ["ice", "sorbet", "lolly", "lollie", "gelato"]
+    },
     "category": "glaces",
     "unit": "piece",
     "icon": "glace"
   },
   {
-    "match": [
-      "sauce",
-      "ketchup",
-      "mayonnaise",
-      "moutarde",
-      "pesto",
-      "vinaigrette"
-    ],
+    "match": {
+      "fr": [
+        "sauce",
+        "ketchup",
+        "mayonnaise",
+        "moutarde",
+        "pesto",
+        "vinaigrette"
+      ],
+      "en": [
+        "sauce",
+        "ketchup",
+        "mayonnaise",
+        "mayo",
+        "mustard",
+        "pesto",
+        "dressing",
+        "vinaigrette",
+        "relish",
+        "chutney"
+      ]
+    },
     "category": "sauces-condiments",
     "unit": "pot",
     "icon": "sauce-tomate"
   },
   {
-    "match": [
-      "epice",
-      "cumin",
-      "curry",
-      "paprika",
-      "cannelle",
-      "muscade",
-      "piment",
-      "curcuma"
-    ],
+    "match": {
+      "fr": [
+        "epice",
+        "cumin",
+        "curry",
+        "paprika",
+        "cannelle",
+        "muscade",
+        "piment",
+        "curcuma"
+      ],
+      "en": [
+        "spice",
+        "cumin",
+        "curry",
+        "paprika",
+        "cinnamon",
+        "nutmeg",
+        "chilli",
+        "chili",
+        "turmeric"
+      ]
+    },
     "category": "epices",
     "unit": "pot",
     "icon": "epices"
   },
   {
-    "match": [
-      "wok",
-      "nem",
-      "sushi",
-      "wasabi",
-      "tortilla",
-      "taco",
-      "fajita",
-      "nouille",
-      "ramen",
-      "soja",
-      "harissa"
-    ],
+    "match": {
+      "fr": [
+        "wok",
+        "nem",
+        "sushi",
+        "wasabi",
+        "tortilla",
+        "taco",
+        "fajita",
+        "nouille",
+        "ramen",
+        "soja",
+        "harissa"
+      ],
+      "en": [
+        "wok",
+        "sushi",
+        "wasabi",
+        "tortilla",
+        "taco",
+        "fajita",
+        "noodle",
+        "ramen",
+        "soy",
+        "soya",
+        "harissa"
+      ]
+    },
     "category": "cuisine-du-monde",
     "unit": "piece"
   },
   {
-    "match": ["huile", "vinaigre"],
+    "match": {
+      "fr": ["huile", "vinaigre"],
+      "en": ["oil", "vinegar"]
+    },
     "category": "huiles-vinaigres",
     "unit": "bouteille"
   },
   {
-    "match": [
-      "jambon",
-      "saucisson",
-      "chorizo",
-      "lardon",
-      "rillette",
-      "terrine",
-      "bacon"
-    ],
+    "match": {
+      "fr": [
+        "jambon",
+        "saucisson",
+        "chorizo",
+        "lardon",
+        "rillette",
+        "terrine",
+        "bacon"
+      ],
+      "en": [
+        "ham",
+        "salami",
+        "chorizo",
+        "lardon",
+        "rillette",
+        "terrine",
+        "bacon",
+        "pate"
+      ]
+    },
     "category": "charcuterie",
     "unit": "paquet",
     "icon": "saucisson"
   },
   {
-    "match": ["poulet", "dinde", "canard", "pintade", "volaille"],
+    "match": {
+      "fr": ["poulet", "dinde", "canard", "pintade", "volaille"],
+      "en": ["chicken", "turkey", "duck", "guinea", "poultry"]
+    },
     "category": "volaille",
     "unit": "g",
     "icon": "poulet"
   },
   {
-    "match": [
-      "boeuf",
-      "porc",
-      "veau",
-      "agneau",
-      "steak",
-      "roti",
-      "escalope",
-      "cote",
-      "saucisse"
-    ],
+    "match": {
+      "fr": [
+        "boeuf",
+        "porc",
+        "veau",
+        "agneau",
+        "steak",
+        "roti",
+        "escalope",
+        "cote",
+        "saucisse"
+      ],
+      "en": [
+        "beef",
+        "pork",
+        "veal",
+        "lamb",
+        "steak",
+        "roast",
+        "escalope",
+        "chop",
+        "sausage",
+        "mince"
+      ]
+    },
     "category": "viande",
     "unit": "g",
     "icon": "viande"
   },
   {
-    "match": [
-      "saumon",
-      "thon",
-      "cabillaud",
-      "colin",
-      "poisson",
-      "crevette",
-      "moule",
-      "crabe",
-      "calamar"
-    ],
+    "match": {
+      "fr": [
+        "saumon",
+        "thon",
+        "cabillaud",
+        "colin",
+        "poisson",
+        "crevette",
+        "moule",
+        "crabe",
+        "calamar"
+      ],
+      "en": [
+        "salmon",
+        "tuna",
+        "cod",
+        "hake",
+        "haddock",
+        "mackerel",
+        "fish",
+        "prawn",
+        "shrimp",
+        "mussel",
+        "crab",
+        "squid"
+      ]
+    },
     "category": "poisson-fruits-de-mer",
     "unit": "g",
     "icon": "poisson"
   },
   {
-    "match": [
-      "fromage",
-      "emmental",
-      "gruyere",
-      "comte",
-      "brie",
-      "camembert",
-      "roquefort",
-      "chevre",
-      "raclette"
-    ],
+    "match": {
+      "fr": [
+        "fromage",
+        "emmental",
+        "gruyere",
+        "comte",
+        "brie",
+        "camembert",
+        "roquefort",
+        "chevre",
+        "raclette"
+      ],
+      "en": [
+        "cheese",
+        "cheddar",
+        "emmental",
+        "gruyere",
+        "comte",
+        "brie",
+        "camembert",
+        "roquefort",
+        "stilton",
+        "raclette"
+      ]
+    },
     "category": "fromages",
     "unit": "piece",
     "icon": "fromage"
   },
   {
-    "match": ["yaourt", "flan", "mousse", "compote"],
+    "match": {
+      "fr": ["yaourt", "flan", "mousse", "compote"],
+      "en": ["yoghurt", "yogurt", "flan", "mousse", "compote", "custard"]
+    },
     "category": "yaourts-desserts",
     "unit": "piece",
     "icon": "yaourts"
   },
   {
-    "match": ["lait", "creme", "beurre", "margarine"],
+    "match": {
+      "fr": ["lait", "creme", "beurre", "margarine"],
+      "en": ["milk", "cream", "butter", "margarine"]
+    },
     "category": "lait-creme-beurre",
     "unit": "piece",
     "icon": "lait"
   },
   {
-    "match": ["pain", "baguette", "croissant", "brioche", "viennoiserie"],
+    "match": {
+      "fr": ["pain", "baguette", "croissant", "brioche", "viennoiserie"],
+      "en": [
+        "bread",
+        "baguette",
+        "croissant",
+        "brioche",
+        "bun",
+        "loaf",
+        "bagel",
+        "viennoiserie"
+      ]
+    },
     "category": "pain-viennoiseries",
     "unit": "piece",
     "icon": "pain"
   },
   {
-    "match": ["biscuit", "gateau", "cookie", "madeleine", "galette"],
+    "match": {
+      "fr": ["biscuit", "gateau", "cookie", "madeleine", "galette"],
+      "en": ["biscuit", "cake", "cookie", "madeleine", "galette", "shortbread"]
+    },
     "category": "biscuits-gateaux",
     "unit": "paquet",
     "icon": "biscuits"
   },
   {
-    "match": ["chocolat", "bonbon", "confiserie", "caramel"],
+    "match": {
+      "fr": ["chocolat", "bonbon", "confiserie", "caramel"],
+      "en": [
+        "chocolate",
+        "candy",
+        "confectionery",
+        "toffee",
+        "caramel",
+        "fudge",
+        "lollipop"
+      ]
+    },
     "category": "chocolat-confiserie",
     "unit": "piece",
     "icon": "chocolat"
   },
   {
-    "match": ["confiture", "miel", "tartiner"],
+    "match": {
+      "fr": ["confiture", "miel", "tartiner"],
+      "en": ["jam", "honey", "spread", "marmalade"]
+    },
     "category": "confitures-tartiner",
     "unit": "pot",
     "icon": "confiture"
   },
   {
-    "match": ["cafe", "the", "infusion", "tisane"],
+    "match": {
+      "fr": ["cafe", "the", "infusion", "tisane"],
+      "en": ["coffee", "tea", "infusion", "tisane"]
+    },
     "category": "cafe-the",
     "unit": "paquet",
     "icon": "cafe"
   },
   {
-    "match": ["cereale", "muesli", "biscotte"],
+    "match": {
+      "fr": ["cereale", "muesli", "biscotte"],
+      "en": ["cereal", "muesli", "granola", "porridge", "rusk"]
+    },
     "category": "petit-dejeuner",
     "unit": "paquet",
     "icon": "cereales"
   },
   {
-    "match": ["farine", "sucre", "levure", "vanille"],
+    "match": {
+      "fr": ["farine", "sucre", "levure", "vanille"],
+      "en": ["flour", "sugar", "yeast", "vanilla", "icing"]
+    },
     "category": "farine-sucre-patisserie",
     "unit": "paquet"
   },
   {
-    "match": ["pate", "riz", "semoule", "lentille", "quinoa", "boulgour"],
+    "match": {
+      "fr": ["pate", "riz", "semoule", "lentille", "quinoa", "boulgour"],
+      "en": [
+        "pasta",
+        "rice",
+        "semolina",
+        "lentil",
+        "quinoa",
+        "bulgur",
+        "couscous",
+        "spaghetti"
+      ]
+    },
     "category": "pates-riz-feculents",
     "unit": "paquet"
   },
   {
-    "match": ["conserve", "boite"],
+    "match": {
+      "fr": ["conserve", "boite"],
+      "en": ["tin", "tinned", "canned"]
+    },
     "category": "conserves-bocaux",
     "unit": "boite",
     "icon": "thon"
   },
   {
-    "match": ["chips", "cacahuete", "apero", "olive"],
+    "match": {
+      "fr": ["chips", "cacahuete", "apero", "olive"],
+      "en": ["crisp", "peanut", "nibble", "olive"]
+    },
     "category": "aperitif",
     "unit": "sachet"
   },
   {
-    "match": [
-      "salade",
-      "chou",
-      "courge",
-      "potiron",
-      "navet",
-      "betterave",
-      "celeri",
-      "legume"
-    ],
+    "match": {
+      "fr": [
+        "salade",
+        "chou",
+        "courge",
+        "potiron",
+        "navet",
+        "betterave",
+        "celeri",
+        "legume"
+      ],
+      "en": [
+        "lettuce",
+        "salad",
+        "cabbage",
+        "squash",
+        "pumpkin",
+        "turnip",
+        "beetroot",
+        "celery",
+        "vegetable",
+        "veg"
+      ]
+    },
     "category": "legumes",
     "unit": "kg"
   },
   {
-    "match": ["pomme", "poire", "prune", "fruit", "melon", "orange"],
+    "match": {
+      "fr": ["pomme", "poire", "prune", "fruit", "melon", "orange"],
+      "en": [
+        "apple",
+        "pear",
+        "plum",
+        "fruit",
+        "melon",
+        "orange",
+        "berry",
+        "berrie"
+      ]
+    },
     "category": "fruits",
     "unit": "kg"
   },
   {
-    "match": [
-      "shampooing",
-      "savon",
-      "gel",
-      "deodorant",
-      "dentifrice",
-      "maquillage"
-    ],
+    "match": {
+      "fr": [
+        "shampooing",
+        "savon",
+        "gel",
+        "deodorant",
+        "dentifrice",
+        "maquillage"
+      ],
+      "en": [
+        "shampoo",
+        "soap",
+        "gel",
+        "deodorant",
+        "toothpaste",
+        "makeup",
+        "cosmetic"
+      ]
+    },
     "category": "hygiene-beaute",
     "unit": "piece",
     "icon": "gel-douche"
   },
   {
-    "match": ["bebe", "couche", "biberon"],
+    "match": {
+      "fr": ["bebe", "couche", "biberon"],
+      "en": ["baby", "nappy", "nappie", "diaper"]
+    },
     "category": "bebe",
     "unit": "piece",
     "icon": "lait-infantile"
   },
   {
-    "match": ["chat", "chien", "croquette", "litiere"],
+    "match": {
+      "fr": ["chat", "chien", "croquette", "litiere"],
+      "en": ["cat", "dog", "kibble", "litter", "pet"]
+    },
     "category": "animaux",
     "unit": "piece",
     "icon": "patee"

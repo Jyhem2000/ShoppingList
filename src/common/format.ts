@@ -1,4 +1,5 @@
 import { categoriesData, familiesData } from "@/data";
+import { appLanguage } from "@/domain/language";
 import { formatQuantity, PIECE_UNIT } from "@/domain/quantity";
 import type {
   Aisle,
@@ -125,11 +126,13 @@ export function categoryShortName(
   const data = category.catalogKey
     ? catalogCategories.get(category.catalogKey)
     : undefined;
-  return data?.short?.fr ?? category.name;
+  return data?.short?.[appLanguage()] ?? category.name;
 }
 
 const catalogCategories = new Map(categoriesData.map((c) => [c.key, c]));
-const familyNames = new Map(familiesData.map((f) => [f.key, f.name.fr]));
+const familyNames = new Map(
+  familiesData.map((f) => [f.key, f.name[appLanguage()]]),
+);
 
 /** Nom de la famille d'une catégorie du catalogue (« Épicerie sucrée »). */
 function categoryFamily(
