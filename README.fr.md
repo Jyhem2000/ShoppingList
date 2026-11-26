@@ -16,6 +16,7 @@ Fini les allers-retours au rayon frais parce que tu avais oublié le beurre : l'
 - 🍲 **Recettes** : ajoute une recette pour 6 personnes ou 2 cakes, les ingrédients sont recalculés et ajoutés à ta liste.
 - 📤 **Partage** : envoie une liste ou une recette à quelqu'un qui l'importe dans son app (iPhone ↔ Android). Tu peux aussi coller une liste écrite à la main.
 - 💡 **Anti-oubli** _(v1.2)_ : l'app te rappelle ce que tu achètes d'habitude, et montre les fruits et légumes de saison.
+- 🌍 **En français ou en anglais** : l'interface et le catalogue de départ. L'app démarre dans la langue du téléphone ; Réglages → Préférences → Langue la change.
 - 🔒 **Sans compte, sans serveur, sans pub, gratuit.** Tes données restent sur ton téléphone et l'app marche hors ligne.
 
 ## Mode d'emploi
@@ -62,7 +63,7 @@ Optimisée pour **Chrome** sur iPhone et Android. Adresse : **https://shoppingli
 
 ## État du projet
 
-Version publiée : **1.1.0** (liste, catalogue, mode courses, magasins construits pendant les courses, recettes, partage). À venir : 1.2 (anti-oubli, fruits et légumes de saison), 1.3 (app en anglais). Spécification dans [`docs/`](docs/README.md).
+Disponible aujourd'hui : liste, catalogue, mode courses, magasins construits pendant les courses, recettes, partage, anti-oubli, fruits et légumes de saison, français et anglais. À venir : saisons selon la région ([feuille de route](docs/09-feuille-de-route.md)). Spécification dans [`docs/`](docs/README.md).
 
 ## Pour les développeurs
 

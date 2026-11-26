@@ -52,4 +52,4 @@ Détail des fonctionnalités du navigateur et de leur support : [07 § 3](07-arc
 - Comptes utilisateurs, synchronisation temps réel, serveur.
 - Photos d'articles.
 - Gestion de stock du frigo / placards.
-- Autres langues que le français et l'anglais (l'anglais arrive en v1.3, I3 ; les textes et le catalogue sont déjà organisés pour).
+- Autres langues que le français et l'anglais (I3).

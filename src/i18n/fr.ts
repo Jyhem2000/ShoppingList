@@ -1121,6 +1121,15 @@ export const fr = {
     version: (version: string) => `Version ${version}`,
     versions: [
       {
+        version: "1.3.0",
+        date: "2026-11-25",
+        items: [
+          "L'app existe en anglais : l'interface et le catalogue de départ, en anglais britannique (les mots américains marchent aussi : eggplant, zucchini). Elle démarre dans la langue du téléphone ; Réglages → Préférences → Langue la change.",
+          "Changer de langue renomme les articles, catégories et unités du catalogue que tu n'as pas renommés ; ce que tu as créé ou renommé garde son nom.",
+          "En anglais, la barre d'ajout comprend «\u00a02 tins of tomatoes and half a dozen eggs\u00a0» ou «\u00a02 tbsp sugar\u00a0». En français aussi, une cuillère abrégée se lit sans «\u00a0de\u00a0» : «\u00a02 cas beurre\u00a0» ajoute le beurre.",
+        ],
+      },
+      {
         version: "1.2.2",
         date: "2026-11-24",
         items: [

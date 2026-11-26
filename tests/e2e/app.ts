@@ -1,12 +1,15 @@
 import { expect, type Page } from "@playwright/test";
-import { fr } from "./texts";
+import { fr, type Texts } from "./texts";
 
 /**
  * Passe l'écran d'installation, comme le ferait « Continuer dans le navigateur ».
  * Les bulles d'aide (docs/03 H12) sont marquées vues, sauf `tips: true` : le scénario
- * qui les vérifie.
+ * qui les vérifie. `t` : les textes de la langue attendue (celle du téléphone émulé).
  */
-export async function enterApp(page: Page, { tips = false } = {}) {
+export async function enterApp(
+  page: Page,
+  { tips = false, t = fr }: { tips?: boolean; t?: Texts } = {},
+) {
   if (!tips)
     await page.addInitScript(() => {
       const key = "shoppinglist.preferences";
@@ -27,13 +30,13 @@ export async function enterApp(page: Page, { tips = false } = {}) {
       localStorage.setItem(key, JSON.stringify(preferences));
     });
   await page.goto("/");
-  await page.getByRole("button", { name: fr.install.continue }).click();
+  await page.getByRole("button", { name: t.install.continue }).click();
   await expect(
-    page.getByRole("navigation", { name: fr.tabs.navigation }),
+    page.getByRole("navigation", { name: t.tabs.navigation }),
   ).toBeVisible();
   // La barre d'ajout n'apparaît qu'une fois les données de départ créées.
   await expect(
-    page.getByRole("textbox", { name: fr.list.addPlaceholder }),
+    page.getByRole("textbox", { name: t.list.addPlaceholder }),
   ).toBeVisible({ timeout: FIRST_LAUNCH_TIMEOUT });
 }
 

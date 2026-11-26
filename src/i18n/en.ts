@@ -1090,6 +1090,15 @@ export const en: Texts = {
     version: (version: string) => `Version ${version}`,
     versions: [
       {
+        version: "1.3.0",
+        date: "2026-11-25",
+        items: [
+          "The app now speaks English: the interface and the starter catalogue, in British English (American words work too: eggplant, zucchini). It starts in your phone's language; Settings → Preferences → Language switches it.",
+          "Switching language renames the catalogue's items, categories and units you haven't renamed; anything you created or renamed keeps its name.",
+          "The add bar understands English: “2 tins of tomatoes and half a dozen eggs”, “2 tbsp sugar”.",
+        ],
+      },
+      {
         version: "1.2.2",
         date: "2026-11-24",
         items: [

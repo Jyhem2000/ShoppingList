@@ -6,11 +6,9 @@
 
 No more walking back to the dairy aisle because you forgot the butter: the app sorts your list aisle by aisle, in the order of **your** store, and learns that route as you shop.
 
-The app itself is in French.
-
 ## What it does
 
-- ⚡ **Quick add**: type `3 tom`, press Enter, done. Understands "500 g de farine", "une douzaine d'œufs", "pommes gala".
+- ⚡ **Quick add**: type `3 tom`, press Enter, done. Understands "500 g of flour", "half a dozen eggs", "apples gala" (and the same in French).
 - 🗺️ **Sorted by aisle** for the store you pick: its aisles are created during your first trips, the way they really are.
 - 🧠 **Learns the aisle order** from the order in which you tick your items.
 - 🛒 **Shopping mode**: big rows, aisles that fold up once done, screen that stays on, a warning when you add an item from an aisle you already passed, end of shopping (and reopening if you forgot something at the checkout).
@@ -18,19 +16,20 @@ The app itself is in French.
 - 🍲 **Recipes**: add a recipe for 6 people or 2 cakes, the ingredients are scaled and added to your list.
 - 📤 **Sharing**: send a list or a recipe to someone who imports it into their app (iPhone ↔ Android). You can also paste a list written by hand.
 - 💡 **Don't forget** _(v1.2)_: the app reminds you of what you usually buy, and shows which fruit and vegetables are in season.
+- 🌍 **English or French**: the interface and the starter catalogue, in British English (American words such as eggplant or zucchini work too). The app starts in your phone's language; Settings → Preferences → Language switches it.
 - 🔒 **No account, no server, no ads, free.** Your data stays on your phone and the app works offline.
 
 ## How to use it
 
-1. **Fill your list** with the bar at the bottom (`2 baguettes, du beurre`) or the catalogue. It sorts itself by category; in the store, it sorts by aisle, in the order of your route.
-2. **In the store**, tap **C'est parti** and pick the store (or name it, the first time). The first time, everything is in "À placer" (to be placed): tap each item when it is in the cart, and **Rayon suivant** (next aisle) when you move to another aisle; the store is saved the way you walked through it. Tap a row when the item is in the cart; swipe it left if you don't take it (not found, no longer needed…): it stays on the list; long-press to say it is in another aisle.
-3. **Something comes to mind on the way**: add it with the bar. If you already took it, choose "Je l'ai déjà dans le caddie" (already in the cart); if it is not in the expected aisle, "Il est dans un autre rayon…" (it's in another aisle). If its aisle is already behind you, it waits at the top in "À récupérer" (to pick up).
-4. **At the checkout**, tap **Terminer** (finish). Forgot something? "Rouvrir les courses" (reopen) on the list, as long as you haven't started a new trip.
-5. **Share**: `⋯` → "Partager la liste" (or, on a recipe, "Partager la recette") sends a message through Messages, WhatsApp… The other person copies the message, then in their app `⋯` → "Coller une liste" (or Recettes → "Coller une recette"); on Android, tapping the link is often enough.
+1. **Fill your list** with the bar at the bottom (`2 baguettes, butter`) or the catalogue. It sorts itself by category; in the store, it sorts by aisle, in the order of your route.
+2. **In the store**, tap **Let's go** and pick the shop (or name it, the first time). The first time, everything is in "Unsorted": tap each item when it is in the trolley, and **Next aisle** when you move to another aisle; the shop is saved the way you walked through it. Tap a row when the item is in the trolley; swipe it left if you don't take it (not found, no longer needed…): it stays on the list; long-press to say it is in another aisle.
+3. **Something comes to mind on the way**: add it with the bar. If you already took it, choose "It's already in my trolley"; if it is not in the expected aisle, "It's in another aisle…". If its aisle is already behind you, it waits at the top in "To pick up".
+4. **At the checkout**, tap **Finish**. Forgot something? "Reopen shopping" on the list, as long as you haven't started a new trip.
+5. **Share**: `⋯` → "Share the list" (or, on a recipe, "Share the recipe") sends a message through Messages, WhatsApp… The other person copies the message, then in their app `⋯` → "Paste a list" (or Recipes → `⋯` → "Paste a recipe"); on Android, tapping the link is often enough.
 
 ### Your data
 
-Everything stays on your phone. Remember to use **Réglages → Sauvegarde → Exporter un fichier** (Settings → Backup → Export a file) now and then: the file goes to Files or Drive, and "Importer un fichier" (import a file) puts everything back (new phone, reinstall). The app also keeps one automatic copy per day (7 days), to undo a mistake. New catalogue items arrive with updates, without reinstalling.
+Everything stays on your phone. Remember to use **Settings → Backup → Export a file** now and then: the file goes to Files or Drive, and "Import a file" puts everything back (new phone, reinstall). The app also keeps one automatic copy per day (7 days), to undo a mistake. New catalogue items arrive with updates, without reinstalling.
 
 ### What the app sets up on its own
 
@@ -60,11 +59,11 @@ Optimised for **Chrome** on iPhone and Android. Address: **https://shoppinglist.
 **Android (Chrome)**
 
 1. Open the address in Chrome.
-2. Tap **Installer** (button offered by the app, or menu ⋮ → _Install app_).
+2. Tap **Install the app** (button offered by the app, or menu ⋮ → _Install app_).
 
 ## Project status
 
-Released version: **1.1.0** (list, catalogue, shopping mode, stores built while shopping, recipes, sharing). Coming next: 1.2 (don't forget, seasonal produce), 1.3 (English version of the app). Specification in [`docs/`](docs/README.md) (in French).
+Available today: list, catalogue, shopping mode, stores built while shopping, recipes, sharing, don't forget, seasonal produce, English and French. Coming next: seasons by region ([roadmap](docs/09-feuille-de-route.md)). Specification in [`docs/`](docs/README.md) (in French).
 
 ## For developers
 
