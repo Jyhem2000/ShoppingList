@@ -10,7 +10,6 @@ import unitsJson from "./units.json";
  * sont rangés par langue (français, anglais). Les `key` sont les clés catalogue :
  * identifiants techniques figés pour toujours, jamais affichés.
  */
-export type { ByLanguage };
 
 export interface UnitData {
   key: string;

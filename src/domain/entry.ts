@@ -33,8 +33,11 @@ interface EntryWords {
   /** Douzaine et demi-douzaine, en un à trois mots (« half-a-dozen »). */
   dozen: ReadonlySet<string>;
   halfDozen: ReadonlySet<string>;
-  /** Mots dits entre deux articles (« et », « puis »), en minuscules. */
-  separators: readonly string[];
+  /**
+   * Mots qui se disent naturellement entre deux articles (« et », « puis »), cherchés
+   * dans chaque segment, sauf dans un nom connu (« Peas and carrots »).
+   */
+  separator: RegExp;
   /** Partitifs et articles en tête, retirés (« du », « de la », « some », « of »). */
   partitive: RegExp;
 }
@@ -66,7 +69,7 @@ const WORDS: ByLanguage<EntryWords> = {
     },
     dozen: new Set(["douzaine", "douzaines"]),
     halfDozen: new Set(["demi-douzaine", "demi-douzaines"]),
-    separators: ["et", "puis"],
+    separator: /\s+(?:et|puis)\s+/iu,
     // du, de la, de l', des, d', de, l'
     partitive: /^(?:(?:de\s+l|d|l)['’]\s*|(?:du|des|de\s+la|de)\s+)/i,
   },
@@ -97,55 +100,28 @@ const WORDS: ByLanguage<EntryWords> = {
     },
     dozen: new Set(["dozen", "dozens"]),
     halfDozen: new Set(["half-dozen", "half-dozens", "half-a-dozen"]),
-    separators: ["and", "then"],
+    separator: /\s+(?:and|then)\s+/iu,
     // some, of (« 2 jars of mustard »)
     partitive: /^(?:some|of)\s+/i,
   },
 };
 
-/** Un mot en majuscules ou en minuscules : `et` → `[Ee][Tt]`. */
-function anyCase(word: string): string {
-  return word.replace(/\p{L}/gu, (c) => `[${c.toUpperCase()}${c}]`);
-}
-
 // Segments : virgule (jamais dans un nombre : 1,5), point-virgule, retour à la ligne,
-// les mots qui se disent naturellement entre deux articles (« et », « puis »), et le
-// point d'une fin de phrase suivi d'une majuscule (« Des pommes. Du lait. », ajouté par
-// la dictée) : pas celui d'une abréviation (« 2 tr. de jambon »). Pas de drapeau `i`,
-// qui rendrait `\p{Lu}` insensible à la casse : les mots passent par `anyCase`.
-function separator({ separators }: EntryWords): string {
-  const said = separators.map(anyCase).join("|");
-  return String.raw`[;\n]|(?<!\d),|,(?!\d)|\.(?=\s+\p{Lu})|\s+(?:${said})\s+`;
-}
+// et le point d'une fin de phrase suivi d'une majuscule (« Des pommes. Du lait. »,
+// ajouté par la dictée) : pas celui d'une abréviation (« 2 tr. de jambon »).
+const SEPARATOR = String.raw`[;\n]|(?<!\d),|,(?!\d)|\.(?=\s+\p{Lu})`;
 // Dans la barre d'ajout seulement, une puce restée d'une liste dont les retours à la
 // ligne ont sauté : entourée d'espaces (« - beurre - lait »), ou collée au mot d'avant
 // quand le retour à la ligne a disparu sans laisser d'espace (« beurre- lait »). Pas le
 // trait d'union (« dix-sept »), ni « * 3 » (« lait * 3 »).
 const BULLET_SEPARATOR = String.raw`\s+[•·▪◦‣∙\-–—]\s+|\s+\*\s+(?!\d)|(?<=[\p{L}\p{N}])[•·▪◦‣∙\-–—]\s+|(?<=\p{L})\*\s+(?!\d)`;
 
-interface Splitters {
-  plain: RegExp;
-  bullets: RegExp;
-}
+const SEPARATORS = new RegExp(String.raw`\s*(?:${SEPARATOR})\s*`, "u");
+const BULLET_SEPARATORS = new RegExp(
+  String.raw`\s*(?:${SEPARATOR}|${BULLET_SEPARATOR})\s*`,
+  "u",
+);
 
-const splitters = new Map<Language, Splitters>();
-
-/** Expressions de découpe d'une langue, construites une seule fois. */
-function splittersOf(language: Language): Splitters {
-  let found = splitters.get(language);
-  if (!found) {
-    const words = separator(WORDS[language]);
-    found = {
-      plain: new RegExp(String.raw`\s*(?:${words})\s*`, "u"),
-      bullets: new RegExp(
-        String.raw`\s*(?:${words}|${BULLET_SEPARATOR})\s*`,
-        "u",
-      ),
-    };
-    splitters.set(language, found);
-  }
-  return found;
-}
 /**
  * Puce en début de ligne : •, -, *, case à cocher, ou numéro suivi d'une espace
  * (« 1. pain », mais pas « 2.5 kg de farine »).
@@ -174,7 +150,31 @@ interface UnitIndex {
   words: EntryWords;
 }
 
+/**
+ * Index des unités, construit une fois par liste d'unités (la même tant que la base
+ * ne change pas), par langue et par usage : la saisie relit tout à chaque frappe.
+ */
+const unitIndexes = new WeakMap<
+  readonly ParsingUnit[],
+  Map<string, UnitIndex>
+>();
+
 function unitIndex(
+  units: readonly ParsingUnit[],
+  recipe: boolean,
+  language: Language,
+): UnitIndex {
+  const byUse = unitIndexes.get(units) ?? new Map<string, UnitIndex>();
+  unitIndexes.set(units, byUse);
+  const key = `${language}|${String(recipe)}`;
+  const cached = byUse.get(key);
+  if (cached) return cached;
+  const built = buildUnitIndex(units, recipe, WORDS[language]);
+  byUse.set(key, built);
+  return built;
+}
+
+function buildUnitIndex(
   units: readonly ParsingUnit[],
   recipe: boolean,
   words: EntryWords,
@@ -345,7 +345,8 @@ export function pastedEntry(text: string): string {
  * d'un texte importé, où « Lait - 2 L » est un seul article. `recipe` : ingrédients
  * d'une recette, où les unités de cuisine se lisent comme les autres ; ailleurs, elles
  * ne s'achètent pas et l'article garde sa quantité habituelle. Les mots lus (« et »,
- * « deux », « douzaine », « du ») sont ceux de la langue de l'app.
+ * « deux », « douzaine », « du ») sont ceux de la langue de l'app. `known` : un nom
+ * connu (`knownLabel`), que son « et » ne coupe pas (« Peas and carrots »).
  */
 export function parseEntry(
   text: string,
@@ -353,16 +354,37 @@ export function parseEntry(
   {
     bullets = true,
     recipe = false,
-  }: { bullets?: boolean; recipe?: boolean } = {},
+    known,
+  }: {
+    bullets?: boolean;
+    recipe?: boolean;
+    known?: (text: string) => boolean;
+  } = {},
 ): ParsedEntry[] {
-  const language = appLanguage();
-  const index = unitIndex(units, recipe, WORDS[language]);
-  const split = splittersOf(language);
+  const index = unitIndex(units, recipe, appLanguage());
+  const { separator } = index.words;
   return text
     .trim()
-    .split(bullets ? split.bullets : split.plain)
-    .map((segment) => parseSegment(segment.trim(), index))
+    .split(bullets ? BULLET_SEPARATORS : SEPARATORS)
+    .flatMap((segment) => {
+      const whole = parseSegment(segment.trim(), index);
+      if (!separator.test(segment) || (whole && known?.(whole.text)))
+        return [whole];
+      return segment
+        .split(separator)
+        .map((part) => parseSegment(part.trim(), index));
+    })
     .filter((entry) => entry !== undefined);
+}
+
+/**
+ * Nom ou alias exact d'un des articles (sans casse, accents ni pluriel), pour le
+ * `known` de `parseEntry`.
+ */
+export function knownLabel(
+  articles: readonly ResolvableArticle[],
+): (text: string) => boolean {
+  return (text) => labelIndex(articles).has(searchKey(text));
 }
 
 export type ResolvableArticle = Pick<

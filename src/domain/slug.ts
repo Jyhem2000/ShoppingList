@@ -94,7 +94,7 @@ export function accentKey(label: string): string {
     .replace(/[^\p{L}\p{N}]+/gu, "-")
     .replace(/^-+|-+$/g, "")
     .split("-")
-    .map((word) => (word.length > 3 ? word.replace(/[sx]$/, "") : word))
+    .map((word) => (word.length > 3 ? SINGULAR[appLanguage()](word) : word))
     .join("-");
 }
 

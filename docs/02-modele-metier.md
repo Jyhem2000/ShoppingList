@@ -61,7 +61,7 @@ Trois niveaux à distinguer :
 
 Conséquence : **tant que les articles viennent du catalogue, le multilingue est automatique** (même clé, chacun lit sa langue). La seule difficulté concerne les articles créés à la main, traitée en § 9.
 
-L'app est **en français** ; l'anglais (interface + catalogue) arrive en v1.3 ([03 I3](03-fonctionnalites.md#i3-anglais--v13)). Les données sont déjà organisées pour, sans migration (06 § 4).
+L'app est **en français ou en anglais** (interface et catalogue, [03 I3](03-fonctionnalites.md#i3-anglais--v13)). Un article créé depuis le catalogue prend le libellé, les alias et les types de la langue de l'app ; changer de langue renomme ceux qui n'ont jamais été renommés.
 
 ### Règles d'unicité
 
@@ -109,7 +109,7 @@ Les alias évitent les doublons et rendent la recherche naturelle. Exemples :
 | Sauce nuoc-mâm   | nuoc mam, sauce poisson |
 
 - Ils sont fournis par le catalogue de départ et **s'enrichissent automatiquement** : quand, lors d'un import, l'utilisateur indique qu'un article reçu « est le même que » un des siens, le libellé reçu devient un alias de son article (§ 9).
-- Pas d'alias anglais systématiques : l'app est en français. Les anglicismes courants (cookies, chips, ketchup) sont déjà des libellés français.
+- Les alias sont ceux de la langue de l'app, pas des traductions : les anglicismes courants (cookies, chips, ketchup) sont déjà des libellés français ; en anglais, les mots américains sont des alias (_Aubergine_ → eggplant).
 - Une marque précise que l'on veut **vraiment** (« Nutella, pas une autre ») se gère plutôt comme un **type** de l'article (_Pâte à tartiner_ → type _Nutella_).
 
 **Suppression** : possible ; si l'article est utilisé dans des listes ou des recettes, l'app le signale et propose de le retirer de celles-ci ou d'annuler.
@@ -369,6 +369,7 @@ Même mécanisme, même format ([03 E3](03-fonctionnalites.md#e3-partager-une-re
    5. sinon un article ressemblant (recherche floue) → **proposé**, à confirmer.
 3. Ce qui reste est **« non reconnu »** et passe par l'aide décrite ci-dessous.
 4. Catégories et unités : par clé catalogue, puis par slug ; créées si inconnues.
+   Les **types acceptés** d'un article du catalogue, envoyés dans la langue de l'expéditeur, sont traduits dans celle du destinataire (le type à la même place dans la liste du catalogue, [06 § 4](06-donnees-initiales.md)) ; un type ajouté par l'expéditeur reste tel quel.
 5. Un **écran d'aperçu** résume avant validation : « 12 articles reconnus, 1 à confirmer, 2 non reconnus ».
 
 ### Aider à trouver un article qu'on ne sait pas avoir

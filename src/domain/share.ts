@@ -6,13 +6,24 @@ import {
   entryAmount,
   LINE_BULLET,
   exactEntry,
+  knownLabel,
   parseEntry,
   resolveEntry,
   type ParsedEntry,
 } from "./entry";
 import { isOneOff, OTHERS_CATEGORY, oneOffCategory } from "./categories";
 import { guessFromKeywords, type KeywordGuess } from "./keywords";
-import type { ByLanguage, Language } from "./language";
+import { isLanguage, type ByLanguage, type Language } from "./language";
+import { translateTypes, typeTranslation } from "./languageChange";
+import {
+  articleTexts,
+  categoryTexts,
+  unitTexts,
+  type CatalogArticleTexts,
+  type CatalogCategoryTexts,
+  type CatalogTexts,
+  type CatalogUnitTexts,
+} from "./catalogTexts";
 import type {
   Article,
   Category,
@@ -463,37 +474,32 @@ export interface ImportCatalog {
   dictionary: ReadonlyMap<string, string>;
   categories: ReadonlyMap<string, CategoryDesc>;
   units: ReadonlyMap<string, UnitDesc>;
+  /** Langue des descriptions : celle de l'app. */
+  language: Language;
+  /** Types de chaque article du catalogue, par langue : les types reçus se traduisent. */
+  types: ReadonlyMap<string, ByLanguage<string[]>>;
 }
 
-export interface CatalogSource {
-  articles: readonly {
-    key: string;
-    name: ByLanguage<string>;
-    aliases?: ByLanguage<string[]>;
-    types?: ByLanguage<string[]>;
+export interface CatalogSource extends CatalogTexts {
+  articles: readonly (CatalogArticleTexts & {
     category: string;
     unit: string;
     quantity?: number;
     countable?: boolean;
     generic?: boolean;
     icon?: string;
-  }[];
-  categories: readonly {
-    key: string;
-    name: ByLanguage<string>;
+  })[];
+  categories: readonly (CatalogCategoryTexts & {
     unit: string;
     color: string;
     icon?: string;
-  }[];
-  units: readonly {
-    key: string;
-    name: ByLanguage<{ singular: string; plural: string; abbr?: string }>;
+  })[];
+  units: readonly (CatalogUnitTexts & {
     dimension: Dimension;
     group: UnitGroup;
     factor?: number;
     step: number;
-    aliases?: ByLanguage<string[]>;
-  }[];
+  })[];
 }
 
 export function buildImportCatalog(
@@ -506,14 +512,11 @@ export function buildImportCatalog(
       {
         catalogKey: unit.key,
         slug: unit.key,
-        singular: unit.name[language].singular,
-        plural: unit.name[language].plural,
-        abbr: unit.name[language].abbr,
+        ...unitTexts(unit, language),
         dimension: unit.dimension,
         group: unit.group,
         factor: unit.factor,
         step: unit.step,
-        aliases: unit.aliases?.[language] ?? [],
       },
     ]),
   );
@@ -522,8 +525,7 @@ export function buildImportCatalog(
       category.key,
       {
         catalogKey: category.key,
-        slug: slugify(category.name[language]),
-        name: category.name[language],
+        ...categoryTexts(category, language),
         color: category.color,
         icon: category.icon,
         unitKey: category.unit,
@@ -536,17 +538,14 @@ export function buildImportCatalog(
     const category = categories.get(data.category);
     const unit = units.get(data.unit);
     if (!category || !unit) continue;
-    const name = data.name[language];
-    const slug = slugify(name);
+    const { name, aliases, types } = articleTexts(data, language);
     articles.set(data.key, {
       name,
       label: name,
       catalogKey: data.key,
       icon: data.icon,
-      aliases: [
-        ...new Set((data.aliases?.[language] ?? []).map(slugify)),
-      ].filter((alias) => alias !== slug),
-      types: data.types?.[language] ?? [],
+      aliases,
+      types,
       category,
       unit,
       defaultQuantity: data.quantity,
@@ -563,7 +562,12 @@ export function buildImportCatalog(
       if (key && !dictionary.has(key)) dictionary.set(key, data.key);
     }
   }
-  return { articles, dictionary, categories, units };
+  const types = new Map(
+    source.articles.flatMap((data) =>
+      data.types ? [[data.key, data.types] as const] : [],
+    ),
+  );
+  return { articles, dictionary, categories, units, language, types };
 }
 
 type Matchable = Pick<Category | Unit, "slug" | "catalogKey">;
@@ -671,6 +675,17 @@ export function resolveImport(
       : (catalog.units.get(ref) ?? fallbackUnit);
   };
 
+  // Types acceptés d'un article du catalogue, écrits dans la langue de l'expéditeur :
+  // traduits dans celle du destinataire (docs/02 § 9).
+  const from = isLanguage(shared.l) ? shared.l : undefined;
+  const receivedTypes = (item: SharedItem): string[] => {
+    const sent = item.t ?? [];
+    const lists = item.k === undefined ? undefined : catalog.types.get(item.k);
+    if (!from || from === catalog.language || !lists) return sent;
+    const map = typeTranslation(lists[from], lists[catalog.language]);
+    return (map && translateTypes(sent, map)) ?? sent;
+  };
+
   return shared.i.map((item) => {
     const fromCatalog =
       item.k === undefined ? undefined : catalog.articles.get(item.k);
@@ -692,7 +707,7 @@ export function resolveImport(
     return {
       received: better,
       amount: { quantity: item.q, unit: unitDesc(item.u) },
-      acceptedTypes: mergeTypes(item.t ?? [], types),
+      acceptedTypes: mergeTypes(receivedTypes(item), types),
       note: item.o,
       ...(shared.type === "recipe" && {
         ingredient: { optional: item.op === 1, fixed: item.fx === 1 },
@@ -729,10 +744,13 @@ export function textImportLines(
         .trim(),
     )
     .filter(Boolean);
+  const { catalog } = context;
+  // Un nom connu chez soi ou dans le catalogue (toutes langues) reste entier.
+  const known = knownLabel(context.articles);
   const entries = parseEntry(kept.join("\n"), context.units, {
     bullets: false,
+    known: (text) => known(text) || catalog.dictionary.has(searchKey(text)),
   });
-  const { catalog } = context;
   const fallbackCategory = catalogCategory(catalog, OTHERS_CATEGORY);
 
   return entries.map((entry) => {

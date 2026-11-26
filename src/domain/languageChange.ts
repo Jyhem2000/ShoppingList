@@ -1,4 +1,5 @@
 import type { ByLanguage, Language } from "./language";
+import { sameTypes, typeText } from "./lines";
 import type {
   Aisle,
   Article,
@@ -9,7 +10,15 @@ import type {
   ShoppingList,
   Unit,
 } from "./model";
-import { searchKey, slugify } from "./slug";
+import { searchKey } from "./slug";
+import {
+  articleTexts,
+  categoryTexts,
+  sameUnitName,
+  unitTexts,
+  type CatalogTexts,
+} from "./catalogTexts";
+import { countBy } from "./collections";
 
 /**
  * Changer de langue (docs/03 I3) : ce qui vient du catalogue et n'a jamais été
@@ -18,22 +27,6 @@ import { searchKey, slugify } from "./slug";
  * par l'app (première liste, rayon « À placer », rendement d'une recette) suivent
  * aussi, s'ils n'ont pas été changés.
  */
-
-/** Textes du catalogue de départ (`src/data`), par langue. */
-export interface CatalogTexts {
-  articles: readonly {
-    key: string;
-    name: ByLanguage<string>;
-    aliases?: ByLanguage<string[]>;
-    types?: ByLanguage<string[]>;
-  }[];
-  categories: readonly { key: string; name: ByLanguage<string> }[];
-  units: readonly {
-    key: string;
-    name: ByLanguage<{ singular: string; plural: string; abbr?: string }>;
-    aliases?: ByLanguage<string[]>;
-  }[];
-}
 
 /** Noms donnés par l'app, dans une langue (`texts`). */
 export interface DefaultNames {
@@ -84,54 +77,37 @@ export function languageChanges(
       const source = article.catalogKey
         ? articleData.get(article.catalogKey)
         : undefined;
-      if (article.name !== source?.name[from]) return [];
-      const name = source.name[to];
-      const slug = slugify(name);
+      if (!source) return [];
+      const old = articleTexts(source, from);
+      if (article.name !== old.name) return [];
+      const { name, slug, ...fresh } = articleTexts(source, to);
       const aliases = swapped(
         article.aliases,
-        (source.aliases?.[from] ?? []).map(slugify),
-        (source.aliases?.[to] ?? []).map(slugify),
+        old.aliases,
+        fresh.aliases,
       ).filter((alias) => alias !== slug);
-      const types = sameItems(article.types, source.types?.[from] ?? [])
-        ? (source.types?.[to] ?? [])
+      const types = sameTypes(article.types, old.types)
+        ? fresh.types
         : article.types;
       if (
         name === article.name &&
-        sameItems(aliases, article.aliases) &&
-        sameItems(types, article.types)
+        sameTypes(aliases, article.aliases) &&
+        sameTypes(types, article.types)
       )
         return [];
       return [{ ...article, name, slug, aliases, types }];
     }),
   );
 
-  /**
-   * Types traduits, par article renommé (clé : `typeKey` de l'ancien type) : le même
-   * mot s'il existe dans les deux langues (« Williams »), sinon celui à la même place
-   * dans la liste (traductions l'une de l'autre quand les deux listes ont la même
-   * longueur).
-   */
-  const typeMaps = new Map<ID, ReadonlyMap<string, string>>();
+  // Types traduits, par article renommé qui a pris les types du catalogue.
+  const typeMaps = new Map<ID, TypeTranslation>();
   for (const article of articles) {
     const source = articleData.get(article.catalogKey ?? "");
-    const oldTypes = source?.types?.[from] ?? [];
     const newTypes = source?.types?.[to] ?? [];
-    if (
-      oldTypes.length > 0 &&
-      oldTypes.length === newTypes.length &&
-      sameItems(article.types, newTypes)
-    )
-      typeMaps.set(
-        article.id,
-        new Map(
-          oldTypes.map((type, index) => [
-            typeKey(type),
-            newTypes.find((other) => typeKey(other) === typeKey(type)) ??
-              newTypes[index] ??
-              type,
-          ]),
-        ),
-      );
+    const map = sameTypes(article.types, newTypes)
+      ? typeTranslation(source?.types?.[from] ?? [], newTypes)
+      : undefined;
+    if (map) typeMaps.set(article.id, map);
   }
 
   // Catégories : nom et slug (le nom court choisi par l'utilisateur reste).
@@ -142,11 +118,10 @@ export function languageChanges(
       const source = category.catalogKey
         ? categoryData.get(category.catalogKey)
         : undefined;
-      if (category.name !== source?.name[from]) return [];
-      const name = source.name[to];
-      return name === category.name
-        ? []
-        : [{ ...category, name, slug: slugify(name) }];
+      if (!source || category.name !== categoryTexts(source, from).name)
+        return [];
+      const fresh = categoryTexts(source, to);
+      return fresh.name === category.name ? [] : [{ ...category, ...fresh }];
     }),
   );
 
@@ -155,35 +130,13 @@ export function languageChanges(
   const units = data.units.flatMap((unit) => {
     const source = unit.catalogKey ? unitData.get(unit.catalogKey) : undefined;
     if (!source) return [];
-    const old = source.name[from];
-    if (
-      unit.singular !== old.singular ||
-      unit.plural !== old.plural ||
-      (unit.abbr ?? "") !== (old.abbr ?? "")
-    )
+    const old = unitTexts(source, from);
+    if (!sameUnitName(unit, old)) return [];
+    const fresh = unitTexts(source, to);
+    const aliases = swapped(unit.aliases, old.aliases, fresh.aliases);
+    if (sameUnitName(unit, fresh) && sameTypes(aliases, unit.aliases))
       return [];
-    const name = source.name[to];
-    const aliases = swapped(
-      unit.aliases,
-      source.aliases?.[from] ?? [],
-      source.aliases?.[to] ?? [],
-    );
-    if (
-      name.singular === unit.singular &&
-      name.plural === unit.plural &&
-      (name.abbr ?? "") === (unit.abbr ?? "") &&
-      sameItems(aliases, unit.aliases)
-    )
-      return [];
-    return [
-      {
-        ...unit,
-        singular: name.singular,
-        plural: name.plural,
-        abbr: name.abbr,
-        aliases,
-      },
-    ];
+    return [{ ...unit, ...fresh, aliases }];
   });
 
   const lists = data.lists
@@ -199,8 +152,7 @@ export function languageChanges(
   // Types acceptés des lignes et des ingrédients, quand les types ont été traduits.
   const translatedTypes = (articleId: ID, types: readonly string[]) => {
     const map = typeMaps.get(articleId);
-    if (!map || !types.some((type) => map.has(typeKey(type)))) return undefined;
-    return types.map((type) => map.get(typeKey(type)) ?? type);
+    return map && translateTypes(types, map);
   };
   const items = data.items.flatMap((item) => {
     const acceptedTypes = translatedTypes(item.articleId, item.acceptedTypes);
@@ -237,15 +189,39 @@ export function languageChanges(
   return { articles, categories, units, lists, aisles, items, recipes };
 }
 
-/** Un type, sans casse ni espaces autour (comme `typesKey`). */
-function typeKey(type: string): string {
-  return type.trim().toLowerCase();
+/** Type d'une langue (`typeText`) → le même type dans l'autre. */
+export type TypeTranslation = ReadonlyMap<string, string>;
+
+/**
+ * Traduction des types d'un article du catalogue d'une langue à l'autre : le même mot
+ * s'il existe dans les deux (« Gala »), sinon celui à la même place (les listes ont la
+ * même longueur dans chaque langue, docs/06 § 4). `undefined` sans types.
+ */
+export function typeTranslation(
+  from: readonly string[],
+  to: readonly string[],
+): TypeTranslation | undefined {
+  if (from.length === 0 || from.length !== to.length) return undefined;
+  return new Map(
+    from.map((type, index) => [
+      typeText(type),
+      to.find((other) => typeText(other) === typeText(type)) ??
+        to[index] ??
+        type,
+    ]),
+  );
 }
 
-/** Mêmes éléments, dans n'importe quel ordre. */
-function sameItems(a: readonly string[], b: readonly string[]): boolean {
-  const set = new Set(a);
-  return a.length === b.length && b.every((item) => set.has(item));
+/**
+ * Types traduits (les autres, ajoutés par l'utilisateur, restent) ; `undefined` si
+ * aucun n'a de traduction.
+ */
+export function translateTypes(
+  types: readonly string[],
+  map: TypeTranslation,
+): string[] | undefined {
+  if (!types.some((type) => map.has(typeText(type)))) return undefined;
+  return types.map((type) => map.get(typeText(type)) ?? type);
 }
 
 /** Les éléments de `current` venus de `old` remplacés par ceux de `fresh`. */
@@ -275,9 +251,7 @@ function uniqueSlugs<T extends { id: ID; slug: string }>(
     const taken = new Set(
       rows.filter((row) => !ids.has(row.id)).map((row) => row.slug),
     );
-    const counts = new Map<string, number>();
-    for (const row of kept)
-      counts.set(row.slug, (counts.get(row.slug) ?? 0) + 1);
+    const counts = countBy(kept, (row) => row.slug);
     const next = kept.filter(
       (row) => !taken.has(row.slug) && counts.get(row.slug) === 1,
     );

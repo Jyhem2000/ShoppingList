@@ -155,6 +155,23 @@ describe("lien de partage (docs/07 § 7.9)", () => {
     expect(inEnglish.categories.get("fruits")?.name).toBe("Fruit");
   });
 
+  it("les types acceptés d'un article du catalogue arrivent dans la langue du destinataire", async () => {
+    const sender = await seeded();
+    await add(sender, await byKey(sender, "pommes"), 1, {
+      acceptedTypes: ["Golden Delicious", "Cox", "Bramley"],
+    });
+    const shared = { ...(await share(sender)), l: "en" };
+    const recipient = await seeded();
+    const [line] = resolveImport(shared, await context(recipient));
+    // Traduit à sa place, gardé s'il existe dans les deux, laissé s'il est inconnu.
+    expect(line?.acceptedTypes).toEqual(["Golden", "Cox", "Bramley"]);
+    const [same] = resolveImport(
+      { ...shared, l: "fr" },
+      await context(recipient),
+    );
+    expect(same?.acceptedTypes).toEqual(["Golden Delicious", "Cox", "Bramley"]);
+  });
+
   it("un lien abîmé ou absent ne donne rien", () => {
     expect(findShared("Des tomates et du pain")).toBeUndefined();
     expect(findShared("https://exemple.fr/#/import?d=abc")).toBeUndefined();

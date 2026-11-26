@@ -9,7 +9,7 @@ import type {
   Unit,
 } from "@/domain/model";
 import { appLanguage, type Language } from "@/domain/language";
-import { slugify } from "@/domain/slug";
+import { articleTexts, categoryTexts, unitTexts } from "@/domain/catalogTexts";
 import { textsByLanguage } from "@/i18n";
 import type { ShoppingDatabase } from "./database";
 
@@ -38,22 +38,18 @@ export function buildInitialData(
   const units: Unit[] = unitsData.map((unit) => ({
     ...base(),
     slug: unit.key,
-    singular: unit.name[language].singular,
-    plural: unit.name[language].plural,
-    abbr: unit.name[language].abbr,
+    ...unitTexts(unit, language),
     dimension: unit.dimension,
     group: unit.group,
     factor: unit.factor,
     step: unit.step,
-    aliases: unit.aliases?.[language] ?? [],
     catalogKey: unit.key,
   }));
   const unitByKey = new Map(units.map((unit) => [unit.slug, unit]));
 
   const categories: Category[] = categoriesData.map((category) => ({
     ...base(),
-    slug: slugify(category.name[language]),
-    name: category.name[language],
+    ...categoryTexts(category, language),
     icon: category.icon,
     color: category.color,
     useIconAsFallback: false,
@@ -69,30 +65,21 @@ export function buildInitialData(
     return value;
   };
 
-  const articles: Article[] = catalogData.map((article) => {
-    const slug = slugify(article.name[language]);
-    const aliases = [
-      ...new Set((article.aliases?.[language] ?? []).map(slugify)),
-    ].filter((alias) => alias !== slug);
-    return {
-      ...base(),
-      slug,
-      name: article.name[language],
-      categoryId: require(categoryByKey.get(article.category), article.category)
-        .id,
-      defaultUnitId: require(unitByKey.get(article.unit), article.unit).id,
-      defaultQuantity: article.quantity,
-      countable: article.countable,
-      generic: article.generic,
-      types: article.types?.[language] ?? [],
-      aliases,
-      icon: article.icon,
-      favorite: false,
-      seasonMonths: article.season?.[SEASON_ZONE],
-      notDuplicateOf: [],
-      catalogKey: article.key,
-    };
-  });
+  const articles: Article[] = catalogData.map((article) => ({
+    ...base(),
+    ...articleTexts(article, language),
+    categoryId: require(categoryByKey.get(article.category), article.category)
+      .id,
+    defaultUnitId: require(unitByKey.get(article.unit), article.unit).id,
+    defaultQuantity: article.quantity,
+    countable: article.countable,
+    generic: article.generic,
+    icon: article.icon,
+    favorite: false,
+    seasonMonths: article.season?.[SEASON_ZONE],
+    notDuplicateOf: [],
+    catalogKey: article.key,
+  }));
 
   const list: ShoppingList = {
     ...base(),

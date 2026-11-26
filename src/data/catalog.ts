@@ -1,4 +1,4 @@
-import type { ByLanguage } from "./index";
+import type { ByLanguage } from "@/domain/language";
 import catalogJson from "./catalog.json";
 
 /**

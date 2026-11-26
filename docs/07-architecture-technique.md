@@ -5,7 +5,7 @@
 - **Application web statique** (HTML/JS/CSS), sans serveur ni base distante. Toutes les données sont dans le navigateur (IndexedDB).
 - **Installable** sur l'écran d'accueil (PWA) et **entièrement hors ligne**.
 - **100 % gratuit** : bibliothèques open source, fonctionnalités natives du navigateur, hébergement statique gratuit.
-- **Logique métier isolée** dans des fonctions pures, testées indépendamment de l'interface.
+- **Logique métier isolée** dans des fonctions pures, testées indépendamment de l'interface. Seule exception : la langue de l'app, posée une fois au démarrage, que les fonctions de texte lisent par `appLanguage()` (saisie, clés de recherche, tri, nombres, pluriels) plutôt que de la recevoir partout ; les tests la changent par `setAppLanguage`.
 
 ## 2. Stack
 
@@ -458,7 +458,7 @@ L'historique git sert aux développeurs ; ses messages sont trop techniques pour
 
 ### Cycle des versions
 
-- Développement sur `dev`, testé en préproduction avec une **copie des vraies données** (export de sauvegarde de la production → import en préproduction), puis publication : `1.2.0` (anti-oubli et saisonnalité), `1.3.0` (anglais), correctifs `1.x.y` entre deux ([09](09-feuille-de-route.md)). Les données restent en place d'une version à l'autre.
+- Développement sur `dev`, testé en préproduction avec une **copie des vraies données** (export de sauvegarde de la production → import en préproduction), puis publication : une version mineure par étape de la feuille de route ([09](09-feuille-de-route.md)), correctifs `1.x.y` entre deux. Les données restent en place d'une version à l'autre.
 
 Versions publiées : les tags git `vX.Y.Z` ; ce qui a changé pour l'utilisateur est dans l'écran Nouveautés (`releaseNotes`).
 

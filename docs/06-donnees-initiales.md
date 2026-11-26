@@ -26,6 +26,8 @@ Fichiers prévus dans `src/data/` : `categories.json`, `units.json`, `store-temp
 | `barquette` | barquette / barquettes   | barquette | autre     | —       | 1   |
 | `tranche`   | tranche / tranches       | tranche   | autre     | —       | 1   |
 
+En anglais (§ 4), dans le même ordre : piece, gram, kilogram, millilitre, centilitre, litre, pack, tin, bottle, bag, packet, jar, bunch, tray, slice ; pour les recettes, tablespoon (tbsp), teaspoon (tsp), pinch, glass, decilitre.
+
 Affichage :
 
 - dans les listes, le **symbole** pour les poids et volumes (`1,2 kg`, `50 cl`) ; le litre s'écrit **`L`** majuscule (symbole admis par le système international) pour ne jamais confondre `1 l` et `11` ; les autres unités **en toutes lettres** (« 2 tranches », « 1 barquette ») : une abréviation comme « tr. » ou « barq. » n'est pas claire (elles restent reconnues à la saisie) ;
@@ -163,13 +165,16 @@ Pas de modèles de magasin : ils regrouperaient les catégories de façon arbitr
         "Golden",
         "Granny Smith",
         "Pink Lady",
-        "Reine des reinettes"
+        "Reine des reinettes",
+        "Braeburn",
+        "Cox"
       ],
       "en": [
         "Gala",
         "Golden Delicious",
         "Granny Smith",
         "Pink Lady",
+        "Reine des Reinettes",
         "Braeburn",
         "Cox"
       ]
@@ -179,7 +184,7 @@ Pas de modèles de magasin : ils regrouperaient les catégories de façon arbitr
     "icon": "red-apple"
   }
   ```
-  Chaque texte existe dans les deux langues (vérifié par les tests) ; alias et types peuvent différer d'une langue à l'autre (variétés, mots courants du pays). Un article créé depuis le catalogue prend les textes de la langue de l'app.
+  Chaque texte existe dans les deux langues (vérifié par les tests) ; les alias peuvent différer d'une langue à l'autre (mots courants du pays). Les **types** ont le même nombre dans chaque langue, dans le même ordre : le type à la même place est sa traduction (« Golden » = « Golden Delicious »), ce qui sert au changement de langue et à l'import d'un partage (vérifié par les tests). Un article créé depuis le catalogue prend les textes de la langue de l'app.
 - _v1.3 (I3)_ : **anglais britannique** (aubergine, courgette, coriander, crisps, tin) ; les mots américains sont des alias (eggplant, zucchini, cilantro, potato chips, can). Les articles génériques s'écrivent « Any … » (_Any fruit_, _Any cheese_). Unités : `boite` = tin (alias can), `sachet` = bag, `paquet` = packet (alias box), `pot` = jar (alias tub), `barquette` = tray (alias punnet), `botte` = bunch ; cuillères : tbsp, tsp.
 - `key` = clé catalogue : identifiant technique **sans langue**, écrit sous forme de slug français pour rester lisible, **figé pour toujours** (même si le libellé change dans une version future). Il n'est jamais affiché.
 - `types` uniquement quand c'est utile (pommes, pommes de terre, lait, farine…), sinon absent.
@@ -235,7 +240,7 @@ Le catalogue embarqué a un numéro de version (`CATALOG_VERSION`, `src/data/cat
 
 Au lancement, si le catalogue de l'app est plus récent que celui de la base (`src/db/catalogUpdate.ts`) :
 
-- les unités, catégories et articles apparus depuis sont **ajoutés**, sauf s'ils existent déjà (même clé, ou même nom pour un article créé à la main) ;
+- les unités, catégories et articles apparus depuis sont **ajoutés**, dans la langue de l'app, sauf s'ils existent déjà (même clé, ou même nom pour un article créé à la main) ;
 - rien de ce que l'utilisateur a créé, modifié ou supprimé n'est touché : un article du catalogue qu'il a supprimé ne revient pas ;
 - une nouvelle catégorie n'est rangée dans aucun rayon : elle apparaît dans les « Catégories non rattachées » de chaque magasin (G3).
 

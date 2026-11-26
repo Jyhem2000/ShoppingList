@@ -1,14 +1,14 @@
 import { categoriesData, unitsData } from "@/data";
 import { catalogData } from "@/data/catalog";
 import {
-  DEFAULT_LANGUAGE,
-  isLanguage,
+  languageOf,
   languages,
   type ByLanguage,
   type Language,
 } from "@/domain/language";
 import { languageChanges, type DefaultNames } from "@/domain/languageChange";
 import { textsByLanguage } from "@/i18n";
+import type { ID } from "@/domain/model";
 import type { ShoppingDatabase } from "./database";
 import { getSettings, updateSettings } from "./settings";
 
@@ -50,39 +50,58 @@ export async function changeLanguage(
   await database.transaction("rw", tables, async () => {
     const settings = await getSettings(database);
     if (!settings) return;
-    const from = isLanguage(settings.language)
-      ? settings.language
-      : DEFAULT_LANGUAGE;
+    const from = languageOf(settings);
+    const [articles, categories, units, lists, aisles, items, recipes] =
+      await Promise.all([
+        database.articles.toArray(),
+        database.categories.toArray(),
+        database.units.toArray(),
+        database.lists.toArray(),
+        database.aisles.toArray(),
+        database.items.toArray(),
+        database.recipes.toArray(),
+      ]);
     const changes = languageChanges(
-      {
-        articles: await database.articles.toArray(),
-        categories: await database.categories.toArray(),
-        units: await database.units.toArray(),
-        lists: await database.lists.toArray(),
-        aisles: await database.aisles.toArray(),
-        items: await database.items.toArray(),
-        recipes: await database.recipes.toArray(),
-      },
+      { articles, categories, units, lists, aisles, items, recipes },
       { articles: catalogData, categories: categoriesData, units: unitsData },
       from,
       language,
       defaultNames,
     );
-    // Slugs uniques : deux noms qui s'échangent d'une langue à l'autre se
-    // croiseraient. Un slug provisoire (l'identifiant) d'abord, puis le vrai.
-    await database.articles.bulkPut(
-      changes.articles.map((row) => ({ ...row, slug: row.id })),
-    );
-    await database.articles.bulkPut(changes.articles);
-    await database.categories.bulkPut(
-      changes.categories.map((row) => ({ ...row, slug: row.id })),
-    );
-    await database.categories.bulkPut(changes.categories);
-    await database.units.bulkPut(changes.units);
-    await database.lists.bulkPut(changes.lists);
-    await database.aisles.bulkPut(changes.aisles);
-    await database.items.bulkPut(changes.items);
-    await database.recipes.bulkPut(changes.recipes);
-    await updateSettings(database, { language });
+    await Promise.all([
+      putRenamed(changes.articles, articles, (rows) =>
+        database.articles.bulkPut(rows),
+      ),
+      putRenamed(changes.categories, categories, (rows) =>
+        database.categories.bulkPut(rows),
+      ),
+      database.units.bulkPut(changes.units),
+      database.lists.bulkPut(changes.lists),
+      database.aisles.bulkPut(changes.aisles),
+      database.items.bulkPut(changes.items),
+      database.recipes.bulkPut(changes.recipes),
+      updateSettings(database, { language }),
+    ]);
   });
+}
+
+/**
+ * Écrit des lignes renommées sans doublon de slug, même en cours d'écriture : quand
+ * deux noms s'échangent d'une langue à l'autre, une ligne dont l'ancien slug est repris
+ * par une autre passe d'abord par un slug provisoire (son identifiant).
+ */
+async function putRenamed<T extends { id: ID; slug: string }>(
+  renamed: readonly T[],
+  current: readonly T[],
+  put: (rows: T[]) => Promise<unknown>,
+): Promise<void> {
+  const next = new Map(renamed.map((row) => [row.id, row.slug]));
+  const wanted = new Set(next.values());
+  const crossing = current.filter((row) => {
+    const slug = next.get(row.id);
+    return slug !== undefined && slug !== row.slug && wanted.has(row.slug);
+  });
+  if (crossing.length)
+    await put(crossing.map((row) => ({ ...row, slug: row.id })));
+  await put([...renamed]);
 }

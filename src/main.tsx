@@ -1,7 +1,6 @@
 import { db } from "@/db/database";
 import {
-  DEFAULT_LANGUAGE,
-  isLanguage,
+  languageOf,
   languageOfPhone,
   setAppLanguage,
   type Language,
@@ -23,12 +22,7 @@ const phone = () =>
 void db.meta
   .get("settings")
   .then(
-    (entry): Language =>
-      !entry
-        ? phone()
-        : isLanguage(entry.value.language)
-          ? entry.value.language
-          : DEFAULT_LANGUAGE,
+    (entry): Language => (entry ? languageOf(entry.value) : phone()),
     // Base inaccessible : le démarrage affichera l'écran d'erreur, dans cette langue.
     phone,
   )

@@ -2,6 +2,7 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { buildInitialData } from "@/db/seed";
 import {
   entryAmount,
+  knownLabel,
   parseEntry,
   pastedEntry,
   resolveEntry,
@@ -338,6 +339,21 @@ describe("saisie en anglais (docs/03 A2, I3)", () => {
     ]);
     expect(parseEntry("Milk And butter", en.units)).toHaveLength(2);
     expect(parseEntry("pommes et poires", en.units)).toHaveLength(1);
+  });
+
+  it("ne coupe pas un nom connu à son « and » (« Peas and carrots »)", () => {
+    const known = knownLabel([
+      ...enArticles,
+      { ...article("Lait"), name: "Peas and carrots", aliases: [] },
+    ]);
+    expect(
+      parseEntry("2 peas and carrots, milk and butter", en.units, { known }),
+    ).toEqual([
+      { text: "peas and carrots", quantity: 2 },
+      { text: "milk" },
+      { text: "butter" },
+    ]);
+    expect(parseEntry("peas and carrots", en.units)).toHaveLength(2);
   });
 
   it("nombres en lettres, « a », douzaines", () => {

@@ -94,6 +94,19 @@ describe("données initiales (docs/06)", () => {
     expect(missing).toEqual([]);
   });
 
+  it("donne les types d'un article dans le même nombre et le même ordre dans chaque langue", () => {
+    // Le changement de langue et l'import traduisent un type par sa place (docs/06 § 4).
+    const uneven = catalogData
+      .filter(
+        (a) =>
+          a.types &&
+          new Set(languages.map((language) => a.types?.[language].length))
+            .size > 1,
+      )
+      .map((a) => a.key);
+    expect(uneven).toEqual([]);
+  });
+
   it("n'utilise que des icônes connues : pack pour les articles, Lucide pour les catégories", () => {
     const articleIcons = [
       ...data.articles.map((a) => a.icon),

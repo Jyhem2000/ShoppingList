@@ -3,8 +3,8 @@ import { lineKey } from "./lines";
 import { planListMerge, type MergeLine, type MergeSource } from "./listMerge";
 import { byId } from "./collections";
 import type { Article, ID, Recipe, Unit } from "./model";
-import { appLanguage, isPlural } from "./language";
-import { slugify } from "./slug";
+import { appLanguage, isPlural, type ByLanguage } from "./language";
+import { capitalize, slugify } from "./slug";
 import {
   clean,
   convert,
@@ -252,21 +252,16 @@ const IRREGULAR_EN: readonly (readonly [string, string])[] = [
 
 /** Même casse que `model` pour la première lettre (« People » ↔ « Person »). */
 function sameCase(model: string, word: string): string {
-  return /^\p{Lu}/u.test(model)
-    ? word.charAt(0).toUpperCase() + word.slice(1)
-    : word;
+  return /^\p{Lu}/u.test(model) ? capitalize(word) : word;
 }
 
 /** En anglais : « people » ↔ « person », « servings » → « serving », « loaf » → « loaves ». */
 function agreeEn(word: string, plural: boolean): string {
   const lower = word.toLowerCase();
-  const irregular = IRREGULAR_EN.find(([one, many]) =>
-    plural ? one === lower : many === lower,
-  );
-  if (irregular) return sameCase(word, plural ? irregular[1] : irregular[0]);
+  const irregular = IRREGULAR_EN.find((pair) => pair.includes(lower));
+  if (irregular) return sameCase(word, irregular[plural ? 1 : 0]);
   if (plural) {
-    if (IRREGULAR_EN.some(([, many]) => many === lower) || lower.endsWith("s"))
-      return word;
+    if (lower.endsWith("s")) return word;
     if (/[^aeiou]y$/.test(lower)) return `${word.slice(0, -1)}ies`;
     if (/(ch|sh|x)$/.test(lower)) return `${word}es`;
     return `${word}s`;
@@ -277,6 +272,12 @@ function agreeEn(word: string, plural: boolean): string {
   return word;
 }
 
+/** Accord du premier mot de l'unité de rendement, selon la langue. */
+const AGREE: ByLanguage<(word: string, plural: boolean) => string> = {
+  fr: agreeFr,
+  en: agreeEn,
+};
+
 /**
  * Rendement en clair, accordé au nombre (docs/02 § 7) : « 4 personnes », « 1 personne »,
  * « 1 cake », « 2 cakes », « 12 gâteaux ». Seul le premier mot de l'unité s'accorde
@@ -285,7 +286,7 @@ function agreeEn(word: string, plural: boolean): string {
 export function yieldLabel(quantity: number, unit: string): string {
   const [first = "", ...rest] = unit.trim().split(/\s+/);
   if (!first) return formatNumber(quantity);
-  const agree = appLanguage() === "en" ? agreeEn : agreeFr;
+  const agree = AGREE[appLanguage()];
   const words = [agree(first, isPlural(quantity)), ...rest].join(" ");
   return `${formatNumber(quantity)} ${words}`;
 }

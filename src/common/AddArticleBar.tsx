@@ -1,6 +1,7 @@
 import { Plus } from "lucide-react";
 import { type ReactNode, useMemo, useState } from "react";
 import {
+  knownLabel,
   parseEntry,
   pastedEntry,
   typeSuggestions,
@@ -61,7 +62,10 @@ export function AddArticleBar({
   const [text, setText] = useState("");
 
   const { entry, suggestions, canCreate } = useMemo(() => {
-    const entries = parseEntry(text, data.units, { recipe });
+    const entries = parseEntry(text, data.units, {
+      recipe,
+      known: knownLabel(data.articles),
+    });
     const [first] = entries;
     if (!first || entries.length > 1)
       return { entry: undefined, suggestions: [], canCreate: false };

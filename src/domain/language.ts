@@ -23,7 +23,16 @@ export function isLanguage(value: unknown): value is Language {
  * langue), sinon le français.
  */
 export function languageOfPhone(tags: readonly string[]): Language {
-  return tags[0]?.toLowerCase().startsWith("en") ? "en" : "fr";
+  const tag = tags[0]?.toLowerCase() ?? "";
+  return languages.find((language) => tag.startsWith(language)) ?? "fr";
+}
+
+/**
+ * Langue enregistrée dans les réglages ; absente (installation d'avant le choix de la
+ * langue) ou inconnue : le français.
+ */
+export function languageOf(settings: { language?: unknown }): Language {
+  return isLanguage(settings.language) ? settings.language : DEFAULT_LANGUAGE;
 }
 
 let current: Language = DEFAULT_LANGUAGE;
@@ -50,6 +59,11 @@ export function appLocale(): string {
  * Un nombre demande-t-il le pluriel ? À partir de 2 en français (« 1,5 kilo »), tout
  * sauf 1 en anglais (« 1.5 kilos », « 0 items »).
  */
+const PLURAL: ByLanguage<(quantity: number) => boolean> = {
+  fr: (quantity) => quantity >= 2,
+  en: (quantity) => quantity !== 1,
+};
+
 export function isPlural(quantity: number): boolean {
-  return current === "en" ? quantity !== 1 : quantity >= 2;
+  return PLURAL[current](quantity);
 }
