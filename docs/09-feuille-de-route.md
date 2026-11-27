@@ -23,9 +23,16 @@ Les prochaines versions. Le détail de chaque fonctionnalité (critères, écran
 
 ## 1.4.0 — Saisons selon la région
 
-- **Zone des saisons au choix** ([03 D3](03-fonctionnalites.md#d3-saisonnalité--v12)) : un réglage pour l'endroit où l'on fait ses courses, toujours indépendant de la langue.
-- **Zones climatiques** : les saisons dépendent du climat, pas des frontières. Le catalogue donne les mois par zone climatique (une clé de plus dans `season`, 06 § 4), et le réglage propose des pays et régions, chacun rattaché à une zone (France métropolitaine, Belgique, Luxembourg et Suisse dans une même zone tempérée ; Sud-Est méditerranéen plus précoce ; hémisphère sud décalé de six mois). Les mois ne s'écrivent qu'une fois par zone.
-- **Changer de zone** recopie les mois de la nouvelle zone dans tous les articles du catalogue, y compris ceux dont le calendrier a été changé à la main dans la fiche : un message le précise avant de confirmer le changement.
+- **Région des saisons au choix** ([03 D3](03-fonctionnalites.md#d3-saisonnalité--v12)) : Réglages → Préférences → Région des saisons, l'endroit où l'on fait ses courses, toujours indépendant de la langue (même liste de choix que la langue). Les réglages ne gardent que la région ; une installation existante, sans région, reste en France métropolitaine.
+- **Zones climatiques** : les saisons dépendent du climat, pas des frontières. Chaque région est rattachée à une zone, et les mois ne s'écrivent qu'une fois par zone :
+  - **tempérée** (`temperate`, l'ancienne clé `FR` de `season`, 06 § 4) : France métropolitaine, Belgique, Luxembourg, Suisse, Royaume-Uni, Irlande ;
+  - **méditerranéenne** (`mediterranean`, plus précoce) : Sud-Est de la France ; mois écrits pour chaque fruit, légume et herbe qui a des mois tempérés (pas un simple décalage), d'après les calendriers publics ;
+  - **hémisphère sud** : pas de mois écrits, ceux de la zone tempérée décalés de six mois (des fraises d'avril à septembre deviennent d'octobre à mars).
+  - Espagne, Italie et Portugal viendront avec l'espagnol, mois relus avec quelqu'un sur place (le sud de l'Espagne est plus précoce que la Provence).
+- **Premier lancement** : la région se déduit du fuseau horaire du téléphone (`Europe/Brussels` → Belgique, `Australia/Sydney` → hémisphère sud), plus fiable que la langue, dont la région suit souvent la langue choisie plutôt que le pays ; à défaut, de la région de la langue (`fr-CH`, `en-IE`), puis la France métropolitaine. Le Sud-Est de la France ne se devine pas (même fuseau) : il se choisit.
+- **Changer de région** : si la zone change, les mois de la nouvelle zone remplacent ceux de tous les articles du catalogue, y compris ceux dont le calendrier a été changé à la main dans la fiche, et un article sans mois dans la nouvelle zone n'en a plus ; un message le précise avant de confirmer. Les articles créés à la main gardent les leurs. Dans la même zone (France → Belgique), rien n'est recopié et rien n'est demandé. Les mois sont lus dans le catalogue de l'app : pas de mise à jour du catalogue (`CATALOG_VERSION`) pour la nouvelle zone.
+- **Code** : la zone d'une région, le décalage des mois et la région du premier lancement sont des fonctions pures (`src/domain/season.ts`) ; le changement de région suit `changeLanguage` (une transaction : réglages et articles) ; `buildInitialData` reçoit la région comme la langue. La sauvegarde garde la région avec les articles.
+- **Tests** : unitaires pour la zone d'une région, le décalage (à cheval sur l'année), la région du premier lancement et la recopie au changement ; E2E à mi-novembre : passer à l'hémisphère sud fait entrer les fraises dans « De saison » et en sortir les poireaux.
 
 ## Après la 1.4.0 — Espagnol
 
