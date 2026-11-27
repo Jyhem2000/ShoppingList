@@ -44,7 +44,7 @@ test("12. téléphone en anglais : interface, catalogue et saisie en anglais, pu
     .click();
   await page
     .getByRole("dialog", {
-      name: en.settings.language.confirmTitle("Français"),
+      name: en.settings.language.confirmTitle.fr,
     })
     .getByRole("button", { name: en.settings.language.confirm })
     .click();

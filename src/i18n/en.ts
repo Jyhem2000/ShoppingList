@@ -972,7 +972,10 @@ export const en: Texts = {
     language: {
       title: "Language",
       hint: "The app restarts in the chosen language.",
-      confirmTitle: (name: string) => `Switch to ${name}?`,
+      confirmTitle: {
+        fr: "Switch to French?",
+        en: "Switch to English?",
+      },
       confirmText:
         "Items, categories and units from the starter catalogue that you haven't renamed take their name in this language, as does the first list. Anything you created or renamed keeps its name.",
       confirm: "Change language",

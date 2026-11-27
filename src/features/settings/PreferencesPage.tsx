@@ -127,7 +127,7 @@ export function PreferencesPage() {
       {language && (
         <Sheet
           onClose={cancelLanguage}
-          title={t.language.confirmTitle(languageNames[language])}
+          title={t.language.confirmTitle[language]}
           description={t.language.confirmText}
         >
           <ConfirmActions

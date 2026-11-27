@@ -174,7 +174,7 @@
       "en": "Blueberries"
     },
     "aliases": {
-      "fr": [],
+      "fr": ["bleuets"],
       "en": ["bilberries"]
     },
     "category": "fruits",
@@ -742,7 +742,7 @@
       "en": "Green beans"
     },
     "aliases": {
-      "fr": [],
+      "fr": ["haricots princesse"],
       "en": ["French beans"]
     },
     "category": "legumes",
@@ -1206,7 +1206,7 @@
       "en": "Bread"
     },
     "aliases": {
-      "fr": ["miche"],
+      "fr": ["miche", "pistolets"],
       "en": ["loaf"]
     },
     "types": {
@@ -1224,7 +1224,7 @@
       "en": "Sliced bread"
     },
     "aliases": {
-      "fr": [],
+      "fr": ["pain tranché"],
       "en": ["sandwich bread"]
     },
     "types": {
@@ -1252,7 +1252,7 @@
       "en": "Pains au chocolat"
     },
     "aliases": {
-      "fr": ["chocolatines"],
+      "fr": ["chocolatines", "couques au chocolat"],
       "en": ["chocolatines"]
     },
     "category": "pain-viennoiseries",
@@ -1320,7 +1320,7 @@
       "en": "Beef burgers"
     },
     "aliases": {
-      "fr": ["steaks"],
+      "fr": ["steaks", "bœuf haché", "viande hachée"],
       "en": ["burgers", "patties"]
     },
     "types": {
@@ -1564,6 +1564,10 @@
     "name": {
       "fr": "Rillettes",
       "en": "Rillettes"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["potted pork"]
     },
     "category": "charcuterie",
     "unit": "pot",
@@ -2270,7 +2274,7 @@
       "en": "Sweetcorn"
     },
     "aliases": {
-      "fr": [],
+      "fr": ["blé d'Inde"],
       "en": ["corn"]
     },
     "category": "conserves-bocaux",
@@ -2533,7 +2537,7 @@
       "en": "Crisps"
     },
     "aliases": {
-      "fr": [],
+      "fr": ["croustilles"],
       "en": ["potato chips"]
     },
     "types": {
@@ -2908,6 +2912,10 @@
       "fr": "Boissons au choix",
       "en": "Any drinks"
     },
+    "aliases": {
+      "fr": ["breuvages", "boissons gazeuses"],
+      "en": []
+    },
     "category": "jus-sodas",
     "unit": "piece",
     "icon": "boissons",
@@ -3040,7 +3048,7 @@
       "en": "Oven chips"
     },
     "aliases": {
-      "fr": ["frites"],
+      "fr": ["frites", "patates frites"],
       "en": ["frozen chips", "chips", "fries"]
     },
     "category": "surgeles",
@@ -3177,6 +3185,10 @@
       "fr": "Dentifrice",
       "en": "Toothpaste"
     },
+    "aliases": {
+      "fr": ["pâte à dents"],
+      "en": []
+    },
     "category": "hygiene-beaute",
     "unit": "piece",
     "icon": "dentifrice"
@@ -3296,7 +3308,7 @@
       "en": "Toilet roll"
     },
     "aliases": {
-      "fr": ["pq", "papier wc", "papier hygiénique"],
+      "fr": ["pq", "papier wc", "papier hygiénique", "papier de toilette"],
       "en": ["toilet paper", "loo roll"]
     },
     "types": {
@@ -3315,7 +3327,7 @@
       "en": "Kitchen roll"
     },
     "aliases": {
-      "fr": ["sopalin"],
+      "fr": ["sopalin", "papier essuie-tout"],
       "en": ["paper towels"]
     },
     "category": "papier-mouchoirs",
@@ -3330,7 +3342,7 @@
       "en": "Tissues"
     },
     "aliases": {
-      "fr": ["kleenex", "mouchoirs en papier"],
+      "fr": ["kleenex", "mouchoirs en papier", "papiers-mouchoirs"],
       "en": ["Kleenex", "paper tissues"]
     },
     "category": "papier-mouchoirs",
@@ -3344,7 +3356,7 @@
       "en": "Laundry detergent"
     },
     "aliases": {
-      "fr": [],
+      "fr": ["savon à lessive", "détergent à lessive"],
       "en": ["washing powder", "washing liquid"]
     },
     "types": {
@@ -3362,7 +3374,7 @@
       "en": "Washing-up liquid"
     },
     "aliases": {
-      "fr": ["produit vaisselle"],
+      "fr": ["produit vaisselle", "savon à vaisselle"],
       "en": ["dish soap"]
     },
     "category": "entretien",
@@ -3443,7 +3455,7 @@
       "en": "Bin bags"
     },
     "aliases": {
-      "fr": [],
+      "fr": ["sacs à ordures", "sacs verts"],
       "en": ["bin liners"]
     },
     "types": {
@@ -3779,6 +3791,10 @@
     "name": {
       "fr": "Cassoulet",
       "en": "Cassoulet"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["bean stew"]
     },
     "category": "conserves-bocaux",
     "unit": "boite",
@@ -5113,7 +5129,7 @@
       "en": "Chewing gum"
     },
     "aliases": {
-      "fr": ["chewing-gum", "gommes"],
+      "fr": ["chewing-gum", "gommes", "chiques"],
       "en": ["gum"]
     },
     "category": "chocolat-confiserie",
@@ -5574,11 +5590,11 @@
     "key": "flan",
     "name": {
       "fr": "Flan",
-      "en": "Flan"
+      "en": "Custard tart"
     },
     "aliases": {
       "fr": ["crème caramel"],
-      "en": ["crème caramel"]
+      "en": ["flan", "crème caramel", "egg custard"]
     },
     "category": "yaourts-desserts",
     "unit": "piece",
@@ -5722,6 +5738,10 @@
       "fr": "Tomme",
       "en": "Tomme"
     },
+    "aliases": {
+      "fr": [],
+      "en": ["tomme cheese"]
+    },
     "category": "fromages",
     "unit": "g",
     "quantity": 250,
@@ -5833,6 +5853,10 @@
       "fr": "Andouillettes",
       "en": "Andouillettes"
     },
+    "aliases": {
+      "fr": [],
+      "en": ["chitterling sausages"]
+    },
     "category": "viande",
     "unit": "piece",
     "icon": "andouillettes",
@@ -5843,6 +5867,10 @@
     "name": {
       "fr": "Paupiettes",
       "en": "Paupiettes"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["meat parcels"]
     },
     "category": "viande",
     "unit": "piece",
@@ -6104,6 +6132,10 @@
       "fr": "Chouquettes",
       "en": "Chouquettes"
     },
+    "aliases": {
+      "fr": [],
+      "en": ["sugar puffs"]
+    },
     "category": "pain-viennoiseries",
     "unit": "sachet",
     "icon": "chouquettes",
@@ -6266,6 +6298,10 @@
     "name": {
       "fr": "Pastis",
       "en": "Pastis"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["aniseed liqueur"]
     },
     "category": "alcools",
     "unit": "bouteille",

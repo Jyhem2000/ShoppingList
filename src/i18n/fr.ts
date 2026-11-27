@@ -1002,7 +1002,11 @@ export const fr = {
     language: {
       title: "Langue",
       hint: "L'app redémarre dans la langue choisie.",
-      confirmTitle: (name: string) => `Passer en ${name}\u00a0?`,
+      /** Titre de la confirmation, selon la langue choisie. */
+      confirmTitle: {
+        fr: "Passer au fran\u00e7ais\u00a0?",
+        en: "Passer \u00e0 l'anglais\u00a0?",
+      },
       confirmText:
         "Les articles, catégories et unités du catalogue de départ que tu n'as pas renommés prennent leur nom dans cette langue, comme la première liste. Ce que tu as créé ou renommé garde son nom.",
       confirm: "Changer de langue",
