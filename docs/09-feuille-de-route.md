@@ -26,3 +26,19 @@ Les prochaines versions. Le détail de chaque fonctionnalité (critères, écran
 - **Zone des saisons au choix** ([03 D3](03-fonctionnalites.md#d3-saisonnalité--v12)) : un réglage pour l'endroit où l'on fait ses courses, toujours indépendant de la langue.
 - **Zones climatiques** : les saisons dépendent du climat, pas des frontières. Le catalogue donne les mois par zone climatique (une clé de plus dans `season`, 06 § 4), et le réglage propose des pays et régions, chacun rattaché à une zone (France métropolitaine, Belgique, Luxembourg et Suisse dans une même zone tempérée ; Sud-Est méditerranéen plus précoce ; hémisphère sud décalé de six mois). Les mois ne s'écrivent qu'une fois par zone.
 - **Changer de zone** recopie les mois de la nouvelle zone dans tous les articles du catalogue, y compris ceux dont le calendrier a été changé à la main dans la fiche : un message le précise avant de confirmer le changement.
+
+## Après la 1.4.0 — Espagnol
+
+- **Espagnol d'Espagne** (`es`), comme l'anglais britannique : interface et catalogue. Les mots d'Amérique latine sont des alias (papa → patata, jugo → zumo, durazno → melocotón, ejotes → judías verdes, frutilla → fresa, palta → aguacate, porotos → alubias, choclo → maíz…). Unités métriques, comme partout en Espagne et en Amérique latine. Interface au tutoiement (`tú`), compris partout ; jamais `vosotros`.
+- **Code propre à l'espagnol** (tables `ByLanguage`) : mots de la saisie (`y`, `luego`, `de`, nombres en lettres, `docena`, `media docena`), singulier de la recherche (‑s, ‑es, ‑ces → ‑z), pluriel, accord du rendement des recettes en genre (`personas`, `raciones`), petits mots des monogrammes, dates et nombres (`es-ES`).
+- **Catalogue** : noms, alias et types de chaque article (même nombre et même ordre de types dans chaque langue), catégories, unités et mots-clés, à relire avec quelqu'un qui fait ses courses en Espagne.
+
+## Plus tard — Variantes, à la demande
+
+Seulement pour de vrais utilisateurs qui les demandent. Une variante est une couche de différences au-dessus de sa langue (textes et noms d'articles qui changent), pas une langue complète ; en attendant, ses mots sont des alias.
+
+- **Anglais américain** (`en-US`) : une centaine de textes et de noms (store, cart, can, color ; zucchini, eggplant, cilantro, ground beef…) et surtout des **unités impériales** proposées par défaut (cups, oz, lb, fl oz).
+- **Français du Québec** (`fr-CA`) : quelques textes (faire l'épicerie, panier) et noms (bleuets, blé d'Inde, croustilles…), et les **tasses** et **livres** des recettes : le même besoin d'unités non métriques que `en-US`, à faire ensemble.
+- **Espagnol d'Amérique latine** (`es-419`) : de nombreux noms d'articles différents de l'Espagne (papa, jugo, durazno, frijoles…), unités métriques ; seulement si les alias ne suffisent pas.
+- **Inutiles** : français de Belgique et de Suisse (quelques mots, déjà en alias : chicons, pistolets, couques…), anglais d'Irlande, d'Australie ou du Canada (proches de l'anglais britannique).
+- **Une autre langue** (italien, allemand…) : même travail que l'espagnol. L'allemand est le plus coûteux (pluriels irréguliers, mots composés).

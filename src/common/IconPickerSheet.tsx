@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { searchKey } from "@/domain/slug";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { SearchField } from "@/ui/SearchField";
 import { useIconPack } from "@/icons/pack";
 import { type PaletteColor } from "@/ui/palette";
@@ -9,7 +9,7 @@ import { Sheet } from "@/ui/Sheet";
 import { cn } from "@/ui/utils";
 import { EmptyHint, SectionTitle } from "@/ui/Page";
 
-const t = fr.manage.icon;
+const t = texts.manage.icon;
 
 /**
  * Choix de l'icône d'un article ou d'une recette (docs/03 G5) : la grille des icônes

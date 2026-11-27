@@ -2,6 +2,7 @@ import type { ID, Recipe } from "@/domain/model";
 import { stepAmount } from "@/domain/quantity";
 import { recipeMerge, type RecipeAddLine } from "@/domain/recipes";
 import type { ShoppingDatabase } from "./database";
+import { texts } from "@/i18n";
 import { activeItems } from "./items";
 import { applyListMerge } from "./lists";
 
@@ -17,10 +18,10 @@ export type RecipeInput = Pick<
   "name" | "icon" | "yield" | "ingredients" | "steps"
 >;
 
-/** Rendement par défaut d'une nouvelle recette : 4 personnes. */
+/** Rendement par défaut d'une nouvelle recette : 4 personnes (« 4 people »). */
 export const DEFAULT_YIELD: Recipe["yield"] = {
   quantity: 4,
-  unit: "personnes",
+  unit: texts.recipes.yieldUnits[0] ?? "",
 };
 
 export async function createRecipe(

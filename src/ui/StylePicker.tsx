@@ -1,11 +1,11 @@
 import { Check } from "lucide-react";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { groupIcons } from "@/icons/lucide";
 import { GroupIcon } from "@/ui/GroupIcon";
 import { palette, type PaletteColor, paletteColors } from "@/ui/palette";
 import { cn } from "@/ui/utils";
 import { FieldLabel } from "@/ui/form";
-const t = fr.manage.style;
+const t = texts.manage.style;
 
 /**
  * Icône Lucide et couleur d'un rayon ou d'une catégorie (docs/03 G5, docs/05 § 4) :

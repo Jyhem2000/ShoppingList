@@ -2,7 +2,7 @@ import { db } from "@/db/database";
 import { updateItem } from "@/db/lists";
 import { formatQuantity, mergeQuantity } from "@/domain/quantity";
 import { feedback } from "@/feedback";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { otherTypes } from "@/domain/lines";
 import { Button } from "@/ui/button";
 import { OtherTypes } from "@/ui/OtherTypes";
@@ -13,7 +13,7 @@ import type { PendingAdd } from "./useAddToList";
 import type { ListData } from "./useListData";
 import { addQuantityNote } from "@/domain/listMerge";
 
-const t = fr.list.exists;
+const t = texts.list.exists;
 
 /**
  * Article déjà dans la liste (docs/03 A3) : rien n'est modifié d'office. « Ne rien

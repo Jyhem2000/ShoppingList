@@ -4,7 +4,7 @@ import { groupListByCategory } from "@/domain/categories";
 import type { ID, ListItem } from "@/domain/model";
 import { inSeason } from "@/domain/season";
 import { useMonth } from "@/ui/useNow";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { AisleSection } from "@/ui/AisleHeader";
 import { ItemRow } from "@/ui/ItemRow";
 import { useOnPulse } from "@/ui/pulse";
@@ -91,7 +91,7 @@ export function ListLines({
                   >
                     <PulseLine id={item.id}>
                       <SwipeToDelete
-                        label={`${article.name} — ${fr.list.swipeHint}`}
+                        label={`${article.name} — ${texts.list.swipeHint}`}
                         onDelete={() => {
                           onRemove(item);
                         }}
@@ -102,7 +102,7 @@ export function ListLines({
                           color={category.color}
                           details={joinDetails(
                             item.status === "unavailable" &&
-                              fr.list.unavailableLastTime,
+                              texts.list.unavailableLastTime,
                             lineDetails(item),
                             recipeOrigin(item, data.recipeById),
                           )}

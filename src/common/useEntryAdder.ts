@@ -1,5 +1,10 @@
 import { useCallback, useState } from "react";
-import { parseEntry, resolveEntry, type ParsedEntry } from "@/domain/entry";
+import {
+  knownLabel,
+  parseEntry,
+  resolveEntry,
+  type ParsedEntry,
+} from "@/domain/entry";
 import type { Article, Unit } from "@/domain/model";
 import { reportSaveError } from "@/ui/toast";
 
@@ -32,7 +37,10 @@ export function useEntryAdder<Pending>(
       if (!data) return;
       const waiting: Pending[] = [];
       try {
-        for (const entry of parseEntry(text, data.units, { recipe })) {
+        for (const entry of parseEntry(text, data.units, {
+          recipe,
+          known: knownLabel(data.articles),
+        })) {
           const { article, acceptedTypes } = resolveEntry(
             entry.text,
             data.articles,

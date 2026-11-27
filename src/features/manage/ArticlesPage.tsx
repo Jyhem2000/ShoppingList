@@ -8,7 +8,7 @@ import type { Article, ID } from "@/domain/model";
 import { searchArticles } from "@/domain/search";
 import { CreateArticleSheet } from "@/common/CreateArticleSheet";
 import { useListData } from "@/common/useListData";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { SearchField } from "@/ui/SearchField";
 import { AddButton } from "@/ui/AddButton";
 import { Button } from "@/ui/button";
@@ -19,7 +19,7 @@ import { showToast } from "@/ui/toast";
 import { RowButton } from "@/ui/RowButton";
 import { ArticleIcon } from "@/ui/ArticleIcon";
 import { byName } from "@/domain/slug";
-const t = fr.manage.articles;
+const t = texts.manage.articles;
 /**
  * Articles (docs/03 G1) : recherche, filtre par catégorie, doublons probables en tête
  * (« Fusionner » ou « Ce ne sont pas des doublons »), création d'un article.
@@ -166,7 +166,7 @@ export function ArticlesPage() {
             setMerging(null);
           }}
           title={t.merge}
-          description={fr.manage.article.mergeText(
+          description={texts.manage.article.mergeText(
             merging[0].name,
             merging[1].name,
           )}
@@ -180,7 +180,7 @@ export function ArticlesPage() {
                   onClick={() => {
                     void mergeArticles(db, keep.id, other.id).then(() => {
                       showToast(
-                        fr.manage.article.merged(other.name, keep.name),
+                        texts.manage.article.merged(other.name, keep.name),
                         {
                           tone: "success",
                         },
@@ -189,7 +189,7 @@ export function ArticlesPage() {
                     setMerging(null);
                   }}
                 >
-                  {fr.manage.article.keep(keep.name)}
+                  {texts.manage.article.keep(keep.name)}
                 </Button>
               ),
             )}

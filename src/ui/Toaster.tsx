@@ -8,7 +8,7 @@ import {
   X,
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { Button } from "@/ui/button";
 import { dismissToast, type ToastTone, useToast } from "@/ui/toast";
 import { cn } from "@/ui/utils";
@@ -84,7 +84,7 @@ export function Toaster() {
             <Button
               variant="iconMuted"
               size="icon"
-              aria-label={fr.toast.close}
+              aria-label={texts.toast.close}
               onClick={dismissToast}
               // Sur le fond du message (--raised), l'appui se voit en --surface.
               className="hover:bg-surface active:bg-surface"

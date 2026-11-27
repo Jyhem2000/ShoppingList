@@ -10,7 +10,7 @@ import {
 import type { Aisle, Category, ID } from "@/domain/model";
 import { categoryRole } from "@/domain/stores";
 import { aisleText } from "@/common/format";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { Button } from "@/ui/button";
 import { Field, ConfirmActions, MergeDeleteActions } from "@/ui/form";
 import { CategorySelect } from "@/ui/CategorySelect";
@@ -25,7 +25,7 @@ import { cn } from "@/ui/utils";
 import { RowButton } from "@/ui/RowButton";
 import { feedback } from "@/feedback";
 import { byName } from "@/domain/slug";
-const t = fr.manage.aisle;
+const t = texts.manage.aisle;
 
 type Step = "edit" | "merge" | "delete";
 

@@ -1,4 +1,5 @@
 import { groupListByCategory } from "@/domain/categories";
+import { appLanguage } from "@/domain/language";
 import { markdownToText } from "@/domain/markdown";
 import type { Recipe } from "@/domain/model";
 import { yieldLabel } from "@/domain/recipes";
@@ -15,12 +16,13 @@ import {
   lineQuantity,
 } from "./format";
 import type { ListData } from "./useListData";
-import { fr } from "@/i18n/fr";
+import { catalogName } from "./catalogNames";
+import { texts } from "@/i18n";
 import { copyText } from "@/platform/clipboard";
 import { shareText } from "@/platform/share";
 import { showToast } from "@/ui/toast";
 
-const t = fr.share;
+const t = texts.share;
 
 /** Adresse de l'app, sans `#` : base du lien d'import. */
 export function appAddress(): string {
@@ -45,7 +47,12 @@ export function canShare(data: ListData): boolean {
  */
 export function listMessage(data: ListData): string {
   const items = sharedItems(data.items);
-  const shared = buildSharedList(data.list.name, items, data);
+  const shared = buildSharedList(
+    data.list.name,
+    items,
+    { ...data, catalogName },
+    appLanguage(),
+  );
   const lines = [t.messageTitle(data.list.name, items.length)];
   for (const group of groupListByCategory(
     items,
@@ -70,7 +77,11 @@ export function listMessage(data: ListData): string {
  * ingrédients (une puce chacun), ses étapes en texte simple, puis le lien d'import.
  */
 export function recipeMessage(recipe: Recipe, data: ListData): string {
-  const shared = buildSharedRecipe(recipe, data);
+  const shared = buildSharedRecipe(
+    recipe,
+    { ...data, catalogName },
+    appLanguage(),
+  );
   const lines = [
     t.recipeMessageTitle(
       recipe.name,
@@ -78,7 +89,7 @@ export function recipeMessage(recipe: Recipe, data: ListData): string {
     ),
   ];
   if (recipe.ingredients.length) {
-    lines.push("", fr.recipes.ingredients);
+    lines.push("", texts.recipes.ingredients);
     for (const ingredient of recipe.ingredients) {
       const name = data.articleById.get(ingredient.articleId)?.name;
       if (!name) continue;
@@ -92,7 +103,7 @@ export function recipeMessage(recipe: Recipe, data: ListData): string {
     }
   }
   const steps = recipe.steps?.trim();
-  if (steps) lines.push("", fr.recipes.steps, markdownToText(steps));
+  if (steps) lines.push("", texts.recipes.steps, markdownToText(steps));
   lines.push("", t.recipeMessageLink, shareLink(appAddress(), shared));
   return lines.join("\n");
 }

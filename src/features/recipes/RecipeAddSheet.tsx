@@ -8,7 +8,7 @@ import { stepCount } from "@/domain/quantity";
 import { feedback } from "@/feedback";
 import { ingredientDetails, lineDetails, lineQuantity } from "@/common/format";
 import type { ListData } from "@/common/useListData";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { ArticleIcon } from "@/ui/ArticleIcon";
 import { Button } from "@/ui/button";
 import { ChoiceMark, FieldLabel } from "@/ui/form";
@@ -20,7 +20,7 @@ import { Stepper, StepperValue } from "@/ui/Stepper";
 import { showToast, reportSaveError } from "@/ui/toast";
 import { cn } from "@/ui/utils";
 
-const t = fr.recipes;
+const t = texts.recipes;
 const a = t.add;
 
 /**

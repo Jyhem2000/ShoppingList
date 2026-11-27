@@ -15,12 +15,12 @@ import {
 import { List, ListOrdered } from "lucide-react";
 import { type ReactNode, useEffect, useRef } from "react";
 import { docToMarkdown, markdownToDoc } from "@/domain/markdown";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { control } from "./form";
 import { markdownClass } from "./markdownStyles";
 import { cn } from "./utils";
 
-const t = fr.markdown;
+const t = texts.markdown;
 
 export interface MarkdownFieldProps {
   /** Markdown de départ ; l'éditeur garde ensuite son propre état. */

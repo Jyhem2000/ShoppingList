@@ -11,13 +11,13 @@ import {
 import type { ReactNode } from "react";
 import { routes } from "@/app/routes";
 import { useDataCounts, useSettings } from "@/db/hooks";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { NavButton } from "@/ui/NavButton";
 import { LinkRow, PageHeader, Section, SectionTitle } from "@/ui/Page";
 import { useNow } from "@/ui/useNow";
 import { daysSince } from "./backupAge";
 
-const t = fr.settings;
+const t = texts.settings;
 
 /**
  * Écran Réglages (docs/04 § 2.7), organisé en accueil : « Mes données » en tête (le
@@ -34,7 +34,7 @@ export function SettingsPage() {
       <PageHeader title={t.title} />
 
       <section className="px-4 pt-2">
-        <SectionTitle>{fr.manage.section}</SectionTitle>
+        <SectionTitle>{texts.manage.section}</SectionTitle>
         <p className="-mt-1 px-1 pb-3 text-sm text-muted-foreground">
           {t.dataIntro}
         </p>
@@ -42,25 +42,25 @@ export function SettingsPage() {
           <Tile
             to={routes.manageArticles}
             icon={<Apple />}
-            label={fr.manage.articles.title}
+            label={texts.manage.articles.title}
             count={counts && t.counts.articles(counts.articles)}
           />
           <Tile
             to={routes.manageCategories}
             icon={<LayoutGrid />}
-            label={fr.manage.categories.title}
+            label={texts.manage.categories.title}
             count={counts && t.counts.categories(counts.categories)}
           />
           <Tile
             to={routes.manageStores}
             icon={<Store />}
-            label={fr.manage.stores.title}
+            label={texts.manage.stores.title}
             count={counts && t.counts.stores(counts.stores)}
           />
           <Tile
             to={routes.manageUnits}
             icon={<Ruler />}
-            label={fr.manage.units.title}
+            label={texts.manage.units.title}
             count={counts && t.counts.units(counts.units)}
           />
         </div>
@@ -68,10 +68,10 @@ export function SettingsPage() {
           <LinkRow
             to={routes.backup}
             icon={<DatabaseBackup />}
-            label={fr.manage.backup.section}
+            label={texts.manage.backup.section}
             hint={
               settings &&
-              fr.manage.backup.last(daysSince(settings.lastBackupAt, now))
+              texts.manage.backup.last(daysSince(settings.lastBackupAt, now))
             }
           />
         </div>
@@ -87,8 +87,8 @@ export function SettingsPage() {
         <LinkRow
           to={routes.help}
           icon={<CircleHelp />}
-          label={fr.help.title}
-          hint={fr.help.hint}
+          label={texts.help.title}
+          hint={texts.help.hint}
         />
         <LinkRow to={routes.about} icon={<Info />} label={t.about} />
       </Section>

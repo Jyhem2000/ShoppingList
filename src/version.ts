@@ -1,4 +1,4 @@
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 
 /**
  * Version de l'app. Source unique : `version` de package.json, injectée au build
@@ -28,7 +28,7 @@ export function formatVersion(
   info: Pick<BuildInfo, "version" | "commit" | "channel">,
 ): string {
   if (info.channel === "production") return info.version;
-  const channel = fr.about.channels[info.channel] ?? info.channel;
+  const channel = texts.about.channels[info.channel] ?? info.channel;
   return `${info.version} · ${channel} · ${info.commit}`;
 }
 

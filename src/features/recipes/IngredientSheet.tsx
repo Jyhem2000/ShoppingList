@@ -8,13 +8,13 @@ import {
 } from "@/db/recipes";
 import type { ID, Recipe } from "@/domain/model";
 import type { ListData } from "@/common/useListData";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { AmountFields } from "@/ui/AmountFields";
 import { CheckOption, RemoveDoneActions } from "@/ui/form";
 import { Sheet } from "@/ui/Sheet";
 import { TypesPicker } from "@/ui/TypesPicker";
 
-const t = fr.recipes.ingredient;
+const t = texts.recipes.ingredient;
 
 /**
  * Fiche d'un ingrédient (docs/03 E1) : quantité et unité (unités de cuisine comprises),

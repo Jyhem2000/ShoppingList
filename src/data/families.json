@@ -2,61 +2,71 @@
   {
     "key": "fruits-legumes",
     "name": {
-      "fr": "Fruits & légumes"
+      "fr": "Fruits & légumes",
+      "en": "Fruit & vegetables"
     }
   },
   {
     "key": "boulangerie",
     "name": {
-      "fr": "Boulangerie"
+      "fr": "Boulangerie",
+      "en": "Bakery"
     }
   },
   {
     "key": "viandes-poissons",
     "name": {
-      "fr": "Viandes & poissons"
+      "fr": "Viandes & poissons",
+      "en": "Meat & fish"
     }
   },
   {
     "key": "frais",
     "name": {
-      "fr": "Frais"
+      "fr": "Frais",
+      "en": "Fresh"
     }
   },
   {
     "key": "epicerie-salee",
     "name": {
-      "fr": "Épicerie salée"
+      "fr": "Épicerie salée",
+      "en": "Savoury groceries"
     }
   },
   {
     "key": "epicerie-sucree",
     "name": {
-      "fr": "Épicerie sucrée"
+      "fr": "Épicerie sucrée",
+      "en": "Sweet groceries"
     }
   },
   {
     "key": "boissons",
     "name": {
-      "fr": "Boissons"
+      "fr": "Boissons",
+      "en": "Drinks"
     }
   },
   {
     "key": "surgeles",
     "name": {
-      "fr": "Surgelés"
+      "fr": "Surgelés",
+      "en": "Frozen"
     }
   },
   {
     "key": "hygiene",
     "name": {
-      "fr": "Hygiène"
+      "fr": "Hygiène",
+      "en": "Health & beauty"
     }
   },
   {
     "key": "maison",
     "name": {
-      "fr": "Maison"
+      "fr": "Maison",
+      "en": "Household"
     }
   }
 ]

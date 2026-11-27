@@ -1,11 +1,11 @@
 import type { Unit } from "@/domain/model";
 import { changeUnit, type StepOptions, stepAmount } from "@/domain/quantity";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { Chip, Field } from "@/ui/form";
 import { QuantityInput } from "@/ui/QuantityInput";
 import { UnitSelect } from "@/ui/UnitSelect";
 
-const t = fr.list.line;
+const t = texts.list.line;
 
 /**
  * Quantité et unité d'une ligne ou d'un ingrédient, côte à côte (la quantité, un nombre

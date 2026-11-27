@@ -2,7 +2,8 @@
   {
     "key": "fruits",
     "name": {
-      "fr": "Fruits au choix"
+      "fr": "Fruits au choix",
+      "en": "Any fruit"
     },
     "category": "fruits",
     "unit": "piece",
@@ -12,7 +13,8 @@
   {
     "key": "pommes",
     "name": {
-      "fr": "Pommes"
+      "fr": "Pommes",
+      "en": "Apples"
     },
     "types": {
       "fr": [
@@ -20,7 +22,18 @@
         "Golden",
         "Granny Smith",
         "Pink Lady",
-        "Reine des reinettes"
+        "Reine des reinettes",
+        "Braeburn",
+        "Cox"
+      ],
+      "en": [
+        "Gala",
+        "Golden Delicious",
+        "Granny Smith",
+        "Pink Lady",
+        "Reine des Reinettes",
+        "Braeburn",
+        "Cox"
       ]
     },
     "category": "fruits",
@@ -32,10 +45,12 @@
   {
     "key": "poires",
     "name": {
-      "fr": "Poires"
+      "fr": "Poires",
+      "en": "Pears"
     },
     "types": {
-      "fr": ["Conférence", "Williams", "Comice"]
+      "fr": ["Conférence", "Williams", "Comice"],
+      "en": ["Conference", "Williams", "Comice"]
     },
     "category": "fruits",
     "unit": "kg",
@@ -46,7 +61,8 @@
   {
     "key": "bananes",
     "name": {
-      "fr": "Bananes"
+      "fr": "Bananes",
+      "en": "Bananas"
     },
     "category": "fruits",
     "unit": "piece",
@@ -56,10 +72,12 @@
   {
     "key": "oranges",
     "name": {
-      "fr": "Oranges"
+      "fr": "Oranges",
+      "en": "Oranges"
     },
     "types": {
-      "fr": ["à jus", "à dessert", "sanguines"]
+      "fr": ["à jus", "à dessert", "sanguines"],
+      "en": ["juicing", "eating", "blood"]
     },
     "category": "fruits",
     "unit": "kg",
@@ -70,10 +88,12 @@
   {
     "key": "clementines",
     "name": {
-      "fr": "Clémentines"
+      "fr": "Clémentines",
+      "en": "Clementines"
     },
     "aliases": {
-      "fr": ["mandarines"]
+      "fr": ["mandarines"],
+      "en": ["mandarins", "satsumas", "tangerines"]
     },
     "category": "fruits",
     "unit": "kg",
@@ -84,13 +104,16 @@
   {
     "key": "citrons",
     "name": {
-      "fr": "Citrons"
+      "fr": "Citrons",
+      "en": "Lemons"
     },
     "aliases": {
-      "fr": ["limes"]
+      "fr": ["limes"],
+      "en": ["limes"]
     },
     "types": {
-      "fr": ["jaunes", "verts"]
+      "fr": ["jaunes", "verts"],
+      "en": ["unwaxed", "limes"]
     },
     "category": "fruits",
     "unit": "piece",
@@ -101,13 +124,16 @@
   {
     "key": "pamplemousses",
     "name": {
-      "fr": "Pamplemousses"
+      "fr": "Pamplemousses",
+      "en": "Grapefruit"
     },
     "aliases": {
-      "fr": ["pomelos"]
+      "fr": ["pomelos"],
+      "en": ["pomelos"]
     },
     "types": {
-      "fr": ["roses", "jaunes"]
+      "fr": ["roses", "jaunes"],
+      "en": ["pink", "yellow"]
     },
     "category": "fruits",
     "unit": "piece",
@@ -118,10 +144,12 @@
   {
     "key": "fraises",
     "name": {
-      "fr": "Fraises"
+      "fr": "Fraises",
+      "en": "Strawberries"
     },
     "types": {
-      "fr": ["gariguettes", "maras des bois"]
+      "fr": ["gariguettes", "maras des bois"],
+      "en": ["Gariguette", "Mara des Bois"]
     },
     "category": "fruits",
     "unit": "barquette",
@@ -131,7 +159,8 @@
   {
     "key": "framboises",
     "name": {
-      "fr": "Framboises"
+      "fr": "Framboises",
+      "en": "Raspberries"
     },
     "category": "fruits",
     "unit": "barquette",
@@ -141,7 +170,12 @@
   {
     "key": "myrtilles",
     "name": {
-      "fr": "Myrtilles"
+      "fr": "Myrtilles",
+      "en": "Blueberries"
+    },
+    "aliases": {
+      "fr": ["bleuets"],
+      "en": ["bilberries"]
     },
     "category": "fruits",
     "unit": "barquette",
@@ -151,7 +185,8 @@
   {
     "key": "mures",
     "name": {
-      "fr": "Mûres"
+      "fr": "Mûres",
+      "en": "Blackberries"
     },
     "category": "fruits",
     "unit": "barquette",
@@ -161,7 +196,12 @@
   {
     "key": "groseilles",
     "name": {
-      "fr": "Groseilles"
+      "fr": "Groseilles",
+      "en": "Redcurrants"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["currants"]
     },
     "category": "fruits",
     "unit": "barquette",
@@ -171,10 +211,12 @@
   {
     "key": "raisin",
     "name": {
-      "fr": "Raisin"
+      "fr": "Raisin",
+      "en": "Grapes"
     },
     "types": {
-      "fr": ["blanc", "noir", "sans pépins"]
+      "fr": ["blanc", "noir", "sans pépins"],
+      "en": ["white", "red", "seedless"]
     },
     "category": "fruits",
     "unit": "g",
@@ -185,7 +227,12 @@
   {
     "key": "kiwis",
     "name": {
-      "fr": "Kiwis"
+      "fr": "Kiwis",
+      "en": "Kiwis"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["kiwi fruit"]
     },
     "category": "fruits",
     "unit": "piece",
@@ -196,7 +243,8 @@
   {
     "key": "avocats",
     "name": {
-      "fr": "Avocats"
+      "fr": "Avocats",
+      "en": "Avocados"
     },
     "category": "fruits",
     "unit": "piece",
@@ -206,13 +254,16 @@
   {
     "key": "peches",
     "name": {
-      "fr": "Pêches"
+      "fr": "Pêches",
+      "en": "Peaches"
     },
     "aliases": {
-      "fr": ["brugnons"]
+      "fr": ["brugnons"],
+      "en": []
     },
     "types": {
-      "fr": ["jaunes", "blanches", "plates"]
+      "fr": ["jaunes", "blanches", "plates"],
+      "en": ["yellow", "white", "flat"]
     },
     "category": "fruits",
     "unit": "kg",
@@ -223,7 +274,8 @@
   {
     "key": "nectarines",
     "name": {
-      "fr": "Nectarines"
+      "fr": "Nectarines",
+      "en": "Nectarines"
     },
     "category": "fruits",
     "unit": "kg",
@@ -234,7 +286,8 @@
   {
     "key": "abricots",
     "name": {
-      "fr": "Abricots"
+      "fr": "Abricots",
+      "en": "Apricots"
     },
     "category": "fruits",
     "unit": "g",
@@ -246,7 +299,8 @@
   {
     "key": "cerises",
     "name": {
-      "fr": "Cerises"
+      "fr": "Cerises",
+      "en": "Cherries"
     },
     "category": "fruits",
     "unit": "g",
@@ -257,13 +311,16 @@
   {
     "key": "prunes",
     "name": {
-      "fr": "Prunes"
+      "fr": "Prunes",
+      "en": "Plums"
     },
     "aliases": {
-      "fr": ["mirabelles", "reines-claudes", "quetsches"]
+      "fr": ["mirabelles", "reines-claudes", "quetsches"],
+      "en": ["mirabelles", "greengages", "damsons"]
     },
     "types": {
-      "fr": ["mirabelles", "reines-claudes", "quetsches"]
+      "fr": ["mirabelles", "reines-claudes", "quetsches"],
+      "en": ["mirabelle", "greengage", "damson"]
     },
     "category": "fruits",
     "unit": "g",
@@ -275,7 +332,8 @@
   {
     "key": "figues",
     "name": {
-      "fr": "Figues"
+      "fr": "Figues",
+      "en": "Figs"
     },
     "category": "fruits",
     "unit": "barquette",
@@ -285,10 +343,12 @@
   {
     "key": "litchis",
     "name": {
-      "fr": "Litchis"
+      "fr": "Litchis",
+      "en": "Lychees"
     },
     "aliases": {
-      "fr": ["lychees", "letchis"]
+      "fr": ["lychees", "letchis"],
+      "en": ["litchis"]
     },
     "category": "fruits",
     "unit": "g",
@@ -298,7 +358,8 @@
   {
     "key": "melon",
     "name": {
-      "fr": "Melon"
+      "fr": "Melon",
+      "en": "Melon"
     },
     "category": "fruits",
     "unit": "piece",
@@ -308,7 +369,8 @@
   {
     "key": "pasteque",
     "name": {
-      "fr": "Pastèque"
+      "fr": "Pastèque",
+      "en": "Watermelon"
     },
     "category": "fruits",
     "unit": "piece",
@@ -318,7 +380,8 @@
   {
     "key": "ananas",
     "name": {
-      "fr": "Ananas"
+      "fr": "Ananas",
+      "en": "Pineapple"
     },
     "category": "fruits",
     "unit": "piece",
@@ -327,7 +390,8 @@
   {
     "key": "mangues",
     "name": {
-      "fr": "Mangues"
+      "fr": "Mangues",
+      "en": "Mangoes"
     },
     "category": "fruits",
     "unit": "piece",
@@ -337,7 +401,8 @@
   {
     "key": "grenade",
     "name": {
-      "fr": "Grenade"
+      "fr": "Grenade",
+      "en": "Pomegranate"
     },
     "category": "fruits",
     "unit": "piece",
@@ -346,10 +411,12 @@
   {
     "key": "fruits-de-la-passion",
     "name": {
-      "fr": "Fruits de la passion"
+      "fr": "Fruits de la passion",
+      "en": "Passion fruit"
     },
     "aliases": {
-      "fr": ["maracuja"]
+      "fr": ["maracuja"],
+      "en": ["maracuja"]
     },
     "category": "fruits",
     "unit": "piece",
@@ -359,7 +426,8 @@
   {
     "key": "noix-de-coco",
     "name": {
-      "fr": "Noix de coco"
+      "fr": "Noix de coco",
+      "en": "Coconut"
     },
     "category": "fruits",
     "unit": "piece",
@@ -368,7 +436,12 @@
   {
     "key": "kakis",
     "name": {
-      "fr": "Kakis"
+      "fr": "Kakis",
+      "en": "Persimmons"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["sharon fruit", "kaki"]
     },
     "category": "fruits",
     "unit": "piece",
@@ -379,7 +452,8 @@
   {
     "key": "rhubarbe",
     "name": {
-      "fr": "Rhubarbe"
+      "fr": "Rhubarbe",
+      "en": "Rhubarb"
     },
     "category": "fruits",
     "unit": "botte",
@@ -389,7 +463,8 @@
   {
     "key": "legumes",
     "name": {
-      "fr": "Légumes au choix"
+      "fr": "Légumes au choix",
+      "en": "Any vegetables"
     },
     "category": "legumes",
     "unit": "piece",
@@ -399,7 +474,8 @@
   {
     "key": "legumes-verts",
     "name": {
-      "fr": "Légumes verts au choix"
+      "fr": "Légumes verts au choix",
+      "en": "Any green vegetables"
     },
     "category": "legumes",
     "unit": "piece",
@@ -409,10 +485,12 @@
   {
     "key": "tomates",
     "name": {
-      "fr": "Tomates"
+      "fr": "Tomates",
+      "en": "Tomatoes"
     },
     "types": {
-      "fr": ["cerises", "grappe", "cœur de bœuf", "allongées"]
+      "fr": ["cerises", "grappe", "cœur de bœuf", "allongées"],
+      "en": ["cherry", "on the vine", "beefsteak", "plum"]
     },
     "category": "legumes",
     "unit": "kg",
@@ -423,13 +501,16 @@
   {
     "key": "pommes-de-terre",
     "name": {
-      "fr": "Pommes de terre"
+      "fr": "Pommes de terre",
+      "en": "Potatoes"
     },
     "aliases": {
-      "fr": ["pdt", "patates"]
+      "fr": ["pdt", "patates"],
+      "en": ["spuds"]
     },
     "types": {
-      "fr": ["à frites", "à purée", "à chair ferme", "grenailles"]
+      "fr": ["à frites", "à purée", "à chair ferme", "grenailles"],
+      "en": ["for chips", "for mash", "waxy", "baby"]
     },
     "category": "legumes",
     "unit": "kg",
@@ -441,7 +522,8 @@
   {
     "key": "carottes",
     "name": {
-      "fr": "Carottes"
+      "fr": "Carottes",
+      "en": "Carrots"
     },
     "category": "legumes",
     "unit": "kg",
@@ -452,10 +534,12 @@
   {
     "key": "oignons",
     "name": {
-      "fr": "Oignons"
+      "fr": "Oignons",
+      "en": "Onions"
     },
     "types": {
-      "fr": ["jaunes", "rouges", "blancs"]
+      "fr": ["jaunes", "rouges", "blancs"],
+      "en": ["brown", "red", "white"]
     },
     "category": "legumes",
     "unit": "piece",
@@ -465,7 +549,8 @@
   {
     "key": "echalotes",
     "name": {
-      "fr": "Échalotes"
+      "fr": "Échalotes",
+      "en": "Shallots"
     },
     "category": "legumes",
     "unit": "piece",
@@ -475,10 +560,12 @@
   {
     "key": "ail",
     "name": {
-      "fr": "Ail"
+      "fr": "Ail",
+      "en": "Garlic"
     },
     "aliases": {
-      "fr": ["tête d'ail", "gousses d'ail"]
+      "fr": ["tête d'ail", "gousses d'ail"],
+      "en": ["garlic bulb", "garlic cloves"]
     },
     "category": "legumes",
     "unit": "piece",
@@ -488,10 +575,12 @@
   {
     "key": "salade",
     "name": {
-      "fr": "Salade"
+      "fr": "Salade",
+      "en": "Lettuce"
     },
     "aliases": {
-      "fr": ["laitue", "batavia", "scarole"]
+      "fr": ["laitue", "batavia", "scarole"],
+      "en": ["salad", "salad leaves", "escarole"]
     },
     "types": {
       "fr": [
@@ -501,6 +590,14 @@
         "iceberg",
         "mâche",
         "roquette"
+      ],
+      "en": [
+        "round",
+        "Batavia",
+        "oak leaf",
+        "iceberg",
+        "lamb's lettuce",
+        "rocket"
       ]
     },
     "category": "legumes",
@@ -511,7 +608,12 @@
   {
     "key": "courgettes",
     "name": {
-      "fr": "Courgettes"
+      "fr": "Courgettes",
+      "en": "Courgettes"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["zucchini"]
     },
     "category": "legumes",
     "unit": "piece",
@@ -521,7 +623,8 @@
   {
     "key": "concombre",
     "name": {
-      "fr": "Concombre"
+      "fr": "Concombre",
+      "en": "Cucumber"
     },
     "category": "legumes",
     "unit": "piece",
@@ -531,10 +634,16 @@
   {
     "key": "poivrons",
     "name": {
-      "fr": "Poivrons"
+      "fr": "Poivrons",
+      "en": "Bell peppers"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["capsicums"]
     },
     "types": {
-      "fr": ["rouges", "verts", "jaunes"]
+      "fr": ["rouges", "verts", "jaunes"],
+      "en": ["red", "green", "yellow"]
     },
     "category": "legumes",
     "unit": "piece",
@@ -545,7 +654,12 @@
   {
     "key": "aubergines",
     "name": {
-      "fr": "Aubergines"
+      "fr": "Aubergines",
+      "en": "Aubergines"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["eggplants"]
     },
     "category": "legumes",
     "unit": "piece",
@@ -556,7 +670,8 @@
   {
     "key": "brocoli",
     "name": {
-      "fr": "Brocoli"
+      "fr": "Brocoli",
+      "en": "Broccoli"
     },
     "category": "legumes",
     "unit": "piece",
@@ -566,7 +681,8 @@
   {
     "key": "chou-fleur",
     "name": {
-      "fr": "Chou-fleur"
+      "fr": "Chou-fleur",
+      "en": "Cauliflower"
     },
     "category": "legumes",
     "unit": "piece",
@@ -576,10 +692,12 @@
   {
     "key": "chou",
     "name": {
-      "fr": "Chou"
+      "fr": "Chou",
+      "en": "Cabbage"
     },
     "types": {
-      "fr": ["vert", "rouge", "blanc", "frisé"]
+      "fr": ["vert", "rouge", "blanc", "frisé"],
+      "en": ["green", "red", "white", "savoy"]
     },
     "category": "legumes",
     "unit": "piece",
@@ -589,7 +707,12 @@
   {
     "key": "choux-de-bruxelles",
     "name": {
-      "fr": "Choux de Bruxelles"
+      "fr": "Choux de Bruxelles",
+      "en": "Brussels sprouts"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["sprouts"]
     },
     "category": "legumes",
     "unit": "g",
@@ -600,10 +723,12 @@
   {
     "key": "champignons",
     "name": {
-      "fr": "Champignons"
+      "fr": "Champignons",
+      "en": "Mushrooms"
     },
     "types": {
-      "fr": ["de Paris", "shiitakés", "pleurotes", "girolles", "cèpes"]
+      "fr": ["de Paris", "shiitakés", "pleurotes", "girolles", "cèpes"],
+      "en": ["button", "shiitake", "oyster", "chanterelle", "porcini"]
     },
     "category": "legumes",
     "unit": "barquette",
@@ -613,7 +738,12 @@
   {
     "key": "haricots-verts",
     "name": {
-      "fr": "Haricots verts"
+      "fr": "Haricots verts",
+      "en": "Green beans"
+    },
+    "aliases": {
+      "fr": ["haricots princesse"],
+      "en": ["French beans"]
     },
     "category": "legumes",
     "unit": "g",
@@ -624,7 +754,12 @@
   {
     "key": "petits-pois",
     "name": {
-      "fr": "Petits pois"
+      "fr": "Petits pois",
+      "en": "Peas"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["garden peas"]
     },
     "category": "legumes",
     "unit": "g",
@@ -635,7 +770,8 @@
   {
     "key": "poireaux",
     "name": {
-      "fr": "Poireaux"
+      "fr": "Poireaux",
+      "en": "Leeks"
     },
     "category": "legumes",
     "unit": "piece",
@@ -645,10 +781,12 @@
   {
     "key": "epinards",
     "name": {
-      "fr": "Épinards"
+      "fr": "Épinards",
+      "en": "Spinach"
     },
     "aliases": {
-      "fr": ["pousses d'épinards"]
+      "fr": ["pousses d'épinards"],
+      "en": ["baby spinach"]
     },
     "category": "legumes",
     "unit": "sachet",
@@ -658,7 +796,8 @@
   {
     "key": "patates-douces",
     "name": {
-      "fr": "Patates douces"
+      "fr": "Patates douces",
+      "en": "Sweet potatoes"
     },
     "category": "legumes",
     "unit": "piece",
@@ -667,7 +806,8 @@
   {
     "key": "radis",
     "name": {
-      "fr": "Radis"
+      "fr": "Radis",
+      "en": "Radishes"
     },
     "category": "legumes",
     "unit": "botte",
@@ -677,7 +817,8 @@
   {
     "key": "navets",
     "name": {
-      "fr": "Navets"
+      "fr": "Navets",
+      "en": "Turnips"
     },
     "category": "legumes",
     "unit": "kg",
@@ -688,10 +829,16 @@
   {
     "key": "betteraves",
     "name": {
-      "fr": "Betteraves"
+      "fr": "Betteraves",
+      "en": "Beetroot"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["beets"]
     },
     "types": {
-      "fr": ["cuites", "crues"]
+      "fr": ["cuites", "crues"],
+      "en": ["cooked", "raw"]
     },
     "category": "legumes",
     "unit": "g",
@@ -703,13 +850,16 @@
   {
     "key": "celeri",
     "name": {
-      "fr": "Céleri"
+      "fr": "Céleri",
+      "en": "Celery"
     },
     "aliases": {
-      "fr": ["céleri-rave"]
+      "fr": ["céleri-rave"],
+      "en": ["celeriac"]
     },
     "types": {
-      "fr": ["branche", "rave"]
+      "fr": ["branche", "rave"],
+      "en": ["sticks", "celeriac"]
     },
     "category": "legumes",
     "unit": "piece",
@@ -719,13 +869,16 @@
   {
     "key": "courge",
     "name": {
-      "fr": "Courge"
+      "fr": "Courge",
+      "en": "Squash"
     },
     "aliases": {
-      "fr": ["potiron", "butternut", "potimarron"]
+      "fr": ["potiron", "butternut", "potimarron"],
+      "en": ["pumpkin", "butternut", "red kuri"]
     },
     "types": {
-      "fr": ["butternut", "potiron", "potimarron"]
+      "fr": ["butternut", "potiron", "potimarron"],
+      "en": ["butternut", "pumpkin", "red kuri"]
     },
     "category": "legumes",
     "unit": "piece",
@@ -735,7 +888,8 @@
   {
     "key": "fenouil",
     "name": {
-      "fr": "Fenouil"
+      "fr": "Fenouil",
+      "en": "Fennel"
     },
     "category": "legumes",
     "unit": "piece",
@@ -745,10 +899,12 @@
   {
     "key": "endives",
     "name": {
-      "fr": "Endives"
+      "fr": "Endives",
+      "en": "Chicory"
     },
     "aliases": {
-      "fr": ["chicons"]
+      "fr": ["chicons"],
+      "en": ["endives"]
     },
     "category": "legumes",
     "unit": "piece",
@@ -758,7 +914,8 @@
   {
     "key": "artichauts",
     "name": {
-      "fr": "Artichauts"
+      "fr": "Artichauts",
+      "en": "Artichokes"
     },
     "category": "legumes",
     "unit": "piece",
@@ -769,10 +926,12 @@
   {
     "key": "asperges",
     "name": {
-      "fr": "Asperges"
+      "fr": "Asperges",
+      "en": "Asparagus"
     },
     "types": {
-      "fr": ["vertes", "blanches"]
+      "fr": ["vertes", "blanches"],
+      "en": ["green", "white"]
     },
     "category": "legumes",
     "unit": "botte",
@@ -782,7 +941,8 @@
   {
     "key": "panais",
     "name": {
-      "fr": "Panais"
+      "fr": "Panais",
+      "en": "Parsnips"
     },
     "category": "legumes",
     "unit": "g",
@@ -794,7 +954,8 @@
   {
     "key": "gingembre",
     "name": {
-      "fr": "Gingembre"
+      "fr": "Gingembre",
+      "en": "Ginger"
     },
     "category": "legumes",
     "unit": "piece",
@@ -802,8 +963,14 @@
   },
   {
     "key": "blettes",
-    "name": { "fr": "Blettes" },
-    "aliases": { "fr": ["bettes", "côtes de blettes"] },
+    "name": {
+      "fr": "Blettes",
+      "en": "Chard"
+    },
+    "aliases": {
+      "fr": ["bettes", "côtes de blettes"],
+      "en": ["Swiss chard", "silverbeet"]
+    },
     "category": "legumes",
     "unit": "botte",
     "icon": "blettes",
@@ -812,7 +979,14 @@
   },
   {
     "key": "topinambours",
-    "name": { "fr": "Topinambours" },
+    "name": {
+      "fr": "Topinambours",
+      "en": "Jerusalem artichokes"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["sunchokes"]
+    },
     "category": "legumes",
     "unit": "kg",
     "countable": true,
@@ -823,10 +997,12 @@
   {
     "key": "persil",
     "name": {
-      "fr": "Persil"
+      "fr": "Persil",
+      "en": "Parsley"
     },
     "types": {
-      "fr": ["plat", "frisé"]
+      "fr": ["plat", "frisé"],
+      "en": ["flat-leaf", "curly"]
     },
     "category": "herbes-aromatiques",
     "unit": "botte",
@@ -836,7 +1012,12 @@
   {
     "key": "coriandre",
     "name": {
-      "fr": "Coriandre"
+      "fr": "Coriandre",
+      "en": "Coriander"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["cilantro"]
     },
     "category": "herbes-aromatiques",
     "unit": "botte",
@@ -846,7 +1027,8 @@
   {
     "key": "basilic",
     "name": {
-      "fr": "Basilic"
+      "fr": "Basilic",
+      "en": "Basil"
     },
     "category": "herbes-aromatiques",
     "unit": "botte",
@@ -856,7 +1038,8 @@
   {
     "key": "menthe",
     "name": {
-      "fr": "Menthe"
+      "fr": "Menthe",
+      "en": "Mint"
     },
     "category": "herbes-aromatiques",
     "unit": "botte",
@@ -866,7 +1049,8 @@
   {
     "key": "ciboulette",
     "name": {
-      "fr": "Ciboulette"
+      "fr": "Ciboulette",
+      "en": "Chives"
     },
     "category": "herbes-aromatiques",
     "unit": "botte",
@@ -876,7 +1060,8 @@
   {
     "key": "thym",
     "name": {
-      "fr": "Thym"
+      "fr": "Thym",
+      "en": "Thyme"
     },
     "category": "herbes-aromatiques",
     "unit": "botte",
@@ -886,7 +1071,12 @@
   {
     "key": "laurier",
     "name": {
-      "fr": "Laurier"
+      "fr": "Laurier",
+      "en": "Bay leaves"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["bay"]
     },
     "category": "herbes-aromatiques",
     "unit": "botte",
@@ -896,7 +1086,8 @@
   {
     "key": "romarin",
     "name": {
-      "fr": "Romarin"
+      "fr": "Romarin",
+      "en": "Rosemary"
     },
     "category": "herbes-aromatiques",
     "unit": "botte",
@@ -906,7 +1097,8 @@
   {
     "key": "aneth",
     "name": {
-      "fr": "Aneth"
+      "fr": "Aneth",
+      "en": "Dill"
     },
     "category": "herbes-aromatiques",
     "unit": "botte",
@@ -916,7 +1108,8 @@
   {
     "key": "estragon",
     "name": {
-      "fr": "Estragon"
+      "fr": "Estragon",
+      "en": "Tarragon"
     },
     "category": "herbes-aromatiques",
     "unit": "botte",
@@ -926,10 +1119,12 @@
   {
     "key": "bouquet-garni",
     "name": {
-      "fr": "Bouquet garni"
+      "fr": "Bouquet garni",
+      "en": "Bouquet garni"
     },
     "aliases": {
-      "fr": ["bouquet aromatique"]
+      "fr": ["bouquet aromatique"],
+      "en": ["herb bundle"]
     },
     "category": "herbes-aromatiques",
     "unit": "piece",
@@ -937,7 +1132,10 @@
   },
   {
     "key": "cerfeuil",
-    "name": { "fr": "Cerfeuil" },
+    "name": {
+      "fr": "Cerfeuil",
+      "en": "Chervil"
+    },
     "category": "herbes-aromatiques",
     "unit": "botte",
     "icon": "cerfeuil",
@@ -946,7 +1144,10 @@
   },
   {
     "key": "sauge",
-    "name": { "fr": "Sauge" },
+    "name": {
+      "fr": "Sauge",
+      "en": "Sage"
+    },
     "category": "herbes-aromatiques",
     "unit": "botte",
     "icon": "sauge",
@@ -955,7 +1156,10 @@
   },
   {
     "key": "marjolaine",
-    "name": { "fr": "Marjolaine" },
+    "name": {
+      "fr": "Marjolaine",
+      "en": "Marjoram"
+    },
     "category": "herbes-aromatiques",
     "unit": "botte",
     "icon": "marjolaine",
@@ -964,8 +1168,14 @@
   },
   {
     "key": "citronnelle",
-    "name": { "fr": "Citronnelle" },
-    "aliases": { "fr": ["lemongrass"] },
+    "name": {
+      "fr": "Citronnelle",
+      "en": "Lemongrass"
+    },
+    "aliases": {
+      "fr": ["lemongrass"],
+      "en": ["lemon grass"]
+    },
     "category": "herbes-aromatiques",
     "unit": "botte",
     "icon": "citronnelle",
@@ -974,10 +1184,16 @@
   {
     "key": "baguette",
     "name": {
-      "fr": "Baguette"
+      "fr": "Baguette",
+      "en": "Baguette"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["French stick"]
     },
     "types": {
-      "fr": ["tradition", "classique"]
+      "fr": ["tradition", "classique"],
+      "en": ["traditional", "classic"]
     },
     "category": "pain-viennoiseries",
     "unit": "piece",
@@ -986,13 +1202,16 @@
   {
     "key": "pain",
     "name": {
-      "fr": "Pain"
+      "fr": "Pain",
+      "en": "Bread"
     },
     "aliases": {
-      "fr": ["miche"]
+      "fr": ["miche", "pistolets"],
+      "en": ["loaf"]
     },
     "types": {
-      "fr": ["complet", "de campagne", "aux céréales", "au levain"]
+      "fr": ["complet", "de campagne", "aux céréales", "au levain"],
+      "en": ["wholemeal", "farmhouse", "multigrain", "sourdough"]
     },
     "category": "pain-viennoiseries",
     "unit": "piece",
@@ -1001,10 +1220,16 @@
   {
     "key": "pain-de-mie",
     "name": {
-      "fr": "Pain de mie"
+      "fr": "Pain de mie",
+      "en": "Sliced bread"
+    },
+    "aliases": {
+      "fr": ["pain tranché"],
+      "en": ["sandwich bread"]
     },
     "types": {
-      "fr": ["nature", "complet", "sans croûte"]
+      "fr": ["nature", "complet", "sans croûte"],
+      "en": ["white", "wholemeal", "crustless"]
     },
     "category": "pain-viennoiseries",
     "unit": "paquet",
@@ -1013,7 +1238,8 @@
   {
     "key": "croissants",
     "name": {
-      "fr": "Croissants"
+      "fr": "Croissants",
+      "en": "Croissants"
     },
     "category": "pain-viennoiseries",
     "unit": "piece",
@@ -1022,10 +1248,12 @@
   {
     "key": "pains-au-chocolat",
     "name": {
-      "fr": "Pains au chocolat"
+      "fr": "Pains au chocolat",
+      "en": "Pains au chocolat"
     },
     "aliases": {
-      "fr": ["chocolatines"]
+      "fr": ["chocolatines", "couques au chocolat"],
+      "en": ["chocolatines"]
     },
     "category": "pain-viennoiseries",
     "unit": "piece",
@@ -1034,7 +1262,12 @@
   {
     "key": "pains-aux-raisins",
     "name": {
-      "fr": "Pains aux raisins"
+      "fr": "Pains aux raisins",
+      "en": "Pains aux raisins"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["raisin swirls"]
     },
     "category": "pain-viennoiseries",
     "unit": "piece",
@@ -1043,7 +1276,8 @@
   {
     "key": "brioche",
     "name": {
-      "fr": "Brioche"
+      "fr": "Brioche",
+      "en": "Brioche"
     },
     "category": "pain-viennoiseries",
     "unit": "piece",
@@ -1052,7 +1286,8 @@
   {
     "key": "viande",
     "name": {
-      "fr": "Viande au choix"
+      "fr": "Viande au choix",
+      "en": "Any meat"
     },
     "category": "viande",
     "unit": "piece",
@@ -1062,13 +1297,16 @@
   {
     "key": "boeuf",
     "name": {
-      "fr": "Bœuf"
+      "fr": "Bœuf",
+      "en": "Beef"
     },
     "aliases": {
-      "fr": ["viande de bœuf"]
+      "fr": ["viande de bœuf"],
+      "en": []
     },
     "types": {
-      "fr": ["à bourguignon", "à griller", "rôti", "haché"]
+      "fr": ["à bourguignon", "à griller", "rôti", "haché"],
+      "en": ["stewing", "for grilling", "roasting joint", "mince"]
     },
     "category": "viande",
     "unit": "g",
@@ -1078,13 +1316,16 @@
   {
     "key": "steaks-haches",
     "name": {
-      "fr": "Steaks hachés"
+      "fr": "Steaks hachés",
+      "en": "Beef burgers"
     },
     "aliases": {
-      "fr": ["steaks"]
+      "fr": ["steaks", "bœuf haché", "viande hachée"],
+      "en": ["burgers", "patties"]
     },
     "types": {
-      "fr": ["5 %", "15 %", "20 %"]
+      "fr": ["5 %", "15 %", "20 %"],
+      "en": ["5% fat", "15% fat", "20% fat"]
     },
     "category": "viande",
     "unit": "piece",
@@ -1094,13 +1335,16 @@
   {
     "key": "porc",
     "name": {
-      "fr": "Porc"
+      "fr": "Porc",
+      "en": "Pork"
     },
     "aliases": {
-      "fr": ["viande de porc"]
+      "fr": ["viande de porc"],
+      "en": []
     },
     "types": {
-      "fr": ["côtes", "rôti", "filet mignon", "échine"]
+      "fr": ["côtes", "rôti", "filet mignon", "échine"],
+      "en": ["chops", "roasting joint", "tenderloin", "shoulder"]
     },
     "category": "viande",
     "unit": "g",
@@ -1110,10 +1354,12 @@
   {
     "key": "veau",
     "name": {
-      "fr": "Veau"
+      "fr": "Veau",
+      "en": "Veal"
     },
     "types": {
-      "fr": ["escalopes", "blanquette", "rôti"]
+      "fr": ["escalopes", "blanquette", "rôti"],
+      "en": ["escalopes", "stewing", "roasting joint"]
     },
     "category": "viande",
     "unit": "g",
@@ -1123,13 +1369,16 @@
   {
     "key": "agneau",
     "name": {
-      "fr": "Agneau"
+      "fr": "Agneau",
+      "en": "Lamb"
     },
     "aliases": {
-      "fr": ["gigot"]
+      "fr": ["gigot"],
+      "en": ["leg of lamb"]
     },
     "types": {
-      "fr": ["gigot", "côtelettes", "épaule"]
+      "fr": ["gigot", "côtelettes", "épaule"],
+      "en": ["leg", "chops", "shoulder"]
     },
     "category": "viande",
     "unit": "g",
@@ -1139,13 +1388,16 @@
   {
     "key": "saucisses",
     "name": {
-      "fr": "Saucisses"
+      "fr": "Saucisses",
+      "en": "Sausages"
     },
     "aliases": {
-      "fr": ["chipolatas", "merguez"]
+      "fr": ["chipolatas", "merguez"],
+      "en": ["chipolatas", "merguez"]
     },
     "types": {
-      "fr": ["chipolatas", "merguez", "de Toulouse", "de Strasbourg"]
+      "fr": ["chipolatas", "merguez", "de Toulouse", "de Strasbourg"],
+      "en": ["chipolatas", "merguez", "Toulouse", "frankfurters"]
     },
     "category": "viande",
     "unit": "piece",
@@ -1155,13 +1407,16 @@
   {
     "key": "poulet",
     "name": {
-      "fr": "Poulet"
+      "fr": "Poulet",
+      "en": "Chicken"
     },
     "aliases": {
-      "fr": ["poulet entier"]
+      "fr": ["poulet entier"],
+      "en": ["whole chicken"]
     },
     "types": {
-      "fr": ["fermier", "label rouge"]
+      "fr": ["fermier", "label rouge"],
+      "en": ["free-range", "corn-fed"]
     },
     "category": "volaille",
     "unit": "piece",
@@ -1170,10 +1425,12 @@
   {
     "key": "blancs-de-poulet",
     "name": {
-      "fr": "Blancs de poulet"
+      "fr": "Blancs de poulet",
+      "en": "Chicken breasts"
     },
     "aliases": {
-      "fr": ["filets de poulet", "escalopes de poulet"]
+      "fr": ["filets de poulet", "escalopes de poulet"],
+      "en": ["chicken fillets"]
     },
     "category": "volaille",
     "unit": "g",
@@ -1184,10 +1441,12 @@
   {
     "key": "cuisses-de-poulet",
     "name": {
-      "fr": "Cuisses de poulet"
+      "fr": "Cuisses de poulet",
+      "en": "Chicken legs"
     },
     "aliases": {
-      "fr": ["pilons"]
+      "fr": ["pilons"],
+      "en": ["chicken thighs", "drumsticks"]
     },
     "category": "volaille",
     "unit": "piece",
@@ -1197,10 +1456,12 @@
   {
     "key": "dinde",
     "name": {
-      "fr": "Dinde"
+      "fr": "Dinde",
+      "en": "Turkey"
     },
     "aliases": {
-      "fr": ["escalopes de dinde"]
+      "fr": ["escalopes de dinde"],
+      "en": ["turkey escalopes"]
     },
     "category": "volaille",
     "unit": "g",
@@ -1210,7 +1471,8 @@
   {
     "key": "cordons-bleus",
     "name": {
-      "fr": "Cordons bleus"
+      "fr": "Cordons bleus",
+      "en": "Cordon bleu"
     },
     "category": "volaille",
     "unit": "piece",
@@ -1220,13 +1482,16 @@
   {
     "key": "jambon-blanc",
     "name": {
-      "fr": "Jambon blanc"
+      "fr": "Jambon blanc",
+      "en": "Ham"
     },
     "aliases": {
-      "fr": ["jambon", "jambon de Paris"]
+      "fr": ["jambon", "jambon de Paris"],
+      "en": ["cooked ham", "sliced ham"]
     },
     "types": {
-      "fr": ["supérieur", "découenné", "au torchon"]
+      "fr": ["supérieur", "découenné", "au torchon"],
+      "en": ["premium", "rindless", "thick-cut"]
     },
     "category": "charcuterie",
     "unit": "tranche",
@@ -1236,13 +1501,16 @@
   {
     "key": "jambon-cru",
     "name": {
-      "fr": "Jambon cru"
+      "fr": "Jambon cru",
+      "en": "Cured ham"
     },
     "aliases": {
-      "fr": ["jambon de pays", "jambon de Bayonne", "prosciutto"]
+      "fr": ["jambon de pays", "jambon de Bayonne", "prosciutto"],
+      "en": ["Parma ham", "Serrano ham", "prosciutto"]
     },
     "types": {
-      "fr": ["de Bayonne", "Serrano", "de Parme"]
+      "fr": ["de Bayonne", "Serrano", "de Parme"],
+      "en": ["Bayonne", "Serrano", "Parma"]
     },
     "category": "charcuterie",
     "unit": "tranche",
@@ -1252,10 +1520,16 @@
   {
     "key": "lardons",
     "name": {
-      "fr": "Lardons"
+      "fr": "Lardons",
+      "en": "Lardons"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["bacon lardons", "diced bacon"]
     },
     "types": {
-      "fr": ["fumés", "nature", "allumettes"]
+      "fr": ["fumés", "nature", "allumettes"],
+      "en": ["smoked", "unsmoked", "thin"]
     },
     "category": "charcuterie",
     "unit": "paquet",
@@ -1264,10 +1538,12 @@
   {
     "key": "saucisson",
     "name": {
-      "fr": "Saucisson"
+      "fr": "Saucisson",
+      "en": "Saucisson"
     },
     "aliases": {
-      "fr": ["rosette"]
+      "fr": ["rosette"],
+      "en": ["salami", "dry-cured sausage"]
     },
     "category": "charcuterie",
     "unit": "piece",
@@ -1276,7 +1552,8 @@
   {
     "key": "chorizo",
     "name": {
-      "fr": "Chorizo"
+      "fr": "Chorizo",
+      "en": "Chorizo"
     },
     "category": "charcuterie",
     "unit": "piece",
@@ -1285,7 +1562,12 @@
   {
     "key": "rillettes",
     "name": {
-      "fr": "Rillettes"
+      "fr": "Rillettes",
+      "en": "Rillettes"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["potted pork"]
     },
     "category": "charcuterie",
     "unit": "pot",
@@ -1294,13 +1576,16 @@
   {
     "key": "pate-de-campagne",
     "name": {
-      "fr": "Pâté"
+      "fr": "Pâté",
+      "en": "Pâté"
     },
     "aliases": {
-      "fr": ["terrine"]
+      "fr": ["terrine"],
+      "en": ["terrine"]
     },
     "types": {
-      "fr": ["de campagne", "de foie", "en croûte", "au poivre"]
+      "fr": ["de campagne", "de foie", "en croûte", "au poivre"],
+      "en": ["country", "liver", "en croûte", "peppered"]
     },
     "category": "charcuterie",
     "unit": "pot",
@@ -1309,7 +1594,8 @@
   {
     "key": "poisson",
     "name": {
-      "fr": "Poisson au choix"
+      "fr": "Poisson au choix",
+      "en": "Any fish"
     },
     "category": "poisson-fruits-de-mer",
     "unit": "piece",
@@ -1319,10 +1605,12 @@
   {
     "key": "saumon",
     "name": {
-      "fr": "Saumon"
+      "fr": "Saumon",
+      "en": "Salmon"
     },
     "aliases": {
-      "fr": ["pavés de saumon"]
+      "fr": ["pavés de saumon"],
+      "en": ["salmon fillets"]
     },
     "category": "poisson-fruits-de-mer",
     "unit": "g",
@@ -1332,7 +1620,8 @@
   {
     "key": "saumon-fume",
     "name": {
-      "fr": "Saumon fumé"
+      "fr": "Saumon fumé",
+      "en": "Smoked salmon"
     },
     "category": "poisson-fruits-de-mer",
     "unit": "paquet",
@@ -1341,10 +1630,12 @@
   {
     "key": "cabillaud",
     "name": {
-      "fr": "Cabillaud"
+      "fr": "Cabillaud",
+      "en": "Cod"
     },
     "aliases": {
-      "fr": ["dos de cabillaud"]
+      "fr": ["dos de cabillaud"],
+      "en": ["cod loins"]
     },
     "category": "poisson-fruits-de-mer",
     "unit": "g",
@@ -1354,13 +1645,16 @@
   {
     "key": "crevettes",
     "name": {
-      "fr": "Crevettes"
+      "fr": "Crevettes",
+      "en": "Prawns"
     },
     "aliases": {
-      "fr": ["gambas"]
+      "fr": ["gambas"],
+      "en": ["shrimp", "king prawns"]
     },
     "types": {
-      "fr": ["cuites", "crues", "décortiquées"]
+      "fr": ["cuites", "crues", "décortiquées"],
+      "en": ["cooked", "raw", "peeled"]
     },
     "category": "poisson-fruits-de-mer",
     "unit": "g",
@@ -1370,7 +1664,8 @@
   {
     "key": "moules",
     "name": {
-      "fr": "Moules"
+      "fr": "Moules",
+      "en": "Mussels"
     },
     "category": "poisson-fruits-de-mer",
     "unit": "kg",
@@ -1379,10 +1674,12 @@
   {
     "key": "surimi",
     "name": {
-      "fr": "Surimi"
+      "fr": "Surimi",
+      "en": "Surimi"
     },
     "aliases": {
-      "fr": ["bâtonnets de surimi"]
+      "fr": ["bâtonnets de surimi"],
+      "en": ["crab sticks"]
     },
     "category": "poisson-fruits-de-mer",
     "unit": "paquet",
@@ -1391,13 +1688,16 @@
   {
     "key": "brandade-de-morue",
     "name": {
-      "fr": "Brandade de morue"
+      "fr": "Brandade de morue",
+      "en": "Salt cod brandade"
     },
     "aliases": {
-      "fr": ["brandade"]
+      "fr": ["brandade"],
+      "en": ["brandade"]
     },
     "types": {
-      "fr": ["à tartiner", "parmentière"]
+      "fr": ["à tartiner", "parmentière"],
+      "en": ["spreadable", "parmentier"]
     },
     "category": "poisson-fruits-de-mer",
     "unit": "pot",
@@ -1407,7 +1707,12 @@
   {
     "key": "taboule",
     "name": {
-      "fr": "Taboulé"
+      "fr": "Taboulé",
+      "en": "Tabbouleh"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["tabouleh", "taboule"]
     },
     "category": "traiteur",
     "unit": "barquette",
@@ -1416,7 +1721,8 @@
   {
     "key": "pizza",
     "name": {
-      "fr": "Pizza"
+      "fr": "Pizza",
+      "en": "Pizza"
     },
     "category": "traiteur",
     "unit": "piece",
@@ -1425,10 +1731,12 @@
   {
     "key": "quiche",
     "name": {
-      "fr": "Quiche"
+      "fr": "Quiche",
+      "en": "Quiche"
     },
     "aliases": {
-      "fr": ["quiche lorraine"]
+      "fr": ["quiche lorraine"],
+      "en": ["quiche lorraine"]
     },
     "category": "traiteur",
     "unit": "piece",
@@ -1437,13 +1745,16 @@
   {
     "key": "pate-a-tarte",
     "name": {
-      "fr": "Pâte à tarte"
+      "fr": "Pâte à tarte",
+      "en": "Pastry"
     },
     "aliases": {
-      "fr": ["pâte feuilletée", "pâte brisée", "pâte sablée"]
+      "fr": ["pâte feuilletée", "pâte brisée", "pâte sablée"],
+      "en": ["puff pastry", "shortcrust pastry", "sweet pastry"]
     },
     "types": {
-      "fr": ["feuilletée", "brisée", "sablée"]
+      "fr": ["feuilletée", "brisée", "sablée"],
+      "en": ["puff", "shortcrust", "sweet shortcrust"]
     },
     "category": "traiteur",
     "unit": "piece",
@@ -1452,10 +1763,12 @@
   {
     "key": "houmous",
     "name": {
-      "fr": "Houmous"
+      "fr": "Houmous",
+      "en": "Hummus"
     },
     "aliases": {
-      "fr": ["hummus"]
+      "fr": ["hummus"],
+      "en": ["houmous"]
     },
     "category": "traiteur",
     "unit": "pot",
@@ -1464,7 +1777,12 @@
   {
     "key": "tarama",
     "name": {
-      "fr": "Tarama"
+      "fr": "Tarama",
+      "en": "Taramasalata"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["tarama"]
     },
     "category": "traiteur",
     "unit": "pot",
@@ -1473,10 +1791,12 @@
   {
     "key": "croque-monsieur",
     "name": {
-      "fr": "Croque-monsieur"
+      "fr": "Croque-monsieur",
+      "en": "Croque-monsieur"
     },
     "aliases": {
-      "fr": ["croques"]
+      "fr": ["croques"],
+      "en": ["croques", "toasted ham and cheese"]
     },
     "category": "traiteur",
     "unit": "piece",
@@ -1486,13 +1806,16 @@
   {
     "key": "pates-fraiches",
     "name": {
-      "fr": "Pâtes fraîches"
+      "fr": "Pâtes fraîches",
+      "en": "Fresh pasta"
     },
     "aliases": {
-      "fr": ["raviolis", "tortellinis"]
+      "fr": ["raviolis", "tortellinis"],
+      "en": ["ravioli", "tortellini"]
     },
     "types": {
-      "fr": ["raviolis", "tortellinis", "tagliatelles"]
+      "fr": ["raviolis", "tortellinis", "tagliatelles"],
+      "en": ["ravioli", "tortellini", "tagliatelle"]
     },
     "category": "traiteur",
     "unit": "paquet",
@@ -1501,10 +1824,12 @@
   {
     "key": "gnocchis",
     "name": {
-      "fr": "Gnocchis"
+      "fr": "Gnocchis",
+      "en": "Gnocchi"
     },
     "aliases": {
-      "fr": ["gnocchi"]
+      "fr": ["gnocchi"],
+      "en": []
     },
     "category": "traiteur",
     "unit": "paquet",
@@ -1514,10 +1839,12 @@
   {
     "key": "oeufs",
     "name": {
-      "fr": "Œufs"
+      "fr": "Œufs",
+      "en": "Eggs"
     },
     "types": {
-      "fr": ["plein air", "bio", "extra-frais"]
+      "fr": ["plein air", "bio", "extra-frais"],
+      "en": ["free-range", "organic", "extra fresh"]
     },
     "category": "lait-creme-beurre",
     "unit": "piece",
@@ -1527,10 +1854,12 @@
   {
     "key": "lait",
     "name": {
-      "fr": "Lait"
+      "fr": "Lait",
+      "en": "Milk"
     },
     "types": {
-      "fr": ["entier", "demi-écrémé", "écrémé", "sans lactose"]
+      "fr": ["entier", "demi-écrémé", "écrémé", "sans lactose"],
+      "en": ["whole", "semi-skimmed", "skimmed", "lactose-free"]
     },
     "category": "lait-creme-beurre",
     "unit": "l",
@@ -1540,7 +1869,8 @@
   {
     "key": "lait-aromatise",
     "name": {
-      "fr": "Lait aromatisé"
+      "fr": "Lait aromatisé",
+      "en": "Flavoured milk"
     },
     "aliases": {
       "fr": [
@@ -1549,10 +1879,12 @@
         "lait chocolaté",
         "lait au chocolat",
         "lait à la vanille"
-      ]
+      ],
+      "en": ["strawberry milk", "chocolate milk", "vanilla milk"]
     },
     "types": {
-      "fr": ["fraise", "chocolat", "vanille"]
+      "fr": ["fraise", "chocolat", "vanille"],
+      "en": ["strawberry", "chocolate", "vanilla"]
     },
     "category": "lait-creme-beurre",
     "unit": "pack",
@@ -1562,10 +1894,12 @@
   {
     "key": "beurre",
     "name": {
-      "fr": "Beurre"
+      "fr": "Beurre",
+      "en": "Butter"
     },
     "types": {
-      "fr": ["doux", "demi-sel"]
+      "fr": ["doux", "demi-sel"],
+      "en": ["unsalted", "salted"]
     },
     "category": "lait-creme-beurre",
     "unit": "g",
@@ -1575,13 +1909,16 @@
   {
     "key": "creme-fraiche",
     "name": {
-      "fr": "Crème fraîche"
+      "fr": "Crème fraîche",
+      "en": "Cream"
     },
     "aliases": {
-      "fr": ["crème", "crème fleurette"]
+      "fr": ["crème", "crème fleurette"],
+      "en": ["crème fraîche", "double cream", "single cream"]
     },
     "types": {
-      "fr": ["épaisse", "liquide", "entière", "allégée"]
+      "fr": ["épaisse", "liquide", "entière", "allégée"],
+      "en": ["crème fraîche", "double", "single", "reduced-fat"]
     },
     "category": "lait-creme-beurre",
     "unit": "piece",
@@ -1590,7 +1927,8 @@
   {
     "key": "dessert",
     "name": {
-      "fr": "Dessert au choix"
+      "fr": "Dessert au choix",
+      "en": "Any dessert"
     },
     "category": "yaourts-desserts",
     "unit": "piece",
@@ -1600,13 +1938,16 @@
   {
     "key": "yaourts",
     "name": {
-      "fr": "Yaourts"
+      "fr": "Yaourts",
+      "en": "Yoghurts"
     },
     "aliases": {
-      "fr": ["yogourts"]
+      "fr": ["yogourts"],
+      "en": ["yogurts"]
     },
     "types": {
-      "fr": ["nature", "aux fruits", "à la grecque"]
+      "fr": ["nature", "aux fruits", "à la grecque"],
+      "en": ["plain", "fruit", "Greek"]
     },
     "category": "yaourts-desserts",
     "unit": "piece",
@@ -1616,10 +1957,16 @@
   {
     "key": "fromage-blanc",
     "name": {
-      "fr": "Fromage blanc"
+      "fr": "Fromage blanc",
+      "en": "Fromage frais"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["fromage blanc", "quark"]
     },
     "types": {
-      "fr": ["0 %", "20 %", "40 %"]
+      "fr": ["0 %", "20 %", "40 %"],
+      "en": ["0%", "20%", "40%"]
     },
     "category": "yaourts-desserts",
     "unit": "pot",
@@ -1628,13 +1975,16 @@
   {
     "key": "cremes-dessert",
     "name": {
-      "fr": "Crèmes dessert"
+      "fr": "Crèmes dessert",
+      "en": "Dessert pots"
     },
     "aliases": {
-      "fr": ["danette"]
+      "fr": ["danette"],
+      "en": ["custard pots", "Danette"]
     },
     "types": {
-      "fr": ["chocolat", "vanille", "caramel"]
+      "fr": ["chocolat", "vanille", "caramel"],
+      "en": ["chocolate", "vanilla", "caramel"]
     },
     "category": "yaourts-desserts",
     "unit": "piece",
@@ -1644,10 +1994,12 @@
   {
     "key": "compotes",
     "name": {
-      "fr": "Compotes"
+      "fr": "Compotes",
+      "en": "Fruit compote"
     },
     "aliases": {
-      "fr": ["gourdes de compote"]
+      "fr": ["gourdes de compote"],
+      "en": ["compote", "fruit pouches"]
     },
     "types": {
       "fr": [
@@ -1657,6 +2009,14 @@
         "pomme-banane",
         "pomme-fraise",
         "châtaigne"
+      ],
+      "en": [
+        "apple",
+        "pear",
+        "apricot",
+        "apple & banana",
+        "apple & strawberry",
+        "chestnut"
       ]
     },
     "category": "yaourts-desserts",
@@ -1667,7 +2027,8 @@
   {
     "key": "fromage",
     "name": {
-      "fr": "Fromage au choix"
+      "fr": "Fromage au choix",
+      "en": "Any cheese"
     },
     "category": "fromages",
     "unit": "piece",
@@ -1677,13 +2038,16 @@
   {
     "key": "fromage-rape",
     "name": {
-      "fr": "Fromage râpé"
+      "fr": "Fromage râpé",
+      "en": "Grated cheese"
     },
     "aliases": {
-      "fr": ["gruyère râpé", "emmental râpé", "râpé"]
+      "fr": ["gruyère râpé", "emmental râpé", "râpé"],
+      "en": ["grated emmental", "shredded cheese"]
     },
     "types": {
-      "fr": ["emmental", "comté", "mozzarella"]
+      "fr": ["emmental", "comté", "mozzarella"],
+      "en": ["emmental", "Comté", "mozzarella"]
     },
     "category": "fromages",
     "unit": "sachet",
@@ -1692,7 +2056,8 @@
   {
     "key": "comte",
     "name": {
-      "fr": "Comté"
+      "fr": "Comté",
+      "en": "Comté"
     },
     "category": "fromages",
     "unit": "g",
@@ -1702,10 +2067,12 @@
   {
     "key": "emmental",
     "name": {
-      "fr": "Emmental"
+      "fr": "Emmental",
+      "en": "Emmental"
     },
     "aliases": {
-      "fr": ["gruyère"]
+      "fr": ["gruyère"],
+      "en": ["Swiss cheese"]
     },
     "category": "fromages",
     "unit": "g",
@@ -1715,7 +2082,8 @@
   {
     "key": "camembert",
     "name": {
-      "fr": "Camembert"
+      "fr": "Camembert",
+      "en": "Camembert"
     },
     "category": "fromages",
     "unit": "piece",
@@ -1724,10 +2092,12 @@
   {
     "key": "mozzarella",
     "name": {
-      "fr": "Mozzarella"
+      "fr": "Mozzarella",
+      "en": "Mozzarella"
     },
     "aliases": {
-      "fr": ["mozza"]
+      "fr": ["mozza"],
+      "en": ["mozza"]
     },
     "category": "fromages",
     "unit": "piece",
@@ -1736,13 +2106,16 @@
   {
     "key": "chevre",
     "name": {
-      "fr": "Fromage de chèvre"
+      "fr": "Fromage de chèvre",
+      "en": "Goat's cheese"
     },
     "aliases": {
-      "fr": ["chèvre", "bûche de chèvre"]
+      "fr": ["chèvre", "bûche de chèvre"],
+      "en": ["goat cheese", "chèvre"]
     },
     "types": {
-      "fr": ["bûche", "frais", "crottin"]
+      "fr": ["bûche", "frais", "crottin"],
+      "en": ["log", "fresh", "crottin"]
     },
     "category": "fromages",
     "unit": "piece",
@@ -1751,10 +2124,12 @@
   {
     "key": "parmesan",
     "name": {
-      "fr": "Parmesan"
+      "fr": "Parmesan",
+      "en": "Parmesan"
     },
     "types": {
-      "fr": ["râpé", "en copeaux", "en morceau"]
+      "fr": ["râpé", "en copeaux", "en morceau"],
+      "en": ["grated", "shavings", "block"]
     },
     "category": "fromages",
     "unit": "sachet",
@@ -1763,7 +2138,8 @@
   {
     "key": "pates",
     "name": {
-      "fr": "Pâtes"
+      "fr": "Pâtes",
+      "en": "Pasta"
     },
     "types": {
       "fr": [
@@ -1773,6 +2149,14 @@
         "fusilli",
         "tagliatelles",
         "torsades"
+      ],
+      "en": [
+        "spaghetti",
+        "penne",
+        "macaroni",
+        "fusilli",
+        "tagliatelle",
+        "twists"
       ]
     },
     "category": "pates-riz-feculents",
@@ -1782,10 +2166,12 @@
   {
     "key": "riz",
     "name": {
-      "fr": "Riz"
+      "fr": "Riz",
+      "en": "Rice"
     },
     "types": {
-      "fr": ["basmati", "thaï", "complet", "rond"]
+      "fr": ["basmati", "thaï", "complet", "rond"],
+      "en": ["basmati", "jasmine", "brown", "pudding"]
     },
     "category": "pates-riz-feculents",
     "unit": "paquet",
@@ -1794,13 +2180,16 @@
   {
     "key": "semoule",
     "name": {
-      "fr": "Semoule"
+      "fr": "Semoule",
+      "en": "Couscous"
     },
     "aliases": {
-      "fr": ["couscous"]
+      "fr": ["couscous"],
+      "en": ["semolina"]
     },
     "types": {
-      "fr": ["fine", "moyenne", "grosse"]
+      "fr": ["fine", "moyenne", "grosse"],
+      "en": ["fine", "medium", "coarse"]
     },
     "category": "pates-riz-feculents",
     "unit": "paquet",
@@ -1809,10 +2198,12 @@
   {
     "key": "lentilles",
     "name": {
-      "fr": "Lentilles"
+      "fr": "Lentilles",
+      "en": "Lentils"
     },
     "types": {
-      "fr": ["vertes", "corail"]
+      "fr": ["vertes", "corail"],
+      "en": ["green", "red"]
     },
     "category": "pates-riz-feculents",
     "unit": "paquet",
@@ -1821,7 +2212,8 @@
   {
     "key": "quinoa",
     "name": {
-      "fr": "Quinoa"
+      "fr": "Quinoa",
+      "en": "Quinoa"
     },
     "category": "pates-riz-feculents",
     "unit": "paquet",
@@ -1830,10 +2222,12 @@
   {
     "key": "puree-en-flocons",
     "name": {
-      "fr": "Purée en flocons"
+      "fr": "Purée en flocons",
+      "en": "Instant mash"
     },
     "aliases": {
-      "fr": ["purée"]
+      "fr": ["purée"],
+      "en": ["instant mashed potato", "potato flakes"]
     },
     "category": "pates-riz-feculents",
     "unit": "paquet",
@@ -1842,13 +2236,16 @@
   {
     "key": "conserves",
     "name": {
-      "fr": "Conserves au choix"
+      "fr": "Conserves au choix",
+      "en": "Any tinned food"
     },
     "aliases": {
-      "fr": ["conserve", "boîte de conserve"]
+      "fr": ["conserve", "boîte de conserve"],
+      "en": ["tinned food", "canned food"]
     },
     "types": {
-      "fr": ["légumes", "plats cuisinés", "poisson", "fruits au sirop"]
+      "fr": ["légumes", "plats cuisinés", "poisson", "fruits au sirop"],
+      "en": ["vegetables", "ready meals", "fish", "fruit in syrup"]
     },
     "category": "conserves-bocaux",
     "unit": "boite",
@@ -1859,10 +2256,12 @@
   {
     "key": "thon",
     "name": {
-      "fr": "Thon"
+      "fr": "Thon",
+      "en": "Tuna"
     },
     "types": {
-      "fr": ["au naturel", "à l'huile"]
+      "fr": ["au naturel", "à l'huile"],
+      "en": ["in brine", "in oil"]
     },
     "category": "conserves-bocaux",
     "unit": "boite",
@@ -1871,7 +2270,12 @@
   {
     "key": "mais",
     "name": {
-      "fr": "Maïs"
+      "fr": "Maïs",
+      "en": "Sweetcorn"
+    },
+    "aliases": {
+      "fr": ["blé d'Inde"],
+      "en": ["corn"]
     },
     "category": "conserves-bocaux",
     "unit": "boite",
@@ -1880,10 +2284,12 @@
   {
     "key": "tomates-concassees",
     "name": {
-      "fr": "Tomates concassées"
+      "fr": "Tomates concassées",
+      "en": "Chopped tomatoes"
     },
     "aliases": {
-      "fr": ["tomates pelées"]
+      "fr": ["tomates pelées"],
+      "en": ["peeled tomatoes", "tinned tomatoes"]
     },
     "category": "conserves-bocaux",
     "unit": "boite",
@@ -1892,7 +2298,12 @@
   {
     "key": "haricots-rouges",
     "name": {
-      "fr": "Haricots rouges"
+      "fr": "Haricots rouges",
+      "en": "Kidney beans"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["red kidney beans"]
     },
     "category": "conserves-bocaux",
     "unit": "boite",
@@ -1901,7 +2312,8 @@
   {
     "key": "pois-chiches",
     "name": {
-      "fr": "Pois chiches"
+      "fr": "Pois chiches",
+      "en": "Chickpeas"
     },
     "category": "conserves-bocaux",
     "unit": "boite",
@@ -1910,7 +2322,8 @@
   {
     "key": "sardines",
     "name": {
-      "fr": "Sardines"
+      "fr": "Sardines",
+      "en": "Sardines"
     },
     "category": "conserves-bocaux",
     "unit": "boite",
@@ -1919,10 +2332,12 @@
   {
     "key": "moutarde",
     "name": {
-      "fr": "Moutarde"
+      "fr": "Moutarde",
+      "en": "Mustard"
     },
     "types": {
-      "fr": ["forte", "à l'ancienne"]
+      "fr": ["forte", "à l'ancienne"],
+      "en": ["Dijon", "wholegrain"]
     },
     "category": "sauces-condiments",
     "unit": "pot",
@@ -1931,10 +2346,12 @@
   {
     "key": "mayonnaise",
     "name": {
-      "fr": "Mayonnaise"
+      "fr": "Mayonnaise",
+      "en": "Mayonnaise"
     },
     "aliases": {
-      "fr": ["mayo"]
+      "fr": ["mayo"],
+      "en": ["mayo"]
     },
     "category": "sauces-condiments",
     "unit": "pot",
@@ -1943,7 +2360,12 @@
   {
     "key": "ketchup",
     "name": {
-      "fr": "Ketchup"
+      "fr": "Ketchup",
+      "en": "Ketchup"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["tomato ketchup"]
     },
     "category": "sauces-condiments",
     "unit": "bouteille",
@@ -1952,10 +2374,12 @@
   {
     "key": "sel",
     "name": {
-      "fr": "Sel"
+      "fr": "Sel",
+      "en": "Salt"
     },
     "types": {
-      "fr": ["fin", "gros", "fleur de sel"]
+      "fr": ["fin", "gros", "fleur de sel"],
+      "en": ["table", "coarse", "fleur de sel"]
     },
     "category": "epices",
     "unit": "paquet",
@@ -1964,10 +2388,16 @@
   {
     "key": "poivre",
     "name": {
-      "fr": "Poivre"
+      "fr": "Poivre",
+      "en": "Pepper"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["black pepper", "peppercorns"]
     },
     "types": {
-      "fr": ["noir", "moulu", "en grains"]
+      "fr": ["noir", "moulu", "en grains"],
+      "en": ["black", "ground", "whole"]
     },
     "category": "epices",
     "unit": "paquet",
@@ -1976,10 +2406,12 @@
   {
     "key": "epices",
     "name": {
-      "fr": "Épices"
+      "fr": "Épices",
+      "en": "Spices"
     },
     "types": {
-      "fr": ["cumin", "curry", "paprika", "cannelle", "herbes de Provence"]
+      "fr": ["cumin", "curry", "paprika", "cannelle", "herbes de Provence"],
+      "en": ["cumin", "curry", "paprika", "cinnamon", "herbes de Provence"]
     },
     "category": "epices",
     "unit": "pot",
@@ -1988,10 +2420,12 @@
   {
     "key": "sauce-tomate",
     "name": {
-      "fr": "Sauce tomate"
+      "fr": "Sauce tomate",
+      "en": "Tomato sauce"
     },
     "aliases": {
-      "fr": ["coulis de tomate", "passata"]
+      "fr": ["coulis de tomate", "passata"],
+      "en": ["passata", "tomato coulis"]
     },
     "category": "sauces-condiments",
     "unit": "pot",
@@ -2000,10 +2434,12 @@
   {
     "key": "pesto",
     "name": {
-      "fr": "Pesto"
+      "fr": "Pesto",
+      "en": "Pesto"
     },
     "types": {
-      "fr": ["vert", "rouge"]
+      "fr": ["vert", "rouge"],
+      "en": ["green", "red"]
     },
     "category": "sauces-condiments",
     "unit": "pot",
@@ -2012,10 +2448,16 @@
   {
     "key": "sauce-soja",
     "name": {
-      "fr": "Sauce soja"
+      "fr": "Sauce soja",
+      "en": "Soy sauce"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["soya sauce"]
     },
     "types": {
-      "fr": ["salée", "sucrée"]
+      "fr": ["salée", "sucrée"],
+      "en": ["light", "sweet"]
     },
     "category": "cuisine-du-monde",
     "unit": "bouteille",
@@ -2024,7 +2466,8 @@
   {
     "key": "lait-de-coco",
     "name": {
-      "fr": "Lait de coco"
+      "fr": "Lait de coco",
+      "en": "Coconut milk"
     },
     "category": "cuisine-du-monde",
     "unit": "boite",
@@ -2033,10 +2476,12 @@
   {
     "key": "huile-d-olive",
     "name": {
-      "fr": "Huile d'olive"
+      "fr": "Huile d'olive",
+      "en": "Olive oil"
     },
     "types": {
-      "fr": ["vierge extra"]
+      "fr": ["vierge extra"],
+      "en": ["extra virgin"]
     },
     "category": "huiles-vinaigres",
     "unit": "bouteille",
@@ -2045,10 +2490,12 @@
   {
     "key": "huile-de-tournesol",
     "name": {
-      "fr": "Huile de tournesol"
+      "fr": "Huile de tournesol",
+      "en": "Sunflower oil"
     },
     "aliases": {
-      "fr": ["huile"]
+      "fr": ["huile"],
+      "en": ["oil", "vegetable oil"]
     },
     "category": "huiles-vinaigres",
     "unit": "bouteille",
@@ -2057,10 +2504,12 @@
   {
     "key": "vinaigre",
     "name": {
-      "fr": "Vinaigre"
+      "fr": "Vinaigre",
+      "en": "Vinegar"
     },
     "types": {
-      "fr": ["balsamique", "de vin", "de cidre", "blanc"]
+      "fr": ["balsamique", "de vin", "de cidre", "blanc"],
+      "en": ["balsamic", "wine", "cider", "white"]
     },
     "category": "huiles-vinaigres",
     "unit": "bouteille",
@@ -2069,10 +2518,12 @@
   {
     "key": "aperitif",
     "name": {
-      "fr": "Apéritif au choix"
+      "fr": "Apéritif au choix",
+      "en": "Any nibbles"
     },
     "aliases": {
-      "fr": ["apéro"]
+      "fr": ["apéro"],
+      "en": ["nibbles", "snacks"]
     },
     "category": "aperitif",
     "unit": "piece",
@@ -2082,10 +2533,16 @@
   {
     "key": "chips",
     "name": {
-      "fr": "Chips"
+      "fr": "Chips",
+      "en": "Crisps"
+    },
+    "aliases": {
+      "fr": ["croustilles"],
+      "en": ["potato chips"]
     },
     "types": {
-      "fr": ["nature", "à l'ancienne", "paprika"]
+      "fr": ["nature", "à l'ancienne", "paprika"],
+      "en": ["ready salted", "kettle", "paprika"]
     },
     "category": "aperitif",
     "unit": "sachet",
@@ -2094,10 +2551,12 @@
   {
     "key": "cacahuetes",
     "name": {
-      "fr": "Cacahuètes"
+      "fr": "Cacahuètes",
+      "en": "Peanuts"
     },
     "aliases": {
-      "fr": ["arachides"]
+      "fr": ["arachides"],
+      "en": ["groundnuts"]
     },
     "category": "aperitif",
     "unit": "sachet",
@@ -2106,10 +2565,12 @@
   {
     "key": "olives",
     "name": {
-      "fr": "Olives"
+      "fr": "Olives",
+      "en": "Olives"
     },
     "types": {
-      "fr": ["vertes", "noires"]
+      "fr": ["vertes", "noires"],
+      "en": ["green", "black"]
     },
     "category": "aperitif",
     "unit": "pot",
@@ -2118,10 +2579,12 @@
   {
     "key": "biscuits-aperitif",
     "name": {
-      "fr": "Biscuits apéritif"
+      "fr": "Biscuits apéritif",
+      "en": "Savoury biscuits"
     },
     "aliases": {
-      "fr": ["crackers", "biscuits apéro"]
+      "fr": ["crackers", "biscuits apéro"],
+      "en": ["crackers", "cocktail biscuits"]
     },
     "category": "aperitif",
     "unit": "sachet",
@@ -2130,10 +2593,12 @@
   {
     "key": "tortillas",
     "name": {
-      "fr": "Tortillas"
+      "fr": "Tortillas",
+      "en": "Tortillas"
     },
     "aliases": {
-      "fr": ["wraps", "galettes de blé"]
+      "fr": ["wraps", "galettes de blé"],
+      "en": ["wraps", "flour tortillas"]
     },
     "category": "cuisine-du-monde",
     "unit": "paquet",
@@ -2142,10 +2607,12 @@
   {
     "key": "nouilles",
     "name": {
-      "fr": "Nouilles"
+      "fr": "Nouilles",
+      "en": "Noodles"
     },
     "aliases": {
-      "fr": ["nouilles chinoises", "ramen"]
+      "fr": ["nouilles chinoises", "ramen"],
+      "en": ["egg noodles", "ramen"]
     },
     "category": "cuisine-du-monde",
     "unit": "paquet",
@@ -2154,10 +2621,12 @@
   {
     "key": "farine",
     "name": {
-      "fr": "Farine"
+      "fr": "Farine",
+      "en": "Flour"
     },
     "types": {
-      "fr": ["T45", "T55", "T65", "complète"]
+      "fr": ["T45", "T55", "T65", "complète"],
+      "en": ["plain", "self-raising", "strong", "wholemeal"]
     },
     "category": "farine-sucre-patisserie",
     "unit": "paquet",
@@ -2166,10 +2635,12 @@
   {
     "key": "sucre",
     "name": {
-      "fr": "Sucre"
+      "fr": "Sucre",
+      "en": "Sugar"
     },
     "types": {
-      "fr": ["en poudre", "en morceaux", "glace"]
+      "fr": ["en poudre", "en morceaux", "glace"],
+      "en": ["caster", "cubes", "icing"]
     },
     "category": "farine-sucre-patisserie",
     "unit": "paquet",
@@ -2178,10 +2649,16 @@
   {
     "key": "levure",
     "name": {
-      "fr": "Levure"
+      "fr": "Levure",
+      "en": "Yeast"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["baking powder"]
     },
     "types": {
-      "fr": ["chimique", "de boulanger"]
+      "fr": ["chimique", "de boulanger"],
+      "en": ["baking powder", "dried yeast"]
     },
     "category": "farine-sucre-patisserie",
     "unit": "paquet",
@@ -2190,7 +2667,8 @@
   {
     "key": "sucre-vanille",
     "name": {
-      "fr": "Sucre vanillé"
+      "fr": "Sucre vanillé",
+      "en": "Vanilla sugar"
     },
     "category": "farine-sucre-patisserie",
     "unit": "paquet",
@@ -2199,7 +2677,12 @@
   {
     "key": "cereales",
     "name": {
-      "fr": "Céréales"
+      "fr": "Céréales",
+      "en": "Cereal"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["breakfast cereal"]
     },
     "category": "petit-dejeuner",
     "unit": "paquet",
@@ -2208,7 +2691,8 @@
   {
     "key": "muesli",
     "name": {
-      "fr": "Muesli"
+      "fr": "Muesli",
+      "en": "Muesli"
     },
     "category": "petit-dejeuner",
     "unit": "paquet",
@@ -2217,7 +2701,12 @@
   {
     "key": "biscottes",
     "name": {
-      "fr": "Biscottes"
+      "fr": "Biscottes",
+      "en": "Melba toast"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["rusks", "French toasts"]
     },
     "category": "petit-dejeuner",
     "unit": "paquet",
@@ -2226,13 +2715,16 @@
   {
     "key": "biscuits",
     "name": {
-      "fr": "Biscuits"
+      "fr": "Biscuits",
+      "en": "Biscuits"
     },
     "aliases": {
-      "fr": ["gâteaux secs"]
+      "fr": ["gâteaux secs"],
+      "en": []
     },
     "types": {
-      "fr": ["secs", "au chocolat", "petits-beurre"]
+      "fr": ["secs", "au chocolat", "petits-beurre"],
+      "en": ["plain", "chocolate", "butter"]
     },
     "category": "biscuits-gateaux",
     "unit": "paquet",
@@ -2241,7 +2733,8 @@
   {
     "key": "madeleines",
     "name": {
-      "fr": "Madeleines"
+      "fr": "Madeleines",
+      "en": "Madeleines"
     },
     "category": "biscuits-gateaux",
     "unit": "paquet",
@@ -2250,13 +2743,16 @@
   {
     "key": "chocolat",
     "name": {
-      "fr": "Chocolat"
+      "fr": "Chocolat",
+      "en": "Chocolate"
     },
     "aliases": {
-      "fr": ["tablette de chocolat"]
+      "fr": ["tablette de chocolat"],
+      "en": ["bar of chocolate"]
     },
     "types": {
-      "fr": ["noir", "au lait", "blanc", "pâtissier"]
+      "fr": ["noir", "au lait", "blanc", "pâtissier"],
+      "en": ["dark", "milk", "white", "cooking"]
     },
     "category": "chocolat-confiserie",
     "unit": "piece",
@@ -2265,7 +2761,12 @@
   {
     "key": "bonbons",
     "name": {
-      "fr": "Bonbons"
+      "fr": "Bonbons",
+      "en": "Sweets"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["candy"]
     },
     "category": "chocolat-confiserie",
     "unit": "sachet",
@@ -2274,10 +2775,16 @@
   {
     "key": "confiture",
     "name": {
-      "fr": "Confiture"
+      "fr": "Confiture",
+      "en": "Jam"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["preserve", "marmalade"]
     },
     "types": {
-      "fr": ["fraise", "abricot", "framboise", "orange"]
+      "fr": ["fraise", "abricot", "framboise", "orange"],
+      "en": ["strawberry", "apricot", "raspberry", "orange"]
     },
     "category": "confitures-tartiner",
     "unit": "pot",
@@ -2286,10 +2793,12 @@
   {
     "key": "pate-a-tartiner",
     "name": {
-      "fr": "Pâte à tartiner"
+      "fr": "Pâte à tartiner",
+      "en": "Chocolate spread"
     },
     "aliases": {
-      "fr": ["nutella"]
+      "fr": ["nutella"],
+      "en": ["Nutella", "hazelnut spread"]
     },
     "category": "confitures-tartiner",
     "unit": "pot",
@@ -2298,10 +2807,12 @@
   {
     "key": "beurre-de-cacahuete",
     "name": {
-      "fr": "Beurre de cacahuète"
+      "fr": "Beurre de cacahuète",
+      "en": "Peanut butter"
     },
     "aliases": {
-      "fr": ["beurre d'arachide", "peanut butter"]
+      "fr": ["beurre d'arachide", "peanut butter"],
+      "en": []
     },
     "category": "confitures-tartiner",
     "unit": "pot",
@@ -2310,7 +2821,8 @@
   {
     "key": "miel",
     "name": {
-      "fr": "Miel"
+      "fr": "Miel",
+      "en": "Honey"
     },
     "category": "confitures-tartiner",
     "unit": "pot",
@@ -2319,10 +2831,12 @@
   {
     "key": "cafe",
     "name": {
-      "fr": "Café"
+      "fr": "Café",
+      "en": "Coffee"
     },
     "types": {
-      "fr": ["moulu", "en grains", "capsules", "dosettes"]
+      "fr": ["moulu", "en grains", "capsules", "dosettes"],
+      "en": ["ground", "beans", "capsules", "pods"]
     },
     "category": "cafe-the",
     "unit": "paquet",
@@ -2331,13 +2845,16 @@
   {
     "key": "the",
     "name": {
-      "fr": "Thé"
+      "fr": "Thé",
+      "en": "Tea"
     },
     "aliases": {
-      "fr": ["sachets de thé"]
+      "fr": ["sachets de thé"],
+      "en": ["tea bags"]
     },
     "types": {
-      "fr": ["vert", "noir"]
+      "fr": ["vert", "noir"],
+      "en": ["green", "black"]
     },
     "category": "cafe-the",
     "unit": "boite",
@@ -2346,10 +2863,12 @@
   {
     "key": "infusion",
     "name": {
-      "fr": "Infusion"
+      "fr": "Infusion",
+      "en": "Herbal tea"
     },
     "aliases": {
-      "fr": ["tisane"]
+      "fr": ["tisane"],
+      "en": ["infusion", "tisane"]
     },
     "category": "cafe-the",
     "unit": "boite",
@@ -2358,10 +2877,12 @@
   {
     "key": "chocolat-en-poudre",
     "name": {
-      "fr": "Chocolat en poudre"
+      "fr": "Chocolat en poudre",
+      "en": "Hot chocolate"
     },
     "aliases": {
-      "fr": ["chocolat chaud"]
+      "fr": ["chocolat chaud"],
+      "en": ["drinking chocolate"]
     },
     "category": "cafe-the",
     "unit": "paquet",
@@ -2370,13 +2891,16 @@
   {
     "key": "eau",
     "name": {
-      "fr": "Eau"
+      "fr": "Eau",
+      "en": "Water"
     },
     "aliases": {
-      "fr": ["eau minérale", "bouteilles d'eau"]
+      "fr": ["eau minérale", "bouteilles d'eau"],
+      "en": ["mineral water", "bottled water"]
     },
     "types": {
-      "fr": ["plate", "gazeuse"]
+      "fr": ["plate", "gazeuse"],
+      "en": ["still", "sparkling"]
     },
     "category": "eaux",
     "unit": "pack",
@@ -2385,7 +2909,12 @@
   {
     "key": "boissons",
     "name": {
-      "fr": "Boissons au choix"
+      "fr": "Boissons au choix",
+      "en": "Any drinks"
+    },
+    "aliases": {
+      "fr": ["breuvages", "boissons gazeuses"],
+      "en": []
     },
     "category": "jus-sodas",
     "unit": "piece",
@@ -2395,10 +2924,12 @@
   {
     "key": "jus-de-fruits",
     "name": {
-      "fr": "Jus de fruits"
+      "fr": "Jus de fruits",
+      "en": "Fruit juice"
     },
     "aliases": {
-      "fr": ["jus"]
+      "fr": ["jus"],
+      "en": ["juice"]
     },
     "types": {
       "fr": [
@@ -2408,6 +2939,14 @@
         "ananas",
         "pamplemousse",
         "multifruits"
+      ],
+      "en": [
+        "orange",
+        "apple",
+        "grape",
+        "pineapple",
+        "grapefruit",
+        "multifruit"
       ]
     },
     "category": "jus-sodas",
@@ -2417,13 +2956,16 @@
   {
     "key": "coca-cola",
     "name": {
-      "fr": "Coca-Cola"
+      "fr": "Coca-Cola",
+      "en": "Coca-Cola"
     },
     "aliases": {
-      "fr": ["coca", "cola"]
+      "fr": ["coca", "cola"],
+      "en": ["Coke", "cola"]
     },
     "types": {
-      "fr": ["classique", "zéro"]
+      "fr": ["classique", "zéro"],
+      "en": ["classic", "zero"]
     },
     "category": "jus-sodas",
     "unit": "bouteille",
@@ -2432,10 +2974,16 @@
   {
     "key": "sirop",
     "name": {
-      "fr": "Sirop"
+      "fr": "Sirop",
+      "en": "Cordial"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["syrup", "fruit syrup"]
     },
     "types": {
-      "fr": ["grenadine", "menthe", "citron"]
+      "fr": ["grenadine", "menthe", "citron"],
+      "en": ["grenadine", "mint", "lemon"]
     },
     "category": "jus-sodas",
     "unit": "bouteille",
@@ -2444,7 +2992,8 @@
   {
     "key": "limonade",
     "name": {
-      "fr": "Limonade"
+      "fr": "Limonade",
+      "en": "Lemonade"
     },
     "category": "jus-sodas",
     "unit": "bouteille",
@@ -2453,10 +3002,12 @@
   {
     "key": "biere",
     "name": {
-      "fr": "Bière"
+      "fr": "Bière",
+      "en": "Beer"
     },
     "types": {
-      "fr": ["blonde", "blanche", "ambrée"]
+      "fr": ["blonde", "blanche", "ambrée"],
+      "en": ["lager", "wheat", "amber"]
     },
     "category": "alcools",
     "unit": "pack",
@@ -2465,10 +3016,12 @@
   {
     "key": "vin",
     "name": {
-      "fr": "Vin"
+      "fr": "Vin",
+      "en": "Wine"
     },
     "types": {
-      "fr": ["rouge", "blanc", "rosé"]
+      "fr": ["rouge", "blanc", "rosé"],
+      "en": ["red", "white", "rosé"]
     },
     "category": "alcools",
     "unit": "bouteille",
@@ -2477,10 +3030,12 @@
   {
     "key": "champagne",
     "name": {
-      "fr": "Champagne"
+      "fr": "Champagne",
+      "en": "Champagne"
     },
     "aliases": {
-      "fr": ["crémant", "mousseux"]
+      "fr": ["crémant", "mousseux"],
+      "en": ["sparkling wine", "fizz"]
     },
     "category": "alcools",
     "unit": "bouteille",
@@ -2489,10 +3044,12 @@
   {
     "key": "frites-surgelees",
     "name": {
-      "fr": "Frites surgelées"
+      "fr": "Frites surgelées",
+      "en": "Oven chips"
     },
     "aliases": {
-      "fr": ["frites"]
+      "fr": ["frites", "patates frites"],
+      "en": ["frozen chips", "chips", "fries"]
     },
     "category": "surgeles",
     "unit": "sachet",
@@ -2501,7 +3058,8 @@
   {
     "key": "legumes-surgeles",
     "name": {
-      "fr": "Légumes surgelés"
+      "fr": "Légumes surgelés",
+      "en": "Frozen vegetables"
     },
     "types": {
       "fr": [
@@ -2515,6 +3073,18 @@
         "julienne",
         "ratatouille",
         "mélange de légumes"
+      ],
+      "en": [
+        "peas",
+        "green beans",
+        "spinach",
+        "broccoli",
+        "cauliflower",
+        "carrots",
+        "potatoes",
+        "julienne",
+        "ratatouille",
+        "mixed vegetables"
       ]
     },
     "category": "surgeles",
@@ -2524,13 +3094,16 @@
   {
     "key": "poelees-surgelees",
     "name": {
-      "fr": "Poêlées surgelées"
+      "fr": "Poêlées surgelées",
+      "en": "Frozen stir-fry"
     },
     "aliases": {
-      "fr": ["poêlées"]
+      "fr": ["poêlées"],
+      "en": ["stir-fry mix"]
     },
     "types": {
-      "fr": ["légumes", "champignons", "pommes de terre"]
+      "fr": ["légumes", "champignons", "pommes de terre"],
+      "en": ["vegetables", "mushrooms", "potatoes"]
     },
     "category": "surgeles",
     "unit": "sachet",
@@ -2539,7 +3112,12 @@
   {
     "key": "steaks-haches-surgeles",
     "name": {
-      "fr": "Steaks hachés surgelés"
+      "fr": "Steaks hachés surgelés",
+      "en": "Frozen beef burgers"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["frozen burgers"]
     },
     "category": "surgeles",
     "unit": "boite",
@@ -2548,10 +3126,12 @@
   {
     "key": "poisson-pane",
     "name": {
-      "fr": "Poisson pané"
+      "fr": "Poisson pané",
+      "en": "Fish fingers"
     },
     "aliases": {
-      "fr": ["bâtonnets de poisson"]
+      "fr": ["bâtonnets de poisson"],
+      "en": ["breaded fish"]
     },
     "category": "surgeles",
     "unit": "boite",
@@ -2560,7 +3140,8 @@
   {
     "key": "pizza-surgelee",
     "name": {
-      "fr": "Pizza surgelée"
+      "fr": "Pizza surgelée",
+      "en": "Frozen pizza"
     },
     "category": "surgeles",
     "unit": "piece",
@@ -2569,13 +3150,16 @@
   {
     "key": "glace",
     "name": {
-      "fr": "Glace"
+      "fr": "Glace",
+      "en": "Ice cream"
     },
     "aliases": {
-      "fr": ["crème glacée"]
+      "fr": ["crème glacée"],
+      "en": []
     },
     "types": {
-      "fr": ["vanille", "chocolat", "fraise"]
+      "fr": ["vanille", "chocolat", "fraise"],
+      "en": ["vanilla", "chocolate", "strawberry"]
     },
     "category": "glaces",
     "unit": "piece",
@@ -2584,10 +3168,12 @@
   {
     "key": "cones-glaces",
     "name": {
-      "fr": "Cônes glacés"
+      "fr": "Cônes glacés",
+      "en": "Ice cream cones"
     },
     "aliases": {
-      "fr": ["cônes", "esquimaux"]
+      "fr": ["cônes", "esquimaux"],
+      "en": ["cones", "choc ices"]
     },
     "category": "glaces",
     "unit": "boite",
@@ -2596,7 +3182,12 @@
   {
     "key": "dentifrice",
     "name": {
-      "fr": "Dentifrice"
+      "fr": "Dentifrice",
+      "en": "Toothpaste"
+    },
+    "aliases": {
+      "fr": ["pâte à dents"],
+      "en": []
     },
     "category": "hygiene-beaute",
     "unit": "piece",
@@ -2605,7 +3196,8 @@
   {
     "key": "brosses-a-dents",
     "name": {
-      "fr": "Brosses à dents"
+      "fr": "Brosses à dents",
+      "en": "Toothbrushes"
     },
     "category": "hygiene-beaute",
     "unit": "piece",
@@ -2614,10 +3206,12 @@
   {
     "key": "gel-douche",
     "name": {
-      "fr": "Gel douche"
+      "fr": "Gel douche",
+      "en": "Shower gel"
     },
     "aliases": {
-      "fr": ["savon douche"]
+      "fr": ["savon douche"],
+      "en": ["body wash"]
     },
     "category": "hygiene-beaute",
     "unit": "piece",
@@ -2626,10 +3220,12 @@
   {
     "key": "shampooing",
     "name": {
-      "fr": "Shampooing"
+      "fr": "Shampooing",
+      "en": "Shampoo"
     },
     "aliases": {
-      "fr": ["shampoing"]
+      "fr": ["shampoing"],
+      "en": []
     },
     "category": "hygiene-beaute",
     "unit": "piece",
@@ -2638,7 +3234,8 @@
   {
     "key": "savon",
     "name": {
-      "fr": "Savon"
+      "fr": "Savon",
+      "en": "Soap"
     },
     "category": "hygiene-beaute",
     "unit": "piece",
@@ -2647,13 +3244,16 @@
   {
     "key": "deodorant",
     "name": {
-      "fr": "Déodorant"
+      "fr": "Déodorant",
+      "en": "Deodorant"
     },
     "aliases": {
-      "fr": ["déo"]
+      "fr": ["déo"],
+      "en": ["deo"]
     },
     "types": {
-      "fr": ["spray", "bille", "stick"]
+      "fr": ["spray", "bille", "stick"],
+      "en": ["spray", "roll-on", "stick"]
     },
     "category": "hygiene-beaute",
     "unit": "piece",
@@ -2662,10 +3262,12 @@
   {
     "key": "cotons",
     "name": {
-      "fr": "Cotons"
+      "fr": "Cotons",
+      "en": "Cotton pads"
     },
     "aliases": {
-      "fr": ["disques de coton"]
+      "fr": ["disques de coton"],
+      "en": ["cotton wool"]
     },
     "category": "hygiene-beaute",
     "unit": "sachet",
@@ -2674,7 +3276,12 @@
   {
     "key": "cotons-tiges",
     "name": {
-      "fr": "Cotons-tiges"
+      "fr": "Cotons-tiges",
+      "en": "Cotton buds"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["Q-tips"]
     },
     "category": "hygiene-beaute",
     "unit": "boite",
@@ -2683,10 +3290,12 @@
   {
     "key": "rasoirs",
     "name": {
-      "fr": "Rasoirs"
+      "fr": "Rasoirs",
+      "en": "Razors"
     },
     "aliases": {
-      "fr": ["lames de rasoir"]
+      "fr": ["lames de rasoir"],
+      "en": ["razor blades"]
     },
     "category": "hygiene-beaute",
     "unit": "paquet",
@@ -2695,13 +3304,16 @@
   {
     "key": "papier-toilette",
     "name": {
-      "fr": "Papier toilette"
+      "fr": "Papier toilette",
+      "en": "Toilet roll"
     },
     "aliases": {
-      "fr": ["pq", "papier wc", "papier hygiénique"]
+      "fr": ["pq", "papier wc", "papier hygiénique", "papier de toilette"],
+      "en": ["toilet paper", "loo roll"]
     },
     "types": {
-      "fr": ["simple épaisseur", "double épaisseur", "triple épaisseur"]
+      "fr": ["simple épaisseur", "double épaisseur", "triple épaisseur"],
+      "en": ["1-ply", "2-ply", "3-ply"]
     },
     "category": "papier-mouchoirs",
     "unit": "piece",
@@ -2711,10 +3323,12 @@
   {
     "key": "essuie-tout",
     "name": {
-      "fr": "Essuie-tout"
+      "fr": "Essuie-tout",
+      "en": "Kitchen roll"
     },
     "aliases": {
-      "fr": ["sopalin"]
+      "fr": ["sopalin", "papier essuie-tout"],
+      "en": ["paper towels"]
     },
     "category": "papier-mouchoirs",
     "unit": "piece",
@@ -2724,10 +3338,12 @@
   {
     "key": "mouchoirs",
     "name": {
-      "fr": "Mouchoirs"
+      "fr": "Mouchoirs",
+      "en": "Tissues"
     },
     "aliases": {
-      "fr": ["kleenex", "mouchoirs en papier"]
+      "fr": ["kleenex", "mouchoirs en papier", "papiers-mouchoirs"],
+      "en": ["Kleenex", "paper tissues"]
     },
     "category": "papier-mouchoirs",
     "unit": "boite",
@@ -2736,10 +3352,16 @@
   {
     "key": "lessive",
     "name": {
-      "fr": "Lessive"
+      "fr": "Lessive",
+      "en": "Laundry detergent"
+    },
+    "aliases": {
+      "fr": ["savon à lessive", "détergent à lessive"],
+      "en": ["washing powder", "washing liquid"]
     },
     "types": {
-      "fr": ["liquide", "capsules", "poudre"]
+      "fr": ["liquide", "capsules", "poudre"],
+      "en": ["liquid", "capsules", "powder"]
     },
     "category": "entretien",
     "unit": "bouteille",
@@ -2748,10 +3370,12 @@
   {
     "key": "liquide-vaisselle",
     "name": {
-      "fr": "Liquide vaisselle"
+      "fr": "Liquide vaisselle",
+      "en": "Washing-up liquid"
     },
     "aliases": {
-      "fr": ["produit vaisselle"]
+      "fr": ["produit vaisselle", "savon à vaisselle"],
+      "en": ["dish soap"]
     },
     "category": "entretien",
     "unit": "bouteille",
@@ -2760,7 +3384,8 @@
   {
     "key": "eponges",
     "name": {
-      "fr": "Éponges"
+      "fr": "Éponges",
+      "en": "Sponges"
     },
     "category": "entretien",
     "unit": "piece",
@@ -2770,10 +3395,12 @@
   {
     "key": "pastilles-lave-vaisselle",
     "name": {
-      "fr": "Pastilles lave-vaisselle"
+      "fr": "Pastilles lave-vaisselle",
+      "en": "Dishwasher tablets"
     },
     "aliases": {
-      "fr": ["tablettes lave-vaisselle"]
+      "fr": ["tablettes lave-vaisselle"],
+      "en": ["dishwasher tabs"]
     },
     "category": "entretien",
     "unit": "paquet",
@@ -2782,10 +3409,12 @@
   {
     "key": "nettoyant-menager",
     "name": {
-      "fr": "Nettoyant ménager"
+      "fr": "Nettoyant ménager",
+      "en": "Household cleaner"
     },
     "aliases": {
-      "fr": ["nettoyant", "produit ménager"]
+      "fr": ["nettoyant", "produit ménager"],
+      "en": ["cleaner", "multi-surface cleaner"]
     },
     "category": "entretien",
     "unit": "bouteille",
@@ -2794,10 +3423,12 @@
   {
     "key": "javel",
     "name": {
-      "fr": "Eau de Javel"
+      "fr": "Eau de Javel",
+      "en": "Bleach"
     },
     "aliases": {
-      "fr": ["javel"]
+      "fr": ["javel"],
+      "en": []
     },
     "category": "entretien",
     "unit": "bouteille",
@@ -2806,7 +3437,12 @@
   {
     "key": "adoucissant",
     "name": {
-      "fr": "Adoucissant"
+      "fr": "Adoucissant",
+      "en": "Fabric softener"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["fabric conditioner"]
     },
     "category": "entretien",
     "unit": "bouteille",
@@ -2815,10 +3451,16 @@
   {
     "key": "sacs-poubelle",
     "name": {
-      "fr": "Sacs poubelle"
+      "fr": "Sacs poubelle",
+      "en": "Bin bags"
+    },
+    "aliases": {
+      "fr": ["sacs à ordures", "sacs verts"],
+      "en": ["bin liners"]
     },
     "types": {
-      "fr": ["30 L", "50 L", "100 L"]
+      "fr": ["30 L", "50 L", "100 L"],
+      "en": ["30 L", "50 L", "100 L"]
     },
     "category": "cuisine-maison",
     "unit": "piece",
@@ -2827,10 +3469,12 @@
   {
     "key": "papier-aluminium",
     "name": {
-      "fr": "Papier aluminium"
+      "fr": "Papier aluminium",
+      "en": "Tin foil"
     },
     "aliases": {
-      "fr": ["alu", "papier alu"]
+      "fr": ["alu", "papier alu"],
+      "en": ["aluminium foil", "foil"]
     },
     "category": "cuisine-maison",
     "unit": "piece",
@@ -2839,10 +3483,12 @@
   {
     "key": "film-alimentaire",
     "name": {
-      "fr": "Film alimentaire"
+      "fr": "Film alimentaire",
+      "en": "Cling film"
     },
     "aliases": {
-      "fr": ["film étirable"]
+      "fr": ["film étirable"],
+      "en": ["plastic wrap"]
     },
     "category": "cuisine-maison",
     "unit": "piece",
@@ -2851,10 +3497,12 @@
   {
     "key": "papier-cuisson",
     "name": {
-      "fr": "Papier cuisson"
+      "fr": "Papier cuisson",
+      "en": "Baking paper"
     },
     "aliases": {
-      "fr": ["papier sulfurisé"]
+      "fr": ["papier sulfurisé"],
+      "en": ["greaseproof paper", "parchment paper"]
     },
     "category": "cuisine-maison",
     "unit": "piece",
@@ -2863,10 +3511,12 @@
   {
     "key": "piles",
     "name": {
-      "fr": "Piles"
+      "fr": "Piles",
+      "en": "Batteries"
     },
     "types": {
-      "fr": ["AA", "AAA", "9 V", "bouton"]
+      "fr": ["AA", "AAA", "9 V", "bouton"],
+      "en": ["AA", "AAA", "9 V", "button"]
     },
     "category": "cuisine-maison",
     "unit": "piece",
@@ -2876,10 +3526,16 @@
   {
     "key": "ampoules",
     "name": {
-      "fr": "Ampoules"
+      "fr": "Ampoules",
+      "en": "Light bulbs"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["bulbs"]
     },
     "types": {
-      "fr": ["E27", "E14", "B22", "GU10", "standard", "flamme", "spot"]
+      "fr": ["E27", "E14", "B22", "GU10", "standard", "flamme", "spot"],
+      "en": ["E27", "E14", "B22", "GU10", "standard", "candle", "spot"]
     },
     "category": "cuisine-maison",
     "unit": "piece",
@@ -2888,7 +3544,12 @@
   {
     "key": "couches",
     "name": {
-      "fr": "Couches"
+      "fr": "Couches",
+      "en": "Nappies"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["diapers"]
     },
     "types": {
       "fr": [
@@ -2898,7 +3559,8 @@
         "taille 4",
         "taille 5",
         "taille 6"
-      ]
+      ],
+      "en": ["size 1", "size 2", "size 3", "size 4", "size 5", "size 6"]
     },
     "category": "bebe",
     "unit": "paquet",
@@ -2907,10 +3569,12 @@
   {
     "key": "lingettes",
     "name": {
-      "fr": "Lingettes"
+      "fr": "Lingettes",
+      "en": "Baby wipes"
     },
     "aliases": {
-      "fr": ["lingettes bébé"]
+      "fr": ["lingettes bébé"],
+      "en": ["wipes"]
     },
     "category": "bebe",
     "unit": "paquet",
@@ -2919,7 +3583,12 @@
   {
     "key": "petits-pots",
     "name": {
-      "fr": "Petits pots"
+      "fr": "Petits pots",
+      "en": "Baby food jars"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["baby food"]
     },
     "category": "bebe",
     "unit": "piece",
@@ -2929,13 +3598,16 @@
   {
     "key": "lait-infantile",
     "name": {
-      "fr": "Lait infantile"
+      "fr": "Lait infantile",
+      "en": "Baby formula"
     },
     "aliases": {
-      "fr": ["lait bébé", "lait 2e âge"]
+      "fr": ["lait bébé", "lait 2e âge"],
+      "en": ["formula", "infant milk"]
     },
     "types": {
-      "fr": ["1er âge", "2e âge", "croissance"]
+      "fr": ["1er âge", "2e âge", "croissance"],
+      "en": ["first", "follow-on", "growing-up"]
     },
     "category": "bebe",
     "unit": "boite",
@@ -2944,13 +3616,16 @@
   {
     "key": "croquettes-chat",
     "name": {
-      "fr": "Croquettes pour chat"
+      "fr": "Croquettes pour chat",
+      "en": "Dry cat food"
     },
     "aliases": {
-      "fr": ["croquettes chat"]
+      "fr": ["croquettes chat"],
+      "en": ["cat biscuits", "cat kibble"]
     },
     "types": {
-      "fr": ["chaton", "adulte", "stérilisé"]
+      "fr": ["chaton", "adulte", "stérilisé"],
+      "en": ["kitten", "adult", "neutered"]
     },
     "category": "animaux",
     "unit": "sachet",
@@ -2959,10 +3634,12 @@
   {
     "key": "croquettes-chien",
     "name": {
-      "fr": "Croquettes pour chien"
+      "fr": "Croquettes pour chien",
+      "en": "Dry dog food"
     },
     "aliases": {
-      "fr": ["croquettes chien"]
+      "fr": ["croquettes chien"],
+      "en": ["dog biscuits", "dog kibble"]
     },
     "category": "animaux",
     "unit": "sachet",
@@ -2971,10 +3648,12 @@
   {
     "key": "patee",
     "name": {
-      "fr": "Pâtée"
+      "fr": "Pâtée",
+      "en": "Wet pet food"
     },
     "aliases": {
-      "fr": ["sachets fraîcheur"]
+      "fr": ["sachets fraîcheur"],
+      "en": ["pet food pouches"]
     },
     "category": "animaux",
     "unit": "piece",
@@ -2984,10 +3663,16 @@
   {
     "key": "litiere",
     "name": {
-      "fr": "Litière"
+      "fr": "Litière",
+      "en": "Cat litter"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["litter"]
     },
     "types": {
-      "fr": ["agglomérante", "végétale", "silice"]
+      "fr": ["agglomérante", "végétale", "silice"],
+      "en": ["clumping", "plant-based", "silica"]
     },
     "category": "animaux",
     "unit": "paquet",
@@ -2995,8 +3680,14 @@
   },
   {
     "key": "boulgour",
-    "name": { "fr": "Boulgour" },
-    "aliases": { "fr": ["boulghour"] },
+    "name": {
+      "fr": "Boulgour",
+      "en": "Bulgur wheat"
+    },
+    "aliases": {
+      "fr": ["boulghour"],
+      "en": ["bulgur", "bulghur"]
+    },
     "category": "pates-riz-feculents",
     "unit": "paquet",
     "icon": "boulgour",
@@ -3004,7 +3695,10 @@
   },
   {
     "key": "polenta",
-    "name": { "fr": "Polenta" },
+    "name": {
+      "fr": "Polenta",
+      "en": "Polenta"
+    },
     "category": "pates-riz-feculents",
     "unit": "paquet",
     "icon": "polenta",
@@ -3012,8 +3706,14 @@
   },
   {
     "key": "feuilles-de-lasagne",
-    "name": { "fr": "Feuilles de lasagne" },
-    "aliases": { "fr": ["pâtes à lasagne"] },
+    "name": {
+      "fr": "Feuilles de lasagne",
+      "en": "Lasagne sheets"
+    },
+    "aliases": {
+      "fr": ["pâtes à lasagne"],
+      "en": ["lasagna sheets"]
+    },
     "category": "pates-riz-feculents",
     "unit": "paquet",
     "icon": "feuilles-de-lasagne",
@@ -3021,7 +3721,14 @@
   },
   {
     "key": "flageolets",
-    "name": { "fr": "Flageolets" },
+    "name": {
+      "fr": "Flageolets",
+      "en": "Flageolet beans"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["flageolets"]
+    },
     "category": "conserves-bocaux",
     "unit": "boite",
     "icon": "flageolets",
@@ -3029,7 +3736,10 @@
   },
   {
     "key": "pois-casses",
-    "name": { "fr": "Pois cassés" },
+    "name": {
+      "fr": "Pois cassés",
+      "en": "Split peas"
+    },
     "category": "pates-riz-feculents",
     "unit": "paquet",
     "icon": "pois-casses",
@@ -3037,8 +3747,14 @@
   },
   {
     "key": "vermicelles",
-    "name": { "fr": "Vermicelles" },
-    "aliases": { "fr": ["cheveux d'ange"] },
+    "name": {
+      "fr": "Vermicelles",
+      "en": "Vermicelli"
+    },
+    "aliases": {
+      "fr": ["cheveux d'ange"],
+      "en": ["angel hair"]
+    },
     "category": "pates-riz-feculents",
     "unit": "paquet",
     "icon": "vermicelles",
@@ -3046,7 +3762,10 @@
   },
   {
     "key": "petits-pois-carottes",
-    "name": { "fr": "Petits pois-carottes" },
+    "name": {
+      "fr": "Petits pois-carottes",
+      "en": "Peas and carrots"
+    },
     "category": "conserves-bocaux",
     "unit": "boite",
     "icon": "petits-pois-carottes",
@@ -3054,8 +3773,14 @@
   },
   {
     "key": "champignons-en-boite",
-    "name": { "fr": "Champignons de Paris en boîte" },
-    "aliases": { "fr": ["champignons en boîte"] },
+    "name": {
+      "fr": "Champignons de Paris en boîte",
+      "en": "Tinned mushrooms"
+    },
+    "aliases": {
+      "fr": ["champignons en boîte"],
+      "en": ["canned mushrooms"]
+    },
     "category": "conserves-bocaux",
     "unit": "boite",
     "icon": "champignons-en-boite",
@@ -3063,7 +3788,14 @@
   },
   {
     "key": "cassoulet",
-    "name": { "fr": "Cassoulet" },
+    "name": {
+      "fr": "Cassoulet",
+      "en": "Cassoulet"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["bean stew"]
+    },
     "category": "conserves-bocaux",
     "unit": "boite",
     "icon": "cassoulet",
@@ -3071,7 +3803,14 @@
   },
   {
     "key": "raviolis-en-boite",
-    "name": { "fr": "Raviolis en boîte" },
+    "name": {
+      "fr": "Raviolis en boîte",
+      "en": "Tinned ravioli"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["canned ravioli"]
+    },
     "category": "conserves-bocaux",
     "unit": "boite",
     "icon": "raviolis-en-boite",
@@ -3079,9 +3818,18 @@
   },
   {
     "key": "maquereaux",
-    "name": { "fr": "Maquereaux" },
-    "aliases": { "fr": ["filets de maquereau"] },
-    "types": { "fr": ["au vin blanc", "à la moutarde", "à la tomate"] },
+    "name": {
+      "fr": "Maquereaux",
+      "en": "Mackerel"
+    },
+    "aliases": {
+      "fr": ["filets de maquereau"],
+      "en": ["mackerel fillets"]
+    },
+    "types": {
+      "fr": ["au vin blanc", "à la moutarde", "à la tomate"],
+      "en": ["in white wine", "in mustard", "in tomato"]
+    },
     "category": "conserves-bocaux",
     "unit": "boite",
     "icon": "maquereaux",
@@ -3089,7 +3837,14 @@
   },
   {
     "key": "cornichons",
-    "name": { "fr": "Cornichons" },
+    "name": {
+      "fr": "Cornichons",
+      "en": "Gherkins"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["cornichons", "pickles"]
+    },
     "category": "conserves-bocaux",
     "unit": "pot",
     "icon": "cornichons",
@@ -3097,7 +3852,10 @@
   },
   {
     "key": "capres",
-    "name": { "fr": "Câpres" },
+    "name": {
+      "fr": "Câpres",
+      "en": "Capers"
+    },
     "category": "conserves-bocaux",
     "unit": "pot",
     "icon": "capres",
@@ -3105,8 +3863,14 @@
   },
   {
     "key": "concentre-de-tomate",
-    "name": { "fr": "Concentré de tomate" },
-    "aliases": { "fr": ["double concentré"] },
+    "name": {
+      "fr": "Concentré de tomate",
+      "en": "Tomato purée"
+    },
+    "aliases": {
+      "fr": ["double concentré"],
+      "en": ["tomato paste"]
+    },
     "category": "conserves-bocaux",
     "unit": "piece",
     "icon": "concentre-de-tomate",
@@ -3114,8 +3878,14 @@
   },
   {
     "key": "chataignes",
-    "name": { "fr": "Châtaignes" },
-    "aliases": { "fr": ["marrons", "marrons entiers"] },
+    "name": {
+      "fr": "Châtaignes",
+      "en": "Chestnuts"
+    },
+    "aliases": {
+      "fr": ["marrons", "marrons entiers"],
+      "en": ["cooked chestnuts"]
+    },
     "category": "conserves-bocaux",
     "unit": "boite",
     "icon": "chataignes",
@@ -3123,8 +3893,14 @@
   },
   {
     "key": "haricots-blancs",
-    "name": { "fr": "Haricots blancs" },
-    "aliases": { "fr": ["lingots", "cocos"] },
+    "name": {
+      "fr": "Haricots blancs",
+      "en": "White beans"
+    },
+    "aliases": {
+      "fr": ["lingots", "cocos"],
+      "en": ["haricot beans", "cannellini beans"]
+    },
     "category": "conserves-bocaux",
     "unit": "boite",
     "icon": "haricots-blancs",
@@ -3132,7 +3908,10 @@
   },
   {
     "key": "anchois",
-    "name": { "fr": "Anchois" },
+    "name": {
+      "fr": "Anchois",
+      "en": "Anchovies"
+    },
     "category": "conserves-bocaux",
     "unit": "boite",
     "icon": "anchois",
@@ -3140,8 +3919,14 @@
   },
   {
     "key": "confit-de-canard",
-    "name": { "fr": "Confit de canard" },
-    "aliases": { "fr": ["cuisses de canard confites"] },
+    "name": {
+      "fr": "Confit de canard",
+      "en": "Duck confit"
+    },
+    "aliases": {
+      "fr": ["cuisses de canard confites"],
+      "en": ["confit duck legs"]
+    },
     "category": "conserves-bocaux",
     "unit": "boite",
     "icon": "confit-de-canard",
@@ -3149,7 +3934,10 @@
   },
   {
     "key": "tomates-sechees",
-    "name": { "fr": "Tomates séchées" },
+    "name": {
+      "fr": "Tomates séchées",
+      "en": "Sun-dried tomatoes"
+    },
     "category": "conserves-bocaux",
     "unit": "pot",
     "icon": "tomates-sechees",
@@ -3157,7 +3945,14 @@
   },
   {
     "key": "vinaigrette",
-    "name": { "fr": "Vinaigrette" },
+    "name": {
+      "fr": "Vinaigrette",
+      "en": "Salad dressing"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["vinaigrette", "French dressing"]
+    },
     "category": "sauces-condiments",
     "unit": "bouteille",
     "icon": "vinaigrette",
@@ -3165,8 +3960,14 @@
   },
   {
     "key": "sauce-barbecue",
-    "name": { "fr": "Sauce barbecue" },
-    "aliases": { "fr": ["barbecue", "bbq"] },
+    "name": {
+      "fr": "Sauce barbecue",
+      "en": "Barbecue sauce"
+    },
+    "aliases": {
+      "fr": ["barbecue", "bbq"],
+      "en": ["BBQ sauce", "barbecue"]
+    },
     "category": "sauces-condiments",
     "unit": "bouteille",
     "icon": "sauce-barbecue",
@@ -3174,7 +3975,10 @@
   },
   {
     "key": "harissa",
-    "name": { "fr": "Harissa" },
+    "name": {
+      "fr": "Harissa",
+      "en": "Harissa"
+    },
     "category": "sauces-condiments",
     "unit": "piece",
     "icon": "harissa",
@@ -3182,8 +3986,14 @@
   },
   {
     "key": "sauce-bearnaise",
-    "name": { "fr": "Sauce béarnaise" },
-    "aliases": { "fr": ["béarnaise"] },
+    "name": {
+      "fr": "Sauce béarnaise",
+      "en": "Béarnaise sauce"
+    },
+    "aliases": {
+      "fr": ["béarnaise"],
+      "en": ["béarnaise"]
+    },
     "category": "sauces-condiments",
     "unit": "pot",
     "icon": "sauce-bearnaise",
@@ -3191,9 +4001,18 @@
   },
   {
     "key": "bouillon",
-    "name": { "fr": "Bouillon cube" },
-    "aliases": { "fr": ["bouillon", "cube de bouillon"] },
-    "types": { "fr": ["bœuf", "volaille", "légumes"] },
+    "name": {
+      "fr": "Bouillon cube",
+      "en": "Stock cubes"
+    },
+    "aliases": {
+      "fr": ["bouillon", "cube de bouillon"],
+      "en": ["stock", "bouillon"]
+    },
+    "types": {
+      "fr": ["bœuf", "volaille", "légumes"],
+      "en": ["beef", "chicken", "vegetable"]
+    },
     "category": "sauces-condiments",
     "unit": "paquet",
     "icon": "bouillon",
@@ -3201,7 +4020,14 @@
   },
   {
     "key": "fond-de-veau",
-    "name": { "fr": "Fond de veau" },
+    "name": {
+      "fr": "Fond de veau",
+      "en": "Veal stock"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["demi-glace"]
+    },
     "category": "sauces-condiments",
     "unit": "pot",
     "icon": "fond-de-veau",
@@ -3209,8 +4035,14 @@
   },
   {
     "key": "tabasco",
-    "name": { "fr": "Tabasco" },
-    "aliases": { "fr": ["sauce piquante"] },
+    "name": {
+      "fr": "Tabasco",
+      "en": "Tabasco"
+    },
+    "aliases": {
+      "fr": ["sauce piquante"],
+      "en": ["hot sauce"]
+    },
     "category": "sauces-condiments",
     "unit": "bouteille",
     "icon": "tabasco",
@@ -3218,8 +4050,14 @@
   },
   {
     "key": "sauce-worcestershire",
-    "name": { "fr": "Sauce Worcestershire" },
-    "aliases": { "fr": ["worcester"] },
+    "name": {
+      "fr": "Sauce Worcestershire",
+      "en": "Worcestershire sauce"
+    },
+    "aliases": {
+      "fr": ["worcester"],
+      "en": ["Worcester sauce"]
+    },
     "category": "sauces-condiments",
     "unit": "bouteille",
     "icon": "sauce-worcestershire",
@@ -3227,7 +4065,10 @@
   },
   {
     "key": "cumin",
-    "name": { "fr": "Cumin" },
+    "name": {
+      "fr": "Cumin",
+      "en": "Cumin"
+    },
     "category": "epices",
     "unit": "pot",
     "icon": "cumin",
@@ -3235,7 +4076,14 @@
   },
   {
     "key": "curry",
-    "name": { "fr": "Curry" },
+    "name": {
+      "fr": "Curry",
+      "en": "Curry powder"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["curry"]
+    },
     "category": "epices",
     "unit": "pot",
     "icon": "curry",
@@ -3243,7 +4091,10 @@
   },
   {
     "key": "paprika",
-    "name": { "fr": "Paprika" },
+    "name": {
+      "fr": "Paprika",
+      "en": "Paprika"
+    },
     "category": "epices",
     "unit": "pot",
     "icon": "paprika",
@@ -3251,8 +4102,14 @@
   },
   {
     "key": "cannelle",
-    "name": { "fr": "Cannelle" },
-    "types": { "fr": ["en poudre", "en bâtons"] },
+    "name": {
+      "fr": "Cannelle",
+      "en": "Cinnamon"
+    },
+    "types": {
+      "fr": ["en poudre", "en bâtons"],
+      "en": ["ground", "sticks"]
+    },
     "category": "epices",
     "unit": "pot",
     "icon": "cannelle",
@@ -3260,7 +4117,14 @@
   },
   {
     "key": "herbes-de-provence",
-    "name": { "fr": "Herbes de Provence" },
+    "name": {
+      "fr": "Herbes de Provence",
+      "en": "Herbes de Provence"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["mixed herbs"]
+    },
     "category": "epices",
     "unit": "pot",
     "icon": "herbes-de-provence",
@@ -3268,8 +4132,14 @@
   },
   {
     "key": "muscade",
-    "name": { "fr": "Muscade" },
-    "aliases": { "fr": ["noix de muscade"] },
+    "name": {
+      "fr": "Muscade",
+      "en": "Nutmeg"
+    },
+    "aliases": {
+      "fr": ["noix de muscade"],
+      "en": []
+    },
     "category": "epices",
     "unit": "pot",
     "icon": "muscade",
@@ -3277,7 +4147,10 @@
   },
   {
     "key": "curcuma",
-    "name": { "fr": "Curcuma" },
+    "name": {
+      "fr": "Curcuma",
+      "en": "Turmeric"
+    },
     "category": "epices",
     "unit": "pot",
     "icon": "curcuma",
@@ -3285,7 +4158,14 @@
   },
   {
     "key": "piment-d-espelette",
-    "name": { "fr": "Piment d'Espelette" },
+    "name": {
+      "fr": "Piment d'Espelette",
+      "en": "Espelette pepper"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["piment d'Espelette"]
+    },
     "category": "epices",
     "unit": "pot",
     "icon": "piment-d-espelette",
@@ -3293,7 +4173,10 @@
   },
   {
     "key": "origan",
-    "name": { "fr": "Origan" },
+    "name": {
+      "fr": "Origan",
+      "en": "Oregano"
+    },
     "category": "epices",
     "unit": "pot",
     "icon": "origan",
@@ -3301,8 +4184,14 @@
   },
   {
     "key": "clous-de-girofle",
-    "name": { "fr": "Clous de girofle" },
-    "aliases": { "fr": ["girofle"] },
+    "name": {
+      "fr": "Clous de girofle",
+      "en": "Cloves"
+    },
+    "aliases": {
+      "fr": ["girofle"],
+      "en": []
+    },
     "category": "epices",
     "unit": "pot",
     "icon": "clous-de-girofle",
@@ -3310,8 +4199,14 @@
   },
   {
     "key": "genievre",
-    "name": { "fr": "Baies de genièvre" },
-    "aliases": { "fr": ["genièvre"] },
+    "name": {
+      "fr": "Baies de genièvre",
+      "en": "Juniper berries"
+    },
+    "aliases": {
+      "fr": ["genièvre"],
+      "en": ["juniper"]
+    },
     "category": "epices",
     "unit": "pot",
     "icon": "genievre",
@@ -3319,7 +4214,10 @@
   },
   {
     "key": "safran",
-    "name": { "fr": "Safran" },
+    "name": {
+      "fr": "Safran",
+      "en": "Saffron"
+    },
     "category": "epices",
     "unit": "piece",
     "icon": "safran",
@@ -3327,7 +4225,14 @@
   },
   {
     "key": "quatre-epices",
-    "name": { "fr": "Quatre-épices" },
+    "name": {
+      "fr": "Quatre-épices",
+      "en": "Mixed spice"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["quatre épices"]
+    },
     "category": "epices",
     "unit": "pot",
     "icon": "quatre-epices",
@@ -3335,7 +4240,10 @@
   },
   {
     "key": "ras-el-hanout",
-    "name": { "fr": "Ras el hanout" },
+    "name": {
+      "fr": "Ras el hanout",
+      "en": "Ras el hanout"
+    },
     "category": "epices",
     "unit": "pot",
     "icon": "ras-el-hanout",
@@ -3343,7 +4251,10 @@
   },
   {
     "key": "cardamome",
-    "name": { "fr": "Cardamome" },
+    "name": {
+      "fr": "Cardamome",
+      "en": "Cardamom"
+    },
     "category": "epices",
     "unit": "pot",
     "icon": "cardamome",
@@ -3351,8 +4262,14 @@
   },
   {
     "key": "badiane",
-    "name": { "fr": "Badiane" },
-    "aliases": { "fr": ["anis étoilé", "anis"] },
+    "name": {
+      "fr": "Badiane",
+      "en": "Star anise"
+    },
+    "aliases": {
+      "fr": ["anis étoilé", "anis"],
+      "en": ["anise"]
+    },
     "category": "epices",
     "unit": "pot",
     "icon": "badiane",
@@ -3360,7 +4277,14 @@
   },
   {
     "key": "huile-de-colza",
-    "name": { "fr": "Huile de colza" },
+    "name": {
+      "fr": "Huile de colza",
+      "en": "Rapeseed oil"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["canola oil"]
+    },
     "category": "huiles-vinaigres",
     "unit": "bouteille",
     "icon": "huile-de-colza",
@@ -3368,7 +4292,10 @@
   },
   {
     "key": "huile-de-sesame",
-    "name": { "fr": "Huile de sésame" },
+    "name": {
+      "fr": "Huile de sésame",
+      "en": "Sesame oil"
+    },
     "category": "huiles-vinaigres",
     "unit": "bouteille",
     "icon": "huile-de-sesame",
@@ -3376,7 +4303,14 @@
   },
   {
     "key": "huile-d-arachide",
-    "name": { "fr": "Huile d'arachide" },
+    "name": {
+      "fr": "Huile d'arachide",
+      "en": "Groundnut oil"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["peanut oil"]
+    },
     "category": "huiles-vinaigres",
     "unit": "bouteille",
     "icon": "huile-d-arachide",
@@ -3384,7 +4318,10 @@
   },
   {
     "key": "pistaches",
-    "name": { "fr": "Pistaches" },
+    "name": {
+      "fr": "Pistaches",
+      "en": "Pistachios"
+    },
     "category": "aperitif",
     "unit": "sachet",
     "icon": "pistaches",
@@ -3392,8 +4329,14 @@
   },
   {
     "key": "noix-de-cajou",
-    "name": { "fr": "Noix de cajou" },
-    "aliases": { "fr": ["cajou"] },
+    "name": {
+      "fr": "Noix de cajou",
+      "en": "Cashew nuts"
+    },
+    "aliases": {
+      "fr": ["cajou"],
+      "en": ["cashews"]
+    },
     "category": "aperitif",
     "unit": "sachet",
     "icon": "noix-de-cajou",
@@ -3401,7 +4344,10 @@
   },
   {
     "key": "amandes",
-    "name": { "fr": "Amandes" },
+    "name": {
+      "fr": "Amandes",
+      "en": "Almonds"
+    },
     "category": "aperitif",
     "unit": "sachet",
     "icon": "amandes",
@@ -3409,7 +4355,10 @@
   },
   {
     "key": "tapenade",
-    "name": { "fr": "Tapenade" },
+    "name": {
+      "fr": "Tapenade",
+      "en": "Tapenade"
+    },
     "category": "aperitif",
     "unit": "pot",
     "icon": "tapenade",
@@ -3417,7 +4366,14 @@
   },
   {
     "key": "gressins",
-    "name": { "fr": "Gressins" },
+    "name": {
+      "fr": "Gressins",
+      "en": "Breadsticks"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["grissini"]
+    },
     "category": "aperitif",
     "unit": "paquet",
     "icon": "gressins",
@@ -3425,8 +4381,14 @@
   },
   {
     "key": "nuoc-mam",
-    "name": { "fr": "Nuoc-mâm" },
-    "aliases": { "fr": ["sauce poisson", "nuoc mam"] },
+    "name": {
+      "fr": "Nuoc-mâm",
+      "en": "Fish sauce"
+    },
+    "aliases": {
+      "fr": ["sauce poisson", "nuoc mam"],
+      "en": ["nuoc mam", "nam pla"]
+    },
     "category": "cuisine-du-monde",
     "unit": "bouteille",
     "icon": "nuoc-mam",
@@ -3434,8 +4396,14 @@
   },
   {
     "key": "sauce-sweet-chili",
-    "name": { "fr": "Sauce sweet chili" },
-    "aliases": { "fr": ["sweet chili"] },
+    "name": {
+      "fr": "Sauce sweet chili",
+      "en": "Sweet chilli sauce"
+    },
+    "aliases": {
+      "fr": ["sweet chili"],
+      "en": ["sweet chili"]
+    },
     "category": "cuisine-du-monde",
     "unit": "bouteille",
     "icon": "sauce-sweet-chili",
@@ -3443,8 +4411,14 @@
   },
   {
     "key": "pate-de-curry",
-    "name": { "fr": "Pâte de curry" },
-    "types": { "fr": ["rouge", "verte", "jaune"] },
+    "name": {
+      "fr": "Pâte de curry",
+      "en": "Curry paste"
+    },
+    "types": {
+      "fr": ["rouge", "verte", "jaune"],
+      "en": ["red", "green", "yellow"]
+    },
     "category": "cuisine-du-monde",
     "unit": "pot",
     "icon": "pate-de-curry",
@@ -3452,8 +4426,14 @@
   },
   {
     "key": "feuilles-de-riz",
-    "name": { "fr": "Feuilles de riz" },
-    "aliases": { "fr": ["galettes de riz", "papier de riz"] },
+    "name": {
+      "fr": "Feuilles de riz",
+      "en": "Rice paper"
+    },
+    "aliases": {
+      "fr": ["galettes de riz", "papier de riz"],
+      "en": ["rice wrappers"]
+    },
     "category": "cuisine-du-monde",
     "unit": "paquet",
     "icon": "feuilles-de-riz",
@@ -3461,8 +4441,14 @@
   },
   {
     "key": "algues-nori",
-    "name": { "fr": "Algues nori" },
-    "aliases": { "fr": ["nori"] },
+    "name": {
+      "fr": "Algues nori",
+      "en": "Nori"
+    },
+    "aliases": {
+      "fr": ["nori"],
+      "en": ["nori seaweed", "seaweed"]
+    },
     "category": "cuisine-du-monde",
     "unit": "paquet",
     "icon": "algues-nori",
@@ -3470,7 +4456,10 @@
   },
   {
     "key": "wasabi",
-    "name": { "fr": "Wasabi" },
+    "name": {
+      "fr": "Wasabi",
+      "en": "Wasabi"
+    },
     "category": "cuisine-du-monde",
     "unit": "piece",
     "icon": "wasabi",
@@ -3478,8 +4467,14 @@
   },
   {
     "key": "kit-fajitas",
-    "name": { "fr": "Kit fajitas" },
-    "aliases": { "fr": ["fajitas"] },
+    "name": {
+      "fr": "Kit fajitas",
+      "en": "Fajita kit"
+    },
+    "aliases": {
+      "fr": ["fajitas"],
+      "en": ["fajitas"]
+    },
     "category": "cuisine-du-monde",
     "unit": "piece",
     "icon": "tortillas",
@@ -3487,8 +4482,14 @@
   },
   {
     "key": "miso",
-    "name": { "fr": "Miso" },
-    "aliases": { "fr": ["pâte de miso"] },
+    "name": {
+      "fr": "Miso",
+      "en": "Miso"
+    },
+    "aliases": {
+      "fr": ["pâte de miso"],
+      "en": ["miso paste"]
+    },
     "category": "cuisine-du-monde",
     "unit": "pot",
     "icon": "miso",
@@ -3496,8 +4497,14 @@
   },
   {
     "key": "tahini",
-    "name": { "fr": "Tahini" },
-    "aliases": { "fr": ["tahin", "crème de sésame", "purée de sésame"] },
+    "name": {
+      "fr": "Tahini",
+      "en": "Tahini"
+    },
+    "aliases": {
+      "fr": ["tahin", "crème de sésame", "purée de sésame"],
+      "en": ["tahina", "sesame paste"]
+    },
     "category": "cuisine-du-monde",
     "unit": "pot",
     "icon": "tahini",
@@ -3505,7 +4512,10 @@
   },
   {
     "key": "creme-de-coco",
-    "name": { "fr": "Crème de coco" },
+    "name": {
+      "fr": "Crème de coco",
+      "en": "Coconut cream"
+    },
     "category": "cuisine-du-monde",
     "unit": "boite",
     "icon": "creme-de-coco",
@@ -3513,8 +4523,14 @@
   },
   {
     "key": "maizena",
-    "name": { "fr": "Maïzena" },
-    "aliases": { "fr": ["fécule de maïs"] },
+    "name": {
+      "fr": "Maïzena",
+      "en": "Cornflour"
+    },
+    "aliases": {
+      "fr": ["fécule de maïs"],
+      "en": ["cornstarch", "Maizena"]
+    },
     "category": "farine-sucre-patisserie",
     "unit": "paquet",
     "icon": "maizena",
@@ -3522,8 +4538,14 @@
   },
   {
     "key": "poudre-d-amandes",
-    "name": { "fr": "Poudre d'amandes" },
-    "aliases": { "fr": ["amandes en poudre"] },
+    "name": {
+      "fr": "Poudre d'amandes",
+      "en": "Ground almonds"
+    },
+    "aliases": {
+      "fr": ["amandes en poudre"],
+      "en": ["almond flour"]
+    },
     "category": "farine-sucre-patisserie",
     "unit": "sachet",
     "icon": "poudre-d-amandes",
@@ -3531,7 +4553,10 @@
   },
   {
     "key": "pepites-de-chocolat",
-    "name": { "fr": "Pépites de chocolat" },
+    "name": {
+      "fr": "Pépites de chocolat",
+      "en": "Chocolate chips"
+    },
     "category": "farine-sucre-patisserie",
     "unit": "sachet",
     "icon": "pepites-de-chocolat",
@@ -3539,8 +4564,14 @@
   },
   {
     "key": "arome-vanille",
-    "name": { "fr": "Arôme vanille" },
-    "aliases": { "fr": ["extrait de vanille", "vanille"] },
+    "name": {
+      "fr": "Arôme vanille",
+      "en": "Vanilla extract"
+    },
+    "aliases": {
+      "fr": ["extrait de vanille", "vanille"],
+      "en": ["vanilla essence", "vanilla"]
+    },
     "category": "farine-sucre-patisserie",
     "unit": "bouteille",
     "icon": "arome-vanille",
@@ -3548,8 +4579,14 @@
   },
   {
     "key": "gelatine",
-    "name": { "fr": "Gélatine" },
-    "aliases": { "fr": ["feuilles de gélatine"] },
+    "name": {
+      "fr": "Gélatine",
+      "en": "Gelatine"
+    },
+    "aliases": {
+      "fr": ["feuilles de gélatine"],
+      "en": ["gelatin", "gelatine leaves"]
+    },
     "category": "farine-sucre-patisserie",
     "unit": "paquet",
     "icon": "gelatine",
@@ -3557,8 +4594,14 @@
   },
   {
     "key": "noix-de-coco-rapee",
-    "name": { "fr": "Noix de coco râpée" },
-    "aliases": { "fr": ["coco râpée"] },
+    "name": {
+      "fr": "Noix de coco râpée",
+      "en": "Desiccated coconut"
+    },
+    "aliases": {
+      "fr": ["coco râpée"],
+      "en": ["shredded coconut"]
+    },
     "category": "farine-sucre-patisserie",
     "unit": "sachet",
     "icon": "noix-de-coco-rapee",
@@ -3566,7 +4609,10 @@
   },
   {
     "key": "preparation-gateau",
-    "name": { "fr": "Préparation pour gâteau" },
+    "name": {
+      "fr": "Préparation pour gâteau",
+      "en": "Cake mix"
+    },
     "category": "farine-sucre-patisserie",
     "unit": "paquet",
     "icon": "preparation-gateau",
@@ -3574,7 +4620,14 @@
   },
   {
     "key": "raisins-secs",
-    "name": { "fr": "Raisins secs" },
+    "name": {
+      "fr": "Raisins secs",
+      "en": "Raisins"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["sultanas"]
+    },
     "category": "farine-sucre-patisserie",
     "unit": "sachet",
     "icon": "raisins-secs",
@@ -3582,7 +4635,14 @@
   },
   {
     "key": "cerneaux-de-noix",
-    "name": { "fr": "Cerneaux de noix" },
+    "name": {
+      "fr": "Cerneaux de noix",
+      "en": "Walnuts"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["walnut halves"]
+    },
     "category": "farine-sucre-patisserie",
     "unit": "sachet",
     "icon": "cerneaux-de-noix",
@@ -3590,8 +4650,14 @@
   },
   {
     "key": "cassonade",
-    "name": { "fr": "Cassonade" },
-    "aliases": { "fr": ["sucre roux", "vergeoise"] },
+    "name": {
+      "fr": "Cassonade",
+      "en": "Brown sugar"
+    },
+    "aliases": {
+      "fr": ["sucre roux", "vergeoise"],
+      "en": ["demerara", "soft brown sugar"]
+    },
     "category": "farine-sucre-patisserie",
     "unit": "paquet",
     "icon": "cassonade",
@@ -3599,8 +4665,14 @@
   },
   {
     "key": "cacao",
-    "name": { "fr": "Cacao non sucré" },
-    "aliases": { "fr": ["cacao en poudre", "cacao amer"] },
+    "name": {
+      "fr": "Cacao non sucré",
+      "en": "Cocoa powder"
+    },
+    "aliases": {
+      "fr": ["cacao en poudre", "cacao amer"],
+      "en": ["cocoa"]
+    },
     "category": "farine-sucre-patisserie",
     "unit": "boite",
     "icon": "cacao",
@@ -3608,8 +4680,14 @@
   },
   {
     "key": "noisettes",
-    "name": { "fr": "Noisettes" },
-    "types": { "fr": ["entières", "en poudre", "concassées"] },
+    "name": {
+      "fr": "Noisettes",
+      "en": "Hazelnuts"
+    },
+    "types": {
+      "fr": ["entières", "en poudre", "concassées"],
+      "en": ["whole", "ground", "chopped"]
+    },
     "category": "farine-sucre-patisserie",
     "unit": "sachet",
     "icon": "noisettes",
@@ -3617,7 +4695,10 @@
   },
   {
     "key": "amandes-effilees",
-    "name": { "fr": "Amandes effilées" },
+    "name": {
+      "fr": "Amandes effilées",
+      "en": "Flaked almonds"
+    },
     "category": "farine-sucre-patisserie",
     "unit": "sachet",
     "icon": "amandes-effilees",
@@ -3625,8 +4706,14 @@
   },
   {
     "key": "pate-d-amande",
-    "name": { "fr": "Pâte d'amande" },
-    "aliases": { "fr": ["massepain"] },
+    "name": {
+      "fr": "Pâte d'amande",
+      "en": "Marzipan"
+    },
+    "aliases": {
+      "fr": ["massepain"],
+      "en": ["almond paste"]
+    },
     "category": "farine-sucre-patisserie",
     "unit": "paquet",
     "icon": "pate-d-amande",
@@ -3634,8 +4721,14 @@
   },
   {
     "key": "fleur-d-oranger",
-    "name": { "fr": "Fleur d'oranger" },
-    "aliases": { "fr": ["eau de fleur d'oranger"] },
+    "name": {
+      "fr": "Fleur d'oranger",
+      "en": "Orange blossom water"
+    },
+    "aliases": {
+      "fr": ["eau de fleur d'oranger"],
+      "en": ["orange flower water"]
+    },
     "category": "farine-sucre-patisserie",
     "unit": "bouteille",
     "icon": "fleur-d-oranger",
@@ -3643,8 +4736,14 @@
   },
   {
     "key": "fruits-confits",
-    "name": { "fr": "Fruits confits" },
-    "aliases": { "fr": ["bigarreaux confits", "écorces d'orange confites"] },
+    "name": {
+      "fr": "Fruits confits",
+      "en": "Candied fruit"
+    },
+    "aliases": {
+      "fr": ["bigarreaux confits", "écorces d'orange confites"],
+      "en": ["glacé cherries", "candied peel"]
+    },
     "category": "farine-sucre-patisserie",
     "unit": "sachet",
     "icon": "fruits-confits",
@@ -3652,8 +4751,14 @@
   },
   {
     "key": "gousses-de-vanille",
-    "name": { "fr": "Gousses de vanille" },
-    "aliases": { "fr": ["vanille en gousse"] },
+    "name": {
+      "fr": "Gousses de vanille",
+      "en": "Vanilla pods"
+    },
+    "aliases": {
+      "fr": ["vanille en gousse"],
+      "en": ["vanilla beans"]
+    },
     "category": "farine-sucre-patisserie",
     "unit": "piece",
     "icon": "gousses-de-vanille",
@@ -3661,7 +4766,10 @@
   },
   {
     "key": "pruneaux",
-    "name": { "fr": "Pruneaux" },
+    "name": {
+      "fr": "Pruneaux",
+      "en": "Prunes"
+    },
     "category": "farine-sucre-patisserie",
     "unit": "sachet",
     "icon": "pruneaux",
@@ -3669,7 +4777,10 @@
   },
   {
     "key": "abricots-secs",
-    "name": { "fr": "Abricots secs" },
+    "name": {
+      "fr": "Abricots secs",
+      "en": "Dried apricots"
+    },
     "category": "farine-sucre-patisserie",
     "unit": "sachet",
     "icon": "abricots-secs",
@@ -3677,7 +4788,10 @@
   },
   {
     "key": "dattes",
-    "name": { "fr": "Dattes" },
+    "name": {
+      "fr": "Dattes",
+      "en": "Dates"
+    },
     "category": "farine-sucre-patisserie",
     "unit": "paquet",
     "icon": "dattes",
@@ -3685,8 +4799,14 @@
   },
   {
     "key": "pignons",
-    "name": { "fr": "Pignons de pin" },
-    "aliases": { "fr": ["pignons"] },
+    "name": {
+      "fr": "Pignons de pin",
+      "en": "Pine nuts"
+    },
+    "aliases": {
+      "fr": ["pignons"],
+      "en": []
+    },
     "category": "farine-sucre-patisserie",
     "unit": "sachet",
     "icon": "pignons",
@@ -3694,9 +4814,13 @@
   },
   {
     "key": "graines",
-    "name": { "fr": "Graines" },
+    "name": {
+      "fr": "Graines",
+      "en": "Seeds"
+    },
     "types": {
-      "fr": ["courge", "tournesol", "lin", "sésame", "chia", "pavot"]
+      "fr": ["courge", "tournesol", "lin", "sésame", "chia", "pavot"],
+      "en": ["pumpkin", "sunflower", "linseed", "sesame", "chia", "poppy"]
     },
     "category": "farine-sucre-patisserie",
     "unit": "sachet",
@@ -3705,8 +4829,14 @@
   },
   {
     "key": "chapelure",
-    "name": { "fr": "Chapelure" },
-    "aliases": { "fr": ["panure"] },
+    "name": {
+      "fr": "Chapelure",
+      "en": "Breadcrumbs"
+    },
+    "aliases": {
+      "fr": ["panure"],
+      "en": ["panko"]
+    },
     "category": "farine-sucre-patisserie",
     "unit": "paquet",
     "icon": "chapelure",
@@ -3714,8 +4844,14 @@
   },
   {
     "key": "noix-de-pecan",
-    "name": { "fr": "Noix de pécan" },
-    "aliases": { "fr": ["pécan"] },
+    "name": {
+      "fr": "Noix de pécan",
+      "en": "Pecans"
+    },
+    "aliases": {
+      "fr": ["pécan"],
+      "en": ["pecan nuts"]
+    },
     "category": "farine-sucre-patisserie",
     "unit": "sachet",
     "icon": "noix-de-pecan",
@@ -3723,7 +4859,14 @@
   },
   {
     "key": "pralin",
-    "name": { "fr": "Pralin" },
+    "name": {
+      "fr": "Pralin",
+      "en": "Praline"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["praline crumbs"]
+    },
     "category": "farine-sucre-patisserie",
     "unit": "sachet",
     "icon": "pralin",
@@ -3731,8 +4874,14 @@
   },
   {
     "key": "sucre-perle",
-    "name": { "fr": "Sucre perlé" },
-    "aliases": { "fr": ["sucre en grains"] },
+    "name": {
+      "fr": "Sucre perlé",
+      "en": "Pearl sugar"
+    },
+    "aliases": {
+      "fr": ["sucre en grains"],
+      "en": ["nib sugar"]
+    },
     "category": "farine-sucre-patisserie",
     "unit": "paquet",
     "icon": "sucre-perle",
@@ -3740,8 +4889,14 @@
   },
   {
     "key": "agar-agar",
-    "name": { "fr": "Agar-agar" },
-    "aliases": { "fr": ["agar"] },
+    "name": {
+      "fr": "Agar-agar",
+      "en": "Agar-agar"
+    },
+    "aliases": {
+      "fr": ["agar"],
+      "en": ["agar"]
+    },
     "category": "farine-sucre-patisserie",
     "unit": "sachet",
     "icon": "agar-agar",
@@ -3749,8 +4904,14 @@
   },
   {
     "key": "colorants-alimentaires",
-    "name": { "fr": "Colorants alimentaires" },
-    "aliases": { "fr": ["colorant"] },
+    "name": {
+      "fr": "Colorants alimentaires",
+      "en": "Food colouring"
+    },
+    "aliases": {
+      "fr": ["colorant"],
+      "en": ["food coloring"]
+    },
     "category": "farine-sucre-patisserie",
     "unit": "piece",
     "icon": "colorants-alimentaires",
@@ -3758,8 +4919,14 @@
   },
   {
     "key": "flocons-d-avoine",
-    "name": { "fr": "Flocons d'avoine" },
-    "aliases": { "fr": ["avoine", "porridge"] },
+    "name": {
+      "fr": "Flocons d'avoine",
+      "en": "Porridge oats"
+    },
+    "aliases": {
+      "fr": ["avoine", "porridge"],
+      "en": ["oats", "rolled oats", "porridge"]
+    },
     "category": "petit-dejeuner",
     "unit": "paquet",
     "icon": "flocons-d-avoine",
@@ -3767,7 +4934,10 @@
   },
   {
     "key": "granola",
-    "name": { "fr": "Granola" },
+    "name": {
+      "fr": "Granola",
+      "en": "Granola"
+    },
     "category": "petit-dejeuner",
     "unit": "sachet",
     "icon": "granola",
@@ -3775,7 +4945,14 @@
   },
   {
     "key": "pain-grille-suedois",
-    "name": { "fr": "Pain grillé suédois" },
+    "name": {
+      "fr": "Pain grillé suédois",
+      "en": "Swedish crispbread"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["crispbread"]
+    },
     "category": "petit-dejeuner",
     "unit": "paquet",
     "icon": "pain-grille-suedois",
@@ -3783,7 +4960,14 @@
   },
   {
     "key": "barres-de-cereales",
-    "name": { "fr": "Barres de céréales" },
+    "name": {
+      "fr": "Barres de céréales",
+      "en": "Cereal bars"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["granola bars"]
+    },
     "category": "petit-dejeuner",
     "unit": "paquet",
     "icon": "barres-de-cereales",
@@ -3791,7 +4975,10 @@
   },
   {
     "key": "cookies",
-    "name": { "fr": "Cookies" },
+    "name": {
+      "fr": "Cookies",
+      "en": "Cookies"
+    },
     "category": "biscuits-gateaux",
     "unit": "paquet",
     "icon": "cookies",
@@ -3799,7 +4986,10 @@
   },
   {
     "key": "gaufres",
-    "name": { "fr": "Gaufres" },
+    "name": {
+      "fr": "Gaufres",
+      "en": "Waffles"
+    },
     "category": "biscuits-gateaux",
     "unit": "paquet",
     "icon": "gaufres",
@@ -3807,7 +4997,14 @@
   },
   {
     "key": "crepes",
-    "name": { "fr": "Crêpes" },
+    "name": {
+      "fr": "Crêpes",
+      "en": "Pancakes"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["crêpes"]
+    },
     "category": "biscuits-gateaux",
     "unit": "paquet",
     "icon": "crepes",
@@ -3815,7 +5012,14 @@
   },
   {
     "key": "pain-d-epices",
-    "name": { "fr": "Pain d'épices" },
+    "name": {
+      "fr": "Pain d'épices",
+      "en": "Gingerbread"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["pain d'épices"]
+    },
     "category": "biscuits-gateaux",
     "unit": "piece",
     "icon": "pain-d-epices",
@@ -3823,7 +5027,14 @@
   },
   {
     "key": "quatre-quarts",
-    "name": { "fr": "Quatre-quarts" },
+    "name": {
+      "fr": "Quatre-quarts",
+      "en": "Pound cake"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["quatre-quarts"]
+    },
     "category": "biscuits-gateaux",
     "unit": "piece",
     "icon": "quatre-quarts",
@@ -3831,7 +5042,10 @@
   },
   {
     "key": "brownies",
-    "name": { "fr": "Brownies" },
+    "name": {
+      "fr": "Brownies",
+      "en": "Brownies"
+    },
     "category": "biscuits-gateaux",
     "unit": "paquet",
     "icon": "brownies",
@@ -3839,7 +5053,14 @@
   },
   {
     "key": "speculoos",
-    "name": { "fr": "Spéculoos" },
+    "name": {
+      "fr": "Spéculoos",
+      "en": "Speculoos"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["speculaas", "spiced biscuits"]
+    },
     "category": "biscuits-gateaux",
     "unit": "paquet",
     "icon": "speculoos",
@@ -3847,7 +5068,14 @@
   },
   {
     "key": "boudoirs",
-    "name": { "fr": "Boudoirs" },
+    "name": {
+      "fr": "Boudoirs",
+      "en": "Sponge fingers"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["ladyfingers", "boudoirs"]
+    },
     "category": "biscuits-gateaux",
     "unit": "paquet",
     "icon": "boudoirs",
@@ -3855,7 +5083,14 @@
   },
   {
     "key": "galettes-bretonnes",
-    "name": { "fr": "Galettes bretonnes" },
+    "name": {
+      "fr": "Galettes bretonnes",
+      "en": "Breton butter biscuits"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["galettes"]
+    },
     "category": "biscuits-gateaux",
     "unit": "paquet",
     "icon": "galettes-bretonnes",
@@ -3863,7 +5098,14 @@
   },
   {
     "key": "biscuits-fourres",
-    "name": { "fr": "Biscuits fourrés" },
+    "name": {
+      "fr": "Biscuits fourrés",
+      "en": "Sandwich biscuits"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["cream biscuits"]
+    },
     "category": "biscuits-gateaux",
     "unit": "paquet",
     "icon": "biscuits-fourres",
@@ -3871,7 +5113,10 @@
   },
   {
     "key": "barres-chocolatees",
-    "name": { "fr": "Barres chocolatées" },
+    "name": {
+      "fr": "Barres chocolatées",
+      "en": "Chocolate bars"
+    },
     "category": "chocolat-confiserie",
     "unit": "paquet",
     "icon": "barres-chocolatees",
@@ -3879,8 +5124,14 @@
   },
   {
     "key": "chewing-gums",
-    "name": { "fr": "Chewing-gums" },
-    "aliases": { "fr": ["chewing-gum", "gommes"] },
+    "name": {
+      "fr": "Chewing-gums",
+      "en": "Chewing gum"
+    },
+    "aliases": {
+      "fr": ["chewing-gum", "gommes", "chiques"],
+      "en": ["gum"]
+    },
     "category": "chocolat-confiserie",
     "unit": "paquet",
     "icon": "chewing-gums",
@@ -3888,7 +5139,14 @@
   },
   {
     "key": "caramels",
-    "name": { "fr": "Caramels" },
+    "name": {
+      "fr": "Caramels",
+      "en": "Toffees"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["caramels"]
+    },
     "category": "chocolat-confiserie",
     "unit": "sachet",
     "icon": "caramels",
@@ -3896,8 +5154,14 @@
   },
   {
     "key": "guimauves",
-    "name": { "fr": "Guimauves" },
-    "aliases": { "fr": ["marshmallows"] },
+    "name": {
+      "fr": "Guimauves",
+      "en": "Marshmallows"
+    },
+    "aliases": {
+      "fr": ["marshmallows"],
+      "en": []
+    },
     "category": "chocolat-confiserie",
     "unit": "sachet",
     "icon": "guimauves",
@@ -3905,7 +5169,14 @@
   },
   {
     "key": "reglisse",
-    "name": { "fr": "Réglisse" },
+    "name": {
+      "fr": "Réglisse",
+      "en": "Liquorice"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["licorice"]
+    },
     "category": "chocolat-confiserie",
     "unit": "sachet",
     "icon": "reglisse",
@@ -3913,8 +5184,14 @@
   },
   {
     "key": "bouchees-chocolat",
-    "name": { "fr": "Bouchées au chocolat" },
-    "aliases": { "fr": ["pralinés"] },
+    "name": {
+      "fr": "Bouchées au chocolat",
+      "en": "Boxed chocolates"
+    },
+    "aliases": {
+      "fr": ["pralinés"],
+      "en": ["chocolate bonbons", "box of chocolates"]
+    },
     "category": "chocolat-confiserie",
     "unit": "boite",
     "icon": "bouchees-chocolat",
@@ -3922,7 +5199,14 @@
   },
   {
     "key": "creme-de-marrons",
-    "name": { "fr": "Crème de marrons" },
+    "name": {
+      "fr": "Crème de marrons",
+      "en": "Chestnut spread"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["chestnut purée"]
+    },
     "category": "confitures-tartiner",
     "unit": "boite",
     "icon": "creme-de-marrons",
@@ -3930,7 +5214,10 @@
   },
   {
     "key": "sirop-d-erable",
-    "name": { "fr": "Sirop d'érable" },
+    "name": {
+      "fr": "Sirop d'érable",
+      "en": "Maple syrup"
+    },
     "category": "confitures-tartiner",
     "unit": "bouteille",
     "icon": "sirop-d-erable",
@@ -3938,7 +5225,14 @@
   },
   {
     "key": "chicoree",
-    "name": { "fr": "Chicorée" },
+    "name": {
+      "fr": "Chicorée",
+      "en": "Ground chicory"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["chicory coffee"]
+    },
     "category": "cafe-the",
     "unit": "pot",
     "icon": "chicoree",
@@ -3946,7 +5240,14 @@
   },
   {
     "key": "bacon",
-    "name": { "fr": "Bacon" },
+    "name": {
+      "fr": "Bacon",
+      "en": "Bacon"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["bacon rashers"]
+    },
     "category": "charcuterie",
     "unit": "paquet",
     "icon": "bacon",
@@ -3954,8 +5255,18 @@
   },
   {
     "key": "boudin",
-    "name": { "fr": "Boudin" },
-    "types": { "fr": ["noir", "blanc"] },
+    "name": {
+      "fr": "Boudin",
+      "en": "Black pudding"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["boudin"]
+    },
+    "types": {
+      "fr": ["noir", "blanc"],
+      "en": ["black", "white"]
+    },
     "category": "charcuterie",
     "unit": "piece",
     "icon": "boudin",
@@ -3963,7 +5274,10 @@
   },
   {
     "key": "mortadelle",
-    "name": { "fr": "Mortadelle" },
+    "name": {
+      "fr": "Mortadelle",
+      "en": "Mortadella"
+    },
     "category": "charcuterie",
     "unit": "paquet",
     "icon": "mortadelle",
@@ -3971,7 +5285,10 @@
   },
   {
     "key": "foie-gras",
-    "name": { "fr": "Foie gras" },
+    "name": {
+      "fr": "Foie gras",
+      "en": "Foie gras"
+    },
     "category": "charcuterie",
     "unit": "piece",
     "icon": "foie-gras",
@@ -3979,7 +5296,14 @@
   },
   {
     "key": "blanc-de-dinde",
-    "name": { "fr": "Blanc de dinde" },
+    "name": {
+      "fr": "Blanc de dinde",
+      "en": "Sliced turkey"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["turkey breast slices"]
+    },
     "category": "charcuterie",
     "unit": "tranche",
     "quantity": 4,
@@ -3988,7 +5312,14 @@
   },
   {
     "key": "lasagnes",
-    "name": { "fr": "Lasagnes" },
+    "name": {
+      "fr": "Lasagnes",
+      "en": "Lasagne"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["lasagna"]
+    },
     "category": "traiteur",
     "unit": "barquette",
     "icon": "lasagnes",
@@ -3996,7 +5327,14 @@
   },
   {
     "key": "hachis-parmentier",
-    "name": { "fr": "Hachis parmentier" },
+    "name": {
+      "fr": "Hachis parmentier",
+      "en": "Cottage pie"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["shepherd's pie", "hachis parmentier"]
+    },
     "category": "traiteur",
     "unit": "barquette",
     "icon": "hachis-parmentier",
@@ -4004,8 +5342,14 @@
   },
   {
     "key": "sushis",
-    "name": { "fr": "Sushis" },
-    "aliases": { "fr": ["makis"] },
+    "name": {
+      "fr": "Sushis",
+      "en": "Sushi"
+    },
+    "aliases": {
+      "fr": ["makis"],
+      "en": ["maki"]
+    },
     "category": "traiteur",
     "unit": "barquette",
     "icon": "sushis",
@@ -4013,7 +5357,14 @@
   },
   {
     "key": "nems",
-    "name": { "fr": "Nems" },
+    "name": {
+      "fr": "Nems",
+      "en": "Spring rolls"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["nems"]
+    },
     "category": "traiteur",
     "unit": "barquette",
     "icon": "nems",
@@ -4021,8 +5372,14 @@
   },
   {
     "key": "samoussas",
-    "name": { "fr": "Samoussas" },
-    "aliases": { "fr": ["samosas"] },
+    "name": {
+      "fr": "Samoussas",
+      "en": "Samosas"
+    },
+    "aliases": {
+      "fr": ["samosas"],
+      "en": ["samoussas"]
+    },
     "category": "traiteur",
     "unit": "barquette",
     "icon": "samoussas",
@@ -4030,7 +5387,14 @@
   },
   {
     "key": "carottes-rapees",
-    "name": { "fr": "Carottes râpées" },
+    "name": {
+      "fr": "Carottes râpées",
+      "en": "Grated carrot salad"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["carottes râpées"]
+    },
     "category": "traiteur",
     "unit": "barquette",
     "icon": "carottes-rapees",
@@ -4038,7 +5402,10 @@
   },
   {
     "key": "celeri-remoulade",
-    "name": { "fr": "Céleri rémoulade" },
+    "name": {
+      "fr": "Céleri rémoulade",
+      "en": "Celeriac remoulade"
+    },
     "category": "traiteur",
     "unit": "barquette",
     "icon": "celeri-remoulade",
@@ -4046,7 +5413,14 @@
   },
   {
     "key": "pate-a-pizza",
-    "name": { "fr": "Pâte à pizza" },
+    "name": {
+      "fr": "Pâte à pizza",
+      "en": "Pizza dough"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["pizza base"]
+    },
     "category": "traiteur",
     "unit": "piece",
     "icon": "pate-a-pizza",
@@ -4054,8 +5428,14 @@
   },
   {
     "key": "feuilles-de-brick",
-    "name": { "fr": "Feuilles de brick" },
-    "aliases": { "fr": ["brick", "pâte filo", "feuilles de filo"] },
+    "name": {
+      "fr": "Feuilles de brick",
+      "en": "Filo pastry"
+    },
+    "aliases": {
+      "fr": ["brick", "pâte filo", "feuilles de filo"],
+      "en": ["brick pastry", "filo", "phyllo"]
+    },
     "category": "traiteur",
     "unit": "paquet",
     "icon": "feuilles-de-brick",
@@ -4063,7 +5443,14 @@
   },
   {
     "key": "choucroute",
-    "name": { "fr": "Choucroute" },
+    "name": {
+      "fr": "Choucroute",
+      "en": "Sauerkraut"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["choucroute"]
+    },
     "category": "traiteur",
     "unit": "g",
     "quantity": 500,
@@ -4072,9 +5459,18 @@
   },
   {
     "key": "boisson-vegetale",
-    "name": { "fr": "Boisson végétale" },
-    "aliases": { "fr": ["lait végétal", "lait de soja", "lait d'amande"] },
-    "types": { "fr": ["soja", "amande", "avoine", "riz"] },
+    "name": {
+      "fr": "Boisson végétale",
+      "en": "Plant milk"
+    },
+    "aliases": {
+      "fr": ["lait végétal", "lait de soja", "lait d'amande"],
+      "en": ["oat milk", "soya milk", "almond milk", "plant-based drink"]
+    },
+    "types": {
+      "fr": ["soja", "amande", "avoine", "riz"],
+      "en": ["soya", "almond", "oat", "rice"]
+    },
     "category": "lait-creme-beurre",
     "unit": "l",
     "icon": "boisson-vegetale",
@@ -4082,8 +5478,14 @@
   },
   {
     "key": "chantilly",
-    "name": { "fr": "Chantilly" },
-    "aliases": { "fr": ["crème chantilly"] },
+    "name": {
+      "fr": "Chantilly",
+      "en": "Whipped cream"
+    },
+    "aliases": {
+      "fr": ["crème chantilly"],
+      "en": ["squirty cream", "Chantilly"]
+    },
     "category": "lait-creme-beurre",
     "unit": "piece",
     "icon": "chantilly",
@@ -4091,7 +5493,10 @@
   },
   {
     "key": "margarine",
-    "name": { "fr": "Margarine" },
+    "name": {
+      "fr": "Margarine",
+      "en": "Margarine"
+    },
     "category": "lait-creme-beurre",
     "unit": "barquette",
     "icon": "margarine",
@@ -4099,8 +5504,18 @@
   },
   {
     "key": "lait-concentre",
-    "name": { "fr": "Lait concentré" },
-    "types": { "fr": ["sucré", "non sucré"] },
+    "name": {
+      "fr": "Lait concentré",
+      "en": "Condensed milk"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["evaporated milk"]
+    },
+    "types": {
+      "fr": ["sucré", "non sucré"],
+      "en": ["sweetened", "unsweetened"]
+    },
     "category": "lait-creme-beurre",
     "unit": "piece",
     "icon": "lait-concentre",
@@ -4108,7 +5523,14 @@
   },
   {
     "key": "petits-suisses",
-    "name": { "fr": "Petits-suisses" },
+    "name": {
+      "fr": "Petits-suisses",
+      "en": "Petits-suisses"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["petit suisse"]
+    },
     "category": "yaourts-desserts",
     "unit": "pack",
     "icon": "petits-suisses",
@@ -4116,7 +5538,10 @@
   },
   {
     "key": "skyr",
-    "name": { "fr": "Skyr" },
+    "name": {
+      "fr": "Skyr",
+      "en": "Skyr"
+    },
     "category": "yaourts-desserts",
     "unit": "piece",
     "icon": "skyr",
@@ -4124,7 +5549,14 @@
   },
   {
     "key": "faisselle",
-    "name": { "fr": "Faisselle" },
+    "name": {
+      "fr": "Faisselle",
+      "en": "Faisselle"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["curd cheese"]
+    },
     "category": "yaourts-desserts",
     "unit": "piece",
     "icon": "faisselle",
@@ -4132,7 +5564,10 @@
   },
   {
     "key": "mousse-au-chocolat",
-    "name": { "fr": "Mousse au chocolat" },
+    "name": {
+      "fr": "Mousse au chocolat",
+      "en": "Chocolate mousse"
+    },
     "category": "yaourts-desserts",
     "unit": "piece",
     "quantity": 4,
@@ -4141,7 +5576,10 @@
   },
   {
     "key": "riz-au-lait",
-    "name": { "fr": "Riz au lait" },
+    "name": {
+      "fr": "Riz au lait",
+      "en": "Rice pudding"
+    },
     "category": "yaourts-desserts",
     "unit": "piece",
     "quantity": 4,
@@ -4150,8 +5588,14 @@
   },
   {
     "key": "flan",
-    "name": { "fr": "Flan" },
-    "aliases": { "fr": ["crème caramel"] },
+    "name": {
+      "fr": "Flan",
+      "en": "Custard tart"
+    },
+    "aliases": {
+      "fr": ["crème caramel"],
+      "en": ["flan", "crème caramel", "egg custard"]
+    },
     "category": "yaourts-desserts",
     "unit": "piece",
     "quantity": 4,
@@ -4160,7 +5604,14 @@
   },
   {
     "key": "yaourts-a-boire",
-    "name": { "fr": "Yaourts à boire" },
+    "name": {
+      "fr": "Yaourts à boire",
+      "en": "Drinking yoghurts"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["yoghurt drinks", "yogurt drinks"]
+    },
     "category": "yaourts-desserts",
     "unit": "pack",
     "icon": "yaourts-a-boire",
@@ -4168,7 +5619,10 @@
   },
   {
     "key": "brie",
-    "name": { "fr": "Brie" },
+    "name": {
+      "fr": "Brie",
+      "en": "Brie"
+    },
     "category": "fromages",
     "unit": "g",
     "quantity": 250,
@@ -4177,8 +5631,14 @@
   },
   {
     "key": "roquefort",
-    "name": { "fr": "Roquefort" },
-    "aliases": { "fr": ["bleu", "fromage bleu"] },
+    "name": {
+      "fr": "Roquefort",
+      "en": "Roquefort"
+    },
+    "aliases": {
+      "fr": ["bleu", "fromage bleu"],
+      "en": ["blue cheese"]
+    },
     "category": "fromages",
     "unit": "g",
     "quantity": 150,
@@ -4187,7 +5647,10 @@
   },
   {
     "key": "reblochon",
-    "name": { "fr": "Reblochon" },
+    "name": {
+      "fr": "Reblochon",
+      "en": "Reblochon"
+    },
     "category": "fromages",
     "unit": "piece",
     "icon": "reblochon",
@@ -4195,8 +5658,14 @@
   },
   {
     "key": "raclette",
-    "name": { "fr": "Fromage à raclette" },
-    "aliases": { "fr": ["raclette"] },
+    "name": {
+      "fr": "Fromage à raclette",
+      "en": "Raclette cheese"
+    },
+    "aliases": {
+      "fr": ["raclette"],
+      "en": ["raclette"]
+    },
     "category": "fromages",
     "unit": "g",
     "quantity": 400,
@@ -4205,7 +5674,10 @@
   },
   {
     "key": "feta",
-    "name": { "fr": "Feta" },
+    "name": {
+      "fr": "Feta",
+      "en": "Feta"
+    },
     "category": "fromages",
     "unit": "piece",
     "icon": "feta",
@@ -4213,7 +5685,10 @@
   },
   {
     "key": "ricotta",
-    "name": { "fr": "Ricotta" },
+    "name": {
+      "fr": "Ricotta",
+      "en": "Ricotta"
+    },
     "category": "fromages",
     "unit": "pot",
     "icon": "ricotta",
@@ -4221,7 +5696,10 @@
   },
   {
     "key": "mascarpone",
-    "name": { "fr": "Mascarpone" },
+    "name": {
+      "fr": "Mascarpone",
+      "en": "Mascarpone"
+    },
     "category": "fromages",
     "unit": "pot",
     "icon": "mascarpone",
@@ -4229,8 +5707,14 @@
   },
   {
     "key": "fromage-frais",
-    "name": { "fr": "Fromage frais à tartiner" },
-    "aliases": { "fr": ["fromage à tartiner"] },
+    "name": {
+      "fr": "Fromage frais à tartiner",
+      "en": "Cream cheese"
+    },
+    "aliases": {
+      "fr": ["fromage à tartiner"],
+      "en": ["soft cheese", "spreadable cheese"]
+    },
     "category": "fromages",
     "unit": "piece",
     "icon": "fromage-frais",
@@ -4238,7 +5722,10 @@
   },
   {
     "key": "cantal",
-    "name": { "fr": "Cantal" },
+    "name": {
+      "fr": "Cantal",
+      "en": "Cantal"
+    },
     "category": "fromages",
     "unit": "g",
     "quantity": 250,
@@ -4247,7 +5734,14 @@
   },
   {
     "key": "tomme",
-    "name": { "fr": "Tomme" },
+    "name": {
+      "fr": "Tomme",
+      "en": "Tomme"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["tomme cheese"]
+    },
     "category": "fromages",
     "unit": "g",
     "quantity": 250,
@@ -4256,7 +5750,10 @@
   },
   {
     "key": "munster",
-    "name": { "fr": "Munster" },
+    "name": {
+      "fr": "Munster",
+      "en": "Munster"
+    },
     "category": "fromages",
     "unit": "piece",
     "icon": "munster",
@@ -4264,7 +5761,10 @@
   },
   {
     "key": "mimolette",
-    "name": { "fr": "Mimolette" },
+    "name": {
+      "fr": "Mimolette",
+      "en": "Mimolette"
+    },
     "category": "fromages",
     "unit": "g",
     "quantity": 250,
@@ -4273,7 +5773,10 @@
   },
   {
     "key": "beaufort",
-    "name": { "fr": "Beaufort" },
+    "name": {
+      "fr": "Beaufort",
+      "en": "Beaufort"
+    },
     "category": "fromages",
     "unit": "g",
     "quantity": 250,
@@ -4282,8 +5785,14 @@
   },
   {
     "key": "fromage-a-fondue",
-    "name": { "fr": "Fromage à fondue" },
-    "aliases": { "fr": ["fondue savoyarde"] },
+    "name": {
+      "fr": "Fromage à fondue",
+      "en": "Fondue cheese"
+    },
+    "aliases": {
+      "fr": ["fondue savoyarde"],
+      "en": ["fondue"]
+    },
     "category": "fromages",
     "unit": "paquet",
     "icon": "fromage-a-fondue",
@@ -4291,8 +5800,14 @@
   },
   {
     "key": "mont-d-or",
-    "name": { "fr": "Mont-d'or" },
-    "aliases": { "fr": ["vacherin"] },
+    "name": {
+      "fr": "Mont-d'or",
+      "en": "Mont d'Or"
+    },
+    "aliases": {
+      "fr": ["vacherin"],
+      "en": ["vacherin"]
+    },
     "category": "fromages",
     "unit": "piece",
     "icon": "mont-d-or",
@@ -4300,7 +5815,10 @@
   },
   {
     "key": "gorgonzola",
-    "name": { "fr": "Gorgonzola" },
+    "name": {
+      "fr": "Gorgonzola",
+      "en": "Gorgonzola"
+    },
     "category": "fromages",
     "unit": "g",
     "quantity": 200,
@@ -4309,7 +5827,10 @@
   },
   {
     "key": "burrata",
-    "name": { "fr": "Burrata" },
+    "name": {
+      "fr": "Burrata",
+      "en": "Burrata"
+    },
     "category": "fromages",
     "unit": "piece",
     "icon": "burrata",
@@ -4317,7 +5838,10 @@
   },
   {
     "key": "lapin",
-    "name": { "fr": "Lapin" },
+    "name": {
+      "fr": "Lapin",
+      "en": "Rabbit"
+    },
     "category": "viande",
     "unit": "piece",
     "icon": "lapin",
@@ -4325,7 +5849,14 @@
   },
   {
     "key": "andouillettes",
-    "name": { "fr": "Andouillettes" },
+    "name": {
+      "fr": "Andouillettes",
+      "en": "Andouillettes"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["chitterling sausages"]
+    },
     "category": "viande",
     "unit": "piece",
     "icon": "andouillettes",
@@ -4333,7 +5864,14 @@
   },
   {
     "key": "paupiettes",
-    "name": { "fr": "Paupiettes" },
+    "name": {
+      "fr": "Paupiettes",
+      "en": "Paupiettes"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["meat parcels"]
+    },
     "category": "viande",
     "unit": "piece",
     "icon": "paupiettes",
@@ -4341,8 +5879,14 @@
   },
   {
     "key": "canard",
-    "name": { "fr": "Canard" },
-    "types": { "fr": ["magret", "cuisses"] },
+    "name": {
+      "fr": "Canard",
+      "en": "Duck"
+    },
+    "types": {
+      "fr": ["magret", "cuisses"],
+      "en": ["breast", "legs"]
+    },
     "category": "volaille",
     "unit": "piece",
     "icon": "canard",
@@ -4350,7 +5894,14 @@
   },
   {
     "key": "nuggets",
-    "name": { "fr": "Nuggets" },
+    "name": {
+      "fr": "Nuggets",
+      "en": "Chicken nuggets"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["nuggets"]
+    },
     "category": "volaille",
     "unit": "paquet",
     "icon": "nuggets",
@@ -4358,7 +5909,10 @@
   },
   {
     "key": "pintade",
-    "name": { "fr": "Pintade" },
+    "name": {
+      "fr": "Pintade",
+      "en": "Guinea fowl"
+    },
     "category": "volaille",
     "unit": "piece",
     "icon": "pintade",
@@ -4366,7 +5920,14 @@
   },
   {
     "key": "aiguillettes-de-poulet",
-    "name": { "fr": "Aiguillettes de poulet" },
+    "name": {
+      "fr": "Aiguillettes de poulet",
+      "en": "Chicken mini fillets"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["chicken strips"]
+    },
     "category": "volaille",
     "unit": "g",
     "quantity": 500,
@@ -4375,8 +5936,14 @@
   },
   {
     "key": "foies-de-volaille",
-    "name": { "fr": "Foies de volaille" },
-    "aliases": { "fr": ["foies de poulet"] },
+    "name": {
+      "fr": "Foies de volaille",
+      "en": "Chicken livers"
+    },
+    "aliases": {
+      "fr": ["foies de poulet"],
+      "en": []
+    },
     "category": "volaille",
     "unit": "barquette",
     "icon": "foies-de-volaille",
@@ -4384,8 +5951,14 @@
   },
   {
     "key": "gesiers",
-    "name": { "fr": "Gésiers" },
-    "aliases": { "fr": ["gésiers confits"] },
+    "name": {
+      "fr": "Gésiers",
+      "en": "Gizzards"
+    },
+    "aliases": {
+      "fr": ["gésiers confits"],
+      "en": ["confit gizzards"]
+    },
     "category": "volaille",
     "unit": "barquette",
     "icon": "gesiers",
@@ -4393,8 +5966,14 @@
   },
   {
     "key": "truite",
-    "name": { "fr": "Truite" },
-    "types": { "fr": ["entière", "en filets", "fumée"] },
+    "name": {
+      "fr": "Truite",
+      "en": "Trout"
+    },
+    "types": {
+      "fr": ["entière", "en filets", "fumée"],
+      "en": ["whole", "fillets", "smoked"]
+    },
     "category": "poisson-fruits-de-mer",
     "unit": "piece",
     "icon": "truite",
@@ -4402,8 +5981,14 @@
   },
   {
     "key": "colin",
-    "name": { "fr": "Colin" },
-    "aliases": { "fr": ["lieu"] },
+    "name": {
+      "fr": "Colin",
+      "en": "Hake"
+    },
+    "aliases": {
+      "fr": ["lieu"],
+      "en": ["pollock"]
+    },
     "category": "poisson-fruits-de-mer",
     "unit": "g",
     "quantity": 500,
@@ -4412,7 +5997,14 @@
   },
   {
     "key": "dorade",
-    "name": { "fr": "Dorade" },
+    "name": {
+      "fr": "Dorade",
+      "en": "Sea bream"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["bream"]
+    },
     "category": "poisson-fruits-de-mer",
     "unit": "piece",
     "icon": "dorade",
@@ -4420,8 +6012,14 @@
   },
   {
     "key": "bar",
-    "name": { "fr": "Bar" },
-    "aliases": { "fr": ["loup"] },
+    "name": {
+      "fr": "Bar",
+      "en": "Sea bass"
+    },
+    "aliases": {
+      "fr": ["loup"],
+      "en": ["bass"]
+    },
     "category": "poisson-fruits-de-mer",
     "unit": "piece",
     "icon": "bar",
@@ -4429,8 +6027,14 @@
   },
   {
     "key": "saint-jacques",
-    "name": { "fr": "Noix de Saint-Jacques" },
-    "aliases": { "fr": ["coquilles Saint-Jacques"] },
+    "name": {
+      "fr": "Noix de Saint-Jacques",
+      "en": "Scallops"
+    },
+    "aliases": {
+      "fr": ["coquilles Saint-Jacques"],
+      "en": []
+    },
     "category": "poisson-fruits-de-mer",
     "unit": "g",
     "quantity": 250,
@@ -4440,7 +6044,10 @@
   },
   {
     "key": "huitres",
-    "name": { "fr": "Huîtres" },
+    "name": {
+      "fr": "Huîtres",
+      "en": "Oysters"
+    },
     "category": "poisson-fruits-de-mer",
     "unit": "piece",
     "quantity": 12,
@@ -4449,8 +6056,14 @@
   },
   {
     "key": "calamars",
-    "name": { "fr": "Calamars" },
-    "aliases": { "fr": ["encornets"] },
+    "name": {
+      "fr": "Calamars",
+      "en": "Squid"
+    },
+    "aliases": {
+      "fr": ["encornets"],
+      "en": ["calamari"]
+    },
     "category": "poisson-fruits-de-mer",
     "unit": "g",
     "quantity": 500,
@@ -4459,7 +6072,10 @@
   },
   {
     "key": "crabe",
-    "name": { "fr": "Crabe" },
+    "name": {
+      "fr": "Crabe",
+      "en": "Crab"
+    },
     "category": "poisson-fruits-de-mer",
     "unit": "piece",
     "icon": "crabe",
@@ -4467,8 +6083,14 @@
   },
   {
     "key": "pains-burger",
-    "name": { "fr": "Pains burger" },
-    "aliases": { "fr": ["buns"] },
+    "name": {
+      "fr": "Pains burger",
+      "en": "Burger buns"
+    },
+    "aliases": {
+      "fr": ["buns"],
+      "en": ["buns"]
+    },
     "category": "pain-viennoiseries",
     "unit": "paquet",
     "icon": "pains-burger",
@@ -4476,7 +6098,14 @@
   },
   {
     "key": "pains-au-lait",
-    "name": { "fr": "Pains au lait" },
+    "name": {
+      "fr": "Pains au lait",
+      "en": "Milk rolls"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["brioche rolls"]
+    },
     "category": "pain-viennoiseries",
     "unit": "paquet",
     "icon": "pains-au-lait",
@@ -4484,8 +6113,14 @@
   },
   {
     "key": "pains-pita",
-    "name": { "fr": "Pains pita" },
-    "aliases": { "fr": ["pita"] },
+    "name": {
+      "fr": "Pains pita",
+      "en": "Pitta bread"
+    },
+    "aliases": {
+      "fr": ["pita"],
+      "en": ["pitta", "pita"]
+    },
     "category": "pain-viennoiseries",
     "unit": "paquet",
     "icon": "pains-pita",
@@ -4493,7 +6128,14 @@
   },
   {
     "key": "chouquettes",
-    "name": { "fr": "Chouquettes" },
+    "name": {
+      "fr": "Chouquettes",
+      "en": "Chouquettes"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["sugar puffs"]
+    },
     "category": "pain-viennoiseries",
     "unit": "sachet",
     "icon": "chouquettes",
@@ -4501,7 +6143,10 @@
   },
   {
     "key": "pain-viennois",
-    "name": { "fr": "Pain viennois" },
+    "name": {
+      "fr": "Pain viennois",
+      "en": "Vienna bread"
+    },
     "category": "pain-viennoiseries",
     "unit": "piece",
     "icon": "pain-viennois",
@@ -4509,7 +6154,10 @@
   },
   {
     "key": "eau-aromatisee",
-    "name": { "fr": "Eau aromatisée" },
+    "name": {
+      "fr": "Eau aromatisée",
+      "en": "Flavoured water"
+    },
     "category": "eaux",
     "unit": "pack",
     "icon": "eau-aromatisee",
@@ -4517,8 +6165,14 @@
   },
   {
     "key": "the-glace",
-    "name": { "fr": "Thé glacé" },
-    "aliases": { "fr": ["ice tea"] },
+    "name": {
+      "fr": "Thé glacé",
+      "en": "Iced tea"
+    },
+    "aliases": {
+      "fr": ["ice tea"],
+      "en": ["ice tea"]
+    },
     "category": "jus-sodas",
     "unit": "bouteille",
     "icon": "the-glace",
@@ -4526,8 +6180,14 @@
   },
   {
     "key": "soda-orange",
-    "name": { "fr": "Soda à l'orange" },
-    "aliases": { "fr": ["orangeade"] },
+    "name": {
+      "fr": "Soda à l'orange",
+      "en": "Orange soda"
+    },
+    "aliases": {
+      "fr": ["orangeade"],
+      "en": ["orangeade"]
+    },
     "category": "jus-sodas",
     "unit": "bouteille",
     "icon": "soda-orange",
@@ -4535,7 +6195,14 @@
   },
   {
     "key": "tonic",
-    "name": { "fr": "Tonic" },
+    "name": {
+      "fr": "Tonic",
+      "en": "Tonic water"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["tonic"]
+    },
     "category": "jus-sodas",
     "unit": "bouteille",
     "icon": "tonic",
@@ -4543,7 +6210,10 @@
   },
   {
     "key": "boisson-energisante",
-    "name": { "fr": "Boisson énergisante" },
+    "name": {
+      "fr": "Boisson énergisante",
+      "en": "Energy drink"
+    },
     "category": "jus-sodas",
     "unit": "piece",
     "icon": "boisson-energisante",
@@ -4551,7 +6221,10 @@
   },
   {
     "key": "smoothie",
-    "name": { "fr": "Smoothie" },
+    "name": {
+      "fr": "Smoothie",
+      "en": "Smoothie"
+    },
     "category": "jus-sodas",
     "unit": "bouteille",
     "icon": "smoothie",
@@ -4559,8 +6232,14 @@
   },
   {
     "key": "cidre",
-    "name": { "fr": "Cidre" },
-    "types": { "fr": ["brut", "doux"] },
+    "name": {
+      "fr": "Cidre",
+      "en": "Cider"
+    },
+    "types": {
+      "fr": ["brut", "doux"],
+      "en": ["dry", "sweet"]
+    },
     "category": "alcools",
     "unit": "bouteille",
     "icon": "cidre",
@@ -4568,7 +6247,10 @@
   },
   {
     "key": "rhum",
-    "name": { "fr": "Rhum" },
+    "name": {
+      "fr": "Rhum",
+      "en": "Rum"
+    },
     "category": "alcools",
     "unit": "bouteille",
     "icon": "rhum",
@@ -4576,7 +6258,14 @@
   },
   {
     "key": "whisky",
-    "name": { "fr": "Whisky" },
+    "name": {
+      "fr": "Whisky",
+      "en": "Whisky"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["whiskey"]
+    },
     "category": "alcools",
     "unit": "bouteille",
     "icon": "whisky",
@@ -4584,7 +6273,10 @@
   },
   {
     "key": "vodka",
-    "name": { "fr": "Vodka" },
+    "name": {
+      "fr": "Vodka",
+      "en": "Vodka"
+    },
     "category": "alcools",
     "unit": "bouteille",
     "icon": "vodka",
@@ -4592,7 +6284,10 @@
   },
   {
     "key": "gin",
-    "name": { "fr": "Gin" },
+    "name": {
+      "fr": "Gin",
+      "en": "Gin"
+    },
     "category": "alcools",
     "unit": "bouteille",
     "icon": "gin",
@@ -4600,7 +6295,14 @@
   },
   {
     "key": "pastis",
-    "name": { "fr": "Pastis" },
+    "name": {
+      "fr": "Pastis",
+      "en": "Pastis"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["aniseed liqueur"]
+    },
     "category": "alcools",
     "unit": "bouteille",
     "icon": "pastis",
@@ -4608,7 +6310,10 @@
   },
   {
     "key": "cremant",
-    "name": { "fr": "Crémant" },
+    "name": {
+      "fr": "Crémant",
+      "en": "Crémant"
+    },
     "category": "alcools",
     "unit": "bouteille",
     "icon": "cremant",
@@ -4616,7 +6321,10 @@
   },
   {
     "key": "porto",
-    "name": { "fr": "Porto" },
+    "name": {
+      "fr": "Porto",
+      "en": "Port"
+    },
     "category": "alcools",
     "unit": "bouteille",
     "icon": "porto",
@@ -4624,8 +6332,14 @@
   },
   {
     "key": "cognac",
-    "name": { "fr": "Cognac" },
-    "aliases": { "fr": ["armagnac"] },
+    "name": {
+      "fr": "Cognac",
+      "en": "Cognac"
+    },
+    "aliases": {
+      "fr": ["armagnac"],
+      "en": ["armagnac", "brandy"]
+    },
     "category": "alcools",
     "unit": "bouteille",
     "icon": "cognac",
@@ -4633,7 +6347,10 @@
   },
   {
     "key": "calvados",
-    "name": { "fr": "Calvados" },
+    "name": {
+      "fr": "Calvados",
+      "en": "Calvados"
+    },
     "category": "alcools",
     "unit": "bouteille",
     "icon": "calvados",
@@ -4641,7 +6358,10 @@
   },
   {
     "key": "madere",
-    "name": { "fr": "Madère" },
+    "name": {
+      "fr": "Madère",
+      "en": "Madeira"
+    },
     "category": "alcools",
     "unit": "bouteille",
     "icon": "madere",
@@ -4649,7 +6369,10 @@
   },
   {
     "key": "kirsch",
-    "name": { "fr": "Kirsch" },
+    "name": {
+      "fr": "Kirsch",
+      "en": "Kirsch"
+    },
     "category": "alcools",
     "unit": "bouteille",
     "icon": "kirsch",
@@ -4657,7 +6380,14 @@
   },
   {
     "key": "glacons",
-    "name": { "fr": "Glaçons" },
+    "name": {
+      "fr": "Glaçons",
+      "en": "Ice cubes"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["ice"]
+    },
     "category": "surgeles",
     "unit": "sachet",
     "icon": "glacons",
@@ -4665,7 +6395,14 @@
   },
   {
     "key": "fruits-rouges-surgeles",
-    "name": { "fr": "Fruits rouges surgelés" },
+    "name": {
+      "fr": "Fruits rouges surgelés",
+      "en": "Frozen berries"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["frozen red fruit"]
+    },
     "category": "surgeles",
     "unit": "sachet",
     "icon": "fruits-rouges-surgeles",
@@ -4673,7 +6410,10 @@
   },
   {
     "key": "herbes-surgelees",
-    "name": { "fr": "Herbes surgelées" },
+    "name": {
+      "fr": "Herbes surgelées",
+      "en": "Frozen herbs"
+    },
     "category": "surgeles",
     "unit": "piece",
     "icon": "herbes-surgelees",
@@ -4681,7 +6421,10 @@
   },
   {
     "key": "plats-cuisines-surgeles",
-    "name": { "fr": "Plats cuisinés surgelés" },
+    "name": {
+      "fr": "Plats cuisinés surgelés",
+      "en": "Frozen ready meals"
+    },
     "category": "surgeles",
     "unit": "piece",
     "icon": "plats-cuisines-surgeles",
@@ -4689,7 +6432,10 @@
   },
   {
     "key": "crevettes-surgelees",
-    "name": { "fr": "Crevettes surgelées" },
+    "name": {
+      "fr": "Crevettes surgelées",
+      "en": "Frozen prawns"
+    },
     "category": "surgeles",
     "unit": "sachet",
     "icon": "crevettes-surgelees",
@@ -4697,7 +6443,14 @@
   },
   {
     "key": "viennoiseries-surgelees",
-    "name": { "fr": "Viennoiseries surgelées" },
+    "name": {
+      "fr": "Viennoiseries surgelées",
+      "en": "Frozen pastries"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["frozen croissants"]
+    },
     "category": "surgeles",
     "unit": "sachet",
     "icon": "viennoiseries-surgelees",
@@ -4705,8 +6458,14 @@
   },
   {
     "key": "sorbet",
-    "name": { "fr": "Sorbet" },
-    "types": { "fr": ["citron", "framboise", "mangue"] },
+    "name": {
+      "fr": "Sorbet",
+      "en": "Sorbet"
+    },
+    "types": {
+      "fr": ["citron", "framboise", "mangue"],
+      "en": ["lemon", "raspberry", "mango"]
+    },
     "category": "glaces",
     "unit": "piece",
     "icon": "sorbet",
@@ -4714,7 +6473,14 @@
   },
   {
     "key": "batonnets-glaces",
-    "name": { "fr": "Bâtonnets glacés" },
+    "name": {
+      "fr": "Bâtonnets glacés",
+      "en": "Ice lollies"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["lollies", "ice pops"]
+    },
     "category": "glaces",
     "unit": "paquet",
     "icon": "batonnets-glaces",
@@ -4722,7 +6488,14 @@
   },
   {
     "key": "buche-glacee",
-    "name": { "fr": "Bûche glacée" },
+    "name": {
+      "fr": "Bûche glacée",
+      "en": "Ice cream log"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["frozen yule log"]
+    },
     "category": "glaces",
     "unit": "piece",
     "icon": "buche-glacee",
@@ -4730,7 +6503,10 @@
   },
   {
     "key": "apres-shampooing",
-    "name": { "fr": "Après-shampooing" },
+    "name": {
+      "fr": "Après-shampooing",
+      "en": "Conditioner"
+    },
     "category": "hygiene-beaute",
     "unit": "piece",
     "icon": "apres-shampooing",
@@ -4738,7 +6514,14 @@
   },
   {
     "key": "creme-hydratante",
-    "name": { "fr": "Crème hydratante" },
+    "name": {
+      "fr": "Crème hydratante",
+      "en": "Moisturiser"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["moisturizer"]
+    },
     "category": "hygiene-beaute",
     "unit": "pot",
     "icon": "creme-hydratante",
@@ -4746,7 +6529,14 @@
   },
   {
     "key": "mousse-a-raser",
-    "name": { "fr": "Mousse à raser" },
+    "name": {
+      "fr": "Mousse à raser",
+      "en": "Shaving foam"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["shaving cream"]
+    },
     "category": "hygiene-beaute",
     "unit": "piece",
     "icon": "mousse-a-raser",
@@ -4754,7 +6544,10 @@
   },
   {
     "key": "bain-de-bouche",
-    "name": { "fr": "Bain de bouche" },
+    "name": {
+      "fr": "Bain de bouche",
+      "en": "Mouthwash"
+    },
     "category": "hygiene-beaute",
     "unit": "bouteille",
     "icon": "bain-de-bouche",
@@ -4762,7 +6555,14 @@
   },
   {
     "key": "fil-dentaire",
-    "name": { "fr": "Fil dentaire" },
+    "name": {
+      "fr": "Fil dentaire",
+      "en": "Dental floss"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["floss"]
+    },
     "category": "hygiene-beaute",
     "unit": "piece",
     "icon": "fil-dentaire",
@@ -4770,8 +6570,18 @@
   },
   {
     "key": "protections-hygieniques",
-    "name": { "fr": "Protections hygiéniques" },
-    "types": { "fr": ["serviettes", "tampons", "protège-slips"] },
+    "name": {
+      "fr": "Protections hygiéniques",
+      "en": "Sanitary products"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["sanitary pads", "tampons"]
+    },
+    "types": {
+      "fr": ["serviettes", "tampons", "protège-slips"],
+      "en": ["pads", "tampons", "panty liners"]
+    },
     "category": "hygiene-beaute",
     "unit": "paquet",
     "icon": "protections-hygieniques",
@@ -4779,7 +6589,14 @@
   },
   {
     "key": "creme-solaire",
-    "name": { "fr": "Crème solaire" },
+    "name": {
+      "fr": "Crème solaire",
+      "en": "Sun cream"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["sunscreen", "suncream"]
+    },
     "category": "hygiene-beaute",
     "unit": "piece",
     "icon": "creme-solaire",
@@ -4787,7 +6604,10 @@
   },
   {
     "key": "lingettes-demaquillantes",
-    "name": { "fr": "Lingettes démaquillantes" },
+    "name": {
+      "fr": "Lingettes démaquillantes",
+      "en": "Make-up remover wipes"
+    },
     "category": "hygiene-beaute",
     "unit": "paquet",
     "icon": "lingettes-demaquillantes",
@@ -4795,7 +6615,14 @@
   },
   {
     "key": "gel-hydroalcoolique",
-    "name": { "fr": "Gel hydroalcoolique" },
+    "name": {
+      "fr": "Gel hydroalcoolique",
+      "en": "Hand sanitiser"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["hand gel"]
+    },
     "category": "hygiene-beaute",
     "unit": "piece",
     "icon": "gel-hydroalcoolique",
@@ -4803,7 +6630,14 @@
   },
   {
     "key": "pansements",
-    "name": { "fr": "Pansements" },
+    "name": {
+      "fr": "Pansements",
+      "en": "Plasters"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["band-aids"]
+    },
     "category": "hygiene-beaute",
     "unit": "boite",
     "icon": "pansements",
@@ -4811,7 +6645,14 @@
   },
   {
     "key": "serviettes-en-papier",
-    "name": { "fr": "Serviettes en papier" },
+    "name": {
+      "fr": "Serviettes en papier",
+      "en": "Paper napkins"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["serviettes"]
+    },
     "category": "papier-mouchoirs",
     "unit": "paquet",
     "icon": "serviettes-en-papier",
@@ -4819,7 +6660,10 @@
   },
   {
     "key": "biscuits-bebe",
-    "name": { "fr": "Biscuits bébé" },
+    "name": {
+      "fr": "Biscuits bébé",
+      "en": "Baby biscuits"
+    },
     "category": "bebe",
     "unit": "paquet",
     "icon": "biscuits-bebe",
@@ -4827,7 +6671,14 @@
   },
   {
     "key": "creme-pour-le-change",
-    "name": { "fr": "Crème pour le change" },
+    "name": {
+      "fr": "Crème pour le change",
+      "en": "Nappy cream"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["barrier cream"]
+    },
     "category": "bebe",
     "unit": "piece",
     "icon": "creme-pour-le-change",
@@ -4835,7 +6686,14 @@
   },
   {
     "key": "serum-physiologique",
-    "name": { "fr": "Sérum physiologique" },
+    "name": {
+      "fr": "Sérum physiologique",
+      "en": "Saline solution"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["saline"]
+    },
     "category": "bebe",
     "unit": "boite",
     "icon": "serum-physiologique",
@@ -4843,7 +6701,10 @@
   },
   {
     "key": "sel-lave-vaisselle",
-    "name": { "fr": "Sel lave-vaisselle" },
+    "name": {
+      "fr": "Sel lave-vaisselle",
+      "en": "Dishwasher salt"
+    },
     "category": "entretien",
     "unit": "paquet",
     "icon": "sel-lave-vaisselle",
@@ -4851,7 +6712,10 @@
   },
   {
     "key": "liquide-de-rincage",
-    "name": { "fr": "Liquide de rinçage" },
+    "name": {
+      "fr": "Liquide de rinçage",
+      "en": "Rinse aid"
+    },
     "category": "entretien",
     "unit": "bouteille",
     "icon": "liquide-de-rincage",
@@ -4859,7 +6723,14 @@
   },
   {
     "key": "nettoyant-vitres",
-    "name": { "fr": "Nettoyant vitres" },
+    "name": {
+      "fr": "Nettoyant vitres",
+      "en": "Glass cleaner"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["window cleaner"]
+    },
     "category": "entretien",
     "unit": "bouteille",
     "icon": "nettoyant-vitres",
@@ -4867,8 +6738,14 @@
   },
   {
     "key": "gel-wc",
-    "name": { "fr": "Gel WC" },
-    "aliases": { "fr": ["nettoyant WC"] },
+    "name": {
+      "fr": "Gel WC",
+      "en": "Toilet gel"
+    },
+    "aliases": {
+      "fr": ["nettoyant WC"],
+      "en": ["toilet cleaner"]
+    },
     "category": "entretien",
     "unit": "bouteille",
     "icon": "gel-wc",
@@ -4876,7 +6753,10 @@
   },
   {
     "key": "detachant",
-    "name": { "fr": "Détachant" },
+    "name": {
+      "fr": "Détachant",
+      "en": "Stain remover"
+    },
     "category": "entretien",
     "unit": "bouteille",
     "icon": "detachant",
@@ -4884,7 +6764,14 @@
   },
   {
     "key": "sacs-aspirateur",
-    "name": { "fr": "Sacs aspirateur" },
+    "name": {
+      "fr": "Sacs aspirateur",
+      "en": "Vacuum bags"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["hoover bags"]
+    },
     "category": "entretien",
     "unit": "paquet",
     "icon": "sacs-aspirateur",
@@ -4892,7 +6779,14 @@
   },
   {
     "key": "gants-de-menage",
-    "name": { "fr": "Gants de ménage" },
+    "name": {
+      "fr": "Gants de ménage",
+      "en": "Rubber gloves"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["washing-up gloves"]
+    },
     "category": "entretien",
     "unit": "piece",
     "icon": "gants-de-menage",
@@ -4900,7 +6794,10 @@
   },
   {
     "key": "lingettes-menageres",
-    "name": { "fr": "Lingettes ménagères" },
+    "name": {
+      "fr": "Lingettes ménagères",
+      "en": "Cleaning wipes"
+    },
     "category": "entretien",
     "unit": "paquet",
     "icon": "lingettes-menageres",
@@ -4908,8 +6805,14 @@
   },
   {
     "key": "bicarbonate",
-    "name": { "fr": "Bicarbonate" },
-    "aliases": { "fr": ["bicarbonate de soude"] },
+    "name": {
+      "fr": "Bicarbonate",
+      "en": "Bicarbonate of soda"
+    },
+    "aliases": {
+      "fr": ["bicarbonate de soude"],
+      "en": ["baking soda", "bicarb"]
+    },
     "category": "entretien",
     "unit": "paquet",
     "icon": "bicarbonate",
@@ -4917,7 +6820,10 @@
   },
   {
     "key": "allumettes",
-    "name": { "fr": "Allumettes" },
+    "name": {
+      "fr": "Allumettes",
+      "en": "Matches"
+    },
     "category": "cuisine-maison",
     "unit": "boite",
     "icon": "allumettes",
@@ -4925,7 +6831,10 @@
   },
   {
     "key": "bougies",
-    "name": { "fr": "Bougies" },
+    "name": {
+      "fr": "Bougies",
+      "en": "Candles"
+    },
     "category": "cuisine-maison",
     "unit": "paquet",
     "icon": "bougies",
@@ -4933,7 +6842,10 @@
   },
   {
     "key": "sacs-congelation",
-    "name": { "fr": "Sacs congélation" },
+    "name": {
+      "fr": "Sacs congélation",
+      "en": "Freezer bags"
+    },
     "category": "cuisine-maison",
     "unit": "paquet",
     "icon": "sacs-congelation",
@@ -4941,7 +6853,14 @@
   },
   {
     "key": "boites-de-conservation",
-    "name": { "fr": "Boîtes de conservation" },
+    "name": {
+      "fr": "Boîtes de conservation",
+      "en": "Food containers"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["storage boxes"]
+    },
     "category": "cuisine-maison",
     "unit": "piece",
     "icon": "boites-de-conservation",
@@ -4949,7 +6868,14 @@
   },
   {
     "key": "assiettes-jetables",
-    "name": { "fr": "Assiettes jetables" },
+    "name": {
+      "fr": "Assiettes jetables",
+      "en": "Paper plates"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["disposable plates"]
+    },
     "category": "cuisine-maison",
     "unit": "paquet",
     "icon": "assiettes-jetables",
@@ -4957,7 +6883,14 @@
   },
   {
     "key": "gobelets-jetables",
-    "name": { "fr": "Gobelets jetables" },
+    "name": {
+      "fr": "Gobelets jetables",
+      "en": "Disposable cups"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["plastic cups", "paper cups"]
+    },
     "category": "cuisine-maison",
     "unit": "paquet",
     "icon": "gobelets-jetables",
@@ -4965,7 +6898,14 @@
   },
   {
     "key": "insecticide",
-    "name": { "fr": "Insecticide" },
+    "name": {
+      "fr": "Insecticide",
+      "en": "Insect spray"
+    },
+    "aliases": {
+      "fr": [],
+      "en": ["insecticide"]
+    },
     "category": "cuisine-maison",
     "unit": "piece",
     "icon": "insecticide",
@@ -4973,7 +6913,10 @@
   },
   {
     "key": "friandises-animaux",
-    "name": { "fr": "Friandises pour animaux" },
+    "name": {
+      "fr": "Friandises pour animaux",
+      "en": "Pet treats"
+    },
     "category": "animaux",
     "unit": "sachet",
     "icon": "friandises-animaux",
@@ -4981,7 +6924,10 @@
   },
   {
     "key": "nourriture-poissons",
-    "name": { "fr": "Nourriture pour poissons" },
+    "name": {
+      "fr": "Nourriture pour poissons",
+      "en": "Fish food"
+    },
     "category": "animaux",
     "unit": "boite",
     "icon": "nourriture-poissons",
@@ -4989,7 +6935,10 @@
   },
   {
     "key": "graines-oiseaux",
-    "name": { "fr": "Graines pour oiseaux" },
+    "name": {
+      "fr": "Graines pour oiseaux",
+      "en": "Bird seed"
+    },
     "category": "animaux",
     "unit": "sachet",
     "icon": "graines-oiseaux",

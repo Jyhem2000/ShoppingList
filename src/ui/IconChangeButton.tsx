@@ -1,4 +1,4 @@
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import type { PaletteColor } from "@/ui/palette";
 import { ProductIcon } from "@/ui/ProductIcon";
 
@@ -22,13 +22,13 @@ export function IconChangeButton({
       <button
         type="button"
         onClick={onClick}
-        aria-label={fr.manage.icon.change}
+        aria-label={texts.manage.icon.change}
         className="rounded-3xl border border-border p-3 active:bg-raised"
       >
         <ProductIcon icon={icon} label={label} color={color} size={72} />
       </button>
       <span className="text-sm font-semibold text-primary">
-        {fr.manage.icon.change}
+        {texts.manage.icon.change}
       </span>
     </div>
   );

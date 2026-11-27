@@ -8,8 +8,9 @@ import type {
   ShoppingList,
   Unit,
 } from "@/domain/model";
-import { slugify } from "@/domain/slug";
-import { fr } from "@/i18n/fr";
+import { appLanguage, type Language } from "@/domain/language";
+import { articleTexts, categoryTexts, unitTexts } from "@/domain/catalogTexts";
+import { textsByLanguage } from "@/i18n";
 import type { ShoppingDatabase } from "./database";
 
 /**
@@ -17,6 +18,7 @@ import type { ShoppingDatabase } from "./database";
  * dans la base et création de la liste « Courses ». Aucun magasin : le premier se crée
  * au premier « C'est parti », et ses rayons pendant les courses.
  * Ensuite, ce sont les données de l'utilisateur : rien n'est jamais recopié par-dessus.
+ * Les noms du catalogue sont ceux de la langue de l'app.
  */
 export interface InitialData {
   units: Unit[];
@@ -29,28 +31,25 @@ export interface InitialData {
 export function buildInitialData(
   now: number,
   newId: () => ID = () => crypto.randomUUID(),
+  language: Language = appLanguage(),
 ): InitialData {
   const base = () => ({ id: newId(), createdAt: now, updatedAt: now });
 
   const units: Unit[] = unitsData.map((unit) => ({
     ...base(),
     slug: unit.key,
-    singular: unit.name.fr.singular,
-    plural: unit.name.fr.plural,
-    abbr: unit.name.fr.abbr,
+    ...unitTexts(unit, language),
     dimension: unit.dimension,
     group: unit.group,
     factor: unit.factor,
     step: unit.step,
-    aliases: unit.aliases?.fr ?? [],
     catalogKey: unit.key,
   }));
   const unitByKey = new Map(units.map((unit) => [unit.slug, unit]));
 
   const categories: Category[] = categoriesData.map((category) => ({
     ...base(),
-    slug: slugify(category.name.fr),
-    name: category.name.fr,
+    ...categoryTexts(category, language),
     icon: category.icon,
     color: category.color,
     useIconAsFallback: false,
@@ -66,38 +65,31 @@ export function buildInitialData(
     return value;
   };
 
-  const articles: Article[] = catalogData.map((article) => {
-    const slug = slugify(article.name.fr);
-    const aliases = [
-      ...new Set((article.aliases?.fr ?? []).map(slugify)),
-    ].filter((alias) => alias !== slug);
-    return {
-      ...base(),
-      slug,
-      name: article.name.fr,
-      categoryId: require(categoryByKey.get(article.category), article.category)
-        .id,
-      defaultUnitId: require(unitByKey.get(article.unit), article.unit).id,
-      defaultQuantity: article.quantity,
-      countable: article.countable,
-      generic: article.generic,
-      types: article.types?.fr ?? [],
-      aliases,
-      icon: article.icon,
-      favorite: false,
-      seasonMonths: article.season?.[SEASON_ZONE],
-      notDuplicateOf: [],
-      catalogKey: article.key,
-    };
-  });
+  const articles: Article[] = catalogData.map((article) => ({
+    ...base(),
+    ...articleTexts(article, language),
+    categoryId: require(categoryByKey.get(article.category), article.category)
+      .id,
+    defaultUnitId: require(unitByKey.get(article.unit), article.unit).id,
+    defaultQuantity: article.quantity,
+    countable: article.countable,
+    generic: article.generic,
+    icon: article.icon,
+    favorite: false,
+    seasonMonths: article.season?.[SEASON_ZONE],
+    notDuplicateOf: [],
+    catalogKey: article.key,
+  }));
 
   const list: ShoppingList = {
     ...base(),
-    name: fr.defaults.listName,
+    name: textsByLanguage[language].defaults.listName,
     position: 0,
   };
 
   const settings: Settings = {
+    // Celle posée au démarrage : au premier lancement, la langue du téléphone.
+    language,
     catalogVersion: CATALOG_VERSION,
     currentListId: list.id,
     dismissedSuggestions: [],

@@ -1,11 +1,11 @@
 import { CloudOff, List, RotateCcw } from "lucide-react";
 import { useNavigate } from "react-router";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { Button } from "@/ui/button";
 import { EmptyState } from "@/ui/Page";
 import { routes } from "./routes";
 
-const t = fr.screenError;
+const t = texts.screenError;
 
 /**
  * Affiché à la place d'un écran qui n'a pas pu s'ouvrir, par exemple un écran chargé à

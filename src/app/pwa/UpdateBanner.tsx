@@ -1,7 +1,7 @@
 import { useRegisterSW } from "virtual:pwa-register/react";
 import { RefreshCw } from "lucide-react";
 import { useEffect } from "react";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { Button } from "@/ui/button";
 import {
   checkForUpdate,
@@ -95,10 +95,12 @@ export function UpdateBanner() {
         aria-hidden
       />
       <p className="flex-1 text-sm font-semibold">
-        {version ? fr.update.availableVersion(version) : fr.update.available}
+        {version
+          ? texts.update.availableVersion(version)
+          : texts.update.available}
       </p>
       <Button size="sm" disabled={updating} onClick={apply}>
-        {updating ? fr.update.applying : fr.update.action}
+        {updating ? texts.update.applying : texts.update.action}
       </Button>
     </div>
   );

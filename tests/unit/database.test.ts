@@ -1,12 +1,19 @@
 import "fake-indexeddb/auto";
 import { afterEach, describe, expect, it } from "vitest";
-import { categoriesData, familiesData, keywordRules } from "@/data";
+import {
+  categoriesData,
+  familiesData,
+  keywordRules,
+  keywordsData,
+  unitsData,
+} from "@/data";
 import { catalogData } from "@/data/catalog";
 import { ShoppingDatabase } from "@/db/database";
 import { addListItem } from "@/db/items";
 import { mergeIntoTwin, updateItem } from "@/db/lists";
 import { buildInitialData, seedDatabase } from "@/db/seed";
 import { buildEmptyStore } from "@/db/stores";
+import { languages } from "@/domain/language";
 import { accentKey } from "@/domain/slug";
 import pack from "@/icons/packData";
 import { DISH_PREFIX } from "@/icons/pack";
@@ -33,25 +40,71 @@ describe("données initiales (docs/06)", () => {
     expect(new Set(keys).size).toBe(keys.length);
   });
 
-  it("n'a ni slug en double, ni alias qui désigne deux articles (accents compris)", () => {
-    for (const items of [data.articles, data.categories, data.units]) {
-      const slugs = items.map((i) => i.slug);
-      expect(new Set(slugs).size).toBe(slugs.length);
-    }
-    const owner = new Map<string, string>();
-    for (const article of data.articles) {
-      for (const name of [article.name, ...article.aliases]) {
-        // « Pâté » et « Pâtes » ne diffèrent que par les accents : permis, la saisie
-        // les départage (docs/07 § 7.2).
-        const key = accentKey(name);
-        const previous = owner.get(key);
-        expect(
-          previous === undefined || previous === article.name,
-          `« ${name} » désigne ${previous ?? ""} et ${article.name}`,
-        ).toBe(true);
-        owner.set(key, article.name);
+  it.each(languages)(
+    "n'a ni slug en double, ni alias qui désigne deux articles (accents compris) (%s)",
+    (language) => {
+      const data = buildInitialData(0, undefined, language);
+      for (const items of [data.articles, data.categories, data.units]) {
+        const slugs = items.map((i) => i.slug);
+        expect(new Set(slugs).size).toBe(slugs.length);
       }
+      const owner = new Map<string, string>();
+      for (const article of data.articles) {
+        for (const name of [article.name, ...article.aliases]) {
+          // « Pâté » et « Pâtes » ne diffèrent que par les accents : permis, la saisie
+          // les départage (docs/07 § 7.2).
+          const key = accentKey(name);
+          const previous = owner.get(key);
+          expect(
+            previous === undefined || previous === article.name,
+            `« ${name} » désigne ${previous ?? ""} et ${article.name}`,
+          ).toBe(true);
+          owner.set(key, article.name);
+        }
+      }
+    },
+  );
+
+  it("donne chaque texte du catalogue dans toutes les langues", () => {
+    const missing: string[] = [];
+    const has = (what: string, text: Record<string, unknown> | undefined) => {
+      if (!text) return;
+      for (const language of languages) {
+        const value = text[language];
+        if (
+          value === undefined ||
+          value === "" ||
+          (Array.isArray(value) && value.length === 0 && what !== "alias")
+        )
+          missing.push(`${what} ${language}`);
+      }
+    };
+    for (const a of catalogData) {
+      has(`nom ${a.key}`, a.name);
+      has("alias", a.aliases);
+      has(`types ${a.key}`, a.types);
     }
+    for (const c of categoriesData) {
+      has(`catégorie ${c.key}`, c.name);
+      has(`nom court ${c.key}`, c.short);
+    }
+    for (const f of familiesData) has(`famille ${f.key}`, f.name);
+    for (const u of unitsData) has(`unité ${u.key}`, u.name);
+    keywordsData.forEach((r, i) => has(`mots-clés ${i}`, r.match));
+    expect(missing).toEqual([]);
+  });
+
+  it("donne les types d'un article dans le même nombre et le même ordre dans chaque langue", () => {
+    // Le changement de langue et l'import traduisent un type par sa place (docs/06 § 4).
+    const uneven = catalogData
+      .filter(
+        (a) =>
+          a.types &&
+          new Set(languages.map((language) => a.types?.[language].length))
+            .size > 1,
+      )
+      .map((a) => a.key);
+    expect(uneven).toEqual([]);
   });
 
   it("n'utilise que des icônes connues : pack pour les articles, Lucide pour les catégories", () => {

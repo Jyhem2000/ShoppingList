@@ -28,11 +28,11 @@ import {
 } from "@/domain/share";
 import { slugify } from "@/domain/slug";
 
-const catalog = buildImportCatalog({
-  articles: catalogData,
-  categories: categoriesData,
-  units: unitsData,
-});
+const catalog = buildImportCatalog(
+  { articles: catalogData, categories: categoriesData, units: unitsData },
+  "fr",
+);
+const catalogNames = new Map(catalogData.map((a) => [a.key, a.name.fr]));
 
 const databases: ShoppingDatabase[] = [];
 async function seeded(): Promise<ShoppingDatabase> {
@@ -69,6 +69,7 @@ async function shareSource(db: ShoppingDatabase): Promise<ShareSource> {
     articleById: map<Article>(await db.articles.toArray()),
     categoryById: map<Category>(await db.categories.toArray()),
     unitById: map<Unit>(await db.units.toArray()),
+    catalogName: (key) => catalogNames.get(key),
   };
 }
 
@@ -80,6 +81,7 @@ async function share(db: ShoppingDatabase): Promise<SharedList> {
     list.name,
     await activeItems(db, list.id),
     await shareSource(db),
+    "fr",
   );
 }
 
@@ -114,6 +116,60 @@ describe("lien de partage (docs/07 § 7.9)", () => {
     ]);
     const message = `Liste 1\n• Tomates 1 kg\n\nPour l'ajouter : ${shareLink("https://exemple.fr/", shared)}`;
     expect(findShared(message)).toEqual({ ...shared, c: [], u: [] });
+  });
+
+  it("en anglais : l'article garde sa clé seule, et le destinataire français le lit dans sa langue", async () => {
+    const sender = await seeded();
+    const tomatoes = await byKey(sender, "tomates");
+    const butter = await byKey(sender, "beurre");
+    // Le catalogue de l'expéditeur, en anglais (changement de langue, 03 I3).
+    await sender.articles.update(tomatoes.id, { name: "Tomatoes" });
+    await sender.articles.update(butter.id, { name: "Salted butter" });
+    await add(sender, tomatoes, 1);
+    await add(sender, butter, 1);
+    const list = await sender.lists.toCollection().first();
+    if (!list) throw new Error("liste");
+    const english = new Map(catalogData.map((a) => [a.key, a.name.en]));
+    const shared = buildSharedList(
+      "Shopping",
+      await activeItems(sender, list.id),
+      { ...(await shareSource(sender)), catalogName: (k) => english.get(k) },
+      "en",
+    );
+    expect(shared.l).toBe("en");
+    expect(
+      Object.fromEntries(shared.i.map((item) => [item.k, item.n])),
+    ).toEqual({ tomates: undefined, beurre: "Salted butter" });
+
+    const recipient = await seeded();
+    const lines = resolveImport(shared, await context(recipient));
+    expect(lines.map((line) => line.received.name).sort()).toEqual([
+      "Beurre",
+      "Tomates",
+    ]);
+    const inEnglish = buildImportCatalog(
+      { articles: catalogData, categories: categoriesData, units: unitsData },
+      "en",
+    );
+    expect(inEnglish.articles.get("tomates")?.name).toBe("Tomatoes");
+    expect(inEnglish.categories.get("fruits")?.name).toBe("Fruit");
+  });
+
+  it("les types acceptés d'un article du catalogue arrivent dans la langue du destinataire", async () => {
+    const sender = await seeded();
+    await add(sender, await byKey(sender, "pommes"), 1, {
+      acceptedTypes: ["Golden Delicious", "Cox", "Bramley"],
+    });
+    const shared = { ...(await share(sender)), l: "en" };
+    const recipient = await seeded();
+    const [line] = resolveImport(shared, await context(recipient));
+    // Traduit à sa place, gardé s'il existe dans les deux, laissé s'il est inconnu.
+    expect(line?.acceptedTypes).toEqual(["Golden", "Cox", "Bramley"]);
+    const [same] = resolveImport(
+      { ...shared, l: "fr" },
+      await context(recipient),
+    );
+    expect(same?.acceptedTypes).toEqual(["Golden Delicious", "Cox", "Bramley"]);
   });
 
   it("un lien abîmé ou absent ne donne rien", () => {
@@ -603,7 +659,7 @@ describe("partage d'une recette (docs/03 E3)", () => {
     });
     const recipe = await sender.recipes.get(id);
     if (!recipe) throw new Error("recette");
-    const shared = buildSharedRecipe(recipe, await shareSource(sender));
+    const shared = buildSharedRecipe(recipe, await shareSource(sender), "fr");
     expect(shared).toMatchObject({
       type: "recipe",
       n: "Raclette",

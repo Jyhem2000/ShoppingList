@@ -5,7 +5,7 @@ import type { Article, ID } from "@/domain/model";
 import { searchKey } from "@/domain/slug";
 import { quantitiesInList } from "@/common/format";
 import type { ListData } from "@/common/useListData";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { GroupIcon } from "@/ui/GroupIcon";
 import { SearchField } from "@/ui/SearchField";
 import { showToast } from "@/ui/toast";
@@ -13,7 +13,7 @@ import { useCatalogPick } from "@/common/useCatalogPick";
 import { RowButton } from "@/ui/RowButton";
 import { SuggestionList } from "@/ui/SuggestionList";
 import { ArticleIcon } from "@/ui/ArticleIcon";
-const t = fr.catalog;
+const t = texts.catalog;
 const MAX_SUGGESTIONS = 8;
 
 /** Sans accents ni majuscules, lettre par lettre (même longueur que le texte d'origine). */

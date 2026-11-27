@@ -40,9 +40,10 @@ Barre de saisie fixée en bas de l'écran Liste, accessible au pouce. Son libell
 | `2 baguettes, du beurre et 6 œufs`       | 3 lignes                                                               |
 
 - Nombres en lettres jusqu'à vingt, « une douzaine », « une demi-douzaine ».
-- Plusieurs articles séparés par `,`, `;`, `et`, `puis`, retour à la ligne, une puce entourée d'espaces (`- beurre - lait`, `• pain`) ou collée au mot d'avant quand le retour à la ligne a disparu (`beurre- lait`), ou un point de fin de phrase suivi d'une majuscule (`Des pommes. Du lait.`, ajouté par la dictée) ; jamais la virgule ou le point d'un nombre (`1,5 kg`) ni le point d'une abréviation (`2 tr. de jambon`). Articles partitifs ignorés (`du`, `de la`, `des`, `d'`), comme une puce ou une case à cocher en tête (`- [ ] œufs`).
+- **En anglais** (I3), les mêmes règles avec les mots anglais : `and`, `then` entre deux articles, `some` et `of` ignorés (« 2 tins of tomatoes »), nombres en lettres (`a` vaut un), « a dozen », « half a dozen » ; `cherry` trouve _Cherries_.
+- Plusieurs articles séparés par `,`, `;`, `et`, `puis`, retour à la ligne, une puce entourée d'espaces (`- beurre - lait`, `• pain`) ou collée au mot d'avant quand le retour à la ligne a disparu (`beurre- lait`), ou un point de fin de phrase suivi d'une majuscule (`Des pommes. Du lait.`, ajouté par la dictée) ; `et` et `puis` ne coupent pas le nom ou l'alias d'un article connu (_Peas and carrots_) ; jamais la virgule ou le point d'un nombre (`1,5 kg`) ni le point d'une abréviation (`2 tr. de jambon`). Articles partitifs ignorés (`du`, `de la`, `des`, `d'`), comme une puce ou une case à cocher en tête (`- [ ] œufs`).
 - **Liste collée** : une liste à puces ou numérotée collée dans la barre (Notes, une autre app) y arrive en une ligne, ses articles séparés par des virgules, sans puces ni numéros ; le champ n'a qu'une ligne et perdrait sinon les retours à la ligne.
-- **Unités de cuisine** (cuillère, pincée, verre, décilitre) : elles ne s'achètent pas. Dans une liste, « 1 verre de vin » ajoute le vin avec sa quantité habituelle (1 bouteille) ; l'unité n'est lue que devant « de » (« 6 verres en plastique » reste 6 verres en plastique). Dans une recette, elles se lisent comme les autres unités.
+- **Unités de cuisine** (cuillère, pincée, verre, décilitre) : elles ne s'achètent pas. Dans une liste, « 1 verre de vin » ajoute le vin avec sa quantité habituelle (1 bouteille) ; l'unité n'est lue que devant « de » (« 6 verres en plastique » reste 6 verres en plastique) ou abrégée (« 2 cas beurre », « 2 tbsp sugar »). Dans une recette, elles se lisent comme les autres unités.
 - **Suggestions par type** : dès qu'on tape après le nom d'un article le début d'un de ses types (`pommes g`), les suggestions proposent d'abord « Pommes · Gala », « Pommes · Golden »… (puis « Pommes ») ; en toucher une ajoute la ligne avec ce type. Tant qu'on ne tape que le nom, rien ne change (liste courte). Pas de « Créer… » quand la saisie désigne un article et un de ses types.
 - **Un nombre seul compte des objets**, dans la liste comme dans une recette. Selon l'unité par défaut de l'article :
   - pièce, contenant (paquet, pot, bouteille…), ou unité de cuisine dans une recette : le nombre de cette unité (« 6 œufs », « 3 pâtes » → 3 paquets) ;
@@ -278,7 +279,7 @@ L'aperçu propose d'ajouter les lignes à une **nouvelle liste** (au nom reçu) 
 
 ### G2. Catégories
 
-Créer, renommer, changer icône/couleur, **nom court** facultatif (titre des rayons, 02 § 4 ; par défaut celui du catalogue), supprimer (réaffectation des articles), fusionner.
+Créer, renommer, changer icône/couleur, **nom court** facultatif (titre des rayons, 02 § 4 ; par défaut celui du catalogue, si la catégorie n'a pas été renommée), supprimer (réaffectation des articles), fusionner.
 
 ### G3. Magasins et rayons
 
@@ -362,11 +363,12 @@ Mémorisées sur le téléphone (préférences de l'appareil, hors sauvegarde) ;
 
 ### I3. Anglais — _v1.3_
 
-Interface et catalogue de départ en anglais, langue choisie dans les réglages (le français reste la langue par défaut).
+Interface et catalogue de départ en anglais, langue choisie dans les réglages.
 
 - Interface : un fichier de textes par langue (`src/i18n/en.ts` à côté de `fr.ts`).
 - Catalogue : ajout des libellés, alias et types anglais aux entrées existantes (même clé), ainsi qu'aux catégories et unités.
-- Anglais britannique ; les mots américains sont des alias. Au premier lancement, l'anglais si le téléphone est en anglais, sinon le français.
+- Anglais britannique ; les mots américains sont des alias. Au premier lancement, l'anglais si le téléphone est en anglais, sinon le français. Réglages → Préférences → **Langue** (Français · English) ; l'app redémarre dans la langue choisie.
 - Changer de langue renomme ce qui vient du catalogue et n'a jamais été renommé (articles, catégories, unités), après un message qui le précise ; le reste garde son nom.
 - Les articles du catalogue s'affichent alors dans la langue de chacun et se reconnaissent par leur clé lors d'un partage ; les articles créés à la main gardent le libellé tapé (voir [02 § 1](02-modele-metier.md#langues--libellé-slug-et-clé) et [§ 9](02-modele-metier.md#9-partage-dune-liste)).
-- Rien à migrer : les données sont déjà organisées pour (06 § 4).
+- Saisie naturelle avec les mots anglais (A2). Dates, nombres, tri alphabétique et pluriels suivent la langue.
+- Les données n'ont qu'une langue à la fois : le catalogue de départ a ses textes dans les deux (06 § 4), et la langue est un réglage (07 § 5).

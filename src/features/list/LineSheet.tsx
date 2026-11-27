@@ -6,7 +6,7 @@ import { manageArticlePath } from "@/app/routes";
 import { db } from "@/db/database";
 import { mergeIntoTwin, stepItem, updateItem } from "@/db/lists";
 import type { ListItem } from "@/domain/model";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { AmountFields } from "@/ui/AmountFields";
 import { Field, RemoveDoneActions, TextInput } from "@/ui/form";
 import { NavButton } from "@/ui/NavButton";
@@ -19,7 +19,7 @@ import type { ListData } from "@/common/useListData";
 import { usePendingSave } from "@/ui/usePendingSave";
 import { useUsualUnits } from "./useUsualUnits";
 
-const t = fr.list.line;
+const t = texts.list.line;
 
 /**
  * Fiche d'une ligne (docs/03 B3) : quantité (− / + selon le pas de l'unité, ou
@@ -52,7 +52,7 @@ export function LineSheet({
   const close = async () => {
     await saveNote();
     if (await mergeIntoTwin(db, item.id))
-      showToast(fr.list.linesJoined, { tone: "info" });
+      showToast(texts.list.linesJoined, { tone: "info" });
   };
   const origin = recipeOrigin(item, data.recipeById);
 
@@ -116,7 +116,7 @@ export function LineSheet({
           className="-my-1 flex min-h-11 items-center justify-center gap-2 text-sm font-semibold text-primary"
         >
           <Pencil className="size-4" aria-hidden />
-          {fr.manage.article.edit}
+          {texts.manage.article.edit}
         </NavButton>
 
         <RemoveDoneActions

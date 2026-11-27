@@ -11,6 +11,7 @@ import {
 import { activeItems } from "@/db/items";
 import { seedDatabase } from "@/db/seed";
 import { deleteUnit } from "@/db/units";
+import { setAppLanguage } from "@/domain/language";
 import type { Recipe } from "@/domain/model";
 import {
   planRecipeAdd,
@@ -113,6 +114,21 @@ describe("rendement en clair (docs/02 § 7)", () => {
     expect(yieldLabel(1, "gâteaux")).toBe("1 gâteau");
     expect(yieldLabel(6, "part de tarte")).toBe("6 parts de tarte");
     expect(yieldLabel(1.5, "litre")).toBe("1,5 litre");
+  });
+
+  it("en anglais : pluriel sauf pour 1, et les pluriels irréguliers", () => {
+    setAppLanguage("en");
+    try {
+      expect(yieldLabel(1, "people")).toBe("1 person");
+      expect(yieldLabel(4, "People")).toBe("4 People");
+      expect(yieldLabel(2, "loaf")).toBe("2 loaves");
+      expect(yieldLabel(1, "loaves")).toBe("1 loaf");
+      expect(yieldLabel(2, "chef")).toBe("2 chefs");
+      expect(yieldLabel(1, "servings")).toBe("1 serving");
+      expect(yieldLabel(3, "pastry")).toBe("3 pastries");
+    } finally {
+      setAppLanguage("fr");
+    }
   });
 });
 

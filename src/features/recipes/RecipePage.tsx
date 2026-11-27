@@ -22,7 +22,7 @@ import { useEntryAdder } from "@/common/useEntryAdder";
 import { type ListData, useListData } from "@/common/useListData";
 import { IconPickerSheet } from "@/common/IconPickerSheet";
 import { NameField } from "@/common/NameField";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { RECIPE_ICON_CATEGORIES } from "@/icons/pack";
 import { ArticleIcon } from "@/ui/ArticleIcon";
 import { Button } from "@/ui/button";
@@ -42,7 +42,7 @@ import { RECIPE_COLOR } from "@/common/RecipeIcon";
 import { usePendingSave } from "@/ui/usePendingSave";
 import { YieldFields } from "./YieldFields";
 
-const t = fr.recipes;
+const t = texts.recipes;
 /** Paramètre d'adresse de la fiche ouverte en modification. */
 const EDIT = "modifier";
 
@@ -232,12 +232,12 @@ function RecipeView({ recipe, data }: { recipe: Recipe; data: ListData }) {
           onClick={() => {
             void sendMessage(
               recipeMessage(recipe, data),
-              fr.share.recipeCopied,
+              texts.share.recipeCopied,
             );
           }}
         >
           <Share />
-          {fr.share.sendRecipe}
+          {texts.share.sendRecipe}
         </Button>
         <Button
           variant="outline"

@@ -6,14 +6,14 @@ import { db } from "@/db/database";
 import { useAisleCounts, useStores } from "@/db/hooks";
 import { copyStore, createEmptyStore } from "@/db/stores";
 import type { ID } from "@/domain/model";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { AddButton } from "@/ui/AddButton";
 import { Button } from "@/ui/button";
 import { Chip, Field, TextInput, FieldLabel } from "@/ui/form";
 import { EmptyState, LinkRow, PageHeader, Section } from "@/ui/Page";
 import { Sheet } from "@/ui/Sheet";
 
-const t = fr.manage.stores;
+const t = texts.manage.stores;
 
 type Source = "copy" | "empty";
 

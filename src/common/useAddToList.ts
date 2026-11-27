@@ -6,7 +6,7 @@ import { entryAmount, type ParsedEntry } from "@/domain/entry";
 import type { Article, ListItem, Unit } from "@/domain/model";
 import { formatQuantity, type Amount } from "@/domain/quantity";
 import { feedback } from "@/feedback";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { reportSaveError, showToast } from "@/ui/toast";
 import { useEntryAdder } from "./useEntryAdder";
 import type { ListData } from "./useListData";
@@ -79,11 +79,11 @@ export function useAddToList(
       if (raw && raw.unit.id !== amount.unit.id) {
         const item = result.item;
         showToast(
-          fr.list.converted(formatQuantity(amount.quantity, amount.unit)),
+          texts.list.converted(formatQuantity(amount.quantity, amount.unit)),
           {
             tone: "info",
             action: {
-              label: fr.list.undo,
+              label: texts.list.undo,
               run: () => {
                 void updateItem(db, item.id, {
                   quantity: raw.quantity,

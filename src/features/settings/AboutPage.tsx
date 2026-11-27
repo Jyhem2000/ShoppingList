@@ -6,13 +6,14 @@ import {
   useUpdateState,
 } from "@/app/pwa/serviceWorker";
 import { routes } from "@/app/routes";
-import { fr } from "@/i18n/fr";
+import { appLocale } from "@/domain/language";
+import { texts } from "@/i18n";
 import { Button } from "@/ui/button";
 import { LinkRow, PageHeader, Row, Section } from "@/ui/Page";
 import { buildInfo, formatVersion } from "@/version";
 
 const REPOSITORY = "https://github.com/Jyhem2000/ShoppingList";
-const t = fr.about;
+const t = texts.about;
 
 /** Écran « À propos » : version, mises à jour, licences (docs/03 H5). */
 export function AboutPage() {
@@ -21,7 +22,7 @@ export function AboutPage() {
   // le résultat de la recherche.
   const ready = useUpdateState().phase !== "none";
   const update = ready && checked !== "checking" ? "available" : checked;
-  const buildDate = new Date(buildInfo.buildDate).toLocaleString("fr-FR", {
+  const buildDate = new Date(buildInfo.buildDate).toLocaleString(appLocale(), {
     dateStyle: "long",
     timeStyle: "short",
   });
@@ -36,7 +37,7 @@ export function AboutPage() {
       <PageHeader title={t.title} backTo={routes.settings} />
       <div className="flex flex-col items-center px-8 pt-4 pb-2 text-center">
         <img src="/logo.svg" alt="" className="mb-4 size-20 rounded-3xl" />
-        <p className="text-xl font-extrabold">{fr.appName}</p>
+        <p className="text-xl font-extrabold">{texts.appName}</p>
         <p className="mt-1 max-w-xs text-muted-foreground">{t.tagline}</p>
       </div>
       <Section>
@@ -85,8 +86,8 @@ export function AboutPage() {
           <LinkRow
             to={routes.devUi}
             icon={<Palette />}
-            label={fr.devUi.link}
-            hint={fr.devUi.linkHint}
+            label={texts.devUi.link}
+            hint={texts.devUi.linkHint}
           />
         )}
         <a

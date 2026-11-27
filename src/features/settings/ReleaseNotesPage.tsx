@@ -1,10 +1,10 @@
 import { routes } from "@/app/routes";
 import { formatDate } from "@/common/time";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { PageHeader, Section } from "@/ui/Page";
 import { buildInfo, compareVersions } from "@/version";
 
-const t = fr.releaseNotes;
+const t = texts.releaseNotes;
 
 /**
  * Nouveautés de chaque version, écrites pour l'utilisateur (docs/07 § 9).

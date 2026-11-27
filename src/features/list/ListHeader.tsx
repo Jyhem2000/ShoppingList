@@ -1,9 +1,9 @@
 import { ChevronDown } from "lucide-react";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { MenuButton } from "@/ui/MenuButton";
 import { PageHeader, PageTitle } from "@/ui/Page";
 
-const t = fr.list;
+const t = texts.list;
 
 /**
  * En-tête de la liste (docs/04 § 2.1) : nom de la liste courante (changer de liste)

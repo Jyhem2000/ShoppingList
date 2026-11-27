@@ -1,6 +1,6 @@
 import { Search, X } from "lucide-react";
 import { type ComponentProps, useRef } from "react";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { cn } from "@/ui/utils";
 
 /**
@@ -51,7 +51,7 @@ export function SearchField({
       {value && (
         <button
           type="button"
-          aria-label={fr.search.clear}
+          aria-label={texts.search.clear}
           onClick={() => {
             onValueChange("");
             own.current?.focus();

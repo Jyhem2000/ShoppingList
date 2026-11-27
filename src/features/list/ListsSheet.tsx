@@ -3,7 +3,7 @@ import { db } from "@/db/database";
 import { createList, reorderLists } from "@/db/lists";
 import { updateSettings } from "@/db/settings";
 import type { ID, ShoppingList } from "@/domain/model";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { AddButton } from "@/ui/AddButton";
 import { Button } from "@/ui/button";
 import { Field, TextInput, FieldLabel, CheckRow, ChoiceMark } from "@/ui/form";
@@ -13,7 +13,7 @@ import { DragHandle, SortableList } from "@/ui/SortableList";
 import { cn } from "@/ui/utils";
 import type { ListData } from "@/common/useListData";
 import { RowButton } from "@/ui/RowButton";
-const t = fr.list.lists;
+const t = texts.list.lists;
 
 function ListRow({
   list,

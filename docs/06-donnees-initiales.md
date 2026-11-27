@@ -26,6 +26,8 @@ Fichiers prévus dans `src/data/` : `categories.json`, `units.json`, `store-temp
 | `barquette` | barquette / barquettes   | barquette | autre     | —       | 1   |
 | `tranche`   | tranche / tranches       | tranche   | autre     | —       | 1   |
 
+En anglais (§ 4), dans le même ordre : piece, gram, kilogram, millilitre, centilitre, litre, pack, tin, bottle, bag, packet, jar, bunch, tray, slice ; pour les recettes, tablespoon (tbsp), teaspoon (tsp), pinch, glass, decilitre.
+
 Affichage :
 
 - dans les listes, le **symbole** pour les poids et volumes (`1,2 kg`, `50 cl`) ; le litre s'écrit **`L`** majuscule (symbole admis par le système international) pour ne jamais confondre `1 l` et `11` ; les autres unités **en toutes lettres** (« 2 tranches », « 1 barquette ») : une abréviation comme « tr. » ou « barq. » n'est pas claire (elles restent reconnues à la saisie) ;
@@ -152,19 +154,29 @@ Pas de modèles de magasin : ils regrouperaient les catégories de façon arbitr
 ## 4. Catalogue de départ
 
 - **~500 articles** courants en France (483 aujourd'hui), répartis dans toutes les catégories : 10 à 20 articles par catégorie, davantage pour les fruits et légumes. Un grand catalogue limite les créations manuelles, donc les doublons au moment du partage ([02 § 9](02-modele-metier.md#9-partage-dune-liste)).
-- Format de chaque entrée — les textes sont **par langue**, la v1 ne remplit que `fr` :
+- Format de chaque entrée — les textes sont **par langue**, français (`fr`) et anglais (`en`) :
   ```json
   {
     "key": "pommes",
-    "name": { "fr": "Pommes" },
-    "aliases": { "fr": ["pomme"] },
+    "name": { "fr": "Pommes", "en": "Apples" },
     "types": {
       "fr": [
         "Gala",
         "Golden",
         "Granny Smith",
         "Pink Lady",
-        "Reine des reinettes"
+        "Reine des reinettes",
+        "Braeburn",
+        "Cox"
+      ],
+      "en": [
+        "Gala",
+        "Golden Delicious",
+        "Granny Smith",
+        "Pink Lady",
+        "Reine des Reinettes",
+        "Braeburn",
+        "Cox"
       ]
     },
     "category": "fruits",
@@ -172,7 +184,8 @@ Pas de modèles de magasin : ils regrouperaient les catégories de façon arbitr
     "icon": "red-apple"
   }
   ```
-  Ajouter l'anglais (v1.3) = ajouter `"en": …` dans ces champs (ou un fichier `catalog.en.json` fusionné au build), sans migration des données utilisateur.
+  Chaque texte existe dans les deux langues (vérifié par les tests) ; les alias peuvent différer d'une langue à l'autre (mots courants du pays). Les **types** ont le même nombre dans chaque langue, dans le même ordre : le type à la même place est sa traduction (« Golden » = « Golden Delicious »), ce qui sert au changement de langue et à l'import d'un partage (vérifié par les tests). Un article créé depuis le catalogue prend les textes de la langue de l'app.
+- _v1.3 (I3)_ : **anglais britannique** (aubergine, courgette, coriander, crisps, tin) ; les mots américains sont des alias (eggplant, zucchini, cilantro, potato chips, can). Les articles génériques s'écrivent « Any … » (_Any fruit_, _Any cheese_). Unités : `boite` = tin (alias can), `sachet` = bag, `paquet` = packet (alias box), `pot` = jar (alias tub), `barquette` = tray (alias punnet), `botte` = bunch ; cuillères : tbsp, tsp.
 - `key` = clé catalogue : identifiant technique **sans langue**, écrit sous forme de slug français pour rester lisible, **figé pour toujours** (même si le libellé change dans une version future). Il n'est jamais affiché.
 - `types` uniquement quand c'est utile (pommes, pommes de terre, lait, farine…), sinon absent.
 - `aliases` : synonymes, abréviations (`pdt`), marques passées dans le langage courant (`sopalin`, `kleenex`, `coca`), variantes régionales (`chocolatine`), orthographes alternatives (`nuoc mam`).
@@ -187,19 +200,25 @@ Sert à deviner, pour un **article créé par l'utilisateur** (absent du catalog
 ```json
 [
   {
-    "match": ["sauce", "ketchup", "mayonnaise", "moutarde", "pesto"],
+    "match": {
+      "fr": ["sauce", "ketchup", "mayonnaise", "moutarde", "pesto"],
+      "en": ["sauce", "ketchup", "mayonnaise", "mustard", "pesto"]
+    },
     "category": "sauces-condiments",
     "unit": "pot",
     "icon": "jar"
   },
   {
-    "match": ["jambon", "saucisson", "chorizo", "lardons", "rillettes"],
+    "match": {
+      "fr": ["jambon", "saucisson", "chorizo", "lardons", "rillettes"],
+      "en": ["ham", "salami", "chorizo", "lardons", "rillettes"]
+    },
     "category": "charcuterie",
     "unit": "paquet",
     "icon": "cut-of-meat"
   },
   {
-    "match": ["jus"],
+    "match": { "fr": ["jus"], "en": ["juice"] },
     "category": "jus-sodas",
     "unit": "bouteille",
     "icon": "beverage-box"
@@ -207,13 +226,13 @@ Sert à deviner, pour un **article créé par l'utilisateur** (absent du catalog
 ]
 ```
 
-Règles : comparaison sur les mots du slug ; première règle trouvée gagnante ; mots plus spécifiques avant mots génériques. Si rien ne correspond : catégorie « Autres », unité « pièce », icône de la catégorie ou monogramme.
+Règles : mots de la langue de l'app ; comparaison sur les mots du slug ; première règle trouvée gagnante ; mots plus spécifiques avant mots génériques. Si rien ne correspond : catégorie « Autres », unité « pièce », icône de la catégorie ou monogramme.
 
 Les choix de l'utilisateur ne modifient pas le dictionnaire : ils sont enregistrés sur l'article lui-même.
 
 ## 6. Pack d'icônes
 
-Voir [05 § 4](05-identite-visuelle.md#4-icônes). Une icône dessinée par article du catalogue (236, `src/icons/drawn/`, visibles dans la maquette `#/dev/ui`), chacune avec ses **mots-clés en français** (nom, alias et types de l'article) pour la recherche dans le sélecteur.
+Voir [05 § 4](05-identite-visuelle.md#4-icônes). Une icône dessinée par article du catalogue (236, `src/icons/drawn/`, visibles dans la maquette `#/dev/ui`), chacune avec ses **mots-clés dans la langue de l'app** (nom, alias et types de l'article) pour la recherche dans le sélecteur.
 
 ## 7. Mise à jour du catalogue sans réinstaller
 
@@ -221,7 +240,7 @@ Le catalogue embarqué a un numéro de version (`CATALOG_VERSION`, `src/data/cat
 
 Au lancement, si le catalogue de l'app est plus récent que celui de la base (`src/db/catalogUpdate.ts`) :
 
-- les unités, catégories et articles apparus depuis sont **ajoutés**, sauf s'ils existent déjà (même clé, ou même nom pour un article créé à la main) ;
+- les unités, catégories et articles apparus depuis sont **ajoutés**, dans la langue de l'app, sauf s'ils existent déjà (même clé, ou même nom pour un article créé à la main) ;
 - rien de ce que l'utilisateur a créé, modifié ou supprimé n'est touché : un article du catalogue qu'il a supprimé ne revient pas ;
 - une nouvelle catégorie n'est rangée dans aucun rayon : elle apparaît dans les « Catégories non rattachées » de chaque magasin (G3).
 

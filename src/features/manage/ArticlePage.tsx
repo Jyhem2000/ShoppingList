@@ -20,7 +20,7 @@ import { useMonth } from "@/ui/useNow";
 import { addAlias as withAlias, mergeTypes } from "@/domain/slug";
 import { UnitSelect } from "@/ui/UnitSelect";
 import { type ListData, useListData } from "@/common/useListData";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { SearchField } from "@/ui/SearchField";
 import { Button } from "@/ui/button";
 import { useGoBack } from "@/ui/navigation";
@@ -43,7 +43,7 @@ import { ArticleIcon } from "@/ui/ArticleIcon";
 import { paletteColor } from "@/ui/palette";
 import { usePendingSave } from "@/ui/usePendingSave";
 import { feedback } from "@/feedback";
-const t = fr.manage.article;
+const t = texts.manage.article;
 
 /** Un alias est stocké en slug (docs/07 § 5) : on l'affiche avec des espaces. */
 const aliasLabel = (alias: string) => alias.replaceAll("-", " ");
@@ -62,7 +62,7 @@ export function ArticlePage() {
     return (
       <>
         <PageHeader
-          title={fr.manage.articles.title}
+          title={texts.manage.articles.title}
           backTo={routes.manageArticles}
         />
         <EmptyState icon={<X />} title={t.missing} />
@@ -493,7 +493,7 @@ function MergeArticleSheet({
             {t.mergeConfirm}
           </Button>
           <Button variant="outline" onClick={onClose}>
-            {fr.manage.confirmCancel}
+            {texts.manage.confirmCancel}
           </Button>
         </div>
       ) : (

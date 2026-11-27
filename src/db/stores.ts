@@ -11,7 +11,7 @@ import {
   sortAisles,
   spreadPositions,
 } from "@/domain/stores";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import type { ShoppingDatabase } from "./database";
 
 // ——— Édition des magasins et des rayons (docs/03 G3) ———
@@ -76,7 +76,7 @@ export function buildEmptyStore(
         createdAt: now,
         updatedAt: now,
         storeId: store.id,
-        name: fr.defaults.unsortedAisle,
+        name: texts.defaults.unsortedAisle,
         ...DEFAULT_AISLE_STYLE,
         position: 1,
         categories: categories

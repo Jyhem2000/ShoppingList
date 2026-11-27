@@ -8,9 +8,12 @@ import { compareText } from "./slug";
  * importe » (aucun type) est un choix comme un autre.
  */
 export function typesKey(types: readonly string[]): string {
-  return [...new Set(types.map((type) => type.trim().toLocaleLowerCase("fr")))]
-    .sort()
-    .join("|");
+  return [...new Set(types.map(typeText))].sort().join("|");
+}
+
+/** Un type comme `typesKey` le compare : sans casse ni espaces autour. */
+export function typeText(type: string): string {
+  return type.trim().toLowerCase();
 }
 
 export function sameTypes(a: readonly string[], b: readonly string[]): boolean {

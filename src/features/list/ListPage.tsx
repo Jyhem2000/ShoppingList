@@ -12,7 +12,7 @@ import { feedback } from "@/feedback";
 import { formatClock } from "@/common/time";
 import { StaleSessionPrompt } from "@/common/StaleSessionPrompt";
 import { StartShoppingSheet } from "@/common/StartShoppingSheet";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { Button } from "@/ui/button";
 import { EmptyState, Loading } from "@/ui/Page";
 import { showToast } from "@/ui/toast";
@@ -31,7 +31,7 @@ import { useRestockSuggestions, useTourCategories } from "@/common/useRestock";
 import { TourButton } from "./TourButton";
 
 import { useNow } from "@/ui/useNow";
-const t = fr.list;
+const t = texts.list;
 
 type Panel =
   | { kind: "line"; itemId: ID }
@@ -113,7 +113,7 @@ export function ListPage() {
             }}
           >
             <ShoppingCart />
-            {fr.shopping.resume}
+            {texts.shopping.resume}
           </Button>
         </div>
       ) : (
@@ -127,7 +127,7 @@ export function ListPage() {
               }}
             >
               <ShoppingCart />
-              {fr.shopping.start}
+              {texts.shopping.start}
             </Button>
           </div>
         )
@@ -181,7 +181,7 @@ export function ListPage() {
               }}
             >
               <RotateCcw />
-              {fr.shopping.reopen(formatClock(session.closedAt))}
+              {texts.shopping.reopen(formatClock(session.closedAt))}
             </Button>
           </div>
         )}

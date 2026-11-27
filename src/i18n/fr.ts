@@ -434,7 +434,18 @@ export const fr = {
       wholeCategoryHint: (into: string) => `Tous ses articles iront ${into}.`,
       done: (name: string, label: string) => `${name} → ${label}`,
     },
-    when: { today: "aujourd'hui", yesterday: "hier" },
+    when: {
+      today: "aujourd'hui",
+      yesterday: "hier",
+      /** « 18 h 02 », « 18 h » à l'heure pile. */
+      clock: (hours: number, minutes: number) =>
+        `${hours} h${minutes ? ` ${String(minutes).padStart(2, "0")}` : ""}`,
+      /** « 42 min », « 1 h 05 ». */
+      duration: (hours: number, minutes: number) =>
+        hours
+          ? `${hours} h ${String(minutes).padStart(2, "0")}`
+          : `${minutes} min`,
+    },
     stale: {
       title: (when: string) => `Tu as terminé tes courses de ${when} ?`,
       text: "Elles sont restées ouvertes.",
@@ -978,7 +989,7 @@ export const fr = {
     },
     preferences: {
       title: "Préférences",
-      hint: "Sons, écran allumé, thème",
+      hint: "Sons, écran allumé, thème, langue",
     },
     sectionFeatures: "Fonctionnalités",
     sectionApp: "Application",
@@ -987,6 +998,18 @@ export const fr = {
       title: "Thème",
       hint: "Automatique : suit le réglage clair ou sombre du téléphone.",
       options: { auto: "Automatique", dark: "Sombre", light: "Clair" },
+    },
+    language: {
+      title: "Langue",
+      hint: "L'app redémarre dans la langue choisie.",
+      /** Titre de la confirmation, selon la langue choisie. */
+      confirmTitle: {
+        fr: "Passer au fran\u00e7ais\u00a0?",
+        en: "Passer \u00e0 l'anglais\u00a0?",
+      },
+      confirmText:
+        "Les articles, catégories et unités du catalogue de départ que tu n'as pas renommés prennent leur nom dans cette langue, comme la première liste. Ce que tu as créé ou renommé garde son nom.",
+      confirm: "Changer de langue",
     },
     about: "À propos",
     unavailable: "Non disponible sur ce téléphone",
@@ -1101,6 +1124,15 @@ export const fr = {
     title: "Nouveautés",
     version: (version: string) => `Version ${version}`,
     versions: [
+      {
+        version: "1.3.0",
+        date: "2026-11-27",
+        items: [
+          "L'app existe en anglais : l'interface et le catalogue de départ, en anglais britannique (les mots américains marchent aussi : eggplant, zucchini). Elle démarre dans la langue du téléphone ; Réglages → Préférences → Langue la change.",
+          "Changer de langue renomme les articles, catégories et unités du catalogue que tu n'as pas renommés ; ce que tu as créé ou renommé garde son nom.",
+          "En anglais, la barre d'ajout comprend «\u00a02 tins of tomatoes and half a dozen eggs\u00a0» ou «\u00a02 tbsp sugar\u00a0». En français aussi, une cuillère abrégée se lit sans «\u00a0de\u00a0» : «\u00a02 cas beurre\u00a0» ajoute le beurre.",
+        ],
+      },
       {
         version: "1.2.2",
         date: "2026-11-24",

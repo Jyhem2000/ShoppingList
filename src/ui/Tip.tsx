@@ -1,7 +1,7 @@
 import { motion } from "motion/react";
 import { useLayoutEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { cn } from "@/ui/utils";
 
 /**
@@ -104,7 +104,7 @@ export function Tip({
         )}
         <div className="relative rounded-2xl bg-primary px-4 py-3 text-on-primary shadow-lg">
           <p className="font-semibold">{text}</p>
-          <p className="mt-1 text-sm opacity-80">{fr.tips.dismiss}</p>
+          <p className="mt-1 text-sm opacity-80">{texts.tips.dismiss}</p>
         </div>
       </div>
     </motion.div>,

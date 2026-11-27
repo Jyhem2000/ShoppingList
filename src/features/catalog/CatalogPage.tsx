@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import { catalogCategoryPath } from "@/app/routes";
 import { groupArticlesByCategory, sortCategories } from "@/domain/categories";
 import { searchArticles } from "@/domain/search";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { CategoryCard } from "@/ui/CategoryCard";
 import { EmptyHint, PageHeader, SectionTitle } from "@/ui/Page";
 import { useListData } from "@/common/useListData";
@@ -18,7 +18,7 @@ import { inSeason } from "@/domain/season";
 import { Chip } from "@/ui/form";
 import { SeasonBadge } from "@/ui/SeasonBadge";
 import { useMonth, useNow } from "@/ui/useNow";
-const t = fr.catalog;
+const t = texts.catalog;
 const MAX_USUAL = 9;
 function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
@@ -127,7 +127,7 @@ export function CatalogPage() {
                 }}
               >
                 <SeasonBadge decorative className="fill-transparent" />
-                {t.seasonFilter(fr.season.monthNames[month - 1] ?? "")}
+                {t.seasonFilter(texts.season.monthNames[month - 1] ?? "")}
               </Chip>
             </div>
           )}

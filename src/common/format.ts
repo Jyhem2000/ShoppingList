@@ -1,4 +1,5 @@
 import { categoriesData, familiesData } from "@/data";
+import { appLanguage } from "@/domain/language";
 import { formatQuantity, PIECE_UNIT } from "@/domain/quantity";
 import type {
   Aisle,
@@ -10,9 +11,9 @@ import type {
   Unit,
 } from "@/domain/model";
 import { aisleContents, aisleTitle } from "@/domain/stores";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 
-const t = fr.list;
+const t = texts.list;
 
 /** Détails d'une ligne joints par « · », sans les vides ; `undefined` s'il n'y en a aucun. */
 export function joinDetails(
@@ -34,8 +35,8 @@ export function ingredientDetails(
 ): string | undefined {
   return joinDetails(
     detail,
-    ingredient?.optional && fr.recipes.optional,
-    ingredient?.fixed && fr.recipes.fixed,
+    ingredient?.optional && texts.recipes.optional,
+    ingredient?.fixed && texts.recipes.fixed,
     after,
   );
 }
@@ -122,22 +123,31 @@ export function categoryShortName(
 ): string {
   const own = category.shortName?.trim();
   if (own) return own;
-  const data = category.catalogKey
-    ? catalogCategories.get(category.catalogKey)
-    : undefined;
-  return data?.short?.fr ?? category.name;
+  return catalogCategory(category)?.short?.[appLanguage()] ?? category.name;
 }
 
 const catalogCategories = new Map(categoriesData.map((c) => [c.key, c]));
-const familyNames = new Map(familiesData.map((f) => [f.key, f.name.fr]));
+
+/**
+ * La catégorie du catalogue dont celle-ci a gardé le nom : une catégorie renommée par
+ * l'utilisateur ne prend ni le nom court ni la famille du catalogue (ils ne diraient
+ * plus la même chose, ni forcément dans la même langue).
+ */
+function catalogCategory(category: Pick<Category, "name" | "catalogKey">) {
+  const data = category.catalogKey
+    ? catalogCategories.get(category.catalogKey)
+    : undefined;
+  return data?.name[appLanguage()] === category.name ? data : undefined;
+}
+const familyNames = new Map(
+  familiesData.map((f) => [f.key, f.name[appLanguage()]]),
+);
 
 /** Nom de la famille d'une catégorie du catalogue (« Épicerie sucrée »). */
 function categoryFamily(
-  category: Pick<Category, "catalogKey">,
+  category: Pick<Category, "name" | "catalogKey">,
 ): string | undefined {
-  const key = category.catalogKey
-    ? catalogCategories.get(category.catalogKey)?.family
-    : undefined;
+  const key = catalogCategory(category)?.family;
   return key ? familyNames.get(key) : undefined;
 }
 
@@ -183,7 +193,7 @@ export function aisleText(
   >,
   weights: ReadonlyMap<ID, number> = new Map(),
 ): AisleText {
-  const a = fr.aisles;
+  const a = texts.aisles;
   // Chaînes vides = absentes.
   const name = aisle.name.trim() ? aisle.name.trim() : undefined;
   const description = aisle.description?.trim()

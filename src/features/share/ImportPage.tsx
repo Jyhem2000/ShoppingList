@@ -13,6 +13,7 @@ import {
   useUnits,
 } from "@/db/hooks";
 import { applyImport, applyRecipeImport } from "@/db/share";
+import { appLanguage } from "@/domain/language";
 import type { ID } from "@/domain/model";
 import { formatQuantity } from "@/domain/quantity";
 import {
@@ -37,7 +38,7 @@ import {
 import { feedback } from "@/feedback";
 import { ingredientDetails, lineDetails } from "@/common/format";
 import { RecipeHeader } from "@/common/RecipeHeader";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { copyText } from "@/platform/clipboard";
 import {
   currentInstallEnvironment,
@@ -53,7 +54,7 @@ import { showToast, reportSaveError } from "@/ui/toast";
 import { ImportChoiceSheet } from "./ImportChoiceSheet";
 import { byId, withMember } from "@/domain/collections";
 
-const t = fr.share;
+const t = texts.share;
 
 /**
  * D'où vient ce qu'on importe : le lien de la page (déjà relu), ou un texte collé
@@ -144,11 +145,14 @@ export function ImportPage() {
     import("@/data/catalog")
       .then(({ catalogData }) => {
         setCatalog(
-          buildImportCatalog({
-            articles: catalogData,
-            categories: categoriesData,
-            units: unitsData,
-          }),
+          buildImportCatalog(
+            {
+              articles: catalogData,
+              categories: categoriesData,
+              units: unitsData,
+            },
+            appLanguage(),
+          ),
         );
       })
       .catch(() => {
@@ -465,7 +469,7 @@ export function ImportPage() {
         </Section>
       )}
       {recipe?.s && (
-        <Section title={fr.recipes.steps}>
+        <Section title={texts.recipes.steps}>
           <MarkdownText text={recipe.s} className="px-4 py-3" />
         </Section>
       )}

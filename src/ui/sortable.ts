@@ -1,9 +1,9 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import type { DndContextProps, UniqueIdentifier } from "@dnd-kit/core";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 
-const t = fr.sortable;
+const t = texts.sortable;
 
 /**
  * Consignes et annonces du glisser-déposer pour le lecteur d'écran, en français et

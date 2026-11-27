@@ -14,7 +14,7 @@ Spécification complète de l'application, telle qu'elle fonctionne aujourd'hui.
 | 06  | [Données initiales](06-donnees-initiales.md)           | Unités, catégories, modèles de magasins, catalogue de départ, dictionnaire d'icônes                                       | ✅ Validé |
 | 07  | [Architecture technique](07-architecture-technique.md) | Stack, fonctionnalités du navigateur, schéma de données, mises à jour, algorithmes, versions et déploiement               | ✅ Validé |
 | 08  | [Tests et qualité](08-tests-et-qualite.md)             | Stratégie de test, Vitest vs Playwright, conventions                                                                      | ✅ Validé |
-| 09  | [Feuille de route](09-feuille-de-route.md)             | Les prochaines versions : 1.2.0 (anti-oubli et saisonnalité), 1.3.0 (anglais)                                             | ✅ Validé |
+| 09  | [Feuille de route](09-feuille-de-route.md)             | Les prochaines versions                                                                                                   | ✅ Validé |
 
 Statuts : 📝 À valider · 🔁 En révision · ✅ Validé
 
@@ -24,12 +24,13 @@ Statuts : 📝 À valider · 🔁 En révision · ✅ Validé
 
 ## Versions prévues
 
-| Version                               | Contenu                                                                                                                                                                                                                                                |
-| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **v1.0 — Cœur et recettes** (publiée) | Ajout éclair, catalogue, liste triée par rayon, mode courses avec clôture/réouverture et apprentissage, tout modifiable, réglages, sons, sauvegarde ; recettes avec rendement (personnes ou « 1 cake »), ajout à une liste avec recalcul des quantités |
-| **v1.1 — Partage** (publiée)          | Envoyer / importer une liste ou une recette (iPhone ↔ Android), coller une liste en texte                                                                                                                                                              |
-| **v1.2 — Anti-oubli et saisonnalité** | Suggestions d'articles habituels, revue rapide par catégorie, fruits et légumes de saison (France)                                                                                                                                                     |
-| **v1.3 — Anglais**                    | Interface et catalogue en anglais                                                                                                                                                                                                                      |
+| Version                                         | Contenu                                                                                                                                                                                                                                                |
+| ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **v1.0 — Cœur et recettes** (publiée)           | Ajout éclair, catalogue, liste triée par rayon, mode courses avec clôture/réouverture et apprentissage, tout modifiable, réglages, sons, sauvegarde ; recettes avec rendement (personnes ou « 1 cake »), ajout à une liste avec recalcul des quantités |
+| **v1.1 — Partage** (publiée)                    | Envoyer / importer une liste ou une recette (iPhone ↔ Android), coller une liste en texte                                                                                                                                                              |
+| **v1.2 — Anti-oubli et saisonnalité** (publiée) | Suggestions d'articles habituels, revue rapide par catégorie, fruits et légumes de saison (France)                                                                                                                                                     |
+| **v1.3 — Anglais**                              | Interface, catalogue et saisie en anglais                                                                                                                                                                                                              |
+| **v1.4 — Saisons selon la région**              | Zone des saisons au choix, par zone climatique                                                                                                                                                                                                         |
 
 Détail : [03 § Versions](03-fonctionnalites.md) et [09](09-feuille-de-route.md).
 
@@ -53,7 +54,7 @@ Détail : [03 § Versions](03-fonctionnalites.md) et [09](09-feuille-de-route.md
 - **Plateformes** : app web installée, **optimisée pour Chrome**, sur iPhone (dernière version d'iOS, cible principale) et Android récent (cible secondaire). Sur iPhone, tous les navigateurs utilisent le moteur WebKit : ses limites s'appliquent quel que soit le navigateur ([01](01-vision.md#plateformes-cibles)).
 - **Fonctionnalités du navigateur** : essentielles = marchent sur les deux téléphones ; confort (bouton « Installer » d'Android…) = au moins un, sans rien casser ailleurs.
 - **Hébergement** : **Cloudflare Pages** connecté au dépôt GitHub ; préproduction sur `dev`, production sur `main` (`https://shoppinglist.jyhem.cloud`), qui n'avance que par `npm run release` ([07 § 9](07-architecture-technique.md#9-hébergement-versions-et-déploiement)).
-- **Versions** : v1.0 cœur et recettes, v1.1 partage, v1.2 anti-oubli et saisonnalité, v1.3 anglais.
+- **Versions** : v1.0 cœur et recettes, v1.1 partage, v1.2 anti-oubli et saisonnalité, v1.3 anglais, v1.4 saisons selon la région.
 
 ## Questions ouvertes
 

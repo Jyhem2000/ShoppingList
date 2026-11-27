@@ -1,11 +1,11 @@
 import { Lightbulb } from "lucide-react";
 import { useNavigate } from "react-router";
 import { routes } from "@/app/routes";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { Button } from "@/ui/button";
 import { CountBadge } from "@/ui/CountBadge";
 
-const t = fr.tour;
+const t = texts.tour;
 
 /**
  * « Rien oublié ? Faire le tour » (docs/03 D1, D2), au-dessus des lignes : un seul

@@ -7,13 +7,13 @@ import { closeSession } from "@/db/sessions";
 import type { ID, ShoppingSession } from "@/domain/model";
 import { isStale } from "@/domain/shopping";
 import { feedback } from "@/feedback";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { Button } from "@/ui/button";
 import { Sheet } from "@/ui/Sheet";
 import { formatWhen } from "./time";
 
 import { useNow } from "@/ui/useNow";
-const t = fr.shopping.stale;
+const t = texts.shopping.stale;
 /** Une seule question par session et par ouverture de l'app. */
 const answered = new Set<ID>();
 

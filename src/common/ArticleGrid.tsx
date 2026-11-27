@@ -4,7 +4,7 @@ import { manageArticlePath } from "@/app/routes";
 import type { Article } from "@/domain/model";
 import { inSeason } from "@/domain/season";
 import { useMonth } from "@/ui/useNow";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { CatalogCard } from "@/ui/CatalogCard";
 import { EmptyHint } from "@/ui/Page";
 import { quantitiesInList } from "@/common/format";
@@ -31,7 +31,7 @@ export function ArticleGrid({
   const month = useMonth();
 
   if (articles.length === 0)
-    return <EmptyHint inset>{fr.catalog.noResult}</EmptyHint>;
+    return <EmptyHint inset>{texts.catalog.noResult}</EmptyHint>;
 
   return (
     <>

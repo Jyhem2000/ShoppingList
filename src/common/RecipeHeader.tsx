@@ -1,6 +1,6 @@
 import type { Recipe } from "@/domain/model";
 import { yieldLabel } from "@/domain/recipes";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { cn } from "@/ui/utils";
 import { RecipeIcon } from "./RecipeIcon";
 
@@ -17,7 +17,7 @@ export function RecipeHeader({
   withName?: boolean;
   className?: string;
 }) {
-  const serves = fr.recipes.serves(
+  const serves = texts.recipes.serves(
     yieldLabel(recipe.yield.quantity, recipe.yield.unit),
   );
   return (

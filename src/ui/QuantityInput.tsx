@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { formatNumber, parseNumber } from "@/domain/quantity";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { TextInput } from "@/ui/form";
 import { Stepper } from "@/ui/Stepper";
 
@@ -49,7 +49,7 @@ export function QuantityInput({
           setText(formatNumber(value));
         }}
         className="min-w-0 px-1 text-center font-bold tabular-nums"
-        aria-label={fr.list.line.quantity}
+        aria-label={texts.list.line.quantity}
       />
     </Stepper>
   );

@@ -10,12 +10,12 @@ import {
   isAudioSupported,
   previewSound,
 } from "@/feedback";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { Button } from "@/ui/button";
 import { PageHeader, Row, Section } from "@/ui/Page";
 import { Switch } from "@/ui/switch";
 
-const t = fr.soundsPage;
+const t = texts.soundsPage;
 
 /** Réglage des sons : tous d'un coup ou un par un, chacun pouvant être écouté. */
 export function SoundsPage() {
@@ -30,7 +30,7 @@ export function SoundsPage() {
       <Section>
         <Row
           label={t.master}
-          hint={audio ? undefined : fr.settings.unavailable}
+          hint={audio ? undefined : texts.settings.unavailable}
           disabled={!audio}
         >
           <Switch

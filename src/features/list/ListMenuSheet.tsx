@@ -10,7 +10,7 @@ import {
 import { useState } from "react";
 import { db } from "@/db/database";
 import { deleteList, duplicateList, updateList } from "@/db/lists";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { Button } from "@/ui/button";
 import { ConfirmActions, Field, MenuItem, TextInput } from "@/ui/form";
 import { Sheet } from "@/ui/Sheet";
@@ -20,7 +20,7 @@ import { canShare, listMessage, sendMessage } from "@/common/shareMessage";
 import { PasteForm } from "@/common/PasteForm";
 import { pasteOrAsk } from "@/common/paste";
 
-const t = fr.list.menuSheet;
+const t = texts.list.menuSheet;
 
 type View = "menu" | "rename" | "paste" | "clear" | "delete";
 
@@ -52,7 +52,7 @@ export function ListMenuSheet({
     view === "rename"
       ? t.renameTitle
       : view === "paste"
-        ? fr.share.pasteTitle
+        ? texts.share.pasteTitle
         : view === "clear"
           ? t.confirmClear
           : view === "delete"
@@ -71,7 +71,7 @@ export function ListMenuSheet({
           : view === "delete"
             ? t.confirmDeleteText
             : view === "paste"
-              ? fr.share.pasteText
+              ? texts.share.pasteText
               : view === "menu"
                 ? t.description
                 : undefined
@@ -107,11 +107,11 @@ export function ListMenuSheet({
             icon={<Share />}
             disabled={!canShare(data)}
             onClick={() => {
-              void sendMessage(listMessage(data), fr.share.copied);
+              void sendMessage(listMessage(data), texts.share.copied);
               onClose();
             }}
           >
-            {fr.share.send}
+            {texts.share.send}
           </MenuItem>
           <MenuItem
             icon={<ClipboardPaste />}
@@ -121,7 +121,7 @@ export function ListMenuSheet({
               });
             }}
           >
-            {fr.share.paste}
+            {texts.share.paste}
           </MenuItem>
           <MenuItem
             icon={<Eraser />}
@@ -155,7 +155,7 @@ export function ListMenuSheet({
             onClose();
           }}
         >
-          <Field label={fr.list.lists.name}>
+          <Field label={texts.list.lists.name}>
             <TextInput
               value={name}
               autoFocus
@@ -170,8 +170,8 @@ export function ListMenuSheet({
 
       {view === "paste" && (
         <PasteForm
-          label={fr.share.pasteTitle}
-          placeholder={fr.share.pastePlaceholder}
+          label={texts.share.pasteTitle}
+          placeholder={texts.share.pastePlaceholder}
           onPaste={onPaste}
         />
       )}

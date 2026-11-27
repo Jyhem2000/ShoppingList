@@ -8,7 +8,7 @@ import { RecapPage } from "@/features/shopping/RecapPage";
 import { ShoppingPage } from "@/features/shopping/ShoppingPage";
 import { SettingsPage } from "@/features/settings/SettingsPage";
 import { TourPage } from "@/features/suggestions/TourPage";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { Loading } from "@/ui/Page";
 import { Layout } from "./Layout";
 import { ScreenError } from "./ScreenError";
@@ -31,7 +31,7 @@ export const router = createHashRouter([
   {
     element: <Layout />,
     // Écran différé ouvert au lancement (lien de partage…) : le temps de le charger.
-    hydrateFallbackElement: <Loading>{fr.list.loading}</Loading>,
+    hydrateFallbackElement: <Loading>{texts.list.loading}</Loading>,
     children: [
       {
         // Un écran qui ne s'ouvre pas (fichier non chargé…) : message à sa place,

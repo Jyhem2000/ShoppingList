@@ -5,7 +5,7 @@
 - **Application web statique** (HTML/JS/CSS), sans serveur ni base distante. Toutes les données sont dans le navigateur (IndexedDB).
 - **Installable** sur l'écran d'accueil (PWA) et **entièrement hors ligne**.
 - **100 % gratuit** : bibliothèques open source, fonctionnalités natives du navigateur, hébergement statique gratuit.
-- **Logique métier isolée** dans des fonctions pures, testées indépendamment de l'interface.
+- **Logique métier isolée** dans des fonctions pures, testées indépendamment de l'interface. Seule exception : la langue de l'app, posée une fois au démarrage, que les fonctions de texte lisent par `appLanguage()` (saisie, clés de recherche, tri, nombres, pluriels) plutôt que de la recevoir partout ; les tests la changent par `setAppLanguage`.
 
 ## 2. Stack
 
@@ -213,6 +213,7 @@ interface Purchase {
 }
 
 interface Settings {
+  language?: Language; // "fr" | "en" (03 I3) ; absente des réglages d'avant la 1.3.0 : français
   lastBackupAt?: number;
   lastSeenVersion?: string; // pour afficher « Quoi de neuf »
   catalogVersion: number;
@@ -245,6 +246,7 @@ db.version(7).stores({
 
 - **Préférences de l'appareil** (sons, son par son, écran allumé, thème) : hors de `Settings`, dans `localStorage` (`src/app/preferences.ts`). Elles dépendent du téléphone, ne sont pas exportées et ne sont pas écrasées par l'import d'une sauvegarde venant d'un autre appareil.
 - Unicité « un article et un choix de types par liste » (`src/domain/lines.ts`) vérifiée par la couche d'accès aux données (les lignes archivées `closedInSessionId` sont exclues).
+- **Langue** (03 I3) : dans `Settings`, et non dans les préférences de l'appareil, car les noms du catalogue copiés dans la base sont dans cette langue. Au premier lancement, celle du téléphone. `src/main.tsx` la lit avant de charger le reste de l'app (`src/app/start.tsx`), car les textes (`texts`, `src/i18n/index.ts`) se lisent au chargement des modules ; dates, nombres, tri alphabétique et pluriel la suivent (`appLocale()`, `isPlural()`, `src/domain/language.ts` : pluriel à partir de 2 en français, pour tout sauf 1 en anglais). En changer (`changeLanguage`, `src/db/language.ts`, logique dans `src/domain/languageChange.ts`), en une transaction : un nom du catalogue identique à celui de l'ancienne langue (article, catégorie, unité) prend celui de la nouvelle, avec ses alias et ses types ; un nouveau nom déjà pris par un autre article ou une autre catégorie n'est pas appliqué. Suivent les noms donnés par l'app et jamais changés (première liste, rayon « À placer », rendement d'une recette) et les types acceptés des lignes et des ingrédients. Puis l'app se recharge. Un partage porte la langue de l'expéditeur et ne joint le nom d'un article du catalogue que s'il diffère de celui du catalogue dans cette langue. Les textes anglais (`src/i18n/en.ts`, anglais britannique) ont le type `Texts`, la forme de `fr.ts` : aucun ne peut manquer. Le manifeste est unique (nom « ShoppingList », description en français) : il ne suit pas la langue.
 - **La version du schéma de données est indépendante de la version de l'app** : elle n'augmente que si la structure change (nouvelle table, nouvel index). Version actuelle : **7** ; les versions 1 à 6 restent déclarées dans `src/db/database.ts` pour ouvrir une base plus ancienne. Toute évolution = nouvelle `version(n)` déclarée. Tant que l'app n'a pas d'autres utilisateurs (« vraie production »), pas de migration de données ni de test de migration : un changement incompatible se règle en effaçant les données de l'app ou en la réinstallant. Ensuite, chaque évolution aura sa fonction `upgrade` et son test de migration, exécutés automatiquement au premier lancement de la nouvelle version. Une sauvegarde exportée avec un schéma plus récent n'est pas lisible par une app au schéma plus ancien. Champs sans index, ajoutés sans nouvelle version : `Aisle.description`, `Category.shortName`, `ShoppingSession.openedAisle`, `ShoppingSession.placedCategories`.
 
 ## 6. App installée, hors ligne et mises à jour
@@ -277,7 +279,7 @@ db.version(7).stores({
 
 ### 7.1 `slugify(label)` et `searchKey(label)`
 
-Règles en [02 § 1](02-modele-metier.md#1-libellé-identifiant-et-slug). Implémentation : `toLowerCase('fr')` → `normalize('NFD')` → retrait de `̀-ͯ` → ligatures → remplacement de `[^\p{L}\p{N}]+` par `-` (expression régulière avec le drapeau `u`) → nettoyage des tirets. `searchKey` = `slugify` puis suppression d'un `s`/`x` final de chaque mot de plus de 3 lettres (règle propre au français, appliquée uniquement aux mots en alphabet latin).
+Règles en [02 § 1](02-modele-metier.md#1-libellé-identifiant-et-slug). Implémentation : `toLowerCase('fr')` → `normalize('NFD')` → retrait de `̀-ͯ` → ligatures → remplacement de `[^\p{L}\p{N}]+` par `-` (expression régulière avec le drapeau `u`) → nettoyage des tirets. `searchKey` = `slugify` puis singulier approximatif de chaque mot de plus de 3 lettres en alphabet latin, selon la langue de l'app : en français, suppression d'un `s`/`x` final ; en anglais, d'un `s` final (sauf `ss`), puis d'un `e` final, et `y` après une consonne → `i` (`cherries`, `cherry` → `cherri` ; `glasses`, `glass` → `glass`). Les pluriels irréguliers (`loaves`) ne sont pas ramenés au singulier.
 
 ### 7.2 `searchArticles(query, articles, stats)`
 
@@ -288,10 +290,12 @@ Règles en [02 § 1](02-modele-metier.md#1-libellé-identifiant-et-slug). Implé
 
 ### 7.3 `parseEntry(text, units)` → `ParsedEntry[]`
 
-1. Découpe en segments sur `,` `;` `et` `puis`, retours à la ligne et, dans la barre d'ajout seulement (`bullets`), puces entourées d'espaces ou collées au mot d'avant (`-`, `•`) ; une puce en tête de segment est retirée. Un texte de plusieurs lignes collé dans la barre d'ajout passe d'abord par `pastedEntry` : retours à la ligne → virgules, puces et numéros retirés.
-2. Pour chaque segment : retire les partitifs (`du`, `de la`, `des`, `d'`, `de`) ; détecte une quantité (chiffres avec virgule ou point, nombres en lettres jusqu'à vingt, `douzaine`, `demi-douzaine`), avant ou après (`x3`, `*3`) ; détecte une unité (slug, abréviation, alias, pluriel des unités **de l'utilisateur**) collée ou non au nombre. Hors d'une recette (`recipe`), une unité de cuisine n'est lue que devant `de`, et le segment perd alors quantité et unité : l'article prendra sa quantité habituelle.
+Les mots lus sont ceux de la langue de l'app (`appLanguage()`) ; ce qui ne lit pas de mots (puces, collage, nombres, unités de l'utilisateur) est commun aux deux langues.
+
+1. Découpe en segments sur `,` `;`, les mots dits entre deux articles (`et` `puis` ; `and` `then`), retours à la ligne et, dans la barre d'ajout seulement (`bullets`), puces entourées d'espaces ou collées au mot d'avant (`-`, `•`) ; une puce en tête de segment est retirée. Un texte de plusieurs lignes collé dans la barre d'ajout passe d'abord par `pastedEntry` : retours à la ligne → virgules, puces et numéros retirés.
+2. Pour chaque segment : retire les partitifs (`du`, `de la`, `des`, `d'`, `de` ; `some`, `of`) ; détecte une quantité (chiffres avec virgule ou point, nombres en lettres jusqu'à vingt — `a` vaut un en anglais —, `douzaine`, `demi-douzaine` ; `dozen`, `half-dozen`, `half a dozen`), avant ou après (`x3`, `*3`) ; détecte une unité (slug, abréviation, alias, pluriel des unités **de l'utilisateur**) collée ou non au nombre. Hors d'une recette (`recipe`), une unité de cuisine n'est lue que devant `de` (`of`) ou tapée autrement que par son nom en entier (abréviation, alias : `2 tbsp sugar`, `2 cas beurre`), et le segment perd alors quantité et unité : l'article prendra sa quantité habituelle.
 3. Retourne `{ text, quantity?, unitSlug? }`.
-4. Résolution ensuite (hors parsing) : recherche de l'article sur le texte complet, puis sur des préfixes de plus en plus courts ; si plusieurs libellés ont la même clé (_Pâté_, _Pâtes_), la saisie exacte l'emporte, puis le pluriel tapé (`slugify`), puis les accents tapés (`accentKey`), sinon le premier résultat de recherche ; les mots restants sont comparés aux **types** de l'article trouvé, en ignorant les mots de liaison (`de`, `d'`, `du`, `à`, `en`, `ou`…) : `pommes gala` → _Pommes_ + type _Gala_ ; `jus d'orange` → _Jus de fruits_ + type _orange_ ; `pommes gala ou golden` → deux types acceptés.
+4. Résolution ensuite (hors parsing) : recherche de l'article sur le texte complet, puis sur des préfixes de plus en plus courts ; si plusieurs libellés ont la même clé (_Pâté_, _Pâtes_), la saisie exacte l'emporte, puis le pluriel tapé (`slugify`), puis les accents tapés (`accentKey`), sinon le premier résultat de recherche ; les mots restants sont comparés aux **types** de l'article trouvé, en ignorant les mots de liaison de la langue de l'app (`de`, `d'`, `du`, `à`, `en`, `ou`… ; `a`, `an`, `of`, `or`, `the`) : `pommes gala` → _Pommes_ + type _Gala_ ; `jus d'orange` → _Jus de fruits_ + type _orange_ ; `pommes gala ou golden` → deux types acceptés.
 
 ### 7.4 `effectiveAisle(article, store, aisles, overrides)`
 
@@ -415,7 +419,7 @@ ShoppingList/
 │  ├─ icons/                  # icônes dessinées (drawn/*.svg), pack des articles assemblé au build (packData.ts), icônes Lucide des catégories et rayons (lucide.ts)
 │  ├─ feedback/               # sons
 │  ├─ platform/               # installation, écran allumé (fonctionnalités du navigateur)
-│  ├─ i18n/fr.ts              # tous les textes de l'interface
+│  ├─ i18n/                   # tous les textes de l'interface : fr.ts, en.ts, et index.ts (`texts`, ceux de la langue de l'app)
 │  └─ version.ts              # expose version, commit, canal (injectés au build)
 └─ tests/
    ├─ unit/                   # Vitest
@@ -450,11 +454,11 @@ Il n'y a pas d'autre branche : pas de branche de travail ni de pull request. Seu
 
 ### Nouveautés
 
-L'historique git sert aux développeurs ; ses messages sont trop techniques pour l'utilisateur. Les **nouveautés** de chaque version sont donc écrites pour l'utilisateur dans `src/i18n/fr.ts` (`releaseNotes`), affichées dans Réglages → À propos → Nouveautés, et reprises par l'écran « Quoi de neuf » après une mise à jour (H5). `npm run release` refuse de publier une version dont les nouveautés ne sont pas écrites. On peut les écrire à l'avance : l'écran n'affiche que les versions égales ou antérieures à celle de l'app. L'entrée « 1.0.0 » présente l'app ; ensuite, une entrée par version publiée.
+L'historique git sert aux développeurs ; ses messages sont trop techniques pour l'utilisateur. Les **nouveautés** de chaque version sont donc écrites pour l'utilisateur dans `src/i18n/fr.ts` et `src/i18n/en.ts` (`releaseNotes`), affichées dans Réglages → À propos → Nouveautés, et reprises par l'écran « Quoi de neuf » après une mise à jour (H5). `npm run release` refuse de publier une version dont les nouveautés ne sont pas écrites dans les deux langues. On peut les écrire à l'avance : l'écran n'affiche que les versions égales ou antérieures à celle de l'app. L'entrée « 1.0.0 » présente l'app ; ensuite, une entrée par version publiée.
 
 ### Cycle des versions
 
-- Développement sur `dev`, testé en préproduction avec une **copie des vraies données** (export de sauvegarde de la production → import en préproduction), puis publication : `1.2.0` (anti-oubli et saisonnalité), `1.3.0` (anglais), correctifs `1.x.y` entre deux ([09](09-feuille-de-route.md)). Les données restent en place d'une version à l'autre.
+- Développement sur `dev`, testé en préproduction avec une **copie des vraies données** (export de sauvegarde de la production → import en préproduction), puis publication : une version mineure par étape de la feuille de route ([09](09-feuille-de-route.md)), correctifs `1.x.y` entre deux. Les données restent en place d'une version à l'autre.
 
 Versions publiées : les tags git `vX.Y.Z` ; ce qui a changé pour l'utilisateur est dans l'écran Nouveautés (`releaseNotes`).
 

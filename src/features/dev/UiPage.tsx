@@ -3,7 +3,7 @@ import { type ReactNode, useState } from "react";
 import { soundEvents } from "@/app/preferences";
 import { routes } from "@/app/routes";
 import { feedback, previewSound } from "@/feedback";
-import { fr } from "@/i18n/fr";
+import { texts } from "@/i18n";
 import { useIconPack } from "@/icons/pack";
 import { AddBar } from "@/ui/AddBar";
 import { AisleSection } from "@/ui/AisleHeader";
@@ -23,7 +23,7 @@ import {
   mockShoppingAisle,
 } from "./mockData";
 
-const t = fr.devUi;
+const t = texts.devUi;
 
 /** Une partie de la maquette, séparée de la précédente par un filet et de l'air. */
 function Block({ title, children }: { title: string; children: ReactNode }) {
@@ -58,7 +58,7 @@ function Aisle({ aisle, large }: { aisle: MockAisle; large?: boolean }) {
       count={large ? remaining : aisle.items.length}
       expanded={expanded}
       done={large && remaining === 0}
-      kicker={large ? fr.aisles.kicker : undefined}
+      kicker={large ? texts.aisles.kicker : undefined}
       onToggle={() => setExpanded((value) => !value)}
     >
       {items.map((item) => (
@@ -240,12 +240,14 @@ export function UiPage() {
               className="flex items-center gap-2 rounded-2xl bg-surface p-3"
             >
               <p className="min-w-0 flex-1 font-semibold">
-                {fr.soundsPage.events[name]}
+                {texts.soundsPage.events[name]}
               </p>
               <Button
                 variant="icon"
                 size="icon"
-                aria-label={fr.soundsPage.listen(fr.soundsPage.events[name])}
+                aria-label={texts.soundsPage.listen(
+                  texts.soundsPage.events[name],
+                )}
                 onClick={() => {
                   previewSound(name);
                 }}
