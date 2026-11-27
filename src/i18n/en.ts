@@ -1094,7 +1094,7 @@ export const en: Texts = {
     versions: [
       {
         version: "1.3.0",
-        date: "2026-11-25",
+        date: "2026-11-27",
         items: [
           "The app now speaks English: the interface and the starter catalogue, in British English (American words work too: eggplant, zucchini). It starts in your phone's language; Settings → Preferences → Language switches it.",
           "Switching language renames the catalogue's items, categories and units you haven't renamed; anything you created or renamed keeps its name.",

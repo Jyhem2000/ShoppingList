@@ -1126,7 +1126,7 @@ export const fr = {
     versions: [
       {
         version: "1.3.0",
-        date: "2026-11-25",
+        date: "2026-11-27",
         items: [
           "L'app existe en anglais : l'interface et le catalogue de départ, en anglais britannique (les mots américains marchent aussi : eggplant, zucchini). Elle démarre dans la langue du téléphone ; Réglages → Préférences → Langue la change.",
           "Changer de langue renomme les articles, catégories et unités du catalogue que tu n'as pas renommés ; ce que tu as créé ou renommé garde son nom.",
